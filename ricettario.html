@@ -7,469 +7,795 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ricettario">
 <title>📖 Ricettario — Matteo La Spada</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
-  :root{
-    --bg:#faf8f3; --surface:#ffffff; --border:#e8e0d0;
-    --accent:#c8860a; --accent2:#e8a020; --text:#2a2018;
-    --muted:#888; --green:#3a7a50; --tag:#f5ede0;
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #1a1208;
+    --surface: #241c0e;
+    --surface2: #2e2412;
+    --border: #3d3020;
+    --accent: #e8a020;
+    --accent2: #f5c84a;
+    --text: #f5ede0;
+    --muted: #8a7a60;
+    --green: #6dba8a;
+    --red: #e07060;
+    --tag-bg: #2e2412;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'DM Mono',monospace;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 
-  header{background:var(--surface);border-bottom:2px solid var(--border);padding:18px 16px 14px;position:sticky;top:0;z-index:100;}
-  .logo{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--accent);margin-bottom:12px;}
-  .logo span{font-size:13px;color:var(--muted);font-style:normal;display:block;margin-top:2px;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .search-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;width:100%;font-family:'DM Mono',monospace;font-size:14px;color:var(--text);outline:none;}
-  .search-box:focus{border-color:var(--accent);}
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
 
-  .filter-row{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding-bottom:2px;}
-  .filter-btn{background:var(--tag);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap;}
-  .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  /* HEADER */
+  header {
+    background: linear-gradient(180deg, #0f0a04 0%, var(--surface) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
 
-  .count-bar{font-size:10px;color:var(--muted);padding:10px 16px 0;}
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
 
-  .recipe-list{padding:12px;display:flex;flex-direction:column;gap:10px;}
+  .brand-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
 
-  .recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-  .recipe-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;}
-  .recipe-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);}
-  .recipe-meta{font-size:10px;color:var(--muted);margin-top:3px;}
-  .recipe-tag{font-size:9px;background:var(--tag);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--accent);white-space:nowrap;margin-left:8px;}
-  .arrow{color:var(--muted);font-size:11px;transition:transform 0.2s;}
-  .recipe-card.open .arrow{transform:rotate(180deg);}
+  .brand-text {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    color: var(--accent);
+    font-style: italic;
+  }
 
-  .recipe-body{display:none;border-top:1px solid var(--border);}
-  .recipe-card.open .recipe-body{display:block;}
+  .brand-sub {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
 
-  /* Moltiplicatore */
-  .mult-bar{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--bg);border-bottom:1px solid var(--border);}
-  .mult-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-  .mult-btn{background:none;border:1px solid var(--border);border-radius:6px;width:30px;height:30px;font-size:16px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center;}
-  .mult-value{font-size:18px;font-weight:500;color:var(--accent);min-width:32px;text-align:center;}
-  .mult-hint{font-size:10px;color:var(--muted);margin-left:auto;}
+  .search-wrap {
+    position: relative;
+    margin-bottom: 10px;
+  }
 
-  /* Ingredienti */
-  .section-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:12px 16px 6px;}
-  .ing-table{width:100%;border-collapse:collapse;}
-  .ing-row{border-bottom:1px solid var(--border);}
-  .ing-row:last-child{border-bottom:none;}
-  .ing-name{padding:9px 16px;font-size:13px;color:var(--text);}
-  .ing-qty{padding:9px 16px;font-size:13px;color:var(--accent);font-weight:500;text-align:right;white-space:nowrap;}
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--muted);
+  }
 
-  /* Istruzioni */
-  .istr-block{padding:14px 16px;border-top:1px solid var(--border);}
-  .istr-title{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
-  .istr-text{font-size:13px;line-height:1.7;color:var(--text);}
-  .istr-step{display:flex;gap:10px;margin-bottom:8px;}
-  .step-num{color:var(--accent);font-weight:500;min-width:18px;}
+  .search-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 14px 11px 36px;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent2);
+    color: #1a1208;
+    font-weight: 600;
+  }
+
+  .count-bar {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 10px 16px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* RECIPE LIST */
+  .recipe-list {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recipe-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .recipe-card.open { border-color: var(--accent); }
+
+  .recipe-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    gap: 12px;
+  }
+
+  .recipe-emoji {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 38px;
+    text-align: center;
+  }
+
+  .recipe-info { flex: 1; min-width: 0; }
+
+  .recipe-title {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .recipe-meta {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .recipe-tag {
+    font-size: 9px;
+    background: rgba(232, 160, 32, 0.15);
+    border: 1px solid rgba(232, 160, 32, 0.3);
+    border-radius: 6px;
+    padding: 2px 7px;
+    color: var(--accent);
+    white-space: nowrap;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  .recipe-arrow {
+    color: var(--muted);
+    font-size: 12px;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .recipe-card.open .recipe-arrow { transform: rotate(180deg); }
+
+  .recipe-body {
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .recipe-card.open .recipe-body { display: block; }
+
+  /* MOLTIPLICATORE */
+  .mult-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mult-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex: 1;
+  }
+
+  .mult-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .mult-btn:active { background: var(--accent); color: #000; }
+
+  .mult-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent2);
+    min-width: 36px;
+    text-align: center;
+  }
+
+  /* INGREDIENTI */
+  .section-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 14px 16px 6px;
+    font-weight: 600;
+  }
+
+  .ing-table { width: 100%; border-collapse: collapse; }
+
+  .ing-row { border-bottom: 1px solid var(--border); }
+  .ing-row:last-child { border-bottom: none; }
+
+  .ing-name {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .ing-qty {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ISTRUZIONI */
+  .istr-block {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .istr-title {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .istr-step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .step-num {
+    color: var(--accent);
+    font-weight: 700;
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+
+  .istr-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  /* PULSANTE SCREENSHOT */
+  .share-bar {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-screenshot {
+    flex: 1;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-screenshot:active { opacity: 0.85; }
+
+  .btn-copy {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  /* CARD DI STAMPA (nascosta, usata per screenshot) */
+  .print-card {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 390px;
+    background: #1a1208;
+    color: #f5ede0;
+    font-family: 'Inter', sans-serif;
+    padding: 24px;
+    border-radius: 0;
+  }
+
+  .print-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #3d3020;
+  }
+
+  .print-emoji { font-size: 36px; }
+
+  .print-title {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    color: #e8a020;
+    font-style: italic;
+  }
+
+  .print-brand {
+    font-size: 10px;
+    color: #8a7a60;
+    margin-top: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .print-section {
+    font-size: 9px;
+    color: #8a7a60;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    margin-top: 16px;
+  }
+
+  .print-ing-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #3d3020;
+    font-size: 13px;
+  }
+
+  .print-ing-qty { color: #f5c84a; font-weight: 600; }
+
+  .print-istr {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #f5ede0;
+    margin-top: 8px;
+  }
+
+  .print-footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #3d3020;
+    font-size: 10px;
+    color: #8a7a60;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 20px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">📖 Ricettario<span>Matteo La Spada · L'Orso Messina</span></div>
-  <input class="search-box" type="text" placeholder="🔍 Cerca ricetta..." oninput="filterRecipes(this.value)">
+  <div class="header-brand">
+    <div class="brand-icon">🐻</div>
+    <div>
+      <div class="brand-text">Ricettario</div>
+      <div class="brand-sub">Matteo La Spada · L'Orso Messina</div>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-box" type="text" placeholder="Cerca ricetta..." oninput="filterRecipes(this.value)">
+  </div>
   <div class="filter-row" id="filterRow"></div>
 </header>
+
 <div class="count-bar" id="countBar"></div>
 <div class="recipe-list" id="recipeList"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 var recipes = [
-  {
-    id:1, title:'Crema di Pecorino', tag:'Salse & Creme', porzione:1,
+  { id:1, emoji:'🧀', title:'Crema di Pecorino', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Latte', qty:100, unit:'g'},
-      {nome:'Panna', qty:100, unit:'g'},
-      {nome:'Pecorino', qty:100, unit:'g'}
+      {nome:'Latte',qty:100,unit:'g'},{nome:'Panna',qty:100,unit:'g'},{nome:'Pecorino',qty:100,unit:'g'}
     ],
-    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Una volta raggiunta la temperatura, aggiungere il pecorino in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Spegnere e lasciare raffreddare a temperatura ambiente. Mettere nel sacchetto sottovuoto adatto per cucinare e pastorizzare a 85°C per 15 minuti.'
+    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Una volta raggiunta la temperatura, aggiungere il pecorino in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Spegnere e lasciare raffreddare a temperatura ambiente. Mettere nel sacchetto sottovuoto e pastorizzare a 85°C per 15 minuti.'
   },
-  {
-    id:2, title:'Crema di Grana', tag:'Salse & Creme', porzione:1,
+  { id:2, emoji:'🧀', title:'Crema di Grana', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Latte', qty:100, unit:'g'},
-      {nome:'Panna', qty:100, unit:'g'},
-      {nome:'Grana grattugiato (fine)', qty:100, unit:'g'}
+      {nome:'Latte',qty:100,unit:'g'},{nome:'Panna',qty:100,unit:'g'},{nome:'Grana grattugiato (fine)',qty:100,unit:'g'}
     ],
-    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Una volta raggiunta la temperatura, aggiungere il grana grattugiato finissimo in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Spegnere e lasciare raffreddare. Mettere nel sacchetto sottovuoto e pastorizzare a 85°C per 15 minuti.'
+    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Aggiungere il grana grattugiato finissimo in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Raffreddare. Mettere sottovuoto e pastorizzare a 85°C per 15 minuti.'
   },
-  {
-    id:3, title:'Crema di Zucca', tag:'Salse & Creme', porzione:1,
+  { id:3, emoji:'🎃', title:'Crema di Zucca', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Zucca (con buccia)', qty:100, unit:'g'},
-      {nome:'Rosmarino', qty:3, unit:'g'},
-      {nome:'Timo', qty:3, unit:'g'},
-      {nome:'Sale', qty:1, unit:'g'},
-      {nome:'Pepe di Sichuan', qty:0.1, unit:'g'}
+      {nome:'Zucca con buccia',qty:100,unit:'g'},{nome:'Rosmarino',qty:3,unit:'g'},{nome:'Timo',qty:3,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Pepe di Sichuan',qty:0.1,unit:'g'}
     ],
-    istruzioni:'Tagliare la zucca con la buccia in quattro o otto parti (dipende dalle dimensioni). Aggiungere gli ingredienti e infornare a 180°C con ventilazione per 35 minuti.'
+    istruzioni:'Tagliare la zucca con la buccia in 4-8 parti. Aggiungere gli ingredienti e infornare a 180°C con ventilazione per 35 minuti.'
   },
-  {
-    id:4, title:'Crema di Cipolla', tag:'Salse & Creme', porzione:1,
+  { id:4, emoji:'🧅', title:'Crema di Cipolla', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Cipolla', qty:100, unit:'g'},
-      {nome:'Sale', qty:10, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:10, unit:'g'}
+      {nome:'Cipolla',qty:100,unit:'g'},{nome:'Sale',qty:10,unit:'g'},{nome:'Olio extra vergine d\'oliva',qty:10,unit:'g'}
     ],
-    istruzioni:'1. Tagliare a metà la cipolla, aggiungere sale e olio. Infornare a 170°C per 40 minuti.\n2. Raffreddare, pulire la cipolla dal primo strato e frullare.'
+    istruzioni:'1. Tagliare a metà la cipolla, aggiungere sale e olio. Infornare a 170°C per 40 minuti.\n2. Raffreddare, pulire dal primo strato e frullare.'
   },
-  {
-    id:5, title:'Salsa Verde', tag:'Salse & Creme', porzione:1,
+  { id:5, emoji:'🌿', title:'Salsa Verde', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Prezzemolo (mazzo)', qty:100, unit:'g'},
-      {nome:'Acciughe', qty:10, unit:'g'},
-      {nome:'Capperi', qty:2, unit:'g'},
-      {nome:'Aceto bianco', qty:40, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:50, unit:'g'},
-      {nome:'Pane per tramezzini', qty:40, unit:'g'}
+      {nome:'Prezzemolo',qty:100,unit:'g'},{nome:'Acciughe',qty:10,unit:'g'},{nome:'Capperi',qty:2,unit:'g'},{nome:'Aceto bianco',qty:40,unit:'g'},{nome:'Olio EVO',qty:50,unit:'g'},{nome:'Pane per tramezzini',qty:40,unit:'g'}
     ],
-    istruzioni:'Vaporizzare il prezzemolo e abbattere in negativo fino a portarlo a 0°C. Una volta abbattuto, mettere nel cutter insieme agli ingredienti della ricetta e frullare fino al raggiungimento di un composto omogeneo.'
+    istruzioni:'Vaporizzare il prezzemolo e abbattere in negativo fino a 0°C. Mettere nel cutter con tutti gli ingredienti e frullare fino ad ottenere un composto omogeneo.'
   },
-  {
-    id:6, title:'Datterino Semi Secco', tag:'Pomodori & Basi', porzione:1,
+  { id:6, emoji:'🍅', title:'Datterino Semi Secco', tag:'Pomodori & Basi', porzione:1,
     ingredienti:[
-      {nome:'Datterino', qty:100, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:4, unit:'g'},
-      {nome:'Sale bilanciato', qty:2, unit:'g'},
-      {nome:'Timo', qty:1, unit:'g'},
-      {nome:'Aglio', qty:1, unit:'g'}
+      {nome:'Datterino',qty:100,unit:'g'},{nome:'Olio EVO',qty:4,unit:'g'},{nome:'Sale bilanciato',qty:2,unit:'g'},{nome:'Timo',qty:1,unit:'g'},{nome:'Aglio',qty:1,unit:'g'}
     ],
-    istruzioni:'Tagliare a metà il pomodoro e adagiare sulla teglia. Aggiungere gli ingredienti. Cucinare a 110°C ventola 2, valvola aperta per 70-100 minuti (dipende dalla consistenza desiderata e dalla pezzatura). Una volta cotto, fare raffreddare e mettere nei sacchetti sottovuoto. Per ogni kg di prodotto aggiungere 20g olio EVO, 20g olio di semi girasole e una foglia di basilico spezzata. Chiudere sottovuoto al 99% e cucinare esclusivamente a vapore 85°C per 15 minuti.'
+    istruzioni:'Tagliare a metà e adagiare sulla teglia. Cucinare a 110°C ventola 2, valvola aperta per 70-100 minuti. Raffreddare e mettere sottovuoto con 20g olio EVO + 20g olio girasole + basilico per kg. Chiudere al 99% e pastorizzare a vapore 85°C per 15 minuti.'
   },
-  {
-    id:7, title:'Crema di Patate', tag:'Salse & Creme', porzione:1,
+  { id:7, emoji:'🥔', title:'Crema di Patate', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Patate pasta gialla', qty:1000, unit:'g'},
-      {nome:'Acqua', qty:1500, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:100, unit:'g'},
-      {nome:'Porro', qty:20, unit:'g'},
-      {nome:'Carote', qty:30, unit:'g'},
-      {nome:'Sale', qty:10, unit:'g'},
-      {nome:'Rosmarino', qty:10, unit:'g'},
-      {nome:'Timo', qty:10, unit:'g'}
+      {nome:'Patate pasta gialla',qty:1000,unit:'g'},{nome:'Acqua',qty:1500,unit:'g'},{nome:'Olio EVO',qty:100,unit:'g'},{nome:'Porro',qty:20,unit:'g'},{nome:'Carote',qty:30,unit:'g'},{nome:'Sale',qty:10,unit:'g'},{nome:'Rosmarino',qty:10,unit:'g'},{nome:'Timo',qty:10,unit:'g'}
     ],
-    istruzioni:'Pelare le patate e tagliarle a cubetti. Mettere in pentola con il resto degli ingredienti pelati. Una volta arrivato a ebollizione, cucinare per 15 minuti. Raffreddare e mettere nel cutter: prima le sole patate, poi una volta frullate aggiungere tutto il brodo vegetale insieme a carota, porro ed erbe aromatiche.'
+    istruzioni:'Pelare e tagliare a cubetti le patate. Mettere in pentola con tutti gli ingredienti. A ebollizione cucinare 15 minuti. Raffreddare e frullare nel cutter: prima le patate sole, poi aggiungere il brodo con carota, porro ed erbe.'
   },
-  {
-    id:8, title:'Salsa Tzatziki', tag:'Salse & Creme', porzione:1,
+  { id:8, emoji:'🥒', title:'Salsa Tzatziki', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Yogurt greco', qty:100, unit:'g'},
-      {nome:'Cetrioli', qty:50, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:5, unit:'g'},
-      {nome:'Aceto bianco', qty:2.5, unit:'g'},
-      {nome:'Sale', qty:2.5, unit:'g'},
-      {nome:'Prezzemolo', qty:2.5, unit:'g'},
-      {nome:'Alpigiana (per salsa cremosa)', qty:50, unit:'g'}
+      {nome:'Yogurt greco',qty:100,unit:'g'},{nome:'Cetrioli',qty:50,unit:'g'},{nome:'Olio EVO',qty:5,unit:'g'},{nome:'Aceto bianco',qty:2.5,unit:'g'},{nome:'Sale',qty:2.5,unit:'g'},{nome:'Prezzemolo',qty:2.5,unit:'g'},{nome:'Alpigiana',qty:50,unit:'g'}
     ],
-    istruzioni:'Lavare i cetrioli e grattugiarli. Far colare l\'acqua di vegetazione per almeno 1 ora. Mescolare tutto e mettere in un frullatore tranne lo yogurt, che verrà inserito solo quando tutti gli ingredienti sono stati frullati, senza che lo yogurt tocchi la lama del cutter, fino ad ottenere la consistenza voluta.'
+    istruzioni:'Grattugiare i cetrioli e far colare l\'acqua di vegetazione per almeno 1 ora. Frullare tutto nel cutter tranne lo yogurt. Aggiungere lo yogurt solo alla fine senza che tocchi la lama, fino alla consistenza voluta.'
   },
-  {
-    id:9, title:'Pesto di Zucchine', tag:'Salse & Creme', porzione:1,
+  { id:9, emoji:'🫑', title:'Pesto di Zucchine', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Zucchine', qty:100, unit:'g'},
-      {nome:'Patate', qty:10, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:13, unit:'g'},
-      {nome:'Aglio', qty:1, unit:'g'},
-      {nome:'Sale bilanciato verdure', qty:2, unit:'g'},
-      {nome:'Grana padano', qty:10, unit:'g'},
-      {nome:'Basilico', qty:1.5, unit:'g'},
-      {nome:'Mandorle', qty:10, unit:'g'}
+      {nome:'Zucchine',qty:100,unit:'g'},{nome:'Patate',qty:10,unit:'g'},{nome:'Olio EVO',qty:13,unit:'g'},{nome:'Aglio',qty:1,unit:'g'},{nome:'Sale bilanciato verdure',qty:2,unit:'g'},{nome:'Grana padano',qty:10,unit:'g'},{nome:'Basilico',qty:1.5,unit:'g'},{nome:'Mandorle',qty:10,unit:'g'}
     ],
-    istruzioni:'Lavare e tagliare a rondelle le zucchine. Pelare le patate e tagliarle a cubetti molto sottili. Disporre su una teglia, aggiungere olio, aglio e sale bilanciato per verdure. Cucinare in forno a 180°C per 18-25 minuti. Una volta finita la cottura lasciare raffreddare e frullare nel cutter aggiungendo grana padano, basilico e mandorle fino a ottenere un composto liscio e omogeneo.'
+    istruzioni:'Tagliare a rondelle zucchine e a cubetti le patate. Disporre su teglia con olio, aglio e sale bilanciato. Forno 180°C per 18-25 minuti. Raffreddare e frullare nel cutter aggiungendo grana, basilico e mandorle.'
   },
-  {
-    id:10, title:'Crema di Cavolo Rosso', tag:'Salse & Creme', porzione:1,
+  { id:10, emoji:'🫐', title:'Crema di Cavolo Rosso', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Cavolo rosso', qty:100, unit:'g'},
-      {nome:'Olio semi girasole', qty:20, unit:'g'},
-      {nome:'Acqua', qty:20, unit:'g'},
-      {nome:'Sale bilanciato verdure', qty:2, unit:'g'}
+      {nome:'Cavolo rosso',qty:100,unit:'g'},{nome:'Olio semi girasole',qty:20,unit:'g'},{nome:'Acqua',qty:20,unit:'g'},{nome:'Sale bilanciato verdure',qty:2,unit:'g'}
     ],
-    istruzioni:'Lavare e tagliare in 4 il cavolo. Mettere nelle teglie, vapore a 100°C solo vapore per 19 minuti. Una volta finita la cottura mettere nel cutter con gli ingredienti della ricetta. Abbattere il prodotto e pastorizzare.'
+    istruzioni:'Lavare e tagliare in 4 il cavolo. Vapore a 100°C per 19 minuti. Mettere nel cutter con gli ingredienti. Abbattere e pastorizzare.'
   },
-  {
-    id:11, title:'Guancia di Maiale Stracotta', tag:'Carni', porzione:10,
+  { id:11, emoji:'🐷', title:'Guancia di Maiale Stracotta', tag:'Carni', porzione:10,
     ingredienti:[
-      {nome:'Carrialda di suino', qty:1000, unit:'g'},
-      {nome:'Olio extravergine d\'oliva', qty:20, unit:'g'},
-      {nome:'Sale bilanciato per carni rosse', qty:20, unit:'g'},
-      {nome:'Alloro', qty:5, unit:'g'},
-      {nome:'Cipolla maturata', qty:20, unit:'g'},
-      {nome:'Timo', qty:10, unit:'g'},
-      {nome:'Pepe nero in grani', qty:2, unit:'g'}
+      {nome:'Carrialda di suino',qty:1000,unit:'g'},{nome:'Olio EVO',qty:20,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:20,unit:'g'},{nome:'Alloro',qty:5,unit:'g'},{nome:'Cipolla maturata',qty:20,unit:'g'},{nome:'Timo',qty:10,unit:'g'},{nome:'Pepe nero in grani',qty:2,unit:'g'}
     ],
-    istruzioni:'Massaggiare la carrialda di suino con olio EVO e sale bilanciato per carne rossa. Grigliare su unità Rational — grigliata 4° colorazione per 4 minuti. Una volta raffreddato, mettere nei sacchetti sottovuoto con sale bilanciato per carne rossa (63% sale / 37% zucchero di canna) 9g al kg, foglie di alloro, rosmarino, timo, olio EVO e cipolla maturata. Cucinare per 5h con solo vapore a 93°C.'
+    istruzioni:'Massaggiare la carrialda con olio EVO e sale bilanciato. Grigliare Rational 4° colorazione 4 minuti. Raffreddare e mettere sottovuoto con sale bilanciato 9g/kg, alloro, rosmarino, timo, olio EVO e cipolla maturata. Cucinare 5 ore vapore a 93°C.'
   },
-  {
-    id:12, title:'Crema di Scarola', tag:'Salse & Creme', porzione:1,
+  { id:12, emoji:'🥬', title:'Crema di Scarola', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Scarola', qty:100, unit:'g'},
-      {nome:'Basilico', qty:2, unit:'g'},
-      {nome:'Patate già cotte', qty:10, unit:'g'},
-      {nome:'Acciughe sott\'olio', qty:10, unit:'g'},
-      {nome:'Cipolla maturata', qty:6, unit:'g'},
-      {nome:'Olio di semi di girasole', qty:50, unit:'g'},
-      {nome:'Sale', qty:0, unit:'q.b.'},
-      {nome:'Peperoncino rosso', qty:0, unit:'q.b.'}
+      {nome:'Scarola',qty:100,unit:'g'},{nome:'Basilico',qty:2,unit:'g'},{nome:'Patate cotte',qty:10,unit:'g'},{nome:'Acciughe sott\'olio',qty:10,unit:'g'},{nome:'Cipolla maturata',qty:6,unit:'g'},{nome:'Olio semi girasole',qty:50,unit:'g'},{nome:'Sale',qty:0,unit:'q.b.'},{nome:'Peperoncino',qty:0,unit:'q.b.'}
     ],
-    istruzioni:'1. Lavare bene la scarola in pezzi grandi. Non asciugarla eccessivamente.\n2. Rational modalità Vapore 100%, 90-95°C, ventilazione 3, per 2-3 minuti (sbiancatura tecnica).\n3. Appena sfornata, immergere in acqua e ghiaccio per 1 minuto. Scolare e strizzare delicatamente.\n4. Preparare un fondo di olio, aglio, peperoncino e acciughe. Saltare la scarola sbiancata a 200°C per 2 minuti. Sale solo alla fine. Non coprire mai da calda.'
+    istruzioni:'1. Lavare la scarola in pezzi grandi. Non asciugare troppo.\n2. Rational vapore 100%, 90-95°C, ventilazione 3, per 2-3 minuti.\n3. Abbattere subito in acqua e ghiaccio per 1 minuto. Scolare e strizzare.\n4. Fondo olio + aglio + peperoncino + acciughe. Saltare a 200°C per 2 minuti. Sale solo alla fine.'
   },
-  {
-    id:13, title:'Crema di Basilico', tag:'Salse & Creme', porzione:1,
+  { id:13, emoji:'🌱', title:'Crema di Basilico', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Basilico', qty:100, unit:'g'},
-      {nome:'Patate già cotte', qty:10, unit:'g'},
-      {nome:'Olio di semi di girasole', qty:50, unit:'g'},
-      {nome:'Sale', qty:0, unit:'q.b.'}
+      {nome:'Basilico',qty:100,unit:'g'},{nome:'Patate cotte',qty:10,unit:'g'},{nome:'Olio semi girasole',qty:50,unit:'g'},{nome:'Sale',qty:0,unit:'q.b.'}
     ],
-    istruzioni:'Tagliare e lavare il basilico. Cucinare a vapore 104°C per 6 minuti. Raffreddare in abbattitore. Versare tutto nel cutter e frullare per 5 minuti alla velocità 10 con tutti gli ingredienti.'
+    istruzioni:'Lavare il basilico. Cucinare a vapore 104°C per 6 minuti. Abbattere in abbattitore. Frullare nel cutter con tutti gli ingredienti per 5 minuti a velocità 10.'
   },
-  {
-    id:14, title:'Uovo Pochè (BT)', tag:'Tecniche', porzione:1,
-    ingredienti:[
-      {nome:'Uova', qty:1, unit:'pz'}
-    ],
-    istruzioni:'1. Rational modalità Vapore 100%, 64°C per 45 minuti. Usare teglie porta-uova.\n2. Shock termico: appena il forno suona, immergere le uova in acqua e ghiaccio per almeno 15-20 minuti.\n3. Conservazione nel guscio: frigo +3°C, 2-3 giorni. Sgusciare delicatamente al momento dell\'uso. Oppure sgusciate in contenitore ermetico con acqua fredda.'
+  { id:14, emoji:'🥚', title:'Uovo Pochè BT', tag:'Tecniche', porzione:1,
+    ingredienti:[{nome:'Uova',qty:1,unit:'pz'}],
+    istruzioni:'1. Rational vapore 100%, 64°C per 45 minuti. Teglie porta-uova.\n2. Shock termico: immergere in acqua e ghiaccio per 15-20 minuti.\n3. Conservazione nel guscio in frigo +3°C per 2-3 giorni. Sgusciare delicatamente al momento dell\'uso.'
   },
-  {
-    id:15, title:'Babaganoush', tag:'Salse & Creme', porzione:1,
+  { id:15, emoji:'🍆', title:'Babaganoush', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Melanzane', qty:1000, unit:'g'},
-      {nome:'Limone', qty:40, unit:'g'},
-      {nome:'Aglio', qty:4, unit:'g'},
-      {nome:'Tahina', qty:15, unit:'g'},
-      {nome:'Semi di sesamo', qty:10, unit:'g'},
-      {nome:'Menta fresca', qty:4, unit:'g'},
-      {nome:'Sale', qty:12, unit:'g'},
-      {nome:'Pepe nero', qty:0, unit:'q.b.'}
+      {nome:'Melanzane',qty:1000,unit:'g'},{nome:'Limone',qty:40,unit:'g'},{nome:'Aglio',qty:4,unit:'g'},{nome:'Tahina',qty:15,unit:'g'},{nome:'Semi di sesamo',qty:10,unit:'g'},{nome:'Menta fresca',qty:4,unit:'g'},{nome:'Sale',qty:12,unit:'g'},{nome:'Pepe nero',qty:0,unit:'q.b.'}
     ],
-    istruzioni:'Lavare e asciugare le melanzane. Cuocere in forno statico 180°C per 1h30 (ventilato 160°C per 1h20), rigirandole un paio di volte. Quando la buccia è raggrinzita e sono morbide, sfornare. Una volta intiepidite, eliminare il peduncolo, incidere la buccia, aprire e scavare la polpa con un cucchiaio. Schiacciare la polpa con una forchetta, salare e pepare. Aggiungere aglio schiacciato, succo di limone filtrato, tahina e semi di sesamo. Mescolare bene e mettere nel mixer.'
+    istruzioni:'Cuocere le melanzane intere in forno statico 180°C per 1h30 (ventilato 160°C 1h20), rigirandole. Raffreddare, eliminare il peduncolo, scavare la polpa. Schiacciare con forchetta, salare, aggiungere aglio, succo limone filtrato, tahina e semi di sesamo. Mettere nel mixer.'
   },
-  {
-    id:16, title:'Crema di Melanzane', tag:'Salse & Creme', porzione:1,
+  { id:16, emoji:'🍆', title:'Crema di Melanzane', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Melanzane', qty:100, unit:'g'},
-      {nome:'Sale', qty:3, unit:'g'},
-      {nome:'Pomodori secchi', qty:7, unit:'g'},
-      {nome:'Basilico', qty:6, unit:'g'},
-      {nome:'Miele di agrumi', qty:6, unit:'g'},
-      {nome:'Olio semi girasole', qty:10, unit:'g'}
+      {nome:'Melanzane',qty:100,unit:'g'},{nome:'Sale',qty:3,unit:'g'},{nome:'Pomodori secchi',qty:7,unit:'g'},{nome:'Basilico',qty:6,unit:'g'},{nome:'Miele di agrumi',qty:6,unit:'g'},{nome:'Olio semi girasole',qty:10,unit:'g'}
     ],
-    istruzioni:'Lavare e pelare alternando la buccia di melanzana. Tagliare a cubetti o fette e mettere a spurgare con il sale su un colapasta per far perdere tutta l\'acqua di vegetazione. Passare nella farina di riso (facoltativo) e friggere a 180°C. Adagiare su carta paglia e far sgocciolare l\'olio in eccesso. Frullare al mixer aggiungendo pomodoro secco e basilico.'
+    istruzioni:'Tagliare a cubetti, spurgare con sale su colapasta. Passare nella farina di riso (facoltativo) e friggere a 180°C. Far sgocciolare su carta paglia. Frullare al mixer con pomodoro secco e basilico.'
   },
-  {
-    id:17, title:'Polpa Finissima Cotta', tag:'Pomodori & Basi', porzione:1,
+  { id:17, emoji:'🍅', title:'Polpa Finissima Cotta', tag:'Pomodori & Basi', porzione:1,
     ingredienti:[
-      {nome:'Salsa finissima Gusta Rosso', qty:1000, unit:'g'},
-      {nome:'Sale', qty:6.5, unit:'g'},
-      {nome:'Zucchero', qty:9, unit:'g'},
-      {nome:'Basilico', qty:1, unit:'g'}
+      {nome:'Salsa finissima Gusta Rosso',qty:1000,unit:'g'},{nome:'Sale',qty:6.5,unit:'g'},{nome:'Zucchero',qty:9,unit:'g'},{nome:'Basilico',qty:1,unit:'g'}
     ],
-    istruzioni:'Disporre la Polpa Finissima Gusta Rosso in una teglia GN1 con altezza 4cm. Infornare a 145°C per 55 minuti con umidità al 60%. Una volta terminata la cottura, far raffreddare, mettere sottovuoto e pastorizzare. Unità di cottura Rational.'
+    istruzioni:'Disporre in teglia GN1 altezza 4cm. Infornare a 145°C per 55 minuti, umidità 60%. Raffreddare, mettere sottovuoto e pastorizzare. Unità Rational.'
   },
-  {
-    id:18, title:'Mollica Tostata', tag:'Basi & Topping', porzione:1,
+  { id:18, emoji:'🍞', title:'Mollica Tostata', tag:'Topping', porzione:1,
     ingredienti:[
-      {nome:'Mollica', qty:1000, unit:'g'},
-      {nome:'Sale', qty:7, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:200, unit:'g'},
-      {nome:'Basilico', qty:30, unit:'g'},
-      {nome:'Aglio', qty:1, unit:'g'}
+      {nome:'Mollica',qty:1000,unit:'g'},{nome:'Sale',qty:7,unit:'g'},{nome:'Olio EVO',qty:200,unit:'g'},{nome:'Basilico',qty:30,unit:'g'},{nome:'Aglio',qty:1,unit:'g'}
     ],
-    istruzioni:'Versare nella teglia la mollica, aggiungere olio e basilico. Miscelare con le mani. Mettere nel forno a 180°C per circa 18 minuti. Unità di cottura Rational.'
+    istruzioni:'Versare nella teglia la mollica, aggiungere olio e basilico. Miscelare con le mani. Forno 180°C per 18 minuti. Unità Rational.'
   },
-  {
-    id:19, title:'Cipolla Caramellata', tag:'Basi & Topping', porzione:1,
+  { id:19, emoji:'🧅', title:'Cipolla Caramellata', tag:'Topping', porzione:1,
     ingredienti:[
-      {nome:'Cipolla rossa', qty:100, unit:'g'},
-      {nome:'Acqua', qty:10, unit:'g'},
-      {nome:'Aceto bianco', qty:10, unit:'g'},
-      {nome:'Zucchero semolato', qty:30, unit:'g'}
+      {nome:'Cipolla rossa',qty:100,unit:'g'},{nome:'Acqua',qty:10,unit:'g'},{nome:'Aceto bianco',qty:10,unit:'g'},{nome:'Zucchero semolato',qty:30,unit:'g'}
     ],
-    istruzioni:'Pulire la cipolla rossa e tagliare a rondelle. Adagiare nella busta da cottura riempiendo 1/3 della capacità con gli ingredienti della ricetta. Conservare in sottovuoto 99%. Cuocere a vapore a 85°C per 15 minuti. Abbattere la temperatura a +3°C.'
+    istruzioni:'Tagliare a rondelle e mettere nel sacchetto con tutti gli ingredienti (1/3 della capacità). Sottovuoto 99%. Vapore 85°C per 15 minuti. Abbattere a +3°C.'
   },
-  {
-    id:20, title:'Salamoia per Focaccia', tag:'Basi & Topping', porzione:2,
+  { id:20, emoji:'🫒', title:'Salamoia per Focaccia', tag:'Basi', porzione:2,
     ingredienti:[
-      {nome:'Olio extra vergine d\'oliva', qty:160, unit:'g'},
-      {nome:'Acqua', qty:320, unit:'g'},
-      {nome:'Sale', qty:35, unit:'g'}
+      {nome:'Olio EVO',qty:160,unit:'g'},{nome:'Acqua',qty:320,unit:'g'},{nome:'Sale',qty:35,unit:'g'}
     ],
-    istruzioni:'Mescolare insieme gli ingredienti in maniera energica. Dose per 2 teglie 60x40.'
+    istruzioni:'Mescolare energicamente. Dose per 2 teglie 60x40.'
   },
-  {
-    id:21, title:'Salsa Tonnata', tag:'Salse & Creme', porzione:1,
+  { id:21, emoji:'🐟', title:'Salsa Tonnata', tag:'Salse & Creme', porzione:1,
     ingredienti:[
-      {nome:'Tonno', qty:100, unit:'g'},
-      {nome:'Maionese', qty:50, unit:'g'},
-      {nome:'Acciughe', qty:3, unit:'g'},
-      {nome:'Capperi', qty:2, unit:'g'},
-      {nome:'Vino bianco fermo', qty:2, unit:'g'},
-      {nome:'Aceto di mele', qty:1, unit:'g'}
+      {nome:'Tonno',qty:100,unit:'g'},{nome:'Maionese',qty:50,unit:'g'},{nome:'Acciughe',qty:3,unit:'g'},{nome:'Capperi',qty:2,unit:'g'},{nome:'Vino bianco fermo',qty:2,unit:'g'},{nome:'Aceto di mele',qty:1,unit:'g'}
     ],
-    istruzioni:'Frullare con un mixer ad immersione tutti gli ingredienti fino al raggiungimento di una salsa omogenea.'
+    istruzioni:'Frullare tutti gli ingredienti con mixer ad immersione fino ad ottenere una salsa omogenea.'
   },
-  {
-    id:22, title:'Funghi Gelo (Sottovuoto)', tag:'Basi & Topping', porzione:1,
+  { id:22, emoji:'🍄', title:'Funghi Gelo (Sottovuoto)', tag:'Topping', porzione:1,
     ingredienti:[
-      {nome:'Funghi', qty:100, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:5, unit:'g'},
-      {nome:'Sale', qty:1, unit:'g'},
-      {nome:'Aglio', qty:0.1, unit:'g'},
-      {nome:'Rosmarino', qty:0.5, unit:'g'},
-      {nome:'Timo', qty:0.5, unit:'g'},
-      {nome:'Pepe di Sichuan', qty:0.1, unit:'g'},
-      {nome:'Burro', qty:10, unit:'g'}
+      {nome:'Funghi',qty:100,unit:'g'},{nome:'Olio EVO',qty:5,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Aglio',qty:0.1,unit:'g'},{nome:'Rosmarino',qty:0.5,unit:'g'},{nome:'Timo',qty:0.5,unit:'g'},{nome:'Pepe di Sichuan',qty:0.1,unit:'g'},{nome:'Burro',qty:10,unit:'g'}
     ],
-    istruzioni:'Procedere alla cottura a vapore dei funghi surgelati a 100°C per 3-4 minuti. Lasciare raffreddare leggermente e trasferire in sacchetti per cottura sottovuoto. Aggiungere gli aromi come da ricetta. Chiudere sottovuoto al 99% e pastorizzare nell\'unità Rational a 85°C con solo vapore per 55 minuti.'
+    istruzioni:'Vapore a 100°C per 3-4 minuti. Raffreddare e mettere in sacchetti sottovuoto con tutti gli aromi. Chiudere al 99% e pastorizzare Rational a 85°C vapore per 55 minuti.'
   },
-  {
-    id:23, title:'Cipolla Giarratana Agrodolce 2.0', tag:'Basi & Topping', porzione:1,
+  { id:23, emoji:'🧅', title:'Cipolla Giarratana Agrodolce 2.0', tag:'Topping', porzione:1,
     ingredienti:[
-      {nome:'Cipolla giarratana', qty:100, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:25, unit:'g'},
-      {nome:'Olio di semi di girasole', qty:25, unit:'g'},
-      {nome:'Uva passa', qty:5, unit:'g'},
-      {nome:'Sale', qty:1, unit:'g'},
-      {nome:'Zucchero', qty:3, unit:'g'},
-      {nome:'Aceto di mele', qty:1, unit:'g'}
+      {nome:'Cipolla giarratana',qty:100,unit:'g'},{nome:'Olio EVO',qty:25,unit:'g'},{nome:'Olio semi girasole',qty:25,unit:'g'},{nome:'Uva passa',qty:5,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Zucchero',qty:3,unit:'g'},{nome:'Aceto di mele',qty:1,unit:'g'}
     ],
-    istruzioni:'Sbucciare la cipolla e tagliare a metà. Mettere nell\'apposita teglia per cottura al vapore a 100°C per 19 minuti. Far raffreddare. Mettere nei sacchetti sottovuoto per cottura con gli ingredienti della ricetta. Andare di nuovo in forno a 85°C solo vapore per 15 minuti.'
+    istruzioni:'Sbucciare e tagliare a metà. Vapore 100°C per 19 minuti. Raffreddare. Mettere sottovuoto con ingredienti. Forno 85°C vapore per 15 minuti.'
   },
-  {
-    id:24, title:'Pasta di Salsiccia (Sottovuoto)', tag:'Carni', porzione:1,
+  { id:24, emoji:'🌭', title:'Salsiccia Sottovuoto', tag:'Carni', porzione:1,
     ingredienti:[
-      {nome:'Pasta di salsiccia', qty:1000, unit:'g'},
-      {nome:'Sale bilanciato per carni rosse', qty:20, unit:'g'}
+      {nome:'Pasta di salsiccia',qty:1000,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:20,unit:'g'}
     ],
-    istruzioni:'Cucinare a vapore 100% nel sacchetto sottovuoto a 62°C per 45 minuti.'
+    istruzioni:'Mettere in sacchetto sottovuoto. Cucinare vapore 100% a 62°C per 45 minuti.'
   },
-  {
-    id:25, title:'Pasta di Salsiccia (Rational Combi)', tag:'Carni', porzione:1,
+  { id:25, emoji:'🌭', title:'Salsiccia Rational Combi', tag:'Carni', porzione:1,
     ingredienti:[
-      {nome:'Pasta di salsiccia', qty:1000, unit:'g'},
-      {nome:'Sale bilanciato per carni rosse', qty:15, unit:'g'},
-      {nome:'Olio extra vergine d\'oliva', qty:20, unit:'g'}
+      {nome:'Pasta di salsiccia',qty:1000,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:15,unit:'g'},{nome:'Olio EVO',qty:20,unit:'g'}
     ],
-    istruzioni:'Disporre la salsiccia sbriciolata in teglie GN 1/1 con carta da forno (max 2-3 cm di spessore). Impostazioni: Combi-Steam 30-40% umidità, 160-170°C, 12-18 minuti. Temperatura al cuore: 75°C per almeno 2 minuti (HACCP). Raffreddamento rapido: da 75°C a 10°C in max 90 minuti con abbattitore. Confezionare sottovuoto sotto i 10°C. Pastorizzare Rational 100% vapore 85°C per 20 minuti. Shelf life: 21-29 giorni.'
+    istruzioni:'Sbriciolata in teglie GN 1/1 con carta forno, max 2-3 cm spessore. Combi-Steam 30-40% umidità, 160-170°C, 12-18 minuti. Temperatura cuore: 75°C per 2 minuti (HACCP). Raffreddamento rapido: da 75°C a 10°C in 90 minuti. Sottovuoto, pastorizzare 85°C vapore 20 minuti. Shelf life 21-29 giorni.'
   },
-  {
-    id:26, title:'Sale Bilanciato per Verdure', tag:'Miscele Sale', porzione:1,
-    ingredienti:[
-      {nome:'Sale marino fino', qty:59, unit:'g'},
-      {nome:'Zucchero', qty:41, unit:'g'}
-    ],
+  { id:26, emoji:'🧂', title:'Sale Bilanciato Verdure', tag:'Miscele Sale', porzione:1,
+    ingredienti:[{nome:'Sale marino fino',qty:59,unit:'g'},{nome:'Zucchero',qty:41,unit:'g'}],
     istruzioni:'Miscelare con le mani. Utilizzo: 10g al kg di prodotto.'
   },
-  {
-    id:27, title:'Sale Bilanciato per Pesce', tag:'Miscele Sale', porzione:1,
-    ingredienti:[
-      {nome:'Sale marino fino', qty:65, unit:'g'},
-      {nome:'Zucchero semolato', qty:25, unit:'g'},
-      {nome:'Zucchero di canna', qty:10, unit:'g'}
-    ],
-    istruzioni:'Miscelare con le mani. Utilizzo: 9g al kg per pesce di mare, 12g al kg per pesce di acqua dolce.'
+  { id:27, emoji:'🐟', title:'Sale Bilanciato Pesce', tag:'Miscele Sale', porzione:1,
+    ingredienti:[{nome:'Sale marino fino',qty:65,unit:'g'},{nome:'Zucchero semolato',qty:25,unit:'g'},{nome:'Zucchero di canna',qty:10,unit:'g'}],
+    istruzioni:'Miscelare con le mani. 9g/kg per pesce di mare, 12g/kg per pesce di acqua dolce.'
   },
-  {
-    id:28, title:'Sale Bilanciato per Carne Rossa', tag:'Miscele Sale', porzione:1,
-    ingredienti:[
-      {nome:'Sale marino fino', qty:63, unit:'g'},
-      {nome:'Zucchero semolato', qty:37, unit:'g'}
-    ],
+  { id:28, emoji:'🥩', title:'Sale Bilanciato Carne Rossa', tag:'Miscele Sale', porzione:1,
+    ingredienti:[{nome:'Sale marino fino',qty:63,unit:'g'},{nome:'Zucchero semolato',qty:37,unit:'g'}],
     istruzioni:'Miscelare con le mani. Utilizzo: 9g al kg di carne.'
   }
 ];
 
 var tags = ['Tutte'];
 recipes.forEach(function(r){ if(tags.indexOf(r.tag)===-1) tags.push(r.tag); });
-
 var activeTag = 'Tutte';
 var searchTerm = '';
 var multipliers = {};
-recipes.forEach(function(r){ multipliers[r.id] = 1; });
+recipes.forEach(function(r){ multipliers[r.id]=1; });
 
 function buildFilters(){
-  var row = document.getElementById('filterRow');
-  row.innerHTML = tags.map(function(t){
+  var row=document.getElementById('filterRow');
+  row.innerHTML=tags.map(function(t){
     return '<button class="filter-btn'+(t===activeTag?' active':'')+'" onclick="setTag(\''+t+'\')">'+t+'</button>';
   }).join('');
 }
 
 function setTag(t){ activeTag=t; buildFilters(); renderList(); }
-
-function filterRecipes(val){ searchTerm=val.toLowerCase(); renderList(); }
+function filterRecipes(v){ searchTerm=v.toLowerCase(); renderList(); }
 
 function getFiltered(){
   return recipes.filter(function(r){
-    var matchTag = activeTag==='Tutte' || r.tag===activeTag;
-    var matchSearch = !searchTerm || r.title.toLowerCase().indexOf(searchTerm)!==-1 || r.tag.toLowerCase().indexOf(searchTerm)!==-1;
-    return matchTag && matchSearch;
+    var mt=activeTag==='Tutte'||r.tag===activeTag;
+    var ms=!searchTerm||r.title.toLowerCase().indexOf(searchTerm)!==-1||r.tag.toLowerCase().indexOf(searchTerm)!==-1;
+    return mt&&ms;
   });
 }
 
-function fmtQty(qty, mult){
-  var v = qty * mult;
-  if(v===0) return 'q.b.';
-  if(v === Math.floor(v)) return v.toString() + 'g';
-  return v.toFixed(1).replace('.0','') + 'g';
+function fmtQty(qty,mult){
+  if(qty===0) return 'q.b.';
+  var v=qty*mult;
+  if(v===Math.floor(v)) return v+'g';
+  return v.toFixed(1).replace(/\.0$/,'')+'g';
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2500);
+}
+
+function doScreenshot(id){
+  var r=recipes.find(function(x){return x.id===id;});
+  if(!r) return;
+  var mult=multipliers[id]||1;
+
+  // Costruiamo una card temporanea per lo screenshot
+  var pc=document.createElement('div');
+  pc.className='print-card';
+  pc.style.cssText='position:fixed;left:-9999px;top:0;width:390px;background:#1a1208;color:#f5ede0;font-family:Inter,sans-serif;padding:24px;';
+
+  var ingRows=r.ingredienti.map(function(ing){
+    var q=ing.unit==='q.b.'?'q.b.':fmtQty(ing.qty,mult);
+    return '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #3d3020;font-size:13px">'+
+      '<span>'+ing.nome+'</span><span style="color:#f5c84a;font-weight:600">'+q+'</span></div>';
+  }).join('');
+
+  var istrHTML='';
+  r.istruzioni.split('\n').forEach(function(s){
+    s=s.trim();if(!s)return;
+    var m=s.match(/^(\d+)\.\s*(.*)/);
+    if(m) istrHTML+='<div style="display:flex;gap:8px;margin-bottom:8px;font-size:12px;line-height:1.6"><span style="color:#e8a020;font-weight:700;min-width:18px">'+m[1]+'.</span><span>'+m[2]+'</span></div>';
+    else istrHTML+='<p style="font-size:12px;line-height:1.6;margin-bottom:8px">'+s+'</p>';
+  });
+
+  pc.innerHTML=
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #3d3020">'+
+      '<span style="font-size:40px">'+r.emoji+'</span>'+
+      '<div><div style="font-family:Lora,serif;font-size:20px;color:#e8a020;font-style:italic">'+r.title+'</div>'+
+      '<div style="font-size:10px;color:#8a7a60;margin-top:3px;letter-spacing:1px;text-transform:uppercase">MATTEO LA SPADA · L\'ORSO MESSINA</div></div>'+
+    '</div>'+
+    (mult>1?'<div style="background:#2e2412;border:1px solid #3d3020;border-radius:8px;padding:8px 12px;margin-bottom:14px;font-size:11px;color:#f5c84a">✖ '+mult+' — Dosi moltiplicate per '+mult+'</div>':'')+
+    '<div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;font-weight:600">Ingredienti</div>'+
+    ingRows+
+    '<div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 8px;font-weight:600">Istruzioni</div>'+
+    istrHTML+
+    '<div style="margin-top:20px;padding-top:12px;border-top:1px solid #3d3020;font-size:10px;color:#8a7a60;text-align:center;letter-spacing:1px">🐻 L\'ORSO MESSINA · #SEGUILORSO</div>';
+
+  document.body.appendChild(pc);
+
+  html2canvas(pc,{backgroundColor:'#1a1208',scale:2,useCORS:true,logging:false}).then(function(canvas){
+    document.body.removeChild(pc);
+    canvas.toBlob(function(blob){
+      // Prova Web Share API (iPhone Safari)
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob],'ricetta.png',{type:'image/png'})]})){
+        var file=new File([blob],'ricetta_'+r.title.replace(/\s+/g,'_')+'.png',{type:'image/png'});
+        navigator.share({title:r.title,text:'Ricetta: '+r.title+' — Matteo La Spada',files:[file]})
+          .then(function(){showToast('✅ Condiviso!');})
+          .catch(function(){downloadImage(canvas,r.title);});
+      } else {
+        downloadImage(canvas,r.title);
+      }
+    },'image/png');
+  });
+}
+
+function downloadImage(canvas,title){
+  var link=document.createElement('a');
+  link.download='ricetta_'+title.replace(/\s+/g,'_')+'.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+  showToast('📥 Immagine salvata!');
 }
 
 function renderList(){
-  var filtered = getFiltered();
-  document.getElementById('countBar').textContent = filtered.length + ' ricette';
-  var list = document.getElementById('recipeList');
-  list.innerHTML = '';
-  filtered.forEach(function(r){
-    var mult = multipliers[r.id] || 1;
-    var card = document.createElement('div');
-    card.className = 'recipe-card';
-    card.id = 'rc_'+r.id;
+  var filtered=getFiltered();
+  document.getElementById('countBar').textContent=filtered.length+' ricette';
+  var list=document.getElementById('recipeList');
+  list.innerHTML='';
 
-    var ingHTML = r.ingredienti.map(function(ing){
-      var qtyStr = ing.unit==='q.b.' ? 'q.b.' : fmtQty(ing.qty, mult);
-      return '<tr class="ing-row"><td class="ing-name">'+ing.nome+'</td><td class="ing-qty">'+qtyStr+'</td></tr>';
+  filtered.forEach(function(r){
+    var mult=multipliers[r.id]||1;
+    var card=document.createElement('div');
+    card.className='recipe-card';card.id='rc_'+r.id;
+
+    var ingHTML=r.ingredienti.map(function(ing){
+      var q=ing.unit==='q.b.'?'q.b.':fmtQty(ing.qty,mult);
+      return '<tr class="ing-row"><td class="ing-name">'+ing.nome+'</td><td class="ing-qty">'+q+'</td></tr>';
     }).join('');
 
-    // istruzioni con step numerati
-    var istrHTML = '';
-    var steps = r.istruzioni.split('\n');
-    steps.forEach(function(s){
-      s = s.trim();
-      if(!s) return;
-      var match = s.match(/^(\d+)\.\s*(.*)/);
-      if(match){
-        istrHTML += '<div class="istr-step"><span class="step-num">'+match[1]+'.</span><span>'+match[2]+'</span></div>';
-      } else {
-        istrHTML += '<p class="istr-text" style="margin-bottom:8px">'+s+'</p>';
-      }
+    var istrHTML='';
+    r.istruzioni.split('\n').forEach(function(s){
+      s=s.trim();if(!s)return;
+      var m=s.match(/^(\d+)\.\s*(.*)/);
+      if(m) istrHTML+='<div class="istr-step"><span class="step-num">'+m[1]+'.</span><span>'+m[2]+'</span></div>';
+      else istrHTML+='<p class="istr-text">'+s+'</p>';
     });
 
-    card.innerHTML =
+    card.innerHTML=
       '<div class="recipe-header" onclick="toggleRecipe('+r.id+')">'+
-        '<div>'+
+        '<div class="recipe-emoji">'+r.emoji+'</div>'+
+        '<div class="recipe-info">'+
           '<div class="recipe-title">'+r.title+'</div>'+
           '<div class="recipe-meta">'+r.ingredienti.length+' ingredienti</div>'+
-        '</div>'+
-        '<div style="display:flex;align-items:center">'+
           '<span class="recipe-tag">'+r.tag+'</span>'+
-          '<span class="arrow" style="margin-left:10px">▼</span>'+
         '</div>'+
+        '<span class="recipe-arrow">▼</span>'+
       '</div>'+
       '<div class="recipe-body">'+
         '<div class="mult-bar">'+
-          '<span class="mult-label">Porzioni base:</span>'+
+          '<span class="mult-label">Moltiplica dosi</span>'+
           '<button class="mult-btn" onclick="changeMult('+r.id+',-1)">−</button>'+
           '<span class="mult-value" id="mv_'+r.id+'">×'+mult+'</span>'+
           '<button class="mult-btn" onclick="changeMult('+r.id+',1)">+</button>'+
-          '<span class="mult-hint">Ricetta per '+r.porzione+' pz</span>'+
         '</div>'+
-        '<div class="section-label">Ingredienti</div>'+
+        '<div class="section-label">🧾 Ingredienti</div>'+
         '<table class="ing-table" id="ing_'+r.id+'">'+ingHTML+'</table>'+
         '<div class="istr-block">'+
-          '<div class="istr-title">Istruzioni</div>'+
+          '<div class="istr-title">📋 Istruzioni</div>'+
           istrHTML+
+        '</div>'+
+        '<div class="share-bar">'+
+          '<button class="btn-screenshot" onclick="doScreenshot('+r.id+')">'+
+            '📲 Condividi su WhatsApp'+
+          '</button>'+
         '</div>'+
       '</div>';
 
@@ -478,24 +804,23 @@ function renderList(){
 }
 
 function toggleRecipe(id){
-  var card = document.getElementById('rc_'+id);
+  var card=document.getElementById('rc_'+id);
   if(card) card.classList.toggle('open');
 }
 
-function changeMult(id, delta){
-  var m = (multipliers[id]||1) + delta;
-  if(m < 1) m = 1;
-  multipliers[id] = m;
-  document.getElementById('mv_'+id).textContent = '×'+m;
-  // aggiorna ingredienti
-  var r = recipes.find(function(x){return x.id===id;});
-  var table = document.getElementById('ing_'+id);
-  if(!r||!table) return;
-  var rows = table.querySelectorAll('.ing-row');
-  r.ingredienti.forEach(function(ing, i){
+function changeMult(id,delta){
+  var m=(multipliers[id]||1)+delta;
+  if(m<1)m=1;
+  multipliers[id]=m;
+  document.getElementById('mv_'+id).textContent='×'+m;
+  var r=recipes.find(function(x){return x.id===id;});
+  var table=document.getElementById('ing_'+id);
+  if(!r||!table)return;
+  var rows=table.querySelectorAll('.ing-row');
+  r.ingredienti.forEach(function(ing,i){
     if(rows[i]){
-      var qtyStr = ing.unit==='q.b.' ? 'q.b.' : fmtQty(ing.qty, m);
-      rows[i].querySelector('.ing-qty').textContent = qtyStr;
+      var q=ing.unit==='q.b.'?'q.b.':fmtQty(ing.qty,m);
+      rows[i].querySelector('.ing-qty').textContent=q;
     }
   });
 }
