@@ -46,7 +46,7 @@
   .section-title{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:14px;}
   .payment-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px;}
   .payment-row{display:flex;align-items:center;gap:6px;}
-  .payment-date{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;width:86px;outline:none;cursor:pointer;}
+  .payment-date{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;width:80px;outline:none;}
   .payment-date:focus{border-color:var(--accent);}
   .payment-date.has-date{color:var(--accent2);}
   .payment-amount{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;flex:1;outline:none;}
@@ -66,12 +66,15 @@
   .nota-field:focus{border-color:var(--accent);}
   .badge-extra{display:inline-block;font-size:9px;background:#1a2a1a;color:var(--green);border-radius:4px;padding:2px 6px;margin-left:6px;font-family:'DM Mono',monospace;}
   .date-hint{font-size:9px;color:var(--muted);margin-top:6px;margin-bottom:2px;}
+  /* save indicator */
+  .save-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-left:8px;opacity:0;transition:opacity 0.3s;}
+  .save-dot.show{opacity:1;}
 </style>
 </head>
 <body>
 <header>
   <div class="header-top">
-    <div class="logo">💶 Stipendio</div>
+    <div class="logo">💶 Stipendio <span class="save-dot" id="saveDot"></span></div>
     <div class="year-control">
       <button class="year-btn" onclick="changeYear(-1)">‹</button>
       <div class="year-display" id="yearDisplay">2026</div>
@@ -85,26 +88,71 @@
   </div>
 </header>
 <div class="months-container" id="monthsContainer"></div>
+
 <script>
 var MONTHS_IT=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 var year=new Date().getFullYear();
 var data={};
+var saveTimer=null;
 
-function todayStr(){
-  var d=new Date();
-  var dd=String(d.getDate()).padStart(2,'0');
-  var mm=String(d.getMonth()+1).padStart(2,'0');
-  return dd+'/'+mm;
+// ══ STORAGE ROBUSTO ══
+// Usa localStorage ma con fallback in memoria se non disponibile
+var storageOk=(function(){
+  try{localStorage.setItem('_test','1');localStorage.removeItem('_test');return true;}
+  catch(e){return false;}
+})();
+
+function storageKey(){return 'stipendio_'+year;}
+
+function saveData(){
+  if(!storageOk) return;
+  try{
+    localStorage.setItem(storageKey(), JSON.stringify(data));
+    // mostra pallino verde
+    var dot=document.getElementById('saveDot');
+    dot.classList.add('show');
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(function(){dot.classList.remove('show');},1500);
+  }catch(e){}
 }
 
-function initYear(){
+function loadData(){
   data={};
+  // init tutti i mesi con default
   for(var m=0;m<12;m++){
     data[m]={base:3000,acconti:[{data:'',importo:''},{data:'',importo:''},{data:'',importo:''}],bonifici:[{data:'',importo:''},{data:'',importo:''}],nota:''};
   }
+  if(!storageOk) return;
+  try{
+    var saved=localStorage.getItem(storageKey());
+    if(saved){
+      var parsed=JSON.parse(saved);
+      // merge: mantieni i default per i mesi mancanti
+      for(var m=0;m<12;m++){
+        if(parsed[m]){
+          data[m]=parsed[m];
+          // assicura che acconti e bonifici esistano
+          if(!data[m].acconti) data[m].acconti=[{data:'',importo:''},{data:'',importo:''},{data:'',importo:''}];
+          if(!data[m].bonifici) data[m].bonifici=[{data:'',importo:''},{data:'',importo:''}];
+          if(data[m].nota===undefined) data[m].nota='';
+        }
+      }
+    }
+  }catch(e){} // se JSON corrotto riparte da default
 }
 
-function changeYear(d){year+=d;document.getElementById('yearDisplay').textContent=year;initYear();render();}
+function todayStr(){
+  var d=new Date();
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+}
+
+function changeYear(d){
+  year+=d;
+  document.getElementById('yearDisplay').textContent=year;
+  loadData();
+  render();
+}
+
 function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
 function firstDayName(y,m){return['Do','Lu','Ma','Me','Gi','Ve','Sa'][new Date(y,m,1).getDay()];}
 function sumList(list){return list.reduce(function(s,x){return s+(parseFloat(x.importo)||0);},0);}
@@ -148,12 +196,12 @@ function refreshCard(m){
 }
 
 function autoDate(m,type,idx,inputEl){
-  // Se il campo è vuoto, inserisce la data di oggi
   if(!inputEl.value||inputEl.value===''){
     var today=todayStr();
     inputEl.value=today;
     inputEl.classList.add('has-date');
     data[m][type][idx]['data']=today;
+    saveData();
     refreshCard(m);
   }
 }
@@ -189,13 +237,35 @@ function updatePayment(m,type,idx,field,val){
     var inputs=card.querySelectorAll('.list-'+type+' .payment-date');
     if(inputs[idx])inputs[idx].classList.toggle('has-date',val!=='');
   }
+  saveData();
   refreshCard(m);
 }
 
-function addPayment(m,type){data[m][type].push({data:'',importo:''});buildPaymentRows(m,type);refreshCard(m);}
-function delPayment(m,type,idx){data[m][type].splice(idx,1);buildPaymentRows(m,type);refreshCard(m);}
-function updateBase(m,val){data[m].base=parseFloat(val)||0;refreshCard(m);}
-function updateNota(m,val){data[m].nota=val;}
+function addPayment(m,type){
+  data[m][type].push({data:'',importo:''});
+  saveData();
+  buildPaymentRows(m,type);
+  refreshCard(m);
+}
+
+function delPayment(m,type,idx){
+  data[m][type].splice(idx,1);
+  saveData();
+  buildPaymentRows(m,type);
+  refreshCard(m);
+}
+
+function updateBase(m,val){
+  data[m].base=parseFloat(val)||0;
+  saveData();
+  refreshCard(m);
+}
+
+function updateNota(m,val){
+  data[m].nota=val;
+  saveData();
+}
+
 function toggleCard(m){document.getElementById('card_'+m).classList.toggle('open');}
 
 function render(){
@@ -215,11 +285,11 @@ function render(){
         '<div class="base-row"><div class="base-label">Stipendio base</div>'+
         '<input class="base-input" type="number" value="'+(md.base||3000)+'" oninput="updateBase('+m+',this.value)"></div>'+
         '<div class="section-title">Acconti in contanti</div>'+
-        '<div class="date-hint">📅 Tocca la data → si inserisce oggi automaticamente</div>'+
+        '<div class="date-hint">📅 Tocca la data → inserisce oggi</div>'+
         '<div class="payment-list list-acconti"></div>'+
         '<button class="add-btn" onclick="addPayment('+m+',\'acconti\')">+ Aggiungi acconto</button>'+
         '<div class="section-title">Bonifici</div>'+
-        '<div class="date-hint">📅 Tocca la data → si inserisce oggi automaticamente</div>'+
+        '<div class="date-hint">📅 Tocca la data → inserisce oggi</div>'+
         '<div class="payment-list list-bonifici"></div>'+
         '<button class="add-btn" onclick="addPayment('+m+',\'bonifici\')">+ Aggiungi bonifico</button>'+
         '<div class="saldo-box">'+
@@ -232,11 +302,19 @@ function render(){
         '<textarea class="nota-field" placeholder="Note (13ª, 14ª, straordinari...)" oninput="updateNota('+m+',this.value)">'+(md.nota||'')+'</textarea>'+
       '</div>';
     container.appendChild(card);
-    buildPaymentRows(m,'acconti');buildPaymentRows(m,'bonifici');refreshCard(m);
+    buildPaymentRows(m,'acconti');
+    buildPaymentRows(m,'bonifici');
+    refreshCard(m);
   }
   updateGlobals();
 }
-initYear();render();
+
+loadData();
+render();
+
+// Salva anche quando si chiude/cambia pagina
+window.addEventListener('beforeunload',saveData);
+window.addEventListener('pagehide',saveData);
 </script>
 </body>
 </html>
