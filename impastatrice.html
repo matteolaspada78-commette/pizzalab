@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Impastatrice">
+<title>⚙️ Impastatrice — Matteo La Spada</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #222;
+    --border: #2a2a2a;
+    --accent: #c8973a;
+    --accent2: #e8b84b;
+    --text: #f0ede8;
+    --muted: #666;
+    --green: #4caf7d;
+    --red: #e05555;
+    --blue: #5b9bd5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* Macchina selector */
+  .machine-select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    margin-top: 14px;
+    -webkit-appearance: none;
+  }
+
+  .machine-select:focus { border-color: var(--accent); }
+
+  /* Impasto info */
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .info-field {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .info-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .info-input {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    width: 100%;
+    outline: none;
+  }
+
+  .info-input::placeholder { color: var(--muted); }
+
+  /* Fasi */
+  .phase-list {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .phase-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .phase-card.active-phase { border-color: var(--accent); }
+  .phase-card.done-phase { border-color: var(--green); opacity: 0.7; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .phase-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .phase-card.active-phase .phase-num { background: var(--accent); color: #000; }
+  .phase-card.done-phase .phase-num { background: var(--green); color: #fff; }
+
+  .phase-title {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .phase-vel {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .phase-body {
+    border-top: 1px solid var(--border);
+    padding: 14px 16px;
+    background: var(--surface2);
+  }
+
+  /* Minuti input con +/- */
+  .min-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .min-label {
+    font-size: 11px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .min-control {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .min-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 20px;
+    width: 36px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .min-btn:active { background: var(--surface); }
+
+  .min-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--accent2);
+    width: 44px;
+    text-align: center;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  /* Timer display */
+  .timer-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--accent2);
+    text-align: center;
+    letter-spacing: 4px;
+    padding: 10px 0 6px;
+  }
+
+  .timer-display.running { color: var(--green); }
+  .timer-display.done { color: var(--muted); }
+
+  .timer-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .timer-btn.start { background: var(--accent); color: #000; }
+  .timer-btn.stop { background: var(--red); color: #fff; }
+  .timer-btn.done-btn { background: var(--green); color: #fff; }
+
+  .phase-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* Timeline riepilogo */
+  .timeline-section {
+    padding: 16px;
+    margin-top: 4px;
+  }
+
+  .tl-title {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .tl-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .tl-icon { font-size: 16px; width: 24px; text-align: center; flex-shrink: 0; }
+  .tl-name { flex: 1; color: var(--text); }
+  .tl-time { color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; }
+  .tl-tot { color: var(--muted); font-size: 11px; }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .btn-wa {
+    flex: 1;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-reset {
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* Note textarea */
+  .note-area { padding: 12px 16px 0; }
+  .note-field {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    resize: none;
+    height: 60px;
+  }
+  .note-field:focus { border-color: var(--accent); }
+  .note-field::placeholder { color: var(--muted); }
+
+  .section-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 14px 16px 6px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚙️ Impastatrice</div>
+  <div class="logo-sub">Foglio avvio — Matteo La Spada</div>
+  <select class="machine-select" id="macchina" onchange="updateMachine()">
+    <option value="">— Seleziona macchina —</option>
+    <option value="Esmach SPI-AI (Spirale)">🔩 Esmach SPI-AI (Spirale)</option>
+    <option value="Esmach SP (Spirale)">🔩 Esmach SP (Spirale)</option>
+    <option value="Spirale generica">🔩 Spirale generica</option>
+    <option value="Forcella">🌀 Forcella</option>
+    <option value="Planetaria">⭕ Planetaria</option>
+    <option value="Idra">💧 Idra</option>
+  </select>
+</header>
+
+<!-- Info impasto -->
+<div class="info-row">
+  <div class="info-field">
+    <div class="info-label">Stile impasto</div>
+    <input class="info-input" id="stile" type="text" placeholder="Es: Napoletana, Teglia...">
+  </div>
+  <div class="info-field">
+    <div class="info-label">Kg totali impasto</div>
+    <input class="info-input" id="kgImpasto" type="number" placeholder="Es: 20">
+  </div>
+  <div class="info-field">
+    <div class="info-label">Idratazione %</div>
+    <input class="info-input" id="idrImpasto" type="number" placeholder="Es: 65">
+  </div>
+  <div class="info-field">
+    <div class="info-label">T acqua °C</div>
+    <input class="info-input" id="tAcqua" type="number" placeholder="Es: 18">
+  </div>
+</div>
+
+<div class="section-label">⚙️ Fasi di lavorazione</div>
+
+<div class="phase-list" id="phaseList"></div>
+
+<div class="note-area">
+  <div class="section-label" style="padding:0 0 8px">📝 Note</div>
+  <textarea class="note-field" id="noteImpasto" placeholder="Es: biga al 55%, autolisi 20 min, T uscita target 22°C..."></textarea>
+</div>
+
+<!-- Timeline riepilogo -->
+<div class="timeline-section">
+  <div class="tl-title">⏱ Riepilogo tempi</div>
+  <div id="timelineRows"></div>
+  <div id="totaleMinuti" style="padding-top:10px;font-size:13px;color:var(--accent2);font-family:'DM Mono',monospace;font-weight:600"></div>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn-reset" onclick="resetTutto()">↺ Reset</button>
+  <button class="btn-wa" onclick="inviaWhatsApp()">📲 Invia su WhatsApp</button>
+</div>
+
+<script>
+var FASI = [
+  { id:'autolisi',  icon:'💧', nome:'Autolisi', vel:'Solo farina + acqua (no lievito, no sale)', note:'Lasciare riposare 20 min coperto' },
+  { id:'vel1a',     icon:'🔄', nome:'1ª Velocità', vel:'Velocità 1 — inserimento ingredienti base', note:'Aggiungere lievito dopo 1-2 min' },
+  { id:'sale',      icon:'🧂', nome:'Inserimento sale', vel:'Aggiungere sale — continua in 1ª velocità', note:'Il sale va sciolto in poca acqua del bassinage' },
+  { id:'vel1b',     icon:'🔄', nome:'1ª Velocità dopo sale', vel:'Velocità 1 — continua dopo il sale', note:'Incordare bene prima di passare in 2ª' },
+  { id:'vel2',      icon:'⚡', nome:'2ª Velocità', vel:'Velocità 2 — sviluppo maglia glutinica', note:'Non esagerare: T impasto max 24°C' },
+  { id:'bassinage', icon:'💦', nome:'Bassinage / Chiusura', vel:'1ª velocità — aggiunta acqua residua a filo', note:'Aggiungere lentamente finché assorbita' },
+];
+
+var minuti = {};
+var timers = {};
+var elapsed = {};
+var donePhases = {};
+FASI.forEach(function(f){
+  minuti[f.id] = 0;
+  timers[f.id] = null;
+  elapsed[f.id] = 0;
+  donePhases[f.id] = false;
+});
+
+function setMin(id, delta) {
+  minuti[id] = Math.max(0, (minuti[id]||0) + delta);
+  document.getElementById('mv_'+id).value = minuti[id];
+  updateTimeline();
+}
+
+function inputMin(id, val) {
+  minuti[id] = Math.max(0, parseInt(val)||0);
+  updateTimeline();
+}
+
+function formatTime(sec) {
+  var m = Math.floor(sec/60);
+  var s = sec%60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function startTimer(id) {
+  if(timers[id]) return;
+  var targetSec = (minuti[id]||0) * 60;
+  if(targetSec === 0){ alert('Imposta i minuti prima di avviare!'); return; }
+
+  elapsed[id] = 0;
+  var display = document.getElementById('td_'+id);
+  var btn = document.getElementById('tb_'+id);
+  var card = document.getElementById('pc_'+id);
+
+  display.className = 'timer-display running';
+  btn.textContent = '⏹ Ferma';
+  btn.className = 'timer-btn stop';
+  card.className = 'phase-card active-phase';
+  btn.onclick = function(){ stopTimer(id); };
+
+  timers[id] = setInterval(function(){
+    elapsed[id]++;
+    var remaining = targetSec - elapsed[id];
+    if(remaining <= 0){
+      clearInterval(timers[id]);
+      timers[id] = null;
+      display.textContent = '00:00';
+      display.className = 'timer-display done';
+      card.className = 'phase-card done-phase';
+      btn.textContent = '✅ Completata';
+      btn.className = 'timer-btn done-btn';
+      btn.onclick = function(){ resetTimer(id); };
+      donePhases[id] = true;
+      // Vibra se disponibile
+      if(navigator.vibrate) navigator.vibrate([300,100,300]);
+    } else {
+      display.textContent = formatTime(remaining);
+    }
+  }, 1000);
+}
+
+function stopTimer(id) {
+  if(timers[id]){ clearInterval(timers[id]); timers[id] = null; }
+  var display = document.getElementById('td_'+id);
+  var btn = document.getElementById('tb_'+id);
+  var card = document.getElementById('pc_'+id);
+  var targetSec = (minuti[id]||0) * 60;
+  display.textContent = formatTime(targetSec);
+  display.className = 'timer-display';
+  btn.textContent = '▶ Avvia timer';
+  btn.className = 'timer-btn start';
+  card.className = 'phase-card';
+  btn.onclick = function(){ startTimer(id); };
+}
+
+function resetTimer(id) {
+  stopTimer(id);
+  donePhases[id] = false;
+}
+
+function updateTimeline() {
+  var rows = document.getElementById('timelineRows');
+  var tot = 0;
+  rows.innerHTML = FASI.map(function(f){
+    var m = minuti[f.id]||0;
+    tot += m;
+    if(m === 0) return '';
+    return '<div class="tl-row">'+
+      '<span class="tl-icon">'+f.icon+'</span>'+
+      '<span class="tl-name">'+f.nome+'</span>'+
+      '<span class="tl-time">'+m+' min</span>'+
+    '</div>';
+  }).filter(Boolean).join('');
+
+  document.getElementById('totaleMinuti').textContent = tot > 0 ? '⏱ Totale: '+tot+' minuti ('+Math.floor(tot/60)+'h '+(tot%60)+'min)' : '';
+}
+
+function updateMachine() {
+  // niente di speciale per ora, la macchina viene letta al momento dell'invio
+}
+
+function resetTutto() {
+  FASI.forEach(function(f){
+    minuti[f.id] = 0;
+    donePhases[f.id] = false;
+    stopTimer(f.id);
+    var mv = document.getElementById('mv_'+f.id);
+    if(mv) mv.value = 0;
+  });
+  document.getElementById('noteImpasto').value = '';
+  document.getElementById('kgImpasto').value = '';
+  document.getElementById('idrImpasto').value = '';
+  document.getElementById('tAcqua').value = '';
+  document.getElementById('stile').value = '';
+  document.getElementById('macchina').value = '';
+  updateTimeline();
+}
+
+function inviaWhatsApp() {
+  var macchina = document.getElementById('macchina').value || '—';
+  var stile = document.getElementById('stile').value || '—';
+  var kg = document.getElementById('kgImpasto').value || '—';
+  var idr = document.getElementById('idrImpasto').value || '—';
+  var tAcq = document.getElementById('tAcqua').value || '—';
+  var note = document.getElementById('noteImpasto').value.trim();
+  var oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var ora = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+
+  var totMin = FASI.reduce(function(s,f){ return s+(minuti[f.id]||0); }, 0);
+
+  var righe = [];
+  righe.push('⚙️ *SCHEDA IMPASTATRICE — L\'Orso*');
+  righe.push('📅 '+oggi+' ore '+ora);
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('🔩 Macchina: *'+macchina+'*');
+  righe.push('🍕 Stile: *'+stile+'*');
+  if(kg!=='—') righe.push('⚖️ Kg impasto: *'+kg+' kg*');
+  if(idr!=='—') righe.push('💧 Idratazione: *'+idr+'%*');
+  if(tAcq!=='—') righe.push('🌡 T acqua: *'+tAcq+'°C*');
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('⏱ *FASI DI LAVORAZIONE*');
+
+  FASI.forEach(function(f){
+    var m = minuti[f.id]||0;
+    if(m > 0){
+      righe.push('  '+f.icon+' *'+f.nome+'*: '+m+' min — '+f.vel);
+    }
+  });
+
+  if(totMin > 0){
+    righe.push('\n⏱ Totale: *'+totMin+' min* ('+Math.floor(totMin/60)+'h '+(totMin%60)+'min)');
+  }
+
+  if(note){
+    righe.push('\n📝 Note: '+note);
+  }
+
+  righe.push('\n_Matteo La Spada · L\'Orso Messina · #SEGUILORSO 🐻_');
+
+  var testo = righe.join('\n');
+  window.open('https://wa.me/?text='+encodeURIComponent(testo), '_blank');
+}
+
+// ══ RENDER FASI ══
+function renderFasi() {
+  var list = document.getElementById('phaseList');
+  list.innerHTML = FASI.map(function(f, i){
+    var targetSec = (minuti[f.id]||0)*60;
+    return '<div class="phase-card" id="pc_'+f.id+'">'+
+      '<div class="phase-header">'+
+        '<div class="phase-num">'+(i+1)+'</div>'+
+        '<div style="flex:1">'+
+          '<div class="phase-title">'+f.icon+' '+f.nome+'</div>'+
+          '<div class="phase-vel">'+f.vel+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="phase-body">'+
+        '<div class="min-row">'+
+          '<span class="min-label">Minuti</span>'+
+          '<div class="min-control">'+
+            '<button class="min-btn" onclick="setMin(\''+f.id+'\',-1)">−</button>'+
+            '<input class="min-val" id="mv_'+f.id+'" type="number" value="0" min="0" '+
+              'oninput="inputMin(\''+f.id+'\',this.value)">'+
+            '<button class="min-btn" onclick="setMin(\''+f.id+'\',1)">+</button>'+
+          '</div>'+
+        '</div>'+
+        '<div class="timer-display" id="td_'+f.id+'">'+formatTime(0)+'</div>'+
+        '<button class="timer-btn start" id="tb_'+f.id+'" onclick="startTimer(\''+f.id+'\')">▶ Avvia timer</button>'+
+        (f.note ? '<div class="phase-note">💡 '+f.note+'</div>' : '')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+renderFasi();
+updateTimeline();
+</script>
+</body>
+</html>
