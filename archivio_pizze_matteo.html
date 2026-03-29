@@ -500,6 +500,7 @@
   <button class="active" onclick="showTab('archivio', this)">📚 Archivio</button>
   <button onclick="showTab('dashboard', this)">📊 Stats</button>
   <button onclick="showTab('prezzi', this)">📦 Prezzi</button>
+  <button onclick="showTab('menu', this)">🍽️ Menù</button>
 </nav>
 
 <!-- SEARCH ALWAYS VISIBLE -->
@@ -598,6 +599,46 @@
     </div>
   </div>
 
+  <!-- MENU PERSONALIZZATO -->
+  <div class="tab-content" id="tab-menu">
+    <div style="padding:12px 16px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--red-deep);margin-bottom:4px">🍽️ Menù Personalizzato</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Cerca e seleziona le pizze per costruire il tuo menù</div>
+      <div style="position:relative;margin-bottom:12px">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px">🔍</span>
+        <input type="search" id="menuSearch" placeholder="Cerca pizza per nome o numero…"
+          oninput="menuFilter(this.value)"
+          style="width:100%;padding:10px 14px 10px 36px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:#fff;outline:none;font-family:'Inter',sans-serif">
+      </div>
+      <div id="menuSearchResults" style="display:none;background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:12px;max-height:220px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.1)"></div>
+
+      <!-- Selezione attiva -->
+      <div id="menuSelected" style="display:none;margin-bottom:12px">
+        <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+          Pizze selezionate <span id="menuSelCount" style="color:var(--red-deep)"></span>
+        </div>
+        <div id="menuChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button onclick="buildMenu()" style="flex:1;padding:11px;background:var(--red-deep);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
+          📋 Genera Menù
+        </button>
+        <button onclick="clearMenu()" style="padding:11px 14px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer">
+          ✕ Svuota
+        </button>
+        <button onclick="shareMenu()" id="btnShareMenu" style="display:none;padding:11px 14px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer">
+          📲
+        </button>
+      </div>
+    </div>
+
+    <!-- OUTPUT MENU -->
+    <div id="menuOutput" style="display:none;padding:0 12px 20px">
+      <div id="menuCards" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+  </div>
+
 </main>
 
 <!-- DELETE MODAL -->
@@ -647,7 +688,7 @@ function showTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   // show/hide search hero only on archivio
-  document.getElementById('searchHero').style.display = id === 'prezzi' ? 'none' : 'block';
+  document.getElementById('searchHero').style.display = (id === 'prezzi' || id === 'menu') ? 'none' : 'block';
   if (id !== 'archivio') {
     document.getElementById('searchResults').classList.remove('open');
   }
@@ -990,6 +1031,178 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// ══════════════════════════════════════════════
+// MENÙ PERSONALIZZATO
+// ══════════════════════════════════════════════
+let menuSelezionate = []; // array di numeri pizza selezionate
+
+function menuFilter(val) {
+  const box = document.getElementById('menuSearchResults');
+  if (!val.trim()) { box.style.display = 'none'; return; }
+  const q = val.toLowerCase();
+  const results = PIZZAS.filter(p =>
+    p.nome.toLowerCase().includes(q) ||
+    String(p.n).includes(q)
+  ).slice(0, 15);
+
+  if (results.length === 0) { box.style.display = 'none'; return; }
+
+  box.style.display = 'block';
+  box.innerHTML = results.map(p => {
+    const already = menuSelezionate.includes(p.n);
+    return `<div onclick="menuTogglePizza(${p.n})" style="
+      padding:10px 14px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:10px;cursor:pointer;
+      background:${already ? '#fdf0f0' : '#fff'};
+      font-family:'Inter',sans-serif;
+    ">
+      <span style="font-size:12px;color:var(--muted);min-width:32px">N°${p.n}</span>
+      <span style="flex:1;font-size:14px;color:var(--text)">${p.nome}</span>
+      <span style="font-size:18px">${already ? '✅' : '＋'}</span>
+    </div>`;
+  }).join('');
+}
+
+function menuTogglePizza(n) {
+  if (menuSelezionate.includes(n)) {
+    menuSelezionate = menuSelezionate.filter(x => x !== n);
+  } else {
+    menuSelezionate.push(n);
+    menuSelezionate.sort((a, b) => a - b);
+  }
+  renderMenuChips();
+  // aggiorna la ricerca
+  const q = document.getElementById('menuSearch').value;
+  if (q) menuFilter(q);
+}
+
+function renderMenuChips() {
+  const chipsEl = document.getElementById('menuChips');
+  const selEl = document.getElementById('menuSelected');
+  const countEl = document.getElementById('menuSelCount');
+
+  if (menuSelezionate.length === 0) {
+    selEl.style.display = 'none';
+    return;
+  }
+  selEl.style.display = 'block';
+  countEl.textContent = '(' + menuSelezionate.length + ')';
+
+  chipsEl.innerHTML = menuSelezionate.map(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return '';
+    return `<div style="
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--red-light);border:1px solid var(--red-border);
+      border-radius:20px;padding:4px 10px;font-size:12px;
+      color:var(--red-deep);font-family:'Inter',sans-serif;
+    ">
+      <span>N°${p.n} ${p.nome}</span>
+      <span onclick="menuTogglePizza(${p.n})" style="cursor:pointer;font-size:14px;color:var(--red)">×</span>
+    </div>`;
+  }).join('');
+}
+
+function buildMenu() {
+  if (menuSelezionate.length === 0) {
+    alert('Seleziona almeno una pizza!');
+    return;
+  }
+
+  const output = document.getElementById('menuOutput');
+  const cards = document.getElementById('menuCards');
+  const shareBtn = document.getElementById('btnShareMenu');
+
+  // Ordina alfabeticamente per nome
+  const sorted = [...menuSelezionate].sort((a, b) => {
+    const pa = PIZZAS.find(x => x.n === a);
+    const pb = PIZZAS.find(x => x.n === b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+
+  cards.innerHTML = sorted.map(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return '';
+    const grammi = GRAMMI[String(n)] || [];
+    const ingList = p.cond.map((c, i) => {
+      const g = grammi[i];
+      const grStr = g && g.gr ? ` <span style="color:var(--red-deep);font-weight:600">${g.gr}g</span>` : '';
+      return `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="color:var(--text)">${c}</span>${grStr}
+      </div>`;
+    }).join('');
+
+    return `<div style="
+      background:#fff;border:1px solid var(--border);
+      border-radius:14px;overflow:hidden;
+      box-shadow:0 1px 4px rgba(0,0,0,.06);
+    ">
+      <div style="background:var(--red-light);padding:12px 16px;border-bottom:1px solid var(--red-border);display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:var(--red);font-weight:700;min-width:40px">N°${p.n}</span>
+        <span style="font-family:'Playfair Display',serif;font-size:17px;color:var(--red-deep);flex:1">${p.nome}</span>
+      </div>
+      <div style="padding:4px 16px 10px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:10px 0 4px;font-weight:600">🧾 Ingredienti</div>
+        ${ingList}
+        ${p.note ? `<div style="margin-top:8px;font-size:12px;color:var(--muted);font-style:italic">📝 ${p.note}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  output.style.display = 'block';
+  shareBtn.style.display = 'block';
+  document.getElementById('menuSearch').value = '';
+  document.getElementById('menuSearchResults').style.display = 'none';
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearMenu() {
+  menuSelezionate = [];
+  renderMenuChips();
+  document.getElementById('menuOutput').style.display = 'none';
+  document.getElementById('btnShareMenu').style.display = 'none';
+  document.getElementById('menuSearch').value = '';
+  document.getElementById('menuSearchResults').style.display = 'none';
+}
+
+function shareMenu() {
+  if (menuSelezionate.length === 0) return;
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  const sorted = [...menuSelezionate].sort((a, b) => {
+    const pa = PIZZAS.find(x => x.n === a);
+    const pb = PIZZAS.find(x => x.n === b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+
+  let righe = [];
+  righe.push('🍕 *MENÙ L\'ORSO — Matteo La Spada*');
+  righe.push('📅 ' + oggi);
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  sorted.forEach(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return;
+    const grammi = GRAMMI[String(n)] || [];
+    righe.push('\n*' + p.nome + '* (N°' + p.n + ')');
+    p.cond.forEach((c, i) => {
+      const g = grammi[i];
+      const grStr = g && g.gr ? ' — ' + g.gr + 'g' : '';
+      righe.push('  • ' + c + grStr);
+    });
+    if (p.note) righe.push('  📝 ' + p.note);
+  });
+
+  righe.push('\n━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('_Pizza Lab · Matteo La Spada · #SEGUILORSO 🐻_');
+
+  const testo = righe.join('\n');
+  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+}
+
+// Anche quando si aggiunge una nuova pizza, ordina alfabeticamente
+const _origSavePizza = window.savePizza;
 </script>
 </body>
 </html>
