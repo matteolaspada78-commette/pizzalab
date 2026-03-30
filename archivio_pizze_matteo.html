@@ -944,6 +944,8 @@ function savePizza() {
   });
   const newN = Math.max(...PIZZAS.map(p => p.n), 135) + 1;
   PIZZAS.push({ n: newN, nome, cond, note: document.getElementById('newNote').value.trim() });
+  // Ordine alfabetico automatico
+  PIZZAS.sort((a, b) => a.nome.localeCompare(b.nome, 'it', {sensitivity: 'base'}));
   document.getElementById('newNome').value = '';
   document.getElementById('newNote').value = '';
   document.getElementById('newIngrRows').innerHTML = '';
@@ -952,7 +954,7 @@ function savePizza() {
   filterPizzas();
   renderDashboard();
   document.getElementById('totalBadge').textContent = PIZZAS.length;
-  showToast('✅ N°' + newN + ' aggiunta!');
+  showToast('✅ ' + nome + ' aggiunta in ordine alfabetico!');
 }
 
 // ===== DASHBOARD =====
@@ -1141,9 +1143,10 @@ function buildMenu() {
       <div style="background:var(--red-light);padding:12px 16px;border-bottom:1px solid var(--red-border);display:flex;align-items:center;gap:10px">
         <span style="font-size:11px;color:var(--red);font-weight:700;min-width:40px">N°${p.n}</span>
         <span style="font-family:'Playfair Display',serif;font-size:17px;color:var(--red-deep);flex:1">${p.nome}</span>
+        <span style="font-size:11px;background:var(--red-border);color:var(--red-deep);border-radius:20px;padding:3px 10px;font-weight:700;white-space:nowrap">${p.cond.length} ingr.</span>
       </div>
       <div style="padding:4px 16px 10px">
-        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:10px 0 4px;font-weight:600">🧾 Ingredienti</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:10px 0 4px;font-weight:600">🧾 Ingredienti (${p.cond.length})</div>
         ${ingList}
         ${p.note ? `<div style="margin-top:8px;font-size:12px;color:var(--muted);font-style:italic">📝 ${p.note}</div>` : ''}
       </div>
@@ -1202,7 +1205,7 @@ function shareMenu() {
 }
 
 // Anche quando si aggiunge una nuova pizza, ordina alfabeticamente
-const _origSavePizza = window.savePizza;
+
 </script>
 </body>
 </html>
