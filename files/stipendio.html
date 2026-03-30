@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stipendio">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27115%27%20fill%3D%27%230f0f0f%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27330%27%20font-size%3D%27300%27%20text-anchor%3D%27middle%27%3E%F0%9F%92%B6%3C/text%3E%3C/svg%3E">
+<title>💶 Stipendio — Matteo La Spada</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+  :root {
+    --bg:#0f0f0f; --surface:#1a1a1a; --border:#2a2a2a;
+    --accent:#c8973a; --accent2:#e8b84b; --text:#f0ede8;
+    --muted:#666; --green:#4caf7d; --red:#e05555; --blue:#5b9bd5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Mono',monospace;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 16px 14px;position:sticky;top:0;z-index:100;}
+  .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .logo{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--accent);}
+  .year-control{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 14px;}
+  .year-btn{background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;padding:0 4px;}
+  .year-display{font-size:16px;font-weight:500;min-width:44px;text-align:center;}
+  .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .stat-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center;}
+  .stat-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+  .stat-value{font-size:14px;font-weight:500;color:var(--accent2);}
+  .months-container{padding:12px;display:flex;flex-direction:column;gap:10px;}
+  .month-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .month-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;}
+  .month-left{flex:1;}
+  .month-name{font-family:'Playfair Display',serif;font-size:17px;}
+  .month-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+  .month-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;margin-right:10px;}
+  .month-saldo{font-size:15px;font-weight:500;}
+  .saldo-pos{color:var(--green);} .saldo-neg{color:var(--red);} .saldo-zero{color:var(--muted);}
+  .saldo-label{font-size:9px;color:var(--muted);}
+  .arrow{color:var(--muted);font-size:11px;transition:transform 0.2s;}
+  .month-card.open .arrow{transform:rotate(180deg);}
+  .month-body{display:none;border-top:1px solid var(--border);padding:16px;}
+  .month-card.open .month-body{display:block;}
+  .base-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px;}
+  .base-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .base-input{background:none;border:none;color:var(--accent2);font-family:'DM Mono',monospace;font-size:16px;font-weight:500;width:110px;text-align:right;outline:none;}
+  .section-title{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:14px;}
+  .payment-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px;}
+  .payment-row{display:flex;align-items:center;gap:6px;}
+  .payment-date{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;width:80px;outline:none;}
+  .payment-date:focus{border-color:var(--accent);}
+  .payment-date.has-date{color:var(--accent2);}
+  .payment-amount{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;flex:1;outline:none;}
+  .payment-amount:focus{border-color:var(--accent);}
+  .payment-type{font-size:9px;padding:3px 7px;border-radius:4px;font-weight:500;white-space:nowrap;}
+  .type-acconto{background:#2a1f0a;color:var(--accent);}
+  .type-bonifico{background:#0a1a2a;color:var(--blue);}
+  .del-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
+  .add-btn{background:none;border:1px dashed var(--border);border-radius:6px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;padding:7px 12px;cursor:pointer;width:100%;margin-top:4px;}
+  .saldo-box{margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .saldo-row{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;font-size:12px;border-bottom:1px solid var(--border);}
+  .saldo-row .lbl{color:var(--muted);} .saldo-row .val{font-weight:500;}
+  .saldo-finale{padding:13px 14px;display:flex;justify-content:space-between;align-items:center;}
+  .saldo-finale .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .saldo-finale .val{font-size:20px;font-weight:500;}
+  .nota-field{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;width:100%;outline:none;resize:none;height:56px;margin-top:14px;}
+  .nota-field:focus{border-color:var(--accent);}
+  .badge-extra{display:inline-block;font-size:9px;background:#1a2a1a;color:var(--green);border-radius:4px;padding:2px 6px;margin-left:6px;font-family:'DM Mono',monospace;}
+  .date-hint{font-size:9px;color:var(--muted);margin-top:6px;margin-bottom:2px;}
+  /* save indicator */
+  .save-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-left:8px;opacity:0;transition:opacity 0.3s;}
+  .save-dot.show{opacity:1;}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div class="logo">💶 Stipendio <span class="save-dot" id="saveDot"></span></div>
+    <div class="year-control">
+      <button class="year-btn" onclick="changeYear(-1)">‹</button>
+      <div class="year-display" id="yearDisplay">2026</div>
+      <button class="year-btn" onclick="changeYear(1)">›</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-label">Ricevuto anno</div><div class="stat-value" id="totRicevuto">€0</div></div>
+    <div class="stat-box"><div class="stat-label">Spettante anno</div><div class="stat-value" id="totSpettante">€0</div></div>
+    <div class="stat-box"><div class="stat-label">Saldo anno</div><div class="stat-value" id="totSaldo">€0</div></div>
+  </div>
+</header>
+<div class="months-container" id="monthsContainer"></div>
+
+<script>
+var MONTHS_IT=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+var year=new Date().getFullYear();
+var data={};
+var saveTimer=null;
+
+// ══ STORAGE ROBUSTO ══
+// Usa localStorage ma con fallback in memoria se non disponibile
+var storageOk=(function(){
+  try{localStorage.setItem('_test','1');localStorage.removeItem('_test');return true;}
+  catch(e){return false;}
+})();
+
+function storageKey(){return 'stipendio_'+year;}
+
+function saveData(){
+  if(!storageOk) return;
+  try{
+    localStorage.setItem(storageKey(), JSON.stringify(data));
+    // mostra pallino verde
+    var dot=document.getElementById('saveDot');
+    dot.classList.add('show');
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(function(){dot.classList.remove('show');},1500);
+  }catch(e){}
+}
+
+function loadData(){
+  data={};
+  // init tutti i mesi con default
+  for(var m=0;m<12;m++){
+    data[m]={base:3000,acconti:[{data:'',importo:''},{data:'',importo:''},{data:'',importo:''}],bonifici:[{data:'',importo:''},{data:'',importo:''}],nota:''};
+  }
+  if(!storageOk) return;
+  try{
+    var saved=localStorage.getItem(storageKey());
+    if(saved){
+      var parsed=JSON.parse(saved);
+      // merge: mantieni i default per i mesi mancanti
+      for(var m=0;m<12;m++){
+        if(parsed[m]){
+          data[m]=parsed[m];
+          // assicura che acconti e bonifici esistano
+          if(!data[m].acconti) data[m].acconti=[{data:'',importo:''},{data:'',importo:''},{data:'',importo:''}];
+          if(!data[m].bonifici) data[m].bonifici=[{data:'',importo:''},{data:'',importo:''}];
+          if(data[m].nota===undefined) data[m].nota='';
+        }
+      }
+    }
+  }catch(e){} // se JSON corrotto riparte da default
+}
+
+function todayStr(){
+  var d=new Date();
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
+}
+
+function changeYear(d){
+  year+=d;
+  document.getElementById('yearDisplay').textContent=year;
+  loadData();
+  render();
+}
+
+function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+function firstDayName(y,m){return['Do','Lu','Ma','Me','Gi','Ve','Sa'][new Date(y,m,1).getDay()];}
+function sumList(list){return list.reduce(function(s,x){return s+(parseFloat(x.importo)||0);},0);}
+
+function calcSaldo(m){
+  var md=data[m];
+  var base=parseFloat(md.base)||0;
+  var ricevuto=sumList(md.acconti)+sumList(md.bonifici);
+  return{base:base,ricevuto:ricevuto,saldo:base-ricevuto};
+}
+
+function updateGlobals(){
+  var totRic=0,totBase=0;
+  for(var m=0;m<12;m++){var c=calcSaldo(m);totBase+=c.base;totRic+=c.ricevuto;}
+  var saldo=totBase-totRic;
+  document.getElementById('totRicevuto').textContent='€'+totRic.toFixed(0);
+  document.getElementById('totSpettante').textContent='€'+totBase.toFixed(0);
+  var sEl=document.getElementById('totSaldo');
+  sEl.textContent=(saldo>=0?'+':'')+'€'+saldo.toFixed(0);
+  sEl.style.color=saldo>0?'var(--green)':saldo<0?'var(--red)':'var(--muted)';
+}
+
+function refreshCard(m){
+  var c=calcSaldo(m);var md=data[m];
+  var card=document.getElementById('card_'+m);if(!card)return;
+  var sEl=card.querySelector('.month-saldo');var lEl=card.querySelector('.saldo-label');
+  if(c.ricevuto===0){sEl.textContent='—';sEl.className='month-saldo saldo-zero';lEl.textContent='';}
+  else{
+    sEl.textContent=(c.saldo>=0?'+':'')+'€'+c.saldo.toFixed(0);
+    sEl.className='month-saldo '+(c.saldo>0?'saldo-pos':c.saldo<0?'saldo-neg':'saldo-zero');
+    lEl.textContent=c.saldo>0?'da ricevere':c.saldo<0?'in anticipo':'pari';
+  }
+  card.querySelector('.sb-base').textContent='€'+c.base.toFixed(2);
+  card.querySelector('.sb-acconti').textContent='€'+sumList(md.acconti).toFixed(2);
+  card.querySelector('.sb-bonifici').textContent='€'+sumList(md.bonifici).toFixed(2);
+  card.querySelector('.sb-ricevuto').textContent='€'+c.ricevuto.toFixed(2);
+  var sfEl=card.querySelector('.sb-saldo');
+  sfEl.textContent=(c.saldo>=0?'+':'')+'€'+c.saldo.toFixed(2);
+  sfEl.className='val '+(c.saldo>0?'saldo-pos':c.saldo<0?'saldo-neg':'saldo-zero');
+  updateGlobals();
+}
+
+function autoDate(m,type,idx,inputEl){
+  if(!inputEl.value||inputEl.value===''){
+    var today=todayStr();
+    inputEl.value=today;
+    inputEl.classList.add('has-date');
+    data[m][type][idx]['data']=today;
+    saveData();
+    refreshCard(m);
+  }
+}
+
+function buildPaymentRows(m,type){
+  var md=data[m];
+  var card=document.getElementById('card_'+m);
+  var container=card.querySelector('.list-'+type);
+  var isAcc=type==='acconti';
+  var label=isAcc?'Acconto':'Bonifico';
+  var cls=isAcc?'type-acconto':'type-bonifico';
+  var html='';
+  for(var i=0;i<md[type].length;i++){
+    var p=md[type][i];
+    var hasDate=p.data&&p.data!=='';
+    html+='<div class="payment-row">'+
+      '<span class="payment-type '+cls+'">'+label+'</span>'+
+      '<input class="payment-date'+(hasDate?' has-date':'')+'" type="text" placeholder="gg/mm" value="'+p.data+'" '+
+        'onfocus="autoDate('+m+',\''+type+'\','+i+',this)" '+
+        'oninput="updatePayment('+m+',\''+type+'\','+i+',\'data\',this.value)">'+
+      '<input class="payment-amount" type="number" placeholder="importo €" value="'+p.importo+'" '+
+        'oninput="updatePayment('+m+',\''+type+'\','+i+',\'importo\',this.value)">'+
+      '<button class="del-btn" onclick="delPayment('+m+',\''+type+'\','+i+')">×</button>'+
+      '</div>';
+  }
+  container.innerHTML=html;
+}
+
+function updatePayment(m,type,idx,field,val){
+  data[m][type][idx][field]=val;
+  if(field==='data'){
+    var card=document.getElementById('card_'+m);
+    var inputs=card.querySelectorAll('.list-'+type+' .payment-date');
+    if(inputs[idx])inputs[idx].classList.toggle('has-date',val!=='');
+  }
+  saveData();
+  refreshCard(m);
+}
+
+function addPayment(m,type){
+  data[m][type].push({data:'',importo:''});
+  saveData();
+  buildPaymentRows(m,type);
+  refreshCard(m);
+}
+
+function delPayment(m,type,idx){
+  data[m][type].splice(idx,1);
+  saveData();
+  buildPaymentRows(m,type);
+  refreshCard(m);
+}
+
+function updateBase(m,val){
+  data[m].base=parseFloat(val)||0;
+  saveData();
+  refreshCard(m);
+}
+
+function updateNota(m,val){
+  data[m].nota=val;
+  saveData();
+}
+
+function toggleCard(m){document.getElementById('card_'+m).classList.toggle('open');}
+
+function render(){
+  var container=document.getElementById('monthsContainer');container.innerHTML='';
+  for(var m=0;m<12;m++){
+    var md=data[m];
+    var nDays=daysInMonth(year,m);var fd=firstDayName(year,m);
+    var badge=m===5?'<span class="badge-extra">14ª</span>':m===11?'<span class="badge-extra">13ª</span>':'';
+    var card=document.createElement('div');card.className='month-card';card.id='card_'+m;
+    card.innerHTML=
+      '<div class="month-header" onclick="toggleCard('+m+')">'+
+        '<div class="month-left"><div class="month-name">'+MONTHS_IT[m]+badge+'</div>'+
+        '<div class="month-sub">1° '+fd+' · '+nDays+' giorni · '+year+'</div></div>'+
+        '<div class="month-right"><div class="month-saldo saldo-zero">—</div><div class="saldo-label"></div></div>'+
+        '<div class="arrow">▼</div></div>'+
+      '<div class="month-body">'+
+        '<div class="base-row"><div class="base-label">Stipendio base</div>'+
+        '<input class="base-input" type="number" value="'+(md.base||3000)+'" oninput="updateBase('+m+',this.value)"></div>'+
+        '<div class="section-title">Acconti in contanti</div>'+
+        '<div class="date-hint">📅 Tocca la data → inserisce oggi</div>'+
+        '<div class="payment-list list-acconti"></div>'+
+        '<button class="add-btn" onclick="addPayment('+m+',\'acconti\')">+ Aggiungi acconto</button>'+
+        '<div class="section-title">Bonifici</div>'+
+        '<div class="date-hint">📅 Tocca la data → inserisce oggi</div>'+
+        '<div class="payment-list list-bonifici"></div>'+
+        '<button class="add-btn" onclick="addPayment('+m+',\'bonifici\')">+ Aggiungi bonifico</button>'+
+        '<div class="saldo-box">'+
+          '<div class="saldo-row"><span class="lbl">Stipendio spettante</span><span class="val sb-base">—</span></div>'+
+          '<div class="saldo-row"><span class="lbl">Acconti cash</span><span class="val sb-acconti">€0</span></div>'+
+          '<div class="saldo-row"><span class="lbl">Bonifici</span><span class="val sb-bonifici">€0</span></div>'+
+          '<div class="saldo-row"><span class="lbl">Totale ricevuto</span><span class="val sb-ricevuto">€0</span></div>'+
+          '<div class="saldo-finale"><span class="lbl">Saldo mese</span><span class="val sb-saldo saldo-zero">—</span></div>'+
+        '</div>'+
+        '<textarea class="nota-field" placeholder="Note (13ª, 14ª, straordinari...)" oninput="updateNota('+m+',this.value)">'+(md.nota||'')+'</textarea>'+
+      '</div>';
+    container.appendChild(card);
+    buildPaymentRows(m,'acconti');
+    buildPaymentRows(m,'bonifici');
+    refreshCard(m);
+  }
+  updateGlobals();
+}
+
+loadData();
+render();
+
+// Salva anche quando si chiude/cambia pagina
+window.addEventListener('beforeunload',saveData);
+window.addEventListener('pagehide',saveData);
+</script>
+</body>
+</html>

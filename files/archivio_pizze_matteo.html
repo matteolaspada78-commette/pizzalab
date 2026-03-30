@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27115%27%20fill%3D%27%23b33a3a%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27330%27%20font-size%3D%27300%27%20text-anchor%3D%27middle%27%3E%F0%9F%90%BB%3C/text%3E%3C/svg%3E">
+<title>🍕 Archivio — Matteo La Spada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --surface2: #f0ede8;
+    --border: #e4e0d8;
+    --border2: #d0ccc3;
+    --red-deep: #b33a3a;
+    --red: #c94444;
+    --red-light: #fdf0f0;
+    --red-border: #f0c8c8;
+    --gold: #8a6a2e;
+    --gold-bg: #fdf8ef;
+    --gold-border: #e8d8b0;
+    --green: #2e7a4f;
+    --green-bg: #eef8f2;
+    --text: #1a1714;
+    --text2: #3d3830;
+    --muted: #7a7268;
+    --muted2: #a09890;
+    --shadow: 0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', -apple-system, sans-serif;
+    min-height:100vh;
+    min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:0 16px;
+    padding-top:env(safe-area-inset-top);
+    display:flex; align-items:center; gap:12px;
+    height:56px;
+    position:sticky; top:0; z-index:100;
+    box-shadow:var(--shadow-sm);
+  }
+  .header-logo {
+    width:34px; height:34px; border-radius:10px;
+    background:var(--red); display:flex;
+    align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
+  header h1 {
+    font-family:'Playfair Display', serif;
+    font-size:17px; font-weight:700;
+    color:var(--text); flex:1;
+  }
+  header h1 span { color:var(--red); }
+  .header-count {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:3px 10px; border-radius:20px;
+    font-size:11px; font-weight:600;
+    color:var(--muted); letter-spacing:.3px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    display:flex; gap:0;
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar { display:none; }
+  nav button {
+    background:none; border:none; cursor:pointer;
+    color:var(--muted); padding:11px 16px;
+    font-family:'Inter', sans-serif;
+    font-size:13px; font-weight:500;
+    border-bottom:2px solid transparent;
+    transition:all .2s; white-space:nowrap;
+    flex-shrink:0;
+  }
+  nav button.active { color:var(--red); border-bottom-color:var(--red); font-weight:600; }
+
+  /* ===== SEARCH HERO ===== */
+  .search-hero {
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:14px 16px;
+  }
+  .search-wrap {
+    position:relative; display:flex; align-items:center;
+  }
+  .search-icon {
+    position:absolute; left:13px;
+    color:var(--muted2); font-size:16px; pointer-events:none;
+    line-height:1;
+  }
+  #searchInput {
+    width:100%; background:var(--surface2);
+    border:1.5px solid var(--border);
+    color:var(--text); padding:11px 40px 11px 38px;
+    border-radius:12px; font-size:16px;
+    font-family:'Inter', sans-serif;
+    outline:none; transition:all .2s;
+    -webkit-appearance:none;
+  }
+  #searchInput:focus {
+    border-color:var(--red); background:#fff;
+    box-shadow:0 0 0 3px rgba(201,68,68,.1);
+  }
+  #searchInput::placeholder { color:var(--muted2); }
+  .search-clear {
+    position:absolute; right:12px;
+    background:var(--muted2); border:none; cursor:pointer;
+    width:20px; height:20px; border-radius:50%;
+    color:#fff; font-size:12px; line-height:20px; text-align:center;
+    display:none; padding:0;
+  }
+  #searchInput:not(:placeholder-shown) ~ .search-clear { display:block; }
+
+  /* live results dropdown */
+  .search-results {
+    position:absolute; top:calc(100% + 6px); left:0; right:0;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; box-shadow:var(--shadow);
+    z-index:50; max-height:320px; overflow-y:auto;
+    display:none;
+  }
+  .search-results.open { display:block; }
+  .sr-item {
+    padding:11px 14px; border-bottom:1px solid var(--border);
+    cursor:pointer; transition:background .15s;
+  }
+  .sr-item:last-child { border-bottom:none; }
+  .sr-item:hover, .sr-item:active { background:var(--surface2); }
+  .sr-item-name {
+    font-size:14px; font-weight:600; color:var(--text);
+    margin-bottom:3px;
+  }
+  .sr-item-name mark {
+    background:rgba(201,68,68,.15); color:var(--red);
+    border-radius:3px; padding:0 2px;
+  }
+  .sr-item-sub { font-size:12px; color:var(--muted); line-height:1.4; }
+  .sr-num {
+    display:inline-block; font-size:10px; font-weight:700;
+    color:var(--red); background:var(--red-light);
+    border:1px solid var(--red-border);
+    padding:1px 5px; border-radius:5px; margin-right:6px;
+    font-variant-numeric:tabular-nums;
+  }
+  .sr-empty {
+    padding:24px; text-align:center;
+    color:var(--muted); font-size:14px;
+  }
+
+  /* ===== MAIN ===== */
+  main { padding:16px; max-width:900px; margin:0 auto; }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+
+  /* ===== FILTER ROW ===== */
+  .filter-row {
+    display:flex; gap:8px; align-items:center;
+    margin-bottom:14px; flex-wrap:wrap;
+  }
+  .filter-row select {
+    background:var(--surface); border:1px solid var(--border);
+    color:var(--text); padding:7px 10px; border-radius:10px;
+    font-family:'Inter', sans-serif; font-size:13px;
+    outline:none; -webkit-appearance:none;
+    flex:1; min-width:160px;
+  }
+  .result-count {
+    font-size:12px; color:var(--muted); font-weight:500;
+    margin-left:auto; white-space:nowrap;
+  }
+  .btn-add-pizza {
+    background:var(--red); color:#fff;
+    border:none; padding:8px 14px; border-radius:10px;
+    font-size:13px; font-weight:600; cursor:pointer;
+    font-family:'Inter', sans-serif;
+    white-space:nowrap; flex-shrink:0;
+    transition:opacity .2s;
+  }
+  .btn-add-pizza:active { opacity:.85; }
+
+  /* ===== PIZZA LIST (single column on mobile) ===== */
+  .pizza-list {
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .pizza-card {
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+    transition:box-shadow .2s;
+  }
+  .pizza-card.expanded {
+    border-color:var(--red-border);
+    box-shadow:0 2px 12px rgba(201,68,68,.1);
+  }
+  .pizza-card-header {
+    padding:13px 14px;
+    display:flex; align-items:center; gap:11px;
+    cursor:pointer; user-select:none;
+    -webkit-user-select:none;
+  }
+  .pizza-num {
+    background:var(--red-light); border:1px solid var(--red-border);
+    color:var(--red); font-size:10px; font-weight:700;
+    padding:3px 7px; border-radius:6px;
+    white-space:nowrap; flex-shrink:0;
+    font-variant-numeric:tabular-nums; letter-spacing:.3px;
+  }
+  .pizza-info { flex:1; min-width:0; }
+  .pizza-name {
+    font-family:'Playfair Display', serif;
+    font-size:15px; line-height:1.25;
+    color:var(--text); font-weight:700;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .pizza-sub {
+    font-size:11px; color:var(--muted);
+    margin-top:2px; overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap;
+  }
+  .pizza-chevron {
+    color:var(--muted2); font-size:14px; flex-shrink:0;
+    transition:transform .25s; line-height:1;
+  }
+  .pizza-card.expanded .pizza-chevron { transform:rotate(180deg); }
+
+  /* detail panel */
+  .pizza-detail {
+    display:none;
+    border-top:1px solid var(--border);
+    padding:14px;
+    background:var(--surface);
+  }
+  .pizza-card.expanded .pizza-detail { display:block; }
+
+  .ingr-list { list-style:none; }
+  .ingr-list li {
+    display:flex; align-items:center; gap:8px;
+    padding:8px 0; border-bottom:1px solid var(--border);
+  }
+  .ingr-list li:last-child { border-bottom:none; }
+  .ingr-idx {
+    width:18px; text-align:right; flex-shrink:0;
+    font-size:10px; color:var(--muted2); font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+  .ingr-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--red); flex-shrink:0; opacity:.6;
+  }
+  .ingr-name {
+    flex:1; font-size:14px; color:var(--text2); min-width:0;
+  }
+  .ingr-name[contenteditable=true]:focus {
+    outline:1px solid var(--red); border-radius:4px;
+    padding:1px 4px; background:var(--red-light);
+  }
+  .ingr-gr {
+    background:var(--gold-bg); border:1px solid var(--gold-border);
+    color:var(--gold); font-size:12px; font-weight:600;
+    padding:3px 8px; border-radius:6px;
+    width:58px; text-align:center; border-width:1px;
+    font-variant-numeric:tabular-nums;
+    font-family:'Inter', sans-serif;
+    -webkit-appearance:none; outline:none;
+  }
+  .ingr-gr:focus { border-color:var(--gold); background:#fff; }
+  .ingr-gr::placeholder { color:var(--muted2); font-weight:400; }
+
+  .pizza-note {
+    margin-top:10px; padding:9px 11px; border-radius:8px;
+    background:var(--gold-bg); border:1px solid var(--gold-border);
+    font-size:12px; color:var(--gold); font-style:italic;
+  }
+  .edit-actions {
+    margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;
+  }
+  .btn-sm {
+    background:var(--surface2); border:1px solid var(--border);
+    color:var(--text2); padding:6px 12px; border-radius:8px;
+    font-size:12px; font-weight:500; cursor:pointer;
+    font-family:'Inter', sans-serif; transition:all .2s;
+    -webkit-appearance:none;
+  }
+  .btn-sm.danger { color:var(--red); border-color:var(--red-border); background:var(--red-light); }
+  .btn-sm.success { color:var(--green); border-color:#c0e4d0; background:var(--green-bg); }
+
+  /* ===== ADD FORM ===== */
+  .add-form {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; margin-bottom:16px;
+    box-shadow:var(--shadow-sm); display:none;
+  }
+  .add-form.visible { display:block; }
+  .add-form h3 {
+    font-family:'Playfair Display', serif;
+    font-size:17px; color:var(--text); margin-bottom:14px;
+  }
+  .form-field { display:flex; flex-direction:column; gap:5px; margin-bottom:12px; }
+  .form-field label {
+    font-size:11px; color:var(--muted); font-weight:600;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .form-field input {
+    background:var(--surface2); border:1.5px solid var(--border);
+    color:var(--text); padding:10px 12px; border-radius:10px;
+    font-family:'Inter', sans-serif; font-size:15px;
+    outline:none; -webkit-appearance:none;
+  }
+  .form-field input:focus { border-color:var(--red); background:#fff; }
+  .form-ingr-row {
+    display:flex; gap:8px; margin-bottom:8px; align-items:center;
+  }
+  .form-ingr-row input { flex:1; background:var(--surface2); border:1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:8px; font-size:14px; font-family:'Inter',sans-serif; outline:none; -webkit-appearance:none; }
+  .form-ingr-row input.gr-inp { width:70px; flex:none; }
+  .form-ingr-row input:focus { border-color:var(--red); }
+  .btn-add-ingr {
+    background:none; border:1.5px dashed var(--border2);
+    color:var(--muted); padding:9px; border-radius:10px;
+    cursor:pointer; font-size:13px; width:100%;
+    transition:all .2s; margin-top:2px; font-family:'Inter',sans-serif;
+  }
+  .btn-add-ingr:active { border-color:var(--red); color:var(--red); }
+  .form-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:14px; }
+  .btn-primary {
+    background:var(--red); color:#fff;
+    border:none; padding:10px 22px; border-radius:10px;
+    font-family:'Inter', sans-serif;
+    font-size:14px; font-weight:600; cursor:pointer;
+    -webkit-appearance:none;
+  }
+  .btn-secondary {
+    background:var(--surface2); border:1px solid var(--border);
+    color:var(--text2); padding:10px 16px; border-radius:10px;
+    font-size:14px; cursor:pointer;
+    font-family:'Inter', sans-serif;
+  }
+
+  /* ===== DASHBOARD ===== */
+  .stats-grid {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:10px; margin-bottom:20px;
+  }
+  .stat-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:16px;
+    box-shadow:var(--shadow-sm);
+  }
+  .stat-num {
+    font-family:'Playfair Display', serif;
+    font-size:36px; font-weight:700; color:var(--red); line-height:1;
+  }
+  .stat-label {
+    font-size:11px; color:var(--muted); margin-top:4px;
+    text-transform:uppercase; letter-spacing:.4px; font-weight:600;
+  }
+  .section-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:16px; margin-bottom:12px;
+    box-shadow:var(--shadow-sm);
+  }
+  .section-title {
+    font-family:'Playfair Display', serif;
+    font-size:16px; color:var(--text); margin-bottom:14px;
+    padding-bottom:10px; border-bottom:1px solid var(--border);
+  }
+  .ingr-bar-row {
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:7px; font-size:12px;
+  }
+  .ingr-bar-name { width:160px; flex-shrink:0; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ingr-bar-bg {
+    flex:1; height:6px; background:var(--surface2); border-radius:3px; overflow:hidden;
+  }
+  .ingr-bar-fill {
+    height:100%; border-radius:3px; transition:width .4s ease;
+  }
+  .ingr-bar-fill.red { background:var(--red); }
+  .ingr-bar-fill.gold { background:var(--gold); }
+  .ingr-bar-count {
+    width:24px; text-align:right; font-size:11px; color:var(--muted);
+    font-variant-numeric:tabular-nums; font-weight:600;
+  }
+
+  /* ===== PREZZI ===== */
+  .prezzi-search-wrap { margin-bottom:14px; }
+  #prezziSearch {
+    width:100%; background:var(--surface);
+    border:1.5px solid var(--border);
+    color:var(--text); padding:10px 14px;
+    border-radius:12px; font-size:15px;
+    font-family:'Inter', sans-serif; outline:none;
+    -webkit-appearance:none;
+  }
+  #prezziSearch:focus { border-color:var(--red); }
+  .prezzi-list { display:flex; flex-direction:column; gap:8px; }
+  .prezzi-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:13px 14px;
+    box-shadow:var(--shadow-sm);
+  }
+  .prezzi-top { display:flex; align-items:center; gap:10px; margin-bottom:5px; }
+  .prezzi-name { font-size:14px; font-weight:600; color:var(--text); flex:1; }
+  .prezzi-val {
+    font-size:16px; font-weight:700; color:var(--green);
+    font-variant-numeric:tabular-nums;
+  }
+  .prezzi-sub { font-size:12px; color:var(--muted); line-height:1.4; }
+  .prezzi-badge {
+    display:inline-block; font-size:10px; padding:2px 7px; border-radius:10px;
+    background:var(--surface2); color:var(--muted);
+    border:1px solid var(--border); margin-left:6px;
+    font-weight:600;
+  }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.5); z-index:200;
+    align-items:flex-end; justify-content:center;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:var(--surface); border-radius:20px 20px 0 0;
+    padding:24px 20px; width:100%; max-width:500px;
+  }
+  .modal-handle {
+    width:36px; height:4px; background:var(--border2);
+    border-radius:2px; margin:0 auto 20px;
+  }
+  .modal h3 { font-family:'Playfair Display', serif; font-size:18px; color:var(--text); margin-bottom:4px; }
+  .modal .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+  .btn-danger {
+    background:var(--red); color:#fff;
+    border:none; padding:10px 20px; border-radius:10px;
+    cursor:pointer; font-size:14px;
+    font-family:'Inter', sans-serif; font-weight:600;
+  }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position:fixed; bottom:calc(24px + env(safe-area-inset-bottom)); left:50%;
+    transform:translateX(-50%) translateY(80px);
+    background:var(--text); color:#fff;
+    padding:11px 20px; border-radius:24px;
+    font-size:13px; font-weight:500; z-index:300;
+    opacity:0; transition:all .3s ease; white-space:nowrap;
+    box-shadow:0 4px 20px rgba(0,0,0,.25);
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+  .empty { text-align:center; padding:48px 20px; color:var(--muted); }
+  .empty .ico { font-size:36px; margin-bottom:10px; }
+  .empty p { font-size:14px; }
+
+  @media(min-width:640px) {
+    main { padding:20px 24px; }
+    .stats-grid { grid-template-columns:repeat(4,1fr); }
+    .pizza-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .pizza-card.expanded { grid-column:1/-1; }
+    .modal-overlay { align-items:center; }
+    .modal { border-radius:20px; max-width:420px; margin:0 auto; }
+    .modal-handle { display:none; }
+  }
+</style>
+<meta name="apple-mobile-web-app-title" content="Archivio Pizze">
+</head>
+<body>
+
+<header>
+  <div class="header-logo">🍕</div>
+  <h1>Orso <span>Pizze</span></h1>
+  <div class="header-count" id="totalBadge">135</div>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('archivio', this)">📚 Archivio</button>
+  <button onclick="showTab('dashboard', this)">📊 Stats</button>
+  <button onclick="showTab('prezzi', this)">📦 Prezzi</button>
+  <button onclick="showTab('menu', this)">🍽️ Menù</button>
+</nav>
+
+<!-- SEARCH ALWAYS VISIBLE -->
+<div class="search-hero" id="searchHero">
+  <div class="search-wrap" id="searchWrap">
+    <span class="search-icon">🔍</span>
+    <input type="search" id="searchInput"
+      placeholder="Cerca pizza o ingrediente…"
+      oninput="onSearch(this.value)"
+      onfocus="openResults()"
+      autocomplete="off" autocorrect="off"
+      spellcheck="false">
+    <button class="search-clear" onclick="clearSearch()">✕</button>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ARCHIVIO -->
+  <div class="tab-content active" id="tab-archivio">
+    <div class="filter-row">
+      <select id="filterIngr" onchange="filterPizzas()">
+        <option value="">Tutti gli ingredienti</option>
+      </select>
+      <span class="result-count" id="pizzaCount"></span>
+      <button class="btn-add-pizza" onclick="toggleAddForm()">＋ Nuova</button>
+    </div>
+
+    <div class="add-form" id="addForm">
+      <h3>Nuova pizza</h3>
+      <div class="form-field">
+        <label>Nome</label>
+        <input type="text" id="newNome" placeholder="es. La Messinese">
+      </div>
+      <div class="form-field">
+        <label>Note (opzionale)</label>
+        <input type="text" id="newNote" placeholder="Stagionale, variante…">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:8px;">Ingredienti</label>
+        <div id="newIngrRows"></div>
+        <button class="btn-add-ingr" onclick="addIngrRow()">＋ Aggiungi ingrediente</button>
+      </div>
+      <div class="form-actions">
+        <button class="btn-secondary" onclick="toggleAddForm()">Annulla</button>
+        <button class="btn-primary" onclick="savePizza()">Salva</button>
+      </div>
+    </div>
+
+    <div class="pizza-list" id="pizzaGrid"></div>
+    <div class="empty" id="emptyMsg" style="display:none">
+      <div class="ico">🔍</div>
+      <p>Nessuna pizza trovata</p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tab-content" id="tab-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="statTot">135</div>
+        <div class="stat-label">Pizze totali</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statIngr">—</div>
+        <div class="stat-label">Ingr. unici</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statAvg">—</div>
+        <div class="stat-label">Media ingr.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Max ingr.</div>
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">🏆 Top 15 ingredienti</div>
+      <div id="topIngrList"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">📊 Distribuzione condimenti</div>
+      <div id="distribList"></div>
+    </div>
+  </div>
+
+  <!-- PREZZI -->
+  <div class="tab-content" id="tab-prezzi">
+    <div class="prezzi-search-wrap">
+      <input type="search" id="prezziSearch" placeholder="🔍 Cerca prodotto o fornitore…" oninput="filterPrezzi()">
+    </div>
+    <div class="prezzi-list" id="prezziList"></div>
+    <div class="empty" id="prezziEmpty" style="display:none">
+      <div class="ico">📦</div><p>Nessun prodotto trovato</p>
+    </div>
+  </div>
+
+  <!-- MENU PERSONALIZZATO -->
+  <div class="tab-content" id="tab-menu">
+    <div style="padding:12px 16px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--red-deep);margin-bottom:4px">🍽️ Menù Personalizzato</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Cerca e seleziona le pizze per costruire il tuo menù</div>
+      <div style="position:relative;margin-bottom:12px">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px">🔍</span>
+        <input type="search" id="menuSearch" placeholder="Cerca pizza per nome o numero…"
+          oninput="menuFilter(this.value)"
+          style="width:100%;padding:10px 14px 10px 36px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:#fff;outline:none;font-family:'Inter',sans-serif">
+      </div>
+      <div id="menuSearchResults" style="display:none;background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:12px;max-height:220px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.1)"></div>
+
+      <!-- Selezione attiva -->
+      <div id="menuSelected" style="display:none;margin-bottom:12px">
+        <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+          Pizze selezionate <span id="menuSelCount" style="color:var(--red-deep)"></span>
+        </div>
+        <div id="menuChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button onclick="buildMenu()" style="flex:1;padding:11px;background:var(--red-deep);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
+          📋 Genera Menù
+        </button>
+        <button onclick="clearMenu()" style="padding:11px 14px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer">
+          ✕ Svuota
+        </button>
+        <button onclick="shareMenu()" id="btnShareMenu" style="display:none;padding:11px 14px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer">
+          📲
+        </button>
+      </div>
+    </div>
+
+    <!-- OUTPUT MENU -->
+    <div id="menuOutput" style="display:none;padding:0 12px 20px">
+      <div id="menuCards" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>Elimina pizza</h3>
+    <div class="sub" id="deleteModalSub"></div>
+    <p style="font-size:13px;color:var(--muted);">Questa azione non può essere annullata.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Annulla</button>
+      <button class="btn-danger" onclick="confirmDelete()">Elimina</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let PIZZAS = [{"n": 1, "nome": "A facci i cu non voli", "cond": ["Passata datterino giallo", "Bufala ragusana", "Melanzane fritte", "Ricotta salata", "Foglie basilico fresco"], "note": ""}, {"n": 2, "nome": "Acquedolci", "cond": ["Fior di latte", "Mozzarella di bufala DOP", "Datterino rosso semi dry", "Datterino giallo semi dry", "Olio EVO tonda iblea Terraliva", "Basilico"], "note": ""}, {"n": 3, "nome": "Adduma u Cufularu", "cond": ["Passata pomodoro biologico", "Salsiccia piccante", "Miele di cardo", "Peperoncino fresco", "Gocce di habamix", "Basilico"], "note": ""}, {"n": 4, "nome": "Adduma u Cufularu (v2)", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Peperoncino in polvere", "Salame piccante", "Mozzarella di bufala", "Peperoncino fresco", "Gocce di habamix", "Miele di cardo"], "note": ""}, {"n": 5, "nome": "Ammucca lapuni", "cond": ["Mozzarella fior di latte", "Salsiccia dei Nebrodi", "Finocchietto", "Patate al forno", "Cipolla rossa caramellata"], "note": ""}, {"n": 6, "nome": "Andromeda pizza in pala", "cond": ["Fior di latte siciliano", "Prosciutto crudo di Parma", "Nocciole tostate", "Pesto castagne", "Scaglie di grana"], "note": ""}, {"n": 7, "nome": "Bacio al tartufo", "cond": ["Mortadella Levoni Linea Oro", "Crescenza dop", "Elisir al tartufo"], "note": ""}, {"n": 8, "nome": "Bedda Maaaaatri", "cond": ["Pizza speciale", "Ingredienti da definire"], "note": ""}, {"n": 9, "nome": "Bella Napoli", "cond": ["Ricotta", "Fior di latte", "Mozzarella di bufala DOP", "Salame", "Basilico"], "note": ""}, {"n": 10, "nome": "Blanco", "cond": ["Crema di avocado", "Salmone all'aneto", "Semi di chia", "Cetrioli", "Pomodori semi dry"], "note": ""}, {"n": 11, "nome": "Bolognese mediterranea", "cond": ["Fior di latte", "Mortadella Levoni Linea Oro", "Emulsione di pecorino", "Melanzane sott'olio", "Datterino rosso semi dry"], "note": ""}, {"n": 12, "nome": "Brezza Marina", "cond": ["Fior di latte", "Pomodori in acqua di mare", "Rucola", "Croccante di grana", "Prosciutto crudo di Parma", "Olio EVO"], "note": ""}, {"n": 13, "nome": "Burrata", "cond": ["Pomodoro biologico", "Mozzarella", "Burrata", "Prosciutto crudo Levoni", "Datterino", "Olio EVO"], "note": ""}, {"n": 14, "nome": "Burrata (v2)", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Datterino rosso semi secco", "Burrata", "Prosciutto crudo"], "note": ""}, {"n": 15, "nome": "Capriccio", "cond": ["Passata pomodoro siccagno", "Prosciutto cotto affumicato Levoni", "Fior di latte", "Olive taggiasche"], "note": ""}, {"n": 16, "nome": "Carbonara", "cond": ["Fior di latte", "Guanciale croccante", "Bottarga di uovo", "Crema di pecorino", "Pepe arlecchino in grani"], "note": ""}, {"n": 17, "nome": "Carbonara 2.0", "cond": ["Fior di latte siciliano", "Pecorino Romano", "Guanciale", "Uovo grattugiato", "Pepe nero in grani"], "note": ""}, {"n": 18, "nome": "Cariddi pizza fritta", "cond": ["Crema di parmigiano", "Rucola", "Prosciutto crudo di Parma", "Mozzarella"], "note": ""}, {"n": 19, "nome": "Castelmola", "cond": ["Passata pomodoro siccagno", "Fior di latte", "Burrata", "Datterino rosso semi dry", "Prosciutto crudo di Parma Levoni", "Olio EVO ogliarola messinese Ruggeri"], "note": ""}, {"n": 20, "nome": "Chianti", "cond": ["Crema di pecorino", "Salame finocchiona toscana", "Datterino rosso semi dry", "Perlage di tartufo", "Lime"], "note": ""}, {"n": 21, "nome": "Colapesce", "cond": ["Fior di latte", "Funghi", "Salsiccia", "Crema di grana", "Prosciutto crudo di Parma", "Provola affumicata"], "note": ""}, {"n": 22, "nome": "Colapesce (v2)", "cond": ["Provola affumicata", "Funghi champignon", "Prosciutto crudo di Parma", "Salsiccia", "Crema di grana"], "note": ""}, {"n": 23, "nome": "Colosseo", "cond": ["Mortadella Levoni Linea Oro", "Chips di carciofi", "Miele", "Crema al pecorino dolce", "Pepe rosa"], "note": ""}, {"n": 24, "nome": "Controcorrente", "cond": ["Acqua di fonte", "Farina macinata a pietra", "Sale integrale", "Levito madre"], "note": ""}, {"n": 25, "nome": "Cosa Cavaddu", "cond": ["Ragusano fuso", "Arancia siciliana caramellata", "Miele", "Peperoncino"], "note": ""}, {"n": 26, "nome": "Cotto e mangiato", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Prosciutto cotto Branchi", "Cottura", "Crema di grana", "Basilico"], "note": ""}, {"n": 27, "nome": "Cu mancia fa muddichi", "cond": ["Mozzarella fior di latte", "Caponata di melanzane alla messinese", "Mollica tostata"], "note": ""}, {"n": 28, "nome": "Cu si vaddau si sabba", "cond": ["Mozzarella", "Mortadella", "Stracciatella di bufala", "Granella di pistacchio"], "note": ""}, {"n": 29, "nome": "Delizia Vegana", "cond": ["Pomodoro passato siccagno", "Mozzarella vegana anacardi", "Carciofi alla brace", "Cipolla di Giarratana", "Funghi", "Olive taggiasche", "Capperi di Salina", "Senape selvatica"], "note": ""}, {"n": 30, "nome": "Disgraziata", "cond": ["Mortadella Levoni", "Melanzane sott'olio", "Datterino", "Funghi", "Salame", "Gocce di habamix", "Primo sale", "Polvere di olive"], "note": ""}, {"n": 31, "nome": "Donna Fugata", "cond": ["Passata pomodoro pelato biologico", "Fior di latte", "Salsiccia", "Cipolla caramellata", "Gorgonzola", "Peperoncino"], "note": ""}, {"n": 32, "nome": "Donnafugata", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Salsiccia", "Cipolla caramellata", "Peperoncino", "Gorgonzola piccante"], "note": ""}, {"n": 33, "nome": "Due e Quaranzi", "cond": ["Crema di ricotta", "Crema di uovo", "Salame piccante", "Prosciutto crudo di Parma", "Olive taggiasche"], "note": ""}, {"n": 34, "nome": "Elisir di gusto", "cond": ["Fior di latte", "Crema di grana", "Funghi shitake", "Senape selvatica", "Pepe del Sichuan", "Riduzione di aceto balsamico"], "note": ""}, {"n": 35, "nome": "Emma", "cond": ["Fonduta di formaggio affumicato", "Rucola aromatizzata aceto fico India", "Pomodori secchi", "Capperi di Salina", "Prosciutto crudo di Parma Levoni", "Olive taggiasche", "Miele di cardo"], "note": ""}, {"n": 36, "nome": "Eoliana", "cond": ["Passata pomodoro pelato biologico", "Filetti di tonno Delfino Battista", "Fior di latte", "Cipolla caramellata", "Capperi di Salina", "Olive", "olio al limone"], "note": ""}, {"n": 37, "nome": "Eoliana (v2)", "cond": ["Passata pomodoro siccagno", "Filetti di tonno", "Cipolla caramellata", "Capperi di Salina", "Sponzali", "Olive", "Fonduta di formaggio", "Elisir di acciughe"], "note": ""}, {"n": 38, "nome": "Essenza Nebroidea", "cond": ["Salame Sant'Angelo", "Ricotta alla senape e miele", "Melanzane sott'olio", "Misticanza"], "note": ""}, {"n": 39, "nome": "Evergreen", "cond": ["Pomodoro biologico", "Fior di latte", "Prosciutto cotto Branchi", "Olive taggiasche", "Funghi"], "note": ""}, {"n": 40, "nome": "Evergreen (v2)", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Olive taggiasche", "Funghi champignon", "Carciofi alla brace", "Prosciutto cotto Branchi"], "note": ""}, {"n": 41, "nome": "Falla comu voi sempre cocuzza e", "cond": ["Pesto di zucchine", "Zucchine fritte", "Grana", "Ricotta salata"], "note": ""}, {"n": 42, "nome": "Faro Incantato", "cond": ["Provola dei Nebrodi", "Mozzarella di bufala DOP", "Ricotta", "Alici di Sciacca", "Cipolla di Giarratana", "Capperi di Salina", "Datterino rosso semi dry", "Scorza di limone"], "note": ""}, {"n": 43, "nome": "Faromatto", "cond": ["Mozzarella di bufala", "Provola di Cesarò", "Ricotta fresca", "Alici affumicate", "Cipolla di Giarratana agrodolce", "Capperi di Salina", "Zeste di limone", "Riduzione vino Faro DOC"], "note": ""}, {"n": 44, "nome": "Fata Morgana", "cond": ["Stracciatella", "Gambero rosso di Mazara", "Datterino giallo", "Erba cipollina", "Polvere di pomodoro", "Olio EVO tonda iblea Terraliva"], "note": ""}, {"n": 45, "nome": "Foresta Bianca", "cond": ["Crema di patate", "Provola affumicata", "Pancetta affumicata", "Gherigli di noci", "Funghi porcini", "Timo"], "note": ""}, {"n": 46, "nome": "Fuori Norma", "cond": ["Pomodoro pelato schiacciato", "Melanzane fritte", "Ricotta infornata", "Datterino giallo semi secco", "Basilico", "Chips di melanzane", "Crema di grana", "Ricotta fresca"], "note": ""}, {"n": 47, "nome": "Fusa Tentazione", "cond": ["Crema di patate", "Fontina", "Funghi porcini", "Speck", "Pepe arlecchino", "Gherigli di noci", "Scaglie di grana", "Miele di castagno"], "note": ""}, {"n": 48, "nome": "Greco", "cond": ["Datterino giallo semi secco", "Filetti di tonno", "Salsa tzatziki", "Scarola", "Zeste di limone", "Provola affumicata"], "note": ""}, {"n": 49, "nome": "Grifone", "cond": ["Vellutata di patate", "Provola affumicata", "Pepe nero", "Porchetta", "Salsa verde", "Crudités di zucchine"], "note": ""}, {"n": 50, "nome": "Il bacio di Cariddi", "cond": ["Provola dei nebrodi", "Fiordilatte", "Datterini rosso semi secco", "Petali di lacerto di manzo scottato", "Cipolla rossa caramellata", "Crumble di pane profumato", "Polvere di olive"], "note": ""}, {"n": 51, "nome": "il Ponte (che non c'è)", "cond": ["Provola dei Nebrodi", "Scarola saltata con pinoli e uvetta", "Trancio di tonno pinna gialla", "Velo di lardo di suino nero dei Nebrodi"], "note": ""}, {"n": 52, "nome": "Il Principe del Pic Nic", "cond": ["Prosciutto crudo di Parma", "Fonduta di formaggio", "Datterino rosso caramellato", "Rucola", "Croccante di grana"], "note": ""}, {"n": 53, "nome": "Il regno dellen due sicilie", "cond": ["Datterino giallo", "Foglie di cappero", "Cappero", "Alici", "Origano"], "note": ""}, {"n": 54, "nome": "In Castagna", "cond": ["Pesto di castagne", "Fior di latte", "Funghi di stagione", "Prosciutto crudo di Parma", "Scaglie di grana"], "note": ""}, {"n": 55, "nome": "Incantesimo", "cond": ["Fior di latte", "Guanciale", "Patate al forno", "Cipolla caramellata", "Gorgonzola", "Polvere di lampone"], "note": ""}, {"n": 56, "nome": "Incontro Proibito", "cond": ["Fior di latte", "Gambero marinato aglio e agrumi", "E cotto", "Granella di pistacchio", "Lardo di patanegra", "Sponzali", "Rosmarino"], "note": ""}, {"n": 57, "nome": "Italiana", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Rucola", "Prosciutto crudo di Parma Levoni", "Scaglie di grana", "Olio extravergine d'oliva"], "note": ""}, {"n": 58, "nome": "L'abbraccio di Scilla", "cond": ["Vellutata di scarola", "Datterino rosso e giallo semi secco", "Scaglie di primo sale", "Filetti di alici selezionate", "Pepe nero in grani", "Olio al limone"], "note": ""}, {"n": 59, "nome": "L'Abbraccio tra Parma e Napoli", "cond": ["Stracciatella di bufala", "Prosciutto crudo di Parma 24 mesi", "Rucola selvatica", "Scaglie di parmigiano reggiano 36 mesi", "Olio EVO", "Grani di pepe nero"], "note": ""}, {"n": 60, "nome": "La bufalata dell'orso", "cond": ["Mozzarella campana 250gr", "Pane pizza crudo", "Prosciutto crudo Parma 24 mesi", "Pomodoro semidry giallo", "Giro d'olio"], "note": ""}, {"n": 61, "nome": "La Catanese", "cond": ["Passata di pomodoro", "Melanzane fritte", "Ricotta salata", "Basilico"], "note": ""}, {"n": 62, "nome": "La corona del re", "cond": ["Datterino giallo", "Pesto di rucola", "Prosciutto crudo", "Ricotta fresca", "Granella di noce"], "note": ""}, {"n": 63, "nome": "La Falce", "cond": ["Braciole di vitello messinesi", "Provola di Cesarò", "Lattuga croccante", "Maionese", "Datterino rosso"], "note": ""}, {"n": 64, "nome": "La Messinese", "cond": ["Scalora", "Primo sale", "Datterino rosso", "Alici", "Pepe nero in grani"], "note": ""}, {"n": 65, "nome": "La Regina dei Castelli", "cond": ["Fior di latte", "Porchetta di Ariccia", "Cipolla caramellata", "Ricotta alla senape e miele", "Pepe nero", "Senape selvatica"], "note": ""}, {"n": 66, "nome": "La Ribelle Siciliana", "cond": ["Fior di latte", "Salsiccia", "Sponzali", "Provola di Cesarò", "Gocce di habamix", "Confettura di pomodoro"], "note": ""}, {"n": 67, "nome": "Le Feluche son Tonnate", "cond": ["Mozzarella", "Pescespada affumicato", "Datterino rosso semi dry", "Capperi di Salina", "Salsa tonnata", "Sedano croccante"], "note": ""}, {"n": 68, "nome": "Lo stretto necessario", "cond": ["Passata pomodoro siccagno", "Stracciatella", "Alici del Mediterraneo", "Origano", "Zeste di limone"], "note": ""}, {"n": 69, "nome": "Lorenzina", "cond": ["Datterino giallo in succo", "Prosciutto crudo di Parma", "Stracciatella", "Granella di pistacchio", "Ricotta", "Pomodori secchi"], "note": ""}, {"n": 70, "nome": "Maialino", "cond": ["Fior di latte", "Porchetta", "Funghi freschi aromatizzati", "Cipolla caramellata", "Peperone crusco"], "note": ""}, {"n": 71, "nome": "Malena", "cond": ["Passata pomodoro siccagno", "Grana", "Mozzarella di bufala DOP", "Olio EVO Terraliva Cherubino", "Basilico"], "note": ""}, {"n": 72, "nome": "Margherita", "cond": ["Pomodoro biologico", "Mozzarella", "Olio EVO", "Basilico"], "note": ""}, {"n": 73, "nome": "Margherita (v2)", "cond": ["Pomodoro pelato schiacciato", "Fior di latte", "Basilico", "Olio EVO"], "note": ""}, {"n": 74, "nome": "Marinara Eclettica", "cond": ["Passata pomodoro siccagno schiacciato", "Crema aglio", "Sarda affumicata", "Prezzemolo", "Origano", "Zeste di limone"], "note": ""}, {"n": 75, "nome": "Marinara secondo noi", "cond": ["Salsa di pomodoro siccagno", "Marmellata di pomodoro", "Alici mediterranee", "Cucunci di Salina"], "note": ""}, {"n": 76, "nome": "Mastro Peppe", "cond": ["Caciotta siciliana", "Fior di latte siciliano", "Porchetta di suino nero dei Nebrodi", "Carciofo", "Aria di santoreggia"], "note": ""}, {"n": 77, "nome": "Matrice Siciliana", "cond": ["Passata pomodoro della nonna", "Cipolla di Giarratana", "Guanciale", "Pepe nero in grani", "Capperi", "Pecorino"], "note": ""}, {"n": 78, "nome": "Mediterraneo", "cond": ["Fior di latte", "Bottarga di tonno", "Cipolla caramellata", "Datterino", "Uva passa di zibibbo", "Cucunci di Salina"], "note": ""}, {"n": 79, "nome": "Messinese", "cond": ["Scarola", "Primo sale", "Datterino rosso semi secco", "Alici", "Pepe nero in grani"], "note": ""}, {"n": 80, "nome": "Messinese fritta", "cond": ["Primosale", "Pomodoro fresco", "Scarola", "Acciughe", "Pepe nero in grani"], "note": ""}, {"n": 81, "nome": "Messinese secondo ME", "cond": ["Crema di scarola", "Primo sale", "Datterino rosso semi dry", "Scarola saltata", "Alici del Mediterraneo", "Pepe arlecchino", "Crema di grana padano"], "note": ""}, {"n": 82, "nome": "Mulinciana pizza in pala", "cond": ["Crema di melanzane", "Melanzane grigliate", "Mozzarella di latte di bufala", "Pomodorini confit", "Prosciutto cotto Levoni affumicato", "Misticanza melanzane", "Pesto basilico"], "note": ""}, {"n": 83, "nome": "Napoli", "cond": ["Fior di latte", "Friarielli", "Mozzarella affumicata", "Salsiccia"], "note": ""}, {"n": 84, "nome": "Nebrodi in controluce", "cond": ["Vellutata di scarola", "Salame Sant'Angelo", "Stracciatella", "Datterino rosso semi secco", "Noci", "Miele di cardo"], "note": ""}, {"n": 85, "nome": "Non ghiabba e non maravigghia", "cond": ["Crema di zucca gialla", "Pancetta di suino nero dei Nebrodi croccante", "Provola affumicata", "Noci"], "note": ""}, {"n": 86, "nome": "Norma secondo Me", "cond": ["Passata pomodoro siccagno schiacciato", "Melanzane fritte", "Datterino giallo", "Chips di melanzane", "Ricotta fresca", "Ricotta infornata", "Basilico"], "note": ""}, {"n": 87, "nome": "O Sole Mio", "cond": ["Mozzarella di bufala DOP", "Mozzarella", "Datterino rosso e giallo", "Basilico", "Olio EVO Terraliva"], "note": ""}, {"n": 88, "nome": "Orione", "cond": ["Fior di latte", "Mortadella Linea Oro Levoni", "Crema di grana padano", "Pesto di pistacchio", "Granella di pistacchio"], "note": ""}, {"n": 89, "nome": "Oro Peloritano", "cond": ["Salame Sant'Angelo", "Pomodoro confit", "Fior di latte", "Scaglie di maiorchino", "Melanzane sott'olio", "Origano selvatico", "Zeste di limone"], "note": ""}, {"n": 90, "nome": "Orso Iberico", "cond": ["Fior di latte", "Funghi porcini", "Timo", "Lardo di patanegra", "Scaglie Parmigiano Reggiano Vacche Rosse", "Pepe nero", "Olio EVO"], "note": ""}, {"n": 91, "nome": "Orto del'Orso", "cond": ["Pizza vegetariana", "Fantasia del pizzaChef Matteo La Spada"], "note": ""}, {"n": 92, "nome": "Palermitana", "cond": ["Pesto di finocchietto", "Datterino giallo semi dry", "Fior di latte", "Acciughe", "Mollica tostata"], "note": ""}, {"n": 93, "nome": "Parmigiana", "cond": ["Passata pomodoro de L'Orso", "Melanzane fritte", "Prosciutto cotto Branchi", "Grana", "Uova", "Basilico", "Crema di grana"], "note": ""}, {"n": 94, "nome": "Peloritana", "cond": ["Passata pomodoro", "Fior di latte", "Datterino", "Maiorchino grattugiato", "Basilico", "Olio EVO", "Menta", "Perlage di limone"], "note": ""}, {"n": 95, "nome": "Perla", "cond": ["Ostrica", "Ricotta aromatizzata al limone", "Passion fruit", "Aria di champagne"], "note": ""}, {"n": 96, "nome": "Pilone", "cond": ["Passata pomodoro siccagno", "Fior di latte siciliano", "Funghi porcini", "Prosciutto crudo di Parma", "Songino", "Grana in scaglie"], "note": ""}, {"n": 97, "nome": "Pizza e Fichi", "cond": ["Mozzarella di bufala DOP", "Rucola", "Fichi", "Prosciutto crudo Levoni"], "note": ""}, {"n": 98, "nome": "Porbesce", "cond": ["Stracciatella", "Crema di burrata", "Babbaluci", "Pomodorini secchi", "Perlage al basilico"], "note": ""}, {"n": 99, "nome": "Primavera 2.0", "cond": ["Cornicione ripieno di ricotta", "Pomodoro pelato biologico", "Prosciutto cotto", "Fior di latte", "Ricotta", "Perlage di basilico"], "note": ""}, {"n": 100, "nome": "Procida", "cond": ["Bufala", "Pomodoro in acqua di mare", "Bottoni di pesto di basilico", "Olio extra vergine di oliva minuta"], "note": ""}, {"n": 101, "nome": "Provola e Pepe", "cond": ["Pomodoro pelato schiacciato", "Provola affumicata", "Grana dopo cottura", "Pepe nero in grani", "Basilico"], "note": ""}, {"n": 102, "nome": "Raggio di sole", "cond": ["Passata datterino giallo", "Melanzane fritte", "Ricotta infornata", "Salsiccia", "Basilico"], "note": ""}, {"n": 103, "nome": "Regina", "cond": ["Passata pomodoro siccagno", "Mozzarella di bufala DOP", "Polvere di grana padano", "Olio EVO tonda iblea Terraliva"], "note": ""}, {"n": 104, "nome": "Regina Margherita", "cond": ["Passata pomodoro siccagno", "Mozzarella di bufala DOP", "Olio EVO Terraliva", "Perlage al basilico"], "note": ""}, {"n": 105, "nome": "Rucolina", "cond": ["Passata pomodoro siccagno", "Fior di latte", "Prosciutto crudo di Parma", "Scaglie di grana", "Rucola"], "note": ""}, {"n": 106, "nome": "Scaccia Pensieri", "cond": ["Pesto di pistacchio di Bronte", "Salame paesanella", "Fior di latte", "Granella di pistacchio", "Datterino giallo semi dry"], "note": ""}, {"n": 107, "nome": "Scilla pizza fritta", "cond": ["Burrata", "Mortadella", "Granella di pistacchio", "Mozzarella"], "note": ""}, {"n": 108, "nome": "Segreti di Montaleino", "cond": ["Fior di latte", "Datterino rosso semi dry", "Sbriciolona", "Fonduta di pecorino", "Zeste di lime", "Perlage di tartufo"], "note": ""}, {"n": 109, "nome": "Sentiero di Dinnammare", "cond": ["Pomodoro siccagno schiacciato", "Olive", "Mortadella", "Salame", "Melanzane sott'olio", "Fior di latte"], "note": ""}, {"n": 110, "nome": "Sicilia", "cond": ["Crema di melanzane", "Salsiccia", "Datterino", "Mozzarella", "Melanzane fritte", "Lacrime di peperoncino", "Crema di grana padano", "Basilico"], "note": ""}, {"n": 111, "nome": "Smoked Ham & Truffle Dream", "cond": ["Prosciutto cotto affumicato", "Fontina", "Cipolla caramellata", "Cicoria selvatica", "Maionese al pistacchio", "Elisir di tartufo"], "note": ""}, {"n": 112, "nome": "Sottobosco", "cond": ["Fior di latte", "Funghi freschi", "Salsiccia di suino nero", "Julienne di cavolo rosso", "Polvere di lamponi", "Perlage di tartufo"], "note": ""}, {"n": 113, "nome": "Stella", "cond": ["Punte ripiene di ricotta e pepe nero", "Fior di latte siciliano", "Prosciutto crudo di Parma"], "note": ""}, {"n": 114, "nome": "Stretto", "cond": ["Fior di latte", "Mortadella Levoni linea oro", "Stracciatella", "Granella di pistacchio", "Pesto di pistacchio di Bronte"], "note": ""}, {"n": 115, "nome": "Stretto (v2)", "cond": ["Fior di latte", "Mortadella Levoni Linea Oro", "Burrata", "Pistacchio tostato", "Pesto di pistacchio"], "note": ""}, {"n": 116, "nome": "Sussurro di Montagna", "cond": ["Speck", "Funghi champignon", "Funghi shiitake", "Fior di latte", "Noci", "Cipolla caramellata", "Gorgonzola piccante"], "note": ""}, {"n": 117, "nome": "Terra di Sicilia", "cond": ["Passata pomodoro siccagno", "Cucunci di Salina", "Confettura di datterino rosso", "Crema aglio fermentato", "Origano", "Olio EVO tonda iblea Terraliva"], "note": ""}, {"n": 118, "nome": "Top", "cond": ["Mozzarella di latte di bufala", "Datterino rosso semidry", "Datterino giallo semidry", "Stracciatella", "Funghi freschi aromatizzati", "Crema di pistacchio", "Speck"], "note": ""}, {"n": 119, "nome": "Tortorici", "cond": ["Crema di scarola", "Fior di latte", "Melanzane sott'olio", "Datterino rosso semi dry", "Prosciutto cotto affumicato Levoni"], "note": ""}, {"n": 120, "nome": "Tra Castelli e Vulcani", "cond": ["Porchetta di Ariccia", "Scarola saltata in padella", "Provola affumicata"], "note": ""}, {"n": 121, "nome": "Trilogia del Bosco", "cond": ["Fior di latte", "Funghi champignon", "Funghi shiitake", "Funghi nameko", "Crema di grana", "Prezzemolo", "Olio al tartufo", "Mollica di pane tostato"], "note": ""}, {"n": 122, "nome": "Tronchetto", "cond": ["Mozzarella", "Funghi", "Prosciutto crudo di Parma", "Crema di parmigiano", "Basilico"], "note": ""}, {"n": 123, "nome": "U pisci feti d'a testa", "cond": ["Pomodoro siccagno", "Filetti di tonno", "Capperi di salina", "Cipolla caramellata", "Elisir di acciughe", "Sponzali", "Fonduta di formaggio"], "note": ""}, {"n": 124, "nome": "U sceccu nto linzolu", "cond": ["Vastedda del belice", "Scarola riccia", "Fior di latte", "Salame sant'angelo", "Datterino rosso semi secco", "Origano"], "note": ""}, {"n": 125, "nome": "Un americano a Messina", "cond": ["Passata pomodoro biologico", "Fior di latte siciliano", "Wurstel", "Cipolla caramellata", "Gocce di tabasco"], "note": ""}, {"n": 126, "nome": "Un giorno all'Oktoberfest", "cond": ["Fior di latte", "Mortadella", "Ventresca di maiale", "Peperoni", "Funghi freschi", "Perlage di tartufo"], "note": ""}, {"n": 127, "nome": "Un giorno alle Eolie", "cond": ["Passata pomodoro siccagno schiacciato", "Filetti di tonno sott'olio", "Cipolla caramellata", "Capperi di Salina", "Sponzali", "Olive", "Zeste di limone", "Elisir di acciughe"], "note": ""}, {"n": 128, "nome": "Uno sguardo alle Eolie", "cond": ["Fior di latte", "Ventresca di tonno", "Capperi di Salina", "Uva passa di zibibbo", "Datterino rosso semi dry", "Sedano croccante", "Cipolla caramellata", "Terra di olive"], "note": ""}, {"n": 129, "nome": "Vegetariana", "cond": ["Stracciatella", "Fior di latte siciliano", "Melanzane grigliate", "Capperi", "Cipolla di Giarratana", "Olive taggiasche", "Chips di barbabietola", "Datterino rosso"], "note": "Basilico"}, {"n": 130, "nome": "Viaggio in Piemonte", "cond": ["Provola affumicata", "Roast beef di manzo", "Salsa tonnata", "Capperi di Salina", "Polvere di lampone"], "note": ""}, {"n": 131, "nome": "Virginia", "cond": ["Fior di latte", "Datterino giallo", "Pancetta dei nebrodi", "Gambero rosso di Mazara", "Semi di sesamo", "Pecorino", "Cipolla rossa", "Marmellata di peperoncino"], "note": ""}, {"n": 132, "nome": "Zagara", "cond": ["Passata pomodoro siccagno schiacciato", "Maionese vegana", "Carciofi alla brace", "Cipolla di Giarratana", "Funghi", "Capperi di Salina", "Sponzali"], "note": ""}, {"n": 133, "nome": "Zagara Vegana", "cond": ["Pomodoro pelato siccagno schiacciato", "Funghi champignon", "Carciofi alla brace", "Capperi di Salina", "Cipolla di Giarratana", "Sponzali", "Maionese veg", "Senape selvatica"], "note": ""}, {"n": 134, "nome": "nebrodi umami", "cond": ["provola di cesaro", "funghi shiitake", "Fior di latte", "Salsiccia", "Crema di grana", "Elisir di tartufo"], "note": ""}, {"n": 135, "nome": "Primavera romana", "cond": ["Crema di pecorino", "Mugnuli", "Guanciale", "Polvere di peperone crusco", "Olio limone"], "note": ""}];
+const GRAMMI = {"1": [{"ingr": "Pomodoro biologico", "gr": null}, {"ingr": "Mozzarella", "gr": null}, {"ingr": "Olio EVO", "gr": null}, {"ingr": "Basilico", "gr": null}], "2": [{"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Mozzarella", "gr": null}, {"ingr": "Datterino rosso e giallo", "gr": null}, {"ingr": "Basilico", "gr": null}, {"ingr": "Olio EVO Terraliva", "gr": null}], "3": [{"ingr": "Pomodoro biologico", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Prosciutto cotto Branchi", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}, {"ingr": "Funghi", "gr": null}], "4": [{"ingr": "Pomodoro biologico", "gr": null}, {"ingr": "Mozzarella", "gr": null}, {"ingr": "Burrata", "gr": null}, {"ingr": "Prosciutto crudo Levoni", "gr": null}, {"ingr": "Datterino", "gr": null}, {"ingr": "Olio EVO", "gr": null}], "5": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mortadella Levoni linea oro", "gr": null}, {"ingr": "Stracciatella", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}, {"ingr": "Pesto di pistacchio di Bronte", "gr": null}], "6": [{"ingr": "Passata pomodoro pelato biologico", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Gorgonzola", "gr": null}, {"ingr": "Peperoncino", "gr": null}], "7": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Funghi", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Crema di grana", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Provola affumicata", "gr": null}], "8": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Grana", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Olio EVO Terraliva Cherubino", "gr": null}, {"ingr": "Basilico", "gr": null}], "9": [{"ingr": "Ricotta", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Salame", "gr": null}, {"ingr": "Basilico", "gr": null}], "10": [{"ingr": "Crema di melanzane", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Datterino", "gr": null}, {"ingr": "Mozzarella", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Lacrime di peperoncino", "gr": null}, {"ingr": "Crema di grana padano", "gr": null}], "11": [{"ingr": "Mozzarella", "gr": null}, {"ingr": "Funghi", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Crema di parmigiano", "gr": null}, {"ingr": "Basilico", "gr": null}], "12": [{"ingr": "Datterino giallo in succo", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Stracciatella", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}, {"ingr": "Ricotta", "gr": null}, {"ingr": "Pomodori secchi", "gr": null}], "13": [{"ingr": "Mortadella Levoni", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Datterino", "gr": null}, {"ingr": "Funghi", "gr": null}, {"ingr": "Salame", "gr": null}, {"ingr": "Gocce di habamix", "gr": null}, {"ingr": "Primo sale", "gr": null}], "14": [{"ingr": "Mozzarella", "gr": null}, {"ingr": "Pescespada affumicato", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Salsa tonnata", "gr": null}, {"ingr": "Sedano croccante", "gr": null}], "15": [{"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Rucola", "gr": null}, {"ingr": "Fichi", "gr": null}, {"ingr": "Prosciutto crudo Levoni", "gr": null}], "16": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Guanciale croccante", "gr": null}, {"ingr": "Bottarga di uovo", "gr": null}, {"ingr": "Crema di pecorino", "gr": null}, {"ingr": "Pepe arlecchino in grani", "gr": null}], "17": [{"ingr": "Provola dei Nebrodi", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Ricotta", "gr": null}, {"ingr": "Alici di Sciacca", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}], "18": [{"ingr": "Scalora", "gr": null}, {"ingr": "Primo sale", "gr": null}, {"ingr": "Datterino rosso", "gr": null}, {"ingr": "Alici", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}], "19": [{"ingr": "Pesto di pistacchio di Bronte", "gr": null}, {"ingr": "Salame paesanella", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}, {"ingr": "Datterino giallo semi dry", "gr": null}], "20": [{"ingr": "Passata di pomodoro", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Ricotta salata", "gr": null}, {"ingr": "Basilico", "gr": null}], "21": [{"ingr": "Passata pomodoro pelato biologico", "gr": null}, {"ingr": "Filetti di tonno Delfino Battista", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Olive", "gr": null}, {"ingr": "Limone candito", "gr": null}], "22": [{"ingr": "Passata pomodoro biologico", "gr": null}, {"ingr": "Salsiccia piccante", "gr": null}, {"ingr": "Miele di cardo", "gr": null}, {"ingr": "Peperoncino fresco", "gr": null}, {"ingr": "Gocce di habamix", "gr": null}, {"ingr": "Basilico", "gr": null}], "23": [{"ingr": "Pomodoro passato siccagno", "gr": null}, {"ingr": "Mozzarella vegana anacardi", "gr": null}, {"ingr": "Carciofi alla brace", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Funghi", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}], "24": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Basilico", "gr": null}, {"ingr": "Olio EVO", "gr": null}], "25": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mortadella Levoni Linea Oro", "gr": null}, {"ingr": "Burrata", "gr": null}, {"ingr": "Pistacchio tostato", "gr": null}, {"ingr": "Pesto di pistacchio", "gr": null}], "26": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Funghi champignon", "gr": null}, {"ingr": "Funghi shiitake", "gr": null}, {"ingr": "Funghi nameko", "gr": null}, {"ingr": "Crema di grana", "gr": null}, {"ingr": "Prezzemolo", "gr": null}, {"ingr": "Olio al tartufo", "gr": null}], "27": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Datterino rosso semi secco", "gr": null}, {"ingr": "Burrata", "gr": null}, {"ingr": "Prosciutto crudo", "gr": null}], "28": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Peperoncino in polvere", "gr": null}, {"ingr": "Salame piccante", "gr": null}, {"ingr": "Mozzarella di bufala", "gr": null}, {"ingr": "Peperoncino fresco", "gr": null}, {"ingr": "Gocce di habamix", "gr": null}], "29": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}, {"ingr": "Funghi champignon", "gr": null}, {"ingr": "Carciofi alla brace", "gr": null}, {"ingr": "Prosciutto cotto Branchi", "gr": null}], "30": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Peperoncino", "gr": null}, {"ingr": "Gorgonzola piccante", "gr": null}], "31": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Pomodori in acqua di mare", "gr": null}, {"ingr": "Rucola", "gr": null}, {"ingr": "Croccante di grana", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Olio EVO", "gr": null}], "32": [{"ingr": "Salame Sant'Angelo", "gr": null}, {"ingr": "Pomodoro confit", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Scaglie di maiorchino", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Origano selvatico", "gr": null}, {"ingr": "Zeste di limone", "gr": null}], "33": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Provola di Cesarò", "gr": null}, {"ingr": "Gocce di habamix", "gr": null}, {"ingr": "Confettura di pomodoro", "gr": null}], "34": [{"ingr": "Crema di patate", "gr": null}, {"ingr": "Provola affumicata", "gr": null}, {"ingr": "Pancetta affumicata", "gr": null}, {"ingr": "Gherigli di noci", "gr": null}, {"ingr": "Funghi porcini", "gr": null}, {"ingr": "Timo", "gr": null}], "35": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Filetti di tonno", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Olive", "gr": null}, {"ingr": "Fonduta di formaggio", "gr": null}], "36": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Funghi porcini", "gr": null}, {"ingr": "Timo", "gr": null}, {"ingr": "Lardo di patanegra", "gr": null}, {"ingr": "Scaglie Parmigiano Reggiano Vacche Rosse", "gr": null}, {"ingr": "Pepe nero", "gr": null}, {"ingr": "Olio EVO", "gr": null}], "37": [{"ingr": "Mozzarella di bufala", "gr": null}, {"ingr": "Provola di Cesarò", "gr": null}, {"ingr": "Ricotta fresca", "gr": null}, {"ingr": "Alici affumicate", "gr": null}, {"ingr": "Cipolla di Giarratana agrodolce", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Zeste di limone", "gr": null}], "38": [{"ingr": "Provola affumicata", "gr": null}, {"ingr": "Funghi champignon", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Crema di grana", "gr": null}], "39": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Porchetta di Ariccia", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Ricotta alla senape e miele", "gr": null}, {"ingr": "Pepe nero", "gr": null}, {"ingr": "Senape selvatica", "gr": null}], "40": [{"ingr": "Pomodoro pelato siccagno schiacciato", "gr": null}, {"ingr": "Funghi champignon", "gr": null}, {"ingr": "Carciofi alla brace", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Maionese veg", "gr": null}], "41": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Ricotta infornata", "gr": null}, {"ingr": "Datterino giallo semi secco", "gr": null}, {"ingr": "Basilico", "gr": null}, {"ingr": "Chips di melanzane", "gr": null}, {"ingr": "Crema di grana", "gr": null}], "42": [{"ingr": "Datterino giallo semi secco", "gr": null}, {"ingr": "Filetti di tonno", "gr": null}, {"ingr": "Salsa tzatziki", "gr": null}, {"ingr": "Scarola", "gr": null}, {"ingr": "Zeste di limone", "gr": null}, {"ingr": "Provola affumicata", "gr": null}], "43": [{"ingr": "Prosciutto cotto affumicato", "gr": null}, {"ingr": "Fontina", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Cicoria selvatica", "gr": null}, {"ingr": "Maionese al pistacchio", "gr": null}, {"ingr": "Elisir di tartufo", "gr": null}], "44": [{"ingr": "Braciole di vitello messinesi", "gr": null}, {"ingr": "Provola di Cesarò", "gr": null}, {"ingr": "Lattuga croccante", "gr": null}, {"ingr": "Maionese", "gr": null}, {"ingr": "Datterino rosso", "gr": null}], "45": [{"ingr": "Mortadella Levoni Linea Oro", "gr": null}, {"ingr": "Chips di carciofi", "gr": null}, {"ingr": "Miele", "gr": null}, {"ingr": "Crema al pecorino dolce", "gr": null}, {"ingr": "Pepe rosa", "gr": null}], "46": [{"ingr": "Salame Sant'Angelo", "gr": null}, {"ingr": "Ricotta alla senape e miele", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Misticanza", "gr": null}], "47": [{"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Fonduta di formaggio", "gr": null}, {"ingr": "Datterino rosso caramellato", "gr": null}, {"ingr": "Rucola", "gr": null}, {"ingr": "Croccante di grana", "gr": null}], "48": [{"ingr": "Crema di patate", "gr": null}, {"ingr": "Fontina", "gr": null}, {"ingr": "Funghi porcini", "gr": null}, {"ingr": "Speck", "gr": null}, {"ingr": "Pepe arlecchino", "gr": null}, {"ingr": "Gherigli di noci", "gr": null}, {"ingr": "Scaglie di grana", "gr": null}], "49": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Ventresca di tonno", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Uva passa di zibibbo", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Sedano croccante", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}], "50": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Stracciatella", "gr": null}, {"ingr": "Alici del Mediterraneo", "gr": null}, {"ingr": "Origano", "gr": null}, {"ingr": "Zeste di limone", "gr": null}], "51": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Funghi freschi", "gr": null}, {"ingr": "Salsiccia di suino nero", "gr": null}, {"ingr": "Julienne di cavolo rosso", "gr": null}, {"ingr": "Polvere di lamponi", "gr": null}, {"ingr": "Perlage di tartufo", "gr": null}], "52": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Cucunci di Salina", "gr": null}, {"ingr": "Confettura di datterino rosso", "gr": null}, {"ingr": "Crema aglio fermentato", "gr": null}, {"ingr": "Origano", "gr": null}, {"ingr": "Olio EVO tonda iblea Terraliva", "gr": null}], "53": [{"ingr": "Vellutata di patate", "gr": null}, {"ingr": "Provola affumicata", "gr": null}, {"ingr": "Pepe nero", "gr": null}, {"ingr": "Porchetta", "gr": null}, {"ingr": "Salsa verde", "gr": null}, {"ingr": "Crudités di zucchine", "gr": null}], "54": [{"ingr": "Crema di scarola", "gr": null}, {"ingr": "Primo sale", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Scarola saltata", "gr": null}, {"ingr": "Alici del Mediterraneo", "gr": null}, {"ingr": "Pepe arlecchino", "gr": null}, {"ingr": "Crema di grana padano", "gr": null}], "55": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Polvere di grana padano", "gr": null}, {"ingr": "Olio EVO tonda iblea Terraliva", "gr": null}], "56": [{"ingr": "Stracciatella", "gr": null}, {"ingr": "Gambero rosso di Mazara", "gr": null}, {"ingr": "Datterino giallo", "gr": null}, {"ingr": "Erba cipollina", "gr": null}, {"ingr": "Polvere di pomodoro", "gr": null}, {"ingr": "Olio EVO tonda iblea Terraliva", "gr": null}], "57": [{"ingr": "Crema di pecorino", "gr": null}, {"ingr": "Salame finocchiona toscana", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Perlage di tartufo", "gr": null}, {"ingr": "Lime", "gr": null}], "58": [{"ingr": "Fonduta di formaggio affumicato", "gr": null}, {"ingr": "Rucola aromatizzata aceto fico India", "gr": null}, {"ingr": "Pomodori secchi", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Prosciutto crudo di Parma Levoni", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}, {"ingr": "Miele di cardo", "gr": null}], "59": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Burrata", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Prosciutto crudo di Parma Levoni", "gr": null}, {"ingr": "Olio EVO ogliarola messinese Ruggeri", "gr": null}], "60": [{"ingr": "Crema di scarola", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Prosciutto cotto affumicato Levoni", "gr": null}], "61": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mortadella Linea Oro Levoni", "gr": null}, {"ingr": "Crema di grana padano", "gr": null}, {"ingr": "Pesto di pistacchio", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}], "62": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Datterino giallo semi dry", "gr": null}, {"ingr": "Olio EVO tonda iblea Terraliva", "gr": null}, {"ingr": "Basilico", "gr": null}], "63": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Prosciutto cotto affumicato Levoni", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}], "64": [{"ingr": "Ragusano fuso", "gr": null}, {"ingr": "Arancia siciliana caramellata", "gr": null}, {"ingr": "Miele", "gr": null}, {"ingr": "Peperoncino", "gr": null}], "65": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Mozzarella di bufala DOP", "gr": null}, {"ingr": "Olio EVO Terraliva", "gr": null}, {"ingr": "Perlage al basilico", "gr": null}], "66": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mortadella", "gr": null}, {"ingr": "Ventresca di maiale", "gr": null}, {"ingr": "Peperoni", "gr": null}, {"ingr": "Funghi freschi", "gr": null}, {"ingr": "Perlage di tartufo", "gr": null}], "67": [{"ingr": "Stracciatella", "gr": null}, {"ingr": "Crema di burrata", "gr": null}, {"ingr": "Babbaluci", "gr": null}, {"ingr": "Pomodorini secchi", "gr": null}, {"ingr": "Perlage al basilico", "gr": null}], "68": [{"ingr": "Passata pomodoro", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Datterino", "gr": null}, {"ingr": "Maiorchino grattugiato", "gr": null}, {"ingr": "Basilico", "gr": null}, {"ingr": "Olio EVO", "gr": null}, {"ingr": "Menta", "gr": null}], "69": [{"ingr": "Crema di ricotta", "gr": null}, {"ingr": "Crema di uovo", "gr": null}, {"ingr": "Salame piccante", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}], "70": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Prosciutto cotto Branchi", "gr": null}, {"ingr": "Cottura", "gr": null}, {"ingr": "Crema di grana", "gr": null}, {"ingr": "Basilico", "gr": null}], "71": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Rucola", "gr": null}, {"ingr": "Prosciutto crudo di Parma Levoni", "gr": null}, {"ingr": "Scaglie di grana", "gr": null}, {"ingr": "Olio extravergine d'oliva", "gr": null}], "72": [{"ingr": "Passata pomodoro siccagno schiacciato", "gr": null}, {"ingr": "Crema aglio", "gr": null}, {"ingr": "Sarda affumicata", "gr": null}, {"ingr": "Prezzemolo", "gr": null}, {"ingr": "Origano", "gr": null}, {"ingr": "Zeste di limone", "gr": null}], "73": [{"ingr": "Pomodoro pelato schiacciato", "gr": null}, {"ingr": "Provola affumicata", "gr": null}, {"ingr": "Grana dopo cottura", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}, {"ingr": "Basilico", "gr": null}], "74": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Gambero marinato aglio e agrumi", "gr": null}, {"ingr": "E cotto", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}, {"ingr": "Lardo di patanegra", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Rosmarino", "gr": null}], "75": [{"ingr": "Scarola", "gr": null}, {"ingr": "Primo sale", "gr": null}, {"ingr": "Datterino rosso semi secco", "gr": null}, {"ingr": "Alici", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}], "76": [{"ingr": "Passata pomodoro siccagno schiacciato", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Datterino giallo", "gr": null}, {"ingr": "Chips di melanzane", "gr": null}, {"ingr": "Ricotta fresca", "gr": null}, {"ingr": "Ricotta infornata", "gr": null}, {"ingr": "Basilico", "gr": null}], "77": [{"ingr": "Passata pomodoro siccagno schiacciato", "gr": null}, {"ingr": "Filetti di tonno sott'olio", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Olive", "gr": null}, {"ingr": "Zeste di limone", "gr": null}], "78": [{"ingr": "Passata pomodoro siccagno schiacciato", "gr": null}, {"ingr": "Maionese vegana", "gr": null}, {"ingr": "Carciofi alla brace", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Funghi", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Sponzali", "gr": null}], "79": [{"ingr": "Passata pomodoro de L'Orso", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Prosciutto cotto Branchi", "gr": null}, {"ingr": "Grana", "gr": null}, {"ingr": "Uova", "gr": null}, {"ingr": "Basilico", "gr": null}, {"ingr": "Crema di grana", "gr": null}], "80": [{"ingr": "Stracciatella di bufala", "gr": null}, {"ingr": "Prosciutto crudo di Parma 24 mesi", "gr": null}, {"ingr": "Rucola selvatica", "gr": null}, {"ingr": "Scaglie di parmigiano reggiano 36 mesi", "gr": null}, {"ingr": "Olio EVO", "gr": null}, {"ingr": "Grani di pepe nero", "gr": null}], "81": [{"ingr": "Mortadella Levoni Linea Oro", "gr": null}, {"ingr": "Crescenza dop", "gr": null}, {"ingr": "Elisir al tartufo", "gr": null}], "82": [{"ingr": "Porchetta di Ariccia", "gr": null}, {"ingr": "Scarola saltata in padella", "gr": null}, {"ingr": "Provola affumicata", "gr": null}], "83": [{"ingr": "Speck", "gr": null}, {"ingr": "Funghi champignon", "gr": null}, {"ingr": "Funghi shiitake", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Noci", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Gorgonzola piccante", "gr": null}], "84": [{"ingr": "Vellutata di scarola", "gr": null}, {"ingr": "Salame Sant'Angelo", "gr": null}, {"ingr": "Stracciatella", "gr": null}, {"ingr": "Datterino rosso semi secco", "gr": null}, {"ingr": "Noci", "gr": null}, {"ingr": "Miele di cardo", "gr": null}], "85": [{"ingr": "Pomodoro siccagno schiacciato", "gr": null}, {"ingr": "Olive", "gr": null}, {"ingr": "Mortadella", "gr": null}, {"ingr": "Salame", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Fior di latte", "gr": null}], "86": [{"ingr": "Vellutata di scarola", "gr": null}, {"ingr": "Datterino rosso e giallo semi secco", "gr": null}, {"ingr": "Scaglie di primo sale", "gr": null}, {"ingr": "Filetti di alici selezionate", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}, {"ingr": "Olio al limone", "gr": null}], "87": [{"ingr": "Provola dei nebrodi", "gr": null}, {"ingr": "Fiordilatte", "gr": null}, {"ingr": "Datterini rosso semi secco", "gr": null}, {"ingr": "Petali di lacerto di manzo scottato", "gr": null}, {"ingr": "Cipolla rossa caramellata", "gr": null}, {"ingr": "Crumble di pane profumato", "gr": null}, {"ingr": "Polvere di olive", "gr": null}], "88": [{"ingr": "Provola dei Nebrodi", "gr": null}, {"ingr": "Scarola saltata con pinoli e uvetta", "gr": null}, {"ingr": "Trancio di tonno pinna gialla", "gr": null}, {"ingr": "Velo di lardo di suino nero dei Nebrodi", "gr": null}], "89": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Bottarga di tonno", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Datterino", "gr": null}, {"ingr": "Uva passa di zibibbo", "gr": null}, {"ingr": "Cucunci di Salina", "gr": null}], "90": [{"ingr": "Burrata", "gr": null}, {"ingr": "Mortadella", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}, {"ingr": "Mozzarella", "gr": null}], "91": [{"ingr": "Salsa di pomodoro siccagno", "gr": null}, {"ingr": "Marmellata di pomodoro", "gr": null}, {"ingr": "Alici mediterranee", "gr": null}, {"ingr": "Cucunci di Salina", "gr": null}], "92": [{"ingr": "Crema di parmigiano", "gr": null}, {"ingr": "Rucola", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Mozzarella", "gr": null}], "93": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Friarielli", "gr": null}, {"ingr": "Mozzarella affumicata", "gr": null}, {"ingr": "Salsiccia", "gr": null}], "94": [{"ingr": "Pesto di finocchietto", "gr": null}, {"ingr": "Datterino giallo semi dry", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Acciughe", "gr": null}, {"ingr": "Mollica tostata", "gr": null}], "95": [{"ingr": "Pizza vegetariana", "gr": null}, {"ingr": "Fantasia del pizzaChef Matteo La Spada", "gr": null}], "96": [{"ingr": "Primosale", "gr": null}, {"ingr": "Pomodoro fresco", "gr": null}, {"ingr": "Scarola", "gr": null}, {"ingr": "Acciughe", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}], "97": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Porchetta", "gr": null}, {"ingr": "Funghi freschi aromatizzati", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Peperone crusco", "gr": null}], "98": [{"ingr": "Pesto di castagne", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Funghi di stagione", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Scaglie di grana", "gr": null}], "99": [{"ingr": "Passata datterino giallo", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Ricotta infornata", "gr": null}, {"ingr": "Salsiccia", "gr": null}, {"ingr": "Basilico", "gr": null}], "100": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Scaglie di grana", "gr": null}, {"ingr": "Rucola", "gr": null}], "101": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Guanciale", "gr": null}, {"ingr": "Patate al forno", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Gorgonzola", "gr": null}, {"ingr": "Polvere di lampone", "gr": null}], "102": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Mortadella Levoni Linea Oro", "gr": null}, {"ingr": "Emulsione di pecorino", "gr": null}, {"ingr": "Melanzane sott'olio", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}], "103": [{"ingr": "Passata pomodoro della nonna", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Guanciale", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}, {"ingr": "Capperi", "gr": null}, {"ingr": "Pecorino", "gr": null}], "104": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Datterino rosso semi dry", "gr": null}, {"ingr": "Sbriciolona", "gr": null}, {"ingr": "Fonduta di pecorino", "gr": null}, {"ingr": "Zeste di lime", "gr": null}, {"ingr": "Perlage di tartufo", "gr": null}], "105": [{"ingr": "Provola affumicata", "gr": null}, {"ingr": "Roast beef di manzo", "gr": null}, {"ingr": "Salsa tonnata", "gr": null}, {"ingr": "Capperi di Salina", "gr": null}, {"ingr": "Polvere di lampone", "gr": null}], "106": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Crema di grana", "gr": null}, {"ingr": "Funghi shitake", "gr": null}, {"ingr": "Senape selvatica", "gr": null}, {"ingr": "Pepe del Sichuan", "gr": null}, {"ingr": "Riduzione di aceto balsamico", "gr": null}], "107": [{"ingr": "Vastedda del belice", "gr": null}, {"ingr": "Scarola riccia", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Salame sant'angelo", "gr": null}, {"ingr": "Datterino rosso semi secco", "gr": null}, {"ingr": "Origano", "gr": null}], "108": [{"ingr": "Mozzarella fior di latte", "gr": null}, {"ingr": "Salsiccia dei Nebrodi", "gr": null}, {"ingr": "Finocchietto", "gr": null}, {"ingr": "Patate al forno", "gr": null}, {"ingr": "Cipolla rossa caramellata", "gr": null}], "109": [{"ingr": "Pomodoro siccagno", "gr": null}, {"ingr": "Filetti di tonno", "gr": null}, {"ingr": "Capperi di salina", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Elisir di acciughe", "gr": null}, {"ingr": "Sponzali", "gr": null}, {"ingr": "Fonduta di formaggio", "gr": null}], "110": [{"ingr": "Passata datterino giallo", "gr": null}, {"ingr": "Bufala ragusana", "gr": null}, {"ingr": "Melanzane fritte", "gr": null}, {"ingr": "Ricotta salata", "gr": null}, {"ingr": "Foglie basilico fresco", "gr": null}], "111": [{"ingr": "Mozzarella", "gr": null}, {"ingr": "Mortadella", "gr": null}, {"ingr": "Stracciatella di bufala", "gr": null}, {"ingr": "Granella di pistacchio", "gr": null}], "112": [{"ingr": "Crema di zucca gialla", "gr": null}, {"ingr": "Pancetta di suino nero dei Nebrodi croccante", "gr": null}, {"ingr": "Provola affumicata", "gr": null}, {"ingr": "Noci", "gr": null}], "113": [{"ingr": "Pesto di zucchine", "gr": null}, {"ingr": "Zucchine fritte", "gr": null}, {"ingr": "Grana", "gr": null}, {"ingr": "Ricotta salata", "gr": null}], "114": [{"ingr": "Mozzarella fior di latte", "gr": null}, {"ingr": "Caponata di melanzane alla messinese", "gr": null}, {"ingr": "Mollica tostata", "gr": null}], "115": [{"ingr": "Pizza speciale", "gr": null}, {"ingr": "Ingredienti da definire", "gr": null}], "116": [{"ingr": "Acqua di fonte", "gr": null}, {"ingr": "Farina macinata a pietra", "gr": null}, {"ingr": "Sale integrale", "gr": null}, {"ingr": "Levito madre", "gr": null}], "117": [{"ingr": "Passata pomodoro biologico", "gr": null}, {"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Wurstel", "gr": null}, {"ingr": "Cipolla caramellata", "gr": null}, {"ingr": "Gocce di tabasco", "gr": null}], "118": [{"ingr": "Passata pomodoro siccagno", "gr": null}, {"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Funghi porcini", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Songino", "gr": null}, {"ingr": "Grana in scaglie", "gr": null}], "119": [{"ingr": "Crema di melanzane", "gr": null}, {"ingr": "Melanzane grigliate", "gr": null}, {"ingr": "Mozzarella di latte di bufala", "gr": null}, {"ingr": "Pomodorini confit", "gr": null}, {"ingr": "Prosciutto cotto Levoni affumicato", "gr": null}, {"ingr": "Misticanza melanzane", "gr": null}, {"ingr": "Pesto basilico", "gr": null}], "120": [{"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}, {"ingr": "Nocciole tostate", "gr": null}, {"ingr": "Pesto castagne", "gr": null}, {"ingr": "Scaglie di grana", "gr": null}], "121": [{"ingr": "Mozzarella di latte di bufala", "gr": null}, {"ingr": "Datterino rosso semidry", "gr": null}, {"ingr": "Datterino giallo semidry", "gr": null}, {"ingr": "Stracciatella", "gr": null}, {"ingr": "Funghi freschi aromatizzati", "gr": null}, {"ingr": "Crema di pistacchio", "gr": null}, {"ingr": "Speck", "gr": null}], "122": [{"ingr": "Caciotta siciliana", "gr": null}, {"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Porchetta di suino nero dei Nebrodi", "gr": null}, {"ingr": "Carciofo", "gr": null}, {"ingr": "Aria di santoreggia", "gr": null}], "123": [{"ingr": "Punte ripiene di ricotta e pepe nero", "gr": null}, {"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Prosciutto crudo di Parma", "gr": null}], "124": [{"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Pecorino Romano", "gr": null}, {"ingr": "Guanciale", "gr": null}, {"ingr": "Uovo grattugiato", "gr": null}, {"ingr": "Pepe nero in grani", "gr": null}], "125": [{"ingr": "Stracciatella", "gr": null}, {"ingr": "Fior di latte siciliano", "gr": null}, {"ingr": "Melanzane grigliate", "gr": null}, {"ingr": "Capperi", "gr": null}, {"ingr": "Cipolla di Giarratana", "gr": null}, {"ingr": "Olive taggiasche", "gr": null}, {"ingr": "Chips di barbabietola", "gr": null}], "126": [{"ingr": "Cornicione ripieno di ricotta", "gr": null}, {"ingr": "Pomodoro pelato biologico", "gr": null}, {"ingr": "Prosciutto cotto", "gr": null}, {"ingr": "Fior di latte", "gr": null}, {"ingr": "Ricotta", "gr": null}, {"ingr": "Perlage di basilico", "gr": null}], "127": [{"ingr": "Ostrica", "gr": null}, {"ingr": "Ricotta aromatizzata al limone", "gr": null}, {"ingr": "Passion fruit", "gr": null}, {"ingr": "Aria di champagne", "gr": null}], "128": [{"ingr": "Fior di latte", "gr": null}, {"ingr": "Datterino giallo", "gr": null}, {"ingr": "Pancetta dei nebrodi", "gr": null}, {"ingr": "Gambero rosso di Mazara", "gr": null}, {"ingr": "Semi di sesamo", "gr": null}, {"ingr": "Pecorino", "gr": null}, {"ingr": "Cipolla rossa", "gr": null}], "129": [{"ingr": "Bufala", "gr": null}, {"ingr": "Pomodoro in acqua di mare", "gr": null}, {"ingr": "Bottoni di pesto di basilico", "gr": null}, {"ingr": "Olio extra vergine di oliva minuta", "gr": null}], "130": [{"ingr": "Crema di avocado", "gr": null}, {"ingr": "Salmone all'aneto", "gr": null}, {"ingr": "Semi di chia", "gr": null}, {"ingr": "Cetrioli", "gr": null}, {"ingr": "Pomodori semi dry", "gr": null}], "131": [{"ingr": "Mozzarella campana 250gr", "gr": null}, {"ingr": "Pane pizza crudo", "gr": null}, {"ingr": "Prosciutto crudo Parma 24 mesi", "gr": null}, {"ingr": "Pomodoro semidry giallo", "gr": null}, {"ingr": "Giro d'olio", "gr": null}], "132": [{"ingr": "Datterino giallo", "gr": null}, {"ingr": "Pesto di rucola", "gr": null}, {"ingr": "Prosciutto crudo", "gr": null}, {"ingr": "Ricotta fresca", "gr": null}, {"ingr": "Granella di noce", "gr": null}], "133": [{"ingr": "Datterino giallo", "gr": null}, {"ingr": "Foglie di cappero", "gr": null}, {"ingr": "Cappero", "gr": null}, {"ingr": "Alici", "gr": null}, {"ingr": "Origano", "gr": null}]};
+const PREZZI = [{"prodotto": "Salsiccia piccante", "prezzo": 20.15, "fornitore": "Levoni Premium", "prodottoEsatto": "Salsiccia Stagionata Napoli Piccante 2,5kg", "confezione": "PACK 1 2,5kg", "listino": "PIU4"}, {"prodotto": "Guanciale affumicato", "prezzo": 14.65, "fornitore": "Levoni Riserva", "prodottoEsatto": "Guanciale Affumicato - Best Seller 1kg", "confezione": "PACK 1 1kg", "listino": "PIU4"}, {"prodotto": "Prosciutto crudo di Parma DOP 16m", "prezzo": 16.01, "fornitore": "Levoni Escl.Sicilia", "prodottoEsatto": "Prosciutto di Parma DOP 16m Cantina 7/8kg", "confezione": "PACK 1 7/8kg", "listino": "PIU4"}, {"prodotto": "Prosciutto cotto Branchi (vari)", "prezzo": 14.72, "fornitore": "Branchi Prosciutti", "prodottoEsatto": "Prosciutto Cotto Speciale/Affumicato 9/10kg", "confezione": "PACK 1 9/10kg", "listino": "PIU4"}, {"prodotto": "Salame piccante", "prezzo": 20.1, "fornitore": "Levoni Premium", "prodottoEsatto": "Salame Schiacciata Piccante 1,8kg", "confezione": "PACK 1 1,8kg", "listino": "PIU4"}, {"prodotto": "Salame Napoli Affumicato", "prezzo": 20.75, "fornitore": "Levoni Premium", "prodottoEsatto": "Salame Napoli Affumicato 1kg", "confezione": "PACK 1 1kg", "listino": "PIU4"}, {"prodotto": "Mortadella L'Artemano", "prezzo": 12.85, "fornitore": "Levoni L'Artemano Exclusive", "prodottoEsatto": "Mortadella Budello Naturale Bronte DOP 7,5kg", "confezione": "PACK 1 7,5kg", "listino": "PIU4"}, {"prodotto": "Mortadella ORO (pistacchio Bronte DOP)", "prezzo": 11.6, "fornitore": "Levoni Premium", "prodottoEsatto": "Mortadella ORO con Pistacchio di Bronte DOP", "confezione": "PACK 1 13kg/4,5kg", "listino": "PIU4"}, {"prodotto": "Speck L'Artemano", "prezzo": 23.35, "fornitore": "Levoni L'Artemano Exclusive", "prodottoEsatto": "Speck Affumicatura alla Brace Legno di Faggio", "confezione": "PACK 1 5/6kg", "listino": "PIU4"}, {"prodotto": "Porchetta arrosto", "prezzo": 14.7, "fornitore": "Levoni Premium", "prodottoEsatto": "Porchetta Arrosto 100% animale italiano 3,5kg", "confezione": "PACK 1 3,5kg", "listino": "PIU4"}, {"prodotto": "Lardo di Patanegra", "prezzo": 12.9, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Lardo di Patanegra 2kg", "confezione": "NEW 1 2kg", "listino": "PIU4"}, {"prodotto": "Pancetta stufata affumicata", "prezzo": 15.55, "fornitore": "Levoni Premium", "prodottoEsatto": "Pancetta Stufata Affumicata Bacon Croccante", "confezione": "PACK 1 1,5kg", "listino": "PIU4"}, {"prodotto": "Bresaola Valtellina IGP Punta d'Anca", "prezzo": 34.5, "fornitore": "Levoni Premium", "prodottoEsatto": "Bresaola della Valtellina IGP 1,5kg", "confezione": "PACK 1 1,5kg", "listino": "PIU4"}, {"prodotto": "Prosciutto crudo L'Artemano 24-28 mesi", "prezzo": 23.0, "fornitore": "Levoni L'Artemano Exclusive", "prodottoEsatto": "Pregiata Riserva 24-28 mesi da Cantina", "confezione": "PACK 1 8/9kg", "listino": "PIU4"}, {"prodotto": "N'Duja l'Originale", "prezzo": 17.3, "fornitore": "Levoni Premium", "prodottoEsatto": "N'Duja L'Originale 400g", "confezione": "PACK 1 400g", "listino": "PIU4"}, {"prodotto": "Coppa legata a mano", "prezzo": 24.05, "fornitore": "Levoni L'Artemano Exclusive", "prodottoEsatto": "Coppa Budello Naturale 6 mesi Carne Viva", "confezione": "PACK 1 2,5kg", "listino": "PIU4"}, {"prodotto": "Provola dei Nebrodi DOP", "prezzo": 16.5, "fornitore": "Caseificio Fioriglio", "prodottoEsatto": "Provola dei Nebrodi DOP - Presidio Slow Food", "confezione": "PACK 1 6x1kg", "listino": "PIU4"}, {"prodotto": "Ricotta salata", "prezzo": 23.0, "fornitore": "Caseificio Fioriglio", "prodottoEsatto": "Ricotta Salata 500g → 23,00€/kg", "confezione": "PACK 1 500g", "listino": "PIU4"}, {"prodotto": "Tuma al Sale delle Madonie", "prezzo": 13.9, "fornitore": "Caseificio Privitera", "prodottoEsatto": "Tuma al Sale delle Madonie 5kg", "confezione": "PACK 1 5kg", "listino": "PIU4"}, {"prodotto": "Ricotta fresca", "prezzo": 8.0, "fornitore": "Caseificio Privitera", "prodottoEsatto": "Ricotta Fresca (vaso)", "confezione": "PACK 1 VASO", "listino": "PIU4"}, {"prodotto": "Tuma Persa", "prezzo": 25.9, "fornitore": "Caseificio Passalacqua", "prodottoEsatto": "Tuma Persa - Presidio Slow Food 3,5kg", "confezione": "PACK 1 3,5kg", "listino": "PIU4"}, {"prodotto": "Pecorino Siciliano DOP", "prezzo": 21.9, "fornitore": "Caseificio Il Cavalcatore", "prodottoEsatto": "Pecorino Siciliano DOP 3kg", "confezione": "PACK 1 3kg", "listino": "PIU4"}, {"prodotto": "Piacentino Ennese DOP", "prezzo": 24.75, "fornitore": "Caseificio Il Cavalcatore", "prodottoEsatto": "Piacentino Ennese DOP - Presidio SF 2kg", "confezione": "PACK 1 2kg", "listino": "PIU4"}, {"prodotto": "Grana Padano DOP Montagna 20 mesi", "prezzo": 17.88, "fornitore": "Levoni Selezione", "prodottoEsatto": "Grana Padano DOP di Montagna 20 mesi 4,5kg", "confezione": "PACK 1 4,5kg", "listino": "PIU4"}, {"prodotto": "Parmigiano Reggiano DOP 24 mesi", "prezzo": 19.87, "fornitore": "Levoni Selezione", "prodottoEsatto": "Parmigiano Reggiano DOP Montagna 24 mesi 4,5kg", "confezione": "PACK 1 4,5kg", "listino": "PIU4"}, {"prodotto": "Ragusano DOP", "prezzo": 16.75, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Ragusano DOP Arca del Gusto - Presidio SF", "confezione": "PACK 1 1,8/15kg", "listino": "PIU4"}, {"prodotto": "Cosacavaddu Ibleo semi stagionato", "prezzo": 14.5, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Cosacavaddu Ibleo Semi Stagionato", "confezione": "PACK 1 1,8/15kg", "listino": "PIU4"}, {"prodotto": "Blu di Bufala", "prezzo": 29.91, "fornitore": "Quattro Portoni", "prodottoEsatto": "Blu di Bufala Top Cheese World - Erborinata", "confezione": "PACK 1 4kg", "listino": "PIU4"}, {"prodotto": "Funghi Shiitake Extra", "prezzo": 6.5, "fornitore": "Scherini", "prodottoEsatto": "Funghi Shiitake Qualità Extra 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Nameko Extra", "prezzo": 6.8, "fornitore": "Scherini", "prodottoEsatto": "Funghi Nameko Qualità Extra 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Champignon Standard", "prezzo": 2.9, "fornitore": "Scherini", "prodottoEsatto": "Funghi Champignon Qualità Standard 2,5kg", "confezione": "NEW 1 2,5kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini Interi Extra", "prezzo": 21.13, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini Interi Qualità Extra 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini Interi Premium", "prezzo": 17.55, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini Interi Qualità Premium 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini Interi Standard", "prezzo": 14.12, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini Interi Qualità Standard 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini a Fette Premium", "prezzo": 15.8, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini a Fette Qualità Premium 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini a Fette Standard", "prezzo": 12.15, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini a Fette Qualità Standard 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Porcini a Cubetti Standard", "prezzo": 10.15, "fornitore": "Scherini", "prodottoEsatto": "Funghi Porcini a Cubetti Standard 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Cuore di Carciofi", "prezzo": 5.75, "fornitore": "Scherini", "prodottoEsatto": "Cuore di Carciofi 1kg", "confezione": "NEW 1 1kg", "listino": "PIU4"}, {"prodotto": "Funghi Cardoncelli Best Seller", "prezzo": 14.3, "fornitore": "Spirito Contadino", "prodottoEsatto": "Funghi Cardoncelli Best Seller 2kg", "confezione": "PACK 1 2kg", "listino": "PIU4"}, {"prodotto": "Mugnuli Selvatici di Campo", "prezzo": 13.8, "fornitore": "Spirito Contadino", "prodottoEsatto": "Mugnuli Selvatici di Campo 1kg/pz", "confezione": "PACK 4pz 1kg", "listino": "PIU4"}, {"prodotto": "Friarielli di Campo", "prezzo": 11.85, "fornitore": "Spirito Contadino", "prodottoEsatto": "Friarielli di Campo 1kg/pz", "confezione": "PACK 4pz 1kg", "listino": "PIU4"}, {"prodotto": "Sponzali 500g", "prezzo": 19.36, "fornitore": "Spirito Contadino", "prodottoEsatto": "Sponzali 500g/pz → 19,36€/kg", "confezione": "PACK 8pz 500g", "listino": "PIU4"}, {"prodotto": "Senape Selvatica di Campo", "prezzo": 13.57, "fornitore": "Spirito Contadino", "prodottoEsatto": "Senape Selvatica di Campo 1kg/pz", "confezione": "PACK 4pz 1kg", "listino": "PIU4"}, {"prodotto": "Cicoriella Selvatica", "prezzo": 11.71, "fornitore": "Spirito Contadino", "prodottoEsatto": "Cicoriella Selvatica di Campo 1,25kg/pz", "confezione": "PACK 4pz 1,25kg", "listino": "PIU4"}, {"prodotto": "Carciofini in Crosta", "prezzo": 13.43, "fornitore": "Spirito Contadino", "prodottoEsatto": "Carciofini in Crosta 1kg/pz", "confezione": "PACK 4pz 1kg", "listino": "PIU4"}, {"prodotto": "Fiori di Zucca in Crosta", "prezzo": 14.01, "fornitore": "Spirito Contadino", "prodottoEsatto": "Fiori di Zucca in Crosta 1kg", "confezione": "PACK 1pz 1kg", "listino": "PIU4"}, {"prodotto": "Datterino Giallo Passata/Vellutata", "prezzo": 6.85, "fornitore": "Grangusto", "prodottoEsatto": "Vellutata di Datterino Giallo 6×800g → 6,85€/kg", "confezione": "LATTA 6x800g", "listino": "AMBIENTE"}, {"prodotto": "Datterino Rosso Semi Dry", "prezzo": 9.98, "fornitore": "Grangusto", "prodottoEsatto": "Datterino Rosso Semi Dry 6×800g → 9,98€/kg", "confezione": "LATTA 6x800g", "listino": "AMBIENTE"}, {"prodotto": "Datterino Giallo Semi Dry", "prezzo": 9.98, "fornitore": "Grangusto", "prodottoEsatto": "Datterino Giallo Semi Dry 6×800g → 9,98€/kg", "confezione": "LATTA 6x800g", "listino": "AMBIENTE"}, {"prodotto": "Datterino Rosso in Succo", "prezzo": 5.39, "fornitore": "Grangusto", "prodottoEsatto": "Datterino Rosso in Succo 6×800g → 5,39€/kg", "confezione": "LATTA 6x800g", "listino": "AMBIENTE"}, {"prodotto": "Datterino Giallo in Succo", "prezzo": 6.15, "fornitore": "Grangusto", "prodottoEsatto": "Datterino Giallo in Succo 6×800g → 6,15€/kg", "confezione": "LATTA 6x800g", "listino": "AMBIENTE"}, {"prodotto": "Crema di Zucca Gialla", "prezzo": 9.57, "fornitore": "Grangusto", "prodottoEsatto": "Crema di Zucca Gialla 12×400g → 9,57€/kg", "confezione": "LATTA 12x400g", "listino": "AMBIENTE"}, {"prodotto": "Pomodoro Pelati Bio 100% Italiani", "prezzo": 2.33, "fornitore": "Gustarosso", "prodottoEsatto": "Pomodoro Pelati Biologici 6×2500g → 2,33€/kg", "confezione": "LATTA 6x2500g", "listino": "AMBIENTE"}, {"prodotto": "Pomodoro Pelati 100% Italiani", "prezzo": 1.9, "fornitore": "Gustarosso", "prodottoEsatto": "Pomodoro Pelati 100% Italiani 6×2500g → 1,90€/kg", "confezione": "LATTA 6x2500g", "listino": "AMBIENTE"}, {"prodotto": "San Marzano DOP", "prezzo": 3.39, "fornitore": "Gustarosso", "prodottoEsatto": "San Marzano DOP Agro Sarnese 6×2560g → 3,39€/kg", "confezione": "LATTA 6x2560g", "listino": "AMBIENTE"}, {"prodotto": "U' Siccu di Siccagnu (Rosso Siculo)", "prezzo": 22.0, "fornitore": "Rosso Siculo", "prodottoEsatto": "Top Italian Food GR 2024 - 1kg", "confezione": "PACK 1kg", "listino": "AMBIENTE"}, {"prodotto": "Passata di Pomodoro (Rosso Siculo)", "prezzo": 2.94, "fornitore": "Rosso Siculo", "prodottoEsatto": "Top Italian Food GR 2024 - 12×680g → 2,94€/kg", "confezione": "VETRO 12x680g", "listino": "AMBIENTE"}, {"prodotto": "Filetti Alici Triscele Superior", "prezzo": 51.54, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Filetti di Alici Triscele Superior 500g → 51,54€/kg", "confezione": "PACK 4pz 500g", "listino": "AMBIENTE"}, {"prodotto": "Filetti Alici del Mediterraneo", "prezzo": 22.41, "fornitore": "Delfino Battista", "prodottoEsatto": "Filetti Alici Mediterraneo 1,5kg vetro → 22,41€/kg", "confezione": "VETRO 2pz 1,5kg", "listino": "AMBIENTE"}, {"prodotto": "Filetti Alici Cetara (Armatore)", "prezzo": 28.39, "fornitore": "Armatore Cetara", "prodottoEsatto": "Filetti Alici FAO 37,2 Antico Metodo 1,3kg → 28,39€/kg", "confezione": "VETRO 3pz 1,3kg", "listino": "AMBIENTE"}, {"prodotto": "Tonno Linea Top (Delfino Battista)", "prezzo": 19.41, "fornitore": "Delfino Battista", "prodottoEsatto": "Tonno Linea Top Selezione 6×540g → 19,41€/kg", "confezione": "VETRO 6x540g", "listino": "AMBIENTE"}, {"prodotto": "Ventresca Tonno Rosso (Armatore)", "prezzo": 72.94, "fornitore": "Armatore Cetara", "prodottoEsatto": "Ventresca Tonno Rosso in OEvo FAO 37.1 850g → 72,94€/kg", "confezione": "LATTA 1pz 850g", "listino": "AMBIENTE"}, {"prodotto": "Carciofi alla Brace grigliati", "prezzo": 12.76, "fornitore": "Delfino Battista", "prodottoEsatto": "Carciofi alla Brace Grigliati Forno Legna 8×580g → 12,76€/kg", "confezione": "VETRO 8x580g", "listino": "AMBIENTE"}, {"prodotto": "Capperi di Pantelleria", "prezzo": 39.88, "fornitore": "La Nicchia di Pantelleria", "prodottoEsatto": "Capperi di Pantelleria 1kg (simile Salina)", "confezione": "PACK 1kg", "listino": "AMBIENTE"}, {"prodotto": "Cucunci di Pantelleria", "prezzo": 28.65, "fornitore": "La Nicchia di Pantelleria", "prodottoEsatto": "Cucunci di Pantelleria 1kg", "confezione": "PACK 1kg", "listino": "AMBIENTE"}, {"prodotto": "Foglie di Cappero di Pantelleria", "prezzo": 48.79, "fornitore": "La Nicchia di Pantelleria", "prodottoEsatto": "Foglie Cappero 900g → 48,79€/kg", "confezione": "PACK 900g", "listino": "AMBIENTE"}, {"prodotto": "Olive Taggiasche DOP", "prezzo": 17.11, "fornitore": "Frantoio Bianco", "prodottoEsatto": "Olive Taggiasche DOP 950g → 17,11€/kg", "confezione": "VETRO 950g", "listino": "AMBIENTE"}, {"prodotto": "Polvere di Olive", "prezzo": 119.33, "fornitore": "Ulidea", "prodottoEsatto": "Polvere di Olive Selezionate Vegane 150g → 119,33€/kg", "confezione": "150g", "listino": "AMBIENTE"}, {"prodotto": "Cipolla di Giarratana in Olio EVO", "prezzo": 11.93, "fornitore": "Fagone", "prodottoEsatto": "Cipolla di Giarratana Slow Food 1,5kg → 11,93€/kg", "confezione": "VETRO 4pz 1,5kg", "listino": "AMBIENTE"}, {"prodotto": "Pesto di Pistacchio Siciliano", "prezzo": 26.5, "fornitore": "A'Ricchigia", "prodottoEsatto": "Pesto Pistacchio Siciliano 1kg", "confezione": "PACK 5pz 1kg", "listino": "AMBIENTE"}, {"prodotto": "Pesto di Pistacchio Mediterraneo", "prezzo": 18.75, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Pesto Pistacchio del Mediterraneo 1kg", "confezione": "PACK 1pz 1kg", "listino": "AMBIENTE"}, {"prodotto": "Olio EVO Cherubino Terraliva", "prezzo": 37.7, "fornitore": "Terraliva", "prodottoEsatto": "Cherubino EVO Bio Tonda Iblea Presidio SF → 37,70€/l", "confezione": "VETRO 12x500ml", "listino": "AMBIENTE"}, {"prodotto": "Olio al Limone (Terraliva Fusion)", "prezzo": 85.0, "fornitore": "Terraliva", "prodottoEsatto": "Fusion EVO Aroma Limone 100ml → 85,00€/l", "confezione": "PVC 100ml", "listino": "AMBIENTE"}, {"prodotto": "Olio al Tartufo (Terraliva Fusion)", "prezzo": 99.0, "fornitore": "Terraliva", "prodottoEsatto": "Fusion EVO Aroma Tartufo 100ml → 99,00€/l", "confezione": "PVC 100ml", "listino": "AMBIENTE"}, {"prodotto": "Habamix - Olio 5 Peperoncini", "prezzo": 180.0, "fornitore": "Habamix", "prodottoEsatto": "Olio Speciale ai 5 Peperoncini 50ml → 180€/l", "confezione": "VETRO 50ml", "listino": "AMBIENTE"}, {"prodotto": "Peperone di Senise IGP Crusco", "prezzo": 169.0, "fornitore": "D'Ago Selezione", "prodottoEsatto": "Peperone Senise IGP Fritto in OEvo 150g → 169€/kg", "confezione": "VETRO 2pz 150g", "listino": "AMBIENTE"}, {"prodotto": "Perlage di Tartufo Nero Pregiato", "prezzo": 178.0, "fornitore": "Tartuflanghe", "prodottoEsatto": "Perlage Tartufo Nero Pregiato 200g → 178€/kg", "confezione": "VETRO 200g", "listino": "AMBIENTE"}, {"prodotto": "Perlage al Basilico", "prezzo": 94.55, "fornitore": "Tartuflanghe", "prodottoEsatto": "Perlage di Pesto al Basilico 200g → 94,55€/kg", "confezione": "VETRO 200g", "listino": "AMBIENTE"}, {"prodotto": "Perlage di Acciughe", "prezzo": 94.55, "fornitore": "Tartuflanghe", "prodottoEsatto": "Perlage di Acciughe 200g → 94,55€/kg", "confezione": "VETRO 200g", "listino": "AMBIENTE"}];
+
+let filtered = [...PIZZAS];
+let deleteTarget = null;
+let searchTimer = null;
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  buildIngrFilter();
+  renderDashboard();
+  renderPizzas();
+  renderPrezzi();
+  addIngrRow();
+  document.getElementById('pizzaCount').textContent = PIZZAS.length + ' pizze';
+  document.addEventListener('click', e => {
+    if (!document.getElementById('searchWrap').contains(e.target)) {
+      document.getElementById('searchResults').classList.remove('open');
+    }
+  });
+});
+
+// ===== TABS =====
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  // show/hide search hero only on archivio
+  document.getElementById('searchHero').style.display = (id === 'prezzi' || id === 'menu') ? 'none' : 'block';
+  if (id !== 'archivio') {
+    document.getElementById('searchResults').classList.remove('open');
+  }
+}
+
+// ===== LIVE SEARCH =====
+function onSearch(q) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    runSearch(q);
+    filterPizzas();
+  }, 150);
+}
+
+function runSearch(q) {
+  const res = document.getElementById('searchResults');
+  const val = q.trim();
+  if (!val) { res.classList.remove('open'); return; }
+
+  const matches = PIZZAS.filter(p =>
+    p.nome.toLowerCase().includes(val.toLowerCase()) ||
+    p.cond.some(c => c.toLowerCase().includes(val.toLowerCase()))
+  ).slice(0, 12);
+
+  if (matches.length === 0) {
+    res.innerHTML = '<div class="sr-empty">Nessun risultato per "<strong>' + esc(val) + '</strong>"</div>';
+    res.classList.add('open');
+    return;
+  }
+
+  res.innerHTML = matches.map(p => {
+    const nameHl = highlight(p.nome, val);
+    const matchedIngr = p.cond.filter(c => c.toLowerCase().includes(val.toLowerCase()));
+    const sub = matchedIngr.length
+      ? matchedIngr.map(c => highlight(c, val)).join(' · ')
+      : p.cond.slice(0,3).join(', ') + (p.cond.length > 3 ? '…' : '');
+    return `<div class="sr-item" onclick="jumpToPizza(${p.n})">
+      <div class="sr-item-name"><span class="sr-num">N°${p.n}</span>${nameHl}</div>
+      <div class="sr-item-sub">${sub}</div>
+    </div>`;
+  }).join('');
+  res.classList.add('open');
+}
+
+function highlight(text, q) {
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function openResults() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) runSearch(q);
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').classList.remove('open');
+  filtered = [...PIZZAS];
+  renderPizzas();
+}
+
+function jumpToPizza(n) {
+  document.getElementById('searchResults').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+  // make sure archivio tab is active
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-archivio').classList.add('active');
+  document.querySelector('nav button').classList.add('active');
+  document.getElementById('searchHero').style.display = 'block';
+  filtered = [...PIZZAS];
+  renderPizzas();
+  document.getElementById('pizzaCount').textContent = PIZZAS.length + ' pizze';
+  setTimeout(() => {
+    const card = document.getElementById('card-' + n);
+    if (card) {
+      card.classList.add('expanded');
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }, 80);
+}
+
+// ===== FILTER =====
+function buildIngrFilter() {
+  const all = new Set();
+  PIZZAS.forEach(p => p.cond.forEach(c => all.add(c.trim())));
+  const sorted = [...all].sort();
+  const sel = document.getElementById('filterIngr');
+  sorted.forEach(i => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = i;
+    sel.appendChild(opt);
+  });
+}
+
+function filterPizzas() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const ingr = document.getElementById('filterIngr').value.toLowerCase();
+  filtered = PIZZAS.filter(p => {
+    const matchQ = !q || p.nome.toLowerCase().includes(q) || p.cond.some(c => c.toLowerCase().includes(q));
+    const matchI = !ingr || p.cond.some(c => c.toLowerCase() === ingr);
+    return matchQ && matchI;
+  });
+  renderPizzas();
+}
+
+// ===== RENDER PIZZAS =====
+function renderPizzas() {
+  const grid = document.getElementById('pizzaGrid');
+  const empty = document.getElementById('emptyMsg');
+  document.getElementById('pizzaCount').textContent = filtered.length + ' pizze';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = ''; empty.style.display = 'block'; return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(p => {
+    const preview = p.cond.slice(0,4).join(' · ') + (p.cond.length > 4 ? '…' : '');
+    const grData = GRAMMI[p.n] || [];
+
+    const ingrHtml = p.cond.map((c,i) => {
+      const grEntry = grData.find ? grData.find(g => g && g.ingr && g.ingr.toLowerCase().trim() === c.toLowerCase().trim()) : grData[i];
+      const grVal = grEntry?.gr ?? '';
+      return `<li>
+        <span class="ingr-idx">${i+1}</span>
+        <span class="ingr-dot"></span>
+        <span class="ingr-name" contenteditable="true"
+          onblur="editIngr(${p.n},${i},this.textContent)">${c}</span>
+        <input class="ingr-gr" type="number" placeholder="gr" value="${grVal}"
+          onchange="editGr(${p.n},${i},this.value)">
+      </li>`;
+    }).join('');
+
+    return `<div class="pizza-card" id="card-${p.n}">
+      <div class="pizza-card-header" onclick="toggleCard(${p.n})">
+        <span class="pizza-num">N°${p.n}</span>
+        <div class="pizza-info">
+          <div class="pizza-name">${p.nome}</div>
+          <div class="pizza-sub">${preview}</div>
+        </div>
+        <span class="pizza-chevron">▾</span>
+      </div>
+      <div class="pizza-detail">
+        <ul class="ingr-list">${ingrHtml}</ul>
+        ${p.note ? `<div class="pizza-note">📝 ${p.note}</div>` : ''}
+        <div class="edit-actions">
+          <button class="btn-sm success" onclick="addIngrToPizza(${p.n})">＋ Ingr.</button>
+          <button class="btn-sm" onclick="editNome(${p.n})">✏️ Rinomina</button>
+          <button class="btn-sm danger" onclick="deletePizza(${p.n})">🗑 Elimina</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(n) {
+  const card = document.getElementById('card-' + n);
+  const wasExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.pizza-card.expanded').forEach(c => c.classList.remove('expanded'));
+  if (!wasExpanded) card.classList.add('expanded');
+}
+
+function editIngr(n, idx, val) {
+  const p = PIZZAS.find(x => x.n === n);
+  if (p) p.cond[idx] = val.trim();
+}
+
+function editGr(n, idx, val) {
+  if (!GRAMMI[n] || !Array.isArray(GRAMMI[n])) GRAMMI[n] = [];
+  if (!GRAMMI[n][idx]) GRAMMI[n][idx] = {};
+  GRAMMI[n][idx].gr = val ? +val : null;
+}
+
+function editNome(n) {
+  const p = PIZZAS.find(x => x.n === n);
+  const v = prompt('Nuovo nome:', p.nome);
+  if (v && v.trim()) {
+    p.nome = v.trim();
+    renderPizzas();
+    setTimeout(() => document.getElementById('card-'+n)?.classList.add('expanded'), 50);
+    showToast('✏️ Rinominata');
+  }
+}
+
+function addIngrToPizza(n) {
+  const p = PIZZAS.find(x => x.n === n);
+  const v = prompt('Nuovo ingrediente:');
+  if (v && v.trim()) {
+    p.cond.push(v.trim());
+    renderPizzas();
+    setTimeout(() => document.getElementById('card-'+n)?.classList.add('expanded'), 50);
+    showToast('✅ Ingrediente aggiunto');
+  }
+}
+
+function deletePizza(n) {
+  const p = PIZZAS.find(x => x.n === n);
+  deleteTarget = n;
+  document.getElementById('deleteModalSub').textContent = 'N°' + n + ' — ' + p.nome;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function confirmDelete() {
+  PIZZAS = PIZZAS.filter(p => p.n !== deleteTarget);
+  filtered = filtered.filter(p => p.n !== deleteTarget);
+  closeModal();
+  renderPizzas();
+  renderDashboard();
+  document.getElementById('totalBadge').textContent = PIZZAS.length;
+  showToast('🗑 Pizza eliminata');
+}
+
+function closeModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTarget = null;
+}
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ===== ADD FORM =====
+function toggleAddForm() {
+  const form = document.getElementById('addForm');
+  form.classList.toggle('visible');
+  if (form.classList.contains('visible')) document.getElementById('newNome').focus();
+}
+
+function addIngrRow(val='') {
+  const container = document.getElementById('newIngrRows');
+  const row = document.createElement('div');
+  row.className = 'form-ingr-row';
+  row.innerHTML = `
+    <input type="text" placeholder="Ingrediente" value="${val}">
+    <input type="number" class="gr-inp" placeholder="gr">
+    <button class="btn-sm danger" onclick="this.parentElement.remove()">✕</button>
+  `;
+  container.appendChild(row);
+}
+
+function savePizza() {
+  const nome = document.getElementById('newNome').value.trim();
+  if (!nome) { alert('Inserisci il nome della pizza'); return; }
+  const rows = document.querySelectorAll('#newIngrRows .form-ingr-row');
+  const cond = [];
+  rows.forEach(row => {
+    const v = row.querySelector('input[type=text]').value.trim();
+    if (v) cond.push(v);
+  });
+  const newN = Math.max(...PIZZAS.map(p => p.n), 135) + 1;
+  PIZZAS.push({ n: newN, nome, cond, note: document.getElementById('newNote').value.trim() });
+  // Ordine alfabetico automatico
+  PIZZAS.sort((a, b) => a.nome.localeCompare(b.nome, 'it', {sensitivity: 'base'}));
+  document.getElementById('newNome').value = '';
+  document.getElementById('newNote').value = '';
+  document.getElementById('newIngrRows').innerHTML = '';
+  addIngrRow();
+  document.getElementById('addForm').classList.remove('visible');
+  filterPizzas();
+  renderDashboard();
+  document.getElementById('totalBadge').textContent = PIZZAS.length;
+  showToast('✅ ' + nome + ' aggiunta in ordine alfabetico!');
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const allIngr = new Set();
+  let totalIngr = 0;
+  const ingrCount = {};
+  const distribCount = {};
+  PIZZAS.forEach(p => {
+    const n = p.cond.length;
+    totalIngr += n;
+    distribCount[n] = (distribCount[n] || 0) + 1;
+    p.cond.forEach(c => {
+      const k = c.toLowerCase().trim();
+      allIngr.add(k);
+      ingrCount[k] = (ingrCount[k] || 0) + 1;
+    });
+  });
+  document.getElementById('statTot').textContent = PIZZAS.length;
+  document.getElementById('statIngr').textContent = allIngr.size;
+  document.getElementById('statAvg').textContent = (totalIngr / PIZZAS.length).toFixed(1);
+
+  const top = Object.entries(ingrCount).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  const maxV = top[0][1];
+  document.getElementById('topIngrList').innerHTML = top.map(([k,v]) =>
+    `<div class="ingr-bar-row">
+      <div class="ingr-bar-name">${k.charAt(0).toUpperCase()+k.slice(1)}</div>
+      <div class="ingr-bar-bg"><div class="ingr-bar-fill red" style="width:${Math.round(v/maxV*100)}%"></div></div>
+      <div class="ingr-bar-count">${v}</div>
+    </div>`
+  ).join('');
+
+  const distrib = Object.entries(distribCount).sort((a,b)=>+a[0]-+b[0]);
+  const maxD = Math.max(...distrib.map(x=>x[1]));
+  document.getElementById('distribList').innerHTML = distrib.map(([k,v]) =>
+    `<div class="ingr-bar-row">
+      <div class="ingr-bar-name">${k} condimenti</div>
+      <div class="ingr-bar-bg"><div class="ingr-bar-fill gold" style="width:${Math.round(v/maxD*100)}%"></div></div>
+      <div class="ingr-bar-count">${v}</div>
+    </div>`
+  ).join('');
+}
+
+// ===== PREZZI =====
+function renderPrezzi(data) {
+  const rows = data || PREZZI;
+  const list = document.getElementById('prezziList');
+  const empty = document.getElementById('prezziEmpty');
+  document.getElementById('prezziCount') && (document.getElementById('prezziCount').textContent = rows.length + ' prodotti');
+  if (rows.length === 0) { list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = rows.map(r =>
+    `<div class="prezzi-card">
+      <div class="prezzi-top">
+        <div class="prezzi-name">${r.prodotto}<span class="prezzi-badge">${r.listino}</span></div>
+        <div class="prezzi-val">€${r.prezzo.toFixed(2)}</div>
+      </div>
+      <div class="prezzi-sub">${r.fornitore} · ${r.prodottoEsatto} · ${r.confezione}</div>
+    </div>`
+  ).join('');
+}
+
+function filterPrezzi() {
+  const q = document.getElementById('prezziSearch').value.toLowerCase();
+  renderPrezzi(PREZZI.filter(r =>
+    r.prodotto.toLowerCase().includes(q) ||
+    r.fornitore.toLowerCase().includes(q) ||
+    r.prodottoEsatto.toLowerCase().includes(q)
+  ));
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ══════════════════════════════════════════════
+// MENÙ PERSONALIZZATO
+// ══════════════════════════════════════════════
+let menuSelezionate = []; // array di numeri pizza selezionate
+
+function menuFilter(val) {
+  const box = document.getElementById('menuSearchResults');
+  if (!val.trim()) { box.style.display = 'none'; return; }
+  const q = val.toLowerCase();
+  const results = PIZZAS.filter(p =>
+    p.nome.toLowerCase().includes(q) ||
+    String(p.n).includes(q)
+  ).slice(0, 15);
+
+  if (results.length === 0) { box.style.display = 'none'; return; }
+
+  box.style.display = 'block';
+  box.innerHTML = results.map(p => {
+    const already = menuSelezionate.includes(p.n);
+    return `<div onclick="menuTogglePizza(${p.n})" style="
+      padding:10px 14px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:10px;cursor:pointer;
+      background:${already ? '#fdf0f0' : '#fff'};
+      font-family:'Inter',sans-serif;
+    ">
+      <span style="font-size:12px;color:var(--muted);min-width:32px">N°${p.n}</span>
+      <span style="flex:1;font-size:14px;color:var(--text)">${p.nome}</span>
+      <span style="font-size:18px">${already ? '✅' : '＋'}</span>
+    </div>`;
+  }).join('');
+}
+
+function menuTogglePizza(n) {
+  if (menuSelezionate.includes(n)) {
+    menuSelezionate = menuSelezionate.filter(x => x !== n);
+  } else {
+    menuSelezionate.push(n);
+    menuSelezionate.sort((a, b) => a - b);
+  }
+  renderMenuChips();
+  // aggiorna la ricerca
+  const q = document.getElementById('menuSearch').value;
+  if (q) menuFilter(q);
+}
+
+function renderMenuChips() {
+  const chipsEl = document.getElementById('menuChips');
+  const selEl = document.getElementById('menuSelected');
+  const countEl = document.getElementById('menuSelCount');
+
+  if (menuSelezionate.length === 0) {
+    selEl.style.display = 'none';
+    return;
+  }
+  selEl.style.display = 'block';
+  countEl.textContent = '(' + menuSelezionate.length + ')';
+
+  chipsEl.innerHTML = menuSelezionate.map(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return '';
+    return `<div style="
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--red-light);border:1px solid var(--red-border);
+      border-radius:20px;padding:4px 10px;font-size:12px;
+      color:var(--red-deep);font-family:'Inter',sans-serif;
+    ">
+      <span>N°${p.n} ${p.nome}</span>
+      <span onclick="menuTogglePizza(${p.n})" style="cursor:pointer;font-size:14px;color:var(--red)">×</span>
+    </div>`;
+  }).join('');
+}
+
+function buildMenu() {
+  if (menuSelezionate.length === 0) {
+    alert('Seleziona almeno una pizza!');
+    return;
+  }
+
+  const output = document.getElementById('menuOutput');
+  const cards = document.getElementById('menuCards');
+  const shareBtn = document.getElementById('btnShareMenu');
+
+  // Ordina alfabeticamente per nome
+  const sorted = [...menuSelezionate].sort((a, b) => {
+    const pa = PIZZAS.find(x => x.n === a);
+    const pb = PIZZAS.find(x => x.n === b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+
+  cards.innerHTML = sorted.map(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return '';
+    const grammi = GRAMMI[String(n)] || [];
+    const ingList = p.cond.map((c, i) => {
+      const g = grammi[i];
+      const grStr = g && g.gr ? ` <span style="color:var(--red-deep);font-weight:600">${g.gr}g</span>` : '';
+      return `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="color:var(--text)">${c}</span>${grStr}
+      </div>`;
+    }).join('');
+
+    return `<div style="
+      background:#fff;border:1px solid var(--border);
+      border-radius:14px;overflow:hidden;
+      box-shadow:0 1px 4px rgba(0,0,0,.06);
+    ">
+      <div style="background:var(--red-light);padding:12px 16px;border-bottom:1px solid var(--red-border);display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:var(--red);font-weight:700;min-width:40px">N°${p.n}</span>
+        <span style="font-family:'Playfair Display',serif;font-size:17px;color:var(--red-deep);flex:1">${p.nome}</span>
+        <span style="font-size:11px;background:var(--red-border);color:var(--red-deep);border-radius:20px;padding:3px 10px;font-weight:700;white-space:nowrap">${p.cond.length} ingr.</span>
+      </div>
+      <div style="padding:4px 16px 10px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:10px 0 4px;font-weight:600">🧾 Ingredienti (${p.cond.length})</div>
+        ${ingList}
+        ${p.note ? `<div style="margin-top:8px;font-size:12px;color:var(--muted);font-style:italic">📝 ${p.note}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  output.style.display = 'block';
+  shareBtn.style.display = 'block';
+  document.getElementById('menuSearch').value = '';
+  document.getElementById('menuSearchResults').style.display = 'none';
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearMenu() {
+  menuSelezionate = [];
+  renderMenuChips();
+  document.getElementById('menuOutput').style.display = 'none';
+  document.getElementById('btnShareMenu').style.display = 'none';
+  document.getElementById('menuSearch').value = '';
+  document.getElementById('menuSearchResults').style.display = 'none';
+}
+
+function shareMenu() {
+  if (menuSelezionate.length === 0) return;
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  const sorted = [...menuSelezionate].sort((a, b) => {
+    const pa = PIZZAS.find(x => x.n === a);
+    const pb = PIZZAS.find(x => x.n === b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+
+  let righe = [];
+  righe.push('🍕 *MENÙ L\'ORSO — Matteo La Spada*');
+  righe.push('📅 ' + oggi);
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  sorted.forEach(n => {
+    const p = PIZZAS.find(x => x.n === n);
+    if (!p) return;
+    const grammi = GRAMMI[String(n)] || [];
+    righe.push('\n*' + p.nome + '* (N°' + p.n + ')');
+    p.cond.forEach((c, i) => {
+      const g = grammi[i];
+      const grStr = g && g.gr ? ' — ' + g.gr + 'g' : '';
+      righe.push('  • ' + c + grStr);
+    });
+    if (p.note) righe.push('  📝 ' + p.note);
+  });
+
+  righe.push('\n━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('_Pizza Lab · Matteo La Spada · #SEGUILORSO 🐻_');
+
+  const testo = righe.join('\n');
+  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+}
+
+// Anche quando si aggiunge una nuova pizza, ordina alfabeticamente
+
+</script>
+</body>
+</html>

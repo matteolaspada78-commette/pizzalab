@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ordine Farine">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27115%27%20fill%3D%27%23faf8f3%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27330%27%20font-size%3D%27300%27%20text-anchor%3D%27middle%27%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
+<title>🌾 Ordine Farine — Matteo La Spada</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+  :root {
+    --bg:#faf8f3; --surface:#fff; --border:#e8e0d0; --border2:#d0ccc3;
+    --accent:#c8860a; --accent2:#f5c84a; --text:#1a1208; --muted:#8a7a60;
+    --green:#2e7a4f; --green-bg:#eef8f2; --green-border:#b8dfc9;
+    --red:#b33a3a; --red-bg:#fdf0f0; --red-border:#f0c8c8;
+    --gold-bg:#fdf8ef; --gold-border:#e8d8b0;
+    --blue:#1a4a8a; --blue-bg:#eef2fd; --blue-border:#b8c8e8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px;}
+
+  /* HEADER */
+  header{background:var(--surface);border-bottom:2px solid var(--border);padding:16px 16px 12px;position:sticky;top:0;z-index:100;}
+  .logo{font-family:'Playfair Display',serif;font-style:italic;font-size:21px;color:var(--accent);margin-bottom:3px;}
+  .logo-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+
+  /* Sede + Data */
+  .top-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .top-field{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;}
+  .top-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .top-select,.top-date{background:none;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);width:100%;outline:none;-webkit-appearance:none;}
+  .top-date{color:var(--accent);font-family:'DM Mono',monospace;}
+
+  /* Data consegna */
+  .consegna-row{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+  .consegna-label{font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap;}
+  .consegna-input{background:none;border:none;font-family:'DM Mono',monospace;font-size:14px;color:var(--accent);font-weight:600;outline:none;flex:1;}
+
+  /* Summary */
+  .summary-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;background:var(--border);gap:1px;border-bottom:2px solid var(--border);}
+  .sum-cell{background:var(--surface);padding:9px 8px;text-align:center;}
+  .sum-label{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px;}
+  .sum-val{font-size:16px;font-weight:700;color:var(--text);}
+  .sum-val.green{color:var(--green);}
+  .sum-val.gold{color:var(--accent);}
+  .sum-val.red{color:var(--red);}
+
+  /* Section */
+  .section-hdr{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:12px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);}
+
+  /* Farina card */
+  .farina-card{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;}
+  .farina-card.zero-order{opacity:0.5;}
+  .farina-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;}
+  .farina-name{font-weight:600;font-size:14px;flex:1;line-height:1.3;}
+  .farina-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;}
+  .badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;}
+  .badge-w{background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--accent);}
+  .badge-p{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+  .badge-kg{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue);}
+
+  /* Input griglia: giacenza | ordine | omaggio */
+  .farina-grid{display:grid;grid-template-columns:1fr 1fr 72px;gap:8px;align-items:center;}
+  .input-block{display:flex;flex-direction:column;gap:4px;}
+  .input-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
+
+  .qty-wrap{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+  .qty-wrap.giacenza-wrap{border-color:var(--blue-border);}
+  .qty-wrap.ordine-wrap{border-color:var(--accent);}
+  .qty-btn{background:none;border:none;width:30px;height:36px;font-size:18px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qty-btn:active{background:var(--gold-bg);}
+  .qty-input{flex:1;background:none;border:none;font-family:'DM Mono',monospace;font-size:15px;font-weight:600;text-align:center;outline:none;color:var(--text);width:32px;min-width:0;}
+  .qty-input.giacenza-val{color:var(--blue);}
+  .qty-input.ordine-val{color:var(--accent);}
+
+  .omaggio-cell{display:flex;align-items:center;justify-content:center;background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;height:36px;font-size:12px;font-weight:700;color:var(--green);}
+  .omaggio-cell.zero{background:var(--bg);border-color:var(--border);color:var(--muted);font-weight:400;font-size:11px;}
+
+  /* Omaggio selezione */
+  .omaggio-section{display:none;background:var(--green-bg);border-top:2px solid var(--green-border);padding:14px 16px;}
+  .omaggio-section.show{display:block;}
+  .omaggio-title{font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;}
+  .omaggio-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+  .omaggio-chip{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--green-border);background:#fff;color:var(--green);cursor:pointer;}
+  .omaggio-chip.sel{background:var(--green);color:#fff;border-color:var(--green);}
+  .omaggio-result{font-size:12px;color:var(--green);font-weight:600;}
+
+  /* Note */
+  .note-wrap{padding:12px 16px;}
+  .note-field{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;resize:none;height:60px;}
+  .note-field:focus{border-color:var(--accent);}
+
+  /* Bottom */
+  .bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;z-index:100;}
+  .btn-wa{flex:1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-reset{background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:14px 14px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-wa:active{opacity:.85;} .btn-reset:active{opacity:.7;}
+
+  .divider{height:8px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🌾 Ordine Farine</div>
+  <div class="logo-sub">Mulino Quaglia · Petra</div>
+  <div class="top-row">
+    <div class="top-field">
+      <div class="top-label">📍 Sede</div>
+      <select class="top-select" id="sede">
+        <option value="Via Calapso">Via Calapso</option>
+        <option value="Torregrotta">Torregrotta</option>
+        <option value="Altra sede">Altra sede</option>
+      </select>
+    </div>
+    <div class="top-field">
+      <div class="top-label">📅 Data ordine</div>
+      <input class="top-date" type="date" id="dataOrdine">
+    </div>
+  </div>
+  <div class="consegna-row">
+    <span class="consegna-label">🚚 Consegna richiesta:</span>
+    <input class="consegna-input" type="date" id="dataConsegna" placeholder="gg/mm/aaaa">
+  </div>
+</header>
+
+<!-- Summary -->
+<div class="summary-bar">
+  <div class="sum-cell"><div class="sum-label">In magazzino</div><div class="sum-val" id="sumGiac">0</div></div>
+  <div class="sum-cell"><div class="sum-label">Da ordinare</div><div class="sum-val gold" id="sumOrdine">0</div></div>
+  <div class="sum-cell"><div class="sum-label">Omaggi</div><div class="sum-val green" id="sumOmaggi">0</div></div>
+  <div class="sum-cell"><div class="sum-label">Kg totali</div><div class="sum-val gold" id="sumKg">0</div></div>
+</div>
+
+<div class="section-hdr">🌾 Farine Petra — Mulino Quaglia</div>
+<div id="farineList"></div>
+
+<div class="divider"></div>
+
+<!-- Omaggi -->
+<div class="omaggio-section" id="omaggioSection">
+  <div class="omaggio-title">🎁 Scegli i sacchi omaggio — <span id="omaggioCount">0</span> disponibili</div>
+  <div class="omaggio-chips" id="omaggioChips"></div>
+  <div class="omaggio-result" id="omaggioResult"></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="note-wrap">
+  <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700">📝 Note aggiuntive</div>
+  <textarea class="note-field" id="noteExtra" placeholder="Es: urgente, consegna mattina, ecc."></textarea>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn-reset" onclick="resetOrdine()">↺ Reset</button>
+  <button class="btn-wa" onclick="inviaWhatsApp()">📲 Invia ordine su WhatsApp</button>
+</div>
+
+<script>
+// ══ LISTA FARINE COMPLETA ══
+var FARINE = [
+  {id:'petra3hp',  nome:'Petra 3 hp',              kg:12.5, w:'—',       prot:'13,50'},
+  {id:'petra1',    nome:'Petra 1',                  kg:12.5, w:'—',       prot:'—'},
+  {id:'f0hp',      nome:'0 hp',                     kg:12.5, w:'—',       prot:'—'},
+  {id:'f0052',     nome:'0052 Segale',              kg:10,   w:'—',       prot:'4,50'},
+  {id:'hp0101',    nome:'HP 0101',                  kg:12.5, w:'390-420', prot:'14,50'},
+  {id:'hp0102',    nome:'HP 0102',                  kg:12.5, w:'320-340', prot:'13,00'},
+  {id:'hp0103',    nome:'HP 0103',                  kg:10,   w:'—',       prot:'13,20'},
+  {id:'hp0104',    nome:'HP 0104',                  kg:10,   w:'—',       prot:'14,00'},
+  {id:'hp0107',    nome:'HP 0107',                  kg:10,   w:'—',       prot:'—'},
+  {id:'agr0106',   nome:'Agricola 0106',            kg:10,   w:'—',       prot:'13,90'},
+  {id:'f5020',     nome:'5020',                     kg:12.5, w:'350-360', prot:'13,50'},
+  {id:'f5037',     nome:'5037 Unica',               kg:12.5, w:'300-340', prot:'13,20'},
+  {id:'f5046',     nome:'5046 Allegra',             kg:12.5, w:'180-220', prot:'11,20'},
+  {id:'f5063',     nome:'5063 Special',             kg:12.5, w:'260-280', prot:'12,70'},
+  {id:'f5072',     nome:'5072',                     kg:12.5, w:'320-340', prot:'13,00'},
+  {id:'f5078',     nome:'5078',                     kg:12.5, w:'350-380', prot:'13,50'},
+  {id:'f8610',     nome:'8610',                     kg:12.5, w:'—',       prot:'—'},
+  {id:'f3220',     nome:'3220 Bonsemi',             kg:12.5, w:'—',       prot:'—'},
+  {id:'f3400',     nome:'3400 Ottimais',            kg:10,   w:'—',       prot:'—'},
+  {id:'f6384',     nome:'6384',                     kg:12.5, w:'—',       prot:'—'},
+  {id:'semriso',   nome:'Semolino di riso termotr.',kg:25,   w:'—',       prot:'—'},
+  {id:'lievito',   nome:'Stecca lievito Hirondelle',kg:2.5,  w:'—',       prot:'—'},
+  {id:'roggena',   nome:'Roggena Dunkel (malto)',   kg:12.5, w:'—',       prot:'—'},
+];
+
+var giacenza={};
+var ordine={};
+var omaggioSel=[];
+FARINE.forEach(function(f){giacenza[f.id]=0;ordine[f.id]=0;});
+
+// Set date defaults
+(function(){
+  var d=new Date();
+  var fmt=function(dt){return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');};
+  document.getElementById('dataOrdine').value=fmt(d);
+  var consegna=new Date(d);consegna.setDate(consegna.getDate()+2);
+  document.getElementById('dataConsegna').value=fmt(consegna);
+})();
+
+function fmtDate(val){
+  if(!val)return'—';
+  var p=val.split('-');return p[2]+'/'+p[1]+'/'+p[0];
+}
+
+function getTotOrdine(){return FARINE.reduce(function(s,f){return s+(ordine[f.id]||0);},0);}
+function getTotGiac(){return FARINE.reduce(function(s,f){return s+(giacenza[f.id]||0);},0);}
+function getTotOmaggi(tot){return Math.floor(tot/10)*2;}
+function getTotKg(){return FARINE.reduce(function(s,f){return s+(ordine[f.id]||0)*f.kg;},0);}
+
+function changeGiac(id,d){
+  giacenza[id]=Math.max(0,(giacenza[id]||0)+d);
+  document.getElementById('g_'+id).value=giacenza[id];
+  updateSummary();
+}
+function changeOrdine(id,d){
+  ordine[id]=Math.max(0,(ordine[id]||0)+d);
+  document.getElementById('o_'+id).value=ordine[id];
+  updateCard(id);
+  updateSummary();
+}
+function setGiac(id,v){giacenza[id]=Math.max(0,parseInt(v)||0);updateSummary();}
+function setOrdine(id,v){ordine[id]=Math.max(0,parseInt(v)||0);updateCard(id);updateSummary();}
+
+function updateCard(id){
+  var om=document.getElementById('om_'+id);
+  var q=ordine[id]||0;
+  var omVal=Math.floor(q/10)*2;
+  if(omVal>0){om.textContent='🎁 +'+omVal;om.className='omaggio-cell';}
+  else{om.textContent='—';om.className='omaggio-cell zero';}
+  // visibilità card
+  var card=document.getElementById('fc_'+id);
+  if(card) card.className='farina-card'+(q===0&&(giacenza[id]||0)===0?' zero-order':'');
+}
+
+function updateSummary(){
+  var totOrd=getTotOrdine();
+  var totGiac=getTotGiac();
+  var omaggi=getTotOmaggi(totOrd);
+  var kg=getTotKg();
+  document.getElementById('sumGiac').textContent=totGiac;
+  document.getElementById('sumOrdine').textContent=totOrd;
+  document.getElementById('sumOmaggi').textContent=omaggi;
+  document.getElementById('sumKg').textContent=kg%1===0?kg+'kg':kg.toFixed(1)+'kg';
+
+  var sec=document.getElementById('omaggioSection');
+  if(omaggi>0){
+    sec.classList.add('show');
+    document.getElementById('omaggioCount').textContent=omaggi;
+    // rimuovi selezioni in eccesso
+    while(omaggioSel.length>omaggi)omaggioSel.pop();
+    buildOmaggioChips(omaggi);
+  } else {
+    sec.classList.remove('show');
+    omaggioSel=[];
+  }
+}
+
+function buildOmaggioChips(max){
+  var chips=document.getElementById('omaggioChips');
+  // solo farine con kg 12.5 o 10 (Petra e Hp) come da regola
+  var eligibili=FARINE.filter(function(f){return f.kg<=12.5&&f.id!=='lievito'&&f.id!=='semriso';});
+  chips.innerHTML=eligibili.map(function(f){
+    var sel=omaggioSel.includes(f.id);
+    return '<div class="omaggio-chip'+(sel?' sel':'')+'" onclick="toggleOmaggio(\''+f.id+'\')">'+f.nome+'</div>';
+  }).join('');
+  var res=document.getElementById('omaggioResult');
+  if(omaggioSel.length===0){res.textContent='Nessun omaggio selezionato ('+max+' disponibili)';}
+  else{
+    var names=omaggioSel.map(function(id){var f=FARINE.find(function(x){return x.id===id;});return f?f.nome:id;});
+    res.textContent='✅ Omaggi: '+names.join(', ')+' ('+omaggioSel.length+'/'+max+')';
+  }
+}
+
+function toggleOmaggio(id){
+  var max=getTotOmaggi(getTotOrdine());
+  if(omaggioSel.includes(id)){omaggioSel=omaggioSel.filter(function(x){return x!==id;});}
+  else{
+    if(omaggioSel.length>=max){alert('Hai già selezionato tutti gli '+max+' omaggi disponibili!');return;}
+    omaggioSel.push(id);
+  }
+  buildOmaggioChips(max);
+}
+
+function resetOrdine(){
+  FARINE.forEach(function(f){
+    giacenza[f.id]=0;ordine[f.id]=0;
+    var g=document.getElementById('g_'+f.id);if(g)g.value=0;
+    var o=document.getElementById('o_'+f.id);if(o)o.value=0;
+    updateCard(f.id);
+  });
+  omaggioSel=[];
+  document.getElementById('noteExtra').value='';
+  updateSummary();
+}
+
+function inviaWhatsApp(){
+  var totOrd=getTotOrdine();
+  if(totOrd===0){alert('Aggiungi almeno un sacco da ordinare!');return;}
+  var sede=document.getElementById('sede').value;
+  var dataOrd=fmtDate(document.getElementById('dataOrdine').value);
+  var dataCons=fmtDate(document.getElementById('dataConsegna').value);
+  var omaggi=getTotOmaggi(totOrd);
+  var kg=getTotKg();
+  var note=document.getElementById('noteExtra').value.trim();
+
+  var righe=[];
+  righe.push('🌾 *ORDINE FARINE — L\'Orso*');
+  righe.push('📍 *'+sede+'*');
+  righe.push('📅 Ordine: '+dataOrd);
+  righe.push('🚚 Consegna richiesta: *'+dataCons+'*');
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  // Solo farine con ordine > 0
+  FARINE.forEach(function(f){
+    var q=ordine[f.id]||0;
+    var giac=giacenza[f.id]||0;
+    if(q>0){
+      var info=f.nome+' — *'+q+' sacchi* ('+( q*f.kg )+'kg)';
+      if(f.w!=='—') info+=' | W '+f.w;
+      if(giac>0) info+=' | 📦 in magazzino: '+giac;
+      righe.push('  🌾 '+info);
+    }
+  });
+
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('📦 *Totale sacchi da ordinare: '+totOrd+'*');
+  righe.push('⚖️ Kg totali: *'+kg+'kg*');
+
+  // Giacenza
+  var totGiac=getTotGiac();
+  if(totGiac>0){
+    righe.push('📦 In magazzino: '+totGiac+' sacchi');
+    var farineGiac=FARINE.filter(function(f){return (giacenza[f.id]||0)>0;});
+    farineGiac.forEach(function(f){righe.push('  · '+f.nome+': '+giacenza[f.id]+' sacchi');});
+  }
+
+  if(omaggi>0){
+    righe.push('\n🎁 *Omaggi spettanti: '+omaggi+' sacchi* (ogni 10 → 2)');
+    if(omaggioSel.length>0){
+      var omNomi=omaggioSel.map(function(id){var f=FARINE.find(function(x){return x.id===id;});return f?f.nome:id;});
+      righe.push('🎁 Omaggi scelti: *'+omNomi.join(', ')+'*');
+    } else {
+      righe.push('🎁 Omaggi: *da definire*');
+    }
+  }
+
+  if(note) righe.push('\n📝 '+note);
+  righe.push('\n_Matteo La Spada · L\'Orso Messina_');
+
+  window.open('https://wa.me/?text='+encodeURIComponent(righe.join('\n')),'_blank');
+}
+
+// ══ RENDER ══
+function render(){
+  var list=document.getElementById('farineList');
+  list.innerHTML=FARINE.map(function(f){
+    var badges='<span class="badge badge-kg">'+f.kg+'kg/sacco</span>';
+    if(f.w!=='—') badges+=' <span class="badge badge-w">W '+f.w+'</span>';
+    if(f.prot!=='—') badges+=' <span class="badge badge-p">Prot '+f.prot+'%</span>';
+    return '<div class="farina-card zero-order" id="fc_'+f.id+'">'+
+      '<div class="farina-top">'+
+        '<div style="flex:1">'+
+          '<div class="farina-name">🌾 '+f.nome+'</div>'+
+          '<div class="farina-badges">'+badges+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="farina-grid">'+
+        // GIACENZA
+        '<div class="input-block">'+
+          '<div class="input-label">📦 In magazzino</div>'+
+          '<div class="qty-wrap giacenza-wrap">'+
+            '<button class="qty-btn" onclick="changeGiac(\''+f.id+'\',-1)">−</button>'+
+            '<input class="qty-input giacenza-val" id="g_'+f.id+'" type="number" min="0" value="0" oninput="setGiac(\''+f.id+'\',this.value)">'+
+            '<button class="qty-btn" onclick="changeGiac(\''+f.id+'\',1)">+</button>'+
+          '</div>'+
+        '</div>'+
+        // ORDINE
+        '<div class="input-block">'+
+          '<div class="input-label">🛒 Da ordinare</div>'+
+          '<div class="qty-wrap ordine-wrap">'+
+            '<button class="qty-btn" onclick="changeOrdine(\''+f.id+'\',-1)">−</button>'+
+            '<input class="qty-input ordine-val" id="o_'+f.id+'" type="number" min="0" value="0" oninput="setOrdine(\''+f.id+'\',this.value)">'+
+            '<button class="qty-btn" onclick="changeOrdine(\''+f.id+'\',1)">+</button>'+
+          '</div>'+
+        '</div>'+
+        // OMAGGIO
+        '<div class="input-block">'+
+          '<div class="input-label">🎁 Omaggio</div>'+
+          '<div class="omaggio-cell zero" id="om_'+f.id+'">—</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+render();
+updateSummary();
+</script>
+</body>
+</html>
