@@ -558,7 +558,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="licoliOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageLicoli','Rinfresco Licoli')"><span class="btn-share-icon">📸</span> Salva immagine rinfresco</button>
+  <button class="btn-share" onclick="shareRicetta('pageLicoli','Rinfresco Licoli')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+
+  <!-- MEMORIA ULTIMO RINFRESCO -->
+  <div style="margin:0 16px 4px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px" id="licoli_memoria" style="display:none"></div>
+
   <div class="sec-div">Programmi Esmach — riferimento</div>
   <div class="card">
     <div class="card-hdr" onclick="toggleCard('cardEsmach')">
@@ -570,6 +574,178 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div id="esmachOut"></div>
     </div>
   </div>
+
+  <!-- TIMELINE CICLO LIEVITO MADRE -->
+  <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
+    <div style="padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">🦠</span>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--cream)">Ciclo Lievito Madre</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:1px">6 Programmi Esmach SPI-AI</div>
+      </div>
+    </div>
+
+    <!-- P1 -->
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P1</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione rapida</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Rinfresco veloce · uso in giornata</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h 30min</div>
+          <div style="font-size:11px;color:var(--dim)">28,5°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">12°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P2</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione + raffreddamento</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~2h · uso mattutino</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
+          <div style="font-size:11px;color:var(--dim)">23°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
+          <div style="font-size:11px;color:var(--dim)">16°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">12°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P3</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Ciclo lungo overnight</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~15h · rinfresco serale → uso mattina</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">3h</div>
+          <div style="font-size:11px;color:var(--dim)">28,5°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">12h</div>
+          <div style="font-size:11px;color:var(--dim)">12°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 consigliato -->
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px;background:rgba(200,151,58,0.06)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P4</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione media <span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px;font-family:DM Mono,monospace">★ MATTEO</span></div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~2h30min · uso pomeridiano</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">2h 30min</div>
+          <div style="font-size:11px;color:var(--dim)">26°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P5</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione dolce + stabilizzazione</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~3h · madre delicata e stabile</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">2h</div>
+          <div style="font-size:11px;color:var(--dim)">18°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
+          <div style="font-size:11px;color:var(--dim)">16°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div style="padding:14px 16px 16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P6</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Mantenimento a freddo</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~1h · solo conservazione</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
+          <div style="font-size:11px;color:var(--dim)">16°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
+          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <!-- NAPOLETANA SUPREMA -->
@@ -1865,6 +2041,8 @@ function openPage(key){
   currentPage=key;
   calcAll();
   window.scrollTo(0,0);
+  // Mostra memoria rinfresco se siamo su licoli
+  if(key==='licoli') renderUltimoRinfresco();
 }
 
 function goHome(){
@@ -2054,6 +2232,72 @@ function calcLicoli(){
     '<div class="res-section">'+
     [1,2,3,4,5,6].map(p=>row('P'+p,progDescText[p],p===4?'← consigliato Matteo':'')).join('')+
     '</div>';
+
+  // ── MEMORIA ULTIMO RINFRESCO ──
+  try {
+    const mem = {
+      data: new Date().toLocaleDateString('it-IT'),
+      ora: String(ora).padStart(2,'0')+':00',
+      prog: prog,
+      lic: lic,
+      acqua: acqua,
+      farina: farina,
+      tot: tot,
+      util: util,
+      oraPronto: oraPronto,
+      oraLimite: oraLimite,
+      ph: ph || '—'
+    };
+    localStorage.setItem('licoli_ultimo', JSON.stringify(mem));
+    renderUltimoRinfresco();
+  } catch(e) {}
+}
+
+function renderUltimoRinfresco() {
+  const el = document.getElementById('licoli_memoria');
+  if (!el) return;
+  try {
+    const m = JSON.parse(localStorage.getItem('licoli_ultimo') || 'null');
+    if (!m) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML =
+      '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">💾 Ultimo rinfresco salvato</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Data · Ora</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.data + '</div>' +
+          '<div style="font-size:12px;color:var(--gold)">ore ' + m.ora + '</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Programma</div>' +
+          '<div style="font-size:22px;font-weight:900;color:var(--gold);font-family:DM Mono,monospace">P' + m.prog + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Licoli</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.lic + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Totale</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.tot + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Utilizzabile</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--green)">' + m.util + 'g</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div>' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Finestra ottimale uso</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--gold)">' + m.oraPronto + ' → ' + m.oraLimite + '</div>' +
+        '</div>' +
+        '<div style="text-align:right">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">pH pre-rinfresco</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--cream)">' + m.ph + '</div>' +
+        '</div>' +
+      '</div>';
+  } catch(e) { el.style.display = 'none'; }
 }
 
 // ══════════════════════════════════════════════
