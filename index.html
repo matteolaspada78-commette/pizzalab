@@ -3030,87 +3030,133 @@ function calcDiretto(){
 // SHARE / SALVA IMMAGINE
 // ══════════════════════════════════════════════
 function shareRicetta(pageId, titolo){
-  const page = document.getElementById(pageId);
-  if(!page) return;
-
-  // Apri tutte le card
-  page.querySelectorAll('.card').forEach(c => c.classList.add('open'));
-  page.querySelectorAll('.card-body').forEach(b => b.style.display = 'block');
-
-  // Estrai tutto il testo visibile dalla pagina
   const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const ora = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  const oraStr = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
 
-  // Raccogli righe dati (data-row, res-section, timeline)
   let righe = [];
-  righe.push('🍕 Pizza Lab v2.1 — Matteo La Spada');
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('📋 ' + titolo.toUpperCase());
-  righe.push(oggi + ' ore ' + ora);
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
 
-  // Sezioni risultato
-  page.querySelectorAll('.res-section').forEach(sec => {
-    const label = sec.querySelector('.res-label');
-    if(label) righe.push(`\n\u25b8 ${label.textContent.trim().toUpperCase()}`);
-    sec.querySelectorAll('.data-row,.res-row').forEach(row => {
-      const lbl = row.querySelector('.data-label,.res-label-cell');
-      const val = row.querySelector('.data-value,.res-val');
-      if(lbl && val) righe.push(`  ${lbl.textContent.trim()}: ${val.textContent.trim()}`);
+  // ── LICOLI: legge direttamente dai campi input ──
+  if(pageId === 'pageLicoli'){
+    const lic  = parseFloat(document.getElementById('lLic')?.value)||0;
+    const rA   = parseFloat(document.getElementById('lRA')?.value)||0;
+    const rF   = parseFloat(document.getElementById('lRF')?.value)||0;
+    const prog = parseInt(document.getElementById('lProg')?.value)||4;
+    const ora  = parseInt(document.getElementById('lOra')?.value)||9;
+    const ph   = parseFloat(document.getElementById('lPH')?.value)||0;
+    const oraMisc = document.getElementById('lOraMisc')?.value||'';
+
+    const acqua = Math.round(lic*rA);
+    const farina = Math.round(lic*rF);
+    const unica = acqua+farina;
+    const tot = lic+acqua+farina;
+    const util = Math.round(tot*0.85);
+
+    const progDesc={
+      1:'1h30min 28,5°C → Cons.12°C',
+      2:'1h 23°C + 16°C 1h → Cons.12°C',
+      3:'3h 28,5°C + 12°C 12h → Cons.11,5°C',
+      4:'2h30min 26°C → Cons.11,5°C',
+      5:'2h 18°C + 16°C 1h → Cons.11,5°C',
+      6:'1h 16°C → Cons.11,5°C'
+    };
+    const durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1};
+    const H = h => { const x=((h%24)+24)%24; return String(Math.floor(x)).padStart(2,'0')+':00'; };
+    const oraFine = ((ora + durH[prog])%24);
+    const oraPronto = H(oraFine);
+    const oraLimite = H(oraFine+4);
+
+    const phNote = ph<=0?'':ph<3.5?'⚠️ troppo acida':ph<=4.2?'✅ ottimale al picco':ph<=4.8?'🟡 acerba':'🔴 inattiva';
+
+    righe.push('🌿 *Licoli Madre — L\'Orso*');
+    righe.push('📅 '+oggi+' ore '+oraStr);
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    righe.push('⚙️ *Programma P'+prog+'* — '+progDesc[prog]);
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    righe.push('🧮 *Ricetta Rinfresco 1:'+rA+':'+rF+'*');
+    righe.push('  • Licoli di partenza: *'+lic+'g*');
+    righe.push('  • Acqua ('+rA+' parti): *'+acqua+'g*');
+    righe.push('  • Farina ('+rF+' parti): *'+farina+'g*');
+    righe.push('  • UNICA (acqua+farina): *'+unica+'g*');
+    righe.push('  • Totale impasto: *'+tot+'g*');
+    righe.push('  • Utilizzabile (85%): *'+util+'g*');
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    righe.push('⏱ *Orari*');
+    righe.push('  • Inizio rinfresco: *'+H(ora)+'*');
+    if(oraMisc) righe.push('  • Ora miscelazione effettiva: *'+oraMisc+'*');
+    righe.push('  • Picco / Fine programma: *'+oraPronto+'*');
+    righe.push('  • Limite utilizzo: *'+oraLimite+'*');
+    righe.push('  • ✅ Finestra ottimale: *'+oraPronto+' → '+oraLimite+'*');
+    if(ph>0){
+      righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+      righe.push('🔬 *pH pre-rinfresco: '+ph+'* — '+phNote);
+    }
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    righe.push('_Pizza Lab v2.1 · Matteo La Spada · #SEGUILORSO 🐻_');
+
+  } else {
+    // ── TUTTE LE ALTRE PAGINE: legge dal DOM ──
+    const page = document.getElementById(pageId);
+    if(!page) return;
+    page.querySelectorAll('.card').forEach(c => c.classList.add('open'));
+    page.querySelectorAll('.card-body').forEach(b => b.style.display = 'block');
+
+    righe.push('🍕 *Pizza Lab v2.1 — Matteo La Spada*');
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+    righe.push('📋 *' + titolo.toUpperCase() + '*');
+    righe.push(oggi + ' ore ' + oraStr);
+    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    page.querySelectorAll('.res-section').forEach(sec => {
+      const label = sec.querySelector('.res-label');
+      if(label) righe.push('\n\u25b8 *' + label.textContent.trim().toUpperCase() + '*');
+      sec.querySelectorAll('.data-row,.res-row').forEach(row => {
+        const lbl = row.querySelector('.data-label,.res-label-cell');
+        const val = row.querySelector('.data-value,.res-val');
+        if(lbl && val) righe.push('  ' + lbl.textContent.trim() + ': *' + val.textContent.trim() + '*');
+      });
     });
-  });
 
-  // Semafori
-  page.querySelectorAll('.sem-box').forEach(s => {
-    righe.push(`\n\u26a1 ${s.textContent.trim()}`);
-  });
-
-  // Timeline
-  const tlItems = page.querySelectorAll('.tl-item');
-  if(tlItems.length > 0){
-    righe.push('\n\u23f1 TIMELINE');
-    tlItems.forEach(item => {
-      const t = item.querySelector('.tl-time');
-      const ti = item.querySelector('.tl-title');
-      const n = item.querySelector('.tl-note');
-      if(t && ti) righe.push(`  ${t.textContent.trim()} \u2192 ${ti.textContent.trim()}${n ? ' \u2014 ' + n.textContent.trim() : ''}`);
+    page.querySelectorAll('.sem-box').forEach(s => {
+      righe.push('\n\u26a1 ' + s.textContent.trim());
     });
+
+    const tlItems = page.querySelectorAll('.tl-item');
+    if(tlItems.length > 0){
+      righe.push('\n\u23f1 *TIMELINE*');
+      tlItems.forEach(item => {
+        const t = item.querySelector('.tl-time');
+        const ti = item.querySelector('.tl-title');
+        const n = item.querySelector('.tl-note');
+        if(t && ti) righe.push('  ' + t.textContent.trim() + ' → ' + ti.textContent.trim() + (n ? ' — ' + n.textContent.trim() : ''));
+      });
+    }
+
+    page.querySelectorAll('.dist-row').forEach(r => {
+      const step = r.querySelector('.dist-step');
+      const val = r.querySelector('.dist-val');
+      if(step && val) righe.push('  ' + step.textContent.trim() + ': ' + val.textContent.trim());
+    });
+
+    // Dati impastatrice se compilati
+    const dMin1vel = document.getElementById('dMin1vel');
+    const dMinSale = document.getElementById('dMinSale');
+    const dMin2vel = document.getElementById('dMin2vel');
+    const dMacchina = document.getElementById('dMacchina');
+    if((dMin1vel&&dMin1vel.value)||(dMin2vel&&dMin2vel.value)){
+      righe.push('\n\u2699\ufe0f *IMPASTATRICE*');
+      if(dMacchina&&dMacchina.value) righe.push('  Macchina: '+dMacchina.value);
+      if(dMin1vel&&dMin1vel.value) righe.push('  1ª velocità: '+dMin1vel.value+' min');
+      if(dMinSale&&dMinSale.value) righe.push('  Inserimento sale: dopo '+dMinSale.value+' min');
+      if(dMin2vel&&dMin2vel.value) righe.push('  2ª velocità: '+dMin2vel.value+' min');
+    }
+
+    righe.push('\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501');
+    righe.push('_Pizza Lab v2.1 · Matteo La Spada · #SEGUILORSO 🐻_');
   }
 
-  // Distribuzione acqua
-  page.querySelectorAll('.dist-row').forEach(r => {
-    const step = r.querySelector('.dist-step');
-    const val = r.querySelector('.dist-val');
-    if(step && val) righe.push(`  ${step.textContent.trim()}: ${val.textContent.trim()}`);
-  });
-
-  righe.push('\n━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('Pizza Lab v2.1 · Matteo La Spada');
-
+  // ── APRI DIRETTAMENTE WHATSAPP ──
   const testo = righe.join('\n');
-
-  // Overlay con testo selezionabile + bottone copia
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:#0C0B09;z-index:99999;display:flex;flex-direction:column;padding:0;overflow:hidden';
-
-  overlay.innerHTML = `
-    <div style="padding:16px 16px 8px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2A2520;flex-shrink:0">
-      <button onclick="this.closest('[style]').remove()" style="background:#1A1714;border:1px solid #2A2520;color:#F0E8D8;padding:8px 14px;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif">✕ Chiudi</button>
-      <span style="font-family:'DM Mono',monospace;font-size:11px;color:#C8973A;letter-spacing:2px">CONDIVIDI RICETTA</span>
-      <button id="btnCopia" onclick="
-        navigator.clipboard.writeText(document.getElementById('testoRicetta').value).then(()=>{
-          this.textContent='✅ Copiato!';
-          setTimeout(()=>this.textContent='📋 Copia',2000);
-        });
-      " style="margin-left:auto;background:#C8973A;border:none;color:#0C0B09;padding:8px 16px;border-radius:10px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif">📋 Copia</button>
-    </div>
-    <div style="padding:8px 16px;background:#141210;flex-shrink:0;font-size:12px;color:#7A6E5E;font-family:'DM Sans',sans-serif">
-      👆 Tocca <strong style="color:#C8973A">Copia</strong> → vai su WhatsApp → tieni premuto → Incolla
-    </div>
-    <textarea id="testoRicetta" readonly style="flex:1;background:#0F0E0C;color:#F0E8D8;border:none;padding:16px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.6;resize:none;outline:none;-webkit-user-select:text;user-select:text">${testo}</textarea>
-  `;
-
-  document.body.appendChild(overlay);
+  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
 }
 
 // ══════════════════════════════════════════════
