@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0d0d">
+<title>Pagamenti & Tributi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --card: #1e1e1e;
+    --border: #2a2a2a;
+    --accent: #7ae8b4;     /* verde = pagamenti OK */
+    --accent2: #e8c97a;    /* giallo = in scadenza */
+    --accent3: #e87a7a;    /* rosso = scaduto */
+    --accent4: #7ac4e8;    /* blu = bollette */
+    --accent5: #b07ae8;    /* viola = assicurazioni */
+    --text: #f0ede6;
+    --muted: #888;
+    --r: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px;
+    min-height: 100dvh;
+    padding-bottom: 80px;
+  }
+
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 16px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-icon { font-size: 24px; }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  .header-right { margin-left: auto; }
+  .btn-add {
+    background: var(--accent);
+    color: #0d0d0d;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn-add:active { opacity: 0.75; }
+
+  /* ANNO SELECTOR */
+  .year-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .year-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .year-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--text);
+  }
+
+  /* RIEPILOGO TOTALI */
+  .totals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  .total-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 12px 14px;
+  }
+  .total-card.wide { grid-column: 1 / -1; }
+  .total-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+  .total-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    line-height: 1;
+  }
+  .total-val.green { color: var(--accent); }
+  .total-val.yellow { color: var(--accent2); }
+  .total-val.red { color: var(--accent3); }
+  .total-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* FILTRI */
+  .filters {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-family: 'Figtree', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s;
+  }
+  .filter-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0d0d;
+    font-weight: 600;
+  }
+
+  /* LISTA PAGAMENTI */
+  .list-wrap { padding: 0 16px; }
+  .month-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .month-total {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .pay-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 8px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color .2s;
+  }
+  .pay-card.pagato { border-left-color: var(--accent); }
+  .pay-card.scaduto { border-left-color: var(--accent3); }
+  .pay-card.scadenza { border-left-color: var(--accent2); }
+  .pay-card.futuro { border-left-color: var(--border); }
+
+  .pay-cat-icon { font-size: 20px; flex-shrink: 0; }
+  .pay-info { flex: 1; min-width: 0; }
+  .pay-title { font-weight: 600; font-size: 14px; }
+  .pay-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .pay-right { text-align: right; flex-shrink: 0; }
+  .pay-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .pay-status {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 3px;
+  }
+  .status-pagato { background: rgba(122,232,180,0.15); color: var(--accent); }
+  .status-scaduto { background: rgba(232,122,122,0.15); color: var(--accent3); }
+  .status-scadenza { background: rgba(232,201,122,0.15); color: var(--accent2); }
+  .status-futuro { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+  /* TICK PAGATO */
+  .tick-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all .15s;
+    flex-shrink: 0;
+  }
+  .tick-btn.done {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0d0d;
+  }
+
+  /* EMPTY */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* MODALE */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92dvh;
+    overflow-y: auto;
+    padding: 20px 16px 32px;
+    animation: slideUp .25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 0 auto 20px;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-select option { background: var(--card); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn-submit {
+    width: 100%;
+    background: var(--accent);
+    color: #0d0d0d;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Figtree', sans-serif;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: opacity .15s;
+  }
+  .btn-submit:active { opacity: 0.8; }
+  .btn-cancel {
+    width: 100%;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: 'Figtree', sans-serif;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .btn-delete-full {
+    width: 100%;
+    background: rgba(232,122,122,0.1);
+    color: var(--accent3);
+    border: 1px solid rgba(232,122,122,0.3);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: 'Figtree', sans-serif;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  /* RICORRENZA BADGE */
+  .ricorrente-badge {
+    font-size: 10px;
+    background: rgba(176,122,232,0.15);
+    color: var(--accent5);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-icon">💶</span>
+  <div>
+    <div class="header-title">Pagamenti</div>
+    <div class="header-sub">TRIBUTI & SPESE CASA</div>
+  </div>
+  <div class="header-right">
+    <button class="btn-add" onclick="openModal()">＋ Aggiungi</button>
+  </div>
+</div>
+
+<!-- ANNO -->
+<div class="year-bar">
+  <button class="year-btn" onclick="changeYear(-1)">‹</button>
+  <div class="year-label" id="yearLabel">2025</div>
+  <button class="year-btn" onclick="changeYear(1)">›</button>
+</div>
+
+<!-- TOTALI -->
+<div class="totals-grid" id="totalsGrid">
+  <div class="total-card wide">
+    <div class="total-label">TOTALE ANNO</div>
+    <div class="total-val green" id="totAnno">€ 0,00</div>
+    <div class="total-sub" id="totSub">0 pagamenti registrati</div>
+  </div>
+  <div class="total-card">
+    <div class="total-label">PAGATI</div>
+    <div class="total-val green" id="totPagati">€ 0,00</div>
+  </div>
+  <div class="total-card">
+    <div class="total-label">DA PAGARE</div>
+    <div class="total-val red" id="totDaPagare">€ 0,00</div>
+  </div>
+</div>
+
+<!-- FILTRI -->
+<div class="filters">
+  <button class="filter-chip active" data-cat="tutte" onclick="selectFilter(this)">Tutti</button>
+  <button class="filter-chip" data-cat="condominio" onclick="selectFilter(this)">🏢 Condominio</button>
+  <button class="filter-chip" data-cat="tributi" onclick="selectFilter(this)">🏛 Tributi</button>
+  <button class="filter-chip" data-cat="bollette" onclick="selectFilter(this)">⚡ Bollette</button>
+  <button class="filter-chip" data-cat="assicurazioni" onclick="selectFilter(this)">🛡 Assicurazioni</button>
+  <button class="filter-chip" data-cat="altro" onclick="selectFilter(this)">📦 Altro</button>
+</div>
+
+<div class="list-wrap" id="listWrap"></div>
+
+<!-- MODALE -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitleText">Nuovo Pagamento</div>
+
+    <div class="form-group">
+      <label class="form-label">DESCRIZIONE *</label>
+      <input type="text" class="form-input" id="fTitolo" placeholder="es. IMU 1° rata, Bolletta ENEL giugno…">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">CATEGORIA</label>
+        <select class="form-select" id="fCategoria">
+          <option value="condominio">🏢 Condominio</option>
+          <option value="tributi">🏛 Tributi (IMU/TARI)</option>
+          <option value="bollette">⚡ Bollette</option>
+          <option value="assicurazioni">🛡 Assicurazioni</option>
+          <option value="altro">📦 Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">IMPORTO (€) *</label>
+        <input type="number" class="form-input" id="fImporto" placeholder="0,00" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">DATA SCADENZA</label>
+        <input type="date" class="form-input" id="fScadenza">
+      </div>
+      <div class="form-group">
+        <label class="form-label">DATA PAGAMENTO</label>
+        <input type="date" class="form-input" id="fPagato">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">FORNITORE / ENTE</label>
+        <input type="text" class="form-input" id="fFornitore" placeholder="es. ENEL, Comune…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">METODO</label>
+        <select class="form-select" id="fMetodo">
+          <option value="Bonifico">Bonifico</option>
+          <option value="Bollettino">Bollettino</option>
+          <option value="F24">F24</option>
+          <option value="RID/SDD">RID/SDD</option>
+          <option value="Contanti">Contanti</option>
+          <option value="Carta">Carta</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">RICORRENZA</label>
+      <select class="form-select" id="fRicorrenza">
+        <option value="">Nessuna (una tantum)</option>
+        <option value="mensile">Mensile</option>
+        <option value="bimestrale">Bimestrale</option>
+        <option value="trimestrale">Trimestrale</option>
+        <option value="semestrale">Semestrale</option>
+        <option value="annuale">Annuale</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">NOTE</label>
+      <input type="text" class="form-input" id="fNote" placeholder="Riferimento, numero pratica, F24…">
+    </div>
+
+    <button class="btn-submit" onclick="savePay()">💾 Salva Pagamento</button>
+    <button class="btn-cancel" onclick="closeModal()">Annulla</button>
+    <button class="btn-delete-full" id="btnDeleteEdit" style="display:none" onclick="deletePayEdit()">🗑 Elimina</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'pagamenti_v1';
+let pagamenti = [];
+let currentYear = new Date().getFullYear();
+let currentCat = 'tutte';
+let editId = null;
+
+const MESI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+const CAT_ICONS = {
+  condominio: '🏢',
+  tributi: '🏛',
+  bollette: '⚡',
+  assicurazioni: '🛡',
+  altro: '📦'
+};
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+function loadData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  pagamenti = raw ? JSON.parse(raw) : getSample();
+}
+
+function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(pagamenti)); }
+
+function getSample() {
+  const y = new Date().getFullYear();
+  return [
+    { id: uid(), titolo: 'IMU 1ª rata', categoria: 'tributi', importo: 320, scadenza: `${y}-06-16`, pagato: `${y}-06-14`, fornitore: 'Comune di Messina', metodo: 'F24', ricorrenza: 'semestrale', note: '' },
+    { id: uid(), titolo: 'Quota condominio', categoria: 'condominio', importo: 180, scadenza: `${y}-01-05`, pagato: `${y}-01-04`, fornitore: 'Amministratore', metodo: 'Bonifico', ricorrenza: 'mensile', note: '' },
+    { id: uid(), titolo: 'Bolletta ENEL', categoria: 'bollette', importo: 145.80, scadenza: `${y}-02-20`, pagato: '', fornitore: 'ENEL', metodo: 'RID/SDD', ricorrenza: 'bimestrale', note: '' },
+    { id: uid(), titolo: 'RC Auto', categoria: 'assicurazioni', importo: 540, scadenza: `${y}-09-01`, pagato: '', fornitore: 'Generali', metodo: 'Bonifico', ricorrenza: 'annuale', note: '' },
+    { id: uid(), titolo: 'TARI', categoria: 'tributi', importo: 210, scadenza: `${y}-07-31`, pagato: '', fornitore: 'Comune di Messina', metodo: 'F24', ricorrenza: 'annuale', note: '' },
+  ];
+}
+
+function changeYear(d) {
+  currentYear += d;
+  document.getElementById('yearLabel').textContent = currentYear;
+  renderList();
+}
+
+function selectFilter(el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentCat = el.dataset.cat;
+  renderList();
+}
+
+function getStatus(p) {
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  if (p.pagato) return 'pagato';
+  if (!p.scadenza) return 'futuro';
+  const scad = new Date(p.scadenza);
+  const diffDays = Math.ceil((scad - oggi) / 86400000);
+  if (diffDays < 0) return 'scaduto';
+  if (diffDays <= 15) return 'scadenza';
+  return 'futuro';
+}
+
+function fmt(n) {
+  return '€ ' + parseFloat(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function renderList() {
+  // Filtra per anno (usa scadenza o data pagamento per l'anno)
+  let filtered = pagamenti.filter(p => {
+    const dateStr = p.scadenza || p.pagato || '';
+    const anno = dateStr.slice(0, 4);
+    return anno == currentYear;
+  });
+
+  if (currentCat !== 'tutte') {
+    filtered = filtered.filter(p => p.categoria === currentCat);
+  }
+
+  // Totali
+  const tot = filtered.reduce((s, p) => s + parseFloat(p.importo || 0), 0);
+  const pagati = filtered.filter(p => p.pagato).reduce((s, p) => s + parseFloat(p.importo || 0), 0);
+  const dapagare = tot - pagati;
+  document.getElementById('totAnno').textContent = fmt(tot);
+  document.getElementById('totSub').textContent = `${filtered.length} pagamenti`;
+  document.getElementById('totPagati').textContent = fmt(pagati);
+  document.getElementById('totDaPagare').textContent = fmt(dapagare);
+
+  // Raggruppa per mese di scadenza
+  const byMonth = {};
+  filtered.forEach(p => {
+    const m = (p.scadenza || p.pagato || '').slice(5, 7);
+    const key = m || '00';
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(p);
+  });
+
+  const months = Object.keys(byMonth).sort();
+
+  const wrap = document.getElementById('listWrap');
+  if (filtered.length === 0) {
+    wrap.innerHTML = `<div class="empty"><div class="empty-icon">💶</div><div style="color:var(--muted);font-size:14px;">Nessun pagamento per ${currentYear}.<br>Premi <strong>+ Aggiungi</strong>.</div></div>`;
+    return;
+  }
+
+  wrap.innerHTML = months.map(m => {
+    const list = byMonth[m];
+    const monthName = m === '00' ? 'Senza data' : MESI[parseInt(m) - 1];
+    const monthTot = list.reduce((s, p) => s + parseFloat(p.importo || 0), 0);
+
+    const cards = list.map(p => {
+      const status = getStatus(p);
+      const statusLabel = { pagato: 'PAGATO', scaduto: 'SCADUTO', scadenza: 'IN SCADENZA', futuro: 'DA PAGARE' }[status];
+      const scadStr = p.scadenza ? new Date(p.scadenza).toLocaleDateString('it-IT', {day:'2-digit',month:'short'}) : '';
+      const pagatoStr = p.pagato ? new Date(p.pagato).toLocaleDateString('it-IT', {day:'2-digit',month:'short'}) : '';
+      const ricBadge = p.ricorrenza ? `<span class="ricorrente-badge">${p.ricorrenza}</span>` : '';
+      return `
+        <div class="pay-card ${status}">
+          <button class="tick-btn ${p.pagato ? 'done' : ''}" onclick="togglePagato('${p.id}',event)">${p.pagato ? '✓' : ''}</button>
+          <div class="pay-cat-icon">${CAT_ICONS[p.categoria] || '📦'}</div>
+          <div class="pay-info" onclick="editPay('${p.id}')">
+            <div class="pay-title">${p.titolo}</div>
+            <div class="pay-sub">
+              ${p.fornitore ? p.fornitore + ' · ' : ''}
+              ${scadStr ? 'Scad. ' + scadStr : ''}
+              ${pagatoStr ? '· Pag. ' + pagatoStr : ''}
+              ${p.metodo ? '· ' + p.metodo : ''}
+              ${ricBadge}
+            </div>
+          </div>
+          <div class="pay-right">
+            <div class="pay-amount">${fmt(p.importo)}</div>
+            <div class="pay-status status-${status}">${statusLabel}</div>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="month-label">
+        ${monthName}
+        <span class="month-total">${fmt(monthTot)}</span>
+      </div>
+      ${cards}`;
+  }).join('');
+}
+
+function togglePagato(id, e) {
+  e.stopPropagation();
+  const p = pagamenti.find(x => x.id === id);
+  if (!p) return;
+  p.pagato = p.pagato ? '' : new Date().toISOString().split('T')[0];
+  saveData();
+  renderList();
+}
+
+// MODALE
+function openModal(reset = true) {
+  if (reset) {
+    editId = null;
+    document.getElementById('modalTitleText').textContent = 'Nuovo Pagamento';
+    document.getElementById('fTitolo').value = '';
+    document.getElementById('fCategoria').value = 'condominio';
+    document.getElementById('fImporto').value = '';
+    document.getElementById('fScadenza').value = '';
+    document.getElementById('fPagato').value = '';
+    document.getElementById('fFornitore').value = '';
+    document.getElementById('fMetodo').value = 'Bonifico';
+    document.getElementById('fRicorrenza').value = '';
+    document.getElementById('fNote').value = '';
+    document.getElementById('btnDeleteEdit').style.display = 'none';
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function editPay(id) {
+  const p = pagamenti.find(x => x.id === id);
+  if (!p) return;
+  editId = id;
+  document.getElementById('modalTitleText').textContent = 'Modifica Pagamento';
+  document.getElementById('fTitolo').value = p.titolo;
+  document.getElementById('fCategoria').value = p.categoria;
+  document.getElementById('fImporto').value = p.importo;
+  document.getElementById('fScadenza').value = p.scadenza || '';
+  document.getElementById('fPagato').value = p.pagato || '';
+  document.getElementById('fFornitore').value = p.fornitore || '';
+  document.getElementById('fMetodo').value = p.metodo || 'Bonifico';
+  document.getElementById('fRicorrenza').value = p.ricorrenza || '';
+  document.getElementById('fNote').value = p.note || '';
+  document.getElementById('btnDeleteEdit').style.display = 'block';
+  openModal(false);
+}
+
+function savePay() {
+  const titolo = document.getElementById('fTitolo').value.trim();
+  const importo = parseFloat(document.getElementById('fImporto').value);
+  if (!titolo) { alert('Inserisci la descrizione'); return; }
+  if (isNaN(importo) || importo <= 0) { alert('Inserisci un importo valido'); return; }
+  const p = {
+    id: editId || uid(),
+    titolo,
+    categoria: document.getElementById('fCategoria').value,
+    importo,
+    scadenza: document.getElementById('fScadenza').value,
+    pagato: document.getElementById('fPagato').value,
+    fornitore: document.getElementById('fFornitore').value.trim(),
+    metodo: document.getElementById('fMetodo').value,
+    ricorrenza: document.getElementById('fRicorrenza').value,
+    note: document.getElementById('fNote').value.trim()
+  };
+  if (editId) {
+    const idx = pagamenti.findIndex(x => x.id === editId);
+    if (idx >= 0) pagamenti[idx] = p;
+  } else {
+    pagamenti.unshift(p);
+  }
+  saveData();
+  closeModal();
+  renderList();
+}
+
+function deletePayEdit() {
+  if (!editId) return;
+  if (!confirm('Eliminare questo pagamento?')) return;
+  pagamenti = pagamenti.filter(x => x.id !== editId);
+  saveData();
+  closeModal();
+  renderList();
+}
+
+loadData();
+renderList();
+</script>
+</body>
+</html>
