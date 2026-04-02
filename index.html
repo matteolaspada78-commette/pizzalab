@@ -445,8 +445,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="menu-btn" onclick="openPage('palabiga')">
       <div class="menu-icon" style="background:rgba(13,27,75,0.3)">🫓</div>
       <div class="menu-text">
-        <div class="menu-name">Pala Romana Biga</div>
+        <div class="menu-name">Teglia Romana Super Alveolata</div>
         <div class="menu-sub">Biga 70% 5037+0102HP · Alveoli massimi</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-btn" onclick="openPage('tegliapf')">
+      <div class="menu-icon" style="background:rgba(13,59,59,0.4)">❄️</div>
+      <div class="menu-text">
+        <div class="menu-name">Teglia Pronta Forno</div>
+        <div class="menu-sub">Biga + bocce in frigo 18-24h → forno senza attesa</div>
       </div>
       <div class="menu-arrow">›</div>
     </div>
@@ -578,7 +586,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">Ora rinfresco (es. 9 = le 09:00)</label><div class="inp-row"><input class="inp-field" id="lOra" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Programma Esmach (1-6) o P Frigorifero (7)</label><div class="inp-row"><input class="inp-field" id="lProg" type="number" value="4" min="1" max="7" step="1" oninput="toggleP7Fields(this.value)"><span class="inp-unit">prog</span></div></div>
 
-      <!-- CAMPI P7 FRIGORIFERO — visibili solo se prog=7 -->
+      <!-- CAMPI FRIGORIFERO — visibili solo se prog=7 -->
       <div id="p7fields" style="display:none;background:rgba(13,59,59,0.15);border:1px solid rgba(13,59,59,0.4);border-radius:12px;padding:12px;margin-bottom:14px">
         <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">❄️ Programma Frigorifero</div>
         <div class="inp-group"><label class="inp-label">Fermentazione — ore</label><div class="inp-row"><input class="inp-field" id="p7FermH" type="number" value="1" min="0.5" max="12" step="0.5"><span class="inp-unit">h</span></div></div>
@@ -795,12 +803,12 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
     </div>
 
-    <!-- P7 FRIGORIFERO -->
+    <!-- FRIGORIFERO -->
     <div style="padding:14px 16px 16px;background:rgba(13,59,59,0.15)">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:#1E4A5A;border:2px solid #5B9BD5;display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:13px;font-weight:700;color:#90CAF9;flex-shrink:0">P❄️</div>
+        <div style="width:32px;height:32px;border-radius:50%;background:#1E4A5A;border:2px solid #5B9BD5;display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:13px;font-weight:700;color:#90CAF9;flex-shrink:0">Frigo</div>
         <div style="flex:1">
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">❄️ Frigorifero <span style="font-size:10px;background:#1E4A5A;color:#90CAF9;border-radius:4px;padding:2px 7px;margin-left:6px;font-family:DM Mono,monospace">PARAMETRI LIBERI</span></div>
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">Frigorifero <span style="font-size:10px;background:#1E4A5A;color:#90CAF9;border-radius:4px;padding:2px 7px;margin-left:6px;font-family:DM Mono,monospace">PARAMETRI LIBERI</span></div>
           <div style="font-size:11px;color:var(--dim);margin-top:1px">Fermentazione + 1ª fase a T libera → frigo 4-12°C</div>
         </div>
       </div>
@@ -1133,38 +1141,78 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 <div id="pagePalaBiga" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">🫓</div>
-    <div class="page-hero-title">Pala Romana Biga</div>
-    <div class="page-hero-sub">Biga 70% 5037+0102HP · Rinfresco 5037+5078 · Alveoli massimi</div>
+    <div class="page-hero-title">Teglia Romana Super Alveolata</div>
+    <div class="page-hero-sub">Biga libera · 70% Petra 5078 + 30% 0102HP · LdB + Licoli · IDR 75-80%</div>
   </div>
   <div class="card open" id="cardPBigaInp">
     <div class="card-hdr" onclick="toggleCard('cardPBigaInp')">
       <div class="card-hdr-icon">✏️</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Inserisci i tuoi valori</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — compila qui</div><div class="card-hdr-title">Biga · Rinfresco · Lieviti · Orari</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">KG Farina Totale</label><div class="inp-row"><input class="inp-field" id="pbKg" type="number" value="10" min="1" max="100" step="0.5"><span class="inp-unit">kg</span></div></div>
-      <div class="inp-group"><label class="inp-label">Grammatura pala (g)</label><div class="inp-row"><input class="inp-field" id="pbGr" type="number" value="800" min="300" max="1200" step="50"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="80" min="74" max="86" step="1"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pbSale" type="number" value="2.2" min="1.5" max="2.8" step="0.1"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Impasto G1</label><div class="inp-row"><input class="inp-field" id="pbOI" type="number" value="8" min="0" max="23"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Forno G2</label><div class="inp-row"><input class="inp-field" id="pbOF" type="number" value="8" min="0" max="23"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="pbF1" type="number" value="60" min="30" max="90" step="5"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina biga</label><div class="inp-row"><input class="inp-field" id="pbKgB" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina rinfresco</label><div class="inp-row"><input class="inp-field" id="pbKgR" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura teglia (g)</label><div class="inp-row"><input class="inp-field" id="pbGr" type="number" value="1800" min="600" max="3000" step="100"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="78" min="75" max="82" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pbSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="pbLdb" type="number" value="0.8" min="0.1" max="2" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="pbLic" type="number" value="5" min="0" max="20" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="pbOI" type="number" value="10" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="pbOR" type="number" value="7" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale</label><div class="inp-row"><input class="inp-field" id="pbF1" type="number" value="65" min="50" max="85" step="5"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
   <div class="card open" id="cardPBigaOut">
     <div class="card-hdr" onclick="toggleCard('cardPBigaOut')">
-      <div class="card-hdr-icon">📋</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Ricetta</div><div class="card-hdr-title">Grammi e distribuzione</div></div>
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Output Scientifico</div><div class="card-hdr-title">Grammi · Distribuzione acqua · Timeline</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body"><div id="palaBigaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pagePalaBiga','Pala Romana Biga')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-share" onclick="shareRicetta('pagePalaBiga','Teglia Romana Super Alveolata')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
 </div>
 
 
 <!-- IMPASTO DIRETTO -->
+<div id="pageTegliaPF" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">❄️</div>
+    <div class="page-hero-title">Teglia Pronta Forno</div>
+    <div class="page-hero-sub">Biga G1 → Rinfresco G2 → Bocce in frigo 18-24h → Forno senza attesa</div>
+  </div>
+  <div class="card open" id="cardTPFInp">
+    <div class="card-hdr" onclick="toggleCard('cardTPFInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — compila qui</div><div class="card-hdr-title">Biga · Rinfresco · Frigo · Forno</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina biga</label><div class="inp-row"><input class="inp-field" id="tpKgB" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina rinfresco</label><div class="inp-row"><input class="inp-field" id="tpKgR" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura teglia (g)</label><div class="inp-row"><input class="inp-field" id="tpGr" type="number" value="1800" min="600" max="3000" step="100"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="tpIDR" type="number" value="78" min="75" max="82" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="tpSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="tpLdb" type="number" value="0.8" min="0.1" max="2" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="tpLic" type="number" value="5" min="0" max="20" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="tpOI" type="number" value="10" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="tpOR" type="number" value="7" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore in frigo dopo staglio (18-24h)</label><div class="inp-row"><input class="inp-field" id="tpFreH" type="number" value="20" min="18" max="24" step="1"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale</label><div class="inp-row"><input class="inp-field" id="tpF1" type="number" value="65" min="50" max="85" step="5"><span class="inp-unit">%</span></div></div>
+    </div>
+  </div>
+  <div class="card open" id="cardTPFOut">
+    <div class="card-hdr" onclick="toggleCard('cardTPFOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Output Scientifico</div><div class="card-hdr-title">Grammi · Timeline · Forno</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="tegliaPFOut"></div></div>
+  </div>
+  <button class="btn-share" onclick="shareRicetta('pageTegliaPF','Teglia Pronta Forno')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+</div>
+
 <div id="pageDiretto" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">⚡</div>
@@ -2095,7 +2143,8 @@ const titles={
   tondacroc:['🍕 Tonda Romana Croccante','LdB / Licoli / Pasta Riporto'],
   palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 82%'],
   palascient:['🔬 Pala Scientifica','IDR variabile · G\' target'],
-  palabiga:['🫓 Pala Biga','Biga 70% · Alveoli Max'],
+  palabiga:['🫓 Teglia Alveolata','Biga 50% · 5078+0102HP · Alveoli Esplosivi'],
+  tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
   diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico']
 };
@@ -2250,7 +2299,7 @@ function calcLicoli(){
   const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
   const acqua=R(lic*rA),farina=R(lic*rF),unica=acqua+farina;
   const tot=lic+acqua+farina,util=R(tot*0.85);
-  // P7: legge i valori dai campi custom
+  // Frigorifero: legge i valori dai campi custom
   var p7FermH = parseFloat(document.getElementById('p7FermH')?.value)||1;
   var p7FermT = parseFloat(document.getElementById('p7FermT')?.value)||23;
   var p7Fase1H = parseFloat(document.getElementById('p7Fase1H')?.value)||1;
@@ -2298,7 +2347,7 @@ function calcLicoli(){
 
   document.getElementById('licoliOut').innerHTML=
     '<div style="background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px">'+
-    '<div style="font-size:'+( prog===7?'22':'44')+'px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">'+(prog===7?'P❄️':'P'+prog)+'</div>'+
+    '<div style="font-size:'+( prog===7?'22':'44')+'px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">'+(prog===7?'Frigo':'P'+prog)+'</div>'+
     '<div><div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px">Programma Esmach</div>'+
     '<div style="font-size:12px;color:var(--dim)">'+pd.desc+'</div>'+
     '<div style="font-size:11px;color:var(--gold);margin-top:4px">Rinfresco '+H2(ora)+' → Picco '+oraPronto+' → Limite '+oraLimite+'</div></div>'+
@@ -2334,7 +2383,7 @@ function calcLicoli(){
   document.getElementById('esmachOut').innerHTML=
     '<div class="res-section">'+
     [1,2,3,4,5,6].map(p=>row('P'+p,progDescText[p],p===4?'← consigliato Matteo':'')).join('')+
-    row('P❄️ Frigorifero',p7DescText,'Programma Frigorifero — parametri liberi')+
+    row('Frigorifero',p7DescText,'Programma Frigorifero — parametri liberi')+
     '</div>';
 
   // ── MEMORIA ULTIMO RINFRESCO ──
@@ -2720,47 +2769,193 @@ function calcPalaScient(){
 // PALA BIGA
 // ══════════════════════════════════════════════
 function calcPalaBiga(){
-  const kg=G('pbKg'),gr=G('pbGr'),idr=G('pbIDR'),saleP=G('pbSale');
-  const oi=G('pbOI'),of=G('pbOF');
+  const kgB=G('pbKgB')||10, kgR=G('pbKgR')||10;
+  const kg=kgB+kgR;
+  const gr=G('pbGr'),idr=G('pbIDR'),saleP=G('pbSale');
+  const ldbP=G('pbLdb')||0.8, licP=G('pbLic')||0;
+  const oi=G('pbOI'),or_=G('pbOR'),f1Pct=G('pbF1');
 
-  const kgB=R(kg*0.7,3);
-  const kgR=R(kg*0.3,3);
-  const acqBiga=R(kgB*0.45*1000,0);
-  const ldbBiga=R(kgB*0.003*1000,1);
-  const acqTot=R(kg*idr/100*1000,0);
-  const aa=acqTot-acqBiga;
-  const sale=R(kg*saleP/100*1000,0);
-  const malto=R(kg*0.003*1000,0);
-  const pan=Math.floor(kg*(1+idr/100+saleP/100)*1000/gr);
-  const puntata=8;
+  // ── BIGA (kg liberi) ──
+  const kgBiga = kgB;
+  const kg5078biga = R(kgBiga * 0.70, 3);
+  const kg0102biga = R(kgBiga * 0.30, 3);
+  const acqBiga = R(kgBiga * 0.45 * 1000, 0);
+  const ldbBiga = R(kgBiga * ldbP/100 * 1000, 1);
 
-  document.getElementById('palaBigaOut').innerHTML=`
-    <div class="res-section">
-      <div class="res-label">Biga 70% — Sera Giorno 0</div>
-      ${row('Petra 5037 (60% biga)',R(kgB*0.6*1000,0)+'g','W300-340')}
-      ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','proteasi germogliate')}
-      ${row('Acqua biga (IDR 45%)',acqBiga+'g','fredda')}
-      ${row('LdB biga (0.3%)',ldbBiga+'g','')}
-    </div>
-    <div class="res-section">
-      <div class="res-label">Rinfresco 30% — G1 ${H(oi)}</div>
-      ${row('Petra 5037 (70% rinfresco)',R(kgR*0.7*1000,0)+'g','')}
-      ${row('Petra 5078 (30% rinfresco)',R(kgR*0.3*1000,0)+'g','alveoli massimi')}
-      ${row('Sale ('+saleP+'%)',sale+'g','')}
-      ${row('Malto (0.3%)',malto+'g','')}
-      ${row('ACQUA DA AGGIUNGERE',aa+'g','IDR '+idr+'%',true)}
-      ${row('Pezzi da '+gr+'g',pan+' pale','',true)}
-    </div>
-    ${tl([
-      ['Sera G0','🧱 BIGA → cella/17°C',R(kgB*1000,0)+'g biga'],
-      [H(oi)+' G1','⚙️ RINFRESCO + IMPASTO','IDR '+idr+'% | T uscita 24°C'],
-      [H(oi)+':20 G1','💪 S&F → PUNTATA 8h','NON in cella — obbligatorio'],
-      [H(oi+puntata)+' G1','✂️ STAGLIO → FRIGO',pan+' pezzi da '+gr+'g'],
-      [H(of-0.5)+' G2','📦 FUORI FRIGO','stesura in teglia'],
-      [H(of)+' G2','🔥 FORNO 285°C platea','255°C cielo | 18-22 min']
-    ])}`;
+  // ── RINFRESCO (kg liberi) ──
+  const kgRinf = kgR;
+  const kg5078rinf = R(kgRinf * 0.70, 3);
+  const kg0102rinf = R(kgRinf * 0.30, 3);
+  const licoli = R(kgRinf * licP/100 * 1000, 0);
+
+  // ── ACQUA TOTALE ──
+  const acqTot = R(kg * idr/100 * 1000, 0);
+  const acqRinf = acqTot - acqBiga;         // acqua da aggiungere al rinfresco
+  const fase1 = R(acqRinf * f1Pct/100, 0); // prima fase
+  const bass = Math.max(0, acqRinf - fase1);// bassinage
+
+  // ── SALE ──
+  const sale = R(kg * saleP/100 * 1000, 0);
+  const acqSale = R(sale * 3, 0); // sale sciolto in 3x acqua (presa dal bassinage)
+
+  // ── TEGLIE ──
+  const pesoImpasto = R((kg + acqTot/1000 + kg*saleP/100) * 1000, 0);
+  const nTeglie = Math.floor(pesoImpasto / gr);
+
+  // ── ORARI ──
+  // G1: biga ore oi (es 10:00)
+  // G2: rinfresco ore or_ (es 07:00) — dopo ~21h biga
+  // Puntata 1h-1h30 → staglio → appretto 2h30 → forno
+  const oraPuntataFine = or_ + 1.5;  // fine puntata
+  const oraStaglio = or_ + 1.5;
+  const oraApprettoFine = oraStaglio + 2.5; // dopo 2h30
+  const oraForno = oraApprettoFine;
+
+  // ── SEMAFORO BIGA ──
+  const oreB = or_ >= oi ? (or_ - oi + 24) : (24 - oi + or_ + 24);
+  const attB = R(100 * Math.exp(-Math.pow(oreB - 21, 2) / 60), 1);
+  const semBigaCls = attB >= 85 ? 'ok' : attB >= 70 ? 'warn' : 'bad';
+  const semBigaTxt = attB >= 85 ? '🏆 BIGA AL PICCO — impasto ora!' :
+                     attB >= 70 ? '✅ Biga ottimale' :
+                     attB >= 50 ? '🟡 Biga acerba — aspetta' : '🔴 Biga fuori picco';
+
+  document.getElementById('palaBigaOut').innerHTML =
+    sem(semBigaTxt + ' — ' + oreB + 'h biga · attività ' + attB + '%', semBigaCls) +
+    '<div class="res-section">' +
+    '<div class="res-label">🧱 Biga ' + kgB + 'kg — G1 ore ' + H(oi) + '</div>' +
+    row('Petra 5078 (70% biga)', kg5078biga*1000+'g', 'W350-380 · forza struttura') +
+    row('Petra 0102HP (30% biga)', kg0102biga*1000+'g', 'W320-340 · proteasi germogliate') +
+    row('Acqua biga (IDR 45%)', acqBiga+'g', 'fredda 4°C') +
+    row('LdB biga (' + ldbP + '%)', ldbBiga+'g', 'biga attiva in ~21h') +
+    row('TOTALE BIGA', R(kgBiga*1000+acqBiga+ldbBiga,0)+'g', '', true) +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">🔄 Rinfresco ' + kgR + 'kg — G2 ore ' + H(or_) + '</div>' +
+    row('Petra 5078 (70% rinfresco)', kg5078rinf*1000+'g', 'W350-380') +
+    row('Petra 0102HP (30% rinfresco)', kg0102rinf*1000+'g', 'W320-340') +
+    (licP>0 ? row('Licoli (' + licP + '%)', licoli+'g', 'accelera puntata — riduce attesa') : '') +
+    row('Sale (' + saleP + '%)', sale+'g', 'sciolto in ' + acqSale + 'g acqua') +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">💧 Distribuzione acqua — totale ' + acqRinf + 'g</div>' +
+    row('Fase 1 (' + f1Pct + '%) — con biga+farine', fase1+'g', 'T 18-20°C · incordatura base') +
+    row('Bassinage (restante)', bass+'g', 'a filo dopo incordatura', true) +
+    row('IDR finale', idr+'%', '', true) +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">📐 Resa teglie</div>' +
+    row('Peso impasto totale', pesoImpasto+'g', '') +
+    row('Grammatura teglia', gr+'g', '') +
+    row('TEGLIE PRODOTTE', nTeglie+' teglie', '', true) +
+    '</div>' +
+    sem('UNICA = acqua fase1 già inclusa nella biga. NON aggiungere separatamente.', 'info') +
+    tl([
+      [H(oi)+' G1', '🧱 BIGA → cella 4°C', kg5078biga*1000+'g 5078 + '+kg0102biga*1000+'g 0102HP | LdB '+ldbBiga+'g'],
+      [H(or_)+' G2', '⚙️ RINFRESCO + IMPASTO', 'IDR '+idr+'% · T uscita 24°C · sale dopo incordatura'],
+      [H(or_+0.3)+' G2', '💧 BASSINAGE '+bass+'g', 'a filo lentamente · non rompere maglia'],
+      [H(oraPuntataFine-1)+' G2', '📦 PUNTATA IN MASSA', '+30-40% volume · T 24°C · coperto'],
+      [H(oraPuntataFine)+' G2', '✂️ STAGLIO → BOCCE', nTeglie+' teglie da '+gr+'g'],
+      [H(oraStaglio+2)+' G2', '🫓 STESURA IN TEGLIA', 'olio sotto · stendi con le dita · riposo 30min'],
+      [H(oraForno)+' G2', '🔥 FORNO 280°C PLATEA', '250°C cielo · 18-22 min · vapore primi 5min']
+    ]);
 }
 
+
+// ══════════════════════════════════════════════
+// TEGLIA PRONTA FORNO
+// ══════════════════════════════════════════════
+function calcTegliaPF(){
+  const kgB=G('tpKgB')||10, kgR=G('tpKgR')||10;
+  const kg=kgB+kgR;
+  const gr=G('tpGr'), idr=G('tpIDR'), saleP=G('tpSale');
+  const ldbP=G('tpLdb')||0.8, licP=G('tpLic')||0;
+  const oi=G('tpOI'), or_=G('tpOR'), freH=G('tpFreH')||20;
+  const f1Pct=G('tpF1')||65;
+
+  // BIGA
+  const kg5078b=R(kgB*0.70,3), kg0102b=R(kgB*0.30,3);
+  const acqBiga=R(kgB*0.45*1000,0);
+  const ldbBiga=R(kgB*ldbP/100*1000,1);
+
+  // RINFRESCO
+  const kg5078r=R(kgR*0.70,3), kg0102r=R(kgR*0.30,3);
+  const licoli=R(kgR*licP/100*1000,0);
+
+  // ACQUA
+  const acqTot=R(kg*idr/100*1000,0);
+  const acqRinf=acqTot-acqBiga;
+  const fase1=R(acqRinf*f1Pct/100,0);
+  const bass=Math.max(0,acqRinf-fase1);
+  const sale=R(kg*saleP/100*1000,0);
+  const acqSale=R(sale*3,0);
+
+  // TEGLIE
+  const pesoImpasto=R((kg+acqTot/1000+kg*saleP/100)*1000,0);
+  const nTeglie=Math.floor(pesoImpasto/gr);
+
+  // ORARI
+  // G1: biga → G2: rinfresco → puntata 1h → staglio → frigo freH ore → fuori frigo 2h → forno
+  const orePuntata=1;
+  const oreStaglio=or_+orePuntata;
+  // G3 (o stesso G2 se freH < 16h): uscita frigo + 2h appretto → forno
+  const oreDopoFrigo=2; // appretto fuori frigo
+  const oraForno=((oreStaglio+freH+oreDopoFrigo)%24);
+  const giornoForno=Math.floor((oreStaglio+freH+oreDopoFrigo)/24);
+
+  // SEMAFORO BIGA
+  const oreB=or_>=oi?(or_-oi+24):(24-oi+or_+24);
+  const attB=R(100*Math.exp(-Math.pow(oreB-21,2)/60),1);
+  const semCls=attB>=85?'ok':attB>=70?'warn':'bad';
+  const semTxt=attB>=85?'🏆 BIGA AL PICCO — impasta ora!':
+               attB>=70?'✅ Biga ottimale':
+               attB>=50?'🟡 Biga acerba — aspetta ancora':'🔴 Biga fuori picco';
+
+  // SEMAFORO FRIGO
+  const semFrigoCls=freH>=18&&freH<=22?'ok':freH>22?'warn':'bad';
+  const semFrigoTxt=freH>=18&&freH<=22?'✅ '+freH+'h in frigo — finestra ottimale (18-22h)':
+                    freH>22?'🟡 '+freH+'h — attenzione over-fermentazione oltre 24h':
+                    '🔴 '+freH+'h — troppo poco, maglia non rilassata';
+
+  document.getElementById('tegliaPFOut').innerHTML=
+    sem(semTxt+' — '+oreB+'h biga · attività '+attB+'%',semCls)+
+    '<div class="res-section">'+
+    '<div class="res-label">🧱 Biga '+kgB+'kg — G1 ore '+H(oi)+'</div>'+
+    row('Petra 5078 (70% biga)',kg5078b*1000+'g','W350-380 · forza struttura')+
+    row('Petra 0102HP (30% biga)',kg0102b*1000+'g','W320-340 · proteasi germogliate')+
+    row('Acqua biga (IDR 45%)',acqBiga+'g','fredda 4°C')+
+    row('LdB biga ('+ldbP+'%)',ldbBiga+'g','')+
+    row('TOTALE BIGA',R(kgB*1000+acqBiga+ldbBiga,0)+'g','',true)+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">🔄 Rinfresco '+kgR+'kg — G2 ore '+H(or_)+'</div>'+
+    row('Petra 5078 (70% rinfresco)',kg5078r*1000+'g','W350-380')+
+    row('Petra 0102HP (30% rinfresco)',kg0102r*1000+'g','W320-340')+
+    (licP>0?row('Licoli ('+licP+'%)',licoli+'g','accelera — puntata più rapida'):'')+
+    row('Sale ('+saleP+'%)',sale+'g','sciolto in '+acqSale+'g acqua')+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">💧 Distribuzione acqua — totale '+acqRinf+'g</div>'+
+    row('Fase 1 ('+f1Pct+'%) con biga+farine',fase1+'g','T 18-20°C · incordatura')+
+    row('Bassinage (restante)',bass+'g','a filo dopo incordatura',true)+
+    row('IDR finale',idr+'%','',true)+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">📐 Resa teglie</div>'+
+    row('Peso impasto totale',pesoImpasto+'g','')+
+    row('TEGLIE PRODOTTE',nTeglie+' teglie da '+gr+'g','',true)+
+    '</div>'+
+    sem(semFrigoTxt,semFrigoCls)+
+    tl([
+      [H(oi)+' G1','🧱 BIGA → cella 4°C',kg5078b*1000+'g 5078 + '+kg0102b*1000+'g 0102HP | LdB '+ldbBiga+'g'],
+      [H(or_)+' G2','⚙️ RINFRESCO + IMPASTO','IDR '+idr+'% · T uscita 24°C · licoli '+licoli+'g'],
+      [H(or_+0.3)+' G2','💧 BASSINAGE '+bass+'g','a filo lentamente'],
+      [H(oreStaglio-0.5)+' G2','📦 PUNTATA IN MASSA','attendi +30-40% volume · ~1h a 24°C'],
+      [H(oreStaglio)+' G2','✂️ STAGLIO → BOCCE',''+nTeglie+' teglie da '+gr+'g'],
+      [H(oreStaglio)+' G2','❄️ FRIGO 4°C per '+freH+'h','bocce coperte · maglia si rilassa'],
+      [H(oraForno-oreDopoFrigo)+' G'+(1+giornoForno),'📦 FUORI FRIGO','2h a T ambiente prima del forno'],
+      [H(oraForno)+' G'+(1+giornoForno),'🔥 FORNO 280°C PLATEA','250°C cielo · 20-25 min · vapore 5min']
+    ]);
+}
 
 // ══════════════════════════════════════════════
 // DIARIO DI PRODUZIONE
@@ -3282,6 +3477,7 @@ function calcAll(){
   if(currentPage==='palasuprema') calcPalaSuprema();
   if(currentPage==='palascient') calcPalaScient();
   if(currentPage==='palabiga') calcPalaBiga();
+  if(currentPage==='tegliapf') calcTegliaPF();
   if(currentPage==='diario') calcDiary();
   if(currentPage==='diretto') calcDiretto();
 }
