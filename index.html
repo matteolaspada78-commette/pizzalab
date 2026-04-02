@@ -576,7 +576,18 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">Rapporto Farina (parti)</label><div class="inp-row"><input class="inp-field" id="lRF" type="number" value="3" min="1" max="5" step="1" oninput="syncRapportoAcqua(this.value)"><span class="inp-unit">parti</span></div></div>
       <div class="inp-group"><label class="inp-label">Rapporto Acqua (parti) — modifica per forzare</label><div class="inp-row"><input class="inp-field" id="lRA" type="number" value="3" min="1" max="5" step="1"><span class="inp-unit">parti</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora rinfresco (es. 9 = le 09:00)</label><div class="inp-row"><input class="inp-field" id="lOra" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Programma Esmach (1-6)</label><div class="inp-row"><input class="inp-field" id="lProg" type="number" value="4" min="1" max="6" step="1"><span class="inp-unit">prog</span></div></div>
+      <div class="inp-group"><label class="inp-label">Programma Esmach (1-6) o P Frigorifero (7)</label><div class="inp-row"><input class="inp-field" id="lProg" type="number" value="4" min="1" max="7" step="1" oninput="toggleP7Fields(this.value)"><span class="inp-unit">prog</span></div></div>
+
+      <!-- CAMPI P7 FRIGORIFERO — visibili solo se prog=7 -->
+      <div id="p7fields" style="display:none;background:rgba(13,59,59,0.15);border:1px solid rgba(13,59,59,0.4);border-radius:12px;padding:12px;margin-bottom:14px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">❄️ Programma Frigorifero</div>
+        <div class="inp-group"><label class="inp-label">Fermentazione — ore</label><div class="inp-row"><input class="inp-field" id="p7FermH" type="number" value="1" min="0.5" max="12" step="0.5"><span class="inp-unit">h</span></div></div>
+        <div class="inp-group"><label class="inp-label">Fermentazione — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7FermT" type="number" value="23" min="17" max="27" step="0.5"><span class="inp-unit">°C</span></div></div>
+        <div class="inp-group"><label class="inp-label">1ª Fase — ore</label><div class="inp-row"><input class="inp-field" id="p7Fase1H" type="number" value="1" min="0" max="6" step="0.5"><span class="inp-unit">h</span></div></div>
+        <div class="inp-group"><label class="inp-label">1ª Fase — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7Fase1T" type="number" value="18" min="17" max="27" step="0.5"><span class="inp-unit">°C</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Conservazione in frigo — T °C (4-12)</label><div class="inp-row"><input class="inp-field" id="p7ConsT" type="number" value="4" min="4" max="12" step="0.5"><span class="inp-unit">°C</span></div></div>
+      </div>
+
       <div class="inp-group"><label class="inp-label">pH PRIMA del rinfresco (stato madre)</label><div class="inp-row"><input class="inp-field" id="lPH" type="number" value="" step="0.1" min="2.5" max="7" placeholder="es. 3.8"><span class="inp-unit">pH</span></div></div>
     </div>
   </div>
@@ -759,7 +770,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
 
     <!-- P6 -->
-    <div style="padding:14px 16px 16px">
+    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
         <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P6</div>
         <div>
@@ -782,6 +793,35 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
           <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
         </div>
       </div>
+    </div>
+
+    <!-- P7 FRIGORIFERO -->
+    <div style="padding:14px 16px 16px;background:rgba(13,59,59,0.15)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:#1E4A5A;border:2px solid #5B9BD5;display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:13px;font-weight:700;color:#90CAF9;flex-shrink:0">P❄️</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">❄️ Frigorifero <span style="font-size:10px;background:#1E4A5A;color:#90CAF9;border-radius:4px;padding:2px 7px;margin-left:6px;font-family:DM Mono,monospace">PARAMETRI LIBERI</span></div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">Fermentazione + 1ª fase a T libera → frigo 4-12°C</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
+          <div style="font-size:13px;font-weight:700;color:#90CAF9">variabile</div>
+          <div style="font-size:11px;color:var(--dim)">17-27°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
+          <div style="font-size:13px;font-weight:700;color:#90CAF9">variabile</div>
+          <div style="font-size:11px;color:var(--dim)">17-27°C</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Frigo</div>
+          <div style="font-size:13px;font-weight:700;color:#90CAF9">4-12°C</div>
+          <div style="font-size:11px;color:var(--dim)">scegli tu</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#5B9BD5;font-style:italic">💡 Seleziona P Frigorifero nel calcolatore per impostare i tuoi parametri</div>
     </div>
 
   </div>
@@ -2195,22 +2235,38 @@ function erf(x){
 // LICOLI
 // ══════════════════════════════════════════════
 function syncRapportoAcqua(val){
-  // Quando cambia rapporto farina, aggiorna acqua con lo stesso valore
   const raEl = document.getElementById('lRA');
   if(raEl) raEl.value = val;
+}
+
+function toggleP7Fields(val){
+  const el = document.getElementById('p7fields');
+  if(el) el.style.display = parseInt(val)===7 ? 'block' : 'none';
+  // Ricalcola subito
+  if(currentPage==='licoli') calcLicoli();
 }
 
 function calcLicoli(){
   const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
   const acqua=R(lic*rA),farina=R(lic*rF),unica=acqua+farina;
   const tot=lic+acqua+farina,util=R(tot*0.85);
+  // P7: legge i valori dai campi custom
+  var p7FermH = parseFloat(document.getElementById('p7FermH')?.value)||1;
+  var p7FermT = parseFloat(document.getElementById('p7FermT')?.value)||23;
+  var p7Fase1H = parseFloat(document.getElementById('p7Fase1H')?.value)||1;
+  var p7Fase1T = parseFloat(document.getElementById('p7Fase1T')?.value)||18;
+  var p7ConsT = parseFloat(document.getElementById('p7ConsT')?.value)||4;
+  var p7DurH = p7FermH + p7Fase1H;
+  var p7Desc = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
+
   const progDesc={
     1:{desc:'1h30min 28.5°C → Cons.12°C', durH:1.5},
     2:{desc:'1h 23°C + 16°C 1h → Cons.12°C', durH:2},
     3:{desc:'3h 28.5°C + 12°C 12h → Cons.11.5°C', durH:15},
     4:{desc:'2h30min 26°C → Cons.11.5°C', durH:2.5},
     5:{desc:'2h 18°C + 16°C 1h → Cons.11.5°C', durH:3},
-    6:{desc:'1h 16°C → Cons.11.5°C', durH:1}
+    6:{desc:'1h 16°C → Cons.11.5°C', durH:1},
+    7:{desc:p7Desc, durH:p7DurH}
   };
   const pd = progDesc[prog] || {desc:'—', durH:2};
   const oraFine = ((ora + pd.durH) % 24);
@@ -2242,7 +2298,7 @@ function calcLicoli(){
 
   document.getElementById('licoliOut').innerHTML=
     '<div style="background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px">'+
-    '<div style="font-size:44px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">P'+prog+'</div>'+
+    '<div style="font-size:'+( prog===7?'22':'44')+'px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">'+(prog===7?'P❄️':'P'+prog)+'</div>'+
     '<div><div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px">Programma Esmach</div>'+
     '<div style="font-size:12px;color:var(--dim)">'+pd.desc+'</div>'+
     '<div style="font-size:11px;color:var(--gold);margin-top:4px">Rinfresco '+H2(ora)+' → Picco '+oraPronto+' → Limite '+oraLimite+'</div></div>'+
@@ -2274,9 +2330,11 @@ function calcLicoli(){
   const progDescText={1:'1h30min 28.5°C → Cons.12°C',2:'1h 23°C + 16°C 1h → Cons.12°C',
     3:'3h 28.5°C + 12°C 12h → Cons.11.5°C',4:'2h30min 26°C → Cons.11.5°C',
     5:'2h 18°C + 16°C 1h → Cons.11.5°C',6:'1h 16°C → Cons.11.5°C'};
+  const p7DescText = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
   document.getElementById('esmachOut').innerHTML=
     '<div class="res-section">'+
     [1,2,3,4,5,6].map(p=>row('P'+p,progDescText[p],p===4?'← consigliato Matteo':'')).join('')+
+    row('P❄️ Frigorifero',p7DescText,'Programma Frigorifero — parametri liberi')+
     '</div>';
 
   // ── MEMORIA ULTIMO RINFRESCO ──
@@ -3103,9 +3161,15 @@ function shareRicetta(pageId, titolo){
       3:'3h 28,5°C + 12°C 12h → Cons.11,5°C',
       4:'2h30min 26°C → Cons.11,5°C',
       5:'2h 18°C + 16°C 1h → Cons.11,5°C',
-      6:'1h 16°C → Cons.11,5°C'
+      6:'1h 16°C → Cons.11,5°C',
+      7:p7FH+'h '+p7FT+'°C + '+p7F1H+'h '+p7F1T+'°C → Frigo '+p7CT+'°C'
     };
-    const durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1};
+    const p7FH = parseFloat(document.getElementById('p7FermH')?.value)||1;
+    const p7F1H = parseFloat(document.getElementById('p7Fase1H')?.value)||1;
+    const p7FT = parseFloat(document.getElementById('p7FermT')?.value)||23;
+    const p7F1T = parseFloat(document.getElementById('p7Fase1T')?.value)||18;
+    const p7CT = parseFloat(document.getElementById('p7ConsT')?.value)||4;
+    const durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1,7:p7FH+p7F1H};
     const H = h => { const x=((h%24)+24)%24; return String(Math.floor(x)).padStart(2,'0')+':00'; };
     const oraFine = ((ora + durH[prog])%24);
     const oraPronto = H(oraFine);
@@ -3116,7 +3180,7 @@ function shareRicetta(pageId, titolo){
     righe.push('🌿 *Licoli Madre — L\'Orso*');
     righe.push('📅 '+oggi+' ore '+oraStr);
     righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push('⚙️ *Programma P'+prog+'* — '+progDesc[prog]);
+    righe.push((prog===7?'❄️ *Programma Frigorifero*':'⚙️ *Programma P'+prog+'*')+' — '+progDesc[prog]);
     righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
     righe.push('🧮 *Ricetta Rinfresco 1:'+rA+':'+rF+'*');
     righe.push('  • Licoli di partenza: *'+lic+'g*');
