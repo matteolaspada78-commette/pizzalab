@@ -467,6 +467,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
       <div class="menu-arrow">›</div>
     </div>
+    <div class="menu-btn" onclick="openPage('romana')">
+      <div class="menu-icon" style="background:rgba(180,80,0,0.3)">🫓</div>
+      <div class="menu-text">
+        <div class="menu-name">Romana Croccante Diretta</div>
+        <div class="menu-sub">5046 Allegra · IDR 58-60% · Strutto · Mattarello</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
     <div class="menu-section-label">📔 Diario</div>
     <div class="menu-btn" onclick="openPage('diario')">
       <div class="menu-icon" style="background:rgba(55,71,79,0.4)">📔</div>
@@ -1261,6 +1269,39 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="direttoSci"></div></div>
   </div>
+</div>
+
+<!-- ROMANA CROCCANTE DIRETTA -->
+<div id="pageRomana" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🫓</div>
+    <div class="page-hero-title">Romana Croccante Diretta</div>
+    <div class="page-hero-sub">Petra 5046 Allegra · IDR 58-60% · Strutto 3% · Mattarello · Fondo croccante</div>
+  </div>
+  <div class="card open" id="cardRomInp">
+    <div class="card-hdr" onclick="toggleCard('cardRomInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — compila qui</div><div class="card-hdr-title">Kg · Ore · Ora impasto</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina 5046 Allegra</label><div class="inp-row"><input class="inp-field" id="romKg" type="number" value="7" min="1" max="50" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura pezzi (g)</label><div class="inp-row"><input class="inp-field" id="romGr" type="number" value="180" min="150" max="250" step="10"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore disponibili</label><div class="inp-row"><input class="inp-field" id="romOre" type="number" value="9" min="6" max="12" step="1"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora impasto</label><div class="inp-row"><input class="inp-field" id="romOI" type="number" value="10" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="romTA" type="number" value="22" min="16" max="30"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="romIDR" type="number" value="59" min="56" max="62" step="1"><span class="inp-unit">%</span></div></div>
+    </div>
+  </div>
+  <div class="card open" id="cardRomOut">
+    <div class="card-hdr" onclick="toggleCard('cardRomOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Ricetta scientifica</div><div class="card-hdr-title">Grammi · Distribuzione · Timeline</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="romanaOut"></div></div>
+  </div>
+  <button class="btn-share" onclick="shareRicetta('pageRomana','Romana Croccante Diretta')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
 </div>
 
 <!-- DIARIO DI PRODUZIONE -->
@@ -2133,7 +2174,8 @@ const pages={
   tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   diario:'pageDiario',
-  diretto:'pageDiretto'
+  diretto:'pageDiretto',
+  romana:'pageRomana'
 };
 const titles={
   motore:['🔬 Motore Scientifico','Reologia · Fermentazione · Cottura'],
@@ -2147,7 +2189,8 @@ const titles={
   palabiga:['🫓 Teglia Alveolata','Biga 50% · 5078+0102HP · Alveoli Esplosivi'],
   tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
-  diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico']
+  diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico'],
+  romana:['🫓 Romana Croccante','5046 Allegra · Diretta · Mattarello']
 };
 
 let currentPage='home';
@@ -2959,6 +3002,67 @@ function calcTegliaPF(){
 }
 
 // ══════════════════════════════════════════════
+// ROMANA CROCCANTE DIRETTA
+// ══════════════════════════════════════════════
+function calcRomana(){
+  const kg=G('romKg'), gr=G('romGr'), ore=G('romOre');
+  const oi=G('romOI'), ta=G('romTA'), idr=G('romIDR')||59;
+
+  // Monod: LdB ottimale per le ore disponibili
+  const mu = Math.round(0.15 * Math.pow(2.2,(ta-23)/10) * 10000)/10000;
+  const ldb = Math.max(0.5, Math.min(2.5, Math.round(0.7/(mu*ore)*100*10)/10));
+
+  // Grammi
+  const acqTot = Math.round(kg*idr/100*1000);
+  const sale_g = Math.round(kg*2.5/100*1000);
+  const ldb_g  = Math.round(kg*ldb/100*1000*10)/10;
+  const str_g  = Math.round(kg*3/100*1000);
+  const f1_g   = Math.round(acqTot*0.70);
+  const f2_g   = Math.round(acqTot*0.20);
+  const bass_g = Math.max(0, acqTot - f1_g - f2_g);
+  const pan    = Math.floor(kg*(1+idr/100+0.025+0.03)*1000/gr);
+
+  // T acqua (formula Esmach K=7.8)
+  const Tacq = Math.round((22*3.75 - 10*1.63 - ta*1.12 - 7.8*3.75)*10)/10;
+
+  // Orari
+  const H2 = h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':'+String(Math.round((x%1)*60)).padStart(2,'0');};
+  const H = h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  const oraSF   = oi + 0.5;
+  const oraStag = oi + (ore<=6?2:ore<=8?3:4);
+  const oraFrig = oraStag;
+  const oraFuori= oi + ore - 0.5;
+  const oraForno= oi + ore;
+
+  document.getElementById('romanaOut').innerHTML =
+    sem('🫓 Petra 5046 Allegra W180-220 — IDR '+idr+'% — LdB '+ldb+'% calcolato Monod per '+ore+'h a '+ta+'°C','info') +
+    '<div class="res-section">' +
+    '<div class="res-label">Ingredienti — '+kg+'kg 5046 Allegra</div>' +
+    row('Farina Petra 5046 Allegra', kg*1000+'g', 'W180-220 · croccantezza naturale') +
+    row('Acqua (IDR '+idr+'%)', acqTot+'g', 'T acqua '+Tacq+'°C') +
+    row('Sale (2.5%)', sale_g+'g', 'dopo incordatura') +
+    row('LdB ('+ldb+'%)', ldb_g+'g', 'Monod '+ore+'h · T '+ta+'°C') +
+    row('Strutto (3%)', str_g+'g', 'fuori frigo 30min · croccantezza') +
+    row('PEZZI DA '+gr+'g', pan+' pezzi', '', true) +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">Distribuzione acqua — totale '+acqTot+'g</div>' +
+    row('Fase 1 (70%) — con farina', f1_g+'g', 'T '+Tacq+'°C · incordatura base') +
+    row('Fase 2 (20%) — dopo sale', f2_g+'g', 'dopo il sale') +
+    row('Bassinage (10%)', bass_g+'g', 'a filo · dopo strutto', true) +
+    '</div>' +
+    sem('⚠️ Stendi con MATTARELLO — 2-3mm — bucherella TUTTA la superficie con rullo — niente cornicione', 'warn') +
+    tl([
+      [H(oi),   '⚙️ IMPASTO', 'autolisi 15min → LdB → sale → strutto → bassinage'],
+      [H(oraSF),'💪 S&F × 2', 'ogni 20min — coperto a T ambiente'],
+      [H(oraStag),'✂️ STAGLIO', pan+' pezzi da '+gr+'g'],
+      [H(oraFrig),'❄️ FRIGO 4°C', 'panetti coperti — maglia si rassoda'],
+      [H(oraFuori),'📦 FUORI FRIGO', '30min a T ambiente — stendi FREDDO'],
+      [H(oraForno),'🔥 FORNO 300-320°C', '3-5 min · bucherellata · suola croccante']
+    ]);
+}
+
+// ══════════════════════════════════════════════
 // DIARIO DI PRODUZIONE
 // ══════════════════════════════════════════════
 const DIARY_KEY = 'pizzalab_diary_v1';
@@ -3474,7 +3578,13 @@ function shareRicetta(pageId, titolo){
   // ── APRI DIRETTAMENTE WHATSAPP ──
   const testo = righe.join('\n');
   var waUrl = 'https://wa.me/?text=' + encodeURIComponent(testo);
-  window.location.href = waUrl;
+  var a = document.createElement('a');
+  a.href = waUrl;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ document.body.removeChild(a); }, 500);
 }
 
 // ══════════════════════════════════════════════
@@ -3491,6 +3601,7 @@ function calcAll(){
   if(currentPage==='palascient') calcPalaScient();
   if(currentPage==='palabiga') calcPalaBiga();
   if(currentPage==='tegliapf') calcTegliaPF();
+  if(currentPage==='romana') calcRomana();
   if(currentPage==='diario') calcDiary();
   if(currentPage==='diretto') calcDiretto();
 }
