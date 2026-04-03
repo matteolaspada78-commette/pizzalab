@@ -1231,6 +1231,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
         <select class="inp-field" id="dirProd" style="font-size:14px;-webkit-appearance:none">
           <option value="napo">Napoletana Contemporanea</option>
           <option value="tonda">Tonda Romana Croccante</option>
+          <option value="romana">Romana Croccante Diretta (5046 Allegra)</option>
         </select>
       </div>
       <div class="inp-group"><label class="inp-label">KG Farina totale</label><div class="inp-row"><input class="inp-field" id="dirKg" type="number" value="10" min="1" max="100" step="0.5"><span class="inp-unit">kg</span></div></div>
@@ -3231,6 +3232,17 @@ function calcDiretto(){
       : ore<=8
       ? 'S&F × 2 dopo 30min — puntata coperta a T ambiente'
       : 'S&F × 2 — puntata in frigo — fuori 1.5h prima del servizio';
+  } else if(prod==='romana') {
+    // ROMANA CROCCANTE DIRETTA — 5046 Allegra
+    farina = 'Petra 5046 Allegra';
+    W = 180;
+    idr = ore<=6 ? 58 : ore<=8 ? 59 : 60;
+    ldb = ldbOtt;
+    sale = 2.5; strutto = 3; zucchero = 0; malto = 0; olio = 0;
+    puntataOre = ore<=6 ? 2 : ore<=8 ? 3 : 5;
+    puntataWhere = 'T ambiente '+ta+'°C';
+    apprOre = ore<=8 ? 5.5 : 4;
+    note = 'Stendi con mattarello — 2-3mm spessore — bucherella TUTTA la superficie — niente bordo';
   } else {
     // TONDA ROMANA CROCCANTE
     farina = ore<=8 ? 'Petra 5046 Allegra' : 'Petra 5046 (70%) + 5063 (30%)';
@@ -3300,7 +3312,7 @@ function calcDiretto(){
       [H2(oi+puntataOre),'📦 PUNTATA '+puntataOre+'h',puntataWhere],
       [H2(oraStag),'✂️ STAGLIO',pan+' pezzi da '+gr+'g — '+puntataWhere],
       [H2(oraApp),'🌡️ APPRETTO '+apprOre+'h','a T ambiente'],
-      [H2(oraForno),'🔥 FORNO '+(isNapo?'420-450°C':'280-300°C platea'),isNapo?'60-90 sec | legna o elettrico':'4-6 min | elettrico']
+      [H2(oraForno),'🔥 FORNO '+(isNapo?'420-450°C':prod==='romana'?'300-320°C platea':'280-300°C platea'),isNapo?'60-90 sec | legna o elettrico':prod==='romana'?'3-5 min | cottura completa':'4-6 min | elettrico']
     ]);
 
   document.getElementById('direttoSci').innerHTML=
@@ -3461,7 +3473,8 @@ function shareRicetta(pageId, titolo){
 
   // ── APRI DIRETTAMENTE WHATSAPP ──
   const testo = righe.join('\n');
-  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+  var waUrl = 'https://wa.me/?text=' + encodeURIComponent(testo);
+  window.location.href = waUrl;
 }
 
 // ══════════════════════════════════════════════
