@@ -458,20 +458,20 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
       <div class="menu-arrow">›</div>
     </div>
+    <div class="menu-btn" onclick="openPage('romana')">
+      <div class="menu-icon" style="background:rgba(180,80,0,0.3)">🫓</div>
+      <div class="menu-text">
+        <div class="menu-name">Romana Croccante Diretta</div>
+        <div class="menu-sub">5046 Allegra · IDR 58-60% · Strutto · Mattarello</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
     <div class="menu-section-label">⚡ Impasto Diretto</div>
     <div class="menu-btn" onclick="openPage('diretto')">
       <div class="menu-icon" style="background:rgba(230,100,0,0.3)">⚡</div>
       <div class="menu-text">
         <div class="menu-name">Impasto Diretto 6-12h</div>
         <div class="menu-sub">Napoletana contemporanea · Tonda croccante · Forno elettrico</div>
-      </div>
-      <div class="menu-arrow">›</div>
-    </div>
-    <div class="menu-btn" onclick="openPage('romana')">
-      <div class="menu-icon" style="background:rgba(180,80,0,0.3)">🫓</div>
-      <div class="menu-text">
-        <div class="menu-name">Romana Croccante Diretta</div>
-        <div class="menu-sub">5046 Allegra · IDR 58-60% · Strutto · Mattarello</div>
       </div>
       <div class="menu-arrow">›</div>
     </div>
@@ -625,7 +625,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="licoliOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageLicoli','Rinfresco Licoli')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <button class="btn-share" onclick="shareLicoli()"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
 
   <!-- MEMORIA ULTIMO RINFRESCO -->
   <div style="margin:0 16px 4px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px" id="licoli_memoria" style="display:none"></div>
@@ -1276,12 +1276,12 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="page-hero">
     <div class="page-hero-icon">🫓</div>
     <div class="page-hero-title">Romana Croccante Diretta</div>
-    <div class="page-hero-sub">Petra 5046 Allegra · IDR 58-60% · Strutto 3% · Mattarello · Fondo croccante</div>
+    <div class="page-hero-sub">Petra 5046 Allegra · IDR 58-60% · Strutto 3% · Mattarello</div>
   </div>
   <div class="card open" id="cardRomInp">
     <div class="card-hdr" onclick="toggleCard('cardRomInp')">
       <div class="card-hdr-icon">✏️</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Input — compila qui</div><div class="card-hdr-title">Kg · Ore · Ora impasto</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Kg · Ore · Ora impasto</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
@@ -3005,60 +3005,48 @@ function calcTegliaPF(){
 // ROMANA CROCCANTE DIRETTA
 // ══════════════════════════════════════════════
 function calcRomana(){
-  const kg=G('romKg'), gr=G('romGr'), ore=G('romOre');
-  const oi=G('romOI'), ta=G('romTA'), idr=G('romIDR')||59;
-
-  // Monod: LdB ottimale per le ore disponibili
-  const mu = Math.round(0.15 * Math.pow(2.2,(ta-23)/10) * 10000)/10000;
-  const ldb = Math.max(0.5, Math.min(2.5, Math.round(0.7/(mu*ore)*100*10)/10));
-
-  // Grammi
-  const acqTot = Math.round(kg*idr/100*1000);
-  const sale_g = Math.round(kg*2.5/100*1000);
-  const ldb_g  = Math.round(kg*ldb/100*1000*10)/10;
-  const str_g  = Math.round(kg*3/100*1000);
-  const f1_g   = Math.round(acqTot*0.70);
-  const f2_g   = Math.round(acqTot*0.20);
-  const bass_g = Math.max(0, acqTot - f1_g - f2_g);
-  const pan    = Math.floor(kg*(1+idr/100+0.025+0.03)*1000/gr);
-
-  // T acqua (formula Esmach K=7.8)
-  const Tacq = Math.round((22*3.75 - 10*1.63 - ta*1.12 - 7.8*3.75)*10)/10;
-
-  // Orari
-  const H2 = h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':'+String(Math.round((x%1)*60)).padStart(2,'0');};
-  const H = h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
-  const oraSF   = oi + 0.5;
-  const oraStag = oi + (ore<=6?2:ore<=8?3:4);
-  const oraFrig = oraStag;
-  const oraFuori= oi + ore - 0.5;
-  const oraForno= oi + ore;
-
-  document.getElementById('romanaOut').innerHTML =
-    sem('🫓 Petra 5046 Allegra W180-220 — IDR '+idr+'% — LdB '+ldb+'% calcolato Monod per '+ore+'h a '+ta+'°C','info') +
-    '<div class="res-section">' +
-    '<div class="res-label">Ingredienti — '+kg+'kg 5046 Allegra</div>' +
-    row('Farina Petra 5046 Allegra', kg*1000+'g', 'W180-220 · croccantezza naturale') +
-    row('Acqua (IDR '+idr+'%)', acqTot+'g', 'T acqua '+Tacq+'°C') +
-    row('Sale (2.5%)', sale_g+'g', 'dopo incordatura') +
-    row('LdB ('+ldb+'%)', ldb_g+'g', 'Monod '+ore+'h · T '+ta+'°C') +
-    row('Strutto (3%)', str_g+'g', 'fuori frigo 30min · croccantezza') +
-    row('PEZZI DA '+gr+'g', pan+' pezzi', '', true) +
-    '</div>' +
-    '<div class="res-section">' +
-    '<div class="res-label">Distribuzione acqua — totale '+acqTot+'g</div>' +
-    row('Fase 1 (70%) — con farina', f1_g+'g', 'T '+Tacq+'°C · incordatura base') +
-    row('Fase 2 (20%) — dopo sale', f2_g+'g', 'dopo il sale') +
-    row('Bassinage (10%)', bass_g+'g', 'a filo · dopo strutto', true) +
-    '</div>' +
-    sem('⚠️ Stendi con MATTARELLO — 2-3mm — bucherella TUTTA la superficie con rullo — niente cornicione', 'warn') +
+  var kg=G('romKg'),gr=G('romGr'),ore=G('romOre');
+  var oi=G('romOI'),ta=G('romTA'),idr=G('romIDR')||59;
+  var mu=Math.round(0.15*Math.pow(2.2,(ta-23)/10)*10000)/10000;
+  // LdB formula calibrata su dati reali panificazione: A/(ore * e^B*(T-20))
+  var ldb=Math.max(0.05,Math.min(1.0,Math.round(4.5/(ore*Math.exp(0.08*(ta-20)))*10)/10));
+  var acqTot=Math.round(kg*idr/100*1000);
+  var sale_g=Math.round(kg*2.5/100*1000);
+  var ldb_g=Math.round(kg*ldb/100*1000*10)/10;
+  var str_g=Math.round(kg*3/100*1000);
+  var f1_g=Math.round(acqTot*0.70);
+  var f2_g=Math.round(acqTot*0.20);
+  var bass_g=Math.max(0,acqTot-f1_g-f2_g);
+  var pan=Math.floor(kg*(1+idr/100+0.025+0.03)*1000/gr);
+  var Tacq=Math.round((22*3.75-10*1.63-ta*1.12-7.8*3.75)*10)/10;
+  var H=function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  var oraStag=oi+(ore<=6?2:ore<=8?3:4);
+  var oraForno=oi+ore;
+  document.getElementById('romanaOut').innerHTML=
+    sem('Petra 5046 Allegra W180-220 — IDR '+idr+'% — LdB '+ldb+'% — '+ore+'h a '+ta+'C','info')+
+    '<div class="res-section">'+
+    '<div class="res-label">Ingredienti — '+kg+'kg 5046 Allegra</div>'+
+    row('Farina Petra 5046 Allegra',kg*1000+'g','W180-220')+
+    row('Acqua (IDR '+idr+'%)',acqTot+'g','T acqua '+Tacq+'C')+
+    row('Sale (2.5%)',sale_g+'g','dopo incordatura')+
+    row('LdB ('+ldb+'%)',ldb_g+'g','Monod '+ore+'h')+
+    row('Strutto (3%)',str_g+'g','fuori frigo 30min',true)+
+    row('PEZZI DA '+gr+'g',pan+' pezzi','',true)+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">Distribuzione acqua '+acqTot+'g</div>'+
+    row('Fase 1 (70%)',f1_g+'g','con farina — T '+Tacq+'C')+
+    row('Fase 2 (20%)',f2_g+'g','dopo sale')+
+    row('Bassinage (10%)',bass_g+'g','a filo dopo strutto',true)+
+    '</div>'+
+    sem('Stendi con MATTARELLO — 2-3mm — bucherella TUTTA la superficie — niente cornicione','warn')+
     tl([
-      [H(oi),   '⚙️ IMPASTO', 'autolisi 15min → LdB → sale → strutto → bassinage'],
-      [H(oraSF),'💪 S&F × 2', 'ogni 20min — coperto a T ambiente'],
-      [H(oraStag),'✂️ STAGLIO', pan+' pezzi da '+gr+'g'],
-      [H(oraFrig),'❄️ FRIGO 4°C', 'panetti coperti — maglia si rassoda'],
-      [H(oraFuori),'📦 FUORI FRIGO', '30min a T ambiente — stendi FREDDO'],
-      [H(oraForno),'🔥 FORNO 300-320°C', '3-5 min · bucherellata · suola croccante']
+      [H(oi),'IMPASTO','autolisi 15min - LdB - sale - strutto - bassinage'],
+      [H(oi+0.5),'S&F x2','ogni 20min a T ambiente'],
+      [H(oraStag),'STAGLIO',pan+' pezzi da '+gr+'g'],
+      [H(oraStag),'FRIGO 4C','panetti coperti - maglia si rassoda'],
+      [H(oraForno-0.5),'FUORI FRIGO','30min - stendi FREDDO con mattarello'],
+      [H(oraForno),'FORNO 300-320C','3-5 min - bucherellata']
     ]);
 }
 
@@ -3314,7 +3302,8 @@ function calcDiretto(){
   // μ = 0.15 * Q10^((T-23)/10)
   // LdB ottimale = k / (μ * ore) dove k = 0.7 (target 70% attività)
   const mu = R(0.15 * Math.pow(2.2,(ta-23)/10),4);
-  const ldbOtt = R(Math.max(0.05, Math.min(2.5, 0.7/(mu*ore)*100)),2);
+  // LdB formula calibrata su dati reali: A/(ore * e^B*(T-20))
+  const ldbOtt = R(Math.max(0.05, Math.min(1.0, 4.5/(ore*Math.exp(0.08*(ta-20))))),2);
 
   // Parametri per prodotto e ore
   let farina, W, idr, ldb, sale, strutto, zucchero, malto, olio;
@@ -3444,6 +3433,46 @@ function calcDiretto(){
 // ══════════════════════════════════════════════
 // SHARE / SALVA IMMAGINE
 // ══════════════════════════════════════════════
+function shareLicoli(){
+  var lic=parseFloat(document.getElementById('lLic')?.value)||0;
+  var rA=parseFloat(document.getElementById('lRA')?.value)||0;
+  var rF=parseFloat(document.getElementById('lRF')?.value)||0;
+  var prog=parseInt(document.getElementById('lProg')?.value)||4;
+  var ora=parseInt(document.getElementById('lOra')?.value)||9;
+  var ph=parseFloat(document.getElementById('lPH')?.value)||0;
+  var p7FH=parseFloat(document.getElementById('p7FermH')?.value)||1;
+  var p7FT=parseFloat(document.getElementById('p7FermT')?.value)||23;
+  var p7F1H=parseFloat(document.getElementById('p7Fase1H')?.value)||1;
+  var p7F1T=parseFloat(document.getElementById('p7Fase1T')?.value)||18;
+  var p7CT=parseFloat(document.getElementById('p7ConsT')?.value)||4;
+  var acqua=Math.round(lic*rA);
+  var farina=Math.round(lic*rF);
+  var tot=lic+acqua+farina;
+  var util=Math.round(tot*0.85);
+  var durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1,7:p7FH+p7F1H};
+  var descP={1:'1h30 28.5C Cons.12C',2:'1h 23C+1h 16C Cons.12C',3:'3h 28.5C+12h 12C Cons.11.5C',4:'2h30 26C Cons.11.5C',5:'2h 18C+1h 16C Cons.11.5C',6:'1h 16C Cons.11.5C',7:p7FH+'h '+p7FT+'C + '+p7F1H+'h '+p7F1T+'C Frigo '+p7CT+'C'};
+  var H=function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  var oraFine=(ora+(durH[prog]||2))%24;
+  var oggi=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var ora2=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  var nomeP=prog===7?'Frigorifero':'P'+prog;
+  var phNote=ph<=0?'':ph<3.5?' TROPPO ACIDA':ph<=4.2?' ottimale':ph<=4.8?' acerba':' inattiva';
+  var r=[];
+  r.push('*Licoli Madre - Orso*');
+  r.push(oggi+' ore '+ora2);
+  r.push('---');
+  r.push('Programma: *'+nomeP+'* '+descP[prog]);
+  r.push('---');
+  r.push('*Ricetta 1:'+rA+':'+rF+'*');
+  r.push('Licoli: *'+lic+'g*  Acqua: *'+acqua+'g*  Farina: *'+farina+'g*');
+  r.push('Totale: *'+tot+'g*  Utilizzabile: *'+util+'g*');
+  r.push('---');
+  r.push('Rinfresco: *'+H(ora)+'*  Picco: *'+H(oraFine)+'*  Limite: *'+H(oraFine+4)+'*');
+  if(ph>0) r.push('pH: *'+ph+'*'+phNote);
+  r.push('Pizza Lab - Matteo La Spada');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(r.join('\n'));
+}
+
 function shareRicetta(pageId, titolo){
   const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
   const oraStr = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
@@ -3578,13 +3607,7 @@ function shareRicetta(pageId, titolo){
   // ── APRI DIRETTAMENTE WHATSAPP ──
   const testo = righe.join('\n');
   var waUrl = 'https://wa.me/?text=' + encodeURIComponent(testo);
-  var a = document.createElement('a');
-  a.href = waUrl;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function(){ document.body.removeChild(a); }, 500);
+  window.location.href = waUrl;
 }
 
 // ══════════════════════════════════════════════
@@ -3601,9 +3624,9 @@ function calcAll(){
   if(currentPage==='palascient') calcPalaScient();
   if(currentPage==='palabiga') calcPalaBiga();
   if(currentPage==='tegliapf') calcTegliaPF();
-  if(currentPage==='romana') calcRomana();
   if(currentPage==='diario') calcDiary();
   if(currentPage==='diretto') calcDiretto();
+  if(currentPage==='romana') calcRomana();
 }
 
 // Debounce per input
