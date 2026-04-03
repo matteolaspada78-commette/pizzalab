@@ -2094,7 +2094,7 @@ function showManuale(){document.getElementById("splash").style.display="none";do
 // ══════════════════════════════════════════════
 const R=(n,d=0)=>Math.round(n*10**d)/10**d;
 const H=h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00'};
-const G=(id)=>parseFloat(document.getElementById(id).value)||0;
+const G=(id)=>{const el=document.getElementById(id);return el?parseFloat(el.value)||0:0;};
 
 function sem(txt,cls){return`<div class="sem ${cls}">${txt}</div>`}
 
