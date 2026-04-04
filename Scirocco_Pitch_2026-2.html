@@ -902,7 +902,9 @@ body::after {
   <button class="nav-dot" onclick="goTo('consulenza')"></button>
   <button class="nav-dot" onclick="goTo('consulenza')"></button>
   <button class="nav-dot" onclick="goTo('processo')"></button>
+  <button class="nav-dot" onclick="goTo('blindtest')"></button>
   <button class="nav-dot" onclick="goTo('differenza')"></button>
+  <button class="nav-dot" onclick="goTo('territorio')"></button>
   <button class="nav-dot" onclick="goTo('premi')"></button>
   <button class="nav-dot" onclick="goTo('fondatori')"></button>
   <button class="nav-dot" onclick="goTo('contatti')"></button>
@@ -960,6 +962,13 @@ body::after {
       <p class="manifesto-body">
         Ogni base Scirocco è il risultato di un processo ingegnerizzato: farine selezionate e grani antichi certificati, fermentazione lenta a temperatura controllata per un minimo di 48 ore. Il prodotto che arriva nella tua cucina non è stato sottoposto a congelamento convenzionale — è stato <strong>stabilizzato molecolarmente</strong> attraverso un abbattimento rapido a cuore a -40°C, preservando intatta la maglia glutinica, la struttura alveolare e le proprietà organolettiche originali.
       </p>
+
+      <!-- BOX TECNICO DIGERIBILITÀ -->
+      <div style="margin-top:32px;margin-bottom:0;border:0.5px solid rgba(138,90,24,0.3);padding:20px 24px;background:rgba(138,90,24,0.04);">
+        <p style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:0.45em;text-transform:uppercase;color:#6A3A0C;margin-bottom:12px;opacity:0.9;">Note tecniche · Digeribilità</p>
+        <p style="font-size:14px;line-height:1.75;color:#2A1A08;">La fermentazione a lievito madre di <strong>48h minimo</strong> degrada il 60–70% dei fruttani del grano e riduce significativamente l'indice glicemico rispetto all'impasto diretto. L'abbattimento a −40°C blocca la fermentazione al picco qualitativo, preservando la struttura proteica e gli acidi organici prodotti. <strong>Digeribilità superiore certificabile su richiesta.</strong></p>
+      </div>
+
       <div class="manifesto-specs">
         <div class="spec-block">
           <span class="spec-val">85%+</span>
@@ -1223,6 +1232,81 @@ body::after {
   </div>
 </section>
 
+<!-- ══════════════════════════════════════
+     BLIND TEST — LA PROVA DEL NOVE
+══════════════════════════════════════ -->
+<section class="slide" id="blindtest" style="background:var(--cream);padding:100px 80px;flex-direction:column;">
+  <div style="max-width:1000px;width:100%;">
+
+    <p class="kicker" style="color:#7A4A10;opacity:1;">La prova del nove</p>
+    <h2 style="font-family:'Cinzel',serif;font-size:clamp(28px,3vw,44px);font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#1A0E04;line-height:1.1;margin-bottom:12px;">
+      Blind Test.<br>
+      <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:#8A5A18;text-transform:none;letter-spacing:0;">Indistinguibile.</em>
+    </h2>
+    <p style="font-size:16px;color:#3A2210;margin-bottom:56px;max-width:600px;line-height:1.75;">Il ristoratore ha una sola paura: che si veda. Che si senta. Che qualcuno dica <em>"questa non è pizza vera"</em>. La risposta è nell'alveolatura — la struttura interna dell'impasto non mente.</p>
+
+    <!-- Confronto affiancato alveolatura -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(138,90,24,0.15);margin-bottom:48px;">
+
+      <!-- Colonna A: pizza da zero -->
+      <div style="background:#F2EBD8;padding:48px 44px;">
+        <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:#6A3A0C;margin-bottom:20px;">Pizza fatta da zero · Alveolatura</p>
+        <!-- Rappresentazione grafica alveolatura con SVG -->
+        <svg width="100%" height="180" viewBox="0 0 400 180" style="display:block;margin-bottom:20px;">
+          <!-- Alveoli irregolari, grandi, naturali -->
+          <rect width="400" height="180" rx="4" fill="#E8DEC8"/>
+          <ellipse cx="60"  cy="90"  rx="42" ry="38" fill="#C8B898" opacity="0.5"/>
+          <ellipse cx="155" cy="70"  rx="35" ry="55" fill="#C8B898" opacity="0.5"/>
+          <ellipse cx="240" cy="100" rx="50" ry="35" fill="#C8B898" opacity="0.5"/>
+          <ellipse cx="340" cy="75"  rx="38" ry="48" fill="#C8B898" opacity="0.5"/>
+          <ellipse cx="110" cy="145" rx="28" ry="22" fill="#C8B898" opacity="0.4"/>
+          <ellipse cx="290" cy="150" rx="35" ry="18" fill="#C8B898" opacity="0.4"/>
+          <ellipse cx="370" cy="148" rx="22" ry="20" fill="#C8B898" opacity="0.3"/>
+          <ellipse cx="30"  cy="148" rx="18" ry="16" fill="#C8B898" opacity="0.3"/>
+          <!-- pareti degli alveoli -->
+          <ellipse cx="60"  cy="90"  rx="42" ry="38" fill="none" stroke="#A08060" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="155" cy="70"  rx="35" ry="55" fill="none" stroke="#A08060" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="240" cy="100" rx="50" ry="35" fill="none" stroke="#A08060" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="340" cy="75"  rx="38" ry="48" fill="none" stroke="#A08060" stroke-width="1.5" opacity="0.4"/>
+          <text x="200" y="176" font-family="Cinzel,serif" font-size="9" letter-spacing="3" fill="#6A4A20" text-anchor="middle" opacity="0.6">ALVEOLATURA APERTA · 48H FERMENTAZIONE</text>
+        </svg>
+        <p style="font-size:14px;color:#3A2210;line-height:1.7;">Alveoli grandi e irregolari. Pareti sottili e croccanti. Profumo di fermentazione lattica. Leggerezza al morso.</p>
+      </div>
+
+      <!-- Colonna B: base Scirocco -->
+      <div style="background:#EDE4D0;padding:48px 44px;border-left:3px solid #8A5A18;">
+        <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:#6A3A0C;margin-bottom:20px;">Base Scirocco rigenerata · Alveolatura</p>
+        <svg width="100%" height="180" viewBox="0 0 400 180" style="display:block;margin-bottom:20px;">
+          <!-- Alveoli identici — stessa struttura -->
+          <rect width="400" height="180" rx="4" fill="#D8CEB8"/>
+          <ellipse cx="58"  cy="88"  rx="44" ry="36" fill="#B8A888" opacity="0.5"/>
+          <ellipse cx="158" cy="72"  rx="33" ry="54" fill="#B8A888" opacity="0.5"/>
+          <ellipse cx="245" cy="98"  rx="48" ry="37" fill="#B8A888" opacity="0.5"/>
+          <ellipse cx="338" cy="78"  rx="40" ry="46" fill="#B8A888" opacity="0.5"/>
+          <ellipse cx="108" cy="148" rx="26" ry="20" fill="#B8A888" opacity="0.4"/>
+          <ellipse cx="292" cy="152" rx="33" ry="16" fill="#B8A888" opacity="0.4"/>
+          <ellipse cx="368" cy="150" rx="20" ry="18" fill="#B8A888" opacity="0.3"/>
+          <ellipse cx="28"  cy="150" rx="16" ry="15" fill="#B8A888" opacity="0.3"/>
+          <ellipse cx="58"  cy="88"  rx="44" ry="36" fill="none" stroke="#907050" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="158" cy="72"  rx="33" ry="54" fill="none" stroke="#907050" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="245" cy="98"  rx="48" ry="37" fill="none" stroke="#907050" stroke-width="1.5" opacity="0.4"/>
+          <ellipse cx="338" cy="78"  rx="40" ry="46" fill="none" stroke="#907050" stroke-width="1.5" opacity="0.4"/>
+          <text x="200" y="176" font-family="Cinzel,serif" font-size="9" letter-spacing="3" fill="#6A4A20" text-anchor="middle" opacity="0.6">STRUTTURA PRESERVATA · ABBATTIMENTO −40°C</text>
+        </svg>
+        <p style="font-size:14px;color:#2A1A08;line-height:1.7;"><strong>Struttura identica.</strong> L'abbattimento rapido a −40°C cristallizza la maglia glutinica al picco. La rigenerazione termica la riattiva. Il risultato è indistinguibile.</p>
+      </div>
+    </div>
+
+    <!-- Claim finale -->
+    <div style="text-align:center;padding:32px;border-top:0.5px solid rgba(138,90,24,0.25);">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:#1A0E04;line-height:1.4;">
+        "Dal freezer al tavolo in meno di 10 minuti, condimento incluso.<br>
+        <strong style="font-style:normal;">Nessuno al tavolo saprà la differenza. Nessuno dovrebbe.</strong>"
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════════════
      S7 — ANALISI COMPARATIVA TECNICA
 ══════════════════════════ -->
@@ -1277,6 +1361,59 @@ body::after {
   </div>
 </section>
 
+<!-- ══════════════════════════════════════
+     TERROIR + PRIVATE LABEL + LOGISTICA
+══════════════════════════════════════ -->
+<section class="slide" id="territorio" style="background:var(--black-warm);padding:100px 80px;flex-direction:column;">
+  <div class="arch-corner tl"></div>
+  <div class="arch-corner br"></div>
+  <div style="max-width:1100px;width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--gold-pale);">
+
+    <!-- TERROIR DEL GRANO -->
+    <div style="background:var(--black-warm);padding:52px 40px;display:flex;flex-direction:column;gap:20px;">
+      <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);opacity:0.65;">Identità territoriale</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);line-height:1.2;">Terroir<br>del Grano.</h3>
+      <p style="font-size:14.5px;line-height:1.82;color:var(--cream-dim);">Tumminia, Russello, Perciasacchi crescono in Sicilia da millenni. Sono grani difficili, capricciosi, che non perdonano l'inesperienza. Scirocco è l'unico sistema che li esporta con la certezza del risultato — perché li lavora chi li conosce da sempre. Non è tecnica. È territorio.</p>
+    </div>
+
+    <!-- PRIVATE LABEL / SIGNATURE MIX -->
+    <div style="background:#110F0A;padding:52px 40px;display:flex;flex-direction:column;gap:20px;border-left:1px solid var(--gold-pale);">
+      <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);opacity:0.65;">Per grandi forniture</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);line-height:1.2;">Signature<br>Mix.</h3>
+      <p style="font-size:14.5px;line-height:1.82;color:var(--cream-dim);">Il laboratorio sviluppa blend di farine e profili di idratazione su misura per clienti con grandi volumi. Una base esclusiva, formulata per il tuo menù, prodotta solo per te. Il fornitore diventa il tuo centro di R&D in outsourcing.</p>
+      <p style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.4em;color:var(--gold);opacity:0.5;text-transform:uppercase;">Disponibile per ordini ricorrenti · Su richiesta</p>
+    </div>
+
+    <!-- LOGISTICA + SOSTENIBILITÀ -->
+    <div style="background:var(--black-warm);padding:52px 40px;display:flex;flex-direction:column;gap:20px;border-left:1px solid var(--gold-pale);">
+      <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);opacity:0.65;">Distribuzione · Sostenibilità</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);line-height:1.2;">Catena<br>controllata.</h3>
+
+      <!-- Mappa stilizzata Sicilia-Calabria -->
+      <svg viewBox="0 0 220 140" style="width:100%;max-width:200px;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sicilia -->
+        <path d="M20 90 C25 70,45 60,80 62 C110 64,130 72,145 85 C155 95,148 108,130 112 C100 118,50 115,30 105 Z" fill="rgba(212,148,58,0.25)" stroke="#D4943A" stroke-width="1.2"/>
+        <text x="82" y="92" font-family="Cinzel,serif" font-size="8" fill="#D4943A" text-anchor="middle" opacity="0.8">SICILIA</text>
+        <!-- Messina dot -->
+        <circle cx="148" cy="82" r="4" fill="#D4943A"/>
+        <text x="158" y="80" font-family="Cinzel,serif" font-size="7" fill="#D4943A" opacity="0.9">MESSINA</text>
+        <!-- Stretto -->
+        <line x1="148" y1="76" x2="155" y2="50" stroke="#D4943A" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.5"/>
+        <!-- Calabria -->
+        <path d="M152 45 C160 30,175 25,185 35 C195 45,190 60,178 62 C168 64,155 58,152 45 Z" fill="rgba(212,148,58,0.15)" stroke="#D4943A" stroke-width="1" opacity="0.7"/>
+        <text x="172" y="47" font-family="Cinzel,serif" font-size="7" fill="#D4943A" text-anchor="middle" opacity="0.7">CALABRIA</text>
+        <!-- Frecce distribuzione -->
+        <circle cx="60"  cy="88" r="2.5" fill="#D4943A" opacity="0.6"/>
+        <circle cx="100" cy="80" r="2.5" fill="#D4943A" opacity="0.6"/>
+        <circle cx="170" cy="42" r="2.5" fill="#D4943A" opacity="0.6"/>
+      </svg>
+
+      <p style="font-size:13.5px;line-height:1.78;color:var(--cream-dim);">Distribuzione programmata in Sicilia orientale e Calabria. Packaging IQF singolo. Processi di abbattimento ad alta efficienza energetica. Filiera corta certificabile per i report di sostenibilità dei partner alberghieri e resort.</p>
+    </div>
+
+  </div>
+</section>
+
 <!-- ══════════════════════════
      S8 — RICONOSCIMENTI
 ══════════════════════════ -->
@@ -1328,18 +1465,19 @@ body::after {
     <div class="f-quote-wrap">
       <span class="f-quote-mark">"</span>
       <p class="f-quote">
-        "Non ho mai smesso di misurare. L'idratazione, i tempi, le temperature. La pizza non è istinto — è un sistema di parametri che puoi ottimizzare all'infinito. Scirocco è la prima volta che quei parametri escono dal ristorante."
+        "Avevo chiuso il mio locale. La nausea era totale. Mi ero promesso di non tornare mai più dietro un banco. Durò un anno. Poi arrivò l'incontro con Gianluca Arcovito, Giuseppe Arcovito e Giuseppe Denaro — avevano già L'Orso, un locale con una visione. Da quell'incontro nacque una collaborazione che non si è mai interrotta. Dieci anni dopo, quella stessa collaborazione ha generato Scirocco."
       </p>
       <p class="f-attr">Matteo La Spada · Direttore Tecnico · Fondatore</p>
     </div>
     <div class="f-right">
       <p class="kicker">I fondatori</p>
       <h2 class="f-headline">
-        Un sistema tecnico.<br>
-        Una visione <em>imprenditoriale.</em>
+        Una nausea.<br>
+        Un incontro.<br>
+        <em>Una storia vera.</em>
       </h2>
       <p class="f-body">
-        Scirocco nasce dalla convergenza tra la ricerca tecnica decennale di Matteo La Spada e la visione industriale dei fratelli Gianluca e Giuseppe Arcovito con Giuseppe Denaro. Dieci anni di validazione in produzione reale. Quattro laboratori attivi. Un laboratorio dedicato a Messina operativo da aprile 2026.
+        2014: un incontro tra un pizzaiolo con la nausea e tre imprenditori con una visione. Da L'Orso Cattivo nasce L'Orso, poi L'Orso in Teglia, L'Orso in Duomo, il Blanco Beach Club. Quattro locali, due Tre Spicchi Gambero Rosso, il primo Tre Rotelle della Sicilia. Una collaborazione che non si è mai interrotta — e che nel 2026 compie il passo più ambizioso: Scirocco.
       </p>
       <div class="f-list">
         <div class="f-person"><div class="f-person-line"></div><p class="f-person-name">Matteo La Spada · Pizzaiolo & Direttore Tecnico</p></div>
