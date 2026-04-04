@@ -448,7 +448,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="menu-icon" style="background:rgba(13,27,75,0.3)">🔬</div>
       <div class="menu-text">
         <div class="menu-name">Pala Romana Scientifica</div>
-        <div class="menu-sub">IDR variabile · G' target · Score scientifico</div>
+        <div class="menu-sub">IDR variabile · G-prime target · Score scientifico</div>
       </div>
       <div class="menu-arrow">›</div>
     </div>
@@ -1349,7 +1349,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="page-hero">
     <div class="page-hero-icon">🔬</div>
     <div class="page-hero-title">Pala Romana Scientifica</div>
-    <div class="page-hero-sub">IDR variabile · G' target · Score scientifico</div>
+    <div class="page-hero-sub">IDR variabile · G-prime target · Score scientifico</div>
   </div>
   <div class="card open" id="cardPScInp">
     <div class="card-hdr" onclick="toggleCard('cardPScInp')">
@@ -1420,32 +1420,71 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="page-hero">
     <div class="page-hero-icon">❄️</div>
     <div class="page-hero-title">Teglia Pronta Forno</div>
-    <div class="page-hero-sub">Biga G1 → Rinfresco G2 → Bocce in frigo 18-24h → Forno senza attesa</div>
+    <div class="page-hero-sub">G1 Biga → G2 Rinfresco + Staglio → G3 Frigo → Forno diretto · Alveoli esplosivi</div>
   </div>
+
+  <!-- PROTOCOLLO SCIENTIFICO FISSO -->
+  <div style="margin:0 16px 4px;background:rgba(13,59,59,0.15);border:1px solid rgba(13,180,130,0.3);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🔬 Protocollo Scientifico — Valori Ottimali</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Biga sul totale</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">40% <span style="color:var(--dim);font-size:9px">range 35-45%</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">LdB biga</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">0.3% <span style="color:var(--dim);font-size:9px">a 4°C · 18-24h</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">IDR finale</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">78-80% <span style="color:var(--dim);font-size:9px">range 76-82%</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Frigo bocce</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">18-22h <span style="color:var(--dim);font-size:9px">ottimale 20h</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Farina biga</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">100% 0102HP</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Farina rinfresco</div>
+        <div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">70% 5078<br>30% 0102HP</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">
+      G-prime target uscita impasto: 2200-2600 Pa · pH biga target: 5.2-5.6 · T uscita impasto: 22-24°C
+    </div>
+  </div>
+
   <div class="card open" id="cardTPFInp">
     <div class="card-hdr" onclick="toggleCard('cardTPFInp')">
       <div class="card-hdr-icon">✏️</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Input — compila qui</div><div class="card-hdr-title">Biga · Rinfresco · Frigo · Forno</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — inserisci i tuoi valori</div><div class="card-hdr-title">Kg farina · Grammatura · Orari</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Kg farina biga</label><div class="inp-row"><input class="inp-field" id="tpKgB" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
-      <div class="inp-group"><label class="inp-label">Kg farina rinfresco</label><div class="inp-row"><input class="inp-field" id="tpKgR" type="number" value="10" min="1" max="80" step="0.5"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="tpKgTot" type="number" value="20" min="5" max="150" step="0.5" oninput="syncTpKg()"><span class="inp-unit">kg</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Biga (40% — calcolato)</label><div class="inp-row"><input class="inp-field" id="tpKgB" type="number" value="8" min="1" max="80" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Rinfresco (60% — calcolato)</label><div class="inp-row"><input class="inp-field" id="tpKgR" type="number" value="12" min="1" max="80" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
+      </div>
       <div class="inp-group"><label class="inp-label">Grammatura teglia (g)</label><div class="inp-row"><input class="inp-field" id="tpGr" type="number" value="1800" min="600" max="3000" step="100"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="tpIDR" type="number" value="78" min="75" max="82" step="1"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="tpSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="tpLdb" type="number" value="0.8" min="0.1" max="2" step="0.1"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="tpLic" type="number" value="5" min="0" max="20" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale % (ottimale 78-80)</label><div class="inp-row"><input class="inp-field" id="tpIDR" type="number" value="79" min="75" max="82" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale % (standard 2.2)</label><div class="inp-row"><input class="inp-field" id="tpSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % biga (ottimale 0.3)</label><div class="inp-row"><input class="inp-field" id="tpLdb" type="number" value="0.3" min="0.1" max="1" step="0.05"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % rinfresco (ottimale 0.1)</label><div class="inp-row"><input class="inp-field" id="tpLdbR" type="number" value="0.1" min="0" max="0.5" step="0.05"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore bocce in frigo (ottimale 20h)</label><div class="inp-row"><input class="inp-field" id="tpFreH" type="number" value="20" min="18" max="24" step="1"><span class="inp-unit">h</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="tpOI" type="number" value="10" min="0" max="23"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="tpOR" type="number" value="7" min="0" max="23"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ore in frigo dopo staglio (18-24h)</label><div class="inp-row"><input class="inp-field" id="tpFreH" type="number" value="20" min="18" max="24" step="1"><span class="inp-unit">h</span></div></div>
-      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale</label><div class="inp-row"><input class="inp-field" id="tpF1" type="number" value="65" min="50" max="85" step="5"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Fase 1 acqua — % sul totale acqua rinfresco</label><div class="inp-row"><input class="inp-field" id="tpF1" type="number" value="65" min="50" max="80" step="5"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
+
   <div class="card open" id="cardTPFOut">
     <div class="card-hdr" onclick="toggleCard('cardTPFOut')">
       <div class="card-hdr-icon">📊</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Output Scientifico</div><div class="card-hdr-title">Grammi · Timeline · Forno</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Output Scientifico</div><div class="card-hdr-title">Grammi · Acqua · Timeline G1→G2→G3</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body"><div id="tegliaPFOut"></div></div>
@@ -2500,7 +2539,7 @@ const titles={
   tondabiga:['🔥 Tonda Romana Biga','Zero LdB · Zucchero · Strutto'],
   tondacroc:['🍕 Tonda Romana Croccante','LdB / Licoli / Pasta Riporto'],
   palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 82%'],
-  palascient:['🔬 Pala Scientifica','IDR variabile · G\' target'],
+  palascient:['🔬 Pala Scientifica','IDR variabile · G-prime target'],
   palabiga:['🫓 Teglia Alveolata','Biga 50% · 5078+0102HP · Alveoli Esplosivi'],
   tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
@@ -2581,7 +2620,7 @@ function calcMotore(){
       ${row('IDR Ottimale calcolata',IDR+'%','dagli obiettivi sensoriali',true)}
       ${row('Indice flusso n',n,'0.30-0.65 ottimale')}
       ${row('Consistenza K',K+' Pa·s^n','')}
-      ${row('G\' Modulo elastico',Gp+' Pa','elasticità maglia')}
+      ${row('G-prime Modulo elastico',Gp+' Pa','elasticità maglia')}
       ${row('tan δ (equilibrio)',td,'0.30-1.20 ottimale')}
     </div>
     ${sem(IDR<=60?'Croccantezza massima (IDR '+IDR+'%)':IDR<=72?'✅ Ottimale — napoletana/teglia (IDR '+IDR+'%)':IDR<=80?'Alta — pala/pinsa (IDR '+IDR+'%)':'Altissima (IDR '+IDR+'%)',semIDR)}
@@ -3121,7 +3160,7 @@ function calcPalaScient(){
       ${row('ACQUA DA AGGIUNGERE',aa+'g','IDR '+idr+'% su '+kgTot+'kg',true)}
       ${row('Pezzi da '+gr+'g',pan+' pale','',true)}
     </div>
-    ${sem('G\' stimato a '+ore+'h maturazione: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso — struttura a rischio':'Ancora rigido — aspetta'),semGp)}`;
+    ${sem('G-prime stimato a '+ore+'h maturazione: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso — struttura a rischio':'Ancora rigido — aspetta'),semGp)}`;
 }
 
 // ══════════════════════════════════════════════
@@ -3223,22 +3262,38 @@ function calcPalaBiga(){
 // ══════════════════════════════════════════════
 // TEGLIA PRONTA FORNO
 // ══════════════════════════════════════════════
+function syncTpKg(){
+  var tot = G('tpKgTot')||20;
+  var kgB = Math.round(tot*0.40*10)/10;
+  var kgR = Math.round((tot-kgB)*10)/10;
+  var elB = document.getElementById('tpKgB');
+  var elR = document.getElementById('tpKgR');
+  if(elB) elB.value = kgB;
+  if(elR) elR.value = kgR;
+  calcTegliaPF();
+}
+
 function calcTegliaPF(){
-  const kgB=G('tpKgB')||10, kgR=G('tpKgR')||10;
-  const kg=kgB+kgR;
-  const gr=G('tpGr'), idr=G('tpIDR'), saleP=G('tpSale');
-  const ldbP=G('tpLdb')||0.8, licP=G('tpLic')||0;
-  const oi=G('tpOI'), or_=G('tpOR'), freH=G('tpFreH')||20;
+  var kgTot = G('tpKgTot')||20;
+  var kgB = G('tpKgB')||8;
+  var kgR = G('tpKgR')||12;
+  var kg = kgB + kgR;
+  const gr=G('tpGr')||1800, idr=G('tpIDR')||79, saleP=G('tpSale')||2.2;
+  const ldbP=G('tpLdb')||0.3, ldbRP=G('tpLdbR')||0.1;
+  const oi=G('tpOI')||10, or_=G('tpOR')||7, freH=G('tpFreH')||20;
   const f1Pct=G('tpF1')||65;
+  const licP=0; // no licoli in questo protocollo
 
-  // BIGA
-  const kg5078b=R(kgB*0.70,3), kg0102b=R(kgB*0.30,3);
-  const acqBiga=R(kgB*0.45*1000,0);
-  const ldbBiga=R(kgB*ldbP/100*1000,1);
+  // BIGA: 100% HP 0102 (scientificamente ottimale)
+  const kg0102b=R(kgB,3);
+  const acqBiga=R(kgB*0.45*1000,0); // IDR biga 45%
+  const ldbBiga=R(kgB*ldbP/100*1000,2);
 
-  // RINFRESCO
-  const kg5078r=R(kgR*0.70,3), kg0102r=R(kgR*0.30,3);
-  const licoli=R(kgR*licP/100*1000,0);
+  // RINFRESCO: 70% 5078 + 30% 0102HP
+  const kg5078r=R(kgR*0.70,3);
+  const kg0102r=R(kgR*0.30,3);
+  const ldbRinf=R(kgR*ldbRP/100*1000,2);
+  const licoli=0;
 
   // ACQUA
   const acqTot=R(kg*idr/100*1000,0);
@@ -3277,43 +3332,70 @@ function calcTegliaPF(){
 
   document.getElementById('tegliaPFOut').innerHTML=
     sem(semTxt+' — '+oreB+'h biga · attività '+attB+'%',semCls)+
+
+    // ── G1: BIGA ──
     '<div class="res-section">'+
-    '<div class="res-label">🧱 Biga '+kgB+'kg — G1 ore '+H(oi)+'</div>'+
-    row('Petra 5078 (70% biga)',kg5078b*1000+'g','W350-380 · forza struttura')+
-    row('Petra 0102HP (30% biga)',kg0102b*1000+'g','W320-340 · proteasi germogliate')+
-    row('Acqua biga (IDR 45%)',acqBiga+'g','fredda 4°C')+
-    row('LdB biga ('+ldbP+'%)',ldbBiga+'g','')+
-    row('TOTALE BIGA',R(kgB*1000+acqBiga+ldbBiga,0)+'g','',true)+
+    '<div class="res-label">🧱 G1 — Biga '+kgB+'kg · ore '+H(oi)+'</div>'+
+    row('Petra HP 0102 (100% biga)',R(kgB*1000,0)+'g','W320-340 · proteasi germogliate · IDR biga 45%')+
+    row('Acqua biga',acqBiga+'g','fredda 4°C — max 6°C')+
+    row('LdB biga ('+ldbP+'%)',ldbBiga+'g','sciogliere in acqua fredda')+
+    row('TOTALE BIGA',R(kgB*1000+acqBiga+ldbBiga,0)+'g','→ cella 4°C per 18-24h',true)+
     '</div>'+
+
+    sem('G-prime stimato dopo 21h: ~3900 Pa · target 3500-4200 Pa · pH biga atteso: 5.2-5.6', 'info')+
+
+    // ── G2: RINFRESCO ──
     '<div class="res-section">'+
-    '<div class="res-label">🔄 Rinfresco '+kgR+'kg — G2 ore '+H(or_)+'</div>'+
-    row('Petra 5078 (70% rinfresco)',kg5078r*1000+'g','W350-380')+
-    row('Petra 0102HP (30% rinfresco)',kg0102r*1000+'g','W320-340')+
-    (licP>0?row('Licoli ('+licP+'%)',licoli+'g','accelera — puntata più rapida'):'')+
+    '<div class="res-label">🔄 G2 — Rinfresco '+kgR+'kg · ore '+H(or_)+'</div>'+
+    row('Petra 5078 (70% rinfresco)',R(kg5078r*1000,0)+'g','W350-380 · estensibilità · alveoli esplosivi')+
+    row('Petra 0102HP (30% rinfresco)',R(kg0102r*1000,0)+'g','W320-340 · continua proteolisi controllata')+
     row('Sale ('+saleP+'%)',sale+'g','sciolto in '+acqSale+'g acqua')+
+    row('LdB rinfresco ('+ldbRP+'%)',ldbRinf+'g','supporto puntata — sciolto in acqua')+
     '</div>'+
+
+    // ── ACQUA ──
     '<div class="res-section">'+
-    '<div class="res-label">💧 Distribuzione acqua — totale '+acqRinf+'g</div>'+
-    row('Fase 1 ('+f1Pct+'%) con biga+farine',fase1+'g','T 18-20°C · incordatura')+
-    row('Bassinage (restante)',bass+'g','a filo dopo incordatura',true)+
-    row('IDR finale',idr+'%','',true)+
+    '<div class="res-label">💧 Distribuzione acqua rinfresco — totale '+acqRinf+'g</div>'+
+    row('Fase 1 ('+f1Pct+'%) — con biga+farine',fase1+'g','T 16-18°C · incordatura base')+
+    row('Dopo sale',R(acqRinf*0.15,0)+'g','quando maglia incordata')+
+    row('Bassinage finale',bass+'g','a filo lentissimo · max 10min',true)+
+    row('IDR finale impasto',idr+'%','target G-prime 2200-2600 Pa in uscita',true)+
     '</div>'+
+
+    // ── RESA ──
     '<div class="res-section">'+
-    '<div class="res-label">📐 Resa teglie</div>'+
+    '<div class="res-label">📐 Resa · T acqua · Staglio</div>'+
+    row('T acqua calcolata',R(22*3.75-10*1.63-22*1.12-7.8*3.75,1)+'°C','formula Esmach SPI-AI K=7.8')+
     row('Peso impasto totale',pesoImpasto+'g','')+
-    row('TEGLIE PRODOTTE',nTeglie+' teglie da '+gr+'g','',true)+
+    row('TEGLIE DA '+gr+'g',nTeglie+' teglie','',true)+
     '</div>'+
+
     sem(semFrigoTxt,semFrigoCls)+
+
+    // ── TIMELINE G1→G2→G3 ──
     tl([
-      [H(oi)+' G1','🧱 BIGA → cella 4°C',kg5078b*1000+'g 5078 + '+kg0102b*1000+'g 0102HP | LdB '+ldbBiga+'g'],
-      [H(or_)+' G2','⚙️ RINFRESCO + IMPASTO','IDR '+idr+'% · T uscita 24°C · licoli '+licoli+'g'],
-      [H(or_+0.3)+' G2','💧 BASSINAGE '+bass+'g','a filo lentamente'],
-      [H(oreStaglio-0.5)+' G2','📦 PUNTATA IN MASSA','attendi +30-40% volume · ~1h a 24°C'],
-      [H(oreStaglio)+' G2','✂️ STAGLIO → BOCCE',''+nTeglie+' teglie da '+gr+'g'],
-      [H(oreStaglio)+' G2','❄️ FRIGO 4°C per '+freH+'h','bocce coperte · maglia si rilassa'],
-      [H(oraForno-oreDopoFrigo)+' G'+(1+giornoForno),'📦 FUORI FRIGO','2h a T ambiente prima del forno'],
-      [H(oraForno)+' G'+(1+giornoForno),'🔥 FORNO 280°C PLATEA','250°C cielo · 20-25 min · vapore 5min']
-    ]);
+      [H(oi)+' G1','BIGA IN CELLA 4°C',R(kgB*1000,0)+'g 0102HP | LdB '+ldbBiga+'g | IDR biga 45%'],
+      ['18-24h','MATURAZIONE BIGA','pH target 5.2-5.6 · G-prime scende da 4800 a ~3900 Pa'],
+      [H(or_)+' G2','RINFRESCO + IMPASTO','5078 '+R(kg5078r*1000,0)+'g + 0102HP '+R(kg0102r*1000,0)+'g · T uscita 22-24°C'],
+      [H(or_+0.3)+' G2','BASSINAGE '+bass+'g','a filo · IDR finale '+idr+'%'],
+      [H(or_+1)+' G2','PUNTATA 1h30 a 22°C','+30-40% volume · coperto · NON in cella'],
+      [H(oreStaglio)+' G2','STAGLIO → BOCCE',nTeglie+' teglie da '+gr+'g · olio sotto'],
+      [H(oreStaglio)+' G2','FRIGO 4°C per '+freH+'h','bocce coperte · maglia si rilassa · pH scende a 5.0-5.3'],
+      [H(oraForno-0.5)+' G3','FUORI FRIGO 30 min','T ambiente · non stendere ancora'],
+      [H(oraForno)+' G3','FORNO 280°C PLATEA','250°C cielo · olio teglia · 20-25 min · vapore primi 5 min']
+    ])+
+
+    // ── NOTE SCIENTIFICHE ──
+    '<div class="res-section">'+
+    '<div class="res-label">📋 Note tecniche — Range di tolleranza</div>'+
+    '<div style="font-size:11px;color:var(--dim);line-height:1.8">'+
+    '• <span style="color:var(--cream)">LdB biga 0.3%</span> → range 0.25-0.35% · mai sopra 0.4% con 4°C/24h<br>'+
+    '• <span style="color:var(--cream)">IDR 79%</span> → range 76-82% · aumenta 1% per volta se la maglia regge<br>'+
+    '• <span style="color:var(--cream)">Frigo '+freH+'h</span> → range 18-22h · oltre 22h rischio over-fermentazione<br>'+
+    '• <span style="color:var(--cream)">T uscita impasto</span> → max 24°C · sopra = proteolisi accelerata<br>'+
+    '• <span style="color:var(--cream)">Puntata 1h30</span> → non meno di 1h · non più di 2h a 22°C<br>'+
+    '• <span style="color:var(--cream)">Forno 280°C platea</span> → mai sotto 260°C · vapore è fondamentale'+
+    '</div></div>';
 }
 
 // ══════════════════════════════════════════════
