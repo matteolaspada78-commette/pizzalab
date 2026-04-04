@@ -6,463 +6,130 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ordine Farine">
-<title>🌾 Ordine Farine — Matteo La Spada</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23faf8f3'/%3E%3Ctext x='256' y='330' font-size='300' text-anchor='middle'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
+<title>Ordine Farine — Matteo La Spada</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
-
-  :root {
-    --bg: #faf8f3;
-    --surface: #ffffff;
-    --border: #e8e0d0;
-    --accent: #c8860a;
-    --accent2: #f5c84a;
-    --text: #1a1208;
-    --muted: #8a7a60;
-    --green: #2e7a4f;
-    --green-bg: #eef8f2;
-    --green-border: #b8dfc9;
-    --red: #b33a3a;
-    --red-bg: #fdf0f0;
-    --gold-bg: #fdf8ef;
-    --gold-border: #e8d8b0;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
-
-  header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--border);
-    padding: 18px 16px 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .brand-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--accent);
-    font-style: italic;
-  }
-
-  .brand-sub {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* Sede selector */
-  .sede-tabs {
-    display: flex;
-    gap: 6px;
-  }
-
-  .sede-btn {
-    flex: 1;
-    padding: 8px 10px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-  }
-
-  .sede-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    font-weight: 600;
-  }
-
-  /* Data ordine */
-  .date-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background: var(--gold-bg);
-    border-bottom: 1px solid var(--gold-border);
-  }
-
-  .date-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-  }
-
-  .date-input {
-    background: none;
-    border: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    font-weight: 500;
-    outline: none;
-    cursor: pointer;
-  }
-
-  /* Summary bar */
-  .summary-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border-bottom: 2px solid var(--border);
-  }
-
-  .summary-cell {
-    background: var(--surface);
-    padding: 10px 12px;
-    text-align: center;
-  }
-
-  .summary-label {
-    font-size: 8px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-  }
-
-  .summary-value {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .summary-value.green { color: var(--green); }
-  .summary-value.gold { color: var(--accent); }
-
-  /* Farine list */
-  .section-title {
-    font-size: 9px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-    padding: 14px 16px 6px;
-  }
-
-  .farina-card {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 16px;
-  }
-
-  .farina-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .farina-emoji { font-size: 22px; flex-shrink: 0; }
-
-  .farina-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    color: var(--text);
-    flex: 1;
-  }
-
-  .farina-badge {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-weight: 600;
-  }
-
-  .badge-w {
-    background: var(--gold-bg);
-    border: 1px solid var(--gold-border);
-    color: var(--accent);
-  }
-
-  .badge-prot {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    color: var(--green);
-  }
-
-  .farina-row {
-    display: grid;
-    grid-template-columns: 1fr 80px 80px;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .farina-meta {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .farina-kg {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .qty-control {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .qty-btn {
-    background: none;
-    border: none;
-    width: 32px;
-    height: 36px;
-    font-size: 18px;
-    cursor: pointer;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .qty-btn:active { background: var(--gold-bg); }
-
-  .qty-val {
-    flex: 1;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text);
-    border: none;
-    background: none;
-    outline: none;
-    width: 36px;
-    min-width: 0;
-  }
-
-  .omaggio-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    border-radius: 8px;
-    padding: 6px 8px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--green);
-    text-align: center;
-  }
-
-  .omaggio-badge.zero {
-    background: var(--bg);
-    border-color: var(--border);
-    color: var(--muted);
-    font-weight: 400;
-  }
-
-  /* Omaggio footer */
-  .omaggio-select-section {
-    display: none;
-    background: var(--green-bg);
-    border-top: 2px solid var(--green-border);
-    padding: 14px 16px;
-  }
-
-  .omaggio-select-section.show { display: block; }
-
-  .omaggio-select-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--green);
-    margin-bottom: 10px;
-  }
-
-  .omaggio-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-
-  .omaggio-chip {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1.5px solid var(--green-border);
-    background: #fff;
-    color: var(--green);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .omaggio-chip.selected {
-    background: var(--green);
-    color: #fff;
-    border-color: var(--green);
-  }
-
-  .omaggio-selected-list {
-    font-size: 12px;
-    color: var(--green);
-    font-weight: 600;
-  }
-
-  /* Bottom buttons */
-  .bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 12px 16px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    z-index: 100;
-  }
-
-  .btn-wa {
-    flex: 1;
-    background: linear-gradient(135deg, #25d366, #128c7e);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 14px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .btn-reset {
-    background: var(--bg);
-    color: var(--muted);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .btn-reset:active { opacity: 0.7; }
-  .btn-wa:active { opacity: 0.85; }
-
-  /* nota libera */
-  .note-area {
-    padding: 12px 16px;
-  }
-
-  .note-field {
-    width: 100%;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    color: var(--text);
-    outline: none;
-    resize: none;
-    height: 60px;
-  }
-
-  .note-field:focus { border-color: var(--accent); }
-
-  .divider {
-    height: 8px;
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+:root{--bg:#faf8f3;--surface:#fff;--border:#e8e0d0;--accent:#c8860a;--accent2:#f5c84a;--text:#1a1208;--muted:#8a7a60;--green:#2e7a4f;--green-bg:#eef8f2;--green-border:#b8dfc9;--gold-bg:#fdf8ef;--gold-border:#e8d8b0;--blue:#1a4a8a;--blue-bg:#eef2fd;--blue-border:#b8c8e8}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px}
+header{background:var(--surface);border-bottom:2px solid var(--border);padding:16px 16px 12px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:21px;color:var(--accent);margin-bottom:3px}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.top-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.top-field{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px}
+.top-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.top-select,.top-date{background:none;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);width:100%;outline:none;-webkit-appearance:none}
+.top-date{color:var(--accent);font-family:'DM Mono',monospace}
+.consegna-row{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.consegna-label{font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap}
+.consegna-input{background:none;border:none;font-family:'DM Mono',monospace;font-size:14px;color:var(--accent);font-weight:600;outline:none;flex:1}
+.summary-bar{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--border);gap:1px;border-bottom:2px solid var(--border)}
+.sum-cell{background:var(--surface);padding:9px 8px;text-align:center}
+.sum-label{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.sum-val{font-size:18px;font-weight:700;color:var(--text)}
+.sum-val.green{color:var(--green)}
+.sum-val.gold{color:var(--accent)}
+.section-hdr{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:12px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border)}
+.farina-card{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.farina-info{flex:1;min-width:0}
+.farina-name{font-weight:600;font-size:14px;color:var(--text)}
+.badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;margin-top:4px;display:inline-block;margin-right:4px}
+.badge-kg{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
+.badge-w{background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--accent)}
+.qty-wrap{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--accent);border-radius:10px;overflow:hidden;flex-shrink:0}
+.qty-btn{background:none;border:none;width:36px;height:44px;font-size:22px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center}
+.qty-btn:active{background:var(--gold-bg)}
+.qty-input{width:48px;background:none;border:none;font-family:'DM Mono',monospace;font-size:18px;font-weight:700;text-align:center;outline:none;color:var(--accent);padding:0}
+.divider{height:8px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+/* RIEPILOGO */
+.riepilogo-box{display:none;margin:12px 16px;background:var(--surface);border:1.5px solid var(--gold-border);border-radius:14px;overflow:hidden}
+.riepilogo-box.show{display:block}
+.riepilogo-hdr{background:var(--gold-bg);padding:12px 16px;border-bottom:1px solid var(--gold-border)}
+.riepilogo-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--accent)}
+.riepilogo-row{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.riepilogo-row:last-child{border-bottom:none}
+.r-name{color:var(--muted)}
+.r-val{font-family:'DM Mono',monospace;font-weight:600;color:var(--text)}
+.riepilogo-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--gold-bg);font-weight:700;font-size:14px;border-top:1px solid var(--gold-border)}
+/* OMAGGI */
+.omaggi-box{display:none;background:var(--green-bg);border-top:2px solid var(--green-border);border-bottom:2px solid var(--green-border);padding:16px}
+.omaggi-box.show{display:block}
+.omaggi-badge{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:700;margin-bottom:8px}
+.omaggi-desc{font-size:11px;color:var(--green);margin-bottom:12px;font-weight:500}
+.omaggi-field{width:100%;background:#fff;border:1.5px solid var(--green-border);border-radius:10px;padding:12px 14px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;min-height:72px}
+.omaggi-field:focus{border-color:var(--green)}
+.omaggi-hint{font-size:10px;color:var(--green);margin-top:6px;opacity:.8}
+/* NOTE */
+.note-wrap{padding:12px 16px 0}
+.note-field{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;resize:none;height:56px}
+.note-field:focus{border-color:var(--accent)}
+/* BOTTOM */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;z-index:100}
+.btn-wa{flex:1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.btn-reset{background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:14px;font-size:13px;cursor:pointer}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-brand">
-    <span style="font-size:26px">🌾</span>
-    <div>
-      <div class="brand-title">Ordine Farine</div>
-      <div class="brand-sub">Mulino Quaglia · Petra</div>
+  <div class="logo">🌾 Ordine Farine</div>
+  <div class="logo-sub">Mulino Quaglia · Petra</div>
+  <div class="top-row">
+    <div class="top-field">
+      <div class="top-label">📍 Sede</div>
+      <select class="top-select" id="sede">
+        <option>Via Calapso</option>
+        <option>Torregrotta</option>
+        <option>Altra sede</option>
+      </select>
+    </div>
+    <div class="top-field">
+      <div class="top-label">📅 Data ordine</div>
+      <input class="top-date" type="date" id="dataOrdine">
     </div>
   </div>
-  <div class="sede-tabs" id="sedeTabs">
-    <button class="sede-btn active" onclick="setSede('via_calapso', this)">📍 Via Calapso</button>
-    <button class="sede-btn" onclick="setSede('torregrotta', this)">📍 Torregrotta</button>
-    <button class="sede-btn" onclick="setSede('altro', this)">📍 Altro</button>
+  <div class="consegna-row">
+    <span class="consegna-label">🚚 Consegna richiesta:</span>
+    <input class="consegna-input" type="date" id="dataConsegna">
   </div>
 </header>
 
-<div class="date-bar">
-  <span class="date-label">📅 Data ordine</span>
-  <input class="date-input" type="date" id="dataOrdine">
-</div>
-
 <div class="summary-bar">
-  <div class="summary-cell">
-    <div class="summary-label">Sacchi ordinati</div>
-    <div class="summary-value" id="totSacchi">0</div>
-  </div>
-  <div class="summary-cell">
-    <div class="summary-label">Omaggi spettanti</div>
-    <div class="summary-value green" id="totOmaggi">0</div>
-  </div>
-  <div class="summary-cell">
-    <div class="summary-label">Kg totali</div>
-    <div class="summary-value gold" id="totKg">0</div>
-  </div>
+  <div class="sum-cell"><div class="sum-label">Sacchi ordinati</div><div class="sum-val" id="sumSacchi">0</div></div>
+  <div class="sum-cell"><div class="sum-label">Omaggi spettanti</div><div class="sum-val green" id="sumOmaggi">0</div></div>
+  <div class="sum-cell"><div class="sum-label">Kg totali</div><div class="sum-val gold" id="sumKg">—</div></div>
 </div>
 
-<div class="section-title">🌾 Farine Petra — Mulino Quaglia</div>
-
+<div class="section-hdr">🌾 Seleziona i sacchi da ordinare</div>
 <div id="farineList"></div>
 
 <div class="divider"></div>
 
-<!-- Selezione omaggi -->
-<div class="omaggio-select-section" id="omaggioSection">
-  <div class="omaggio-select-title">🎁 Scegli i sacchi omaggio (<span id="omaggioCount">0</span> disponibili)</div>
-  <div class="omaggio-chips" id="omaggioChips"></div>
-  <div class="omaggio-selected-list" id="omaggioSelectedList"></div>
+<!-- RIEPILOGO -->
+<div class="riepilogo-box" id="riepilogoBox">
+  <div class="riepilogo-hdr"><div class="riepilogo-title">📋 Riepilogo ordine</div></div>
+  <div id="riepilogoRows"></div>
+  <div class="riepilogo-foot">
+    <span>Totale</span>
+    <span id="riepilogoTot" style="color:var(--accent)">0 sacchi</span>
+  </div>
 </div>
 
-<div class="divider"></div>
-
-<div class="note-area">
-  <div class="section-title" style="padding:0 0 8px">📝 Note aggiuntive</div>
-  <textarea class="note-field" id="noteExtra" placeholder="Es: urgente per sabato, consegna mattina, ecc."></textarea>
+<!-- OMAGGI -->
+<div class="omaggi-box" id="omaggioBox">
+  <div class="omaggi-badge">🎁 <span id="omaggioCount">0</span> sacchi omaggio</div>
+  <div class="omaggi-desc">Ogni 5 sacchi ordinati = 1 sacco omaggio — scrivi qui quali vuoi</div>
+  <textarea class="omaggi-field" id="omaggioTesto" placeholder="Es: 2 sacchi Petra 3hp + 1 HP 0102 + 1 5078 + 1 5037 Unica"></textarea>
+  <div class="omaggi-hint">💡 Campo libero — scrivi la combinazione che preferisci</div>
 </div>
+
+<div class="note-wrap" style="margin-top:12px">
+  <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700">📝 Note aggiuntive</div>
+  <textarea class="note-field" id="noteExtra" placeholder="Es: urgente sabato, consegna mattina..."></textarea>
+</div>
+
+<div style="height:12px"></div>
 
 <div class="bottom-bar">
   <button class="btn-reset" onclick="resetOrdine()">↺ Reset</button>
@@ -470,243 +137,164 @@
 </div>
 
 <script>
-// ══ CONFIGURAZIONE FARINE ══
-var FARINE = [
-  { id:'petra3hp',  nome:'Petra 3 hp',      emoji:'🌾', kg:12.5, w:'—',       prot:'13,50', desc:'Tipo 1 integrale alta proteine' },
-  { id:'hp0102',    nome:'HP 0102',          emoji:'🌾', kg:12.5, w:'320-340', prot:'13,00', desc:'Tipo 0 alta forza' },
-  { id:'hp0103',    nome:'HP 0103',          emoji:'🌾', kg:10,   w:'—',       prot:'13,20', desc:'Tipo 0 media forza' },
-  { id:'p5037',     nome:'5037 Unica',       emoji:'🌾', kg:12.5, w:'300-340', prot:'13,20', desc:'Tipo 1 per pizza' },
-  { id:'p5063',     nome:'5063 Special',     emoji:'🌾', kg:12.5, w:'260-280', prot:'12,70', desc:'Tipo 0 media forza' },
-  { id:'p5078',     nome:'5078',             emoji:'🌾', kg:12.5, w:'350-380', prot:'13,50', desc:'Tipo 0 alta forza' },
-  { id:'p5060',     nome:'5060',             emoji:'🌾', kg:12.5, w:'240-260', prot:'12,50', desc:'Tipo 0 media' },
-  { id:'p5595',     nome:'5595 Enkir',       emoji:'🌾', kg:5,    w:'—',       prot:'12,00', desc:'Grano antico monococco' },
+var FARINE=[
+  {id:'petra3hp',nome:'Petra 3 hp',kg:12.5,w:'—',prot:'13.50'},
+  {id:'petra1',nome:'Petra 1',kg:12.5,w:'—',prot:'—'},
+  {id:'f0hp',nome:'0 hp',kg:12.5,w:'—',prot:'—'},
+  {id:'f0052',nome:'0052 Segale',kg:10,w:'—',prot:'4.50'},
+  {id:'hp0101',nome:'HP 0101',kg:12.5,w:'390-420',prot:'14.50'},
+  {id:'hp0102',nome:'HP 0102',kg:12.5,w:'320-340',prot:'13.00'},
+  {id:'hp0103',nome:'HP 0103',kg:10,w:'—',prot:'13.20'},
+  {id:'hp0104',nome:'HP 0104',kg:10,w:'—',prot:'14.00'},
+  {id:'hp0107',nome:'HP 0107',kg:10,w:'—',prot:'—'},
+  {id:'agr0106',nome:'Agricola 0106',kg:10,w:'—',prot:'13.90'},
+  {id:'f5020',nome:'5020',kg:12.5,w:'350-360',prot:'13.50'},
+  {id:'f5037',nome:'5037 Unica',kg:12.5,w:'300-340',prot:'13.20'},
+  {id:'f5046',nome:'5046 Allegra',kg:12.5,w:'180-220',prot:'11.20'},
+  {id:'f5063',nome:'5063 Special',kg:12.5,w:'260-280',prot:'12.70'},
+  {id:'f5072',nome:'5072',kg:12.5,w:'320-340',prot:'13.00'},
+  {id:'f5078',nome:'5078',kg:12.5,w:'350-380',prot:'13.50'},
+  {id:'f8610',nome:'8610',kg:12.5,w:'—',prot:'—'},
+  {id:'f3220',nome:'3220 Bonsemi',kg:12.5,w:'—',prot:'—'},
+  {id:'f3400',nome:'3400 Ottimais',kg:10,w:'—',prot:'—'},
+  {id:'f6384',nome:'6384',kg:12.5,w:'—',prot:'—'},
+  {id:'semriso',nome:'Semolino riso termotr.',kg:25,w:'—',prot:'—'},
+  {id:'lievito',nome:'Stecca lievito Hirondelle',kg:2.5,w:'—',prot:'—'},
+  {id:'roggena',nome:'Roggena Dunkel (malto)',kg:12.5,w:'—',prot:'—'}
 ];
 
-var sede = 'via_calapso';
-var quantita = {};
-FARINE.forEach(function(f){ quantita[f.id] = 0; });
+var ordine={};
+FARINE.forEach(function(f){ordine[f.id]=0;});
 
-var omaggioSelezionati = [];
-
-// Set today's date
 (function(){
-  var d = new Date();
-  var y = d.getFullYear();
-  var m = String(d.getMonth()+1).padStart(2,'0');
-  var dd = String(d.getDate()).padStart(2,'0');
-  document.getElementById('dataOrdine').value = y+'-'+m+'-'+dd;
+  var d=new Date();
+  var fmt=function(dt){return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');};
+  document.getElementById('dataOrdine').value=fmt(d);
+  var c=new Date(d);c.setDate(c.getDate()+2);
+  document.getElementById('dataConsegna').value=fmt(c);
 })();
 
-function setSede(s, btn) {
-  sede = s;
-  document.querySelectorAll('.sede-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-}
+function fmtDate(v){if(!v)return'—';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function getTot(){return FARINE.reduce(function(s,f){return s+(ordine[f.id]||0);},0);}
+function getKg(){return FARINE.reduce(function(s,f){return s+(ordine[f.id]||0)*f.kg;},0);}
+function getOmaggi(t){return Math.floor(t/5);}
 
-function changeQty(id, delta) {
-  quantita[id] = Math.max(0, (quantita[id]||0) + delta);
-  document.getElementById('qty_'+id).value = quantita[id];
+function change(id,d){
+  ordine[id]=Math.max(0,(ordine[id]||0)+d);
+  var el=document.getElementById('o_'+id);
+  if(el)el.value=ordine[id];
+  updateAll();
+}
+function setVal(id,v){
+  ordine[id]=Math.max(0,parseInt(v)||0);
   updateAll();
 }
 
-function setQty(id, val) {
-  quantita[id] = Math.max(0, parseInt(val)||0);
-  updateAll();
-}
+function updateAll(){
+  var tot=getTot();
+  var omaggi=getOmaggi(tot);
+  var kg=getKg();
 
-function getTotSacchi() {
-  return FARINE.reduce(function(s,f){ return s + (quantita[f.id]||0); }, 0);
-}
+  document.getElementById('sumSacchi').textContent=tot;
+  document.getElementById('sumOmaggi').textContent=omaggi;
+  document.getElementById('sumKg').textContent=tot===0?'—':(kg%1===0?kg+'kg':kg.toFixed(1)+'kg');
 
-function getTotOmaggi(tot) {
-  return Math.floor(tot / 10) * 2;
-}
-
-function getTotKg() {
-  return FARINE.reduce(function(s,f){ return s + (quantita[f.id]||0) * f.kg; }, 0);
-}
-
-function updateAll() {
-  var tot = getTotSacchi();
-  var omaggi = getTotOmaggi(tot);
-  var kg = getTotKg();
-
-  document.getElementById('totSacchi').textContent = tot;
-  document.getElementById('totOmaggi').textContent = omaggi;
-  document.getElementById('totKg').textContent = kg.toFixed(1) + ' kg';
-
-  // update omaggio badge per ogni farina
-  FARINE.forEach(function(f){
-    var q = quantita[f.id]||0;
-    var el = document.getElementById('om_'+f.id);
-    var om = Math.floor(q/10)*2;
-    if(el) {
-      if(om > 0){
-        el.textContent = '🎁 +'+om;
-        el.className = 'omaggio-badge';
-      } else {
-        el.textContent = '—';
-        el.className = 'omaggio-badge zero';
-      }
-    }
-  });
-
-  // sezione selezione omaggi
-  var sec = document.getElementById('omaggioSection');
-  if(omaggi > 0){
-    sec.classList.add('show');
-    document.getElementById('omaggioCount').textContent = omaggi;
-    buildOmaggioChips(omaggi);
+  // Riepilogo
+  var righe=FARINE.filter(function(f){return(ordine[f.id]||0)>0;});
+  var rb=document.getElementById('riepilogoBox');
+  if(righe.length>0){
+    rb.classList.add('show');
+    document.getElementById('riepilogoRows').innerHTML=righe.map(function(f){
+      var q=ordine[f.id];
+      return '<div class="riepilogo-row"><span class="r-name">'+f.nome+'</span><span class="r-val">'+q+' sacchi · '+q*f.kg+'kg</span></div>';
+    }).join('');
+    document.getElementById('riepilogoTot').textContent=tot+' sacchi · '+(kg%1===0?kg:kg.toFixed(1))+'kg';
   } else {
-    sec.classList.remove('show');
-    omaggioSelezionati = [];
+    rb.classList.remove('show');
   }
-}
 
-function buildOmaggioChips(max) {
-  var chips = document.getElementById('omaggioChips');
-  // Assicura che gli selezionati non superino max
-  while(omaggioSelezionati.length > max) omaggioSelezionati.pop();
-
-  chips.innerHTML = FARINE.map(function(f){
-    var selected = omaggioSelezionati.includes(f.id);
-    return '<div class="omaggio-chip'+(selected?' selected':'')+'" onclick="toggleOmaggio(\''+f.id+'\')">'+
-      f.nome+'</div>';
-  }).join('');
-
-  updateOmaggioList(max);
-}
-
-function toggleOmaggio(id) {
-  var max = getTotOmaggi(getTotSacchi());
-  if(omaggioSelezionati.includes(id)){
-    omaggioSelezionati = omaggioSelezionati.filter(function(x){ return x!==id; });
+  // Omaggi
+  var ob=document.getElementById('omaggioBox');
+  if(omaggi>0){
+    ob.classList.add('show');
+    document.getElementById('omaggioCount').textContent=omaggi;
   } else {
-    if(omaggioSelezionati.length >= max){
-      alert('Hai già selezionato tutti gli omaggi disponibili ('+max+')');
-      return;
-    }
-    omaggioSelezionati.push(id);
+    ob.classList.remove('show');
   }
-  buildOmaggioChips(max);
 }
 
-function updateOmaggioList(max) {
-  var el = document.getElementById('omaggioSelectedList');
-  if(omaggioSelezionati.length === 0){
-    el.textContent = 'Nessun omaggio selezionato ancora ('+max+' disponibili)';
-    return;
-  }
-  var names = omaggioSelezionati.map(function(id){
-    var f = FARINE.find(function(x){ return x.id===id; });
-    return f ? f.nome : id;
-  });
-  el.textContent = '✅ Omaggi scelti: ' + names.join(', ');
-}
-
-function resetOrdine() {
+function resetOrdine(){
   FARINE.forEach(function(f){
-    quantita[f.id] = 0;
-    var el = document.getElementById('qty_'+f.id);
-    if(el) el.value = 0;
+    ordine[f.id]=0;
+    var el=document.getElementById('o_'+f.id);
+    if(el)el.value=0;
   });
-  omaggioSelezionati = [];
-  document.getElementById('noteExtra').value = '';
+  document.getElementById('noteExtra').value='';
+  document.getElementById('omaggioTesto').value='';
   updateAll();
 }
 
-function inviaWhatsApp() {
-  var tot = getTotSacchi();
-  if(tot === 0){ alert('Aggiungi almeno un sacco!'); return; }
+function inviaWhatsApp(){
+  var tot=getTot();
+  if(tot===0){alert('Aggiungi almeno un sacco!');return;}
+  var sede=document.getElementById('sede').value;
+  var dataOrd=fmtDate(document.getElementById('dataOrdine').value);
+  var dataCons=fmtDate(document.getElementById('dataConsegna').value);
+  var omaggi=getOmaggi(tot);
+  var kg=getKg();
+  var note=document.getElementById('noteExtra').value.trim();
+  var omTesto=document.getElementById('omaggioTesto').value.trim();
 
-  var dataRaw = document.getElementById('dataOrdine').value;
-  var dataFmt = dataRaw ? (function(){
-    var p = dataRaw.split('-');
-    return p[2]+'/'+p[1]+'/'+p[0];
-  })() : new Date().toLocaleDateString('it-IT');
-
-  var sedeNomi = { via_calapso:'Via Calapso', torregrotta:'Torregrotta', altro:'Altra sede' };
-  var omaggi = getTotOmaggi(tot);
-  var kg = getTotKg();
-  var note = document.getElementById('noteExtra').value.trim();
-
-  var righe = [];
-  righe.push('🌾 *ORDINE FARINE — L\'Orso*');
-  righe.push('📍 ' + sedeNomi[sede]);
-  righe.push('📅 ' + dataFmt);
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-
+  var r=[];
+  r.push('*ORDINE FARINE — L\'Orso*');
+  r.push('Sede: *'+sede+'*');
+  r.push('Data ordine: '+dataOrd);
+  r.push('Consegna richiesta: *'+dataCons+'*');
+  r.push('---');
   FARINE.forEach(function(f){
-    var q = quantita[f.id]||0;
-    if(q > 0){
-      righe.push('  🌾 *'+f.nome+'* — '+q+' sacchi ('+( q*f.kg ).toFixed(1)+' kg)'+
-        (f.w!=='—'?' | W '+f.w:''));
+    var q=ordine[f.id]||0;
+    if(q>0){
+      var s='  *'+f.nome+'* — '+q+' sacchi ('+q*f.kg+'kg)';
+      if(f.w!=='—')s+=' W'+f.w;
+      r.push(s);
     }
   });
-
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('📦 Totale sacchi: *'+tot+'*');
-  righe.push('⚖️ Totale kg: *'+kg.toFixed(1)+' kg*');
-
-  if(omaggi > 0){
-    righe.push('🎁 Omaggi spettanti: *'+omaggi+' sacchi* (ogni 10 → 2 omaggio)');
-    if(omaggioSelezionati.length > 0){
-      var omNomi = omaggioSelezionati.map(function(id){
-        var f = FARINE.find(function(x){ return x.id===id; });
-        return f ? f.nome : id;
-      });
-      righe.push('🎁 Omaggi scelti: *'+omNomi.join(', ')+'*');
-    } else {
-      righe.push('🎁 Omaggi: *da definire*');
-    }
+  r.push('---');
+  r.push('*Totale: '+tot+' sacchi — '+(kg%1===0?kg:kg.toFixed(1))+'kg*');
+  if(omaggi>0){
+    r.push('*Omaggi spettanti: '+omaggi+' sacchi* (1 ogni 5 ordinati)');
+    if(omTesto) r.push('Omaggi scelti: '+omTesto);
+    else r.push('Omaggi: da definire');
   }
+  if(note) r.push('Note: '+note);
+  r.push('_Matteo La Spada · L\'Orso Messina_');
 
-  if(note){
-    righe.push('\n📝 Note: '+note);
-  }
-
-  righe.push('\n_Matteo La Spada · L\'Orso Messina_');
-
-  var testo = righe.join('\n');
-  window.open('https://wa.me/?text='+encodeURIComponent(testo), '_blank');
+  var url='https://wa.me/?text='+encodeURIComponent(r.join('\n'));
+  var a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);},500);
 }
 
-// ══ RENDER ══
-function render() {
-  var list = document.getElementById('farineList');
-  list.innerHTML = FARINE.map(function(f){
+// RENDER
+(function(){
+  var list=document.getElementById('farineList');
+  list.innerHTML=FARINE.map(function(f){
+    var b='<span class="badge badge-kg">'+f.kg+'kg</span>';
+    if(f.w!=='—')b+='<span class="badge badge-w">W'+f.w+'</span>';
     return '<div class="farina-card">'+
-      '<div class="farina-header">'+
-        '<span class="farina-emoji">'+f.emoji+'</span>'+
-        '<div style="flex:1">'+
-          '<div class="farina-name">'+f.nome+'</div>'+
-          '<div class="farina-meta">'+f.desc+'</div>'+
-          '<div class="farina-kg">'+f.kg+' kg/sacco'+
-            (f.w!=='—'?' · W '+f.w:'')+
-            ' · Prot. '+f.prot+'%'+
-          '</div>'+
-        '</div>'+
-        '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">'+
-          (f.w!=='—'?'<span class="farina-badge badge-w">W '+f.w+'</span>':'')+
-          '<span class="farina-badge badge-prot">'+f.prot+'%</span>'+
-        '</div>'+
+      '<div class="farina-info">'+
+        '<div class="farina-name">🌾 '+f.nome+'</div>'+
+        '<div>'+b+'</div>'+
       '</div>'+
-      '<div class="farina-row">'+
-        '<div style="font-size:11px;color:var(--muted)">Sacchi da ordinare</div>'+
-        '<div class="qty-control">'+
-          '<button class="qty-btn" onclick="changeQty(\''+f.id+'\',-1)">−</button>'+
-          '<input class="qty-val" id="qty_'+f.id+'" type="number" min="0" value="0" '+
-            'oninput="setQty(\''+f.id+'\',this.value)">'+
-          '<button class="qty-btn" onclick="changeQty(\''+f.id+'\',1)">+</button>'+
-        '</div>'+
-        '<div class="omaggio-badge zero" id="om_'+f.id+'">—</div>'+
+      '<div class="qty-wrap">'+
+        '<button class="qty-btn" onclick="change(\''+f.id+'\',-1)">−</button>'+
+        '<input class="qty-input" id="o_'+f.id+'" type="number" min="0" value="0" oninput="setVal(\''+f.id+'\',this.value)">'+
+        '<button class="qty-btn" onclick="change(\''+f.id+'\',1)">+</button>'+
       '</div>'+
     '</div>';
   }).join('');
-}
-
-render();
-updateAll();
+})();
 </script>
 </body>
 </html>
