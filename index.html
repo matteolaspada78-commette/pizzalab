@@ -588,36 +588,222 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 <div id="pagePhBiga" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">🧪</div>
-    <div class="page-hero-title">Controllo pH Biga</div>
-    <div class="page-hero-sub">Inserisci il pH misurato → decisione immediata scientifica</div>
+    <div class="page-hero-title">Controllo pH</div>
+    <div class="page-hero-sub">Biga · Impasto finito · Pallina pre-forno · Semaforo per ogni impasto</div>
   </div>
 
   <div class="card open" id="cardPhInp">
     <div class="card-hdr" onclick="toggleCard('cardPhInp')">
       <div class="card-hdr-icon">📊</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Input — misura ora</div><div class="card-hdr-title">pH · Kg farina · Ore disponibili · T ambiente</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — misura ora</div><div class="card-hdr-title">Tipo impasto · pH · Kg · Orari</div></div>
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">pH biga misurato adesso</label><div class="inp-row"><input class="inp-field" id="phVal" type="number" value="" step="0.1" min="3.5" max="6.5" placeholder="es. 5.4" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div></div>
-      <div class="inp-group"><label class="inp-label">Kg farina totale impasto</label><div class="inp-row"><input class="inp-field" id="phKg" type="number" value="20" min="1" max="100" step="0.5" oninput="calcPhBiga()"><span class="inp-unit">kg</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora attuale (es. 7 = le 07:00)</label><div class="inp-row"><input class="inp-field" id="phOra" type="number" value="7" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora servizio</label><div class="inp-row"><input class="inp-field" id="phServizio" type="number" value="19" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">T ambiente laboratorio °C</label><div class="inp-row"><input class="inp-field" id="phTA" type="number" value="22" min="16" max="30" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">Tipo impasto</label>
+        <select class="inp-field" id="phTipo" style="font-size:14px;-webkit-appearance:none" onchange="calcPhBiga()">
+          <option value="napo">Napoletana Suprema (Biga + Licoli)</option>
+          <option value="teglia">Teglia Romana Super Alveolata</option>
+          <option value="pala">Pala Romana</option>
+          <option value="scrocch">Scrocchiarella Teglia</option>
+          <option value="tonda">Tonda Romana Croccante</option>
+          <option value="romana">Romana Croccante Diretta</option>
+        </select>
+      </div>
+      <div class="inp-group"><label class="inp-label">pH biga pre-rinfresco</label><div class="inp-row"><input class="inp-field" id="phVal" type="number" value="" step="0.1" min="3.5" max="6.5" placeholder="es. 5.4" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">pH impasto finito (appena chiuso)</label><div class="inp-row"><input class="inp-field" id="phImpasto" type="number" value="" step="0.1" min="3.5" max="6.5" placeholder="es. 5.7" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">pH pallina pre-forno</label><div class="inp-row"><input class="inp-field" id="phPallina" type="number" value="" step="0.1" min="3.5" max="6.5" placeholder="es. 5.2" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="phKg" type="number" value="20" min="1" max="100" step="0.5" oninput="calcPhBiga()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora attuale</label><div class="inp-row"><input class="inp-field" id="phOra" type="number" value="7" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="phStaglio" type="number" value="15" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora servizio</label><div class="inp-row"><input class="inp-field" id="phServizio" type="number" value="19" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="phTA" type="number" value="22" min="16" max="30" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div></div>
     </div>
   </div>
 
   <div class="card open" id="cardPhOut">
     <div class="card-hdr" onclick="toggleCard('cardPhOut')">
       <div class="card-hdr-icon">⚡</div>
-      <div class="card-hdr-text"><div class="card-hdr-label">Decisione Scientifica</div><div class="card-hdr-title">Cosa fare adesso</div></div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Semaforo pH</div><div class="card-hdr-title">Biga · Impasto · Pallina · Decisione</div></div>
       <div class="card-chevron">▾</div>
     </div>
-    <div class="card-body"><div id="phBigaOut"><div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci il pH per ricevere la decisione</div></div></div>
+    <div class="card-body"><div id="phBigaOut"><div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci i valori per ricevere il semaforo</div></div></div>
   </div>
 
-  <button class="btn-share" onclick="shareRicetta('pagePhBiga','Controllo pH Biga')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <button class="btn-share" onclick="shareRicetta('pagePhBiga','Controllo pH')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+
+  <!-- TABELLA COMPLETA pH OTTIMALI -->
+  <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
+    <div style="padding:14px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">📊</span>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--cream)">Tabella pH Ottimali</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:1px">Tutti gli impasti · 3 momenti · Valori scientifici</div>
+      </div>
+    </div>
+    <div style="padding:14px 16px;overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;font-family:'DM Mono',monospace;min-width:420px">
+        <!-- HEADER -->
+        <tr style="border-bottom:2px solid var(--gold)">
+          <td style="padding:8px 6px 8px 0;color:var(--gold);font-weight:600;font-size:10px">IMPASTO</td>
+          <td style="padding:8px 6px;text-align:center;color:var(--gold);font-weight:600;font-size:10px">BIGA<br><span style="font-size:8px;opacity:0.7">pre-rinfresco</span></td>
+          <td style="padding:8px 6px;text-align:center;color:var(--gold);font-weight:600;font-size:10px">IMPASTO<br><span style="font-size:8px;opacity:0.7">appena chiuso</span></td>
+          <td style="padding:8px 6px;text-align:center;color:var(--gold);font-weight:600;font-size:10px">PALLINA<br><span style="font-size:8px;opacity:0.7">pre-forno</span></td>
+        </tr>
+
+        <!-- NAPOLETANA SUPREMA -->
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Napoletana Suprema</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">Biga 0102HP + Licoli</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.2 — 5.8</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.0-5.2</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.0 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.5 — 5.9</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.3-5.5</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.3 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.0 — 5.4</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.8-5.0</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.8 critico</div>
+          </td>
+        </tr>
+
+        <!-- TEGLIA SUPER ALVEOLATA -->
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Teglia Super Alveolata</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">Biga 50% 5078+0102HP</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.2 — 5.7</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.0-5.2</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.0 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.4 — 5.8</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.2-5.4</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.2 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">4.9 — 5.3</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.7-4.9</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.7 critico</div>
+          </td>
+        </tr>
+
+        <!-- PALA ROMANA -->
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Pala Romana</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">Suprema · Scientifica</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.2 — 5.7</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.0-5.2</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.0 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.4 — 5.8</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.2-5.4</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.2 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">4.9 — 5.3</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.7-4.9</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.7 critico</div>
+          </td>
+        </tr>
+
+        <!-- SCROCCHIARELLA -->
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Scrocchiarella Teglia</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">5046 Allegra · Licoli</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:var(--dim);font-size:9px">no biga</div>
+            <div style="color:#A5D6A7;font-weight:600;margin-top:2px">Licoli: 3.8-4.2</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.2 — 5.6</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.0-5.2</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.0 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">4.8 — 5.2</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.6-4.8</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.6 critico</div>
+          </td>
+        </tr>
+
+        <!-- TONDA ROMANA -->
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Tonda Romana</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">Biga 0102HP · Croccante</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.0 — 5.5</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.8-5.0</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.8 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.2 — 5.6</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 5.0-5.2</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;5.0 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">4.8 — 5.2</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.6-4.8</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.6 critico</div>
+          </td>
+        </tr>
+
+        <!-- ROMANA CROCCANTE DIRETTA -->
+        <tr>
+          <td style="padding:10px 6px 10px 0">
+            <div style="color:var(--cream);font-weight:600">Romana Croccante</div>
+            <div style="color:var(--dim);font-size:9px;margin-top:2px">5046 Allegra · Diretto</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:var(--dim);font-size:9px">no biga</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">5.0 — 5.5</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.8-5.0</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.8 critico</div>
+          </td>
+          <td style="padding:10px 6px;text-align:center">
+            <div style="color:#A5D6A7;font-weight:600">4.6 — 5.0</div>
+            <div style="color:var(--gold2);font-size:9px;margin-top:2px">⚠️ 4.4-4.6</div>
+            <div style="color:#FFCDD2;font-size:9px">&lt;4.4 critico</div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- LEGENDA -->
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-family:'DM Mono',monospace">
+          <div style="width:10px;height:10px;border-radius:50%;background:#A5D6A7;flex-shrink:0"></div>
+          <span style="color:#A5D6A7">Ottimale — procedi</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-family:'DM Mono',monospace">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--gold2);flex-shrink:0"></div>
+          <span style="color:var(--gold2)">Limite — intervieni</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-family:'DM Mono',monospace">
+          <div style="width:10px;height:10px;border-radius:50%;background:#FFCDD2;flex-shrink:0"></div>
+          <span style="color:#FFCDD2">Critico — agisci subito</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- LICOLI -->
@@ -2297,10 +2483,11 @@ function dist(rows){
 // NAVIGATION
 // ══════════════════════════════════════════════
 const pages={
-  home:'pageHome',motore:'pageMotore',licoli:'pageLicoli',
+  home:'pageHome',motore:'pageMotore',phbiga:'pagePhBiga',licoli:'pageLicoli',
   suprema:'pageSuprema',scrocch:'pageScrocch',
   tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
+  tegliapf:'pageTegliaPF',
   diario:'pageDiario',
   diretto:'pageDiretto',
   romana:'pageRomana'
@@ -3133,101 +3320,196 @@ function calcTegliaPF(){
 // CONTROLLO pH BIGA
 // ══════════════════════════════════════════════
 function calcPhBiga(){
-  var ph = parseFloat(document.getElementById('phVal')?.value)||0;
+  var tipo = document.getElementById('phTipo')?.value || 'napo';
+  var phBiga = parseFloat(document.getElementById('phVal')?.value)||0;
+  var phImp  = parseFloat(document.getElementById('phImpasto')?.value)||0;
+  var phPall = parseFloat(document.getElementById('phPallina')?.value)||0;
   var kg = G('phKg')||20;
   var ora = G('phOra')||7;
+  var staglio = G('phStaglio')||15;
   var servizio = G('phServizio')||19;
   var ta = G('phTA')||22;
-  var staglio = G('phStaglio')||15;
   var el = document.getElementById('phBigaOut');
   if(!el) return;
 
-  if(!ph || ph < 3.5 || ph > 7){
-    el.innerHTML = '<div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci un pH valido (3.5 — 6.5)</div>';
+  if(!phBiga && !phImp && !phPall){
+    el.innerHTML = '<div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci almeno un valore di pH</div>';
     return;
   }
 
   var H = function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
-  var oreAlServizio = ((servizio - ora) + 24) % 24;
-  var oreAlStaglio = ((staglio - ora) + 24) % 24;
 
-  // Decisione pH
-  var stato, cls, decisione, ldbG, oraImpasto, oraImpastoTxt;
+  // ══ RANGE pH per tipo impasto ══
+  // [biga_ok_min, biga_ok_max, imp_ok_min, imp_ok_max, pall_ok_min, pall_ok_max]
+  var ranges = {
+    napo:   {bOk:[5.2,5.8], bWarn:[5.0,5.2], iOk:[5.5,5.9], iWarn:[5.3,5.5], pOk:[5.0,5.4], pWarn:[4.8,5.0],
+             nome:'Napoletana Suprema', note:'Con biga+licoli la finestra è stretta — ph impasto sale se licoli acido'},
+    teglia: {bOk:[5.2,5.7], bWarn:[5.0,5.2], iOk:[5.4,5.8], iWarn:[5.2,5.4], pOk:[4.9,5.3], pWarn:[4.7,4.9],
+             nome:'Teglia Romana Super Alveolata', note:'IDR alta — serve maglia più forte — ph leggermente piu alto'},
+    pala:   {bOk:[5.2,5.7], bWarn:[5.0,5.2], iOk:[5.4,5.8], iWarn:[5.2,5.4], pOk:[4.9,5.3], pWarn:[4.7,4.9],
+             nome:'Pala Romana', note:'Come teglia — struttura alta richiede maglia integra'},
+    scrocch:{bOk:[5.0,5.5], bWarn:[4.8,5.0], iOk:[5.2,5.6], iWarn:[5.0,5.2], pOk:[4.8,5.2], pWarn:[4.6,4.8],
+             nome:'Scrocchiarella Teglia', note:'Pre-cottura e gelo — ph piu basso accettabile'},
+    tonda:  {bOk:[5.0,5.5], bWarn:[4.8,5.0], iOk:[5.2,5.6], iWarn:[5.0,5.2], pOk:[4.8,5.2], pWarn:[4.6,4.8],
+             nome:'Tonda Romana Croccante', note:'Meno critica — strutto e bassa IDR compensano'},
+    romana: {bOk:[4.8,5.4], bWarn:[4.6,4.8], iOk:[5.0,5.5], iWarn:[4.8,5.0], pOk:[4.6,5.0], pWarn:[4.4,4.6],
+             nome:'Romana Croccante Diretta', note:'Diretto senza biga — range piu permissivo'}
+  };
+  var r = ranges[tipo] || ranges.napo;
 
-  if(ph >= 5.2){
-    stato = '✅ BIGA OTTIMALE'; cls = 'ok';
-    ldbG = 0;
-    // Puntata ideale 2h30-3h → impasto = staglio - 3h
-    var impH = staglio - 3;
-    oraImpasto = impH;
-    oraImpastoTxt = H(impH);
-    decisione = 'Biga sana. Non aggiungere LdB. Impasta alle '+oraImpastoTxt+' per avere 3h di puntata prima dello staglio delle '+H(staglio)+'.';
-  } else if(ph >= 5.0){
-    stato = '✅ BIGA BUONA — aggiungi poco LdB'; cls = 'ok';
-    ldbG = Math.round(kg * 0.10 / 100 * 1000);
-    var impH2 = staglio - 2.5;
-    oraImpasto = impH2;
-    oraImpastoTxt = H(impH2);
-    decisione = 'Biga leggermente matura. Aggiungi '+ldbG+'g LdB nel rinfresco. Impasta alle '+oraImpastoTxt+'.';
-  } else if(ph >= 4.8){
-    stato = '⚠️ BIGA AL LIMITE — impasta presto'; cls = 'warn';
-    ldbG = Math.round(kg * 0.15 / 100 * 1000);
-    oraImpasto = ora + 0.5;
-    oraImpastoTxt = H(oraImpasto);
-    decisione = 'Biga in over-fermentazione. Aggiungi '+ldbG+'g LdB. Impasta entro '+oraImpastoTxt+' — non aspettare.';
-  } else if(ph >= 4.5){
-    stato = '🔴 BIGA OVER-FERMENTATA'; cls = 'bad';
-    ldbG = Math.round(kg * 0.20 / 100 * 1000);
-    oraImpasto = ora;
-    oraImpastoTxt = 'SUBITO';
-    decisione = 'Biga compromessa. Aggiungi '+ldbG+'g LdB. Impasta SUBITO. Riduci licoli al 5%. Aspettati un cornicione meno esplosivo oggi.';
-  } else {
-    stato = '❌ BIGA COMPROMESSA — valuta se usarla'; cls = 'bad';
-    ldbG = 0;
-    oraImpasto = ora;
-    oraImpastoTxt = '—';
-    decisione = 'pH troppo basso. La maglia è probabilmente già degradata. Valuta se preparare una biga fresca per stasera.';
+  // ══ Funzione semaforo pH ══
+  var phSem = function(ph, okMin, okMax, warnMin, warnMax, label){
+    if(!ph) return '';
+    var cls, txt;
+    if(ph >= okMin && ph <= okMax){
+      cls='ok'; txt='✅ '+label+' pH '+ph+' — OTTIMALE ('+okMin+'-'+okMax+')';
+    } else if((ph >= warnMin && ph < okMin)||(ph > okMax && ph <= okMax+0.3)){
+      cls='warn'; txt='🟡 '+label+' pH '+ph+' — LIMITE (ottimale '+okMin+'-'+okMax+')';
+    } else if(ph < warnMin){
+      cls='bad'; txt='🔴 '+label+' pH '+ph+' — TROPPO BASSO (minimo '+warnMin+')';
+    } else {
+      cls='warn'; txt='🟡 '+label+' pH '+ph+' — TROPPO ALTO (massimo '+okMax+')';
+    }
+    return sem(txt, cls);
+  };
+
+  // ══ Decisione biga → timing impasto ══
+  var ldbG=0, oraImpasto=staglio-3, decisione='';
+  if(phBiga){
+    if(phBiga >= 5.2){
+      ldbG=0; oraImpasto=staglio-3;
+      decisione='Biga sana. Nessun LdB. Impasta alle '+H(staglio-3)+'.';
+    } else if(phBiga >= 5.0){
+      ldbG=Math.round(kg*0.10/100*1000); oraImpasto=staglio-2.5;
+      decisione='Aggiungi '+ldbG+'g LdB. Impasta alle '+H(staglio-2.5)+'.';
+    } else if(phBiga >= 4.8){
+      ldbG=Math.round(kg*0.15/100*1000); oraImpasto=ora+0.5;
+      decisione='URGENTE: aggiungi '+ldbG+'g LdB. Impasta entro '+H(ora+0.5)+'.';
+    } else {
+      ldbG=Math.round(kg*0.20/100*1000); oraImpasto=ora;
+      decisione='Biga compromessa. '+ldbG+'g LdB. Impasta SUBITO.';
+    }
   }
 
-  // Puntata risultante
-  var orePuntata = Math.max(0, ((staglio - oraImpasto) + 24) % 24);
+  var orePuntata = Math.max(0,((staglio-oraImpasto)+24)%24);
 
-  // LdB nel blend rinfresco consigliato
-  var blendMsg = ph >= 5.0
-    ? '70% 5063 + 30% 5078 (step graduale consigliato)'
-    : '100% 5063 (non aggiungere farine forti con biga over-fermentata)';
+  var out = '';
 
-  el.innerHTML =
-    sem(stato + ' — pH ' + ph, cls) +
-    '<div class="res-section">' +
-    '<div class="res-label">Decisione immediata</div>' +
-    '<div style="font-size:14px;color:var(--cream);line-height:1.6;padding:12px 0">' + decisione + '</div>' +
-    '</div>' +
-    '<div class="res-section">' +
-    '<div class="res-label">Timeline consigliata per oggi</div>' +
-    row('Ora impasto', H(oraImpasto), '') +
-    row('Puntata in cella 4°C', orePuntata.toFixed(1)+'h', 'fino allo staglio') +
-    row('Staglio', H(staglio), 'vincolo fisso') +
-    row('Appretto in cella', '3h a 4°C', H(staglio)+' → '+H(staglio+3)) +
-    row('Fuori cella', '30 min T ambiente', H(staglio+3)+' → '+H(staglio+3.5)) +
-    row('Servizio', H(servizio), '', true) +
-    '</div>' +
-    '<div class="res-section">' +
-    '<div class="res-label">Parametri rinfresco</div>' +
-    row('LdB da aggiungere al rinfresco', ldbG > 0 ? ldbG+'g' : 'nessuno', ldbG > 0 ? 'sciolto in poca acqua fredda' : 'biga sana — non serve') +
-    row('Blend farine rinfresco', blendMsg, '') +
-    row('Licoli %', ph >= 4.8 ? '10% — invariato' : '5% — riduci con biga debole', '') +
-    '</div>' +
-    '<div class="res-section">' +
-    '<div class="res-label">Tabella pH biga di riferimento</div>' +
-    '<div style="font-size:11px;line-height:2;font-family:DM Mono,monospace">' +
-    '<span style="color:#A5D6A7">5.2-5.8 ✅ Ottimale — nessun LdB</span><br>' +
-    '<span style="color:#A5D6A7">5.0-5.2 ✅ Buona — 10g LdB su 10kg</span><br>' +
-    '<span style="color:var(--gold2)">4.8-5.0 ⚠️ Limite — 15g LdB — impasta subito</span><br>' +
-    '<span style="color:#FFCDD2">4.5-4.8 ❌ Over — 20g LdB — maglia indebolita</span><br>' +
-    '<span style="color:#FFCDD2">&lt;4.5 ❌ Compromessa — valuta se buttare</span>' +
-    '</div>' +
-    '</div>';
+  // Titolo impasto
+  out += '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px">'+r.nome+'</div>';
+
+  // ══ SEMAFORI + AZIONI CONCRETE ══
+
+  // Funzione che genera semaforo + azioni per ogni momento
+  var phBlock = function(ph, okMin, okMax, warnMin, warnMax, label, azioniAlto, azioniOk, azioniWarn, azioniBasso){
+    if(!ph) return '';
+    var cls, txt, azioni;
+    if(ph > okMax + 0.3){
+      cls='warn'; txt='🟡 '+label+' pH '+ph+' — TROPPO ALTO';
+      azioni = azioniAlto;
+    } else if(ph >= okMin && ph <= okMax){
+      cls='ok'; txt='✅ '+label+' pH '+ph+' — OTTIMALE';
+      azioni = azioniOk;
+    } else if(ph >= warnMin && ph < okMin){
+      cls='warn'; txt='🟡 '+label+' pH '+ph+' — LIMITE';
+      azioni = azioniWarn;
+    } else if(ph >= warnMin - 0.3 && ph < warnMin){
+      cls='bad'; txt='🔴 '+label+' pH '+ph+' — CRITICO';
+      azioni = azioniBasso;
+    } else {
+      cls='bad'; txt='🔴 '+label+' pH '+ph+' — FUORI RANGE';
+      azioni = azioniBasso;
+    }
+    var azioniHtml = azioni.map(function(a){
+      return '<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px">'+
+        '<span style="color:var(--gold);flex-shrink:0">→</span>'+
+        '<span style="color:var(--cream)">'+a+'</span></div>';
+    }).join('');
+    return sem(txt, cls) +
+      '<div style="margin:-8px 0 14px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">'+
+      azioniHtml + '</div>';
+  };
+
+  // ══ AZIONI per ogni tipo e momento ══
+  var azioni = {
+    napo: {
+      biga: {
+        alto:  ['Biga acerba — aspetta 1-2h prima di impastare','Non aggiungere LdB — ha bisogno di tempo non di spinta'],
+        ok:    ['Procedi con il rinfresco — tutto nella norma','Nessun LdB aggiuntivo — biga sana'],
+        warn:  ['Aggiungi '+Math.round(kg*0.10/100*1000)+'g LdB sciolto in acqua fredda nel rinfresco','Impasta entro 1h — non aspettare'],
+        basso: ['Aggiungi '+Math.round(kg*0.20/100*1000)+'g LdB subito','Riduci licoli al 5% — troppa acidità combinata','Abbassa T acqua impasto a 14-16°C per rallentare']
+      },
+      imp: {
+        alto:  ['Impasto acerbo — allunga puntata di 1h','Porta cella a 6-8°C per rallentare leggermente','Non preoccuparti — si abbasserà durante la puntata'],
+        ok:    ['Puntata in cella 4°C come da protocollo','Nessuna modifica necessaria'],
+        warn:  ['Riduci puntata — staglio prima del previsto','Abbassa cella a 2-3°C','Controlla tra 1h — se scende ancora staglio subito'],
+        basso: ['Staglio IMMEDIATO — non aspettare','Porta panetti in cella a 2°C','Appretto brevissimo — max 20 min fuori cella','Il cornicione oggi sarà meno esplosivo — accettalo']
+      },
+      pall: {
+        alto:  ['Panetti ancora acerbi — aspetta 15-20 min fuori cella','Copri bene — non farli seccare','Stendi solo quando cedono sotto il dito'],
+        ok:    ['Stendi e inforna — momento perfetto','Cornicione esplosivo garantito se stesura corretta'],
+        warn:  ['Inforna subito — non aspettare','Stendi veloce — la maglia sta cedendo','Forno al massimo — 430°C platea minimo'],
+        basso: ['Inforna comunque — non puoi fare altro','Forno al massimo della temperatura','Il cornicione sarà meno esplosivo oggi — gestisci la serata']
+      }
+    },
+    teglia: {
+      imp: {
+        alto:  ['Allunga puntata in cella fino a +1h','La teglia regge meglio — non urgente'],
+        ok:    ['Puntata standard — tutto OK'],
+        warn:  ['Anticipa staglio di 30-45 min','Abbassa cella a 2°C','Stendi nelle teglie subito dopo lo staglio'],
+        basso: ['Staglio immediato e stendi in teglia','Metti in frigo le teglie — non a T ambiente','Ferma la fermentazione subito']
+      },
+      pall: {
+        alto:  ['Teglia fuori dal frigo — aspetta 20 min','Premi con le dita — deve cedere morbidamente'],
+        ok:    ['Condisci e inforna — tutto OK'],
+        warn:  ['Inforna subito senza aspettare','Condimento veloce'],
+        basso: ['Inforna comunque — recupera in cottura con vapore i primi 5 min']
+      }
+    }
+  };
+
+  // Seleziona azioni in base al tipo
+  var az = azioni[tipo] || azioni.napo;
+  var azB = az.biga || azioni.napo.biga;
+  var azI = az.imp  || azioni.napo.imp;
+  var azP = az.pall || azioni.napo.pall;
+
+  out += '<div class="res-section"><div class="res-label">Semaforo + Azioni — '+r.nome+'</div>';
+
+  if(phBiga) out += phBlock(phBiga, r.bOk[0],r.bOk[1],r.bWarn[0],r.bWarn[1],
+    'Biga pre-rinfresco', azB.alto, azB.ok, azB.warn, azB.basso);
+
+  if(phImp)  out += phBlock(phImp,  r.iOk[0],r.iOk[1],r.iWarn[0],r.iWarn[1],
+    'Impasto finito', azI.alto, azI.ok, azI.warn, azI.basso);
+
+  if(phPall) out += phBlock(phPall, r.pOk[0],r.pOk[1],r.pWarn[0],r.pWarn[1],
+    'Pallina pre-forno', azP.alto, azP.ok, azP.warn, azP.basso);
+
+  out += '</div>';
+
+  // ══ TABELLA RANGE RAPIDA ══
+  out += '<div class="res-section"><div class="res-label">Range di riferimento — '+r.nome+'</div>';
+  out += '<div style="font-size:11px;font-family:DM Mono,monospace;line-height:2">';
+  out += '<span style="color:#A5D6A7">✅ Biga: '+r.bOk[0]+'-'+r.bOk[1]+'</span> &nbsp; ';
+  out += '<span style="color:#A5D6A7">✅ Impasto: '+r.iOk[0]+'-'+r.iOk[1]+'</span> &nbsp; ';
+  out += '<span style="color:#A5D6A7">✅ Pallina: '+r.pOk[0]+'-'+r.pOk[1]+'</span><br>';
+  out += '<span style="color:var(--gold2)">🟡 Biga limite: '+r.bWarn[0]+'-'+r.bOk[0]+'</span> &nbsp; ';
+  out += '<span style="color:var(--gold2)">🟡 Impasto limite: '+r.iWarn[0]+'-'+r.iOk[0]+'</span><br>';
+  out += '<span style="color:#FFCDD2">🔴 Critico sotto: Biga '+r.bWarn[0]+' · Impasto '+r.iWarn[0]+' · Pallina '+r.pWarn[0]+'</span>';
+  out += '</div></div>';
+
+  // ══ TIMING se pH biga inserito ══
+  if(phBiga){
+    out += '<div class="res-section"><div class="res-label">Timeline consigliata</div>';
+    out += '<div style="font-size:13px;color:var(--cream);padding:6px 0 10px;line-height:1.6">'+decisione+'</div>';
+    out += row('Impasta alle', H(oraImpasto), 'per puntata '+orePuntata.toFixed(1)+'h') +
+           row('Staglio', H(staglio), 'vincolo fisso') +
+           row('LdB aggiuntivo', ldbG>0?ldbG+'g':'nessuno', ldbG>0?'sciolto in acqua fredda':'') +
+           row('Servizio', H(servizio), '', true);
+    out += '</div>';
+  }
+
+  el.innerHTML = out;
 }
 
 // ══════════════════════════════════════════════
@@ -3869,17 +4151,30 @@ document.querySelectorAll('.inp-field').forEach(inp=>{
   inp.addEventListener('change',calcAll);
 });
 
-// Init
-goHome();
-diaryEntries=loadDiary();
-diaryCur=Math.max(0,diaryEntries.length-1);
-// Listeners diario
-DIARY_FIELDS.forEach(fid=>{
-  const el=document.getElementById(fid);
-  if(el){
-    el.addEventListener('change',diaryChanged);
-    el.addEventListener('input',()=>{clearTimeout(debTimer);debTimer=setTimeout(diaryChanged,400);});
-  }
+// Init — DOMContentLoaded per Safari iOS
+document.addEventListener('DOMContentLoaded', function(){
+  // NON chiamare goHome() qui — lo splash è già visibile per CSS
+  // goHome() viene chiamata solo da showCalc() quando l'utente preme Calcolatore
+  
+  // Carica diario
+  try {
+    diaryEntries=loadDiary();
+    diaryCur=Math.max(0,diaryEntries.length-1);
+  } catch(e) {}
+  
+  // Listeners diario
+  DIARY_FIELDS.forEach(fid=>{
+    const el=document.getElementById(fid);
+    if(el){
+      el.addEventListener('change',diaryChanged);
+      el.addEventListener('input',()=>{clearTimeout(debTimer);debTimer=setTimeout(diaryChanged,400);});
+    }
+  });
+  
+  // Listeners input calcolatori
+  document.querySelectorAll('.inp-field').forEach(inp=>{
+    inp.addEventListener('change',calcAll);
+  });
 });
 
 (function(){function gc(){return document.querySelectorAll("#mMainContent .mcard");}var md;window.M_filterCat=function(cat,btn){document.querySelectorAll(".mcb").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");gc().forEach(function(c){c.classList.toggle("hidden",cat!=="all"&&c.dataset.cat!==cat);});};window.M_toggleCard=function(el){var c=el.closest(".mcard");if(c)c.classList.toggle("open");};var mi=document.getElementById("mSearchInput"),mc=document.getElementById("mSearchClear"),mk=document.getElementById("mSearchCount"),mn=document.getElementById("mNoResults");if(mi){mi.addEventListener("input",function(){clearTimeout(md);md=setTimeout(function(){var q=mi.value.trim().toLowerCase();if(mc)mc.style.display=q?"block":"none";var f=0;gc().forEach(function(c){var ok=!q||(c.dataset.keywords+" "+c.innerText).toLowerCase().includes(q);c.classList.toggle("hidden",!ok);if(ok){f++;if(q)c.classList.add("open");}});if(mk)mk.textContent=q&&f>0?f+" trovati":"";if(mn)mn.style.display=q&&f===0?"block":"none";},300);});if(mc)mc.onclick=function(){if(mi)mi.value="";mc.style.display="none";if(mk)mk.textContent="";if(mn)mn.style.display="none";gc().forEach(function(c){c.classList.remove("hidden");});};}})();
