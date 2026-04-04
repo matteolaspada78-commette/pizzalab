@@ -377,6 +377,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-btn" onclick="openPage('phbiga')">
+      <div class="menu-icon" style="background:rgba(13,80,60,0.4)">🧪</div>
+      <div class="menu-text">
+        <div class="menu-name">Controllo pH Biga</div>
+        <div class="menu-sub">Misura pH → decisione immediata · LdB · Quando impastare</div>
+      </div>
+      <div class="menu-badge">live</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">🌿 Lievito Naturale</div>
     <div class="menu-btn" onclick="openPage('licoli')">
       <div class="menu-icon" style="background:rgba(26,74,32,0.3)">🌿</div>
@@ -572,6 +582,42 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div id="cotturaOut"></div>
     </div>
   </div>
+</div>
+
+<!-- PH BIGA -->
+<div id="pagePhBiga" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🧪</div>
+    <div class="page-hero-title">Controllo pH Biga</div>
+    <div class="page-hero-sub">Inserisci il pH misurato → decisione immediata scientifica</div>
+  </div>
+
+  <div class="card open" id="cardPhInp">
+    <div class="card-hdr" onclick="toggleCard('cardPhInp')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input — misura ora</div><div class="card-hdr-title">pH · Kg farina · Ore disponibili · T ambiente</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">pH biga misurato adesso</label><div class="inp-row"><input class="inp-field" id="phVal" type="number" value="" step="0.1" min="3.5" max="6.5" placeholder="es. 5.4" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina totale impasto</label><div class="inp-row"><input class="inp-field" id="phKg" type="number" value="20" min="1" max="100" step="0.5" oninput="calcPhBiga()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora attuale (es. 7 = le 07:00)</label><div class="inp-row"><input class="inp-field" id="phOra" type="number" value="7" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora servizio</label><div class="inp-row"><input class="inp-field" id="phServizio" type="number" value="19" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente laboratorio °C</label><div class="inp-row"><input class="inp-field" id="phTA" type="number" value="22" min="16" max="30" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="phStaglio" type="number" value="15" min="0" max="23" oninput="calcPhBiga()"><span class="inp-unit">:00</span></div></div>
+    </div>
+  </div>
+
+  <div class="card open" id="cardPhOut">
+    <div class="card-hdr" onclick="toggleCard('cardPhOut')">
+      <div class="card-hdr-icon">⚡</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Decisione Scientifica</div><div class="card-hdr-title">Cosa fare adesso</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="phBigaOut"><div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci il pH per ricevere la decisione</div></div></div>
+  </div>
+
+  <button class="btn-share" onclick="shareRicetta('pagePhBiga','Controllo pH Biga')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
 </div>
 
 <!-- LICOLI -->
@@ -2120,6 +2166,88 @@ Target napoletana:    2.200-2.600 Pa
   </div>
 </div>
 
+<!-- NUOVA CARD: pH biga tabella -->
+<div class="mcard" data-cat="fermentazione" data-keywords="pH biga ottimale tabella fermentazione cornicione esplosivo lievito birra rinfresco timing">
+  <div class="mcard-hdr" onclick="M_toggleCard(this)">
+    <div class="mcard-icon">🧪</div>
+    <div class="mcard-meta">
+      <div class="mcard-tag">Fermentazione · Biga · Parametri</div>
+      <div class="mcard-title">pH Biga — Tabella Decisionale Completa</div>
+    </div>
+    <div class="mcard-toggle">▾</div>
+  </div>
+  <div class="mcard-body">
+    <div class="section-title">Finestra ottimale pH biga</div>
+    <div class="data-row"><span class="data-label">5.6 — 6.0</span><span class="data-value sem-warn">Acerba — poco fermentata — aspetta</span></div>
+    <div class="data-row"><span class="data-label">5.2 — 5.6</span><span class="data-value sem-ok">✅ OTTIMALE — impasta subito</span></div>
+    <div class="data-row"><span class="data-label">5.0 — 5.2</span><span class="data-value sem-ok">✅ BUONA — aggiungi 10g LdB al rinfresco</span></div>
+    <div class="data-row"><span class="data-label">4.8 — 5.0</span><span class="data-value sem-warn">⚠️ Limite — aggiungi 15g LdB — impasta subito</span></div>
+    <div class="data-row"><span class="data-label">4.5 — 4.8</span><span class="data-value sem-no">❌ Over-fermentata — maglia indebolita</span></div>
+    <div class="data-row"><span class="data-label">&lt; 4.5</span><span class="data-value sem-no">❌ Compromessa — non usare</span></div>
+
+    <div class="section-title">Quanto LdB aggiungere al rinfresco</div>
+    <div class="formula-box">pH biga 5.2-5.6 → 0g LdB rinfresco (biga sana)
+pH biga 5.0-5.2 → 10-12g LdB su 10kg totali farina
+pH biga 4.8-5.0 → 15g LdB su 10kg — impasta subito
+pH biga &lt; 4.8   → 20g LdB — valuta se usarla</div>
+
+    <div class="section-title">Come si misura correttamente</div>
+    <p>Preleva un campione di biga dal centro del contenitore, non dalla superficie. Scioglilo in poca acqua distillata (1:3) prima di misurare. Misura sempre alla stessa ora per avere dati comparabili.</p>
+
+    <div class="section-title">Il pH del tuo caso — Matteo</div>
+    <p>Biga 0102HP 0.3% LdB a 4°C — pH misurato ogni mattina: <span class="highlight-text">5.4-5.8</span> → <span class="sem-ok">biga sana, proteolisi corretta, non è qui il problema del cornicione.</span></p>
+  </div>
+</div>
+
+<!-- NUOVA CARD: diagnosi cornicione basso con biga sana -->
+<div class="mcard" data-cat="diagnosi" data-keywords="cornicione basso piatto compatto mollica biga sana pH giusto puntata appretto panetti rilassati collasso">
+  <div class="mcard-hdr" onclick="M_toggleCard(this)">
+    <div class="mcard-icon">🔍</div>
+    <div class="mcard-meta">
+      <div class="mcard-tag">Diagnosi · Napoletana Suprema · Caso Reale</div>
+      <div class="mcard-title">Cornicione Basso con Biga Sana — Causa e Soluzione</div>
+    </div>
+    <div class="mcard-toggle">▾</div>
+  </div>
+  <div class="mcard-body">
+    <div class="section-title">Il caso — Aprile 2026</div>
+    <p>Biga 0102HP 0.3% · pH 5.4-5.8 ✅ · Licoli pH 4.1-4.2 ✅ · Rinfresco 70% 5063 + 30% 0102HP · Timeline rispettata → <span class="highlight-text">cornicione basso, mollica compatta, non esplode.</span></p>
+    <p>Biga e licoli sono corretti. Il problema è nella maglia al momento del forno.</p>
+
+    <div class="section-title">Causa identificata — Panetti sovra-rilassati</div>
+    <p>I panetti si allargano da soli al solo guardarli — segnale che la maglia è <span class="highlight-text">completamente rilassata</span>. Una maglia senza tensione non trattiene il gas in cottura. Il gas non gonfia verso l'alto — scappa lateralmente → cornicione basso e compatto.</p>
+    <div class="formula-box">Puntata: 10:00 → 15:30 = 5h30 cella 4°C
+Staglio: 15:30 → panetti in cella
+Appretto: 15:30 → 18:30 = 3h cella 4°C
+Fuori cella: 18:30 → 19:30 = 1h T ambiente
+Totale post-impasto: ~10h di maturazione
+→ Maglia completamente collassata ❌</div>
+
+    <div class="section-title">La soluzione operativa — vincolo staglio 15:30</div>
+    <p>Lo staglio alle 15:30 è un vincolo fisso (500 pizze — tutta la brigata). La correzione va fatta <span class="highlight-text">posticipando l'impasto</span> per ridurre la puntata.</p>
+    <div class="data-row"><span class="data-label">Impasto consigliato</span><span class="data-value sem-ok">12:30 — 13:00</span></div>
+    <div class="data-row"><span class="data-label">Puntata risultante</span><span class="data-value sem-ok">2h30 — 3h cella 4°C</span></div>
+    <div class="data-row"><span class="data-label">Staglio</span><span class="data-value">15:30 — invariato</span></div>
+    <div class="data-row"><span class="data-label">Appretto cella</span><span class="data-value sem-ok">15:30 → 18:30 = 3h a 4°C</span></div>
+    <div class="data-row"><span class="data-label">Fuori cella</span><span class="data-value sem-ok">18:30 → 19:00 = 30 min T ambiente</span></div>
+    <div class="data-row"><span class="data-label">Servizio</span><span class="data-value">19:00 → 19:30</span></div>
+
+    <div class="section-title">Blend rinfresco — correzione graduale</div>
+    <div class="data-row"><span class="data-label">Step 1 — domani</span><span class="data-value sem-ok">70% 5063 + 30% 5078</span></div>
+    <div class="data-row"><span class="data-label">Step 2 — settimana dopo</span><span class="data-value">50% 5063 + 50% 5078</span></div>
+    <div class="data-row"><span class="data-label">Step 3 — obiettivo</span><span class="data-value">100% 5078 al rinfresco</span></div>
+    <p>La 5078 (W350-380) dà maglia più estensibile — il gas gonfia verso l'alto invece di restare come mollica.</p>
+
+    <div class="section-title">Quando usare LdB al rinfresco</div>
+    <div class="formula-box">pH biga 5.2-5.6 → NO LdB rinfresco
+pH biga 5.0-5.2 → 10-12g su 10kg farina totale
+pH biga &lt; 5.0  → 15g su 10kg — impasta prima</div>
+
+    <div class="section-title">Regola chiave</div>
+    <p class="sem-warn">Con biga + licoli: la puntata totale NON deve superare 3h. I panetti devono avere ancora una lieve tensione quando li stendi — se si allargano da soli è troppo tardi.</p>
+  </div>
+</div>
+
 </div>
     <div class="mnores" id="mNoResults"><p>Nessun risultato.</p></div>
     <div class="mfooter">Manuale · Matteo La Spada · 2026</div>
@@ -3002,6 +3130,107 @@ function calcTegliaPF(){
 }
 
 // ══════════════════════════════════════════════
+// CONTROLLO pH BIGA
+// ══════════════════════════════════════════════
+function calcPhBiga(){
+  var ph = parseFloat(document.getElementById('phVal')?.value)||0;
+  var kg = G('phKg')||20;
+  var ora = G('phOra')||7;
+  var servizio = G('phServizio')||19;
+  var ta = G('phTA')||22;
+  var staglio = G('phStaglio')||15;
+  var el = document.getElementById('phBigaOut');
+  if(!el) return;
+
+  if(!ph || ph < 3.5 || ph > 7){
+    el.innerHTML = '<div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci un pH valido (3.5 — 6.5)</div>';
+    return;
+  }
+
+  var H = function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  var oreAlServizio = ((servizio - ora) + 24) % 24;
+  var oreAlStaglio = ((staglio - ora) + 24) % 24;
+
+  // Decisione pH
+  var stato, cls, decisione, ldbG, oraImpasto, oraImpastoTxt;
+
+  if(ph >= 5.2){
+    stato = '✅ BIGA OTTIMALE'; cls = 'ok';
+    ldbG = 0;
+    // Puntata ideale 2h30-3h → impasto = staglio - 3h
+    var impH = staglio - 3;
+    oraImpasto = impH;
+    oraImpastoTxt = H(impH);
+    decisione = 'Biga sana. Non aggiungere LdB. Impasta alle '+oraImpastoTxt+' per avere 3h di puntata prima dello staglio delle '+H(staglio)+'.';
+  } else if(ph >= 5.0){
+    stato = '✅ BIGA BUONA — aggiungi poco LdB'; cls = 'ok';
+    ldbG = Math.round(kg * 0.10 / 100 * 1000);
+    var impH2 = staglio - 2.5;
+    oraImpasto = impH2;
+    oraImpastoTxt = H(impH2);
+    decisione = 'Biga leggermente matura. Aggiungi '+ldbG+'g LdB nel rinfresco. Impasta alle '+oraImpastoTxt+'.';
+  } else if(ph >= 4.8){
+    stato = '⚠️ BIGA AL LIMITE — impasta presto'; cls = 'warn';
+    ldbG = Math.round(kg * 0.15 / 100 * 1000);
+    oraImpasto = ora + 0.5;
+    oraImpastoTxt = H(oraImpasto);
+    decisione = 'Biga in over-fermentazione. Aggiungi '+ldbG+'g LdB. Impasta entro '+oraImpastoTxt+' — non aspettare.';
+  } else if(ph >= 4.5){
+    stato = '🔴 BIGA OVER-FERMENTATA'; cls = 'bad';
+    ldbG = Math.round(kg * 0.20 / 100 * 1000);
+    oraImpasto = ora;
+    oraImpastoTxt = 'SUBITO';
+    decisione = 'Biga compromessa. Aggiungi '+ldbG+'g LdB. Impasta SUBITO. Riduci licoli al 5%. Aspettati un cornicione meno esplosivo oggi.';
+  } else {
+    stato = '❌ BIGA COMPROMESSA — valuta se usarla'; cls = 'bad';
+    ldbG = 0;
+    oraImpasto = ora;
+    oraImpastoTxt = '—';
+    decisione = 'pH troppo basso. La maglia è probabilmente già degradata. Valuta se preparare una biga fresca per stasera.';
+  }
+
+  // Puntata risultante
+  var orePuntata = Math.max(0, ((staglio - oraImpasto) + 24) % 24);
+
+  // LdB nel blend rinfresco consigliato
+  var blendMsg = ph >= 5.0
+    ? '70% 5063 + 30% 5078 (step graduale consigliato)'
+    : '100% 5063 (non aggiungere farine forti con biga over-fermentata)';
+
+  el.innerHTML =
+    sem(stato + ' — pH ' + ph, cls) +
+    '<div class="res-section">' +
+    '<div class="res-label">Decisione immediata</div>' +
+    '<div style="font-size:14px;color:var(--cream);line-height:1.6;padding:12px 0">' + decisione + '</div>' +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">Timeline consigliata per oggi</div>' +
+    row('Ora impasto', H(oraImpasto), '') +
+    row('Puntata in cella 4°C', orePuntata.toFixed(1)+'h', 'fino allo staglio') +
+    row('Staglio', H(staglio), 'vincolo fisso') +
+    row('Appretto in cella', '3h a 4°C', H(staglio)+' → '+H(staglio+3)) +
+    row('Fuori cella', '30 min T ambiente', H(staglio+3)+' → '+H(staglio+3.5)) +
+    row('Servizio', H(servizio), '', true) +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">Parametri rinfresco</div>' +
+    row('LdB da aggiungere al rinfresco', ldbG > 0 ? ldbG+'g' : 'nessuno', ldbG > 0 ? 'sciolto in poca acqua fredda' : 'biga sana — non serve') +
+    row('Blend farine rinfresco', blendMsg, '') +
+    row('Licoli %', ph >= 4.8 ? '10% — invariato' : '5% — riduci con biga debole', '') +
+    '</div>' +
+    '<div class="res-section">' +
+    '<div class="res-label">Tabella pH biga di riferimento</div>' +
+    '<div style="font-size:11px;line-height:2;font-family:DM Mono,monospace">' +
+    '<span style="color:#A5D6A7">5.2-5.8 ✅ Ottimale — nessun LdB</span><br>' +
+    '<span style="color:#A5D6A7">5.0-5.2 ✅ Buona — 10g LdB su 10kg</span><br>' +
+    '<span style="color:var(--gold2)">4.8-5.0 ⚠️ Limite — 15g LdB — impasta subito</span><br>' +
+    '<span style="color:#FFCDD2">4.5-4.8 ❌ Over — 20g LdB — maglia indebolita</span><br>' +
+    '<span style="color:#FFCDD2">&lt;4.5 ❌ Compromessa — valuta se buttare</span>' +
+    '</div>' +
+    '</div>';
+}
+
+// ══════════════════════════════════════════════
 // ROMANA CROCCANTE DIRETTA
 // ══════════════════════════════════════════════
 function calcRomana(){
@@ -3627,6 +3856,7 @@ function calcAll(){
   if(currentPage==='diario') calcDiary();
   if(currentPage==='diretto') calcDiretto();
   if(currentPage==='romana') calcRomana();
+  if(currentPage==='phbiga') calcPhBiga();
 }
 
 // Debounce per input
