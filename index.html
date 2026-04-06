@@ -629,7 +629,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="phBigaOut"><div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci i valori per ricevere il semaforo</div></div></div>
   </div>
 
-  <button class="btn-share" onclick="shareRicetta('pagePhBiga','Controllo pH')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <a id="waLink_pagePhBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePhBiga','Controllo pH')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
 
   <!-- TABELLA COMPLETA pH OTTIMALI -->
   <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
@@ -1110,7 +1110,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="supremaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageSuprema','Napoletana Suprema')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <a id="waLink_pageSuprema" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageSuprema','Napoletana Suprema')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
 
   <!-- TIMELINE SCIENTIFICAMENTE APPROVATA -->
   <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
@@ -1411,7 +1411,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="palaBigaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pagePalaBiga','Teglia Romana Super Alveolata')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <a id="waLink_pagePalaBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePalaBiga','Teglia Romana Super Alveolata')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
 </div>
 
 
@@ -1489,7 +1489,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="tegliaPFOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageTegliaPF','Teglia Pronta Forno')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <a id="waLink_pageTegliaPF" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTegliaPF','Teglia Pronta Forno')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
 </div>
 
 <div id="pageDiretto" class="scroll" style="display:none">
@@ -1572,7 +1572,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="romanaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageRomana','Romana Croccante Diretta')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <a id="waLink_pageRomana" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageRomana','Romana Croccante Diretta')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
 </div>
 
 <!-- DIARIO DI PRODUZIONE -->
@@ -2698,11 +2698,11 @@ function calcLicoli(){
   const acqua=R(lic*rA),farina=R(lic*rF),unica=acqua+farina;
   const tot=lic+acqua+farina,util=R(tot*0.85);
   // Frigorifero: legge i valori dai campi custom
-  var p7FermH = parseFloat(document.getElementById('p7FermH')?.value)||1;
-  var p7FermT = parseFloat(document.getElementById('p7FermT')?.value)||23;
-  var p7Fase1H = parseFloat(document.getElementById('p7Fase1H')?.value)||1;
-  var p7Fase1T = parseFloat(document.getElementById('p7Fase1T')?.value)||18;
-  var p7ConsT = parseFloat(document.getElementById('p7ConsT')?.value)||4;
+  var p7FermH = parseFloat((document.getElementById('p7FermH')||{}).value)||1;
+  var p7FermT = parseFloat((document.getElementById('p7FermT')||{}).value)||23;
+  var p7Fase1H = parseFloat((document.getElementById('p7Fase1H')||{}).value)||1;
+  var p7Fase1T = parseFloat((document.getElementById('p7Fase1T')||{}).value)||18;
+  var p7ConsT = parseFloat((document.getElementById('p7ConsT')||{}).value)||4;
   var p7DurH = p7FermH + p7Fase1H;
   var p7Desc = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
 
@@ -3402,10 +3402,10 @@ function calcTegliaPF(){
 // CONTROLLO pH BIGA
 // ══════════════════════════════════════════════
 function calcPhBiga(){
-  var tipo = document.getElementById('phTipo')?.value || 'napo';
-  var phBiga = parseFloat(document.getElementById('phVal')?.value)||0;
-  var phImp  = parseFloat(document.getElementById('phImpasto')?.value)||0;
-  var phPall = parseFloat(document.getElementById('phPallina')?.value)||0;
+  var tipo = (document.getElementById('phTipo')||{}).value || 'napo';
+  var phBiga = parseFloat((document.getElementById('phVal')||{}).value)||0;
+  var phImp  = parseFloat((document.getElementById('phImpasto')||{}).value)||0;
+  var phPall = parseFloat((document.getElementById('phPallina')||{}).value)||0;
   var kg = G('phKg')||20;
   var ora = G('phOra')||7;
   var staglio = G('phStaglio')||15;
@@ -4027,17 +4027,17 @@ function calcDiretto(){
 // SHARE / SALVA IMMAGINE
 // ══════════════════════════════════════════════
 function shareLicoli(){
-  var lic=parseFloat(document.getElementById('lLic')?.value)||0;
-  var rA=parseFloat(document.getElementById('lRA')?.value)||0;
-  var rF=parseFloat(document.getElementById('lRF')?.value)||0;
-  var prog=parseInt(document.getElementById('lProg')?.value)||4;
-  var ora=parseInt(document.getElementById('lOra')?.value)||9;
-  var ph=parseFloat(document.getElementById('lPH')?.value)||0;
-  var p7FH=parseFloat(document.getElementById('p7FermH')?.value)||1;
-  var p7FT=parseFloat(document.getElementById('p7FermT')?.value)||23;
-  var p7F1H=parseFloat(document.getElementById('p7Fase1H')?.value)||1;
-  var p7F1T=parseFloat(document.getElementById('p7Fase1T')?.value)||18;
-  var p7CT=parseFloat(document.getElementById('p7ConsT')?.value)||4;
+  var lic=parseFloat((document.getElementById('lLic')||{}).value)||0;
+  var rA=parseFloat((document.getElementById('lRA')||{}).value)||0;
+  var rF=parseFloat((document.getElementById('lRF')||{}).value)||0;
+  var prog=parseInt((document.getElementById('lProg')||{}).value)||4;
+  var ora=parseInt((document.getElementById('lOra')||{}).value)||9;
+  var ph=parseFloat((document.getElementById('lPH')||{}).value)||0;
+  var p7FH=parseFloat((document.getElementById('p7FermH')||{}).value)||1;
+  var p7FT=parseFloat((document.getElementById('p7FermT')||{}).value)||23;
+  var p7F1H=parseFloat((document.getElementById('p7Fase1H')||{}).value)||1;
+  var p7F1T=parseFloat((document.getElementById('p7Fase1T')||{}).value)||18;
+  var p7CT=parseFloat((document.getElementById('p7ConsT')||{}).value)||4;
   var acqua=Math.round(lic*rA);
   var farina=Math.round(lic*rF);
   var tot=lic+acqua+farina;
@@ -4063,145 +4063,287 @@ function shareLicoli(){
   r.push('Rinfresco: *'+H(ora)+'*  Picco: *'+H(oraFine)+'*  Limite: *'+H(oraFine+4)+'*');
   if(ph>0) r.push('pH: *'+ph+'*'+phNote);
   r.push('Pizza Lab - Matteo La Spada');
-  window.location.href='https://wa.me/?text='+encodeURIComponent(r.join('\n'));
+  window.location.href='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
 }
 
-function shareRicetta(pageId, titolo){
-  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const oraStr = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+function buildWaLink(el, pageId, titolo){
+  var oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var oraStr = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  var R = function(v,d){return Math.round(v*Math.pow(10,d||0))/Math.pow(10,d||0);};
+  var H = function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  var G = function(id){var el=document.getElementById(id);return el?parseFloat(el.value)||0:0;};
+  var r = [];
 
-  let righe = [];
+  // ══ NAPOLETANA SUPREMA ══
+  if(pageId==='pageSuprema'){
+    var kg=G('sKg'),gr=G('sGr'),idr=G('sIDR'),saleP=G('sSale');
+    var licP=G('sLic'),ldbP=G('sLdb'),ob=G('sOB'),or_=G('sOR');
+    var kgTot=kg*2;
+    var kg5063=R(kg*0.70*1000,0),kg0102=R(kg*0.30*1000,0);
+    var licG=R(kg*licP/100*1000,0),licAcq=R(licG*0.5,0),licFar=R(licG*0.5,0);
+    var acqBiga=R(kg*0.45*1000,0),ldbG=R(kg*ldbP/100*1000,1);
+    var acqTot=R(kgTot*idr/100*1000,0),aa=acqTot-acqBiga-licAcq;
+    var sale=R(kgTot*saleP/100*1000,0);
+    var f1Pct=G('sF1'),fase1=R(aa*f1Pct/100,0),bass=Math.max(0,aa-fase1);
+    var pan=Math.floor(kgTot*1.725*1000/gr);
+    r.push('*NAPOLETANA SUPREMA — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('*BIGA G1 ore '+H(ob)+'*');
+    r.push('Petra 0102HP (100% biga): *'+R(kg*1000,0)+'g*');
+    r.push('Acqua biga IDR 45%: *'+acqBiga+'g* (fredda 4C)');
+    r.push('LdB biga ('+ldbP+'%): *'+ldbG+'g*');
+    r.push('---');
+    r.push('*RINFRESCO G2 ore '+H(or_)+'*');
+    r.push('Petra 5063 Special (70%): *'+kg5063+'g*');
+    r.push('Petra 0102HP (30%): *'+kg0102+'g*');
+    r.push('Licoli ('+licP+'%): *'+licG+'g* (acqua: '+licAcq+'g, farina: '+licFar+'g)');
+    r.push('Sale ('+saleP+'%): *'+sale+'g*');
+    r.push('---');
+    r.push('*DISTRIBUZIONE ACQUA — tot '+aa+'g*');
+    r.push('Fase 1 ('+f1Pct+'%): *'+fase1+'g*');
+    r.push('Bassinage: *'+bass+'g* (a filo)');
+    r.push('IDR finale: *'+idr+'%*');
+    r.push('---');
+    r.push('*RESA*');
+    r.push('Pezzi da '+gr+'g: *'+pan+' panetti*');
+    r.push('---');
+    r.push('*TIMELINE*');
+    r.push('G1 12:00 — Biga in cella');
+    r.push('G2 09:00 — Rinfresco + Impasto (21h biga)');
+    r.push('G2 09:30 — Fine impasto → S&F x2 → cella');
+    r.push('G2 15:30 — Staglio (6h puntata)');
+    r.push('G2 19:00 — Panetti fuori (30min appretto)');
+    r.push('G2 19:30 — SERVIZIO');
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
-  // ── LICOLI: legge direttamente dai campi input ──
-  if(pageId === 'pageLicoli'){
-    const lic  = parseFloat(document.getElementById('lLic')?.value)||0;
-    const rA   = parseFloat(document.getElementById('lRA')?.value)||0;
-    const rF   = parseFloat(document.getElementById('lRF')?.value)||0;
-    const prog = parseInt(document.getElementById('lProg')?.value)||4;
-    const ora  = parseInt(document.getElementById('lOra')?.value)||9;
-    const ph   = parseFloat(document.getElementById('lPH')?.value)||0;
-    const oraMisc = document.getElementById('lOraMisc')?.value||'';
+  // ══ TEGLIA ROMANA SUPER ALVEOLATA ══
+  } else if(pageId==='pagePalaBiga'){
+    var kgB=G('pbKgB')||10,kgR=G('pbKgR')||10,kg=kgB+kgR;
+    var gr=G('pbGr'),idr=G('pbIDR'),saleP=G('pbSale');
+    var ldbP=G('pbLdb')||0.3,licP=G('pbLic')||0;
+    var oi=G('pbOI'),or_=G('pbOR'),f1Pct=G('pbF1')||65;
+    var kg5078b=R(kgB*0.70,3),kg0102b=R(kgB*0.30,3);
+    var acqBiga=R(kgB*0.45*1000,0),ldbBiga=R(kgB*ldbP/100*1000,1);
+    var kg5078r=R(kgR*0.70,3),kg0102r=R(kgR*0.30,3);
+    var licoli=R(kgR*licP/100*1000,0),ldbRP=G('pbLdbR')||0;
+    var acqTot=R(kg*idr/100*1000,0),acqRinf=acqTot-acqBiga;
+    var fase1=R(acqRinf*f1Pct/100,0),bass=Math.max(0,acqRinf-fase1);
+    var sale=R(kg*saleP/100*1000,0);
+    var pesoImp=R((kg+acqTot/1000+kg*saleP/100)*1000,0);
+    var nTeglie=Math.floor(pesoImp/gr);
+    r.push('*TEGLIA SUPER ALVEOLATA — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('*BIGA '+kgB+'kg — G1 ore '+H(oi)+'*');
+    r.push('Petra 5078 (70%): *'+R(kg5078b*1000,0)+'g* W350-380');
+    r.push('Petra 0102HP (30%): *'+R(kg0102b*1000,0)+'g*');
+    r.push('Acqua biga IDR 45%: *'+acqBiga+'g* fredda');
+    r.push('LdB biga ('+ldbP+'%): *'+ldbBiga+'g*');
+    r.push('---');
+    r.push('*RINFRESCO '+kgR+'kg — G2 ore '+H(or_)+'*');
+    r.push('Petra 5078 (70%): *'+R(kg5078r*1000,0)+'g*');
+    r.push('Petra 0102HP (30%): *'+R(kg0102r*1000,0)+'g*');
+    if(licP>0) r.push('Licoli ('+licP+'%): *'+licoli+'g*');
+    r.push('Sale ('+saleP+'%): *'+sale+'g*');
+    r.push('---');
+    r.push('*ACQUA RINFRESCO — tot '+acqRinf+'g*');
+    r.push('Fase 1 ('+f1Pct+'%): *'+fase1+'g*');
+    r.push('Bassinage: *'+bass+'g*');
+    r.push('IDR finale: *'+idr+'%*');
+    r.push('Teglie da '+gr+'g: *'+nTeglie+' teglie*');
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
-    const acqua = Math.round(lic*rA);
-    const farina = Math.round(lic*rF);
-    const unica = acqua+farina;
-    const tot = lic+acqua+farina;
-    const util = Math.round(tot*0.85);
+  // ══ TEGLIA PRONTA FORNO ══
+  } else if(pageId==='pageTegliaPF'){
+    var kgTot=G('tpKgTot')||20,kgB=G('tpKgB')||8,kgR=G('tpKgR')||12,kg=kgB+kgR;
+    var gr=G('tpGr'),idr=G('tpIDR'),saleP=G('tpSale');
+    var ldbP=G('tpLdb')||0.3,ldbRP=G('tpLdbR')||0.1;
+    var oi=G('tpOI'),or_=G('tpOR'),freH=G('tpFreH')||20,f1Pct=G('tpF1')||65;
+    var kg0102b=R(kgB,3),acqBiga=R(kgB*0.45*1000,0),ldbBiga=R(kgB*ldbP/100*1000,2);
+    var kg5078r=R(kgR*0.70,3),kg0102r=R(kgR*0.30,3),ldbRinf=R(kgR*ldbRP/100*1000,2);
+    var acqTot=R(kg*idr/100*1000,0),acqRinf=acqTot-acqBiga;
+    var fase1=R(acqRinf*f1Pct/100,0),bass=Math.max(0,acqRinf-fase1);
+    var sale=R(kg*saleP/100*1000,0);
+    var pesoImp=R((kg+acqTot/1000+kg*saleP/100)*1000,0);
+    var nTeglie=Math.floor(pesoImp/gr);
+    var oreStaglio=or_+1.5,oraForno=((or_+freH+2)%24);
+    var giornoForno=Math.floor((or_+freH+2)/24);
+    r.push('*TEGLIA PRONTA FORNO — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('*BIGA '+kgB+'kg — G1 ore '+H(oi)+'*');
+    r.push('Petra HP 0102 (100%): *'+R(kgB*1000,0)+'g* W320-340');
+    r.push('Acqua biga IDR 45%: *'+acqBiga+'g* fredda 4C');
+    r.push('LdB biga ('+ldbP+'%): *'+ldbBiga+'g*');
+    r.push('→ Cella 4C per 18-24h');
+    r.push('---');
+    r.push('*RINFRESCO '+kgR+'kg — G2 ore '+H(or_)+'*');
+    r.push('Petra 5078 (70%): *'+R(kg5078r*1000,0)+'g* W350-380');
+    r.push('Petra 0102HP (30%): *'+R(kg0102r*1000,0)+'g*');
+    r.push('LdB rinfresco ('+ldbRP+'%): *'+ldbRinf+'g*');
+    r.push('Sale ('+saleP+'%): *'+sale+'g*');
+    r.push('---');
+    r.push('*ACQUA — tot '+acqRinf+'g (IDR '+idr+'%)*');
+    r.push('Fase 1 ('+f1Pct+'%): *'+fase1+'g*');
+    r.push('Bassinage: *'+bass+'g* a filo');
+    r.push('Teglie da '+gr+'g: *'+nTeglie+' teglie*');
+    r.push('---');
+    r.push('*TIMELINE*');
+    r.push('G1 '+H(oi)+' — Biga in cella 4C');
+    r.push('G2 '+H(or_)+' — Rinfresco + Impasto');
+    r.push('G2 '+H(oreStaglio)+' — Puntata 1h30 → Staglio bocce');
+    r.push('G2 '+H(oreStaglio)+' — FRIGO 4C per '+freH+'h');
+    r.push('G'+(1+giornoForno)+' '+H(oraForno-0.5)+' — Fuori frigo 30 min');
+    r.push('G'+(1+giornoForno)+' '+H(oraForno)+' — FORNO 280C platea / 250C cielo');
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
-    const progDesc={
-      1:'1h30min 28,5°C → Cons.12°C',
-      2:'1h 23°C + 16°C 1h → Cons.12°C',
-      3:'3h 28,5°C + 12°C 12h → Cons.11,5°C',
-      4:'2h30min 26°C → Cons.11,5°C',
-      5:'2h 18°C + 16°C 1h → Cons.11,5°C',
-      6:'1h 16°C → Cons.11,5°C',
-      7:p7FH+'h '+p7FT+'°C + '+p7F1H+'h '+p7F1T+'°C → Frigo '+p7CT+'°C'
-    };
-    const p7FH = parseFloat(document.getElementById('p7FermH')?.value)||1;
-    const p7F1H = parseFloat(document.getElementById('p7Fase1H')?.value)||1;
-    const p7FT = parseFloat(document.getElementById('p7FermT')?.value)||23;
-    const p7F1T = parseFloat(document.getElementById('p7Fase1T')?.value)||18;
-    const p7CT = parseFloat(document.getElementById('p7ConsT')?.value)||4;
-    const durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1,7:p7FH+p7F1H};
-    const H = h => { const x=((h%24)+24)%24; return String(Math.floor(x)).padStart(2,'0')+':00'; };
-    const oraFine = ((ora + durH[prog])%24);
-    const oraPronto = H(oraFine);
-    const oraLimite = H(oraFine+4);
+  // ══ ROMANA CROCCANTE ══
+  } else if(pageId==='pageRomana'){
+    var kg=G('romKg'),gr=G('romGr'),ore=G('romOre'),oi=G('romOI'),ta=G('romTA'),idr=G('romIDR')||59;
+    var mu=Math.round(0.15*Math.pow(2.2,(ta-23)/10)*10000)/10000;
+    var ldb=Math.max(0.05,Math.min(1.0,Math.round(4.5/(ore*Math.exp(0.08*(ta-20)))*10)/10));
+    var acqTot=Math.round(kg*idr/100*1000);
+    var sale_g=Math.round(kg*2.5/100*1000),ldb_g=Math.round(kg*ldb/100*1000*10)/10;
+    var str_g=Math.round(kg*3/100*1000);
+    var f1_g=Math.round(acqTot*0.70),f2_g=Math.round(acqTot*0.20),bass_g=Math.max(0,acqTot-f1_g-f2_g);
+    var pan=Math.floor(kg*(1+idr/100+0.025+0.03)*1000/gr);
+    var oraStag=oi+(ore<=6?2:ore<=8?3:4),oraForno=oi+ore;
+    r.push('*ROMANA CROCCANTE DIRETTA — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('*INGREDIENTI — '+kg+'kg 5046 Allegra*');
+    r.push('Farina 5046 Allegra: *'+kg*1000+'g* W180-220');
+    r.push('Acqua (IDR '+idr+'%): *'+acqTot+'g*');
+    r.push('Sale (2.5%): *'+sale_g+'g*');
+    r.push('LdB ('+ldb+'%): *'+ldb_g+'g*');
+    r.push('Strutto (3%): *'+str_g+'g*');
+    r.push('Pezzi da '+gr+'g: *'+pan+' pezzi*');
+    r.push('---');
+    r.push('*DISTRIBUZIONE ACQUA — tot '+acqTot+'g*');
+    r.push('Fase 1 (70%): *'+f1_g+'g*');
+    r.push('Fase 2 (20%) dopo sale: *'+f2_g+'g*');
+    r.push('Bassinage (10%): *'+bass_g+'g* a filo');
+    r.push('---');
+    r.push('*TIMELINE — ore '+ore+'h disponibili*');
+    r.push(H(oi)+' — Impasto T uscita 22C');
+    r.push(H(oi+0.5)+' — S&F x2 ogni 20min');
+    r.push(H(oraStag)+' — Staglio '+pan+' pezzi da '+gr+'g');
+    r.push(H(oraStag)+' — Frigo 4C');
+    r.push(H(oraForno-0.5)+' — Fuori frigo 30min (stendi freddo)');
+    r.push(H(oraForno)+' — FORNO 300-320C · 3-5 min');
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
-    const phNote = ph<=0?'':ph<3.5?'⚠️ troppo acida':ph<=4.2?'✅ ottimale al picco':ph<=4.8?'🟡 acerba':'🔴 inattiva';
+  // ══ IMPASTO DIRETTO ══
+  } else if(pageId==='pageDiretto'){
+    var prod=(document.getElementById('dirProd')||{}).value||'napo';
+    var kg=G('dirKg'),gr=G('dirGr'),ore=G('dirOre'),ta=G('dirTA'),oi=G('dirOI'),f1Pct=G('dirF1');
+    var mu=R(0.15*Math.pow(2.2,(ta-23)/10),4);
+    var ldbOtt=R(Math.max(0.05,Math.min(1.0,4.5/(ore*Math.exp(0.08*(ta-20))))),2);
+    var isNapo=prod==='napo',isTeglia=prod==='romana';
+    var idr=isNapo?(ore<=6?68:ore<=8?70:72):isTeglia?(ore<=6?58:ore<=8?59:60):(ore<=6?56:ore<=8?57:58);
+    var ldb=ldbOtt,saleP=isNapo?(ore<=6?2.5:2.2):2.5;
+    var strutto=isNapo?0:3,malto=isNapo?0.2:0;
+    var acqTot=R(kg*idr/100*1000,0),sale_g=R(kg*saleP/100*1000,0);
+    var ldb_g=R(kg*ldb/100*1000,1),str_g=strutto>0?R(kg*strutto/100*1000,0):0;
+    var malto_g=malto>0?R(kg*malto/100*1000,0):0;
+    var f1_g=R(acqTot*f1Pct/100,0),bass_g=Math.max(0,acqTot-f1_g);
+    var pan=Math.floor(kg*(1+idr/100+saleP/100+strutto/100)*1000/gr);
+    var nomeP=isNapo?'Napoletana Contemporanea':isTeglia?'Romana Croccante':'Tonda Romana';
+    r.push('*IMPASTO DIRETTO '+ore+'h — L\'Orso*');
+    r.push(nomeP+' · '+oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('*INGREDIENTI — '+kg+'kg*');
+    r.push('Farina: *'+R(kg*1000,0)+'g*');
+    r.push('Acqua (IDR '+idr+'%): *'+acqTot+'g*');
+    r.push('Sale ('+saleP+'%): *'+sale_g+'g*');
+    r.push('LdB ('+ldb+'%): *'+ldb_g+'g* (Monod '+ore+'h a '+ta+'C)');
+    if(str_g>0) r.push('Strutto (3%): *'+str_g+'g*');
+    if(malto_g>0) r.push('Malto (0.2%): *'+malto_g+'g*');
+    r.push('Pezzi da '+gr+'g: *'+pan+' pezzi*');
+    r.push('---');
+    r.push('*ACQUA — tot '+acqTot+'g*');
+    r.push('Fase 1 ('+f1Pct+'%): *'+f1_g+'g*');
+    r.push('Bassinage: *'+bass_g+'g* a filo');
+    r.push('---');
+    r.push('*TIMELINE*');
+    r.push(H(oi)+' — Impasto · T uscita 22C');
+    r.push(H(oi+0.5)+' — S&F x2 ogni 20min');
+    var puntata=ore<=6?2:ore<=8?3.5:6;
+    r.push(H(oi+puntata)+' — Puntata '+puntata+'h → Staglio');
+    r.push(H(oi+ore)+' — FORNO '+(isNapo?'420-450C 60-90 sec':'300-320C 3-5 min'));
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
-    righe.push('🌿 *Licoli Madre — L\'Orso*');
-    righe.push('📅 '+oggi+' ore '+oraStr);
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push((prog===7?'❄️ *Programma Frigorifero*':'⚙️ *Programma P'+prog+'*')+' — '+progDesc[prog]);
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push('🧮 *Ricetta Rinfresco 1:'+rA+':'+rF+'*');
-    righe.push('  • Licoli di partenza: *'+lic+'g*');
-    righe.push('  • Acqua ('+rA+' parti): *'+acqua+'g*');
-    righe.push('  • Farina ('+rF+' parti): *'+farina+'g*');
-    righe.push('  • UNICA (acqua+farina): *'+unica+'g*');
-    righe.push('  • Totale impasto: *'+tot+'g*');
-    righe.push('  • Utilizzabile (85%): *'+util+'g*');
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push('⏱ *Orari*');
-    righe.push('  • Inizio rinfresco: *'+H(ora)+'*');
-    if(oraMisc) righe.push('  • Ora miscelazione effettiva: *'+oraMisc+'*');
-    righe.push('  • Picco / Fine programma: *'+oraPronto+'*');
-    righe.push('  • Limite utilizzo: *'+oraLimite+'*');
-    righe.push('  • ✅ Finestra ottimale: *'+oraPronto+' → '+oraLimite+'*');
-    if(ph>0){
-      righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-      righe.push('🔬 *pH pre-rinfresco: '+ph+'* — '+phNote);
-    }
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push('_Pizza Lab v2.1 · Matteo La Spada · #SEGUILORSO 🐻_');
+  // ══ LICOLI ══
+  } else if(pageId==='pageLicoli'){
+    var lic=parseFloat((document.getElementById('lLic')||{}).value)||0;
+    var rA=parseFloat((document.getElementById('lRA')||{}).value)||0;
+    var rF=parseFloat((document.getElementById('lRF')||{}).value)||0;
+    var prog=parseInt((document.getElementById('lProg')||{}).value)||4;
+    var ora=parseInt((document.getElementById('lOra')||{}).value)||9;
+    var ph=parseFloat((document.getElementById('lPH')||{}).value)||0;
+    var p7FH=parseFloat((document.getElementById('p7FermH')||{}).value)||1;
+    var p7FT=parseFloat((document.getElementById('p7FermT')||{}).value)||23;
+    var p7F1H=parseFloat((document.getElementById('p7Fase1H')||{}).value)||1;
+    var p7F1T=parseFloat((document.getElementById('p7Fase1T')||{}).value)||18;
+    var p7CT=parseFloat((document.getElementById('p7ConsT')||{}).value)||4;
+    var acqua=Math.round(lic*rA),farina=Math.round(lic*rF);
+    var tot=lic+acqua+farina,util=Math.round(tot*0.85);
+    var durH={1:1.5,2:2,3:15,4:2.5,5:3,6:1,7:p7FH+p7F1H};
+    var descP={1:'1h30 28.5C Cons.12C',2:'1h 23C+1h 16C Cons.12C',3:'3h 28.5C+12h 12C Cons.11.5C',4:'2h30 26C Cons.11.5C',5:'2h 18C+1h 16C Cons.11.5C',6:'1h 16C Cons.11.5C',7:p7FH+'h '+p7FT+'C + '+p7F1H+'h '+p7F1T+'C Frigo '+p7CT+'C'};
+    var oraFine=((ora+(durH[prog]||2))%24);
+    var nomeP=prog===7?'Frigorifero':'P'+prog;
+    var phNote=ph<=0?'':ph<3.5?'TROPPO ACIDA':ph<=4.2?'ottimale':ph<=4.8?'acerba':'inattiva';
+    r.push('*LICOLI MADRE — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    r.push('Programma: *'+nomeP+'* '+descP[prog]);
+    r.push('---');
+    r.push('*Ricetta 1:'+rA+':'+rF+'*');
+    r.push('Licoli: *'+lic+'g*');
+    r.push('Acqua ('+rA+' parti): *'+acqua+'g*');
+    r.push('Farina ('+rF+' parti): *'+farina+'g*');
+    r.push('UNICA (acqua+farina): *'+(acqua+farina)+'g*');
+    r.push('Totale: *'+tot+'g*  Utilizzabile: *'+util+'g*');
+    r.push('---');
+    r.push('Rinfresco: *'+H(ora)+'*  Picco: *'+H(oraFine)+'*  Limite: *'+H(oraFine+4)+'*');
+    if(ph>0) r.push('pH: *'+ph+'* — '+phNote);
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
 
+  // ══ ALTRE PAGINE — legge dal DOM ══
   } else {
-    // ── TUTTE LE ALTRE PAGINE: legge dal DOM ──
-    const page = document.getElementById(pageId);
+    var page = document.getElementById(pageId);
     if(!page) return;
-    page.querySelectorAll('.card').forEach(c => c.classList.add('open'));
-    page.querySelectorAll('.card-body').forEach(b => b.style.display = 'block');
-
-    righe.push('🍕 *Pizza Lab v2.1 — Matteo La Spada*');
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-    righe.push('📋 *' + titolo.toUpperCase() + '*');
-    righe.push(oggi + ' ore ' + oraStr);
-    righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-
-    page.querySelectorAll('.res-section').forEach(sec => {
-      const label = sec.querySelector('.res-label');
-      if(label) righe.push('\n\u25b8 *' + label.textContent.trim().toUpperCase() + '*');
-      sec.querySelectorAll('.data-row,.res-row').forEach(row => {
-        const lbl = row.querySelector('.data-label,.res-label-cell');
-        const val = row.querySelector('.data-value,.res-val');
-        if(lbl && val) righe.push('  ' + lbl.textContent.trim() + ': *' + val.textContent.trim() + '*');
+    page.querySelectorAll('.card').forEach(function(c){c.classList.add('open');});
+    page.querySelectorAll('.card-body').forEach(function(b){b.style.display='block';});
+    r.push('*'+titolo.toUpperCase()+' — L\'Orso*');
+    r.push(oggi+' ore '+oraStr);
+    r.push('---');
+    // Legge res-row
+    page.querySelectorAll('.res-section').forEach(function(sec){
+      var label=sec.querySelector('.res-label');
+      if(label) r.push('*'+label.textContent.trim().toUpperCase()+'*');
+      sec.querySelectorAll('.res-row').forEach(function(row){
+        var n=row.querySelector('.res-name');
+        var v=row.querySelector('.res-val');
+        if(n&&v) r.push('  '+n.textContent.trim()+': *'+v.textContent.trim()+'*');
       });
     });
-
-    page.querySelectorAll('.sem-box').forEach(s => {
-      righe.push('\n\u26a1 ' + s.textContent.trim());
+    // Timeline
+    page.querySelectorAll('.tl-row').forEach(function(row){
+      var t=row.querySelector('.tl-time');
+      var tx=row.querySelector('.tl-text');
+      if(t&&tx) r.push(t.textContent.trim()+' — '+tx.textContent.trim());
     });
-
-    const tlItems = page.querySelectorAll('.tl-item');
-    if(tlItems.length > 0){
-      righe.push('\n\u23f1 *TIMELINE*');
-      tlItems.forEach(item => {
-        const t = item.querySelector('.tl-time');
-        const ti = item.querySelector('.tl-title');
-        const n = item.querySelector('.tl-note');
-        if(t && ti) righe.push('  ' + t.textContent.trim() + ' → ' + ti.textContent.trim() + (n ? ' — ' + n.textContent.trim() : ''));
-      });
-    }
-
-    page.querySelectorAll('.dist-row').forEach(r => {
-      const step = r.querySelector('.dist-step');
-      const val = r.querySelector('.dist-val');
-      if(step && val) righe.push('  ' + step.textContent.trim() + ': ' + val.textContent.trim());
-    });
-
-    // Dati impastatrice se compilati
-    const dMin1vel = document.getElementById('dMin1vel');
-    const dMinSale = document.getElementById('dMinSale');
-    const dMin2vel = document.getElementById('dMin2vel');
-    const dMacchina = document.getElementById('dMacchina');
-    if((dMin1vel&&dMin1vel.value)||(dMin2vel&&dMin2vel.value)){
-      righe.push('\n\u2699\ufe0f *IMPASTATRICE*');
-      if(dMacchina&&dMacchina.value) righe.push('  Macchina: '+dMacchina.value);
-      if(dMin1vel&&dMin1vel.value) righe.push('  1ª velocità: '+dMin1vel.value+' min');
-      if(dMinSale&&dMinSale.value) righe.push('  Inserimento sale: dopo '+dMinSale.value+' min');
-      if(dMin2vel&&dMin2vel.value) righe.push('  2ª velocità: '+dMin2vel.value+' min');
-    }
-
-    righe.push('\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501');
-    righe.push('_Pizza Lab v2.1 · Matteo La Spada · #SEGUILORSO 🐻_');
+    r.push('_Pizza Lab v2.1 · Matteo La Spada_');
   }
 
-  // ── APRI DIRETTAMENTE WHATSAPP ──
-  const testo = righe.join('\n');
-  var waUrl = 'https://wa.me/?text=' + encodeURIComponent(testo);
-  window.location.href = waUrl;
+  // APRI WHATSAPP — imposta href sul link e lascia Safari aprirlo
+  var url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
+  el.href=url;
+  return true; // lascia il click propagarsi al link
 }
+
 
 // ══════════════════════════════════════════════
 // LISTENERS & INIT
