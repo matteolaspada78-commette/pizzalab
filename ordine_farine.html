@@ -22,10 +22,10 @@ header{background:var(--surface);border-bottom:2px solid var(--border);padding:1
 .top-field{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px}
 .top-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .top-select,.top-date{background:none;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);width:100%;outline:none;-webkit-appearance:none}
-.top-date{color:var(--accent);font-family:'DM Mono',monospace}
+.top-date{color:var(--accent);font-family:DM Mono,monospace}
 .consegna-row{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
 .consegna-label{font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap}
-.consegna-input{background:none;border:none;font-family:'DM Mono',monospace;font-size:14px;color:var(--accent);font-weight:600;outline:none;flex:1}
+.consegna-input{background:none;border:none;font-family:DM Mono,monospace;font-size:14px;color:var(--accent);font-weight:600;outline:none;flex:1}
 
 /* TABS */
 .tabs{display:flex;gap:0;background:var(--border);border-bottom:2px solid var(--border)}
@@ -53,7 +53,7 @@ header{background:var(--surface);border-bottom:2px solid var(--border);padding:1
 .qty-wrap{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--accent);border-radius:10px;overflow:hidden;flex-shrink:0}
 .qty-btn{background:none;border:none;width:34px;height:42px;font-size:22px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center}
 .qty-btn:active{background:var(--gold-bg)}
-.qty-input{width:44px;background:none;border:none;font-family:'DM Mono',monospace;font-size:17px;font-weight:700;text-align:center;outline:none;color:var(--accent);padding:0}
+.qty-input{width:44px;background:none;border:none;font-family:DM Mono,monospace;font-size:17px;font-weight:700;text-align:center;outline:none;color:var(--accent);padding:0}
 
 /* FARINA CARD — GESTIONE */
 .gestione-card{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px}
@@ -73,7 +73,7 @@ header{background:var(--surface);border-bottom:2px solid var(--border);padding:1
 .riepilogo-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px}
 .riepilogo-row:last-child{border-bottom:none}
 .r-name{color:var(--muted)}
-.r-val{font-family:'DM Mono',monospace;font-weight:600;color:var(--text)}
+.r-val{font-family:DM Mono,monospace;font-weight:600;color:var(--text)}
 .riepilogo-foot{display:flex;justify-content:space-between;padding:10px 14px;background:var(--gold-bg);font-weight:700;font-size:13px;border-top:1px solid var(--gold-border)}
 
 .omaggi-box{display:none;background:var(--green-bg);border-top:2px solid var(--green-border);border-bottom:2px solid var(--green-border);padding:14px 16px}
@@ -122,7 +122,9 @@ header{background:var(--surface);border-bottom:2px solid var(--border);padding:1
 <!-- TABS -->
 <div class="tabs">
   <button class="tab active" onclick="showTab('ordine',this)" id="tabOrdine">📦 Ordine</button>
-  <button class="tab" onclick="showTab('gestione',this)" id="tabGestione">⚙️ Gestione farine</button>
+  <button class="tab" onclick="showTab('costo',this)" id="tabCosto">💶 Costo pallina</button>
+  <button class="tab" onclick="showTab('listino',this)" id="tabListino">📋 Listino</button>
+  <button class="tab" onclick="showTab('gestione',this)" id="tabGestione">⚙️ Gestione</button>
 </div>
 
 <!-- TAB ORDINE -->
@@ -151,6 +153,103 @@ header{background:var(--surface);border-bottom:2px solid var(--border);padding:1
     <textarea class="note-field" id="noteExtra" placeholder="Es: urgente sabato, consegna mattina..."></textarea>
   </div>
   <div style="height:10px"></div>
+</div>
+
+<!-- TAB COSTO PALLINA -->
+<div id="paneCosto" style="display:none;padding:12px 16px">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--accent);margin-bottom:4px">💶 Costo pallina</div>
+  <div style="font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Prezzi D'Ago · IVA esclusa</div>
+
+  <!-- Farina 1 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 1</div>
+    <select id="cp1Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
+      <option value="0">— Seleziona farina —</option>
+    </select>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
+        <input id="cp1Pct" type="number" value="70" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
+        <div id="cp1Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Farina 2 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 2 (opzionale)</div>
+    <select id="cp2Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
+      <option value="0">— Nessuna —</option>
+    </select>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
+        <input id="cp2Pct" type="number" value="30" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
+        <div id="cp2Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Farina 3 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 3 (opzionale)</div>
+    <select id="cp3Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
+      <option value="0">— Nessuna —</option>
+    </select>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
+        <input id="cp3Pct" type="number" value="0" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
+        <div id="cp3Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Parametri impasto -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
+    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Parametri impasto</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div>
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">IDR % (es. 70)</div>
+        <input id="cpIDR" type="number" value="70" min="50" max="90" step="1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
+      </div>
+      <div>
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Sale % (es. 2.5)</div>
+        <input id="cpSale" type="number" value="2.5" min="1" max="4" step="0.1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
+      </div>
+      <div>
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Grammatura pallina (g)</div>
+        <input id="cpGram" type="number" value="260" min="100" max="500" step="10" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
+      </div>
+      <div>
+        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Costo sale €/kg</div>
+        <input id="cpCostoSale" type="number" value="0.50" min="0" max="5" step="0.1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
+      </div>
+    </div>
+  </div>
+
+  <!-- RISULTATO -->
+  <div id="costoResult" style="display:none;background:var(--gold-bg);border:2px solid var(--gold-border);border-radius:14px;padding:16px;margin-bottom:80px">
+    <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Costo pallina calcolato</div>
+    <div id="costoNum" style="font-size:42px;font-weight:700;font-family:DM Mono,monospace;color:var(--accent);line-height:1">—</div>
+    <div id="costoSub" style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6"></div>
+  </div>
+</div>
+
+<!-- TAB LISTINO -->
+<div id="paneListino" style="display:none">
+  <div style="padding:12px 16px 6px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">📋 Listino D'Ago · Febbraio 2026 · IVA esclusa</div>
+  <div id="listinoRows"></div>
+  <div style="padding:12px 16px;font-size:10px;color:var(--muted);font-style:italic">Trasporto e Picking: 2% sul totale · Minimo ordine €150 iva esclusa</div>
 </div>
 
 <!-- TAB GESTIONE -->
@@ -342,12 +441,131 @@ function renderGestione(){
   }).join('') || '<div style="padding:16px;color:var(--muted);font-size:13px">Nessuna farina in stand-by</div>';
 }
 
+// ══ LISTINO PREZZI D'AGO ══
+var LISTINO = [
+  {nome:'Petra 1',         cod:'PE12001',   kg:12.5, prezzo:26.38, ckg:2.1104},
+  {nome:'Petra 1 HP',      cod:'PE12001HP', kg:12.5, prezzo:28.39, ckg:2.2712},
+  {nome:'Petra 3',         cod:'PE12003',   kg:12.5, prezzo:26.38, ckg:2.1104},
+  {nome:'Petra 3 HP',      cod:'PE12003HP', kg:12.5, prezzo:28.39, ckg:2.2712},
+  {nome:'Petra 5',         cod:'PE12005',   kg:12.5, prezzo:26.38, ckg:2.1104},
+  {nome:'Petra 9',         cod:'PE12009',   kg:12.5, prezzo:26.38, ckg:2.1104},
+  {nome:'Petra 9 HP',      cod:'PE12009HP', kg:12.5, prezzo:28.39, ckg:2.2712},
+  {nome:'HP 0101',         cod:'PX120102',  kg:12.5, prezzo:24.88, ckg:1.9904},
+  {nome:'HP 0102',         cod:'PX120102',  kg:12.5, prezzo:23.93, ckg:1.9144},
+  {nome:'0 HP',            cod:'PX120102',  kg:12.5, prezzo:23.83, ckg:1.9064},
+  {nome:'8610 HP',         cod:'PZ128610HP',kg:12.5, prezzo:24.71, ckg:1.9768},
+  {nome:'8610',            cod:'PZ128610',  kg:12.5, prezzo:21.52, ckg:1.7216},
+  {nome:'HP 0103',         cod:'PX100103',  kg:10,   prezzo:43.93, ckg:4.3930},
+  {nome:'HP 0104',         cod:'PX100104',  kg:10,   prezzo:44.63, ckg:4.4630},
+  {nome:'HP 0105',         cod:'PX100105',  kg:10,   prezzo:38.63, ckg:3.8630},
+  {nome:'Agricola 0106 HP',cod:'BI00106HP', kg:10,   prezzo:59.81, ckg:5.9810},
+  {nome:'HP 0107',         cod:'BI1200012', kg:5,    prezzo:44.70, ckg:8.9400},
+  {nome:'5037 Unica',      cod:'PZ12031',   kg:12.5, prezzo:20.94, ckg:1.6752},
+  {nome:'5063 Special',    cod:'PZ12029',   kg:12.5, prezzo:19.98, ckg:1.5984},
+  {nome:'5046 Allegra',    cod:'PZ12030',   kg:12.5, prezzo:19.98, ckg:1.5984},
+  {nome:'0201 Evolutiva',  cod:'BI120201',  kg:12.5, prezzo:41.43, ckg:3.3144},
+  {nome:'0202 Maiorca',    cod:'BI120202',  kg:12.5, prezzo:41.43, ckg:3.3144},
+  {nome:'3220 Bonsemi',    cod:'PV163220',  kg:10,   prezzo:55.90, ckg:5.5900},
+  {nome:'3400 Ottimais',   cod:'PV163400',  kg:10,   prezzo:67.83, ckg:6.7830},
+  {nome:'5010 Pinsa',      cod:'PZ125010',  kg:12.5, prezzo:29.68, ckg:2.3744},
+  {nome:'5072',            cod:'PV12003',   kg:12.5, prezzo:26.88, ckg:2.1504},
+  {nome:'5020',            cod:'PZ12002',   kg:12.5, prezzo:26.88, ckg:2.1504},
+  {nome:'5078',            cod:'PZ1217',    kg:12.5, prezzo:26.88, ckg:2.1504},
+  {nome:'6384 Panettone',  cod:'PS12003',   kg:12.5, prezzo:22.88, ckg:1.8304},
+  {nome:'0115 Segale',     cod:'PV120115',  kg:12.5, prezzo:26.39, ckg:2.1112},
+  {nome:'0052 Segale',     cod:'PV120052',  kg:12.5, prezzo:26.39, ckg:2.1112}
+];
+
+function renderListino(){
+  var el = document.getElementById('listinoRows');
+  if(!el) return;
+  el.innerHTML = LISTINO.map(function(f){
+    return '<div style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)">'+
+      '<div style="flex:1">'+
+        '<div style="font-size:13px;font-weight:600;color:var(--text)">🌾 '+f.nome+'</div>'+
+        '<div style="font-size:10px;color:var(--muted);margin-top:1px">'+f.cod+' · '+f.kg+'kg/sacco</div>'+
+      '</div>'+
+      '<div style="text-align:right">'+
+        '<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:var(--accent)">€'+f.prezzo.toFixed(2)+'</div>'+
+        '<div style="font-size:10px;color:var(--muted)">€'+f.ckg.toFixed(4)+'/kg</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function populateSelects(){
+  var opts = '<option value="0">— Nessuna —</option>'+
+    LISTINO.map(function(f,i){
+      return '<option value="'+i+'">'+f.nome+' (€'+f.ckg.toFixed(4)+'/kg)</option>';
+    }).join('');
+  var opts1 = '<option value="0">— Seleziona farina —</option>'+
+    LISTINO.map(function(f,i){
+      return '<option value="'+i+'">'+f.nome+' (€'+f.ckg.toFixed(4)+'/kg)</option>';
+    }).join('');
+  var s1=document.getElementById('cp1Farina');
+  var s2=document.getElementById('cp2Farina');
+  var s3=document.getElementById('cp3Farina');
+  if(s1)s1.innerHTML=opts1;
+  if(s2)s2.innerHTML=opts;
+  if(s3)s3.innerHTML=opts;
+}
+
+function calcCostoPallina(){
+  var i1=parseInt(document.getElementById('cp1Farina')?.value||0);
+  var i2=parseInt(document.getElementById('cp2Farina')?.value||0);
+  var i3=parseInt(document.getElementById('cp3Farina')?.value||0);
+  var p1=parseFloat(document.getElementById('cp1Pct')?.value||0)/100;
+  var p2=parseFloat(document.getElementById('cp2Pct')?.value||0)/100;
+  var p3=parseFloat(document.getElementById('cp3Pct')?.value||0)/100;
+  var idr=parseFloat(document.getElementById('cpIDR')?.value||70)/100;
+  var sale=parseFloat(document.getElementById('cpSale')?.value||2.5)/100;
+  var gram=parseFloat(document.getElementById('cpGram')?.value||260);
+  var costoSale=parseFloat(document.getElementById('cpCostoSale')?.value||0.5);
+
+  // Aggiorna prezzi visualizzati
+  var f1=i1>0?LISTINO[i1]:null;
+  var f2=i2>0?LISTINO[i2]:null;
+  var f3=i3>0?LISTINO[i3]:null;
+  var el1=document.getElementById('cp1Prezzo');
+  var el2=document.getElementById('cp2Prezzo');
+  var el3=document.getElementById('cp3Prezzo');
+  if(el1)el1.textContent=f1?'€'+f1.ckg.toFixed(4)+'/kg':'—';
+  if(el2)el2.textContent=f2?'€'+f2.ckg.toFixed(4)+'/kg':'—';
+  if(el3)el3.textContent=f3?'€'+f3.ckg.toFixed(4)+'/kg':'—';
+
+  if(!f1||p1<=0){document.getElementById('costoResult').style.display='none';return;}
+
+  // Costo blend farina per kg
+  var costoFarinaKg = (f1?f1.ckg*p1:0)+(f2?f2.ckg*p2:0)+(f3?f3.ckg*p3:0);
+
+  // Peso impasto per kg di farina = 1kg farina + IDR acqua + sale
+  var pesoImpastoPerKgFarina = 1 + idr + sale; // kg
+
+  // Costo per kg di impasto
+  var costoImpastoKg = (costoFarinaKg + sale*costoSale) / pesoImpastoPerKgFarina;
+
+  // Costo pallina
+  var costoPallina = costoImpastoKg * (gram/1000);
+
+  document.getElementById('costoResult').style.display='block';
+  document.getElementById('costoNum').textContent='€'+costoPallina.toFixed(4);
+  document.getElementById('costoSub').innerHTML=
+    'Grammatura: '+gram+'g · IDR: '+(idr*100)+'% · Sale: '+(sale*100)+'%<br>'+
+    'Blend: '+(f1?f1.nome+' '+Math.round(p1*100)+'%':'')+(f2?' + '+f2.nome+' '+Math.round(p2*100)+'%':'')+(f3?' + '+f3.nome+' '+Math.round(p3*100)+'%':'')+'<br>'+
+    'Costo farina blend: €'+costoFarinaKg.toFixed(4)+'/kg · Costo impasto: €'+costoImpastoKg.toFixed(4)+'/kg<br>'+
+    '<strong style="color:var(--accent)">→ €'+costoPallina.toFixed(3)+' per pallina da '+gram+'g</strong>';
+}
+
 function showTab(tab, btn){
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  document.getElementById('paneOrdine').style.display = tab==='ordine'?'block':'none';
-  document.getElementById('paneGestione').style.display = tab==='gestione'?'block':'none';
-  document.getElementById('bottomBar').style.display = tab==='ordine'?'flex':'none';
+  document.getElementById('paneOrdine').style.display  = tab==='ordine'?'block':'none';
+  document.getElementById('paneCosto').style.display   = tab==='costo'?'block':'none';
+  document.getElementById('paneListino').style.display = tab==='listino'?'block':'none';
+  document.getElementById('paneGestione').style.display= tab==='gestione'?'block':'none';
+  document.getElementById('bottomBar').style.display   = tab==='ordine'?'flex':'none';
+  if(tab==='listino') renderListino();
+  if(tab==='costo') populateSelects();
 }
 
 function resetOrdine(){
