@@ -6,632 +6,538 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ordine Farine">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23faf8f3'/%3E%3Ctext x='256' y='330' font-size='300' text-anchor='middle'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
-<title>Ordine Farine — Matteo La Spada</title>
+<title>Ordine Farine</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
-:root{--bg:#faf8f3;--surface:#fff;--border:#e8e0d0;--accent:#c8860a;--text:#1a1208;--muted:#8a7a60;--green:#2e7a4f;--green-bg:#eef8f2;--green-border:#b8dfc9;--gold-bg:#fdf8ef;--gold-border:#e8d8b0;--blue:#1a4a8a;--blue-bg:#eef2fd;--blue-border:#b8c8e8;--red:#b33a3a;--red-bg:#fdf0f0;--red-border:#f0c8c8}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px}
-
-/* HEADER */
-header{background:var(--surface);border-bottom:2px solid var(--border);padding:16px 16px 12px;position:sticky;top:0;z-index:100}
-.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:21px;color:var(--accent);margin-bottom:3px}
-.logo-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
-.top-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
-.top-field{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px}
-.top-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.top-select,.top-date{background:none;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);width:100%;outline:none;-webkit-appearance:none}
-.top-date{color:var(--accent);font-family:DM Mono,monospace}
-.consegna-row{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
-.consegna-label{font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap}
-.consegna-input{background:none;border:none;font-family:DM Mono,monospace;font-size:14px;color:var(--accent);font-weight:600;outline:none;flex:1}
-
-/* TABS */
-.tabs{display:flex;gap:0;background:var(--border);border-bottom:2px solid var(--border)}
-.tab{flex:1;padding:10px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;background:var(--bg);color:var(--muted);border:none;font-family:'Inter',sans-serif;transition:all 0.15s}
-.tab.active{background:var(--surface);color:var(--accent);border-bottom:2px solid var(--accent)}
-
-/* SUMMARY */
-.summary-bar{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--border);gap:1px;border-bottom:2px solid var(--border)}
-.sum-cell{background:var(--surface);padding:9px 8px;text-align:center}
-.sum-label{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
-.sum-val{font-size:18px;font-weight:700;color:var(--text)}
-.sum-val.green{color:var(--green)}
-.sum-val.gold{color:var(--accent)}
-
-.section-hdr{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.section-hdr span{font-size:10px;color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none}
-
-/* FARINA CARD — ORDINE */
-.farina-card{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px}
-.farina-info{flex:1;min-width:0}
-.farina-name{font-weight:600;font-size:13px;color:var(--text);margin-bottom:2px}
-.badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;margin-right:3px;display:inline-block}
-.badge-kg{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
-.badge-w{background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--accent)}
-.qty-wrap{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--accent);border-radius:10px;overflow:hidden;flex-shrink:0}
-.qty-btn{background:none;border:none;width:34px;height:42px;font-size:22px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center}
-.qty-btn:active{background:var(--gold-bg)}
-.qty-input{width:44px;background:none;border:none;font-family:DM Mono,monospace;font-size:17px;font-weight:700;text-align:center;outline:none;color:var(--accent);padding:0}
-
-/* FARINA CARD — GESTIONE */
-.gestione-card{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px}
-.gestione-info{flex:1;min-width:0}
-.gestione-name{font-weight:600;font-size:13px;color:var(--text)}
-.gestione-meta{font-size:10px;color:var(--muted);margin-top:1px}
-.btn-toggle{border:none;border-radius:20px;padding:6px 14px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0}
-.btn-attiva{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.btn-standb{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.standby-label{font-size:9px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 6px;margin-left:4px}
-
-/* RIEPILOGO + OMAGGI */
-.riepilogo-box{display:none;margin:10px 16px;background:var(--surface);border:1.5px solid var(--gold-border);border-radius:12px;overflow:hidden}
-.riepilogo-box.show{display:block}
-.riepilogo-hdr{background:var(--gold-bg);padding:10px 14px;border-bottom:1px solid var(--gold-border)}
-.riepilogo-title{font-family:'Playfair Display',serif;font-size:14px;color:var(--accent)}
-.riepilogo-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px}
-.riepilogo-row:last-child{border-bottom:none}
-.r-name{color:var(--muted)}
-.r-val{font-family:DM Mono,monospace;font-weight:600;color:var(--text)}
-.riepilogo-foot{display:flex;justify-content:space-between;padding:10px 14px;background:var(--gold-bg);font-weight:700;font-size:13px;border-top:1px solid var(--gold-border)}
-
-.omaggi-box{display:none;background:var(--green-bg);border-top:2px solid var(--green-border);border-bottom:2px solid var(--green-border);padding:14px 16px}
-.omaggi-box.show{display:block}
-.omaggi-badge{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:700;margin-bottom:6px}
-.omaggi-desc{font-size:11px;color:var(--green);margin-bottom:10px}
-.omaggi-field{width:100%;background:#fff;border:1.5px solid var(--green-border);border-radius:10px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;resize:none;min-height:60px}
-.omaggi-field:focus{border-color:var(--green)}
-.omaggi-hint{font-size:10px;color:var(--green);margin-top:5px;opacity:.8}
-
-.note-wrap{padding:10px 16px 0}
-.note-field{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;resize:none;height:52px}
-.note-field:focus{border-color:var(--accent)}
-
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:8px;z-index:100}
-.btn-wa{flex:1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
-.btn-reset{background:var(--bg);color:var(--muted);border:1.5px solid var(--border);border-radius:12px;padding:14px;font-size:13px;cursor:pointer}
-.divider{height:8px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-
-/* save dot */
-.save-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-left:6px;opacity:0;transition:opacity 0.3s}
-.save-dot.show{opacity:1}
+:root{--bg:#faf8f3;--surf:#fff;--bord:#e8e0d0;--acc:#c8860a;--txt:#1a1208;--dim:#8a7a60;--green:#2e7a4f;--gbg:#eef8f2;--gbord:#b8dfc9;--goldbg:#fdf8ef;--goldbord:#e8d8b0;--bluebg:#eef2fd;--bluebord:#b8c8e8;--blue:#1a4a8a;--red:#b33a3a;--redbg:#fdf0f0;--redbord:#f0c8c8}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding-bottom:90px}
+header{background:var(--surf);border-bottom:2px solid var(--bord);padding:14px 16px 10px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--acc);margin-bottom:2px}
+.logo-sub{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.field{background:var(--bg);border:1.5px solid var(--bord);border-radius:10px;padding:8px 12px}
+.flabel{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.finput{background:none;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:var(--txt);width:100%;outline:none}
+.fdate{font-family:'DM Mono',monospace;font-size:13px;color:var(--acc)}
+.consrow{background:var(--goldbg);border:1px solid var(--goldbord);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.conslbl{font-size:11px;color:var(--acc);font-weight:600;white-space:nowrap}
+.consdate{background:none;border:none;font-family:'DM Mono',monospace;font-size:13px;color:var(--acc);font-weight:600;outline:none;flex:1}
+.tabs{display:flex;background:var(--bord);border-bottom:2px solid var(--bord)}
+.tab{flex:1;padding:9px 4px;font-size:11px;font-weight:600;text-align:center;cursor:pointer;background:var(--bg);color:var(--dim);border:none;font-family:'Inter',sans-serif}
+.tab.on{background:var(--surf);color:var(--acc);border-bottom:2px solid var(--acc)}
+.sumbar{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--bord);gap:1px;border-bottom:2px solid var(--bord)}
+.sumcell{background:var(--surf);padding:8px;text-align:center}
+.sumlbl{font-size:7px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.sumval{font-size:17px;font-weight:700;color:var(--txt)}
+.sumval.g{color:var(--green)}
+.sumval.a{color:var(--acc)}
+.shdr{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--bord);display:flex;justify-content:space-between;align-items:center}
+.fc{background:var(--surf);border-bottom:1px solid var(--bord);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.fi{flex:1;min-width:0}
+.fn{font-weight:600;font-size:13px;color:var(--txt)}
+.badge{font-size:9px;padding:2px 5px;border-radius:4px;font-weight:600;margin-right:3px;display:inline-block}
+.bkg{background:var(--bluebg);border:1px solid var(--bluebord);color:var(--blue)}
+.bw{background:var(--goldbg);border:1px solid var(--goldbord);color:var(--acc)}
+.qw{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--acc);border-radius:10px;overflow:hidden;flex-shrink:0}
+.qb{background:none;border:none;width:34px;height:42px;font-size:20px;cursor:pointer;color:var(--acc);display:flex;align-items:center;justify-content:center}
+.qi{width:44px;background:none;border:none;font-family:'DM Mono',monospace;font-size:17px;font-weight:700;text-align:center;outline:none;color:var(--acc)}
+.divid{height:8px;background:var(--bg);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.rbox{display:none;margin:10px 16px;background:var(--surf);border:1.5px solid var(--goldbord);border-radius:12px;overflow:hidden}
+.rbox.on{display:block}
+.rhdr{background:var(--goldbg);padding:10px 14px;border-bottom:1px solid var(--goldbord);font-family:'Playfair Display',serif;font-size:14px;color:var(--acc)}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--bord);font-size:12px}
+.rrow:last-child{border-bottom:none}
+.rn{color:var(--dim)}.rv{font-family:'DM Mono',monospace;font-weight:600;color:var(--txt)}
+.rfoot{display:flex;justify-content:space-between;padding:10px 14px;background:var(--goldbg);font-weight:700;font-size:13px;border-top:1px solid var(--goldbord)}
+.obox{display:none;background:var(--gbg);border-top:2px solid var(--gbord);border-bottom:2px solid var(--gbord);padding:14px 16px}
+.obox.on{display:block}
+.obadge{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:700;margin-bottom:6px}
+.odesc{font-size:11px;color:var(--green);margin-bottom:10px}
+.ofield{width:100%;background:#fff;border:1.5px solid var(--gbord);border-radius:10px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--txt);outline:none;resize:none;min-height:60px}
+.nwrap{padding:10px 16px 0}
+.nfield{width:100%;background:var(--surf);border:1.5px solid var(--bord);border-radius:10px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--txt);outline:none;resize:none;height:52px}
+.bot{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;background:var(--surf);border-top:1px solid var(--bord);display:flex;gap:8px;z-index:100}
+.bwa{flex:1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.breset{background:var(--bg);color:var(--dim);border:1.5px solid var(--bord);border-radius:12px;padding:13px;font-size:13px;cursor:pointer}
+.gc{background:var(--surf);border-bottom:1px solid var(--bord);padding:11px 16px;display:flex;align-items:center;gap:10px}
+.gi{flex:1}.gn{font-weight:600;font-size:13px;color:var(--txt)}.gm{font-size:10px;color:var(--dim);margin-top:1px}
+.btog{border:none;border-radius:20px;padding:6px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0}
+.bon{background:var(--gbg);color:var(--green);border:1px solid var(--gbord)}
+.boff{background:var(--redbg);color:var(--red);border:1px solid var(--redbord)}
+.slbl{font-size:9px;color:var(--dim);background:var(--bg);border:1px solid var(--bord);border-radius:4px;padding:2px 5px;margin-left:4px}
+/* listino */
+.lrow{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--bord);background:var(--surf)}
+.lname{font-size:13px;font-weight:600;color:var(--txt)}.lmeta{font-size:10px;color:var(--dim);margin-top:1px}
+.lprice{text-align:right}.lpv{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--acc)}.lpkg{font-size:10px;color:var(--dim)}
+/* costo pallina */
+.cpcard{background:var(--surf);border:1.5px solid var(--bord);border-radius:12px;padding:14px;margin-bottom:10px}
+.cptitle{font-size:10px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px}
+.cpsel{width:100%;background:var(--bg);border:1.5px solid var(--bord);border-radius:8px;padding:10px;font-size:13px;color:var(--txt);outline:none;margin-bottom:8px;-webkit-appearance:none;font-family:'Inter',sans-serif}
+.cpgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cplbl{font-size:9px;color:var(--dim);margin-bottom:4px}
+.cpinp{width:100%;background:var(--bg);border:1.5px solid var(--bord);border-radius:8px;padding:10px;font-size:14px;font-family:'DM Mono',monospace;outline:none;color:var(--acc)}
+.cpprice{background:var(--goldbg);border:1px solid var(--goldbord);border-radius:8px;padding:10px;font-size:14px;font-family:'DM Mono',monospace;color:var(--acc)}
+.cpresult{display:none;background:var(--goldbg);border:2px solid var(--goldbord);border-radius:14px;padding:16px;margin-bottom:80px}
+.cpnum{font-size:40px;font-weight:700;font-family:'DM Mono',monospace;color:var(--acc);line-height:1}
+.cpsub{font-size:11px;color:var(--dim);margin-top:6px;line-height:1.6}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">🌾 Ordine Farine <span class="save-dot" id="saveDot"></span></div>
+  <div class="logo">🌾 Ordine Farine</div>
   <div class="logo-sub">Mulino Quaglia · Petra</div>
-  <div class="top-row">
-    <div class="top-field">
-      <div class="top-label">📍 Sede</div>
-      <input class="top-select" id="sede" type="text" placeholder="Es: Via Calapso, Laboratorio..." value="Via Calapso" style="font-size:13px">
+  <div class="row2">
+    <div class="field">
+      <div class="flabel">📍 Sede</div>
+      <input class="finput" id="sede" type="text" value="Via Calapso">
     </div>
-    <div class="top-field">
-      <div class="top-label">📅 Data ordine</div>
-      <input class="top-date" type="date" id="dataOrdine">
+    <div class="field">
+      <div class="flabel">📅 Data ordine</div>
+      <input class="fdate finput" id="dataOrd" type="date">
     </div>
   </div>
-  <div class="consegna-row">
-    <span class="consegna-label">🚚 Consegna:</span>
-    <input class="consegna-input" type="date" id="dataConsegna">
+  <div class="consrow">
+    <span class="conslbl">🚚 Consegna:</span>
+    <input class="consdate" id="dataCons" type="date">
   </div>
 </header>
 
-<!-- TABS -->
 <div class="tabs">
-  <button class="tab active" onclick="showTab('ordine',this)" id="tabOrdine">📦 Ordine</button>
-  <button class="tab" onclick="showTab('costo',this)" id="tabCosto">💶 Costo pallina</button>
-  <button class="tab" onclick="showTab('listino',this)" id="tabListino">📋 Listino</button>
-  <button class="tab" onclick="showTab('gestione',this)" id="tabGestione">⚙️ Gestione</button>
+  <button class="tab on" id="t0" onclick="showTab(0)">📦 Ordine</button>
+  <button class="tab" id="t1" onclick="showTab(1)">💶 Costo</button>
+  <button class="tab" id="t2" onclick="showTab(2)">📋 Listino</button>
+  <button class="tab" id="t3" onclick="showTab(3)">⚙️ Gestione</button>
 </div>
 
-<!-- TAB ORDINE -->
-<div id="paneOrdine">
-  <div class="summary-bar">
-    <div class="sum-cell"><div class="sum-label">Sacchi ordinati</div><div class="sum-val" id="sumSacchi">0</div></div>
-    <div class="sum-cell"><div class="sum-label">Omaggi</div><div class="sum-val green" id="sumOmaggi">0</div></div>
-    <div class="sum-cell"><div class="sum-val gold" id="sumKg" style="font-size:13px;padding-top:4px">—</div><div class="sum-label">Kg totali</div></div>
+<div id="p0">
+  <div class="sumbar">
+    <div class="sumcell"><div class="sumlbl">Sacchi</div><div class="sumval" id="sSacchi">0</div></div>
+    <div class="sumcell"><div class="sumlbl">Omaggi</div><div class="sumval g" id="sOmaggi">0</div></div>
+    <div class="sumcell"><div class="sumval a" id="sKg" style="font-size:13px;padding-top:4px">-</div><div class="sumlbl">Kg tot</div></div>
   </div>
-  <div class="section-hdr">🌾 Farine attive <span id="countAttive"></span></div>
-  <div id="farineOrdine"></div>
-  <div class="divider"></div>
-  <div class="riepilogo-box" id="riepilogoBox">
-    <div class="riepilogo-hdr"><div class="riepilogo-title">📋 Riepilogo ordine</div></div>
-    <div id="riepilogoRows"></div>
-    <div class="riepilogo-foot"><span>Totale</span><span id="riepilogoTot" style="color:var(--accent)">—</span></div>
+  <div class="shdr">🌾 Farine attive <span id="cntAtt"></span></div>
+  <div id="listOrd"></div>
+  <div class="divid"></div>
+  <div class="rbox" id="rbox">
+    <div class="rhdr">📋 Riepilogo ordine</div>
+    <div id="rrows"></div>
+    <div class="rfoot"><span>Totale</span><span id="rtot" style="color:var(--acc)">-</span></div>
   </div>
-  <div class="omaggi-box" id="omaggioBox">
-    <div class="omaggi-badge">🎁 <span id="omaggioCount">0</span> sacchi omaggio</div>
-    <div class="omaggi-desc">Ogni 5 sacchi ordinati = 1 sacco omaggio — scrivi qui quali vuoi</div>
-    <textarea class="omaggi-field" id="omaggioTesto" placeholder="Es: 2 Petra 3hp + 1 HP 0102 + 1 5078 + 1 5037 Unica"></textarea>
-    <div class="omaggi-hint">💡 Campo libero — scrivi la combinazione che preferisci</div>
+  <div class="obox" id="obox">
+    <div class="obadge">🎁 <span id="ocnt">0</span> sacchi omaggio</div>
+    <div class="odesc">Ogni 5 sacchi = 1 omaggio — scrivi quali vuoi</div>
+    <textarea class="ofield" id="otxt" placeholder="Es: 2 Petra 3hp + 1 HP 0102 + 1 5078"></textarea>
   </div>
-  <div class="note-wrap" style="margin-top:10px">
-    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">📝 Note</div>
-    <textarea class="note-field" id="noteExtra" placeholder="Es: urgente sabato, consegna mattina..."></textarea>
+  <div class="nwrap" style="margin-top:10px">
+    <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">📝 Note</div>
+    <textarea class="nfield" id="note" placeholder="Es: urgente sabato, consegna mattina..."></textarea>
   </div>
   <div style="height:10px"></div>
 </div>
 
-<!-- TAB COSTO PALLINA -->
-<div id="paneCosto" style="display:none;padding:12px 16px">
-  <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--accent);margin-bottom:4px">💶 Costo pallina</div>
-  <div style="font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">Prezzi D'Ago · IVA esclusa</div>
-
-  <!-- Farina 1 -->
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 1</div>
-    <select id="cp1Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
-      <option value="0">— Seleziona farina —</option>
-    </select>
-    <div style="display:flex;gap:8px">
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
-        <input id="cp1Pct" type="number" value="70" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
-      </div>
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
-        <div id="cp1Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
-      </div>
+<div id="p1" style="display:none;padding:12px 16px">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--acc);margin-bottom:4px">💶 Costo pallina</div>
+  <div style="font-size:10px;color:var(--dim);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px">Prezzi D'Ago Feb 2026 · IVA esclusa</div>
+  <div class="cpcard">
+    <div class="cptitle">Farina 1</div>
+    <select class="cpsel" id="cf1" onchange="calcCosto()"><option value="-1">-- Seleziona --</option></select>
+    <div class="cpgrid">
+      <div><div class="cplbl">% blend</div><input class="cpinp" id="cp1" type="number" value="100" min="0" max="100" oninput="calcCosto()"></div>
+      <div><div class="cplbl">euro/kg</div><div class="cpprice" id="cv1">-</div></div>
     </div>
   </div>
-
-  <!-- Farina 2 -->
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 2 (opzionale)</div>
-    <select id="cp2Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
-      <option value="0">— Nessuna —</option>
-    </select>
-    <div style="display:flex;gap:8px">
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
-        <input id="cp2Pct" type="number" value="30" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
-      </div>
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
-        <div id="cp2Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
-      </div>
+  <div class="cpcard">
+    <div class="cptitle">Farina 2 (opz.)</div>
+    <select class="cpsel" id="cf2" onchange="calcCosto()"><option value="-1">-- Nessuna --</option></select>
+    <div class="cpgrid">
+      <div><div class="cplbl">% blend</div><input class="cpinp" id="cp2" type="number" value="0" min="0" max="100" oninput="calcCosto()"></div>
+      <div><div class="cplbl">euro/kg</div><div class="cpprice" id="cv2">-</div></div>
     </div>
   </div>
-
-  <!-- Farina 3 -->
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Farina 3 (opzionale)</div>
-    <select id="cp3Farina" onchange="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);outline:none;margin-bottom:8px;-webkit-appearance:none">
-      <option value="0">— Nessuna —</option>
-    </select>
-    <div style="display:flex;gap:8px">
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">% sul totale farina</div>
-        <input id="cp3Pct" type="number" value="0" min="0" max="100" step="5" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--accent)">
-      </div>
-      <div style="flex:1">
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">€/kg</div>
-        <div id="cp3Prezzo" style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;color:var(--accent)">—</div>
-      </div>
+  <div class="cpcard">
+    <div class="cptitle">Farina 3 (opz.)</div>
+    <select class="cpsel" id="cf3" onchange="calcCosto()"><option value="-1">-- Nessuna --</option></select>
+    <div class="cpgrid">
+      <div><div class="cplbl">% blend</div><input class="cpinp" id="cp3" type="number" value="0" min="0" max="100" oninput="calcCosto()"></div>
+      <div><div class="cplbl">euro/kg</div><div class="cpprice" id="cv3">-</div></div>
     </div>
   </div>
-
-  <!-- Parametri impasto -->
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-    <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Parametri impasto</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div>
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">IDR % (es. 70)</div>
-        <input id="cpIDR" type="number" value="70" min="50" max="90" step="1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
-      </div>
-      <div>
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Sale % (es. 2.5)</div>
-        <input id="cpSale" type="number" value="2.5" min="1" max="4" step="0.1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
-      </div>
-      <div>
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Grammatura pallina (g)</div>
-        <input id="cpGram" type="number" value="260" min="100" max="500" step="10" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
-      </div>
-      <div>
-        <div style="font-size:9px;color:var(--muted);margin-bottom:4px">Costo sale €/kg</div>
-        <input id="cpCostoSale" type="number" value="0.50" min="0" max="5" step="0.1" oninput="calcCostoPallina()" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:14px;font-family:DM Mono,monospace;outline:none;color:var(--text)">
-      </div>
+  <div class="cpcard">
+    <div class="cptitle">Parametri impasto</div>
+    <div class="cpgrid">
+      <div><div class="cplbl">IDR %</div><input class="cpinp" id="cIDR" type="number" value="70" oninput="calcCosto()"></div>
+      <div><div class="cplbl">Sale %</div><input class="cpinp" id="cSale" type="number" value="2.5" step="0.1" oninput="calcCosto()"></div>
+      <div><div class="cplbl">Grammatura g</div><input class="cpinp" id="cGram" type="number" value="260" oninput="calcCosto()"></div>
+      <div><div class="cplbl">Costo sale €/kg</div><input class="cpinp" id="cCsale" type="number" value="0.5" step="0.1" oninput="calcCosto()"></div>
     </div>
   </div>
-
-  <!-- RISULTATO -->
-  <div id="costoResult" style="display:none;background:var(--gold-bg);border:2px solid var(--gold-border);border-radius:14px;padding:16px;margin-bottom:80px">
-    <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Costo pallina calcolato</div>
-    <div id="costoNum" style="font-size:42px;font-weight:700;font-family:DM Mono,monospace;color:var(--accent);line-height:1">—</div>
-    <div id="costoSub" style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6"></div>
+  <div class="cpresult" id="cpres">
+    <div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Costo pallina</div>
+    <div class="cpnum" id="cpnum">-</div>
+    <div class="cpsub" id="cpsub"></div>
   </div>
 </div>
 
-<!-- TAB LISTINO -->
-<div id="paneListino" style="display:none">
-  <div style="padding:12px 16px 6px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">📋 Listino D'Ago · Febbraio 2026 · IVA esclusa</div>
-  <div id="listinoRows"></div>
-  <div style="padding:12px 16px;font-size:10px;color:var(--muted);font-style:italic">Trasporto e Picking: 2% sul totale · Minimo ordine €150 iva esclusa</div>
+<div id="p2" style="display:none">
+  <div style="padding:10px 16px 4px;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-weight:700">📋 Listino D'Ago · Feb 2026 · IVA esclusa</div>
+  <div id="listino"></div>
+  <div style="padding:10px 16px;font-size:10px;color:var(--dim);font-style:italic">Trasporto e Picking 2% sul totale · Minimo ordine 150 euro</div>
 </div>
 
-<!-- TAB GESTIONE -->
-<div id="paneGestione" style="display:none">
-  <div class="section-hdr">✅ Farine attive — visibili nell'ordine <span id="countAttiveG"></span></div>
-  <div id="farineAttive"></div>
-  <div class="divider"></div>
-  <div class="section-hdr">💤 Stand-by — non visibili nell'ordine <span id="countStandby"></span></div>
-  <div id="farineStandby"></div>
+<div id="p3" style="display:none">
+  <div class="shdr">Attive <span id="cntAttG"></span></div>
+  <div id="listAtt"></div>
+  <div class="divid"></div>
+  <div class="shdr">Stand-by <span id="cntSby"></span></div>
+  <div id="listSby"></div>
   <div style="height:10px"></div>
 </div>
 
-<div class="bottom-bar" id="bottomBar">
-  <button class="btn-reset" onclick="resetOrdine()">↺ Reset</button>
-  <button class="btn-wa" onclick="inviaWhatsApp()">📲 Invia ordine su WhatsApp</button>
+<div class="bot" id="botbar">
+  <button class="breset" onclick="resetOrdine()">Reset</button>
+  <button class="bwa" onclick="inviaWA()">📲 Invia su WhatsApp</button>
 </div>
 
 <script>
-var FARINE_ALL = [
-  {id:'petra3hp', nome:'Petra 3 hp',              kg:12.5, w:'—',    prot:'13.50'},
-  {id:'petra1',   nome:'Petra 1',                  kg:12.5, w:'—',    prot:'—'},
-  {id:'f0hp',     nome:'0 hp',                     kg:12.5, w:'—',    prot:'—'},
-  {id:'f0052',    nome:'0052 Segale',               kg:10,   w:'—',    prot:'4.50'},
-  {id:'hp0101',   nome:'HP 0101',                   kg:12.5, w:'390-420', prot:'14.50'},
-  {id:'hp0102',   nome:'HP 0102',                   kg:12.5, w:'320-340', prot:'13.00'},
-  {id:'hp0103',   nome:'HP 0103',                   kg:10,   w:'—',    prot:'13.20'},
-  {id:'hp0104',   nome:'HP 0104',                   kg:10,   w:'—',    prot:'14.00'},
-  {id:'hp0107',   nome:'HP 0107',                   kg:10,   w:'—',    prot:'—'},
-  {id:'agr0106',  nome:'Agricola 0106',             kg:10,   w:'—',    prot:'13.90'},
-  {id:'f5020',    nome:'5020',                      kg:12.5, w:'350-360', prot:'13.50'},
-  {id:'f5037',    nome:'5037 Unica',                kg:12.5, w:'300-340', prot:'13.20'},
-  {id:'f5046',    nome:'5046 Allegra',              kg:12.5, w:'180-220', prot:'11.20'},
-  {id:'f5063',    nome:'5063 Special',              kg:12.5, w:'260-280', prot:'12.70'},
-  {id:'f5072',    nome:'5072',                      kg:12.5, w:'320-340', prot:'13.00'},
-  {id:'f5078',    nome:'5078',                      kg:12.5, w:'350-380', prot:'13.50'},
-  {id:'f8610',    nome:'8610',                      kg:12.5, w:'—',    prot:'—'},
-  {id:'f3220',    nome:'3220 Bonsemi',              kg:12.5, w:'—',    prot:'—'},
-  {id:'f3400',    nome:'3400 Ottimais',             kg:10,   w:'—',    prot:'—'},
-  {id:'f6384',    nome:'6384',                      kg:12.5, w:'—',    prot:'—'},
-  {id:'semriso',  nome:'Semolino riso termotr.',    kg:25,   w:'—',    prot:'—'},
-  {id:'lievito',  nome:'Stecca lievito Hirondelle', kg:2.5,  w:'—',    prot:'—'},
-  {id:'roggena',  nome:'Roggena Dunkel (malto)',    kg:12.5, w:'—',    prot:'—'}
+var FA = [
+  {id:'hp0102',nome:'HP 0102',kg:12.5,w:'320-340',pr:23.93},
+  {id:'hp0101',nome:'HP 0101',kg:12.5,w:'390-420',pr:24.88},
+  {id:'hp0103',nome:'HP 0103',kg:10,w:'-',pr:43.93},
+  {id:'hp0104',nome:'HP 0104',kg:10,w:'-',pr:44.63},
+  {id:'f5078',nome:'5078',kg:12.5,w:'350-380',pr:26.88},
+  {id:'f5063',nome:'5063 Special',kg:12.5,w:'260-280',pr:19.98},
+  {id:'f5046',nome:'5046 Allegra',kg:12.5,w:'180-220',pr:19.98},
+  {id:'f5037',nome:'5037 Unica',kg:12.5,w:'300-340',pr:20.94},
+  {id:'f5020',nome:'5020',kg:12.5,w:'350-360',pr:26.88},
+  {id:'f5072',nome:'5072',kg:12.5,w:'320-340',pr:26.88},
+  {id:'petra1hp',nome:'Petra 1 HP',kg:12.5,w:'-',pr:28.39},
+  {id:'petra3hp',nome:'Petra 3 HP',kg:12.5,w:'-',pr:28.39},
+  {id:'petra9hp',nome:'Petra 9 HP',kg:12.5,w:'-',pr:28.39},
+  {id:'petra1',nome:'Petra 1',kg:12.5,w:'-',pr:26.38},
+  {id:'petra3',nome:'Petra 3',kg:12.5,w:'-',pr:26.38},
+  {id:'petra9',nome:'Petra 9',kg:12.5,w:'-',pr:26.38},
+  {id:'f8610hp',nome:'8610 HP',kg:12.5,w:'-',pr:24.71},
+  {id:'f8610',nome:'8610',kg:12.5,w:'-',pr:21.52},
+  {id:'f0052',nome:'0052 Segale',kg:12.5,w:'-',pr:26.39},
+  {id:'ev0201',nome:'0201 Evolutiva',kg:12.5,w:'-',pr:41.43},
+  {id:'ma0202',nome:'0202 Maiorca',kg:12.5,w:'-',pr:41.43},
+  {id:'bs3220',nome:'3220 Bonsemi',kg:10,w:'-',pr:55.90},
+  {id:'ot3400',nome:'3400 Ottimais',kg:10,w:'-',pr:67.83},
+  {id:'pi5010',nome:'5010 Pinsa',kg:12.5,w:'-',pr:29.68},
+  {id:'lievito',nome:'Lievito Hirondelle',kg:2.5,w:'-',pr:0}
 ];
 
-// Farine attive di default (le più usate da Matteo)
-var DEFAULT_ATTIVE = ['petra3hp','hp0102','hp0103','f5037','f5046','f5063','f5078','f5020','lievito'];
+var DEF_ATTIVE = ['hp0102','f5078','f5063','f5046','f5037','f5020','petra3hp','hp0103','lievito'];
+var KEY_ATT = 'of_attive_v2';
+var KEY_ORD = 'of_ordine_v2';
 
-var STORAGE_ATTIVE = 'ordine_farine_attive_v1';
-var STORAGE_ORDINE = 'ordine_farine_ordine_v1';
-
-// Carica stato attive da localStorage
-var farine_attive = {};
-try {
-  var saved = localStorage.getItem(STORAGE_ATTIVE);
-  if(saved) farine_attive = JSON.parse(saved);
-  else {
-    FARINE_ALL.forEach(function(f){ farine_attive[f.id] = DEFAULT_ATTIVE.indexOf(f.id) >= 0; });
-    localStorage.setItem(STORAGE_ATTIVE, JSON.stringify(farine_attive));
-  }
-} catch(e) {
-  FARINE_ALL.forEach(function(f){ farine_attive[f.id] = DEFAULT_ATTIVE.indexOf(f.id) >= 0; });
-}
-
-// Carica quantita ordine
+var attive = {};
 var ordine = {};
-FARINE_ALL.forEach(function(f){ ordine[f.id] = 0; });
-try {
-  var savedOrdine = localStorage.getItem(STORAGE_ORDINE);
-  if(savedOrdine) ordine = JSON.parse(savedOrdine);
-} catch(e) {}
 
-function showSaveDot(){
-  var d=document.getElementById('saveDot');
-  if(d){d.classList.add('show');setTimeout(function(){d.classList.remove('show');},1200);}
+function loadData(){
+  var sa = null;
+  try{ sa = localStorage.getItem(KEY_ATT); }catch(e){}
+  if(sa){
+    try{ attive = JSON.parse(sa); }catch(e){ attive = {}; }
+  }
+  FA.forEach(function(f){
+    if(attive[f.id] === undefined){
+      attive[f.id] = (DEF_ATTIVE.indexOf(f.id) >= 0);
+    }
+  });
+
+  var so = null;
+  try{ so = localStorage.getItem(KEY_ORD); }catch(e){}
+  if(so){
+    try{ ordine = JSON.parse(so); }catch(e){ ordine = {}; }
+  }
+  FA.forEach(function(f){
+    if(ordine[f.id] === undefined) ordine[f.id] = 0;
+  });
 }
 
-function saveAttive(){
-  try{localStorage.setItem(STORAGE_ATTIVE, JSON.stringify(farine_attive));showSaveDot();}catch(e){}
+function saveAtt(){
+  try{ localStorage.setItem(KEY_ATT, JSON.stringify(attive)); }catch(e){}
+}
+function saveOrd(){
+  try{ localStorage.setItem(KEY_ORD, JSON.stringify(ordine)); }catch(e){}
 }
 
-function saveOrdine(){
-  try{localStorage.setItem(STORAGE_ORDINE, JSON.stringify(ordine));}catch(e){}
-}
+function getAtt(){ return FA.filter(function(f){ return attive[f.id]; }); }
+function getSby(){ return FA.filter(function(f){ return !attive[f.id]; }); }
+function getTot(){ var s=0; getAtt().forEach(function(f){ s+=ordine[f.id]||0; }); return s; }
+function getKg(){ var s=0; getAtt().forEach(function(f){ s+=(ordine[f.id]||0)*f.kg; }); return s; }
+function getOm(t){ return Math.floor(t/5); }
+function fmtD(v){ if(!v)return'-'; var p=v.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
 
-function toggleFarina(id){
-  farine_attive[id] = !farine_attive[id];
-  if(!farine_attive[id]) ordine[id] = 0; // reset qty se disattivata
-  saveAttive();
-  saveOrdine();
-  renderGestione();
-  renderOrdine();
-  updateAll();
-}
+function upd(){
+  var tot=getTot(), om=getOm(tot), kg=getKg();
+  document.getElementById('sSacchi').textContent = tot;
+  document.getElementById('sOmaggi').textContent = om;
+  document.getElementById('sKg').textContent = tot===0 ? '-' : kg+'kg';
 
-function change(id, d){
-  ordine[id] = Math.max(0,(ordine[id]||0)+d);
-  var el = document.getElementById('o_'+id);
-  if(el) el.value = ordine[id];
-  saveOrdine();
-  updateAll();
-}
-function setVal(id,v){
-  ordine[id] = Math.max(0,parseInt(v)||0);
-  saveOrdine();
-  updateAll();
-}
-
-function getFarineAttive(){
-  return FARINE_ALL.filter(function(f){ return farine_attive[f.id]; });
-}
-function getFarineStandby(){
-  return FARINE_ALL.filter(function(f){ return !farine_attive[f.id]; });
-}
-
-function getTot(){ return getFarineAttive().reduce(function(s,f){return s+(ordine[f.id]||0);},0); }
-function getKg(){  return getFarineAttive().reduce(function(s,f){return s+(ordine[f.id]||0)*f.kg;},0); }
-function getOmaggi(t){ return Math.floor(t/5); }
-function fmtDate(v){ if(!v)return'—';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0]; }
-
-function updateAll(){
-  var tot = getTot();
-  var omaggi = getOmaggi(tot);
-  var kg = getKg();
-  document.getElementById('sumSacchi').textContent = tot;
-  document.getElementById('sumOmaggi').textContent = omaggi;
-  document.getElementById('sumKg').textContent = tot===0?'—':(kg%1===0?kg+'kg':kg.toFixed(1)+'kg');
-
-  var righe = getFarineAttive().filter(function(f){return(ordine[f.id]||0)>0;});
-  var rb = document.getElementById('riepilogoBox');
-  if(righe.length>0){
-    rb.classList.add('show');
-    document.getElementById('riepilogoRows').innerHTML = righe.map(function(f){
+  var riga = getAtt().filter(function(f){ return (ordine[f.id]||0)>0; });
+  var rb = document.getElementById('rbox');
+  if(riga.length > 0){
+    rb.className = 'rbox on';
+    var h='';
+    riga.forEach(function(f){
       var q=ordine[f.id];
-      return '<div class="riepilogo-row"><span class="r-name">'+f.nome+'</span><span class="r-val">'+q+' sacchi · '+q*f.kg+'kg</span></div>';
-    }).join('');
-    document.getElementById('riepilogoTot').textContent = tot+' sacchi · '+(kg%1===0?kg:kg.toFixed(1))+'kg';
-  } else rb.classList.remove('show');
+      h+='<div class="rrow"><span class="rn">'+f.nome+'</span><span class="rv">'+q+' sacchi ('+q*f.kg+'kg)</span></div>';
+    });
+    document.getElementById('rrows').innerHTML = h;
+    document.getElementById('rtot').textContent = tot+' sacchi - '+kg+'kg';
+  } else {
+    rb.className = 'rbox';
+  }
 
-  var ob = document.getElementById('omaggioBox');
-  if(omaggi>0){ ob.classList.add('show'); document.getElementById('omaggioCount').textContent=omaggi; }
-  else ob.classList.remove('show');
+  var ob = document.getElementById('obox');
+  if(om > 0){
+    ob.className = 'obox on';
+    document.getElementById('ocnt').textContent = om;
+  } else {
+    ob.className = 'obox';
+  }
 }
 
-function renderOrdine(){
-  var attive = getFarineAttive();
-  document.getElementById('countAttive').textContent = attive.length+' farine';
-  document.getElementById('farineOrdine').innerHTML = attive.map(function(f){
-    var b='<span class="badge badge-kg">'+f.kg+'kg</span>';
-    if(f.w!=='—') b+='<span class="badge badge-w">W'+f.w+'</span>';
-    return '<div class="farina-card">'+
-      '<div class="farina-info"><div class="farina-name">🌾 '+f.nome+'</div><div>'+b+'</div></div>'+
-      '<div class="qty-wrap">'+
-        '<button class="qty-btn" onclick="change(\''+f.id+'\',-1)">−</button>'+
-        '<input class="qty-input" id="o_'+f.id+'" type="number" min="0" value="'+(ordine[f.id]||0)+'" oninput="setVal(\''+f.id+'\',this.value)">'+
-        '<button class="qty-btn" onclick="change(\''+f.id+'\',1)">+</button>'+
-      '</div>'+
-    '</div>';
-  }).join('') || '<div style="padding:20px 16px;color:var(--muted);font-size:13px">Nessuna farina attiva — vai su Gestione farine</div>';
+function chg(id, d){
+  ordine[id] = Math.max(0, (ordine[id]||0) + d);
+  var el = document.getElementById('qi_'+id);
+  if(el) el.value = ordine[id];
+  saveOrd();
+  upd();
+}
+function setv(id, v){
+  ordine[id] = Math.max(0, parseInt(v)||0);
+  saveOrd();
+  upd();
 }
 
-function renderGestione(){
-  var attive = getFarineAttive();
-  var standby = getFarineStandby();
-  document.getElementById('countAttiveG').textContent = attive.length;
-  document.getElementById('countStandby').textContent = standby.length;
-
-  document.getElementById('farineAttive').innerHTML = attive.map(function(f){
-    var b='<span class="badge badge-kg">'+f.kg+'kg</span>';
-    if(f.w!=='—') b+='<span class="badge badge-w">W'+f.w+'</span>';
-    return '<div class="gestione-card">'+
-      '<div class="gestione-info">'+
-        '<div class="gestione-name">🌾 '+f.nome+'</div>'+
-        '<div class="gestione-meta">'+b+'</div>'+
-      '</div>'+
-      '<button class="btn-toggle btn-standb" onclick="toggleFarina(\''+f.id+'\')">Metti in stand-by</button>'+
-    '</div>';
-  }).join('') || '<div style="padding:16px;color:var(--muted);font-size:13px">Nessuna farina attiva</div>';
-
-  document.getElementById('farineStandby').innerHTML = standby.map(function(f){
-    var b='<span class="badge badge-kg">'+f.kg+'kg</span>';
-    if(f.w!=='—') b+='<span class="badge badge-w">W'+f.w+'</span>';
-    return '<div class="gestione-card" style="opacity:0.6">'+
-      '<div class="gestione-info">'+
-        '<div class="gestione-name">🌾 '+f.nome+' <span class="standby-label">stand-by</span></div>'+
-        '<div class="gestione-meta">'+b+'</div>'+
-      '</div>'+
-      '<button class="btn-toggle btn-attiva" onclick="toggleFarina(\''+f.id+'\')">Attiva</button>'+
-    '</div>';
-  }).join('') || '<div style="padding:16px;color:var(--muted);font-size:13px">Nessuna farina in stand-by</div>';
+function togFarina(id){
+  attive[id] = !attive[id];
+  if(!attive[id]) ordine[id] = 0;
+  saveAtt();
+  saveOrd();
+  renderOrd();
+  renderGest();
+  upd();
 }
 
-// ══ LISTINO PREZZI D'AGO ══
-var LISTINO = [
-  {nome:'Petra 1',         cod:'PE12001',   kg:12.5, prezzo:26.38, ckg:2.1104},
-  {nome:'Petra 1 HP',      cod:'PE12001HP', kg:12.5, prezzo:28.39, ckg:2.2712},
-  {nome:'Petra 3',         cod:'PE12003',   kg:12.5, prezzo:26.38, ckg:2.1104},
-  {nome:'Petra 3 HP',      cod:'PE12003HP', kg:12.5, prezzo:28.39, ckg:2.2712},
-  {nome:'Petra 5',         cod:'PE12005',   kg:12.5, prezzo:26.38, ckg:2.1104},
-  {nome:'Petra 9',         cod:'PE12009',   kg:12.5, prezzo:26.38, ckg:2.1104},
-  {nome:'Petra 9 HP',      cod:'PE12009HP', kg:12.5, prezzo:28.39, ckg:2.2712},
-  {nome:'HP 0101',         cod:'PX120102',  kg:12.5, prezzo:24.88, ckg:1.9904},
-  {nome:'HP 0102',         cod:'PX120102',  kg:12.5, prezzo:23.93, ckg:1.9144},
-  {nome:'0 HP',            cod:'PX120102',  kg:12.5, prezzo:23.83, ckg:1.9064},
-  {nome:'8610 HP',         cod:'PZ128610HP',kg:12.5, prezzo:24.71, ckg:1.9768},
-  {nome:'8610',            cod:'PZ128610',  kg:12.5, prezzo:21.52, ckg:1.7216},
-  {nome:'HP 0103',         cod:'PX100103',  kg:10,   prezzo:43.93, ckg:4.3930},
-  {nome:'HP 0104',         cod:'PX100104',  kg:10,   prezzo:44.63, ckg:4.4630},
-  {nome:'HP 0105',         cod:'PX100105',  kg:10,   prezzo:38.63, ckg:3.8630},
-  {nome:'Agricola 0106 HP',cod:'BI00106HP', kg:10,   prezzo:59.81, ckg:5.9810},
-  {nome:'HP 0107',         cod:'BI1200012', kg:5,    prezzo:44.70, ckg:8.9400},
-  {nome:'5037 Unica',      cod:'PZ12031',   kg:12.5, prezzo:20.94, ckg:1.6752},
-  {nome:'5063 Special',    cod:'PZ12029',   kg:12.5, prezzo:19.98, ckg:1.5984},
-  {nome:'5046 Allegra',    cod:'PZ12030',   kg:12.5, prezzo:19.98, ckg:1.5984},
-  {nome:'0201 Evolutiva',  cod:'BI120201',  kg:12.5, prezzo:41.43, ckg:3.3144},
-  {nome:'0202 Maiorca',    cod:'BI120202',  kg:12.5, prezzo:41.43, ckg:3.3144},
-  {nome:'3220 Bonsemi',    cod:'PV163220',  kg:10,   prezzo:55.90, ckg:5.5900},
-  {nome:'3400 Ottimais',   cod:'PV163400',  kg:10,   prezzo:67.83, ckg:6.7830},
-  {nome:'5010 Pinsa',      cod:'PZ125010',  kg:12.5, prezzo:29.68, ckg:2.3744},
-  {nome:'5072',            cod:'PV12003',   kg:12.5, prezzo:26.88, ckg:2.1504},
-  {nome:'5020',            cod:'PZ12002',   kg:12.5, prezzo:26.88, ckg:2.1504},
-  {nome:'5078',            cod:'PZ1217',    kg:12.5, prezzo:26.88, ckg:2.1504},
-  {nome:'6384 Panettone',  cod:'PS12003',   kg:12.5, prezzo:22.88, ckg:1.8304},
-  {nome:'0115 Segale',     cod:'PV120115',  kg:12.5, prezzo:26.39, ckg:2.1112},
-  {nome:'0052 Segale',     cod:'PV120052',  kg:12.5, prezzo:26.39, ckg:2.1112}
-];
+function renderOrd(){
+  var att = getAtt();
+  document.getElementById('cntAtt').textContent = att.length+' farine';
+  var el = document.getElementById('listOrd');
+  if(att.length === 0){
+    el.innerHTML = '<div style="padding:20px;color:var(--dim);font-size:13px">Nessuna farina attiva — vai su Gestione</div>';
+    return;
+  }
+  var h = '';
+  for(var i=0; i<att.length; i++){
+    var f = att[i];
+    var b = '<span class="badge bkg">'+f.kg+'kg</span>';
+    if(f.w !== '-') b += '<span class="badge bw">W'+f.w+'</span>';
+    var q = ordine[f.id]||0;
+    h += '<div class="fc">';
+    h += '<div class="fi"><div class="fn">🌾 '+f.nome+'</div><div>'+b+'</div></div>';
+    h += '<div class="qw">';
+    h += '<button class="qb" id="qm_'+f.id+'">-</button>';
+    h += '<input class="qi" id="qi_'+f.id+'" type="number" min="0" value="'+q+'">';
+    h += '<button class="qb" id="qp_'+f.id+'">+</button>';
+    h += '</div>';
+    h += '</div>';
+  }
+  el.innerHTML = h;
+
+  // Attacca eventi dopo aver creato il DOM
+  for(var j=0; j<att.length; j++){
+    (function(fid){
+      var bm = document.getElementById('qm_'+fid);
+      var bp = document.getElementById('qp_'+fid);
+      var inp = document.getElementById('qi_'+fid);
+      if(bm) bm.onclick = function(){ chg(fid, -1); };
+      if(bp) bp.onclick = function(){ chg(fid, 1); };
+      if(inp) inp.oninput = function(){ setv(fid, this.value); };
+    })(att[j].id);
+  }
+}
+
+function renderGest(){
+  var att = getAtt();
+  var sby = getSby();
+  document.getElementById('cntAttG').textContent = att.length;
+  document.getElementById('cntSby').textContent = sby.length;
+
+  var ha = '';
+  for(var i=0; i<att.length; i++){
+    var f = att[i];
+    var b = '<span class="badge bkg">'+f.kg+'kg</span>';
+    ha += '<div class="gc">';
+    ha += '<div class="gi"><div class="gn">🌾 '+f.nome+'</div><div class="gm">'+b+'</div></div>';
+    ha += '<button class="btog boff" id="gm_'+f.id+'">Stand-by</button>';
+    ha += '</div>';
+  }
+  document.getElementById('listAtt').innerHTML = ha || '<div style="padding:16px;color:var(--dim)">Nessuna attiva</div>';
+
+  var hs = '';
+  for(var j=0; j<sby.length; j++){
+    var f2 = sby[j];
+    var b2 = '<span class="badge bkg">'+f2.kg+'kg</span>';
+    hs += '<div class="gc" style="opacity:0.6">';
+    hs += '<div class="gi"><div class="gn">🌾 '+f2.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+b2+'</div></div>';
+    hs += '<button class="btog bon" id="ga_'+f2.id+'">Attiva</button>';
+    hs += '</div>';
+  }
+  document.getElementById('listSby').innerHTML = hs || '<div style="padding:16px;color:var(--dim)">Nessuna in stand-by</div>';
+
+  // Eventi gestione
+  for(var k=0; k<att.length; k++){
+    (function(fid){
+      var b = document.getElementById('gm_'+fid);
+      if(b) b.onclick = function(){ togFarina(fid); };
+    })(att[k].id);
+  }
+  for(var l=0; l<sby.length; l++){
+    (function(fid){
+      var b = document.getElementById('ga_'+fid);
+      if(b) b.onclick = function(){ togFarina(fid); };
+    })(sby[l].id);
+  }
+}
 
 function renderListino(){
-  var el = document.getElementById('listinoRows');
-  if(!el) return;
-  el.innerHTML = LISTINO.map(function(f){
-    return '<div style="display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)">'+
-      '<div style="flex:1">'+
-        '<div style="font-size:13px;font-weight:600;color:var(--text)">🌾 '+f.nome+'</div>'+
-        '<div style="font-size:10px;color:var(--muted);margin-top:1px">'+f.cod+' · '+f.kg+'kg/sacco</div>'+
-      '</div>'+
-      '<div style="text-align:right">'+
-        '<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:var(--accent)">€'+f.prezzo.toFixed(2)+'</div>'+
-        '<div style="font-size:10px;color:var(--muted)">€'+f.ckg.toFixed(4)+'/kg</div>'+
-      '</div>'+
-    '</div>';
-  }).join('');
+  var h = '';
+  for(var i=0; i<FA.length; i++){
+    var f = FA[i];
+    if(f.pr === 0) continue;
+    var ckg = Math.round(f.pr/f.kg*10000)/10000;
+    h += '<div class="lrow">';
+    h += '<div style="flex:1"><div class="lname">🌾 '+f.nome+'</div><div class="lmeta">'+f.kg+'kg/sacco</div></div>';
+    h += '<div class="lprice"><div class="lpv">€'+f.pr.toFixed(2)+'</div><div class="lpkg">€'+ckg.toFixed(4)+'/kg</div></div>';
+    h += '</div>';
+  }
+  document.getElementById('listino').innerHTML = h;
 }
 
-function populateSelects(){
-  var opts = '<option value="0">— Nessuna —</option>'+
-    LISTINO.map(function(f,i){
-      return '<option value="'+i+'">'+f.nome+' (€'+f.ckg.toFixed(4)+'/kg)</option>';
-    }).join('');
-  var opts1 = '<option value="0">— Seleziona farina —</option>'+
-    LISTINO.map(function(f,i){
-      return '<option value="'+i+'">'+f.nome+' (€'+f.ckg.toFixed(4)+'/kg)</option>';
-    }).join('');
-  var s1=document.getElementById('cp1Farina');
-  var s2=document.getElementById('cp2Farina');
-  var s3=document.getElementById('cp3Farina');
-  if(s1)s1.innerHTML=opts1;
-  if(s2)s2.innerHTML=opts;
-  if(s3)s3.innerHTML=opts;
+function populateCostoSelects(){
+  var opts1 = '<option value="-1">-- Seleziona --</option>';
+  var opts0 = '<option value="-1">-- Nessuna --</option>';
+  for(var i=0; i<FA.length; i++){
+    var f = FA[i];
+    if(f.pr === 0) continue;
+    var ckg = Math.round(f.pr/f.kg*10000)/10000;
+    var o = '<option value="'+i+'">'+f.nome+' ('+ckg.toFixed(4)+'euro/kg)</option>';
+    opts1 += o;
+    opts0 += o;
+  }
+  document.getElementById('cf1').innerHTML = opts1;
+  document.getElementById('cf2').innerHTML = opts0;
+  document.getElementById('cf3').innerHTML = opts0;
 }
 
-function calcCostoPallina(){
-  var i1=parseInt(document.getElementById('cp1Farina')?.value||0);
-  var i2=parseInt(document.getElementById('cp2Farina')?.value||0);
-  var i3=parseInt(document.getElementById('cp3Farina')?.value||0);
-  var p1=parseFloat(document.getElementById('cp1Pct')?.value||0)/100;
-  var p2=parseFloat(document.getElementById('cp2Pct')?.value||0)/100;
-  var p3=parseFloat(document.getElementById('cp3Pct')?.value||0)/100;
-  var idr=parseFloat(document.getElementById('cpIDR')?.value||70)/100;
-  var sale=parseFloat(document.getElementById('cpSale')?.value||2.5)/100;
-  var gram=parseFloat(document.getElementById('cpGram')?.value||260);
-  var costoSale=parseFloat(document.getElementById('cpCostoSale')?.value||0.5);
+function calcCosto(){
+  var i1 = parseInt(document.getElementById('cf1').value);
+  var i2 = parseInt(document.getElementById('cf2').value);
+  var i3 = parseInt(document.getElementById('cf3').value);
+  var p1 = parseFloat(document.getElementById('cp1').value)||0;
+  var p2 = parseFloat(document.getElementById('cp2').value)||0;
+  var p3 = parseFloat(document.getElementById('cp3').value)||0;
+  var idr = parseFloat(document.getElementById('cIDR').value)||70;
+  var sale = parseFloat(document.getElementById('cSale').value)||2.5;
+  var gram = parseFloat(document.getElementById('cGram').value)||260;
+  var csale = parseFloat(document.getElementById('cCsale').value)||0.5;
 
-  // Aggiorna prezzi visualizzati
-  var f1=i1>0?LISTINO[i1]:null;
-  var f2=i2>0?LISTINO[i2]:null;
-  var f3=i3>0?LISTINO[i3]:null;
-  var el1=document.getElementById('cp1Prezzo');
-  var el2=document.getElementById('cp2Prezzo');
-  var el3=document.getElementById('cp3Prezzo');
-  if(el1)el1.textContent=f1?'€'+f1.ckg.toFixed(4)+'/kg':'—';
-  if(el2)el2.textContent=f2?'€'+f2.ckg.toFixed(4)+'/kg':'—';
-  if(el3)el3.textContent=f3?'€'+f3.ckg.toFixed(4)+'/kg':'—';
+  var f1 = i1>=0 ? FA[i1] : null;
+  var f2 = i2>=0 ? FA[i2] : null;
+  var f3 = i3>=0 ? FA[i3] : null;
 
-  if(!f1||p1<=0){document.getElementById('costoResult').style.display='none';return;}
+  var ckg1 = f1 ? Math.round(f1.pr/f1.kg*10000)/10000 : 0;
+  var ckg2 = f2 ? Math.round(f2.pr/f2.kg*10000)/10000 : 0;
+  var ckg3 = f3 ? Math.round(f3.pr/f3.kg*10000)/10000 : 0;
 
-  // Costo blend farina per kg
-  var costoFarinaKg = (f1?f1.ckg*p1:0)+(f2?f2.ckg*p2:0)+(f3?f3.ckg*p3:0);
+  document.getElementById('cv1').textContent = f1 ? '€'+ckg1.toFixed(4)+'/kg' : '-';
+  document.getElementById('cv2').textContent = f2 ? '€'+ckg2.toFixed(4)+'/kg' : '-';
+  document.getElementById('cv3').textContent = f3 ? '€'+ckg3.toFixed(4)+'/kg' : '-';
 
-  // Peso impasto per kg di farina = 1kg farina + IDR acqua + sale
-  var pesoImpastoPerKgFarina = 1 + idr + sale; // kg
+  if(!f1 || p1<=0){ document.getElementById('cpres').style.display='none'; return; }
 
-  // Costo per kg di impasto
-  var costoImpastoKg = (costoFarinaKg + sale*costoSale) / pesoImpastoPerKgFarina;
+  var blendKg = ckg1*(p1/100) + (f2?ckg2*(p2/100):0) + (f3?ckg3*(p3/100):0);
+  var pesoImpKg = 1 + idr/100 + sale/100;
+  var costoImpKg = (blendKg + (sale/100)*csale) / pesoImpKg;
+  var costoPall = costoImpKg * (gram/1000);
 
-  // Costo pallina
-  var costoPallina = costoImpastoKg * (gram/1000);
-
-  document.getElementById('costoResult').style.display='block';
-  document.getElementById('costoNum').textContent='€'+costoPallina.toFixed(4);
-  document.getElementById('costoSub').innerHTML=
-    'Grammatura: '+gram+'g · IDR: '+(idr*100)+'% · Sale: '+(sale*100)+'%<br>'+
-    'Blend: '+(f1?f1.nome+' '+Math.round(p1*100)+'%':'')+(f2?' + '+f2.nome+' '+Math.round(p2*100)+'%':'')+(f3?' + '+f3.nome+' '+Math.round(p3*100)+'%':'')+'<br>'+
-    'Costo farina blend: €'+costoFarinaKg.toFixed(4)+'/kg · Costo impasto: €'+costoImpastoKg.toFixed(4)+'/kg<br>'+
-    '<strong style="color:var(--accent)">→ €'+costoPallina.toFixed(3)+' per pallina da '+gram+'g</strong>';
+  document.getElementById('cpres').style.display = 'block';
+  document.getElementById('cpnum').textContent = '€'+costoPall.toFixed(4);
+  var bl = f1.nome+' '+p1+'%'+(f2?' + '+f2.nome+' '+p2+'%':'')+(f3?' + '+f3.nome+' '+p3+'%':'');
+  document.getElementById('cpsub').innerHTML =
+    'Blend: '+bl+'<br>'+
+    'IDR: '+idr+'% | Sale: '+sale+'% | Gram: '+gram+'g<br>'+
+    'Costo blend: €'+blendKg.toFixed(4)+'/kg<br>'+
+    '<strong style="color:var(--acc)">→ €'+costoPall.toFixed(3)+' per pallina da '+gram+'g</strong>';
 }
 
-function showTab(tab, btn){
-  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  document.getElementById('paneOrdine').style.display  = tab==='ordine'?'block':'none';
-  document.getElementById('paneCosto').style.display   = tab==='costo'?'block':'none';
-  document.getElementById('paneListino').style.display = tab==='listino'?'block':'none';
-  document.getElementById('paneGestione').style.display= tab==='gestione'?'block':'none';
-  document.getElementById('bottomBar').style.display   = tab==='ordine'?'flex':'none';
-  if(tab==='listino') renderListino();
-  if(tab==='costo') populateSelects();
+function showTab(n){
+  for(var i=0; i<4; i++){
+    document.getElementById('p'+i).style.display = i===n?'block':'none';
+    var t=document.getElementById('t'+i);
+    t.className = i===n?'tab on':'tab';
+  }
+  document.getElementById('botbar').style.display = n===0?'flex':'none';
+  if(n===2) renderListino();
+  if(n===1) populateCostoSelects();
 }
 
 function resetOrdine(){
-  FARINE_ALL.forEach(function(f){
-    ordine[f.id]=0;
-    var el=document.getElementById('o_'+f.id);
-    if(el)el.value=0;
-  });
-  document.getElementById('noteExtra').value='';
-  document.getElementById('omaggioTesto').value='';
-  saveOrdine();
-  updateAll();
+  FA.forEach(function(f){ ordine[f.id]=0; var el=document.getElementById('qi_'+f.id); if(el)el.value=0; });
+  document.getElementById('note').value='';
+  document.getElementById('otxt').value='';
+  saveOrd();
+  upd();
 }
 
-function inviaWhatsApp(){
+function inviaWA(){
   var tot=getTot();
-  if(tot===0){alert('Aggiungi almeno un sacco!');return;}
+  if(tot===0){ alert('Aggiungi almeno un sacco!'); return; }
   var sede=document.getElementById('sede').value;
-  var dataOrd=fmtDate(document.getElementById('dataOrdine').value);
-  var dataCons=fmtDate(document.getElementById('dataConsegna').value);
-  var omaggi=getOmaggi(tot);
-  var kg=getKg();
-  var note=document.getElementById('noteExtra').value.trim();
-  var omTesto=document.getElementById('omaggioTesto').value.trim();
+  var dord=fmtD(document.getElementById('dataOrd').value);
+  var dcons=fmtD(document.getElementById('dataCons').value);
+  var om=getOm(tot), kg=getKg();
+  var note=document.getElementById('note').value;
+  var omtxt=document.getElementById('otxt').value;
 
   var r=[];
   r.push('*ORDINE FARINE — L\'Orso*');
   r.push('Sede: *'+sede+'*');
-  r.push('Data ordine: '+dataOrd);
-  r.push('Consegna richiesta: *'+dataCons+'*');
+  r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');
   r.push('---');
-  getFarineAttive().forEach(function(f){
+  getAtt().forEach(function(f){
     var q=ordine[f.id]||0;
-    if(q>0){
-      var s='  *'+f.nome+'* — '+q+' sacchi ('+q*f.kg+'kg)';
-      if(f.w!=='—') s+=' W'+f.w;
-      r.push(s);
-    }
+    if(q>0) r.push('  *'+f.nome+'* — '+q+' sacchi ('+q*f.kg+'kg)');
   });
   r.push('---');
-  r.push('*Totale: '+tot+' sacchi — '+(kg%1===0?kg:kg.toFixed(1))+'kg*');
-  if(omaggi>0){
-    r.push('*Omaggi: '+omaggi+' sacchi* (1 ogni 5)');
-    if(omTesto) r.push('Omaggi scelti: '+omTesto);
-    else r.push('Omaggi: da definire');
+  r.push('*Totale: '+tot+' sacchi — '+kg+'kg*');
+  if(om>0){
+    r.push('*Omaggi: '+om+' sacchi*');
+    if(omtxt) r.push('Scelti: '+omtxt);
   }
   if(note) r.push('Note: '+note);
   r.push('_Matteo La Spada · L\'Orso Messina_');
 
-  var a=document.createElement('a');
-  a.href='https://wa.me/?text='+encodeURIComponent(r.join('\n'));
-  a.target='_blank';a.rel='noopener';
-  document.body.appendChild(a);a.click();
-  setTimeout(function(){document.body.removeChild(a);},500);
+  window.location.href='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
 }
 
-// Date di default
+// Init
 (function(){
+  loadData();
   var d=new Date();
-  var fmt=function(dt){return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');};
-  document.getElementById('dataOrdine').value=fmt(d);
-  var c=new Date(d);c.setDate(c.getDate()+2);
-  document.getElementById('dataConsegna').value=fmt(c);
-  renderOrdine();
-  renderGestione();
-  updateAll();
+  var fmt=function(dt){ return dt.getFullYear()+'-'+(dt.getMonth()<9?'0':'')+(dt.getMonth()+1)+'-'+(dt.getDate()<10?'0':'')+dt.getDate(); };
+  document.getElementById('dataOrd').value=fmt(d);
+  var c=new Date(d); c.setDate(c.getDate()+2);
+  document.getElementById('dataCons').value=fmt(c);
+  renderOrd();
+  renderGest();
+  upd();
 })();
 </script>
 </body>
