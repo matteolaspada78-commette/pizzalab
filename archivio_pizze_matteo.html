@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27115%27%20fill%3D%27%23b33a3a%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27330%27%20font-size%3D%27300%27%20text-anchor%3D%27middle%27%3E%F0%9F%90%BB%3C/text%3E%3C/svg%3E">
 <title>🍕 Archivio — Matteo La Spada</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -487,6 +488,7 @@
     .modal-handle { display:none; }
   }
 </style>
+<meta name="apple-mobile-web-app-title" content="Archivio Pizze">
 </head>
 <body>
 
@@ -689,6 +691,22 @@ function showTab(id, btn) {
   if (btn) btn.classList.add('active');
   // show/hide search hero only on archivio
   document.getElementById('searchHero').style.display = (id === 'prezzi' || id === 'menu') ? 'none' : 'block';
+  // Ripristina menu salvato quando si apre la tab menu
+  if(id === 'menu' && menuSelezionate.length > 0) {
+    renderMenuChips();
+    // Ripristina anche l'output se era stato generato
+    var savedOutput = localStorage.getItem('archivio_menu_output_v1');
+    if(savedOutput) {
+      var outEl = document.getElementById('menuOutput');
+      var cardsEl = document.getElementById('menuCards');
+      var shareBtn = document.getElementById('btnShareMenu');
+      if(outEl && cardsEl) {
+        cardsEl.innerHTML = savedOutput;
+        outEl.style.display = 'block';
+        if(shareBtn) shareBtn.style.display = 'inline-block';
+      }
+    }
+  }
   if (id !== 'archivio') {
     document.getElementById('searchResults').classList.remove('open');
   }
@@ -1037,7 +1055,19 @@ function showToast(msg) {
 // ══════════════════════════════════════════════
 // MENÙ PERSONALIZZATO
 // ══════════════════════════════════════════════
-let menuSelezionate = []; // array di numeri pizza selezionate
+let menuSelezionate = [];
+
+// ── Carica menu da localStorage al boot ──
+(function(){
+  try {
+    var saved = localStorage.getItem('archivio_menu_v1');
+    if(saved) menuSelezionate = JSON.parse(saved);
+  } catch(e) {}
+})();
+
+function saveMenu(){
+  try { localStorage.setItem('archivio_menu_v1', JSON.stringify(menuSelezionate)); } catch(e) {}
+}
 
 function menuFilter(val) {
   const box = document.getElementById('menuSearchResults');
@@ -1073,6 +1103,7 @@ function menuTogglePizza(n) {
     menuSelezionate.push(n);
     menuSelezionate.sort((a, b) => a - b);
   }
+  saveMenu();
   renderMenuChips();
   // aggiorna la ricerca
   const q = document.getElementById('menuSearch').value;
@@ -1158,10 +1189,14 @@ function buildMenu() {
   document.getElementById('menuSearch').value = '';
   document.getElementById('menuSearchResults').style.display = 'none';
   output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Salva output per ripristino
+  try { localStorage.setItem('archivio_menu_output_v1', cards.innerHTML); } catch(e) {}
 }
 
 function clearMenu() {
   menuSelezionate = [];
+  saveMenu();
+  try { localStorage.removeItem('archivio_menu_output_v1'); } catch(e) {}
   renderMenuChips();
   document.getElementById('menuOutput').style.display = 'none';
   document.getElementById('btnShareMenu').style.display = 'none';
