@@ -402,7 +402,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="menu-icon" style="background:rgba(136,14,79,0.3)">👑</div>
       <div class="menu-text">
         <div class="menu-name">Napoletana Suprema</div>
-        <div class="menu-sub">Biga 50% 0102HP + Licoli · 70% 5063 + 30% 0102HP</div>
+        <div class="menu-sub">Biga 50% 0102HP + Licoli · 70% 5063 + 30% 5078</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-btn" onclick="openPage('napofrigo')">
+      <div class="menu-icon" style="background:rgba(136,14,79,0.2)">❄️</div>
+      <div class="menu-text">
+        <div class="menu-name">Napoletana Pronta Forno</div>
+        <div class="menu-sub">Biga G1 → Rinfresco G2 → Frigo 24-36h → Forno diretto</div>
       </div>
       <div class="menu-arrow">›</div>
     </div>
@@ -837,6 +846,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
 
       <div class="inp-group"><label class="inp-label">pH PRIMA del rinfresco (stato madre)</label><div class="inp-row"><input class="inp-field" id="lPH" type="number" value="" step="0.1" min="2.5" max="7" placeholder="es. 3.8"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">Destinazione — per chi è questo rinfresco?</label><div class="inp-row"><input class="inp-field" id="lLab" type="text" placeholder="Es: Roma, Cosenza, Palermo..." style="font-size:14px" oninput="salvaLabLicoli()"></div></div>
     </div>
   </div>
   <div class="card" id="cardLicoliCtrl">
@@ -1081,7 +1091,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="page-hero">
     <div class="page-hero-icon">👑</div>
     <div class="page-hero-title">Napoletana Suprema</div>
-    <div class="page-hero-sub">Biga 50% 0102HP · 70% 5063 + 30% 0102HP · Licoli · Cornicione assoluto</div>
+    <div class="page-hero-sub">Biga 50% 0102HP · 70% 5063 + 30% 5078 · Licoli · Cornicione assoluto</div>
   </div>
   <div class="card open" id="cardSupremaInp">
     <div class="card-hdr" onclick="toggleCard('cardSupremaInp')">
@@ -1096,6 +1106,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="sSale" type="number" value="2.2" min="1.8" max="3" step="0.1"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Licoli % (sul rinfresco)</label><div class="inp-row"><input class="inp-field" id="sLic" type="number" value="10" min="0" max="20" step="1"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.3" min="0.1" max="0.8" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">% 5063 Special nel rinfresco</label><div class="inp-row"><input class="inp-field" id="sB63" type="number" value="70" min="0" max="100" step="5"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">% 5078 nel rinfresco (resto = 0102HP)</label><div class="inp-row"><input class="inp-field" id="sB78" type="number" value="30" min="0" max="100" step="5"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Servizio G2 (es. 19)</label><div class="inp-row"><input class="inp-field" id="sSV" type="number" value="19" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
@@ -1202,6 +1214,83 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 
 </div>
 
+<!-- NAPOLETANA PRONTA FORNO -->
+<div id="pageNapoFrigo" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">❄️</div>
+    <div class="page-hero-title">Napoletana Pronta Forno</div>
+    <div class="page-hero-sub">Biga G1 · Rinfresco G2 · Panetti in frigo 24-36h · Servizio diretto</div>
+  </div>
+
+  <!-- Protocollo scientifico -->
+  <div style="margin:0 16px 4px;background:rgba(136,14,79,0.1);border:1px solid rgba(136,14,79,0.3);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#AD1457;text-transform:uppercase;margin-bottom:10px">🔬 Protocollo Scientifico</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Biga sul totale</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">50% <span style="color:var(--dim);font-size:9px">range 45-55%</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">LdB biga</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">0.3% <span style="color:var(--dim);font-size:9px">a 4°C · 20h</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">IDR finale</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">68-72% <span style="color:var(--dim);font-size:9px">ottimale 70%</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Frigo panetti</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">24-36h <span style="color:var(--dim);font-size:9px">ottimale 28h</span></div>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Farina biga</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">100% 0102HP</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Farina rinfresco</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">70% 5063<br>30% 5078</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">
+      Fuori frigo 30 min prima del servizio · Forno 430-450°C · 60-90 sec
+    </div>
+  </div>
+
+  <div class="card open" id="cardNFInp">
+    <div class="card-hdr" onclick="toggleCard('cardNFInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Kg · Grammatura · Orari · Frigo</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="nfKgTot" type="number" value="20" min="5" max="150" step="0.5" oninput="syncNfKg()"><span class="inp-unit">kg</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Biga 50% — calcolato</label><div class="inp-row"><input class="inp-field" id="nfKgB" type="number" value="10" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Rinfresco 50%</label><div class="inp-row"><input class="inp-field" id="nfKgR" type="number" value="10" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
+      </div>
+      <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="nfGr" type="number" value="270" min="220" max="320" step="10"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale % (ottimale 70)</label><div class="inp-row"><input class="inp-field" id="nfIDR" type="number" value="70" min="65" max="74" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale % (standard 2.5)</label><div class="inp-row"><input class="inp-field" id="nfSale" type="number" value="2.5" min="1.8" max="3" step="0.1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli % sul rinfresco</label><div class="inp-row"><input class="inp-field" id="nfLic" type="number" value="10" min="0" max="20" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % biga (ottimale 0.3)</label><div class="inp-row"><input class="inp-field" id="nfLdb" type="number" value="0.3" min="0.1" max="0.8" step="0.05"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore panetti in frigo (24-36h)</label><div class="inp-row"><input class="inp-field" id="nfFreH" type="number" value="28" min="24" max="36" step="1"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="nfOI" type="number" value="20" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="nfOR" type="number" value="8" min="0" max="23"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Fase 1 acqua % sul totale</label><div class="inp-row"><input class="inp-field" id="nfF1" type="number" value="60" min="50" max="80" step="5"><span class="inp-unit">%</span></div></div>
+    </div>
+  </div>
+
+  <div class="card open" id="cardNFOut">
+    <div class="card-hdr" onclick="toggleCard('cardNFOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Output Scientifico</div><div class="card-hdr-title">Grammi · Acqua · Timeline G1→G2→G3</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="napoFrigoOut"></div></div>
+  </div>
+  <button class="btn-share" onclick="buildWaLink(this,'pageNapoFrigo','Napoletana Pronta Forno')"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+</div>
+
 <!-- SCROCCHIARELLA -->
 <div id="pageScrocch" class="scroll" style="display:none">
   <div class="page-hero">
@@ -1253,7 +1342,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">KG Farina Biga (0102HP)</label><div class="inp-row"><input class="inp-field" id="tbKg" type="number" value="2" min="0.5" max="30" step="0.5"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura tonda (g)</label><div class="inp-row"><input class="inp-field" id="tbGr" type="number" value="200" min="160" max="240" step="10"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">Biga %</label><div class="inp-row"><input class="inp-field" id="tbBp" type="number" value="30" min="20" max="40" step="5"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="tbIDR" type="number" value="58" min="52" max="60" step="1"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">% 5063 Special nel rinfresco</label><div class="inp-row"><input class="inp-field" id="tb63" type="number" value="60" min="0" max="100" step="10"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">% 5046 Allegra nel rinfresco</label><div class="inp-row"><input class="inp-field" id="tb46" type="number" value="30" min="0" max="100" step="10"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="tbIDR" type="number" value="58" min="52" max="62" step="1"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="tbSale" type="number" value="2.5" min="1.8" max="3" step="0.1"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Zucchero %</label><div class="inp-row"><input class="inp-field" id="tbZuc" type="number" value="1.5" min="0" max="3" step="0.5"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Strutto %</label><div class="inp-row"><input class="inp-field" id="tbStr" type="number" value="3" min="0" max="5" step="0.5"><span class="inp-unit">%</span></div></div>
@@ -2526,6 +2617,7 @@ const pages={
   suprema:'pageSuprema',scrocch:'pageScrocch',
   tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
+  napofrigo:'pageNapoFrigo',
   tegliapf:'pageTegliaPF',
   diario:'pageDiario',
   diretto:'pageDiretto',
@@ -2541,6 +2633,7 @@ const titles={
   palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 82%'],
   palascient:['🔬 Pala Scientifica','IDR variabile · G-prime target'],
   palabiga:['🫓 Teglia Alveolata','Biga 50% · 5078+0102HP · Alveoli Esplosivi'],
+  napofrigo:['❄️ Napoletana Pronta Forno','Biga G1 → Panetti frigo 24-36h → Forno'],
   tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
   diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico'],
@@ -2681,6 +2774,13 @@ function erf(x){
 // ══════════════════════════════════════════════
 // LICOLI
 // ══════════════════════════════════════════════
+function salvaLabLicoli(){
+  try {
+    var v = (document.getElementById('lLab')||{}).value||'';
+    localStorage.setItem('licoli_lab_v1', v);
+  } catch(e) {}
+}
+
 function syncRapportoAcqua(val){
   const raEl = document.getElementById('lRA');
   if(raEl) raEl.value = val;
@@ -2786,6 +2886,7 @@ function calcLicoli(){
 
   // ── MEMORIA ULTIMO RINFRESCO ──
   try {
+    var labVal = (document.getElementById('lLab')||{}).value || 'L-Orso';
     const mem = {
       data: new Date().toLocaleDateString('it-IT'),
       ora: String(ora).padStart(2,'0')+':00',
@@ -2797,7 +2898,8 @@ function calcLicoli(){
       util: util,
       oraPronto: oraPronto,
       oraLimite: oraLimite,
-      ph: ph || '—'
+      ph: ph || '—',
+      lab: labVal
     };
     localStorage.setItem('licoli_ultimo', JSON.stringify(mem));
     renderUltimoRinfresco();
@@ -2859,8 +2961,12 @@ function calcSuprema(){
   const licP=G('sLic'),ldbP=G('sLdb'),ob=G('sOB'),or_=G('sOR'),sv=G('sSV');
 
   const kgTot=kg*2;
-  const kg5063=R(kg*0.70*1000,0);
-  const kg0102=R(kg*0.30*1000,0);
+  const pct63=Math.min(100,Math.max(0,G('sB63')||70));
+  const pct78=Math.min(100-pct63,Math.max(0,G('sB78')||30));
+  const pct02=Math.max(0,100-pct63-pct78);
+  const kg5063=R(kg*pct63/100*1000,0);
+  const kg5078=R(kg*pct78/100*1000,0);
+  const kg0102r=R(kg*pct02/100*1000,0);
   const licG=R(kg*licP/100*1000,0);
   const licAcq=R(licG*0.5,0);
   const licFar=R(licG*0.5,0);
@@ -2893,8 +2999,9 @@ function calcSuprema(){
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco — Giorno 2 ore ${H(or_)} — ZERO LdB</div>
-      ${row('Petra 5063 (70%)',kg5063+'g','AVPN')}
-      ${row('Petra 0102HP (30%)',kg0102+'g','germogliata')}
+      ${pct63>0?row('Petra 5063 Special ('+pct63+'%)',kg5063+'g','W260-280 · struttura'):''}
+      ${pct78>0?row('Petra 5078 ('+pct78+'%)',kg5078+'g','W350-380 · estensibilità · alveoli alti'):''}
+      ${pct02>0?row('Petra 0102HP ('+pct02+'%)',kg0102r+'g','W320-340'):''}
       ${row('Licoli ('+licP+'%)',licG+'g','→ '+licAcq+'g acqua + '+licFar+'g farina',false)}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
     </div>
@@ -2980,6 +3087,9 @@ function calcTondaBiga(){
 
   const kgTot=R(kgB*100/bp,3);
   const kgRinf=R(kgB*(100-bp)/bp,3);
+  const pct63=G('tb63')||60;
+  const pct46=G('tb46')||30;
+  const pct0102=Math.max(0,100-pct63-pct46);
   const acqBiga=R(kgB*0.45*1000,0);
   const ldbG=R(kgB*ldbP/100*1000,1);
   const acqTot=R(kgTot*idr/100*1000,0);
@@ -3009,7 +3119,9 @@ function calcTondaBiga(){
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco — G2 ${H(or_)} — ZERO LdB</div>
-      ${row('Petra 5046 Allegra ('+R(100-bp,0)+'%)',R(kgRinf*1000,0)+'g','')}
+      ${row('Petra 5063 Special ('+pct63+'%)',R(kgRinf*pct63/100*1000,0)+'g','W260-280 · struttura croccante')}
+      ${row('Petra 5046 Allegra ('+pct46+'%)',R(kgRinf*pct46/100*1000,0)+'g','W180-220 · leggerezza e croccantezza')}
+      ${pct0102>0?row('Petra 0102HP ('+pct0102+'%)',R(kgRinf*pct0102/100*1000,0)+'g','proteasi controllate'):''}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
       ${row('Zucchero ('+zucP+'%)',zuc+'g','Maillard → colore dorato')}
       ${row('Strutto ('+strP+'%)',str+'g','fuori frigo 30min prima')}
@@ -3308,11 +3420,11 @@ function calcTegliaPF(){
   const nTeglie=Math.floor(pesoImpasto/gr);
 
   // ORARI
-  // G1: biga → G2: rinfresco → puntata 1h → staglio → frigo freH ore → fuori frigo 2h → forno
-  const orePuntata=1;
+  // G1: biga → G2: rinfresco → puntata 1h30 → staglio → frigo freH ore → fuori 30min → forno
+  const orePuntata=1.5;
   const oreStaglio=or_+orePuntata;
-  // G3 (o stesso G2 se freH < 16h): uscita frigo + 2h appretto → forno
-  const oreDopoFrigo=2; // appretto fuori frigo
+  // G3: uscita frigo + 30min → forno
+  const oreDopoFrigo=0.5; // 30 min fuori frigo
   const oraForno=((oreStaglio+freH+oreDopoFrigo)%24);
   const giornoForno=Math.floor((oreStaglio+freH+oreDopoFrigo)/24);
 
@@ -3380,8 +3492,8 @@ function calcTegliaPF(){
       [H(or_+0.3)+' G2','BASSINAGE '+bass+'g','a filo · IDR finale '+idr+'%'],
       [H(or_+1)+' G2','PUNTATA 1h30 a 22°C','+30-40% volume · coperto · NON in cella'],
       [H(oreStaglio)+' G2','STAGLIO → BOCCE',nTeglie+' teglie da '+gr+'g · olio sotto'],
-      [H(oreStaglio)+' G2','FRIGO 4°C per '+freH+'h','bocce coperte · maglia si rilassa · pH scende a 5.0-5.3'],
-      [H(oraForno-0.5)+' G3','FUORI FRIGO 30 min','T ambiente · non stendere ancora'],
+      [H(oreStaglio+0.3)+' G2','→ FRIGO 4°C per '+freH+'h','bocce coperte · maglia si rilassa'],
+      [H(oraForno-0.5)+' G3','FUORI FRIGO','30 min a T ambiente prima di stendere'],
       [H(oraForno)+' G3','FORNO 280°C PLATEA','250°C cielo · olio teglia · 20-25 min · vapore primi 5 min']
     ])+
 
@@ -3592,6 +3704,137 @@ function calcPhBiga(){
   }
 
   el.innerHTML = out;
+}
+
+// ══════════════════════════════════════════════
+// NAPOLETANA PRONTA FORNO
+// ══════════════════════════════════════════════
+function syncNfKg(){
+  var tot=G('nfKgTot')||20;
+  var kgB=Math.round(tot*0.50*10)/10;
+  var kgR=Math.round((tot-kgB)*10)/10;
+  var elB=document.getElementById('nfKgB');
+  var elR=document.getElementById('nfKgR');
+  if(elB)elB.value=kgB;
+  if(elR)elR.value=kgR;
+  calcNapoFrigo();
+}
+
+function calcNapoFrigo(){
+  var kgB=G('nfKgB')||10;
+  var kgR=G('nfKgR')||10;
+  var kg=kgB+kgR;
+  var gr=G('nfGr')||270;
+  var idr=G('nfIDR')||70;
+  var saleP=G('nfSale')||2.5;
+  var licP=G('nfLic')||10;
+  var ldbP=G('nfLdb')||0.3;
+  var freH=G('nfFreH')||28;
+  var oi=G('nfOI')||20;
+  var or_=G('nfOR')||8;
+  var f1Pct=G('nfF1')||60;
+
+  // Biga 100% 0102HP
+  var acqBiga=R(kgB*0.45*1000,0);
+  var ldbBiga=R(kgB*ldbP/100*1000,2);
+
+  // Rinfresco: 70% 5063 + 30% 5078
+  var kg5063r=R(kgR*0.70,3);
+  var kg5078r=R(kgR*0.30,3);
+
+  // Licoli
+  var licG=R(kgR*licP/100*1000,0);
+  var licAcq=R(licG*0.5,0);
+  var licFar=R(licG*0.5,0);
+
+  // Acqua
+  var acqTot=R(kg*idr/100*1000,0);
+  var acqRinf=acqTot-acqBiga-licAcq;
+  var fase1=R(acqRinf*f1Pct/100,0);
+  var bass=Math.max(0,acqRinf-fase1);
+  var sale=R(kg*saleP/100*1000,0);
+  var acqSale=R(sale*3,0);
+
+  // Resa
+  var pesoImp=R((kg+acqTot/1000+kg*saleP/100)*1000,0);
+  var nPan=Math.floor(pesoImp/gr);
+
+  // Timeline
+  var H=function(h){var x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00';};
+  var oreStaglio=or_+1.5; // puntata 1h30
+  var oraFrigo=oreStaglio;
+  var oraFuori=((oraFrigo+freH)%24);
+  var giornoFuori=Math.floor((or_+freH+1.5)/24);
+  var oraServizio=((oraFuori+0.5)%24);
+
+  // Semaforo biga
+  var oreB=(or_>=oi)?(or_-oi):(24-oi+or_);
+  var attB=R(100*Math.exp(-Math.pow(oreB-20,2)/60),1);
+  var semCls=attB>=85?'ok':attB>=70?'ok':attB>=50?'warn':'bad';
+  var semTxt=attB>=85?'🏆 BIGA AL PICCO':attB>=70?'✅ Biga ottimale':attB>=50?'🟡 Biga acerba':'🔴 Biga fuori picco';
+
+  // Semaforo frigo
+  var semFCls=freH>=24&&freH<=32?'ok':freH>32?'warn':'bad';
+  var semFTxt=freH>=24&&freH<=32?'✅ '+freH+'h in frigo — finestra ottimale':freH>32?'🟡 '+freH+'h — attenzione oltre 36h':'🔴 '+freH+'h — troppo poco per napoletana da frigo';
+
+  var el=document.getElementById('napoFrigoOut');
+  if(!el)return;
+
+  el.innerHTML=
+    sem(semTxt+' — '+oreB+'h · attività '+attB+'%',semCls)+
+
+    '<div class="res-section">'+
+    '<div class="res-label">🧱 G1 — Biga '+kgB+'kg · ore '+H(oi)+'</div>'+
+    row('Petra HP 0102 (100%)',R(kgB*1000,0)+'g','W320-340 · proteasi per maturazione lunga')+
+    row('Acqua biga IDR 45%',acqBiga+'g','fredda 4°C')+
+    row('LdB biga ('+ldbP+'%)',ldbBiga+'g','sciogli in acqua fredda')+
+    row('TOTALE BIGA',R(kgB*1000+acqBiga+ldbBiga,0)+'g','→ cella 4°C per 18-22h',true)+
+    '</div>'+
+
+    '<div class="res-section">'+
+    '<div class="res-label">🔄 G2 — Rinfresco '+kgR+'kg · ore '+H(or_)+'</div>'+
+    row('Petra 5063 Special (70%)',R(kg5063r*1000,0)+'g','W260-280 · struttura cornicione')+
+    row('Petra 5078 (30%)',R(kg5078r*1000,0)+'g','W350-380 · estensibilità per stesura fredda')+
+    row('Licoli ('+licP+'%)',licG+'g','acq: '+licAcq+'g | far: '+licFar+'g')+
+    row('Sale ('+saleP+'%)',sale+'g','sciolto in '+acqSale+'g acqua')+
+    '</div>'+
+
+    '<div class="res-section">'+
+    '<div class="res-label">💧 Distribuzione acqua rinfresco — tot '+acqRinf+'g</div>'+
+    row('Fase 1 ('+f1Pct+'%)',fase1+'g','T 16-18°C · con biga+farine')+
+    row('Bassinage',bass+'g','a filo dopo incordatura',true)+
+    row('IDR finale',idr+'%','',true)+
+    '</div>'+
+
+    '<div class="res-section">'+
+    '<div class="res-label">📐 Resa</div>'+
+    row('Peso impasto totale',pesoImp+'g','')+
+    row('PANETTI DA '+gr+'g',nPan+' panetti','',true)+
+    '</div>'+
+
+    sem(semFTxt,semFCls)+
+
+    tl([
+      [H(oi)+' G1','BIGA IN CELLA 4°C',R(kgB*1000,0)+'g 0102HP | LdB '+ldbBiga+'g'],
+      ['18-22h','MATURAZIONE BIGA','pH target 5.2-5.6'],
+      [H(or_)+' G2','RINFRESCO + IMPASTO','5063 '+R(kg5063r*1000,0)+'g + 5078 '+R(kg5078r*1000,0)+'g + Licoli '+licG+'g'],
+      [H(or_+0.5)+' G2','BASSINAGE '+bass+'g','a filo · T uscita 22-24°C'],
+      [H(oreStaglio)+' G2','PUNTATA 1h30 a 22°C','+30% volume · NON in cella'],
+      [H(oreStaglio)+' G2','STAGLIO → PANETTI',''+nPan+' panetti da '+gr+'g'],
+      [H(oraFrigo+0.2)+' G2','→ FRIGO 4°C per '+freH+'h','panetti coperti · appretto freddo lungo'],
+      [H(oraFuori)+' G'+(1+giornoFuori),'FUORI FRIGO 30 MIN','T ambiente · maglia si rilassa'],
+      [H(oraServizio)+' G'+(1+giornoFuori),'🔥 SERVIZIO','forno 430-450°C · 60-90 sec']
+    ])+
+
+    '<div class="res-section">'+
+    '<div class="res-label">📋 Note tecniche</div>'+
+    '<div style="font-size:11px;color:var(--dim);line-height:1.8">'+
+    '• <span style="color:var(--cream)">5078 al 30%</span> → maglia più estensibile — facilita stesura dopo il frigo<br>'+
+    '• <span style="color:var(--cream)">IDR 70%</span> → range 68-72% · mai sopra 72% con frigo lungo<br>'+
+    '• <span style="color:var(--cream)">30 min fuori frigo</span> → obbligatori · panetto a 4°C non si stende<br>'+
+    '• <span style="color:var(--cream)">Frigo 24-36h</span> → oltre 36h la maglia collassa · pH scende sotto 4.8<br>'+
+    '• <span style="color:var(--cream)">Forno 430-450°C</span> → non meno · la napoletana da frigo ha bisogno di calore esplosivo'+
+    '</div></div>';
 }
 
 // ══════════════════════════════════════════════
@@ -4050,8 +4293,9 @@ function shareLicoli(){
   var ora2=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
   var nomeP=prog===7?'Frigorifero':'P'+prog;
   var phNote=ph<=0?'':ph<3.5?' TROPPO ACIDA':ph<=4.2?' ottimale':ph<=4.8?' acerba':' inattiva';
+  var lab = (document.getElementById('lLab')||{}).value || 'L-Orso';
   var r=[];
-  r.push('*Licoli Madre - Orso*');
+  r.push('*🌿 LICOLI MADRE — '+lab+'*');
   r.push(oggi+' ore '+ora2);
   r.push('---');
   r.push('Programma: *'+nomeP+'* '+descP[prog]);
@@ -4062,8 +4306,12 @@ function shareLicoli(){
   r.push('---');
   r.push('Rinfresco: *'+H(ora)+'*  Picco: *'+H(oraFine)+'*  Limite: *'+H(oraFine+4)+'*');
   if(ph>0) r.push('pH: *'+ph+'*'+phNote);
-  r.push('Pizza Lab - Matteo La Spada');
-  window.location.href='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
+  r.push('_Pizza Lab - Matteo La Spada_');
+  var a=document.createElement('a');
+  a.href='https://wa.me/?text='+encodeURIComponent(r.join('\n'));
+  a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);},500);
 }
 
 function buildWaLink(el, pageId, titolo){
@@ -4096,7 +4344,7 @@ function buildWaLink(el, pageId, titolo){
     r.push('---');
     r.push('*RINFRESCO G2 ore '+H(or_)+'*');
     r.push('Petra 5063 Special (70%): *'+kg5063+'g*');
-    r.push('Petra 0102HP (30%): *'+kg0102+'g*');
+    r.push('Petra 5078 (30%): *'+kg5078+'g* W350-380');
     r.push('Licoli ('+licP+'%): *'+licG+'g* (acqua: '+licAcq+'g, farina: '+licFar+'g)');
     r.push('Sale ('+saleP+'%): *'+sale+'g*');
     r.push('---');
@@ -4358,6 +4606,7 @@ function calcAll(){
   if(currentPage==='palasuprema') calcPalaSuprema();
   if(currentPage==='palascient') calcPalaScient();
   if(currentPage==='palabiga') calcPalaBiga();
+  if(currentPage==='napofrigo') calcNapoFrigo();
   if(currentPage==='tegliapf') calcTegliaPF();
   if(currentPage==='diario') calcDiary();
   if(currentPage==='diretto') calcDiretto();
@@ -4377,9 +4626,6 @@ document.querySelectorAll('.inp-field').forEach(inp=>{
 
 // Init — DOMContentLoaded per Safari iOS
 document.addEventListener('DOMContentLoaded', function(){
-  // NON chiamare goHome() qui — lo splash è già visibile per CSS
-  // goHome() viene chiamata solo da showCalc() quando l'utente preme Calcolatore
-  
   // Carica diario
   try {
     diaryEntries=loadDiary();
@@ -4399,6 +4645,18 @@ document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.inp-field').forEach(inp=>{
     inp.addEventListener('change',calcAll);
   });
+
+  // Ripristina laboratorio salvato per licoli
+  try {
+    var labSaved = localStorage.getItem('licoli_lab_v1');
+    if(labSaved) {
+      var elLab = document.getElementById('lLab');
+      if(elLab) elLab.value = labSaved;
+    }
+  } catch(e) {}
+
+  // Ripristina memoria rinfresco
+  renderUltimoRinfresco();
 });
 
 (function(){function gc(){return document.querySelectorAll("#mMainContent .mcard");}var md;window.M_filterCat=function(cat,btn){document.querySelectorAll(".mcb").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");gc().forEach(function(c){c.classList.toggle("hidden",cat!=="all"&&c.dataset.cat!==cat);});};window.M_toggleCard=function(el){var c=el.closest(".mcard");if(c)c.classList.toggle("open");};var mi=document.getElementById("mSearchInput"),mc=document.getElementById("mSearchClear"),mk=document.getElementById("mSearchCount"),mn=document.getElementById("mNoResults");if(mi){mi.addEventListener("input",function(){clearTimeout(md);md=setTimeout(function(){var q=mi.value.trim().toLowerCase();if(mc)mc.style.display=q?"block":"none";var f=0;gc().forEach(function(c){var ok=!q||(c.dataset.keywords+" "+c.innerText).toLowerCase().includes(q);c.classList.toggle("hidden",!ok);if(ok){f++;if(q)c.classList.add("open");}});if(mk)mk.textContent=q&&f>0?f+" trovati":"";if(mn)mn.style.display=q&&f===0?"block":"none";},300);});if(mc)mc.onclick=function(){if(mi)mi.value="";mc.style.display="none";if(mk)mk.textContent="";if(mn)mn.style.display="none";gc().forEach(function(c){c.classList.remove("hidden");});};}})();
