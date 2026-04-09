@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Food Cost">
+<title>Food Cost — Matteo La Spada</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%231a1208'/%3E%3Ctext x='256' y='330' font-size='300' text-anchor='middle'%3E%F0%9F%92%B6%3C/text%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+:root{
+  --bg:#0C0B09;--card:#151310;--border:#2A2520;--cream:#F0E8D8;--gold:#C8973A;
+  --gold2:#E8B84B;--dim:#6B5F4A;--green:#4CAF7D;--red:#E05252;--surface:#1A1610;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;padding-bottom:80px}
+header{background:var(--card);border-bottom:1px solid var(--border);padding:16px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream)}
+.logo em{color:var(--gold);font-style:italic}
+.logo-sub{font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.tabs{display:flex;background:var(--border);gap:1px;border-bottom:1px solid var(--border)}
+.tab{flex:1;padding:11px 6px;font-size:11px;font-weight:600;text-align:center;cursor:pointer;background:var(--card);color:var(--dim);border:none;font-family:'Inter',sans-serif}
+.tab.active{color:var(--gold);border-bottom:2px solid var(--gold)}
+.sec{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:12px 16px 6px;border-bottom:1px solid var(--border)}
+.card{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px}
+.card-title{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px}
+.card-meta{font-size:10px;color:var(--dim)}
+.badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;margin-left:4px}
+.badge-lat{background:rgba(200,151,58,0.15);color:var(--gold);border:1px solid rgba(200,151,58,0.3)}
+.badge-pom{background:rgba(224,82,82,0.15);color:var(--red);border:1px solid rgba(224,82,82,0.3)}
+.badge-far{background:rgba(76,175,125,0.15);color:var(--green);border:1px solid rgba(76,175,125,0.3)}
+.badge-oli{background:rgba(91,155,213,0.15);color:#5B9BD5;border:1px solid rgba(91,155,213,0.3)}
+.badge-alt{background:rgba(107,95,74,0.2);color:var(--dim);border:1px solid var(--border)}
+.price-tag{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--gold2)}
+
+/* FORM */
+.inp-group{margin-bottom:14px}
+.inp-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block}
+.inp-field{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Inter',sans-serif;font-size:14px;color:var(--cream);outline:none;-webkit-appearance:none}
+.inp-field:focus{border-color:var(--gold)}
+select.inp-field{font-size:13px}
+.inp-row{display:flex;gap:8px;align-items:center}
+.inp-unit{font-size:12px;color:var(--dim);white-space:nowrap;min-width:28px}
+
+/* INGREDIENTI ROW */
+.ing-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--card)}
+.ing-info{flex:1}
+.ing-name{font-size:13px;font-weight:600;color:var(--cream)}
+.ing-sub{font-size:10px;color:var(--dim);margin-top:1px}
+.ing-gram{width:72px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px;font-family:'DM Mono',monospace;font-size:14px;color:var(--gold);text-align:center;outline:none;-webkit-appearance:none}
+.ing-gram:focus{border-color:var(--gold)}
+.ing-cost{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);min-width:52px;text-align:right}
+
+/* RISULTATO */
+.result-box{margin:12px 16px;background:var(--surface);border:1.5px solid var(--gold);border-radius:14px;padding:16px}
+.result-title{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.result-big{font-size:44px;font-weight:700;font-family:'DM Mono',monospace;color:var(--gold);line-height:1}
+.result-sub{font-size:11px;color:var(--dim);margin-top:6px;line-height:1.7}
+.res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.res-row:last-child{border-bottom:none}
+.res-label{color:var(--dim)}
+.res-val{font-family:'DM Mono',monospace;font-weight:600;color:var(--cream)}
+.res-val.green{color:var(--green)}
+.res-val.gold{color:var(--gold)}
+
+/* BOTTOM */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--card);border-top:1px solid var(--border);display:flex;gap:8px;z-index:100}
+.btn-calc{flex:1;background:var(--gold);color:var(--bg);border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.btn-reset{background:var(--surface);color:var(--dim);border:1.5px solid var(--border);border-radius:12px;padding:14px;font-size:13px;cursor:pointer}
+.btn-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:14px;font-size:13px;cursor:pointer;display:none}
+
+.divider{height:8px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-left:6px;opacity:0;transition:opacity 0.3s}
+.save-dot.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Food <em>Cost</em> <span class="save-dot" id="saveDot"></span></div>
+  <div class="logo-sub">Matteo La Spada · L'Orso Messina</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('calcolatore',this)">🍕 Calcolatore</button>
+  <button class="tab" onclick="showTab('listino',this)">💶 Listino ingredienti</button>
+  <button class="tab" onclick="showTab('aggiungi',this)">➕ Aggiungi ingrediente</button>
+</div>
+
+<!-- ══ TAB CALCOLATORE ══ -->
+<div id="paneCalcolatore">
+  <div class="sec">⚙️ Impostazioni pizza</div>
+  <div class="card" style="padding:14px 16px">
+    <div class="inp-group">
+      <label class="inp-label">Nome pizza (libero)</label>
+      <input class="inp-field" id="pizzaNome" type="text" placeholder="Es: Margherita, Bufala, N°23...">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="inp-group" style="margin-bottom:0">
+        <label class="inp-label">Grammatura pallina (g)</label>
+        <input class="inp-field" id="pizzaGram" type="number" value="260" min="100" max="600" step="10" oninput="calcFoodCost()">
+      </div>
+      <div class="inp-group" style="margin-bottom:0">
+        <label class="inp-label">Prezzo vendita (€)</label>
+        <input class="inp-field" id="pizzaPrezzo" type="number" value="12" min="1" max="100" step="0.5" oninput="calcFoodCost()">
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">🧂 Ingredienti — inserisci i grammi usati</div>
+  <div id="ingredientiRighe"></div>
+
+  <div class="divider"></div>
+
+  <div id="resultBox" style="display:none">
+    <div class="result-box">
+      <div class="result-title">Costo totale pizza</div>
+      <div class="result-big" id="resultTot">€0.00</div>
+      <div class="result-sub" id="resultSub"></div>
+    </div>
+    <div class="sec">📊 Dettaglio costi</div>
+    <div id="resultDettaglio" style="padding:0 16px 12px"></div>
+  </div>
+</div>
+
+<!-- ══ TAB LISTINO ══ -->
+<div id="paneListino" style="display:none">
+  <div class="sec">🧂 Latticini — Magross/Antema</div>
+  <div id="listLatticini"></div>
+  <div class="sec">🍅 Pomodoro — D'Ago</div>
+  <div id="listPomodoro"></div>
+  <div class="sec">🌾 Farine — D'Ago/Petra</div>
+  <div id="listFarine"></div>
+  <div class="sec">🫙 Altro</div>
+  <div id="listAltro"></div>
+</div>
+
+<!-- ══ TAB AGGIUNGI ══ -->
+<div id="paneAggiungi" style="display:none;padding:16px">
+  <div class="inp-group">
+    <label class="inp-label">Nome ingrediente</label>
+    <input class="inp-field" id="newNome" type="text" placeholder="Es: Mozzarella di Bufala">
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="inp-group">
+      <label class="inp-label">Categoria</label>
+      <select class="inp-field" id="newCat">
+        <option value="Latticini">Latticini</option>
+        <option value="Pomodoro">Pomodoro</option>
+        <option value="Farina">Farina</option>
+        <option value="Olio">Olio</option>
+        <option value="Altro">Altro</option>
+      </select>
+    </div>
+    <div class="inp-group">
+      <label class="inp-label">U.M.</label>
+      <select class="inp-field" id="newUM">
+        <option value="kg">kg (€/kg)</option>
+        <option value="pz">pz (€/pz)</option>
+        <option value="l">litri (€/L)</option>
+      </select>
+    </div>
+  </div>
+  <div class="inp-group">
+    <label class="inp-label">Prezzo (€/kg o €/pz)</label>
+    <input class="inp-field" id="newPrezzo" type="number" step="0.01" min="0" placeholder="Es: 8.30">
+  </div>
+  <div class="inp-group">
+    <label class="inp-label">Fornitore</label>
+    <input class="inp-field" id="newFornitore" type="text" placeholder="Es: Magross, D'Ago...">
+  </div>
+  <button onclick="aggiungiIngrediente()" style="width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px">
+    ➕ Aggiungi al database
+  </button>
+  <div id="aggiungiMsg" style="font-size:12px;color:var(--green);text-align:center;min-height:20px"></div>
+</div>
+
+<div class="bottom-bar" id="bottomBar">
+  <button class="btn-reset" onclick="resetCalc()">↺ Reset</button>
+  <button class="btn-wa" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+</div>
+
+<script>
+// ══ DATABASE INGREDIENTI ══
+var DB_KEY = 'foodcost_db_v1';
+
+var DB_DEFAULT = [
+  {id:'fio001',nome:'Fiordilatte Penisola 600g x7',    fornitore:'Magross/Antema',um:'kg',prezzo:8.30, cat:'Latticini'},
+  {id:'fio002',nome:'Fiordilatte 100% Napoli',          fornitore:'Magross/Antema',um:'kg',prezzo:9.40, cat:'Latticini'},
+  {id:'fio003',nome:'Fiordilatte Fette Morbido 3kg',    fornitore:'Magross/Antema',um:'kg',prezzo:7.50, cat:'Latticini'},
+  {id:'fio004',nome:'Fiordilatte Fiammifero 2kg',       fornitore:'Magross/Antema',um:'kg',prezzo:7.80, cat:'Latticini'},
+  {id:'fio005',nome:'Fiordilatte Filone in Carta 2kg',  fornitore:'Magross/Antema',um:'kg',prezzo:7.20, cat:'Latticini'},
+  {id:'fio006',nome:'Fiordilatte Monti Agerola 1kg',    fornitore:'Magross/Antema',um:'kg',prezzo:9.30, cat:'Latticini'},
+  {id:'fio007',nome:'Fiordilatte Monti Agerola Acqua',  fornitore:'Magross/Antema',um:'kg',prezzo:9.15, cat:'Latticini'},
+  {id:'fio008',nome:'Fiordilatte Costiera 500g x9',     fornitore:'Magross/Antema',um:'kg',prezzo:7.90, cat:'Latticini'},
+  {id:'fio009',nome:'Fiordilatte Costiera Julienne 3kg',fornitore:'Magross/Antema',um:'kg',prezzo:8.30, cat:'Latticini'},
+  {id:'fio010',nome:'Fiordilatte in Acqua 100g x2.5kg', fornitore:'Magross/Antema',um:'kg',prezzo:8.80, cat:'Latticini'},
+  {id:'fio011',nome:'Fiordilatte in Acqua 500g x8',     fornitore:'Magross/Antema',um:'kg',prezzo:7.30, cat:'Latticini'},
+  {id:'pro001',nome:'Provola 100% Napoli',              fornitore:'Magross/Antema',um:'kg',prezzo:9.60, cat:'Latticini'},
+  {id:'pom001',nome:'San Marzano DOP Gustarosso',       fornitore:"D'Ago",         um:'kg',prezzo:3.38, cat:'Pomodoro'},
+  {id:'pom002',nome:'Polpa Finissima Gustarosso',       fornitore:"D'Ago",         um:'kg',prezzo:1.96, cat:'Pomodoro'},
+  {id:'pom003',nome:'Pelati 100% Italiani Gustarosso',  fornitore:"D'Ago",         um:'kg',prezzo:1.90, cat:'Pomodoro'},
+  {id:'pom004',nome:'Datterino Giallo in succo',        fornitore:"D'Ago",         um:'kg',prezzo:6.15, cat:'Pomodoro'},
+  {id:'pom005',nome:'Datterino Rosso in succo',         fornitore:"D'Ago",         um:'kg',prezzo:5.39, cat:'Pomodoro'},
+  {id:'olio001',nome:'Olio Spray Neutro Wiberg 500ml', fornitore:'Magross/Antema',um:'pz',prezzo:8.15, cat:'Olio'},
+  {id:'far001',nome:'HP 0102',                          fornitore:"D'Ago/Petra",   um:'kg',prezzo:1.9144,cat:'Farina'},
+  {id:'far002',nome:'5078',                             fornitore:"D'Ago/Petra",   um:'kg',prezzo:2.1504,cat:'Farina'},
+  {id:'far003',nome:'5063 Special',                     fornitore:"D'Ago/Petra",   um:'kg',prezzo:1.5984,cat:'Farina'},
+  {id:'far004',nome:'5046 Allegra',                     fornitore:"D'Ago/Petra",   um:'kg',prezzo:1.5984,cat:'Farina'},
+  {id:'far005',nome:'5037 Unica',                       fornitore:"D'Ago/Petra",   um:'kg',prezzo:1.6752,cat:'Farina'}
+];
+
+function loadDB(){
+  try {
+    var s = localStorage.getItem(DB_KEY);
+    return s ? JSON.parse(s) : DB_DEFAULT;
+  } catch(e){ return DB_DEFAULT; }
+}
+function saveDB(db){
+  try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); showDot(); }catch(e){}
+}
+function showDot(){
+  var d=document.getElementById('saveDot');
+  if(d){d.classList.add('show');setTimeout(function(){d.classList.remove('show');},1200);}
+}
+
+var DB = loadDB();
+// Salva i default se non esisteva
+if(!localStorage.getItem(DB_KEY)) saveDB(DB);
+
+var GRAMS = {}; // {id: grammi inseriti}
+
+function catBadge(cat){
+  var map={Latticini:'badge-lat',Pomodoro:'badge-pom',Farina:'badge-far',Olio:'badge-oli',Altro:'badge-alt'};
+  return '<span class="badge '+(map[cat]||'badge-alt')+'">'+cat+'</span>';
+}
+
+function renderIngRighe(){
+  var el = document.getElementById('ingredientiRighe');
+  if(!el) return;
+  el.innerHTML = DB.map(function(ing){
+    var g = GRAMS[ing.id]||0;
+    var costo = ing.um==='kg' ? (g/1000)*ing.prezzo : (g>0?ing.prezzo:0);
+    var costoStr = g>0 ? '€'+costo.toFixed(3) : '—';
+    return '<div class="ing-row">'+
+      '<div class="ing-info">'+
+        '<div class="ing-name">'+ing.nome+' '+catBadge(ing.cat)+'</div>'+
+        '<div class="ing-sub">€'+ing.prezzo.toFixed(4)+'/'+ing.um+' · '+ing.fornitore+'</div>'+
+      '</div>'+
+      '<input class="ing-gram" id="g_'+ing.id+'" type="number" min="0" max="500" step="1" '+
+        'value="'+(g||'')+'" placeholder="g" oninput="setGram(''+ing.id+'',this.value)">'+
+      '<div class="ing-cost" id="c_'+ing.id+'">'+costoStr+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function setGram(id, val){
+  GRAMS[id] = parseFloat(val)||0;
+  // Aggiorna costo inline
+  var ing = DB.find(function(x){return x.id===id;});
+  if(!ing) return;
+  var g = GRAMS[id];
+  var costo = ing.um==='kg' ? (g/1000)*ing.prezzo : (g>0?ing.prezzo:0);
+  var el = document.getElementById('c_'+id);
+  if(el) el.textContent = g>0 ? '€'+costo.toFixed(3) : '—';
+  calcFoodCost();
+}
+
+function calcFoodCost(){
+  var gram = parseFloat(document.getElementById('pizzaGram')?.value)||260;
+  var prezzoVendita = parseFloat(document.getElementById('pizzaPrezzo')?.value)||0;
+
+  var righe = [];
+  var totIngr = 0;
+
+  DB.forEach(function(ing){
+    var g = GRAMS[ing.id]||0;
+    if(g<=0) return;
+    var costo = ing.um==='kg' ? (g/1000)*ing.prezzo : ing.prezzo;
+    totIngr += costo;
+    righe.push({nome:ing.nome, g:g, um:ing.um, costo:costo, cat:ing.cat});
+  });
+
+  // Costo pallina — stima base: farina ~60% del peso, IDR ~70%
+  // Il costo pallina viene calcolato separatamente nel tab apposito
+  // Qui lo stimiamo con i dati farina inseriti
+  var costoFarineKg = 0;
+  var gramFarine = 0;
+  DB.filter(function(x){return x.cat==='Farina';}).forEach(function(ing){
+    var g = GRAMS[ing.id]||0;
+    if(g>0){ costoFarineKg += (g/1000)*ing.prezzo; gramFarine += g; }
+  });
+
+  var totTot = totIngr;
+  var foodCostPct = prezzoVendita>0 ? (totTot/prezzoVendita*100) : 0;
+  var margine = prezzoVendita>0 ? (prezzoVendita-totTot) : 0;
+
+  var rb = document.getElementById('resultBox');
+  var rt = document.getElementById('resultTot');
+  var rs = document.getElementById('resultSub');
+  var rd = document.getElementById('resultDettaglio');
+  var btnWA = document.getElementById('btnWA');
+
+  if(righe.length===0){rb.style.display='none';if(btnWA)btnWA.style.display='none';return;}
+
+  rb.style.display='block';
+  if(btnWA)btnWA.style.display='block';
+  rt.textContent='€'+totTot.toFixed(3);
+
+  var subParts=[];
+  if(prezzoVendita>0){
+    subParts.push('Vendita: €'+prezzoVendita.toFixed(2));
+    subParts.push('Food cost: '+foodCostPct.toFixed(1)+'%');
+    subParts.push('Margine: €'+margine.toFixed(2));
+  }
+  subParts.push('Ingredienti: '+righe.length);
+  rs.textContent=subParts.join(' · ');
+
+  // Semaforo food cost
+  var sem='';
+  if(prezzoVendita>0){
+    if(foodCostPct<=28) sem='<div style="color:#4CAF7D;font-size:12px;font-weight:600;margin-bottom:10px">✅ Food cost ottimale (≤28%)</div>';
+    else if(foodCostPct<=35) sem='<div style="color:#E8B84B;font-size:12px;font-weight:600;margin-bottom:10px">🟡 Food cost accettabile (28-35%)</div>';
+    else sem='<div style="color:#E05252;font-size:12px;font-weight:600;margin-bottom:10px">🔴 Food cost alto (>35%) — rivedi prezzi o grammature</div>';
+  }
+
+  rd.innerHTML=sem+righe.map(function(r){
+    return '<div class="res-row">'+
+      '<span class="res-label">'+r.nome+(r.um==='kg'?' ('+r.g+'g)':' (1pz)')+'</span>'+
+      '<span class="res-val">€'+r.costo.toFixed(3)+'</span>'+
+    '</div>';
+  }).join('')+
+  '<div class="res-row" style="margin-top:4px;padding-top:8px;border-top:1px solid var(--gold)">'+
+    '<span style="color:var(--gold);font-weight:700">TOTALE INGREDIENTI</span>'+
+    '<span class="res-val gold">€'+totTot.toFixed(3)+'</span>'+
+  '</div>'+
+  (prezzoVendita>0?
+    '<div class="res-row"><span class="res-label">Food cost %</span><span class="res-val '+(foodCostPct<=28?'green':foodCostPct<=35?'':'')+'">'+foodCostPct.toFixed(1)+'%</span></div>'+
+    '<div class="res-row"><span class="res-label">Margine lordo</span><span class="res-val green">€'+margine.toFixed(2)+'</span></div>'
+  :'');
+}
+
+function resetCalc(){
+  GRAMS={};
+  document.getElementById('pizzaNome').value='';
+  document.getElementById('pizzaGram').value=260;
+  document.getElementById('pizzaPrezzo').value=12;
+  renderIngRighe();
+  document.getElementById('resultBox').style.display='none';
+  var btnWA=document.getElementById('btnWA');
+  if(btnWA)btnWA.style.display='none';
+}
+
+function shareWA(){
+  var nome=document.getElementById('pizzaNome').value||'Pizza';
+  var gram=document.getElementById('pizzaGram').value||260;
+  var prezzo=parseFloat(document.getElementById('pizzaPrezzo').value)||0;
+  var righe=[];
+  var tot=0;
+  DB.forEach(function(ing){
+    var g=GRAMS[ing.id]||0;
+    if(g<=0)return;
+    var c=ing.um==='kg'?(g/1000)*ing.prezzo:ing.prezzo;
+    tot+=c;
+    righe.push('  '+ing.nome+(ing.um==='kg'?' '+g+'g':' 1pz')+' → €'+c.toFixed(3));
+  });
+  var fc=prezzo>0?(tot/prezzo*100).toFixed(1)+'%':'—';
+  var r=[];
+  r.push('*FOOD COST — '+nome+'*');
+  r.push('Grammatura pallina: '+gram+'g');
+  r.push('---');
+  righe.forEach(function(l){r.push(l);});
+  r.push('---');
+  r.push('*Totale ingredienti: €'+tot.toFixed(3)+'*');
+  if(prezzo>0){r.push('Prezzo vendita: €'+prezzo.toFixed(2));r.push('Food cost: *'+fc+'*');}
+  r.push('_Matteo La Spada · L'Orso_');
+  var a=document.createElement('a');
+  a.href='https://wa.me/?text='+encodeURIComponent(r.join('
+'));
+  a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);},500);
+}
+
+function renderListino(){
+  var cats={Latticini:'listLatticini',Pomodoro:'listPomodoro',Farina:'listFarine'};
+  var altroEl=document.getElementById('listAltro');
+  Object.values(cats).forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='';});
+  if(altroEl)altroEl.innerHTML='';
+  DB.forEach(function(ing){
+    var targetId=cats[ing.cat]||'listAltro';
+    var el=document.getElementById(targetId);
+    if(!el)return;
+    el.innerHTML+='<div class="card" style="display:flex;justify-content:space-between;align-items:center">'+
+      '<div>'+
+        '<div class="card-title">'+ing.nome+'</div>'+
+        '<div class="card-meta">'+ing.fornitore+' · '+catBadge(ing.cat)+'</div>'+
+      '</div>'+
+      '<div style="text-align:right">'+
+        '<div class="price-tag">€'+ing.prezzo.toFixed(4)+'</div>'+
+        '<div style="font-size:10px;color:var(--dim)">per '+ing.um+'</div>'+
+      '</div>'+
+    '</div>';
+  });
+}
+
+function aggiungiIngrediente(){
+  var nome=document.getElementById('newNome').value.trim();
+  var cat=document.getElementById('newCat').value;
+  var um=document.getElementById('newUM').value;
+  var prezzo=parseFloat(document.getElementById('newPrezzo').value)||0;
+  var fornitore=document.getElementById('newFornitore').value.trim()||'—';
+  if(!nome||prezzo<=0){
+    document.getElementById('aggiungiMsg').textContent='Inserisci nome e prezzo valido';
+    return;
+  }
+  var id='custom_'+Date.now();
+  DB.push({id:id,nome:nome,cat:cat,um:um,prezzo:prezzo,fornitore:fornitore});
+  saveDB(DB);
+  renderIngRighe();
+  document.getElementById('newNome').value='';
+  document.getElementById('newPrezzo').value='';
+  document.getElementById('newFornitore').value='';
+  document.getElementById('aggiungiMsg').textContent='✅ '+nome+' aggiunto!';
+  setTimeout(function(){document.getElementById('aggiungiMsg').textContent='';},2000);
+}
+
+function showTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('paneCalcolatore').style.display=tab==='calcolatore'?'block':'none';
+  document.getElementById('paneListino').style.display=tab==='listino'?'block':'none';
+  document.getElementById('paneAggiungi').style.display=tab==='aggiungi'?'block':'none';
+  document.getElementById('bottomBar').style.display=tab==='calcolatore'?'flex':'none';
+  if(tab==='listino')renderListino();
+}
+
+// Init
+renderIngRighe();
+</script>
+</body>
+</html>
