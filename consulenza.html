@@ -283,7 +283,28 @@ function loadDB(){
   try{ var d=localStorage.getItem('cpv3'); if(d) return JSON.parse(d); }catch(e){}
   return defaultDB();
 }
-function save(){ try{ localStorage.setItem('cpv3',JSON.stringify(DB)); }catch(e){} }
+function save(){ 
+  try{ 
+    localStorage.setItem('cpv3',JSON.stringify(DB));
+    showToast('✅ Salvato');
+  }catch(e){ 
+    showToast('⚠️ Errore salvataggio: '+e.message);
+  } 
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='toast';
+    t.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1A1814;border:1px solid #C8973A;color:#F0E8D8;padding:10px 20px;border-radius:20px;font-size:13px;z-index:9999;transition:opacity 0.3s';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(function(){t.style.opacity='0';},2000);
+}
 function getClient(id){ return DB.clients.find(function(c){return c.id===id;}); }
 function getPizza(cid,pid){ return getClient(cid).pizze.find(function(p){return p.id===pid;}); }
 
@@ -678,7 +699,7 @@ function saveClient(){
     tCottura:250, tRigenerazione:0, tMinuti:2, vapore:false, ventilato:false,
     note:'', icon:icons[tipo]||'🍕', pizze:[]
   });
-  save(); closeModal('modalClient'); goHome();
+  save(); closeModal('modalClient'); renderHome(); showPage('pgHome');
 }
 
 function openModalPizza(cid){
