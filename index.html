@@ -1111,6 +1111,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Servizio G2 (es. 19)</label><div class="inp-row"><input class="inp-field" id="sSV" type="number" value="19" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="sStaglio" type="number" value="15" min="0" max="23" step="0.5"><span class="inp-unit">:30</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="sF1" type="number" value="60" min="30" max="90" step="5"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
@@ -2989,8 +2990,44 @@ function calcSuprema(){
   const semBiga=att>=85?'ok':att>=70?'ok':att>=50?'warn':'bad';
   const emjBiga=att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO';
 
+  // ═══ SEMAFORO PUNTATA + BLEND ═══
+  // Ore puntata = dal rinfresco allo staglio (staglio = sv - 1h appretto - 0.5h fuori ~ sv-4h)
+  const staglio_sup = G('sStaglio')||15.5;
+  const orePuntata = staglio_sup >= or_ ? staglio_sup - or_ : 24 - or_ + staglio_sup;
+
+  // Blend score: 5078% ottimale dipende da ore puntata
+  // < 3h puntata → 50% 5078 max / 3-5h → 50-70% / 5h+ → 70-100%
+  let blendSem, blendMsg;
+  if(orePuntata < 3){
+    // Puntata corta: 5078 max 50%
+    if(pct78 <= 50){ blendSem='ok'; blendMsg='✅ Blend corretto per puntata breve'; }
+    else if(pct78 <= 70){ blendSem='warn'; blendMsg='⚠️ 5078 alta per '+orePuntata.toFixed(1)+'h puntata — rischio tenacità'; }
+    else { blendSem='bad'; blendMsg='❌ 5078 troppo alta — la maglia sarà tenace'; }
+  } else if(orePuntata < 5){
+    // Puntata media 3-5h: 50/50 ottimale
+    if(pct78 >= 40 && pct78 <= 60){ blendSem='ok'; blendMsg='✅ Blend ottimale per '+orePuntata.toFixed(1)+'h puntata'; }
+    else if(pct78 >= 30 && pct78 < 40){ blendSem='warn'; blendMsg='⚠️ Aumenta 5078 al 50% per questa puntata'; }
+    else if(pct78 > 60 && pct78 <= 75){ blendSem='warn'; blendMsg='⚠️ 5078 un po\' alta — ok se puntata piena 5h'; }
+    else { blendSem='bad'; blendMsg='❌ Blend non equilibrato per '+orePuntata.toFixed(1)+'h puntata'; }
+  } else {
+    // Puntata lunga 5h+: 70% 5078 ottimale
+    if(pct78 >= 60 && pct78 <= 80){ blendSem='ok'; blendMsg='✅ Blend ottimale per puntata lunga '+orePuntata.toFixed(1)+'h'; }
+    else if(pct78 >= 45 && pct78 < 60){ blendSem='warn'; blendMsg='⚠️ Aumenta 5078 al 70% — puntata di '+orePuntata.toFixed(1)+'h rilassa troppo la 5063'; }
+    else if(pct78 > 80){ blendSem='warn'; blendMsg='⚠️ 5078 molto alta — ok solo se puntata > 6h piena'; }
+    else { blendSem='bad'; blendMsg='❌ Puntata lunga con blend debole — cornicione a rischio'; }
+  }
+
+  // Semaforo puntata standalone
+  let puntSem, puntMsg;
+  if(orePuntata < 2){ puntSem='warn'; puntMsg='⚠️ Puntata breve — impasta più tardi'; }
+  else if(orePuntata <= 3.5){ puntSem='ok'; puntMsg='✅ Puntata ideale — maglia con tensione giusta'; }
+  else if(orePuntata <= 5){ puntSem='warn'; puntMsg='⚠️ Puntata lunga — usa blend 50/50 o più 5078'; }
+  else { puntSem='bad'; puntMsg='❌ Puntata eccessiva — panetti si allargheranno da soli'; }
+
   document.getElementById('supremaOut').innerHTML=`
     ${sem(emjBiga+' — Biga '+oreB+'h (G1 '+H(ob)+' → G2 '+H(or_)+') '+att+'%',semBiga)}
+    ${sem('🕐 PUNTATA: '+orePuntata.toFixed(1)+'h ('+H(or_)+' → staglio '+H(staglio_sup)+') — '+puntMsg, puntSem)}
+    ${sem('🌾 BLEND: '+pct63+'% 5063 + '+pct78+'% 5078 — '+blendMsg, blendSem)}
     <div class="res-section">
       <div class="res-label">Biga — Giorno 1 ore ${H(ob)}</div>
       ${row('Petra 0102HP (100% biga)',R(kg*1000,0)+'g','')}
