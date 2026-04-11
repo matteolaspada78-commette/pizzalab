@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Consulenza Pizza">
+<title>Consulenza Pizza — Matteo La Spada</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0C0B09;--card:#1A1814;--border:#2A2520;--cream:#F0E8D8;--dim:#8A7C6A;--gold:#C8973A;--gold2:#D4A853;}
+html,body{height:100%;background:var(--bg);overflow:hidden;font-family:"DM Sans",sans-serif;color:var(--cream)}
+#splash{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:1000;padding:40px}
+.sp-logo{font-family:"Playfair Display",serif;font-size:40px;font-weight:900;color:var(--cream)}
+.sp-logo em{color:var(--gold);font-style:italic}
+.sp-sub{font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;text-align:center}
+.sp-btn{width:100%;max-width:320px;padding:18px;border:1px solid var(--gold);border-radius:16px;background:transparent;color:var(--cream);font-size:15px;cursor:pointer}
+.sp-btn:active{background:rgba(200,151,58,0.1)}
+#app{position:fixed;inset:0;display:none;flex-direction:column}
+.hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));background:var(--bg);border-bottom:1px solid var(--border);flex-shrink:0}
+.hdr-back{font-size:22px;cursor:pointer;color:var(--gold);padding:2px 8px 2px 0}
+.hdr-titles{flex:1}
+.hdr-title{font-family:"Playfair Display",serif;font-size:17px;font-weight:700}
+.hdr-title em{color:var(--gold);font-style:italic}
+.hdr-sub{font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:1px}
+.hdr-action{margin-left:auto;font-size:13px;color:var(--gold);cursor:pointer;padding:7px 12px;border:1px solid var(--border);border-radius:10px;white-space:nowrap;flex-shrink:0}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:50px}
+.client-btn{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:14px}
+.client-btn:active{opacity:0.75}
+.client-icon{font-size:26px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(200,151,58,0.08);border-radius:12px;flex-shrink:0}
+.client-name{font-size:15px;font-weight:600}
+.client-sub{font-size:11px;color:var(--dim);margin-top:3px}
+.add-btn{border:1px dashed var(--border);border-radius:14px;padding:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--dim);font-size:14px;background:transparent;width:100%}
+.section-label{font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:10px;margin-top:4px}
+.tabs{display:flex;gap:6px;padding:0 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;white-space:nowrap;flex-shrink:0}
+.tab.on{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}
+.pizza-item{padding:13px 0;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:10px}
+.pizza-item:last-child{border-bottom:none}
+.pizza-item:active{opacity:0.7}
+.p-info{flex:1}
+.p-name{font-size:14px;font-weight:500}
+.p-sub{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.4}
+.p-arr{color:var(--dim);font-size:16px}
+.cat-header{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding:14px 0 6px;font-family:"DM Mono",monospace}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.card-hdr{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.card-icon{font-size:18px;flex-shrink:0}
+.card-meta{flex:1}
+.card-tag{font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.card-title2{font-size:14px;font-weight:600;color:var(--cream)}
+.card-body{padding:0 16px 16px}
+.card.closed .card-body{display:none}
+.inp-group{margin-bottom:14px}
+.inp-label{font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:6px}
+.inp-field{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--cream);font-size:14px;width:100%;-webkit-appearance:none}
+.inp-field:focus{border-color:var(--gold);outline:none}
+select.inp-field{background-image:none}
+.inp-row{display:flex;gap:8px;align-items:center}
+.inp-half{width:50%}
+.ingr-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.ingr-row:last-child{border-bottom:none}
+.ingr-num{font-size:10px;color:var(--dim);width:16px;flex-shrink:0;text-align:center}
+.ingr-name-inp{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--cream);font-size:13px;flex:1;min-width:0}
+.ingr-name-inp:focus{border-color:var(--gold);outline:none}
+.ingr-g-inp{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--cream);font-size:13px;width:62px;text-align:center}
+.ingr-g-inp:focus{border-color:var(--gold);outline:none}
+.ingr-del{color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px;flex-shrink:0;line-height:1}
+.btn{padding:13px 18px;border-radius:12px;border:none;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+.btn:active{opacity:0.8}
+.btn-gold{background:var(--gold);color:#000}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--cream)}
+.btn-pdf{background:rgba(200,151,58,0.12);border:1px solid rgba(200,151,58,0.4);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-add{background:transparent;border:1px dashed var(--border);border-radius:10px;color:var(--dim);font-size:13px;padding:9px;width:100%;margin-top:8px;cursor:pointer;text-align:center}
+.btn-add:active{opacity:0.7}
+.cottura-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:flex;align-items:flex-end}
+.modal-bg.hidden{display:none}
+.modal{background:var(--card);border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:18px}
+.modal-close{float:right;font-size:22px;color:var(--dim);cursor:pointer;margin-top:-4px}
+.hidden{display:none!important}
+.ingr-cat-title{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding:10px 0 6px;font-family:"DM Mono",monospace}
+.ingr-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.ingr-chip{padding:6px 12px;border:1px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;background:var(--bg);color:var(--cream)}
+.ingr-chip:active{background:rgba(200,151,58,0.15);border-color:var(--gold)}
+
+/* PDF PRINT */
+@media print{
+  body{background:#fff;color:#000;overflow:visible}
+  #splash,#app .hdr,#pgPizza .card-hdr,#pgPizza .btn,.btn-pdf,.btn-ghost{display:none!important}
+  #app{position:static;display:block!important}
+  #pgPizza{display:block!important;overflow:visible;padding:20px}
+  .card{background:#fff;border:1px solid #ccc;margin-bottom:16px;page-break-inside:avoid}
+  .card-body{display:block!important}
+  .ingr-name-inp,.ingr-g-inp,.inp-field{border:none;background:transparent;padding:0;font-size:13px}
+  .pdf-header{display:block!important}
+}
+.pdf-header{display:none;margin-bottom:20px;border-bottom:2px solid #000;padding-bottom:12px}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="splash">
+  <div style="font-size:52px">🍕</div>
+  <div class="sp-logo">Consulenza <em>Pizza</em></div>
+  <div class="sp-sub">Matteo La Spada · Schede Prodotto · Cottura</div>
+  <div style="height:10px"></div>
+  <button class="sp-btn" onclick="startApp()">Apri Gestione Clienti</button>
+</div>
+
+<div id="app">
+  <div class="hdr">
+    <div id="backBtn" class="hdr-back hidden" onclick="navBack()">←</div>
+    <div class="hdr-titles">
+      <div class="hdr-title" id="hdrTitle">Consulenza <em>Pizza</em></div>
+      <div class="hdr-sub" id="hdrSub">Matteo La Spada</div>
+    </div>
+    <div id="hdrAction" class="hdr-action hidden"></div>
+  </div>
+
+  <!-- HOME -->
+  <div class="scroll hidden" id="pgHome">
+    <div class="section-label">I tuoi clienti</div>
+    <div id="clientList"></div>
+    <button class="add-btn" onclick="openModal('modalClient')">＋ Aggiungi cliente</button>
+  </div>
+
+  <!-- CLIENTE -->
+  <div class="scroll hidden" id="pgClient">
+    <div class="tabs" id="clientTabs">
+      <button class="tab on" onclick="switchTab('pizze',this)">🍕 Pizze</button>
+      <button class="tab" onclick="switchTab('info',this)">📋 Info locale</button>
+    </div>
+    <div id="tabPizze"></div>
+    <div id="tabInfo" class="hidden"></div>
+  </div>
+
+  <!-- PIZZA EDIT -->
+  <div class="scroll hidden" id="pgPizza"></div>
+</div>
+
+<!-- MODAL NUOVO CLIENTE -->
+<div class="modal-bg hidden" id="modalClient">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal('modalClient')">✕</span>
+    <div class="modal-title">Nuovo Cliente</div>
+    <div class="inp-group"><label class="inp-label">Nome locale</label><input class="inp-field" id="mcNome" placeholder="Es. Pizzeria da Mario"></div>
+    <div class="inp-group"><label class="inp-label">Città</label><input class="inp-field" id="mcCitta" placeholder="Es. Palermo"></div>
+    <div class="inp-group"><label class="inp-label">Tipo impasto</label>
+      <select class="inp-field" id="mcTipo">
+        <option value="Teglia Romana">Teglia Romana</option>
+        <option value="Pizza Tonda">Pizza Tonda Napoletana</option>
+        <option value="Pala Romana">Pala Romana</option>
+        <option value="Mista">Mista</option>
+      </select>
+    </div>
+    <div class="inp-group"><label class="inp-label">Tipo forno</label>
+      <select class="inp-field" id="mcForno">
+        <option value="Elettrico statico">Elettrico statico</option>
+        <option value="Elettrico ventilato">Elettrico ventilato</option>
+        <option value="Elettrico combinato vapore">Elettrico combinato vapore</option>
+        <option value="Gas statico">Gas statico</option>
+        <option value="Legna">Legna</option>
+        <option value="Ibrido legna/elettrico">Ibrido legna/elettrico</option>
+      </select>
+    </div>
+    <button class="btn btn-gold" onclick="saveClient()">Crea Cliente</button>
+  </div>
+</div>
+
+<!-- MODAL NUOVA PIZZA -->
+<div class="modal-bg hidden" id="modalPizza">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal('modalPizza')">✕</span>
+    <div class="modal-title">Nuova Pizza</div>
+    <div class="inp-group"><label class="inp-label">Nome pizza</label><input class="inp-field" id="mpNome" placeholder="Es. Margherita"></div>
+    <div class="inp-group"><label class="inp-label">Categoria</label>
+      <select class="inp-field" id="mpCat">
+        <option value="🔴 Rossa">🔴 Rossa</option>
+        <option value="⬜ Bianca">⬜ Bianca</option>
+        <option value="🟣 Speciale">🟣 Speciale</option>
+        <option value="🟡 Stagionale">🟡 Stagionale</option>
+        <option value="🌿 Vegana">🌿 Vegana</option>
+        <option value="🫓 Pala Ripiena">🫓 Pala Ripiena</option>
+      </select>
+    </div>
+    <button class="btn btn-gold" onclick="savePizza()">Aggiungi Pizza</button>
+  </div>
+</div>
+
+<!-- MODAL INGREDIENTI -->
+<div class="modal-bg hidden" id="modalIngr">
+  <div class="modal" style="max-height:85vh">
+    <span class="modal-close" onclick="closeModal('modalIngr')">✕</span>
+    <div class="modal-title">Aggiungi Ingrediente</div>
+    <div class="inp-group">
+      <label class="inp-label">Cerca ingrediente</label>
+      <input class="inp-field" id="ingrSearch" placeholder="Es. mozzarella..." oninput="filterIngr(this.value)">
+    </div>
+    <div id="ingrCategories"></div>
+    <div style="height:12px"></div>
+    <div style="font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:8px">Oppure scrivi manuale</div>
+    <div style="display:flex;gap:8px">
+      <input class="inp-field" id="ingrCustomNome" placeholder="Nome ingrediente" style="flex:1">
+      <input class="inp-field" id="ingrCustomG" type="number" placeholder="g" style="width:70px">
+    </div>
+    <button class="btn btn-gold" style="margin-top:10px" onclick="addIngrCustom()">＋ Aggiungi</button>
+  </div>
+</div>
+
+<script>
+var nav=[];
+var DB=loadDB();
+
+function defaultDB(){
+  return {
+    clients:[
+      { id:'stuzzico', nome:'Stuzzico', citta:'Palermo — C.C. Forum', tipo:'Teglia Romana',
+        forno:'Elettrico statico', tCottura:250, tRigenerazione:250, tMinuti:2.3,
+        vapore:false, ventilato:false, note:'BASE ROSSA: Passata Gustorosso cotta 104°C · 30g sale + 22g zucchero',
+        icon:'🍕',
+        pizze:[
+          {id:1,nome:'Margherita',cat:'🔴 Rossa',stato:'✅ Attiva',
+           ingredienti:[{nome:'Passata Gustorosso 104°C',g:80},{nome:'Fiordilatte',g:80},{nome:'Basilico fresco',g:5},{nome:'Olio EVO/girasole mix',g:8}],
+           finitura:'Basilico fresco a crudo dopo cottura',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},
+           note:'Base rossa standard · olio mix 50% EVO + 50% girasole'},
+          {id:2,nome:'Tonno e Carciofi',cat:'🔴 Rossa',stato:'✅ Attiva',
+           ingredienti:[{nome:'Passata Gustorosso 104°C',g:60},{nome:'Tonno in busta',g:30},{nome:'Maionese',g:50},{nome:'Carciofi alla brace',g:20},{nome:'Olive',g:5}],
+           finitura:'Prezzemolo fresco a crudo',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},note:''},
+          {id:3,nome:'Salsiccia Stagionata',cat:'🔴 Rossa',stato:'✅ Attiva',
+           ingredienti:[{nome:'Passata Gustorosso 104°C',g:80},{nome:'Fiordilatte',g:80},{nome:'Salsiccia stagionata',g:60}],
+           finitura:'',cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},note:''},
+          {id:4,nome:'Mortadella e Pistacchio',cat:'⬜ Bianca',stato:'✅ Attiva',
+           ingredienti:[{nome:'Fiordilatte',g:80},{nome:'Mortadella',g:60},{nome:'Grana Padano DOP',g:20},{nome:'Granella pistacchio nero',g:10}],
+           finitura:'Mortadella e pistacchio a crudo dopo cottura',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},note:''},
+          {id:5,nome:'Mozzarella Rucola Speck',cat:'⬜ Bianca',stato:'✅ Attiva',
+           ingredienti:[{nome:'Fiordilatte',g:80},{nome:'Speck',g:50},{nome:'Grana Padano',g:15}],
+           finitura:'Rucola fresca a crudo · speck sopra',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},note:''},
+          {id:6,nome:'Spianata e Songino',cat:'⬜ Bianca',stato:'✅ Attiva',
+           ingredienti:[{nome:'Fiordilatte',g:80},{nome:'Spianata piccante',g:50},{nome:'Datterino rosso semi secco',g:30}],
+           finitura:'Soncino/Songino fresco a crudo dopo cottura',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},note:''},
+          {id:7,nome:'Doppio Crunch Cotto',cat:'🟣 Speciale',stato:'✅ Attiva',
+           ingredienti:[{nome:'Mozzarella fior di latte',g:80},{nome:'Funghi shiitake',g:40},{nome:'Funghi nameko',g:40},{nome:'Prosciutto cotto',g:60},{nome:'Maionese',g:25},{nome:'Iceberg',g:30}],
+           finitura:'Iceberg croccante a crudo dopo rigenerazione',
+           cottura:{forno:'Elettrico statico',gradi:250,minuti:2.3,rigenerazione:250,vapore:false,ventilato:false},
+           note:'Doppio strato — prima cottura base + funghi · dopo aggiunta cotto + iceberg + maionese'}
+        ]
+      },
+      { id:'orso', nome:"L'Orso", citta:'Messina — Via Calapso', tipo:'Pizza Tonda',
+        forno:'Ibrido legna/elettrico', tCottura:450, tRigenerazione:0, tMinuti:1.5,
+        vapore:false, ventilato:false,
+        note:"Pizza tonda napoletana · Lievito madre · DOP e IGP: Parmigiano Vacche Rosse, Provola Nebrodi, Maiorchino, Salame Sant'Angelo · Tre Spicchi Gambero Rosso",
+        icon:'🐻',
+        pizze:[
+          {id:1,nome:'Margherita',cat:'🔴 Rossa',stato:'✅ Attiva',
+           ingredienti:[{nome:'Pomodoro pelato schiacciato a mano',g:80},{nome:'Fior di latte',g:80},{nome:'Basilico fresco',g:5},{nome:'Olio EVO Terraliva',g:8}],
+           finitura:'Basilico fresco a crudo',cottura:{forno:'Legna',gradi:450,minuti:1.5,rigenerazione:0,vapore:false,ventilato:false},note:'Classica napoletana'},
+          {id:2,nome:'Stretto',cat:'⬜ Bianca',stato:'✅ Attiva',
+           ingredienti:[{nome:'Fior di latte',g:80},{nome:'Mortadella Levoni Linea Oro',g:60},{nome:'Burrata',g:50},{nome:'Pistacchio tostato',g:15}],
+           finitura:'Mortadella e pistacchio a crudo · burrata al centro',cottura:{forno:'Legna',gradi:450,minuti:1.5,rigenerazione:0,vapore:false,ventilato:false},note:'Firma Matteo La Spada'},
+          {id:3,nome:'Nebrodi Umami',cat:'⬜ Bianca',stato:'✅ Attiva',
+           ingredienti:[{nome:'Fior di latte',g:80},{nome:'Funghi shiitake',g:50},{nome:'Salsiccia artigianale',g:50},{nome:'Scaglie provola di Cesarò',g:30}],
+           finitura:'Olio EVO a filo dopo cottura',cottura:{forno:'Legna',gradi:450,minuti:1.5,rigenerazione:0,vapore:false,ventilato:false},note:'Presidio Slow Food — provola Cesarò'}
+        ]
+      },
+      { id:'gustisemplice', nome:'Gusti Semplice', citta:'', tipo:'Teglia Romana',
+        forno:'Elettrico ventilato', tCottura:260, tRigenerazione:250, tMinuti:2,
+        vapore:false, ventilato:true, note:'', icon:'🌿', pizze:[] }
+    ]
+  };
+}
+
+function loadDB(){
+  try{ var d=localStorage.getItem('cpv3'); if(d) return JSON.parse(d); }catch(e){}
+  return defaultDB();
+}
+function save(){ try{ localStorage.setItem('cpv3',JSON.stringify(DB)); }catch(e){} }
+function getClient(id){ return DB.clients.find(function(c){return c.id===id;}); }
+function getPizza(cid,pid){ return getClient(cid).pizze.find(function(p){return p.id===pid;}); }
+
+function startApp(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('app').style.display='flex';
+  nav=[];
+  showPage('pgHome');
+  renderHome();
+}
+
+function showPage(id){
+  ['pgHome','pgClient','pgPizza'].forEach(function(p){
+    document.getElementById(p).classList.add('hidden');
+  });
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function navBack(){
+  nav.pop();
+  var cur=nav[nav.length-1];
+  if(!cur||cur.page==='home'){
+    nav=[{page:'home'}];
+    showPage('pgHome');
+    renderHome();
+    setHdr('Consulenza <em>Pizza</em>','Matteo La Spada',false);
+    document.getElementById('hdrAction').classList.add('hidden');
+  } else if(cur.page==='client'){
+    showPage('pgClient');
+    var c=getClient(cur.cid);
+    setHdr(c.nome,c.citta||c.tipo,true);
+    setAction('+ Pizza',function(){openModalPizza(cid);});
+    switchTab('pizze',document.querySelector('.tab.on')||document.querySelector('.tab'));
+    renderPizze(cur.cid);
+  }
+}
+
+function goHome(){
+  nav=[{page:'home'}];
+  showPage('pgHome');
+  renderHome();
+  setHdr('Consulenza <em>Pizza</em>','Matteo La Spada',false);
+  document.getElementById('hdrAction').classList.add('hidden');
+}
+
+var _currentCid='';
+function openClient(cid){
+  _currentCid=cid;
+  nav.push({page:'client',cid:cid});
+  var c=getClient(cid);
+  showPage('pgClient');
+  setHdr(c.nome,c.citta||c.tipo,true);
+  setAction('+ Pizza',function(){openModalPizza(cid);});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('.tab')[0].classList.add('on');
+  document.getElementById('tabPizze').classList.remove('hidden');
+  document.getElementById('tabInfo').classList.add('hidden');
+  renderPizze(cid);
+}
+
+function openPizza(cid,pid){
+  nav.push({page:'pizza',cid:cid,pid:pid});
+  var p=getPizza(cid,pid);
+  var c=getClient(cid);
+  showPage('pgPizza');
+  setHdr(p.nome,c.nome+' · '+p.cat,true);
+  setAction('📄 PDF',function(){exportPDF(cid,pid);});
+  renderPizzaEdit(cid,pid);
+}
+
+function setHdr(title,sub,back){
+  document.getElementById('hdrTitle').innerHTML=title;
+  document.getElementById('hdrSub').textContent=sub;
+  document.getElementById('backBtn').classList.toggle('hidden',!back);
+}
+function setAction(label,fn){
+  var el=document.getElementById('hdrAction');
+  el.textContent=label;
+  el.onclick=fn;
+  el.classList.remove('hidden');
+}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  if(btn) btn.classList.add('on');
+  document.getElementById('tabPizze').classList.toggle('hidden',tab!=='pizze');
+  document.getElementById('tabInfo').classList.toggle('hidden',tab!=='info');
+  var cid=nav[nav.length-1]&&nav[nav.length-1].cid;
+  if(tab==='pizze'&&cid) renderPizze(cid);
+  if(tab==='info'&&cid) renderInfo(cid);
+}
+
+function renderHome(){
+  var html='';
+  DB.clients.forEach(function(c){
+    html+='<div class="client-btn" onclick="openClient(\''+c.id+'\')">';
+    html+='<div class="client-icon">'+c.icon+'</div>';
+    html+='<div style="flex:1">';
+    html+='<div class="client-name">'+c.nome+'</div>';
+    html+='<div class="client-sub">'+(c.citta?c.citta+' · ':'')+c.tipo+' · '+(c.pizze.length)+' pizze</div>';
+    html+='</div><div style="color:var(--dim);font-size:18px">›</div></div>';
+  });
+  document.getElementById('clientList').innerHTML=html;
+}
+
+function renderPizze(cid){
+  var c=getClient(cid);
+  var pizze=c.pizze||[];
+  if(!pizze.length){
+    document.getElementById('tabPizze').innerHTML='<div style="color:var(--dim);text-align:center;padding:50px 0;font-size:14px">Nessuna pizza ancora<br><br>Tocca <strong style="color:var(--gold)">+ Pizza</strong> in alto</div>';
+    return;
+  }
+  var cats={};
+  pizze.forEach(function(p){
+    if(!cats[p.cat]) cats[p.cat]=[];
+    cats[p.cat].push(p);
+  });
+  var html='';
+  Object.keys(cats).forEach(function(cat){
+    html+='<div class="cat-header">'+cat+'</div>';
+    cats[cat].forEach(function(p){
+      var ingr=(p.ingredienti||[]).slice(0,3).map(function(i){return i.nome;}).join(' · ');
+      if((p.ingredienti||[]).length>3) ingr+=' +altri';
+      html+='<div class="pizza-item" onclick="openPizza(\''+cid+'\','+p.id+')">';
+      html+='<div class="p-info">';
+      html+='<div class="p-name">'+p.nome+'</div>';
+      if(ingr) html+='<div class="p-sub">'+ingr+'</div>';
+      html+='</div>';
+      html+='<div style="font-size:10px;color:var(--dim);margin-right:4px">'+p.stato+'</div>';
+      html+='<div class="p-arr">›</div></div>';
+    });
+  });
+  document.getElementById('tabPizze').innerHTML=html;
+}
+
+function renderInfo(cid){
+  var c=getClient(cid);
+  var html='<div class="card"><div class="card-hdr"><div class="card-icon">📍</div><div class="card-meta"><div class="card-tag">Anagrafica</div><div class="card-title2">Dati Locale</div></div></div><div class="card-body">';
+  html+=fld('Nome','nome',c.nome,'text');
+  html+=fld('Città','citta',c.citta,'text');
+  html+=fld('Tipo impasto','tipo',c.tipo,'text');
+  html+='</div></div>';
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">🔥</div><div class="card-meta"><div class="card-tag">Forno principale</div><div class="card-title2">Parametri Cottura Locale</div></div></div><div class="card-body">';
+  html+=sel('Tipo forno','forno',c.forno,['Elettrico statico','Elettrico ventilato','Elettrico combinato vapore','Gas statico','Legna','Ibrido legna/elettrico']);
+  html+=fldN('Temp. cottura °C','tCottura',c.tCottura);
+  html+=fldN('Temp. rigenerazione °C','tRigenerazione',c.tRigenerazione);
+  html+=fldN('Tempo cottura (min)','tMinuti',c.tMinuti,'step','0.5');
+  html+='<div class="inp-group"><label class="inp-label">Opzioni forno</label><div style="display:flex;gap:12px">';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="ci_statico" '+(c.statico?'checked':'')+' onchange="upCBool(\'statico\',this.checked)"> Statico</label>';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="ci_vapore" '+(c.vapore?'checked':'')+' onchange="upCBool(\'vapore\',this.checked)"> Vapore</label>';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="ci_ventilato" '+(c.ventilato?'checked':'')+' onchange="upCBool(\'ventilato\',this.checked)"> Ventilato</label>';
+  html+='</div></div>';
+  html+='</div></div>';
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">📝</div><div class="card-meta"><div class="card-tag">Note</div><div class="card-title2">Annotazioni Consulente</div></div></div><div class="card-body">';
+  html+='<textarea class="inp-field" id="ci_note" rows="4" oninput="upCStr(\'note\',this.value)">'+escHtml(c.note||'')+'</textarea>';
+  html+='</div></div>';
+  document.getElementById('tabInfo').innerHTML=html;
+}
+
+function fld(label,key,val,type){
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><input class="inp-field" type="'+(type||'text')+'" value="'+escHtml(val||'')+'" oninput="upCStr(\''+key+'\',this.value)"></div>';
+}
+function fldN(label,key,val,attr,attrVal){
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><input class="inp-field" type="number" '+(attr?attr+'="'+attrVal+'"':'')+' value="'+(val||'')+'" oninput="upCNum(\''+key+'\',this.value)"></div>';
+}
+function sel(label,key,val,opts){
+  var o=opts.map(function(op){return '<option'+(op===val?' selected':'')+'>'+op+'</option>';}).join('');
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><select class="inp-field" onchange="upCStr(\''+key+'\',this.value)">'+o+'</select></div>';
+}
+
+function upCStr(key,val){ var c=getClient(nav[nav.length-1].cid); c[key]=val; save(); }
+function upCNum(key,val){ var c=getClient(nav[nav.length-1].cid); c[key]=parseFloat(val)||0; save(); }
+function upCBool(key,val){ var c=getClient(nav[nav.length-1].cid); c[key]=val; save(); }
+
+function renderPizzaEdit(cid,pid){
+  var c=getClient(cid);
+  var p=getPizza(cid,pid);
+  var html='';
+
+  // PDF HEADER (visibile solo in stampa)
+  html+='<div class="pdf-header">';
+  html+='<div style="font-size:22px;font-weight:700">'+p.nome+'</div>';
+  html+='<div style="font-size:13px;margin-top:4px">'+c.nome+' — '+(c.citta||'')+' | '+p.cat+' | '+p.stato+'</div>';
+  html+='<div style="font-size:11px;color:#666;margin-top:2px">Consulenza: Matteo La Spada — Pizza Lab</div>';
+  html+='</div>';
+
+  // STATO
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">📋</div><div class="card-meta"><div class="card-tag">Scheda pizza</div><div class="card-title2">Stato e categoria</div></div></div><div class="card-body">';
+  html+=pSelCat('Categoria','_cat',p.cat);
+  html+=sel2('Stato','_stato',p.stato,['✅ Attiva','🔬 In prova','📦 Stagionale','❌ Archiviata']);
+  html+='</div></div>';
+
+  // INGREDIENTI
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">🧀</div><div class="card-meta"><div class="card-tag">Ricetta</div><div class="card-title2">Ingredienti e grammature (g/porzione)</div></div></div><div class="card-body">';
+  html+='<div id="ingrList">';
+  (p.ingredienti||[]).forEach(function(ing,i){ html+=ingrRow(i,ing.nome,ing.g); });
+  html+='</div>';
+  html+='<button class="btn-add" onclick="addIngr(\''+cid+'\','+pid+')">＋ Aggiungi ingrediente</button>';
+  html+='</div></div>';
+
+  // FINITURA
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">✨</div><div class="card-meta"><div class="card-tag">A crudo / post cottura</div><div class="card-title2">Finitura</div></div></div><div class="card-body">';
+  html+='<textarea class="inp-field" id="pe_finitura" rows="2" placeholder="Es. Rucola fresca · pistacchio · basilico a crudo dopo cottura" oninput="upPStr(\'finitura\',this.value)">'+escHtml(p.finitura||'')+'</textarea>';
+  html+='</div></div>';
+
+  // COTTURA
+  var co=p.cottura||{};
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">🔥</div><div class="card-meta"><div class="card-tag">Parametri cottura questa pizza</div><div class="card-title2">Forno · Temperatura · Tempo</div></div></div><div class="card-body">';
+  html+=psel('Tipo forno','forno',co.forno||c.forno,['Elettrico statico','Elettrico ventilato','Elettrico combinato vapore','Gas statico','Legna','Ibrido legna/elettrico']);
+  html+='<div class="cottura-grid">';
+  html+=pfldN('Temp. cottura °C','gradi',co.gradi||c.tCottura);
+  html+=pfldN('Temp. rigenerazione °C','rigenerazione',co.rigenerazione||0);
+  html+='</div><div class="cottura-grid">';
+  html+=pfldN('Tempo cottura (min)','minuti',co.minuti||c.tMinuti,'step','0.5');
+  html+='<div></div></div>';
+  html+='<div class="inp-group" style="margin-top:6px"><label class="inp-label">Opzioni</label><div style="display:flex;gap:14px">';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" '+(co.statico?'checked':'')+' onchange="upPBool(\'cottura.statico\',this.checked)"> Statico</label>';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" '+(co.vapore?'checked':'')+' onchange="upPBool(\'cottura.vapore\',this.checked)"> Vapore</label>';
+  html+='<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" '+(co.ventilato?'checked':'')+' onchange="upPBool(\'cottura.ventilato\',this.checked)"> Ventilato</label>';
+  html+='</div></div>';
+  html+='</div></div>';
+
+  // NOTE
+  html+='<div class="card"><div class="card-hdr"><div class="card-icon">📝</div><div class="card-meta"><div class="card-tag">Note</div><div class="card-title2">Annotazioni consulente</div></div></div><div class="card-body">';
+  html+='<textarea class="inp-field" id="pe_note" rows="3" placeholder="Es. Doppio strato · inserire prima i funghi..." oninput="upPStr(\'note\',this.value)">'+escHtml(p.note||'')+'</textarea>';
+  html+='</div></div>';
+
+  // BOTTONI
+  html+='<button class="btn btn-pdf" onclick="exportPDF(\''+cid+'\','+pid+')">📄 Esporta scheda PDF</button>';
+  html+='<button class="btn btn-ghost" style="margin-top:8px;color:#EF9A9A;border-color:rgba(244,67,54,0.3)" onclick="deletePizza(\''+cid+'\','+pid+')">Elimina pizza</button>';
+
+  document.getElementById('pgPizza').innerHTML=html;
+}
+
+function pSelCat(label,key,val){
+  var opts=['🔴 Rossa','⬜ Bianca','🟣 Speciale','🟡 Stagionale','🌿 Vegana','🫓 Pala Ripiena'];
+  var o=opts.map(function(op){return '<option'+(op===val?' selected':'')+'>'+op+'</option>';}).join('');
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><select class="inp-field" onchange="upPStr(\''+key+'\',this.value)">'+o+'</select></div>';
+}
+function sel2(label,key,val,opts){
+  var o=opts.map(function(op){return '<option'+(op===val?' selected':'')+'>'+op+'</option>';}).join('');
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><select class="inp-field" onchange="upPStr(\''+key+'\',this.value)">'+o+'</select></div>';
+}
+
+function ingrRow(i,nome,g){
+  return '<div class="ingr-row" id="ir_'+i+'">' +
+    '<div class="ingr-num">'+(i+1)+'</div>' +
+    '<input class="ingr-name-inp" type="text" value="'+escHtml(nome||'')+'" placeholder="Ingrediente..." oninput="upIngr('+i+',\'nome\',this.value)">' +
+    '<input class="ingr-g-inp" type="number" value="'+(g||'')+'" placeholder="g" oninput="upIngr('+i+',\'g\',parseFloat(this.value)||0)">' +
+    '<span class="ingr-del" onclick="delIngr('+i+')">✕</span>' +
+    '</div>';
+}
+
+function psel(label,key,val,opts){
+  var o=opts.map(function(op){return '<option'+(op===val?' selected':'')+'>'+op+'</option>';}).join('');
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><select class="inp-field" onchange="upPStr(\'cottura.'+key+'\',this.value)">'+o+'</select></div>';
+}
+function pfldN(label,key,val,attr,attrVal){
+  return '<div class="inp-group"><label class="inp-label">'+label+'</label><input class="inp-field" type="number" '+(attr?attr+'="'+attrVal+'"':'')+' value="'+(val||'')+'" oninput="upPNum(\'cottura.'+key+'\',this.value)"></div>';
+}
+
+function upPStr(key,val){
+  var s=nav[nav.length-1]; var p=getPizza(s.cid,s.pid);
+  if(key.indexOf('.')>-1){var k=key.split('.');if(!p[k[0]])p[k[0]]={};p[k[0]][k[1]]=val;}
+  else p[key]=val;
+  save();
+}
+function upPNum(key,val){
+  var s=nav[nav.length-1]; var p=getPizza(s.cid,s.pid);
+  if(key.indexOf('.')>-1){var k=key.split('.');if(!p[k[0]])p[k[0]]={};p[k[0]][k[1]]=parseFloat(val)||0;}
+  else p[key]=parseFloat(val)||0;
+  save();
+}
+function upPBool(key,val){
+  var s=nav[nav.length-1]; var p=getPizza(s.cid,s.pid);
+  if(key.indexOf('.')>-1){var k=key.split('.');if(!p[k[0]])p[k[0]]={};p[k[0]][k[1]]=val;}
+  else p[key]=val;
+  save();
+}
+function upIngr(i,field,val){
+  var s=nav[nav.length-1]; var p=getPizza(s.cid,s.pid);
+  if(p.ingredienti[i]) p.ingredienti[i][field]=val;
+  save();
+}
+function addIngr(cid,pid){
+  var p=getPizza(cid,pid);
+  p.ingredienti=p.ingredienti||[];
+  p.ingredienti.push({nome:'',g:0});
+  save();
+  var il=document.getElementById('ingrList');
+  var div=document.createElement('div');
+  div.innerHTML=ingrRow(p.ingredienti.length-1,'',0);
+  il.appendChild(div.firstChild);
+  il.lastChild.querySelector('input').focus();
+}
+function delIngr(i){
+  var s=nav[nav.length-1]; var p=getPizza(s.cid,s.pid);
+  p.ingredienti.splice(i,1);
+  save();
+  renderPizzaEdit(s.cid,s.pid);
+}
+function deletePizza(cid,pid){
+  if(!confirm('Eliminare questa pizza?')) return;
+  var c=getClient(cid);
+  c.pizze=c.pizze.filter(function(p){return p.id!==pid;});
+  save(); navBack();
+}
+
+// ══ EXPORT PDF ══
+function exportPDF(cid,pid){
+  var c=getClient(cid);
+  var p=getPizza(cid,pid);
+  var co=p.cottura||{};
+
+  // Crea finestra di stampa con HTML pulito
+  var w=window.open('','_blank');
+  var ingr='';
+  (p.ingredienti||[]).forEach(function(ing,i){
+    if(ing.nome) ingr+='<tr><td style="padding:6px 12px 6px 0;border-bottom:1px solid #eee">'+(i+1)+'. '+escHtml(ing.nome)+'</td><td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right;font-weight:600">'+ing.g+'g</td></tr>';
+  });
+  var opt=[];
+  if(co.statico) opt.push('Statico');
+  if(co.vapore) opt.push('Vapore');
+  if(co.ventilato) opt.push('Ventilato');
+
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">');
+  w.document.write('<title>'+escHtml(p.nome)+' — '+escHtml(c.nome)+'</title>');
+  w.document.write('<style>');
+  w.document.write('*{box-sizing:border-box;margin:0;padding:0}');
+  w.document.write('body{font-family:"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;padding:32px;max-width:600px;margin:0 auto;font-size:14px}');
+  w.document.write('.logo{font-size:10px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:20px}');
+  w.document.write('h1{font-size:28px;font-weight:700;margin-bottom:4px}');
+  w.document.write('.meta{font-size:12px;color:#666;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #1a1a1a}');
+  w.document.write('.section{margin-bottom:20px}');
+  w.document.write('.section-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px;font-weight:600}');
+  w.document.write('table{width:100%;border-collapse:collapse}');
+  w.document.write('.cottura-box{background:#f5f5f5;border-radius:8px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}');
+  w.document.write('.c-item{font-size:13px}');
+  w.document.write('.c-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}');
+  w.document.write('.note-box{background:#fffbf0;border-left:3px solid #c8973a;padding:12px;font-size:13px;line-height:1.6}');
+  w.document.write('.finitura-box{background:#f0f8f0;border-left:3px solid #4caf50;padding:12px;font-size:13px;line-height:1.6}');
+  w.document.write('.footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center}');
+  w.document.write('@media print{body{padding:20px}.footer{position:fixed;bottom:20px;left:0;right:0}}');
+  w.document.write('</style></head><body>');
+  w.document.write('<div class="logo">Consulenza Pizza · Matteo La Spada</div>');
+  w.document.write('<h1>'+escHtml(p.nome)+'</h1>');
+  w.document.write('<div class="meta">'+escHtml(c.nome)+(c.citta?' — '+escHtml(c.citta):'')+' &nbsp;·&nbsp; '+escHtml(p.cat)+' &nbsp;·&nbsp; '+escHtml(p.stato)+'</div>');
+
+  if(ingr){
+    w.document.write('<div class="section"><div class="section-title">🧀 Ingredienti (g/porzione)</div>');
+    w.document.write('<table>'+ingr+'</table></div>');
+  }
+
+  if(p.finitura){
+    w.document.write('<div class="section"><div class="section-title">✨ Finitura a crudo</div>');
+    w.document.write('<div class="finitura-box">'+escHtml(p.finitura)+'</div></div>');
+  }
+
+  w.document.write('<div class="section"><div class="section-title">🔥 Parametri cottura</div>');
+  w.document.write('<div class="cottura-box">');
+  w.document.write('<div class="c-item"><div class="c-label">Forno</div>'+(escHtml(co.forno||c.forno))+'</div>');
+  w.document.write('<div class="c-item"><div class="c-label">Temperatura</div>'+(co.gradi||c.tCottura)+'°C</div>');
+  w.document.write('<div class="c-item"><div class="c-label">Tempo cottura</div>'+(co.minuti||c.tMinuti)+' min</div>');
+  if(co.rigenerazione) w.document.write('<div class="c-item"><div class="c-label">Rigenerazione</div>'+co.rigenerazione+'°C</div>');
+  if(opt.length) w.document.write('<div class="c-item"><div class="c-label">Opzioni</div>'+opt.join(' · ')+'</div>');
+  w.document.write('</div></div>');
+
+  if(p.note){
+    w.document.write('<div class="section"><div class="section-title">📝 Note consulente</div>');
+    w.document.write('<div class="note-box">'+escHtml(p.note)+'</div></div>');
+  }
+
+  w.document.write('<div class="footer">Pizza Lab · Matteo La Spada · Consulenza Tecnica</div>');
+  w.document.write('</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function(){ w.print(); }, 400);
+}
+
+function openModal(id){ document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
+
+function saveClient(){
+  var nome=document.getElementById('mcNome').value.trim();
+  if(!nome) return;
+  var id=nome.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,12)+'_'+Date.now();
+  var icons={'Teglia Romana':'🍕','Pizza Tonda':'🔥','Pala Romana':'🫓','Mista':'⭐'};
+  var tipo=document.getElementById('mcTipo').value;
+  DB.clients.push({
+    id:id, nome:nome, citta:document.getElementById('mcCitta').value,
+    tipo:tipo, forno:document.getElementById('mcForno').value,
+    tCottura:250, tRigenerazione:0, tMinuti:2, vapore:false, ventilato:false,
+    note:'', icon:icons[tipo]||'🍕', pizze:[]
+  });
+  save(); closeModal('modalClient'); goHome();
+}
+
+function openModalPizza(cid){
+  _currentCid = cid;
+  document.getElementById('mpNome').value='';
+  var sel=document.getElementById('mpCat');
+  if(sel) sel.selectedIndex=0;
+  openModal('modalPizza');
+}
+
+function savePizza(){
+  var nome=document.getElementById('mpNome').value.trim();
+  if(!nome) return;
+  var cid=_currentCid||nav[nav.length-1].cid;
+  if(!cid){alert('Errore: nessun cliente selezionato');return;}
+  var c=getClient(cid);
+  if(!c){alert('Cliente non trovato');return;}
+  var maxId=(c.pizze||[]).reduce(function(m,p){return Math.max(m,p.id);},0);
+  var cat=document.getElementById('mpCat').value;
+  c.pizze.push({
+    id:maxId+1, nome:nome, cat:cat, stato:'🔬 In prova',
+    ingredienti:[], finitura:'',
+    cottura:{forno:c.forno,gradi:c.tCottura,minuti:c.tMinuti,rigenerazione:c.tRigenerazione,vapore:c.vapore,ventilato:c.ventilato},
+    note:''
+  });
+  save(); 
+  closeModal('modalPizza');
+  document.getElementById('mpNome').value='';
+  renderPizze(cid);
+}
+
+// ══ DATABASE INGREDIENTI ══
+var INGR_DB = {
+  '🧀 Formaggi': [
+    {nome:'Fiordilatte',g:80},{nome:'Mozzarella bufala',g:80},{nome:'Burrata',g:50},
+    {nome:'Provola affumicata',g:60},{nome:'Gorgonzola',g:40},{nome:'Grana Padano DOP',g:20},
+    {nome:'Parmigiano Reggiano',g:20},{nome:'Pecorino romano',g:15},{nome:'Ricotta',g:60},
+    {nome:'Scamorza',g:60},{nome:'Brie',g:50},{nome:'Provola di Cesarò',g:40}
+  ],
+  '🍅 Basi e Salse': [
+    {nome:'Passata pomodoro',g:80},{nome:'Pomodoro pelato schiacciato',g:80},
+    {nome:'Passata Gustorosso 104°C',g:80},{nome:'Pomodorini datterino',g:60},
+    {nome:'Datterino rosso semi secco',g:30},{nome:'Maionese',g:30},
+    {nome:'Pesto genovese',g:30},{nome:'Crema di pistacchio',g:25}
+  ],
+  '🥩 Salumi e Carni': [
+    {nome:'Prosciutto crudo DOP',g:50},{nome:'Prosciutto cotto',g:60},
+    {nome:'Mortadella',g:60},{nome:'Speck',g:50},{nome:'Salame',g:50},
+    {nome:'Salsiccia artigianale',g:60},{nome:'Salsiccia stagionata',g:60},
+    {nome:'Spianata piccante',g:50},{nome:'Nduja',g:30},{nome:'Pancetta',g:40},
+    {nome:"Salame Sant'Angelo IGP",g:50},{nome:'Bresaola',g:50}
+  ],
+  '🍄 Verdure e Funghi': [
+    {nome:'Funghi champignon',g:50},{nome:'Funghi shiitake',g:40},
+    {nome:'Funghi nameko',g:40},{nome:'Funghi porcini',g:40},
+    {nome:'Carciofi alla brace',g:30},{nome:'Melanzane grigliate',g:40},
+    {nome:'Zucchine grigliate',g:40},{nome:'Peperoni',g:40},
+    {nome:'Rucola fresca',g:15},{nome:'Iceberg',g:30},{nome:'Songino/Soncino',g:15},
+    {nome:'Olive',g:15},{nome:'Capperi',g:10},{nome:'Cipolla di Tropea',g:20}
+  ],
+  '🐟 Pesce': [
+    {nome:'Tonno in busta',g:40},{nome:'Acciughe',g:15},
+    {nome:'Salmone affumicato',g:50},{nome:'Bottarga',g:10}
+  ],
+  '🌿 Condimenti e Aromi': [
+    {nome:'Olio EVO',g:8},{nome:'Olio EVO Terraliva',g:8},
+    {nome:'Basilico fresco',g:5},{nome:'Origano',g:2},
+    {nome:'Granella pistacchio',g:10},{nome:'Granella nocciole',g:10},
+    {nome:'Pepe nero',g:2},{nome:'Prezzemolo',g:5},{nome:'Tartufo nero',g:10}
+  ]
+};
+
+var _ingrCid='', _ingrPid=0;
+
+function openIngrModal(cid,pid){
+  _ingrCid=cid; _ingrPid=pid;
+  document.getElementById('ingrSearch').value='';
+  document.getElementById('ingrCustomNome').value='';
+  document.getElementById('ingrCustomG').value='';
+  renderIngrDB('');
+  openModal('modalIngr');
+}
+
+function renderIngrDB(q){
+  var html='';
+  Object.keys(INGR_DB).forEach(function(cat){
+    var items=INGR_DB[cat].filter(function(i){
+      return !q || i.nome.toLowerCase().includes(q.toLowerCase());
+    });
+    if(!items.length) return;
+    html+='<div class="ingr-cat-title">'+cat+'</div>';
+    html+='<div class="ingr-chips">';
+    items.forEach(function(i){
+      html+='<div class="ingr-chip" data-nome="'+escHtml(i.nome)+'" data-g="'+i.g+'" onclick="addIngrFromDB(this.dataset.nome,parseFloat(this.dataset.g))">'+escHtml(i.nome)+'</div>';
+    });
+    html+='</div>';
+  });
+  document.getElementById('ingrCategories').innerHTML=html||'<div style="color:var(--dim);padding:10px 0;font-size:13px">Nessun risultato — usa il campo manuale</div>';
+}
+
+function filterIngr(q){ renderIngrDB(q); }
+
+function addIngrFromDB(nome,g){
+  var p=getPizza(_ingrCid,_ingrPid);
+  p.ingredienti=p.ingredienti||[];
+  p.ingredienti.push({nome:nome,g:g});
+  save();
+  var il=document.getElementById('ingrList');
+  if(il){
+    var div=document.createElement('div');
+    div.innerHTML=ingrRow(p.ingredienti.length-1,nome,g);
+    il.appendChild(div.firstChild);
+  }
+}
+
+function addIngrCustom(){
+  var nome=document.getElementById('ingrCustomNome').value.trim();
+  var g=parseFloat(document.getElementById('ingrCustomG').value)||0;
+  if(!nome) return;
+  addIngrFromDB(nome,g);
+  document.getElementById('ingrCustomNome').value='';
+  document.getElementById('ingrCustomG').value='';
+  closeModal('modalIngr');
+}
+
+function addIngr(cid,pid){
+  openIngrModal(cid,pid);
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+['modalClient','modalPizza'].forEach(function(id){
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this) closeModal(id);
+  });
+});
+</script>
+</body>
+</html>
