@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it" style="background:#0C0B09">
+<html lang="it" style="background:#0A1A12">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -11,9 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#0C0B09;overflow:hidden}
+html,body{height:100%;background:#0A1A12;overflow:hidden}
 body{font-family:"DM Sans",sans-serif;color:#F0E8D8}
-#splash{position:fixed;inset:0;background:#0D2B1F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:20px;z-index:1000}
+#splash{position:fixed;inset:0;background:#0A1A12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:20px;z-index:1000}
 .sp-logo{font-family:"Playfair Display",serif;font-size:56px;font-weight:900;color:#F8F2E6;line-height:1;text-align:center;letter-spacing:-1px;text-shadow:0 0 60px rgba(212,160,62,0.3)}
 .sp-logo em{color:#D4A03E;font-style:italic}
 .sp-sub{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:5px;color:#8A7C6A;text-transform:uppercase;text-align:center;margin-top:4px}
@@ -25,15 +25,15 @@ body{font-family:"DM Sans",sans-serif;color:#F0E8D8}
 .sp-desc{font-size:12px;margin-top:4px;opacity:0.65;display:block;text-align:left;line-height:1.4}
 .sp-calc{background:linear-gradient(135deg,#221C14,#1A1410);border:1.5px solid #D4A03E;color:#F8F2E6;box-shadow:0 4px 24px rgba(212,160,62,0.2),inset 0 1px 0 rgba(212,160,62,0.1)}
 .sp-man{background:linear-gradient(135deg,#141210,#111009);border:1px solid #2E2820;color:#F8F2E6;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
-#wrapCalc{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0C0B09}
+#wrapCalc{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0A1A12}
 #wrapManuale{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0A0A0A;flex-direction:column;color:#F5F0E8}
 
 :root {
-  /* Sfondi — più profondi e caldi */
-  --bg: #080705;
-  --surface: #110F0C;
-  --card: #1C1814;
-  --border: #2E2820;
+  /* Sfondi — verde L'Orso */
+  --bg: #0A1A12;
+  --surface: #0D2018;
+  --card: #122B1E;
+  --border: #1E3D2A;
 
   /* Oro — più saturo e luminoso */
   --gold: #D4A03E;
@@ -3503,11 +3503,42 @@ function updateEsmach(idx, field, val){
 // ══════════════════════════════════════════════
 function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
 function stampaPDF(pageId,titolo){
+  // 1. Ricalcola tutto — valori JS nel DOM
+  calcAll();
+
   var pagina=document.getElementById(pageId);
   if(!pagina)return;
+
+  // 2. Forza apertura card PRIMA di clonare
+  pagina.querySelectorAll('.card').forEach(function(c){c.classList.add('open');});
+  pagina.querySelectorAll('.card-body').forEach(function(cb){
+    cb.style.display='block';
+    cb.style.maxHeight='none';
+    cb.style.overflow='visible';
+  });
+
+  // 3. Clona con tutto il DOM già calcolato e visibile
   var clone=pagina.cloneNode(true);
   clone.querySelectorAll(".card-body").forEach(function(cb){cb.setAttribute("style","display:block!important;padding:12px 14px");});
   clone.querySelectorAll(".btn-share,.btn-pdf,.card-chevron").forEach(function(b){b.remove();});
+
+  // 4. Copia manualmente il contenuto dei div output JS (non clonati correttamente)
+  var outputIds=[
+    'supremaOut','phBigaOut','licoliOut','esmachOut',
+    'scrocchOut','tondaBigaOut','tondaCrocOut','palaSuprOut',
+    'palaScientOut','palaBigaOut','tegliaPFOut','direttoOut','romanaOut'
+  ];
+  outputIds.forEach(function(id){
+    var src=document.getElementById(id);
+    var dst=clone.querySelector('#'+id);
+    if(src && dst) dst.innerHTML=src.innerHTML;
+  });
+
+  // 5. Copia anche div con output generici che potrebbero essersi persi
+  clone.querySelectorAll('[id$="Out"]').forEach(function(dst){
+    var src=document.getElementById(dst.id);
+    if(src && dst && src.innerHTML.trim()) dst.innerHTML=src.innerHTML;
+  });
 
   var overlay=document.createElement("div");
   overlay.id="pdf-overlay";
