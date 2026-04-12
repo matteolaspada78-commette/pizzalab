@@ -644,7 +644,64 @@
 </main>
 
 <!-- DELETE MODAL -->
-<div class="modal-overlay" id="deleteModal">
+<div class="modal-overlay" id="del
+
+  <!-- FOOD COST -->
+  <div class="tab-content" id="tab-foodcost">
+    <div style="padding:12px 16px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#2e7a4f;margin-bottom:4px">💶 Food Cost Pizza</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:16px">Seleziona una pizza → inserisci grammature → calcola il costo</div>
+
+      <!-- Selezione pizza -->
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">🍕 Pizza</div>
+        <select id="fcPizzaSel" onchange="fcCaricaPizza()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;background:#fff;outline:none;-webkit-appearance:none">
+          <option value="">— Seleziona pizza —</option>
+        </select>
+      </div>
+
+      <!-- Prezzo vendita + grammatura pallina -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-weight:700">Grammatura pallina (g)</div>
+          <input id="fcGram" type="number" value="260" min="100" max="600" step="10" oninput="fcCalcola()" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Mono',monospace;outline:none;color:#1a1208">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-weight:700">Prezzo vendita (€)</div>
+          <input id="fcPrezzo" type="number" value="12" min="1" max="100" step="0.5" oninput="fcCalcola()" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Mono',monospace;outline:none;color:#1a1208">
+        </div>
+      </div>
+    </div>
+
+    <!-- Ingredienti con grammature e prezzi -->
+    <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:0 16px 6px;border-bottom:1px solid var(--border)">🧂 Ingredienti — grammi usati → costo</div>
+    <div id="fcIngRighe"></div>
+
+    <!-- Risultato -->
+    <div id="fcResult" style="display:none;margin:12px 16px 16px">
+      <div style="background:#f0faf4;border:2px solid #4CAF7D;border-radius:14px;padding:16px;margin-bottom:10px">
+        <div style="font-size:9px;color:#2e7a4f;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">Costo totale pizza</div>
+        <div id="fcTotale" style="font-size:44px;font-weight:700;font-family:'DM Mono',monospace;color:#2e7a4f;line-height:1">€0.00</div>
+        <div id="fcSub" style="font-size:11px;color:#5a8a6a;margin-top:6px;line-height:1.7"></div>
+      </div>
+      <div id="fcDettaglio" style="background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden"></div>
+    </div>
+
+    <!-- Gestione listino ingredienti -->
+    <div style="border-top:1px solid var(--border);margin-top:8px">
+      <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:10px 16px 6px">📋 Listino ingredienti — €/kg</div>
+      <div id="fcListinoRighe"></div>
+      <div style="padding:12px 16px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700">➕ Aggiungi / aggiorna prezzo</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <input id="fcNewNome" type="text" placeholder="Nome ingrediente" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;outline:none;font-family:'Inter',sans-serif">
+          <input id="fcNewPrezzo" type="number" step="0.01" min="0" placeholder="€/kg" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Mono',monospace;outline:none">
+        </div>
+        <button onclick="fcAggiungiPrezzo()" style="width:100%;background:#2e7a4f;color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Salva prezzo</button>
+        <div id="fcSaveMsg" style="font-size:11px;color:#2e7a4f;text-align:center;margin-top:6px;min-height:16px"></div>
+      </div>
+    </div>
+  </div>eteModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <h3>Elimina pizza</h3>
@@ -690,8 +747,12 @@ function showTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   // show/hide search hero only on archivio
-  document.getElementById('searchHero').style.display = (id === 'prezzi' || id === 'menu') ? 'none' : 'block';
+  document.getElementById('searchHero').style.display = (id === 'prezzi' || id === 'menu' || id === 'foodcost') ? 'none' : 'block';
   // Ripristina menu salvato quando si apre la tab menu
+  if(id === 'foodcost') {
+    fcPopulaSelect();
+    fcRenderListino();
+  }
   if(id === 'menu' && menuSelezionate.length > 0) {
     renderMenuChips();
     // Ripristina anche l'output se era stato generato
@@ -1240,6 +1301,250 @@ function shareMenu() {
 }
 
 // Anche quando si aggiunge una nuova pizza, ordina alfabeticamente
+
+
+// ══════════════════════════════════════════════
+// FOOD COST
+// ══════════════════════════════════════════════
+var FC_LISTINO_KEY = 'archivio_foodcost_listino_v1';
+
+var FC_LISTINO_DEFAULT = {
+  // Latticini — Magross/Antema (€/kg)
+  'fiordilatte':8.30,'fior di latte':8.30,'fior di latte siciliano':8.30,
+  'fiordilatte 100% napoli':9.40,'fiordilatte monti agerola':9.30,
+  'fiordilatte della costiera':7.90,'fiordilatte costiera julienne':8.30,
+  'fiordilatte in acqua':8.80,'mozzarella fior di latte':8.30,
+  'mozzarella':8.30,'provola':9.60,'provola affumicata':9.60,
+  'provola 100% napoli':9.60,'provola di cesarò':12.00,'provola dei nebrodi':12.00,
+  // Bufala
+  'mozzarella di bufala dop':14.00,'mozzarella di bufala':14.00,
+  'bufala':14.00,'bufala ragusana':14.00,'stracciatella':12.00,
+  'stracciatella di bufala':13.00,'burrata':10.00,
+  // Pomodoro — D'Ago (€/kg)
+  'pomodoro biologico':3.38,'passata pomodoro biologico':2.50,
+  'passata pomodoro siccagno':3.80,'pomodoro siccagno':3.80,
+  'passata pomodoro siccagno schiacciato':3.80,'pomodoro pelato schiacciato':2.80,
+  'pomodoro pelato biologico':3.38,'datterino':4.50,
+  'datterino rosso':4.50,'datterino giallo':6.15,
+  'datterino rosso semi dry':6.50,'datterino giallo semi dry':7.00,
+  'datterino rosso semi secco':6.50,'datterino giallo semi secco':7.00,
+  'polpa di pomodoro':1.96,'pelati italiani':1.90,
+  // Salumi (€/kg)
+  'prosciutto crudo di parma':28.00,'prosciutto crudo levoni':28.00,
+  'prosciutto crudo':26.00,'prosciutto cotto':12.00,
+  'prosciutto cotto branchi':13.00,'mortadella levoni linea oro':11.00,
+  'mortadella levoni':10.00,'mortadella':9.00,'salame':12.00,
+  'salame sant'angelo':18.00,'salsiccia':8.00,'guanciale':14.00,
+  'pancetta affumicata':12.00,'speck':18.00,'porchetta':12.00,
+  'lardo di patanegra':24.00,'ventresca di maiale':14.00,
+  // Pesce (€/kg)
+  'alici':18.00,'acciughe':18.00,'tonno':22.00,'filetti di tonno':22.00,
+  'ventresca di tonno rosso':45.00,'gambero rosso di mazara':60.00,
+  'gambero':25.00,'bottarga':80.00,'bottarga di tonno':60.00,
+  'pescespada affumicato':22.00,'sarda affumicata':15.00,
+  // Formaggi (€/kg)
+  'ricotta':5.00,'ricotta fresca':5.00,'ricotta infornata':7.00,
+  'ricotta salata':8.00,'grana':12.00,'parmigiano reggiano':20.00,
+  'pecorino':14.00,'pecorino romano':14.00,'gorgonzola':14.00,
+  'fontina':16.00,'ragusano':18.00,'vastedda del belice':20.00,
+  'maiorchino':22.00,'caciotta siciliana':10.00,
+  // Verdure (€/kg)
+  'melanzane fritte':3.00,'melanzane grigliate':4.00,'melanzane sott'olio':6.00,
+  'funghi champignon':6.00,'funghi porcini':18.00,'funghi shiitake':22.00,
+  'funghi freschi':8.00,'carciofi alla brace':8.00,'cipolla caramellata':3.00,
+  'cipolla di giarratana':8.00,'rucola':6.00,'scarola':3.00,
+  'patate al forno':2.00,'zucchine fritte':3.00,'peperoni':4.00,
+  // Condimenti (€/kg o €/pz)
+  'olio evo':8.00,'olio evo terraliva':12.00,'pesto di pistacchio':25.00,
+  'granella di pistacchio':22.00,'capperi di salina':20.00,'olive taggiasche':12.00,
+  'olive':6.00,'basilico':8.00,'origano':15.00
+};
+
+function fcLoadListino(){
+  try {
+    var s = localStorage.getItem(FC_LISTINO_KEY);
+    if(s) {
+      var saved = JSON.parse(s);
+      // merge con default
+      return Object.assign({}, FC_LISTINO_DEFAULT, saved);
+    }
+  } catch(e){}
+  return Object.assign({}, FC_LISTINO_DEFAULT);
+}
+
+function fcSaveListino(l){
+  try{ localStorage.setItem(FC_LISTINO_KEY, JSON.stringify(l)); }catch(e){}
+}
+
+var FC_LISTINO = fcLoadListino();
+
+function fcPopulaSelect(){
+  var sel = document.getElementById('fcPizzaSel');
+  if(!sel) return;
+  var opts = '<option value="">— Seleziona pizza —</option>';
+  PIZZAS.forEach(function(p){
+    opts += '<option value="'+p.n+'">N°'+p.n+' — '+p.nome+'</option>';
+  });
+  sel.innerHTML = opts;
+}
+
+function fcCaricaPizza(){
+  var n = parseInt(document.getElementById('fcPizzaSel')?.value)||0;
+  if(!n){ document.getElementById('fcIngRighe').innerHTML=''; return; }
+  var pizza = PIZZAS.find(function(p){return p.n===n;});
+  var grammi = GRAMMI[String(n)]||[];
+  if(!pizza) return;
+
+  var el = document.getElementById('fcIngRighe');
+  if(!el) return;
+
+  el.innerHTML = pizza.cond.map(function(ingr, i){
+    var gSaved = (grammi[i]&&grammi[i].gr) ? grammi[i].gr : '';
+    var prezzoKg = fcGetPrezzo(ingr);
+    var costoStr = (gSaved && prezzoKg) ? '€'+(gSaved/1000*prezzoKg).toFixed(3) : '—';
+    var prezzoInfo = prezzoKg ? '€'+prezzoKg.toFixed(2)+'/kg' : 'prezzo non in lista';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:#fff">' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-size:13px;font-weight:600;color:#1a1208">'+ingr+'</div>' +
+        '<div style="font-size:10px;color:#8a7a60;margin-top:1px">'+prezzoInfo+'</div>' +
+      '</div>' +
+      '<input id="fcg_'+n+'_'+i+'" type="number" min="0" max="500" step="1" value="'+gSaved+'" placeholder="g" ' +
+        'oninput="fcSetGram('+n+','+i+',this.value)" ' +
+        'style="width:58px;background:#faf8f3;border:1.5px solid #e8d8b0;border-radius:8px;padding:8px;font-family:'DM Mono',monospace;font-size:14px;color:#c8860a;text-align:center;outline:none">' +
+      '<div id="fcc_'+n+'_'+i+'" style="font-family:'DM Mono',monospace;font-size:12px;color:#2e7a4f;min-width:56px;text-align:right">'+costoStr+'</div>' +
+    '</div>';
+  }).join('');
+
+  fcCalcola();
+}
+
+function fcGetPrezzo(ingr){
+  var key = ingr.toLowerCase().trim();
+  // Cerca prima match esatto
+  if(FC_LISTINO[key]) return FC_LISTINO[key];
+  // Cerca match parziale
+  var keys = Object.keys(FC_LISTINO);
+  for(var i=0;i<keys.length;i++){
+    if(key.includes(keys[i]) || keys[i].includes(key)) return FC_LISTINO[keys[i]];
+  }
+  return null;
+}
+
+function fcSetGram(n, idx, val){
+  // Aggiorna anche GRAMMI se non già salvato
+  var pizza = PIZZAS.find(function(p){return p.n===n;});
+  if(!pizza) return;
+  var ingr = pizza.cond[idx];
+  var prezzoKg = fcGetPrezzo(ingr);
+  var g = parseFloat(val)||0;
+  var el = document.getElementById('fcc_'+n+'_'+idx);
+  if(el) el.textContent = (g>0&&prezzoKg) ? '€'+(g/1000*prezzoKg).toFixed(3) : '—';
+  fcCalcola();
+}
+
+function fcCalcola(){
+  var n = parseInt(document.getElementById('fcPizzaSel')?.value)||0;
+  if(!n) return;
+  var pizza = PIZZAS.find(function(p){return p.n===n;});
+  if(!pizza) return;
+
+  var gram = parseFloat(document.getElementById('fcGram')?.value)||260;
+  var prezzo = parseFloat(document.getElementById('fcPrezzo')?.value)||0;
+
+  var righe = [];
+  var totale = 0;
+
+  pizza.cond.forEach(function(ingr, i){
+    var el = document.getElementById('fcg_'+n+'_'+i);
+    var g = el ? (parseFloat(el.value)||0) : 0;
+    var pk = fcGetPrezzo(ingr);
+    if(g>0 && pk){
+      var costo = g/1000*pk;
+      totale += costo;
+      righe.push({nome:ingr, g:g, prezzo:pk, costo:costo});
+    }
+  });
+
+  // Costo pallina farina — stima base sul peso pallina
+  var costoFarina = fcGetPrezzo('hp 0102')||1.91;
+  var costoImpasto = (gram/1000) * costoFarina * 1.8; // farina + acqua + sale
+  totale += costoImpasto;
+
+  var rb = document.getElementById('fcResult');
+  var rt = document.getElementById('fcTotale');
+  var rs = document.getElementById('fcSub');
+  var rd = document.getElementById('fcDettaglio');
+  if(!rb||!rt) return;
+
+  rb.style.display = 'block';
+  rt.textContent = '€'+totale.toFixed(3);
+
+  var fc = prezzo>0 ? (totale/prezzo*100) : 0;
+  var margine = prezzo>0 ? (prezzo-totale) : 0;
+  var sem = fc>0 ? (fc<=28?'✅ Food cost ottimale':fc<=35?'🟡 Food cost accettabile':'🔴 Food cost alto — rivedi') : '';
+
+  rs.textContent = [
+    'N°'+n+' '+pizza.nome,
+    prezzo>0?'Vendita €'+prezzo.toFixed(2):'',
+    fc>0?'Food cost '+fc.toFixed(1)+'%':'',
+    fc>0?'Margine €'+margine.toFixed(2):'',
+    sem
+  ].filter(Boolean).join(' · ');
+
+  rd.innerHTML =
+    righe.map(function(r){
+      return '<div style="display:flex;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px">' +
+        '<span style="color:#8a7a60">'+r.nome+' ('+r.g+'g)</span>' +
+        '<span style="font-family:'DM Mono',monospace;font-weight:600;color:#1a1208">€'+r.costo.toFixed(3)+'</span>' +
+      '</div>';
+    }).join('') +
+    '<div style="display:flex;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px">' +
+      '<span style="color:#8a7a60">Pallina impasto est. ('+gram+'g)</span>' +
+      '<span style="font-family:'DM Mono',monospace;font-weight:600;color:#1a1208">€'+costoImpasto.toFixed(3)+'</span>' +
+    '</div>' +
+    '<div style="display:flex;justify-content:space-between;padding:10px 14px;background:#f0faf4;font-size:13px;font-weight:700">' +
+      '<span style="color:#2e7a4f">TOTALE</span>' +
+      '<span style="font-family:'DM Mono',monospace;color:#2e7a4f">€'+totale.toFixed(3)+'</span>' +
+    '</div>' +
+    (prezzo>0?
+      '<div style="display:flex;justify-content:space-between;padding:8px 14px;font-size:12px">' +
+        '<span style="color:#8a7a60">Food cost %</span>' +
+        '<span style="font-family:'DM Mono',monospace;font-weight:600;color:'+(fc<=28?'#2e7a4f':fc<=35?'#c8860a':'#e05252')+'">'+fc.toFixed(1)+'%</span>' +
+      '</div>' +
+      '<div style="display:flex;justify-content:space-between;padding:8px 14px;border-top:1px solid var(--border);font-size:12px">' +
+        '<span style="color:#8a7a60">Margine lordo</span>' +
+        '<span style="font-family:'DM Mono',monospace;font-weight:600;color:#2e7a4f">€'+margine.toFixed(2)+'</span>' +
+      '</div>'
+    :'');
+}
+
+function fcRenderListino(){
+  var el = document.getElementById('fcListinoRighe');
+  if(!el) return;
+  var entries = Object.entries(FC_LISTINO).sort(function(a,b){return a[0].localeCompare(b[0]);});
+  el.innerHTML = entries.slice(0,30).map(function(e){
+    return '<div style="display:flex;justify-content:space-between;padding:7px 16px;border-bottom:1px solid var(--border);font-size:12px">' +
+      '<span style="color:#1a1208;text-transform:capitalize">'+e[0]+'</span>' +
+      '<span style="font-family:'DM Mono',monospace;font-weight:600;color:#c8860a">€'+e[1].toFixed(2)+'/kg</span>' +
+    '</div>';
+  }).join('') +
+  (entries.length>30?'<div style="padding:8px 16px;font-size:11px;color:#8a7a60;font-style:italic">...e altri '+(entries.length-30)+' ingredienti</div>':'');
+}
+
+function fcAggiungiPrezzo(){
+  var nome = (document.getElementById('fcNewNome')?.value||'').trim().toLowerCase();
+  var prezzo = parseFloat(document.getElementById('fcNewPrezzo')?.value)||0;
+  var msg = document.getElementById('fcSaveMsg');
+  if(!nome||prezzo<=0){if(msg)msg.textContent='Inserisci nome e prezzo valido';return;}
+  FC_LISTINO[nome] = prezzo;
+  fcSaveListino(FC_LISTINO);
+  if(document.getElementById('fcNewNome')) document.getElementById('fcNewNome').value='';
+  if(document.getElementById('fcNewPrezzo')) document.getElementById('fcNewPrezzo').value='';
+  if(msg){msg.textContent='✅ Salvato: '+nome+' €'+prezzo.toFixed(2)+'/kg';setTimeout(function(){msg.textContent='';},2000);}
+  fcRenderListino();
+  // Ricarica pizza corrente per aggiornare prezzi
+  fcCaricaPizza();
+}
 
 </script>
 </body>
