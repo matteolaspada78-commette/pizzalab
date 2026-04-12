@@ -3502,25 +3502,79 @@ function updateEsmach(idx, field, val){
 // STAMPA PDF
 // ══════════════════════════════════════════════
 function stampaPDF(pageId, titolo){
-  // Nascondi tutte le pagine tranne quella corrente
-  document.querySelectorAll('.scroll').forEach(p=>{
-    if(p.id !== pageId) p.style.display='none';
+  // Clona la pagina e forza tutto visibile
+  const pagina = document.getElementById(pageId);
+  if(!pagina) return;
+
+  // Raccogli tutto l'HTML della pagina clonato
+  const clone = pagina.cloneNode(true);
+
+  // Forza apertura di tutte le card-body
+  clone.querySelectorAll('.card-body').forEach(cb=>{
+    cb.style.display='block';
+    cb.style.maxHeight='none';
+    cb.style.overflow='visible';
   });
-  // Apri tutte le card chiuse temporaneamente
-  const chiuse=[];
-  document.querySelectorAll('#'+pageId+' .card-body').forEach(cb=>{
-    if(cb.style.display==='none'||cb.style.maxHeight==='0px'){
-      chiuse.push(cb);
-      cb.style.display='block';
-    }
+  // Forza apertura mcard-body
+  clone.querySelectorAll('.mcard-body').forEach(cb=>{
+    cb.style.display='block';
   });
-  document.title = 'Pizza Lab — '+titolo+' — Matteo La Spada';
-  window.print();
-  // Ripristina dopo stampa
-  setTimeout(()=>{
-    chiuse.forEach(cb=>cb.style.display='');
-    document.title='Pizza Lab v2.1 — Matteo La Spada';
-  },1000);
+  // Rimuovi pulsanti share/pdf dal clone
+  clone.querySelectorAll('.btn-share,.btn-pdf').forEach(b=>b.remove());
+  // Forza display su tutti gli elementi nascosti con style inline
+  clone.querySelectorAll('[style*="display:none"]').forEach(el=>{
+    el.style.display='block';
+  });
+
+  // CSS minimale per stampa leggibile
+  const css = `
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#111;padding:20px;font-size:14px}
+    .page-hero{text-align:center;padding:16px 0 20px;border-bottom:2px solid #C8973A;margin-bottom:20px}
+    .page-hero-icon{font-size:36px;margin-bottom:6px}
+    .page-hero-title{font-size:24px;font-weight:800;color:#111}
+    .page-hero-sub{font-size:12px;color:#666;margin-top:4px}
+    .card{border:1.5px solid #ddd;border-radius:10px;margin-bottom:14px;overflow:hidden;page-break-inside:avoid}
+    .card-hdr{padding:12px 16px;background:#f5f5f5;display:flex;align-items:center;gap:10px}
+    .card-hdr-icon{font-size:20px}
+    .card-hdr-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888}
+    .card-hdr-title{font-size:15px;font-weight:700;color:#111}
+    .card-chevron{display:none}
+    .card-body{display:block!important;padding:14px 16px}
+    .inp-group{margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+    .inp-label{font-size:12px;color:#444;font-weight:600}
+    .inp-field{border:1px solid #ccc;border-radius:6px;padding:4px 8px;font-size:13px;color:#111;background:#f9f9f9;width:80px;text-align:right}
+    .inp-unit{font-size:12px;color:#888;margin-left:4px}
+    .inp-row{display:flex;align-items:center}
+    .res-section{margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #eee}
+    .res-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#C8973A;font-weight:700;margin-bottom:8px}
+    .sem{padding:10px 14px;border-radius:8px;font-weight:700;margin-bottom:10px;font-size:14px;page-break-inside:avoid}
+    .sem.ok{background:#E8F5E9;color:#2E7D32;border-left:4px solid #4CAF50}
+    .sem.warn{background:#FFF8E1;color:#F57F17;border-left:4px solid #FFC107}
+    .sem.bad{background:#FFEBEE;color:#C62828;border-left:4px solid #F44336}
+    .res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+    .res-row:last-child{border-bottom:none}
+    .res-row-label{color:#444}
+    .res-row-val{font-weight:700;color:#111}
+    .res-row-note{font-size:11px;color:#888;margin-left:8px}
+    .res-row.highlight{background:#FFFDE7;padding:8px 6px;border-radius:6px;margin:4px 0;border-bottom:none}
+    .tl-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px;align-items:flex-start}
+    .tl-time{font-weight:700;color:#C8973A;min-width:60px;font-family:monospace}
+    .tl-label{font-weight:600;color:#111;flex:1}
+    .tl-note{font-size:11px;color:#888}
+    .dist-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+    .sec-div{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#C8973A;padding:10px 0 6px;font-weight:700}
+    .footer-pdf{text-align:center;margin-top:24px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:10px}
+    @media print{body{padding:10px}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  `;
+
+  const html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>Pizza Lab — '+titolo+' — Matteo La Spada</title><style>'+css+'</style></head><body>'+clone.innerHTML+'<div class="footer-pdf">Pizza Lab · Matteo La Spada · L\'Orso Messina · Sistema Scientifico</div></body></html>';
+
+  const win = window.open('','_blank','width=800,height=900');
+  if(!win){ alert('Abilita i popup per generare il PDF'); return; }
+  win.document.write(html);
+  win.document.close();
+  win.onload = function(){ win.print(); };
 }
 
 // ══════════════════════════════════════════════
