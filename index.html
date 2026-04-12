@@ -6,14 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Pizza Lab v2.1">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%230C0B09'/%3E%3Ccircle cx='256' cy='230' r='170' fill='%23C8973A'/%3E%3Ccircle cx='256' cy='230' r='140' fill='%23F5E6C8'/%3E%3Ccircle cx='256' cy='230' r='110' fill='%23E8C56A'/%3E%3Ccircle cx='215' cy='205' r='20' fill='%238B2020'/%3E%3Ccircle cx='285' cy='195' r='16' fill='%238B2020'/%3E%3Ccircle cx='250' cy='250' r='18' fill='%238B2020'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%230D2B1F'/%3E%3Ccircle cx='256' cy='230' r='170' fill='%23C8973A'/%3E%3Ccircle cx='256' cy='230' r='140' fill='%23F5E6C8'/%3E%3Ccircle cx='256' cy='230' r='110' fill='%23E8C56A'/%3E%3Ccircle cx='215' cy='205' r='20' fill='%238B2020'/%3E%3Ccircle cx='285' cy='195' r='16' fill='%238B2020'/%3E%3Ccircle cx='250' cy='250' r='18' fill='%238B2020'/%3E%3C/svg%3E">
 <title>Pizza Lab v2.1 — Matteo La Spada</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#0C0B09;overflow:hidden}
 body{font-family:"DM Sans",sans-serif;color:#F0E8D8}
-#splash{position:fixed;inset:0;background:#0C0B09;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:20px;z-index:1000}
+#splash{position:fixed;inset:0;background:#0D2B1F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:20px;z-index:1000}
 .sp-logo{font-family:"Playfair Display",serif;font-size:56px;font-weight:900;color:#F8F2E6;line-height:1;text-align:center;letter-spacing:-1px;text-shadow:0 0 60px rgba(212,160,62,0.3)}
 .sp-logo em{color:#D4A03E;font-style:italic}
 .sp-sub{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:5px;color:#8A7C6A;text-transform:uppercase;text-align:center;margin-top:4px}
@@ -71,6 +71,22 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 }
 .btn-share:active{opacity:0.85;transform:scale(0.98)}
 .btn-share-icon{font-size:22px}
+.btn-pdf{
+  display:block;width:calc(100% - 32px);margin:0 16px 12px;padding:14px;
+  background:rgba(180,120,0,0.15);border:1.5px solid rgba(180,120,0,0.4);
+  border-radius:14px;color:var(--gold2);font-size:15px;font-weight:600;
+  letter-spacing:0.3px;cursor:pointer;text-align:center;
+  transition:all 0.2s;font-family:inherit;
+}
+.btn-pdf:active{opacity:0.8;transform:scale(0.98)}
+.btn-pdf-icon{font-size:20px;margin-right:8px}
+@media print{
+  .page-hero,.card-hdr,.btn-share,.btn-pdf,#hdr,.menu-btn,#splash,#pageHome{display:none!important}
+  .card-body,.scroll{display:block!important}
+  body,html{background:#fff!important;color:#111!important}
+  .res-section{border:1px solid #ddd!important;margin:8px 0!important}
+  .sem{border-radius:6px!important}
+}
 .share-toast{
   position:fixed;bottom:calc(var(--safe-bot) + 90px);left:50%;transform:translateX(-50%);
   background:#1A1714;border:1px solid #25D366;color:#25D366;
@@ -639,6 +655,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   </div>
 
   <a id="waLink_pagePhBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePhBiga','Controllo pH')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pagePhBiga','Controllo pH Biga')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 
   <!-- TABELLA COMPLETA pH OTTIMALI -->
   <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
@@ -868,6 +885,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="licoliOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareLicoli()"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageNapoFrigo','Napoletana Pronta Forno')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageLicoli','Gestione Licoli')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 
   <!-- MEMORIA ULTIMO RINFRESCO -->
   <div style="margin:0 16px 4px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px" id="licoli_memoria" style="display:none"></div>
@@ -894,192 +913,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
     </div>
 
-    <!-- P1 -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P1</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione rapida</div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Rinfresco veloce · uso in giornata</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h 30min</div>
-          <div style="font-size:11px;color:var(--dim)">28,5°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">12°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- P2 -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P2</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione + raffreddamento</div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~2h · uso mattutino</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
-          <div style="font-size:11px;color:var(--dim)">23°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
-          <div style="font-size:11px;color:var(--dim)">16°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">12°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- P3 -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P3</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Ciclo lungo overnight</div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~15h · rinfresco serale → uso mattina</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">3h</div>
-          <div style="font-size:11px;color:var(--dim)">28,5°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">12h</div>
-          <div style="font-size:11px;color:var(--dim)">12°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- P4 consigliato -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px;background:rgba(200,151,58,0.06)">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P4</div>
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione media <span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px;font-family:DM Mono,monospace">★ MATTEO</span></div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~2h30min · uso pomeridiano</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">2h 30min</div>
-          <div style="font-size:11px;color:var(--dim)">26°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- P5 -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P5</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Fermentazione dolce + stabilizzazione</div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~3h · madre delicata e stabile</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">2h</div>
-          <div style="font-size:11px;color:var(--dim)">18°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
-          <div style="font-size:11px;color:var(--dim)">16°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- P6 -->
-    <div style="border-bottom:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">P6</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Mantenimento a freddo</div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Totale ~1h · solo conservazione</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--gold)">1h</div>
-          <div style="font-size:11px;color:var(--dim)">16°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:var(--dim)">—</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Conservazione</div>
-          <div style="font-size:13px;font-weight:700;color:var(--blue)">11,5°C</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FRIGORIFERO -->
-    <div style="padding:14px 16px 16px;background:rgba(13,59,59,0.15)">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <div style="width:32px;height:32px;border-radius:50%;background:#1E4A5A;border:2px solid #5B9BD5;display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:13px;font-weight:700;color:#90CAF9;flex-shrink:0">Frigo</div>
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:700;color:var(--cream)">Frigorifero <span style="font-size:10px;background:#1E4A5A;color:#90CAF9;border-radius:4px;padding:2px 7px;margin-left:6px;font-family:DM Mono,monospace">PARAMETRI LIBERI</span></div>
-          <div style="font-size:11px;color:var(--dim);margin-top:1px">Fermentazione + 1ª fase a T libera → frigo 4-12°C</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Fermentazione</div>
-          <div style="font-size:13px;font-weight:700;color:#90CAF9">variabile</div>
-          <div style="font-size:11px;color:var(--dim)">17-27°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">1ª Fase</div>
-          <div style="font-size:13px;font-weight:700;color:#90CAF9">variabile</div>
-          <div style="font-size:11px;color:var(--dim)">17-27°C</div>
-        </div>
-        <div style="background:var(--bg);border:1px solid #1E4A5A;border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Frigo</div>
-          <div style="font-size:13px;font-weight:700;color:#90CAF9">4-12°C</div>
-          <div style="font-size:11px;color:var(--dim)">scegli tu</div>
-        </div>
-      </div>
-      <div style="margin-top:8px;font-size:11px;color:#5B9BD5;font-style:italic">💡 Seleziona P Frigorifero nel calcolatore per impostare i tuoi parametri</div>
+    <!-- PROGRAMMI ESMACH MODIFICABILI -->
+    <div id="esmach-programs"></div>
+    <div style="padding:10px 16px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onclick="resetEsmachPrograms()" style="font-size:11px;color:var(--dim);background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;font-family:inherit">↺ Ripristina default</button>
+      <span style="font-size:11px;color:var(--dim)">✏️ Tocca un valore per modificarlo — si salva automaticamente</span>
     </div>
 
   </div>
@@ -1124,6 +962,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="supremaOut"></div></div>
   </div>
   <a id="waLink_pageSuprema" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageSuprema','Napoletana Suprema')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageSuprema','Napoletana Suprema')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 
   <!-- TIMELINE SCIENTIFICAMENTE APPROVATA -->
   <div style="margin:0 16px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
@@ -1324,6 +1163,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="scrocchOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pageScrocch','Scrocchiarella')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageScrocch','Scrocchiarella Teglia')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- TONDA BIGA -->
@@ -1364,6 +1204,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="tondaBigaOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pageTondaBiga','Tonda Romana Biga')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageTondaBiga','Tonda Romana Biga')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- TONDA CROCCANTE -->
@@ -1400,6 +1241,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="tondaCrocOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pageTondaCroc','Tonda Romana Croccante')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageTondaCroc','Tonda Romana Croccante')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- PALA SUPREMA -->
@@ -1434,6 +1276,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="palaSupremaOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- PALA SCIENTIFICA -->
@@ -1467,6 +1310,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="palaScientOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pagePalaScient','Pala Romana Scientifica')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pagePalaScient','Pala Romana Scientifica')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- PALA BIGA -->
@@ -1504,6 +1348,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="palaBigaOut"></div></div>
   </div>
   <a id="waLink_pagePalaBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePalaBiga','Teglia Romana Super Alveolata')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pagePalaBiga','Teglia Super Alveolata')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 
@@ -1582,6 +1427,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="tegliaPFOut"></div></div>
   </div>
   <a id="waLink_pageTegliaPF" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTegliaPF','Teglia Pronta Forno')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageTegliaPF','Teglia Pronta Forno')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <div id="pageDiretto" class="scroll" style="display:none">
@@ -1623,6 +1469,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="direttoOut"></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pageDiretto','Impasto Diretto')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <button class="btn-pdf" onclick="stampaPDF('pageDiretto','Impasto Diretto')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 
   <div class="card" id="cardDirSci">
     <div class="card-hdr" onclick="toggleCard('cardDirSci')">
@@ -1665,6 +1512,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div class="card-body"><div id="romanaOut"></div></div>
   </div>
   <a id="waLink_pageRomana" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageRomana','Romana Croccante Diretta')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageRomana','Romana Croccante')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- DIARIO DI PRODUZIONE -->
@@ -3545,6 +3393,134 @@ function calcTegliaPF(){
     '• <span style="color:var(--cream)">Puntata 1h30</span> → non meno di 1h · non più di 2h a 22°C<br>'+
     '• <span style="color:var(--cream)">Forno 280°C platea</span> → mai sotto 260°C · vapore è fondamentale'+
     '</div></div>';
+}
+
+// ══════════════════════════════════════════════
+// PROGRAMMI ESMACH — MODIFICABILI + localStorage
+// ══════════════════════════════════════════════
+const ESMACH_DEFAULT = [
+  {n:'P1', nome:'Fermentazione rapida', sub:'Rinfresco veloce · uso in giornata', fH:1.5, fT:28.5, f1H:0, f1T:0, cT:12, matteo:false},
+  {n:'P2', nome:'Fermentazione + raffreddamento', sub:'Totale ~2h · uso mattutino', fH:1, fT:23, f1H:1, f1T:16, cT:12, matteo:false},
+  {n:'P3', nome:'Ciclo lungo overnight', sub:'Totale ~15h · rinfresco serale → mattina', fH:3, fT:28.5, f1H:12, f1T:12, cT:11.5, matteo:false},
+  {n:'P4', nome:'Fermentazione media', sub:'Totale ~2h30 · uso pomeridiano', fH:2.5, fT:26, f1H:0, f1T:0, cT:11.5, matteo:true},
+  {n:'P5', nome:'Fermentazione dolce + stabilizzazione', sub:'Totale ~3h · madre delicata', fH:2, fT:18, f1H:1, f1T:16, cT:11.5, matteo:false},
+  {n:'P6', nome:'Mantenimento a freddo', sub:'Totale ~1h · solo conservazione', fH:1, fT:16, f1H:0, f1T:0, cT:11.5, matteo:false},
+];
+
+function loadEsmachPrograms(){
+  try{
+    const s=localStorage.getItem('esmach_programs');
+    return s ? JSON.parse(s) : JSON.parse(JSON.stringify(ESMACH_DEFAULT));
+  }catch(e){ return JSON.parse(JSON.stringify(ESMACH_DEFAULT)); }
+}
+function saveEsmachPrograms(progs){
+  localStorage.setItem('esmach_programs', JSON.stringify(progs));
+}
+function resetEsmachPrograms(){
+  if(confirm('Ripristinare i valori originali Esmach?')){
+    localStorage.removeItem('esmach_programs');
+    renderEsmachPrograms();
+  }
+}
+
+function renderEsmachPrograms(){
+  const progs = loadEsmachPrograms();
+  const el = document.getElementById('esmach-programs');
+  if(!el) return;
+  
+  el.innerHTML = progs.map((p,i) => {
+    const isFrigo = false;
+    const border = p.matteo ? 'rgba(200,151,58,0.4)' : 'var(--border)';
+    const bg = p.matteo ? 'rgba(200,151,58,0.06)' : 'transparent';
+    const matteoTag = p.matteo ? '<span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px;font-family:DM Mono,monospace">★ MATTEO</span>' : '';
+    
+    const fmtH = (h) => h===0 ? '—' : (h===Math.floor(h) ? h+'h' : (Math.floor(h)>0?Math.floor(h)+'h ':'')+Math.round((h%1)*60)+'min');
+    
+    return `<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:${bg}">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">${p.n}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">${p.nome}${matteoTag}</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">${p.sub}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid ${border};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.fH}" step="0.5" min="0" max="24" 
+              style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'fH',this.value)">
+            <span style="font-size:11px;color:var(--gold)">h</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">
+            <input type="number" value="${p.fT}" step="0.5" min="15" max="35"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"
+              onchange="updateEsmach(${i},'fT',this.value)">
+            <span style="font-size:10px;color:var(--dim)">°C</span>
+          </div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1ª Fase</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.f1H}" step="0.5" min="0" max="24"
+              style="width:45px;background:transparent;border:none;border-bottom:1px solid ${p.f1H>0?'var(--gold)':'var(--border)'};color:${p.f1H>0?'var(--gold)':'var(--dim)'};font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'f1H',this.value)">
+            <span style="font-size:11px;color:var(--dim)">h</span>
+          </div>
+          ${p.f1H>0?`<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">
+            <input type="number" value="${p.f1T}" step="0.5" min="15" max="30"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"
+              onchange="updateEsmach(${i},'f1T',this.value)">
+            <span style="font-size:10px;color:var(--dim)">°C</span>
+          </div>`:'<div style="font-size:11px;color:var(--dim);margin-top:6px">—</div>'}
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.cT}" step="0.5" min="4" max="15"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'cT',this.value)">
+            <span style="font-size:11px;color:var(--blue)">°C</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateEsmach(idx, field, val){
+  const progs = loadEsmachPrograms();
+  progs[idx][field] = parseFloat(val)||0;
+  // Se f1H diventa 0, azzera f1T
+  if(field==='f1H' && parseFloat(val)===0) progs[idx].f1T=0;
+  saveEsmachPrograms(progs);
+  renderEsmachPrograms();
+}
+
+// ══════════════════════════════════════════════
+// STAMPA PDF
+// ══════════════════════════════════════════════
+function stampaPDF(pageId, titolo){
+  // Nascondi tutte le pagine tranne quella corrente
+  document.querySelectorAll('.scroll').forEach(p=>{
+    if(p.id !== pageId) p.style.display='none';
+  });
+  // Apri tutte le card chiuse temporaneamente
+  const chiuse=[];
+  document.querySelectorAll('#'+pageId+' .card-body').forEach(cb=>{
+    if(cb.style.display==='none'||cb.style.maxHeight==='0px'){
+      chiuse.push(cb);
+      cb.style.display='block';
+    }
+  });
+  document.title = 'Pizza Lab — '+titolo+' — Matteo La Spada';
+  window.print();
+  // Ripristina dopo stampa
+  setTimeout(()=>{
+    chiuse.forEach(cb=>cb.style.display='');
+    document.title='Pizza Lab v2.1 — Matteo La Spada';
+  },1000);
 }
 
 // ══════════════════════════════════════════════
