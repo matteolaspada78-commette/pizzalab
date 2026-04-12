@@ -3501,6 +3501,22 @@ function updateEsmach(idx, field, val){
 // ══════════════════════════════════════════════
 // STAMPA PDF
 // ══════════════════════════════════════════════
+function calcAll(){
+  try{calcMotore();}catch(e){}
+  try{calcLicoli();}catch(e){}
+  try{calcSuprema();}catch(e){}
+  try{calcScrocch();}catch(e){}
+  try{calcTondaBiga();}catch(e){}
+  try{calcTondaCroc();}catch(e){}
+  try{calcPalaSuprema();}catch(e){}
+  try{calcPalaScient();}catch(e){}
+  try{calcPalaBiga();}catch(e){}
+  try{calcTegliaPF();}catch(e){}
+  try{calcDiretto();}catch(e){}
+  try{calcRomana();}catch(e){}
+  try{calcNapoFrigo();}catch(e){}
+  try{calcPhBiga();}catch(e){}
+}
 function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
 function stampaPDF(pageId,titolo){
   calcAll();
