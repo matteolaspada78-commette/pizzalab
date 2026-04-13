@@ -503,6 +503,7 @@
   <button onclick="showTab('dashboard', this)">📊 Stats</button>
   <button onclick="showTab('prezzi', this)">📦 Prezzi</button>
   <button onclick="showTab('menu', this)">🍽️ Menù</button>
+  <button onclick="showTab('foodcost', this)">💶 Food Cost</button>
 </nav>
 
 <!-- SEARCH ALWAYS VISIBLE -->
@@ -641,10 +642,6 @@
     </div>
   </div>
 
-</main>
-
-<!-- DELETE MODAL -->
-<div class="modal-overlay" id="del
 
   <!-- FOOD COST -->
   <div class="tab-content" id="tab-foodcost">
@@ -701,7 +698,12 @@
         <div id="fcSaveMsg" style="font-size:11px;color:#2e7a4f;text-align:center;margin-top:6px;min-height:16px"></div>
       </div>
     </div>
-  </div>eteModal">
+  </div>
+
+</main>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <h3>Elimina pizza</h3>
@@ -726,6 +728,26 @@ let deleteTarget = null;
 let searchTimer = null;
 
 // ===== INIT =====
+// ── Carica pizze custom da localStorage al boot ──
+(function(){
+  try {
+    var custom = localStorage.getItem('archivio_pizze_custom_v1');
+    if(custom) {
+      var arr = JSON.parse(custom);
+      arr.forEach(function(p){ PIZZAS.push(p); });
+      PIZZAS.sort(function(a,b){ return a.nome.localeCompare(b.nome,'it',{sensitivity:'base'}); });
+    }
+  } catch(e) {}
+})();
+
+function saveCustomPizze(){
+  try {
+    var maxBase = 135;
+    var custom = PIZZAS.filter(function(p){ return p.n > maxBase; });
+    localStorage.setItem('archivio_pizze_custom_v1', JSON.stringify(custom));
+  } catch(e) {}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   buildIngrFilter();
   renderDashboard();
@@ -970,6 +992,7 @@ function addIngrToPizza(n) {
 
 function deletePizza(n) {
   const p = PIZZAS.find(x => x.n === n);
+  if (!p) return;
   deleteTarget = n;
   document.getElementById('deleteModalSub').textContent = 'N°' + n + ' — ' + p.nome;
   document.getElementById('deleteModal').classList.add('open');
@@ -978,11 +1001,12 @@ function deletePizza(n) {
 function confirmDelete() {
   PIZZAS = PIZZAS.filter(p => p.n !== deleteTarget);
   filtered = filtered.filter(p => p.n !== deleteTarget);
+  saveCustomPizze();
   closeModal();
   renderPizzas();
   renderDashboard();
   document.getElementById('totalBadge').textContent = PIZZAS.length;
-  showToast('🗑 Pizza eliminata');
+  showToast('🗑️ Pizza eliminata');
 }
 
 function closeModal() {
@@ -1033,7 +1057,8 @@ function savePizza() {
   filterPizzas();
   renderDashboard();
   document.getElementById('totalBadge').textContent = PIZZAS.length;
-  showToast('✅ ' + nome + ' aggiunta in ordine alfabetico!');
+  saveCustomPizze();
+  showToast('✅ ' + nome + ' salvata in memoria! 💾');
 }
 
 // ===== DASHBOARD =====
@@ -1122,7 +1147,7 @@ let menuSelezionate = [];
 (function(){
   try {
     var saved = localStorage.getItem('archivio_menu_v1');
-    if(saved) menuSelezionate = JSON.parse(saved);
+    if(saved) menuSelezionate = JSON.parse(saved).map(function(x){ return parseInt(x); });
   } catch(e) {}
 })();
 
@@ -1158,6 +1183,7 @@ function menuFilter(val) {
 }
 
 function menuTogglePizza(n) {
+  n = parseInt(n); // sempre numero intero
   if (menuSelezionate.includes(n)) {
     menuSelezionate = menuSelezionate.filter(x => x !== n);
   } else {
@@ -1207,13 +1233,22 @@ function buildMenu() {
   const output = document.getElementById('menuOutput');
   const cards = document.getElementById('menuCards');
   const shareBtn = document.getElementById('btnShareMenu');
+  if (!output || !cards || !shareBtn) return;
 
-  // Ordina alfabeticamente per nome
-  const sorted = [...menuSelezionate].sort((a, b) => {
-    const pa = PIZZAS.find(x => x.n === a);
-    const pb = PIZZAS.find(x => x.n === b);
-    return pa.nome.localeCompare(pb.nome);
-  });
+  // Filtra solo pizze esistenti poi ordina alfabeticamente
+  const sorted = menuSelezionate
+    .filter(n => PIZZAS.find(x => x.n === n))
+    .sort((a, b) => {
+      const pa = PIZZAS.find(x => x.n === a);
+      const pb = PIZZAS.find(x => x.n === b);
+      if (!pa || !pb) return 0;
+      return pa.nome.localeCompare(pb.nome, 'it', {sensitivity: 'base'});
+    });
+
+  if (sorted.length === 0) {
+    alert('Nessuna pizza valida selezionata!');
+    return;
+  }
 
   cards.innerHTML = sorted.map(n => {
     const p = PIZZAS.find(x => x.n === n);
