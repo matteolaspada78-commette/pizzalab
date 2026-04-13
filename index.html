@@ -2514,6 +2514,85 @@ function openPage(key){
   if(key==='licoli') renderUltimoRinfresco();
 }
 
+function shareLicoli(){
+  const el = document.getElementById('licoliOut');
+  if(!el || !el.innerHTML){ alert('Calcola prima il rinfresco!'); return; }
+  const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
+  const acqua=Math.round(lic*rA),farina=Math.round(lic*rF);
+  const tot=lic+acqua+farina,util=Math.round(tot*0.85);
+  const oggi=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const progLabel = prog===7 ? 'P Frigorifero' : 'Programma '+prog;
+  const lLab = (document.getElementById('lLab')||{}).value||'';
+  const ph = (document.getElementById('lPH')||{}).value||'';
+
+  let righe=[];
+  righe.push('🌿 *GESTIONE LICOLI MADRE*');
+  righe.push('📅 '+oggi+(lLab?' — '+lLab:''));
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('⚖️ *Ricetta Rinfresco*');
+  righe.push('  • Licoli di partenza: '+lic+'g');
+  righe.push('  • Farina: '+farina+'g (rapporto 1:'+rF+')');
+  righe.push('  • Acqua: '+acqua+'g (rapporto 1:'+rA+')');
+  righe.push('  • Totale prodotto: '+tot+'g');
+  righe.push('  • Utilizzabile (85%): '+util+'g');
+  if(ph) righe.push('  • pH pre-rinfresco: '+ph);
+  righe.push('');
+  righe.push('⏱️ *'+progLabel+'*');
+  righe.push('  • Ora rinfresco: '+String(ora).padStart(2,'0')+':00');
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('_Pizza Lab · Matteo La Spada · L\'Orso Messina 🐻_');
+
+  const testo=righe.join('\n');
+  const a=document.createElement('a');
+  a.href='https://wa.me/?text='+encodeURIComponent(testo);
+  a.target='_blank';
+  a.rel='noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function buildWaLink(el, pageId, titolo){
+  const page = document.getElementById(pageId);
+  if(!page){ return false; }
+
+  // Raccogli tutti i res-row visibili nella pagina
+  const rows = page.querySelectorAll('.res-row');
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  let righe=[];
+  righe.push('🍕 *'+titolo.toUpperCase()+'*');
+  righe.push('📅 '+oggi+' — Pizza Lab · Matteo La Spada');
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  rows.forEach(function(r){
+    const label = r.querySelector('.res-row-label');
+    const val = r.querySelector('.res-row-val');
+    const note = r.querySelector('.res-row-note');
+    if(label && val){
+      const n = note ? ' ('+note.textContent.trim()+')' : '';
+      righe.push('  • '+label.textContent.trim()+': *'+val.textContent.trim()+'*'+n);
+    }
+  });
+
+  // Aggiungi anche semafori se presenti
+  const sems = page.querySelectorAll('.sem');
+  if(sems.length>0){
+    righe.push('');
+    righe.push('📊 *Valutazioni*');
+    sems.forEach(function(s){
+      righe.push('  '+s.textContent.trim().split('\n')[0]);
+    });
+  }
+
+  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
+  righe.push('_Pizza Lab · Matteo La Spada · L\'Orso Messina 🐻_');
+
+  const testo = righe.join('\n');
+  el.href = 'https://wa.me/?text='+encodeURIComponent(testo);
+  return true;
+}
+
 function goHome(){
   Object.values(pages).forEach(id=>{
     const el=document.getElementById(id);
