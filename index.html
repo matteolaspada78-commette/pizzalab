@@ -3501,6 +3501,106 @@ function updateEsmach(idx, field, val){
 // ══════════════════════════════════════════════
 // STAMPA PDF
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// WHATSAPP SHARE
+// ══════════════════════════════════════════════
+function buildWaLink(el,pageId,titolo){
+  try{calcAll();}catch(e){}
+  var pagina=document.getElementById(pageId);
+  if(!pagina) return false;
+  var lines=[];
+  lines.push('🍕 *Pizza Lab — '+titolo+'*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━');
+  pagina.querySelectorAll('.inp-group').forEach(function(g){
+    var label=g.querySelector('.inp-label');
+    var input=g.querySelector('.inp-field');
+    var unit=g.querySelector('.inp-unit');
+    if(label&&input&&input.value){
+      var u=unit?unit.textContent.trim():'';
+      lines.push('• '+label.textContent.trim()+': *'+input.value+' '+u+'*');
+    }
+  });
+  lines.push('');
+  lines.push('📊 *Risultati*');
+  lines.push('─────────────────────');
+  var outIds=['supremaOut','phBigaOut','licoliOut','scrocchOut',
+    'tondaBigaOut','tondaCrocOut','palaSuprOut','palaScientOut',
+    'palaBigaOut','tegliaPFOut','direttoOut','romanaOut','napoFrigoOut'];
+  outIds.forEach(function(id){
+    var el2=document.getElementById(id);
+    if(!el2||!el2.innerHTML.trim()) return;
+    el2.querySelectorAll('.res-row').forEach(function(r){
+      var name=r.querySelector('.res-name');
+      var val=r.querySelector('.res-val');
+      if(name&&val) lines.push('• '+name.textContent.trim()+': *'+val.textContent.trim()+'*');
+    });
+    el2.querySelectorAll('.sem').forEach(function(s){
+      lines.push('⚡ '+s.textContent.trim());
+    });
+    el2.querySelectorAll('.tl-row').forEach(function(r){
+      var time=r.querySelector('.tl-time');
+      var txt=r.querySelector('.tl-text');
+      if(time&&txt) lines.push('🕐 '+time.textContent.trim()+' — '+txt.textContent.trim());
+    });
+  });
+  lines.push('');
+  lines.push('_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  lines.push('_Pizza Lab v2.1_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+  return false;
+}
+
+function shareLicoli(){
+  try{calcLicoli();}catch(e){}
+  var lines=[];
+  lines.push('🌿 *Pizza Lab — Gestione Licoli Madre*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━');
+  [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00'],
+   ['lProg','Programma Esmach','']].forEach(function(c){
+    var el=document.getElementById(c[0]);
+    if(el&&el.value) lines.push('• '+c[1]+': *'+el.value+' '+c[2]+'*');
+  });
+  lines.push('');
+  lines.push('📊 *Risultati*');
+  lines.push('─────────────────────');
+  var out=document.getElementById('licoliOut');
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var name=r.querySelector('.res-name');
+      var val=r.querySelector('.res-val');
+      if(name&&val) lines.push('• '+name.textContent.trim()+': *'+val.textContent.trim()+'*');
+    });
+    out.querySelectorAll('.sem').forEach(function(s){
+      lines.push('⚡ '+s.textContent.trim());
+    });
+  }
+  lines.push('');
+  lines.push('_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+}
+
+function shareRicetta(pageId,titolo){
+  buildWaLink(null,pageId,titolo);
+}
+
+function calcAll(){
+  try{calcMotore();}catch(e){}
+  try{calcLicoli();}catch(e){}
+  try{calcSuprema();}catch(e){}
+  try{calcScrocch();}catch(e){}
+  try{calcTondaBiga();}catch(e){}
+  try{calcTondaCroc();}catch(e){}
+  try{calcPalaSuprema();}catch(e){}
+  try{calcPalaScient();}catch(e){}
+  try{calcPalaBiga();}catch(e){}
+  try{calcTegliaPF();}catch(e){}
+  try{calcDiretto();}catch(e){}
+  try{calcRomana();}catch(e){}
+  try{calcNapoFrigo();}catch(e){}
+  try{calcPhBiga();}catch(e){}
+}
+
 function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
 function stampaPDF(pageId,titolo){
   try{calcAll();}catch(e){}
