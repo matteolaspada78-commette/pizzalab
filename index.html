@@ -3553,6 +3553,12 @@ function buildWaLink(el,pageId,titolo){
 function shareLicoli(){
   try{calcLicoli();}catch(e){}
   var lines=[];
+
+  // Destinazione — legge il campo lLab
+  var labEl=document.getElementById('lLab');
+  var lab=labEl&&labEl.value.trim()?labEl.value.trim():'';
+  if(lab) lines.push('📍 *Per Laboratorio '+lab+'*');
+
   lines.push('🌿 *Pizza Lab — Gestione Licoli Madre*');
   lines.push('━━━━━━━━━━━━━━━━━━━━━');
   [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
@@ -3571,8 +3577,10 @@ function shareLicoli(){
       var val=r.querySelector('.res-val');
       if(name&&val) lines.push('• '+name.textContent.trim()+': *'+val.textContent.trim()+'*');
     });
+    // Semafori — escludi la riga UNICA
     out.querySelectorAll('.sem').forEach(function(s){
-      lines.push('⚡ '+s.textContent.trim());
+      var t=s.textContent.trim();
+      if(t.indexOf('UNICA')===-1) lines.push('⚡ '+t);
     });
   }
   lines.push('');
