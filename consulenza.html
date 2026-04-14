@@ -942,17 +942,7 @@ function exportListaIngredienti(cid){
     +'<div class="footer"><span>Pizza Lab \u00b7 Matteo La Spada \u00b7 Consulenza Tecnica</span><span>'+oggi+'</span></div>'
     +'</body></html>';
 
-  // Apre tramite blob URL — funziona su Safari iOS senza blocco popup
-  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.target='_blank';
-  a.rel='noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(function(){URL.revokeObjectURL(url);},5000);
+  apriHTML(html, 'Lista_Ingredienti_'+c.nome.replace(/\s+/g,'_')+'.html');
 }
 
 function deletePizza(cid,pid){
@@ -992,12 +982,55 @@ function exportPDF(cid,pid){
     +'<div class="footer">Pizza Lab \u00b7 Matteo La Spada \u00b7 Consulenza Tecnica</div>'
     +'</body></html>';
 
-  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.target='_blank';a.rel='noopener';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  setTimeout(function(){URL.revokeObjectURL(url);},5000);
+  apriHTML(html, escHtml(p.nome)+'_'+escHtml(c.nome)+'.html');
+}
+
+// ── Apri HTML su tutti i dispositivi incluso Safari iOS ──
+function apriHTML(html, filename){
+  var isSafariIOS=/iP(ad|hone|od)/.test(navigator.userAgent)&&/WebKit/.test(navigator.userAgent)&&!/CriOS/.test(navigator.userAgent);
+  if(isSafariIOS){
+    // Safari iOS non supporta blob né download — mostra modal interno con iframe
+    mostraModalPDF(html);
+  } else {
+    // Tutti gli altri: scarica come file (Chrome desktop/Android, Firefox)
+    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;
+    a.download=filename||'scheda.html';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},5000);
+  }
+}
+
+function mostraModalPDF(html){
+  var existing=document.getElementById('modalPDFViewer');
+  if(existing)existing.remove();
+  var overlay=document.createElement('div');
+  overlay.id='modalPDFViewer';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9000;display:flex;flex-direction:column';
+  var bar=document.createElement('div');
+  bar.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:14px 16px;padding-top:max(14px,env(safe-area-inset-top));background:#1A1814;border-bottom:1px solid #2A2520;flex-shrink:0';
+  bar.innerHTML='<span style="font-size:14px;color:#F0E8D8;font-weight:600">Anteprima scheda</span>'
+    +'<div style="display:flex;gap:10px">'
+    +'<button onclick="stampaPDF()" style="background:#C8973A;color:#000;border:none;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer">Stampa / Salva PDF</button>'
+    +'<button onclick="document.getElementById(\'modalPDFViewer\').remove()" style="background:transparent;border:1px solid #2A2520;color:#F0E8D8;border-radius:10px;padding:8px 14px;font-size:13px;cursor:pointer">✕ Chiudi</button>'
+    +'</div>';
+  var iframe=document.createElement('iframe');
+  iframe.id='pdfIframe';
+  iframe.style.cssText='flex:1;width:100%;border:none;background:#fff';
+  overlay.appendChild(bar);
+  overlay.appendChild(iframe);
+  document.body.appendChild(overlay);
+  // Scrivi HTML nell'iframe
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(html);
+  iframe.contentDocument.close();
+}
+
+function stampaPDF(){
+  var iframe=document.getElementById('pdfIframe');
+  if(iframe&&iframe.contentWindow){iframe.contentWindow.focus();iframe.contentWindow.print();}
 }
 
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
