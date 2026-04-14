@@ -73,6 +73,12 @@ select.inp-field{background-image:none}
 .btn-gold{background:var(--gold);color:#000}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--cream)}
 .btn-pdf{background:rgba(200,151,58,0.12);border:1px solid rgba(200,151,58,0.4);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-import{background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+.btn-copy{background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+.btn-copy:active{opacity:0.8}
+.btn-lista{background:rgba(200,151,58,0.12);border:1px solid rgba(200,151,58,0.4);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+.btn-lista:active{opacity:0.8}
+.btn-import:active{opacity:0.8}
 .btn-add{background:transparent;border:1px dashed var(--border);border-radius:10px;color:var(--dim);font-size:13px;padding:9px;width:100%;margin-top:8px;cursor:pointer;text-align:center}
 .btn-add:active{opacity:0.7}
 .cottura-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -86,6 +92,25 @@ select.inp-field{background-image:none}
 .ingr-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
 .ingr-chip{padding:6px 12px;border:1px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;background:var(--bg);color:var(--cream)}
 .ingr-chip:active{background:rgba(200,151,58,0.15);border-color:var(--gold)}
+
+/* ── STILI IMPORT PIZZE ── */
+.import-source-btn{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.import-source-btn:active{opacity:0.75}
+.import-source-btn.selected{border-color:var(--gold);background:rgba(200,151,58,0.08)}
+.import-source-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:10px;flex-shrink:0;font-size:16px;font-weight:700;font-family:"Playfair Display",serif;text-transform:uppercase}
+.import-source-info{flex:1}
+.import-source-name{font-size:14px;font-weight:600}
+.import-source-count{font-size:11px;color:var(--dim);margin-top:2px}
+.import-check{font-size:18px;color:var(--gold)}
+.pizza-check-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.pizza-check-item:active{opacity:0.75}
+.pizza-check-item.checked{border-color:var(--gold);background:rgba(200,151,58,0.08)}
+.pizza-check-cat{font-size:10px;color:var(--dim);margin-top:2px}
+.pizza-check-box{width:22px;height:22px;border:1px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pizza-check-item.checked .pizza-check-box{background:var(--gold);border-color:var(--gold);color:#000}
+.import-step{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;margin-top:4px}
+.import-sel-all{font-size:12px;color:var(--gold);cursor:pointer;float:right;margin-top:-20px}
+
 @media print{
   body{background:#fff;color:#000;overflow:visible}
   #splash,#app .hdr,#pgPizza .card-hdr,#pgPizza .btn,.btn-pdf,.btn-ghost{display:none!important}
@@ -135,6 +160,7 @@ select.inp-field{background-image:none}
   <div class="scroll hidden" id="pgPizza"></div>
 </div>
 
+<!-- MODAL NUOVO CLIENTE -->
 <div class="modal-bg hidden" id="modalClient">
   <div class="modal">
     <span class="modal-close" onclick="closeModal('modalClient')">✕</span>
@@ -163,6 +189,7 @@ select.inp-field{background-image:none}
   </div>
 </div>
 
+<!-- MODAL NUOVA PIZZA -->
 <div class="modal-bg hidden" id="modalPizza">
   <div class="modal">
     <span class="modal-close" onclick="closeModal('modalPizza')">✕</span>
@@ -182,6 +209,7 @@ select.inp-field{background-image:none}
   </div>
 </div>
 
+<!-- MODAL INGREDIENTI -->
 <div class="modal-bg hidden" id="modalIngr">
   <div class="modal" style="max-height:85vh">
     <span class="modal-close" onclick="closeModal('modalIngr')">✕</span>
@@ -201,10 +229,28 @@ select.inp-field{background-image:none}
   </div>
 </div>
 
+<!-- ══ MODAL IMPORTA PIZZE ══ -->
+<div class="modal-bg hidden" id="modalImport">
+  <div class="modal" style="max-height:90vh">
+    <span class="modal-close" onclick="closeModal('modalImport')">✕</span>
+    <div class="modal-title" id="importTitle">Importa Pizze</div>
+    <div id="importBody"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL COPIA PIZZA ══ -->
+<div class="modal-bg hidden" id="modalCopia">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal('modalCopia')">✕</span>
+    <div class="modal-title" id="copiaTitle">Copia pizza in...</div>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:16px" id="copiaSub"></div>
+    <div id="copiaClientList"></div>
+  </div>
+</div>
+
 <script>
 var nav=[];
 
-// ══ PALETTE COLORI ICONE INIZIALI ══
 var PALETTE=[
   {bg:'#C8973A',text:'#000'},
   {bg:'#6B4226',text:'#fff'},
@@ -218,7 +264,6 @@ var PALETTE=[
 function getClientColor(idx){return PALETTE[idx%PALETTE.length];}
 function getClientInitial(nome){
   if(!nome)return'?';
-  // Per nomi tipo "L'Orso" prendi la O, non la L
   var clean=nome.replace(/^l['\u2019\u2018`]/i,'').trim();
   return clean.charAt(0).toUpperCase();
 }
@@ -282,58 +327,59 @@ function defaultDB(){
       { id:'gustisemplice', nome:'Gusti Semplice', citta:'', tipo:'Teglia Romana',
         forno:'Elettrico ventilato', tCottura:260, tRigenerazione:250, tMinuti:2,
         vapore:false, ventilato:true,
-        note:'Ingredienti con ⚠️ sempre a crudo dopo cottura: bufala, stracciatella, burrata, rucola, mortadella, songino',
+        note:'Ingredienti con \u26a0\ufe0f sempre a crudo dopo cottura: bufala, stracciatella, burrata, rucola, mortadella, songino',
         pizze:[
-          {id:1,nome:'Bagheria',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Pomodori secchi',g:0},{nome:'Datterino giallo in succo',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:2,nome:'Bufalina',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Bufala',g:0},{nome:'Basilico',g:0}],finitura:'Basilico fresco a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:3,nome:'Capricciosa',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Funghi champignon',g:0},{nome:'Carciofi arrosto',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:4,nome:'Cotto e Bufala',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Bufala',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:5,nome:'Diavola',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Ventricina piccante',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:6,nome:'Diavola 2',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Ventricina piccante',g:0},{nome:'Olive condite denocciolate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:7,nome:'Eolie',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Tonno in busta',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Capperi',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Zeste di limone',g:0}],finitura:'Zeste di limone a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
-          {id:8,nome:'Margherita',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Classica'},
-          {id:9,nome:'Norma',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro',g:0},{nome:'Pomodori secchi',g:0},{nome:'Crema di grana',g:0},{nome:'Melanzane fritte',g:0},{nome:'Ricotta infornata',g:0},{nome:'Mozzarella boccone',g:0}],finitura:'Ricotta infornata a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Ricetta siciliana'},
-          {id:10,nome:'Parmigiana',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro',g:0},{nome:'Melanzane fritte',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Grana',g:0},{nome:'Crema di grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:11,nome:'Salame',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salame paisanella',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:12,nome:'Cetara',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Alici di Cetara',g:0},{nome:'Stracciatella',g:0}],finitura:'⚠️ Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:13,nome:'Cetara 2.0',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro cotta',g:0},{nome:'Stracciatella',g:0},{nome:'Alici di Cetara',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Capperi',g:0},{nome:'Origano',g:0}],finitura:'⚠️ Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:14,nome:'Marina',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Datterino rosso acqua di mare',g:0}],finitura:'⚠️ Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:15,nome:'Profumi di Sicilia',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro cotta',g:0},{nome:'Stracciatella',g:0},{nome:'Prezzemolo',g:0},{nome:'Origano',g:0},{nome:'Capperi',g:0},{nome:'Olive',g:0},{nome:'Alici di Cetara',g:0}],finitura:'⚠️ Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
-          {id:16,nome:'Tonnata',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Crema tonno/maionese',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Carciofi arrosto',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:17,nome:'Vegetariana',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fior di latte treccia',g:0},{nome:'Radicchio',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Funghi champignon',g:0},{nome:'Carciofi',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:18,nome:'Margherita Gialla',cat:'🔴 Rossa',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Vellutata datterino giallo',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Fior di latte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:19,nome:'Caramellata',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Melanzane fritte',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Blu di bufala',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:20,nome:'Disgraziata',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Tuma',g:0},{nome:'Funghi champignon',g:0},{nome:'Salame paisanella',g:0},{nome:'Mortadella',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:"Melanzanine sott'olio",g:0}],finitura:'Olive condite denocciolate a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
-          {id:21,nome:'Mortazza',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Mortadella',g:0},{nome:'Stracciatella',g:0},{nome:'Pistacchi interi tostati',g:0}],finitura:'⚠️ Mortadella + stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:22,nome:'Pancetta Arrotolata',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Erba cipollina',g:0}],finitura:'Erba cipollina fresca a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:23,nome:'Patate',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base patate',g:0},{nome:'Rosmarino',g:0}],finitura:'Rosmarino fresco',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:24,nome:'Salsiccia e Funghi',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Salsiccia',g:0},{nome:'Funghi in busta',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:25,nome:'Speck e Stracciatella',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Speck',g:0},{nome:'Stracciatella',g:0},{nome:'Pistacchi interi tostati',g:0}],finitura:'⚠️ Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:26,nome:'Speck e Pistacchio',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Speck',g:0},{nome:'Songino',g:0},{nome:'Funghi namelo',g:0},{nome:'Pesto di pistacchio',g:0}],finitura:'⚠️ Songino a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:27,nome:'Speck e Rucola',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Rucola',g:0},{nome:'Speck',g:0},{nome:'Grana',g:0}],finitura:'⚠️ Rucola a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:28,nome:'Tradizionale',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pomodoro fresco',g:0},{nome:'Tuma',g:0},{nome:'Scarola',g:0},{nome:'Alici di Cetara',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:29,nome:'Zucchine e Grana',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base zucchine',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:30,nome:'Maestrale',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Cipolla di Giarratana',g:0},{nome:'Porchetta',g:0},{nome:'Patate al forno',g:0},{nome:'Mollica tostata',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:31,nome:'Porcellina',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Porchetta',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Salsa greca',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:32,nome:'Tonno e Cipolla',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Pasta filata',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Tonno in busta',g:0},{nome:'Blu di bufala',g:0},{nome:'Pomodoro rosso semidry',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:33,nome:'Burratina',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Rucola',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Burrata 50g',g:0}],finitura:'⚠️ Burrata + rucola a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:34,nome:"Ciofi'",cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Pasta filata',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Crema di carciofi',g:0},{nome:'Carciofo arrosto',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:35,nome:'Vegana 2.0',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di scarola',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Olive condite denocciolate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Vegan'},
-          {id:36,nome:'Zucchine e Chiodini',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base zucchine',g:0},{nome:'Tuma',g:0},{nome:'Funghi chiodini',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:37,nome:'Quattroformaggi',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di pecorino',g:0},{nome:'Grana',g:0},{nome:'Gorgonzola',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:38,nome:'Baciata',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella fiammifero',g:0},{nome:'Porchetta',g:0},{nome:'Patate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:39,nome:'Cotto e Cardoncelli',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella bocconi',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Cardoncelli',g:0},{nome:'Crema di grana',g:0},{nome:'Pesto di pistacchio',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:40,nome:'Messinese Secondo Me',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Tuma',g:0},{nome:'Scarola',g:0},{nome:'Alici di Cetara',g:0},{nome:'Crema di grana',g:0},{nome:'Datterino giallo in succo',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:41,nome:'Orso',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella boccone',g:0},{nome:'Songino',g:0},{nome:'Pancetta stufata',g:0},{nome:'Stracciatella',g:0},{nome:'Pesto di arachidi',g:0}],finitura:'⚠️ Stracciatella + songino a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:42,nome:"Orto dell'Orso",cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base zucchina',g:0},{nome:'Funghi champignon',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:43,nome:'Zuccotta',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Provola affumicata',g:0},{nome:'Grana',g:0},{nome:'Funghi champignon',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Crema di zucca',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:44,nome:'Sbriciolona',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di pecorino',g:0},{nome:'Sbriciolona',g:0},{nome:'Polvere di olive',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Zeste di limone',g:0}],finitura:'Zeste di limone a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:45,nome:'Sicilia',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Crema di melanzane',g:0},{nome:'Melanzane fritte',g:0},{nome:'Salsiccia',g:0},{nome:'Datterino rosso semi dry',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:46,nome:'Pugliese',cat:'⬜ Bianca',stato:'✅ Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Porchetta',g:0},{nome:'Friarielli',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:47,nome:'Bella Napoli',cat:'⬜ Bianca',stato:'🔬 In prova',ingredienti:[],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'⚠️ Ingredienti da definire'},
-          {id:48,nome:'Doppio Crunch Cotto',cat:'🟣 Speciale',stato:'✅ Attiva',ingredienti:[{nome:'Mozzarella',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Maionese',g:0},{nome:'Iceberg',g:0},{nome:'Funghi shiitake',g:0},{nome:'Funghi nameko',g:0}],finitura:'Iceberg a crudo · maionese a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
-          {id:49,nome:'Doppio Crunch Songino',cat:'🟣 Speciale',stato:'✅ Attiva',ingredienti:[{nome:'Provola affumicata',g:0},{nome:'Songino',g:0},{nome:'Maionese',g:0},{nome:'Spianata piccante',g:0},{nome:'Funghi shiitake',g:0},{nome:'Funghi nameko',g:0}],finitura:'⚠️ Songino a crudo dopo · maionese a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''}
-        ] },
+          {id:1,nome:'Bagheria',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Pomodori secchi',g:0},{nome:'Datterino giallo in succo',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:2,nome:'Bufalina',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Bufala',g:0},{nome:'Basilico',g:0}],finitura:'Basilico fresco a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:3,nome:'Capricciosa',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Funghi champignon',g:0},{nome:'Carciofi arrosto',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:4,nome:'Cotto e Bufala',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Bufala',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:5,nome:'Diavola',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Ventricina piccante',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:6,nome:'Diavola 2',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Ventricina piccante',g:0},{nome:'Olive condite denocciolate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:7,nome:'Eolie',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Tonno in busta',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Capperi',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Fiordilatte treccia',g:0},{nome:'Zeste di limone',g:0}],finitura:'Zeste di limone a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
+          {id:8,nome:'Margherita',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Classica'},
+          {id:9,nome:'Norma',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro',g:0},{nome:'Pomodori secchi',g:0},{nome:'Crema di grana',g:0},{nome:'Melanzane fritte',g:0},{nome:'Ricotta infornata',g:0},{nome:'Mozzarella boccone',g:0}],finitura:'Ricotta infornata a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Ricetta siciliana'},
+          {id:10,nome:'Parmigiana',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro',g:0},{nome:'Melanzane fritte',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Grana',g:0},{nome:'Crema di grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:11,nome:'Salame',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salame paisanella',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:12,nome:'Cetara',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Alici di Cetara',g:0},{nome:'Stracciatella',g:0}],finitura:'\u26a0\ufe0f Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:13,nome:'Cetara 2.0',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro cotta',g:0},{nome:'Stracciatella',g:0},{nome:'Alici di Cetara',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Capperi',g:0},{nome:'Origano',g:0}],finitura:'\u26a0\ufe0f Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:14,nome:'Marina',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Stracciatella',g:0},{nome:'Datterino rosso acqua di mare',g:0}],finitura:'\u26a0\ufe0f Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:15,nome:'Profumi di Sicilia',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Salsa pomodoro cotta',g:0},{nome:'Stracciatella',g:0},{nome:'Prezzemolo',g:0},{nome:'Origano',g:0},{nome:'Capperi',g:0},{nome:'Olive',g:0},{nome:'Alici di Cetara',g:0}],finitura:'\u26a0\ufe0f Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
+          {id:16,nome:'Tonnata',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Crema tonno/maionese',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Carciofi arrosto',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:17,nome:'Vegetariana',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base rossa',g:0},{nome:'Fior di latte treccia',g:0},{nome:'Radicchio',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Funghi champignon',g:0},{nome:'Carciofi',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:18,nome:'Margherita Gialla',cat:'\ud83d\udd34 Rossa',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Vellutata datterino giallo',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Fior di latte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:19,nome:'Caramellata',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Melanzane fritte',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Blu di bufala',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:20,nome:'Disgraziata',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Tuma',g:0},{nome:'Funghi champignon',g:0},{nome:'Salame paisanella',g:0},{nome:'Mortadella',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:"Melanzanine sott'olio",g:0}],finitura:'Olive condite denocciolate a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'8 ingredienti'},
+          {id:21,nome:'Mortazza',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Mortadella',g:0},{nome:'Stracciatella',g:0},{nome:'Pistacchi interi tostati',g:0}],finitura:'\u26a0\ufe0f Mortadella + stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:22,nome:'Pancetta Arrotolata',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Erba cipollina',g:0}],finitura:'Erba cipollina fresca a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:23,nome:'Patate',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base patate',g:0},{nome:'Rosmarino',g:0}],finitura:'Rosmarino fresco',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:24,nome:'Salsiccia e Funghi',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Salsiccia',g:0},{nome:'Funghi in busta',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:25,nome:'Speck e Stracciatella',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Speck',g:0},{nome:'Stracciatella',g:0},{nome:'Pistacchi interi tostati',g:0}],finitura:'\u26a0\ufe0f Stracciatella a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:26,nome:'Speck e Pistacchio',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Speck',g:0},{nome:'Songino',g:0},{nome:'Funghi namelo',g:0},{nome:'Pesto di pistacchio',g:0}],finitura:'\u26a0\ufe0f Songino a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:27,nome:'Speck e Rucola',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Rucola',g:0},{nome:'Speck',g:0},{nome:'Grana',g:0}],finitura:'\u26a0\ufe0f Rucola a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:28,nome:'Tradizionale',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pomodoro fresco',g:0},{nome:'Tuma',g:0},{nome:'Scarola',g:0},{nome:'Alici di Cetara',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:29,nome:'Zucchine e Grana',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base zucchine',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:30,nome:'Maestrale',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Cipolla di Giarratana',g:0},{nome:'Porchetta',g:0},{nome:'Patate al forno',g:0},{nome:'Mollica tostata',g:0},{nome:'Fiordilatte treccia',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:31,nome:'Porcellina',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Pasta filata',g:0},{nome:'Porchetta',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Salsa greca',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:32,nome:'Tonno e Cipolla',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Pasta filata',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Tonno in busta',g:0},{nome:'Blu di bufala',g:0},{nome:'Pomodoro rosso semidry',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:33,nome:'Burratina',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Rucola',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Olive condite denocciolate',g:0},{nome:'Burrata 50g',g:0}],finitura:'\u26a0\ufe0f Burrata + rucola a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:34,nome:"Ciofi'",cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Pasta filata',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Crema di carciofi',g:0},{nome:'Carciofo arrosto',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:35,nome:'Vegana 2.0',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di scarola',g:0},{nome:'Cipolla caramellata',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Olive condite denocciolate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'Vegan'},
+          {id:36,nome:'Zucchine e Chiodini',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base zucchine',g:0},{nome:'Tuma',g:0},{nome:'Funghi chiodini',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:37,nome:'Quattroformaggi',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di pecorino',g:0},{nome:'Grana',g:0},{nome:'Gorgonzola',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:38,nome:'Baciata',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella fiammifero',g:0},{nome:'Porchetta',g:0},{nome:'Patate',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:39,nome:'Cotto e Cardoncelli',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella bocconi',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Cardoncelli',g:0},{nome:'Crema di grana',g:0},{nome:'Pesto di pistacchio',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:40,nome:'Messinese Secondo Me',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Tuma',g:0},{nome:'Scarola',g:0},{nome:'Alici di Cetara',g:0},{nome:'Crema di grana',g:0},{nome:'Datterino giallo in succo',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:41,nome:'Orso',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Mozzarella boccone',g:0},{nome:'Songino',g:0},{nome:'Pancetta stufata',g:0},{nome:'Stracciatella',g:0},{nome:'Pesto di arachidi',g:0}],finitura:'\u26a0\ufe0f Stracciatella + songino a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:42,nome:"Orto dell'Orso",cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base zucchina',g:0},{nome:'Funghi champignon',g:0},{nome:'Datterino rosso semi dry',g:0},{nome:'Datterino giallo in succo',g:0},{nome:'Grana',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:43,nome:'Zuccotta',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Provola affumicata',g:0},{nome:'Grana',g:0},{nome:'Funghi champignon',g:0},{nome:'Pancetta arrotolata',g:0},{nome:'Crema di zucca',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:44,nome:'Sbriciolona',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base bianca',g:0},{nome:'Crema di pecorino',g:0},{nome:'Sbriciolona',g:0},{nome:'Polvere di olive',g:0},{nome:'Datterino rosso semidry',g:0},{nome:'Zeste di limone',g:0}],finitura:'Zeste di limone a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:45,nome:'Sicilia',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Crema di melanzane',g:0},{nome:'Melanzane fritte',g:0},{nome:'Salsiccia',g:0},{nome:'Datterino rosso semi dry',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:46,nome:'Pugliese',cat:'\u2b1c Bianca',stato:'\u2705 Attiva',ingredienti:[{nome:'Base biancaneve',g:0},{nome:'Porchetta',g:0},{nome:'Friarielli',g:0}],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:47,nome:'Bella Napoli',cat:'\u2b1c Bianca',stato:'\ud83d\udd2c In prova',ingredienti:[],finitura:'',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:'\u26a0\ufe0f Ingredienti da definire'},
+          {id:48,nome:'Doppio Crunch Cotto',cat:'\ud83d\udfe3 Speciale',stato:'\u2705 Attiva',ingredienti:[{nome:'Mozzarella',g:0},{nome:'Prosciutto cotto',g:0},{nome:'Maionese',g:0},{nome:'Iceberg',g:0},{nome:'Funghi shiitake',g:0},{nome:'Funghi nameko',g:0}],finitura:'Iceberg a crudo \u00b7 maionese a crudo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''},
+          {id:49,nome:'Doppio Crunch Songino',cat:'\ud83d\udfe3 Speciale',stato:'\u2705 Attiva',ingredienti:[{nome:'Provola affumicata',g:0},{nome:'Songino',g:0},{nome:'Maionese',g:0},{nome:'Spianata piccante',g:0},{nome:'Funghi shiitake',g:0},{nome:'Funghi nameko',g:0}],finitura:'\u26a0\ufe0f Songino a crudo dopo \u00b7 maionese a crudo dopo',cottura:{forno:'Elettrico ventilato',gradi:260,minuti:2,rigenerazione:250,vapore:false,ventilato:true},note:''}
+        ]
+      },
       { id:'liberty', nome:'Liberty', citta:'Bagheria', tipo:'Mista',
         forno:'Elettrico statico', tCottura:250, tRigenerazione:0, tMinuti:2,
         vapore:false, ventilato:false, note:'', pizze:[] },
@@ -351,7 +397,6 @@ function loadDB(){
       var parsed=JSON.parse(d);
       if(parsed.clients){
         parsed.clients.forEach(function(c){delete c.icon;});
-        // Aggiungi Liberty e 4.0 Lab se non presenti
         var ids=parsed.clients.map(function(c){return c.id;});
         if(ids.indexOf('liberty')<0){
           parsed.clients.push({id:'liberty',nome:'Liberty',citta:'Bagheria',tipo:'Mista',forno:'Elettrico statico',tCottura:250,tRigenerazione:0,tMinuti:2,vapore:false,ventilato:false,note:'',pizze:[]});
@@ -486,6 +531,8 @@ function renderPizze(cid){
   var c=getClient(cid);var pizze=c.pizze||[];
   if(!pizze.length){
     document.getElementById('tabPizze').innerHTML='<div style="color:var(--dim);text-align:center;padding:50px 0;font-size:14px">Nessuna pizza ancora<br><br>Tocca <strong style="color:var(--gold)">+ Pizza</strong> in alto</div>';
+    // Mostra comunque il bottone importa anche se non ci sono pizze
+    document.getElementById('tabPizze').innerHTML+='<button class="btn-import" onclick="openImportModal(\''+cid+'\')">📋 Importa pizze da altro cliente</button>';
     return;
   }
   var cats={};
@@ -504,6 +551,10 @@ function renderPizze(cid){
       html+='<div class="p-arr">\u203a</div></div>';
     });
   });
+  // Bottoni in fondo alla lista pizze
+  html+='<div style="height:16px"></div>';
+  html+='<button class="btn-lista" onclick="exportListaIngredienti(\''+cid+'\')">🛒 Lista ingredienti PDF — da mandare al cliente</button>';
+  html+='<button class="btn-import" onclick="openImportModal(\''+cid+'\')">📋 Importa pizze da altro cliente</button>';
   document.getElementById('tabPizze').innerHTML=html;
 }
 
@@ -537,6 +588,175 @@ function upCStr(key,val){var c=getClient(nav[nav.length-1].cid);c[key]=val;save(
 function upCNum(key,val){var c=getClient(nav[nav.length-1].cid);c[key]=parseFloat(val)||0;save();}
 function upCBool(key,val){var c=getClient(nav[nav.length-1].cid);c[key]=val;save();}
 
+// ══════════════════════════════════════════
+// ══ SISTEMA IMPORTA PIZZE ══
+// ══════════════════════════════════════════
+
+var _importDestCid='';
+var _importSourceCid='';
+var _importSelected=[];
+
+function openImportModal(destCid){
+  _importDestCid=destCid;
+  _importSourceCid='';
+  _importSelected=[];
+  document.getElementById('importTitle').textContent='Importa Pizze';
+  renderImportStep1();
+  openModal('modalImport');
+}
+
+function renderImportStep1(){
+  var destC=getClient(_importDestCid);
+  var html='<div class="import-step">Passo 1 di 2 — Scegli il cliente sorgente</div>';
+  DB.clients.forEach(function(c,idx){
+    if(c.id===_importDestCid)return; // salta il cliente corrente
+    if(!c.pizze||!c.pizze.length)return; // salta clienti senza pizze
+    var col=getClientColor(idx);
+    var letter=getClientInitial(c.nome);
+    html+='<div class="import-source-btn" id="src_'+c.id+'" onclick="selectImportSource(\''+c.id+'\')">';
+    html+='<div class="import-source-icon" style="background:'+col.bg+';color:'+col.text+'">'+letter+'</div>';
+    html+='<div class="import-source-info">';
+    html+='<div class="import-source-name">'+c.nome+'</div>';
+    html+='<div class="import-source-count">'+(c.citta?c.citta+' \u00b7 ':'')+c.pizze.length+' pizze disponibili</div>';
+    html+='</div><div class="import-check" id="chk_src_'+c.id+'" style="display:none">\u2713</div></div>';
+  });
+  document.getElementById('importBody').innerHTML=html;
+}
+
+function selectImportSource(cid){
+  _importSourceCid=cid;
+  _importSelected=[];
+  document.querySelectorAll('.import-source-btn').forEach(function(b){b.classList.remove('selected');});
+  document.querySelectorAll('[id^="chk_src_"]').forEach(function(b){b.style.display='none';});
+  var btn=document.getElementById('src_'+cid);
+  if(btn){btn.classList.add('selected');}
+  var chk=document.getElementById('chk_src_'+cid);
+  if(chk){chk.style.display='block';}
+  // Breve ritardo per feedback visivo poi avanza
+  setTimeout(function(){renderImportStep2();},200);
+}
+
+function renderImportStep2(){
+  var src=getClient(_importSourceCid);
+  var dest=getClient(_importDestCid);
+  var destNomi=(dest.pizze||[]).map(function(p){return p.nome.toLowerCase();});
+  document.getElementById('importTitle').textContent='Da '+src.nome;
+
+  var html='<div class="import-step" style="display:flex;justify-content:space-between;align-items:center">';
+  html+='<span>Passo 2 di 2 — Seleziona pizze</span>';
+  html+='<span style="color:var(--gold);font-size:12px;cursor:pointer" onclick="toggleSelectAll()">Seleziona tutto</span>';
+  html+='</div>';
+
+  // Raggruppa per categoria
+  var cats={};
+  (src.pizze||[]).forEach(function(p){if(!cats[p.cat])cats[p.cat]=[];cats[p.cat].push(p);});
+
+  Object.keys(cats).forEach(function(cat){
+    html+='<div class="cat-header" style="padding:10px 0 6px">'+cat+'</div>';
+    cats[cat].forEach(function(p){
+      var exists=destNomi.indexOf(p.nome.toLowerCase())>=0;
+      var badge=exists?'<span style="font-size:10px;color:var(--dim);margin-left:6px">già presente</span>':'';
+      html+='<div class="pizza-check-item" id="pci_'+p.id+'" onclick="togglePizzaCheck('+p.id+')">';
+      html+='<div class="pizza-check-box" id="pcb_'+p.id+'"></div>';
+      html+='<div style="flex:1"><div style="font-size:14px;font-weight:500">'+escHtml(p.nome)+badge+'</div>';
+      var ingr=(p.ingredienti||[]).slice(0,3).map(function(i){return i.nome;}).join(' \u00b7 ');
+      if(ingr)html+='<div class="pizza-check-cat">'+ingr+'</div>';
+      html+='</div></div>';
+    });
+  });
+
+  html+='<div style="height:14px"></div>';
+  html+='<div id="importCount" style="font-size:12px;color:var(--dim);text-align:center;margin-bottom:8px">Nessuna pizza selezionata</div>';
+  html+='<button class="btn btn-gold" onclick="eseguiImport()">Importa selezionate</button>';
+  html+='<button class="btn btn-ghost" style="margin-top:8px" onclick="renderImportStep1()">← Cambia cliente</button>';
+  document.getElementById('importBody').innerHTML=html;
+}
+
+function togglePizzaCheck(pid){
+  var idx=_importSelected.indexOf(pid);
+  var item=document.getElementById('pci_'+pid);
+  var box=document.getElementById('pcb_'+pid);
+  if(idx<0){
+    _importSelected.push(pid);
+    if(item)item.classList.add('checked');
+    if(box)box.textContent='\u2713';
+  } else {
+    _importSelected.splice(idx,1);
+    if(item)item.classList.remove('checked');
+    if(box)box.textContent='';
+  }
+  var cnt=document.getElementById('importCount');
+  if(cnt){
+    cnt.textContent=_importSelected.length>0
+      ? _importSelected.length+' pizza'+ (_importSelected.length>1?'e':'') + ' selezionata' + (_importSelected.length>1?'':'')
+      : 'Nessuna pizza selezionata';
+  }
+}
+
+function toggleSelectAll(){
+  var src=getClient(_importSourceCid);
+  var allIds=(src.pizze||[]).map(function(p){return p.id;});
+  var allSelected=allIds.every(function(id){return _importSelected.indexOf(id)>=0;});
+  if(allSelected){
+    // Deseleziona tutto
+    _importSelected=[];
+    allIds.forEach(function(pid){
+      var item=document.getElementById('pci_'+pid);
+      var box=document.getElementById('pcb_'+pid);
+      if(item)item.classList.remove('checked');
+      if(box)box.textContent='';
+    });
+  } else {
+    // Seleziona tutto
+    _importSelected=allIds.slice();
+    allIds.forEach(function(pid){
+      var item=document.getElementById('pci_'+pid);
+      var box=document.getElementById('pcb_'+pid);
+      if(item)item.classList.add('checked');
+      if(box)box.textContent='\u2713';
+    });
+  }
+  var cnt=document.getElementById('importCount');
+  if(cnt){
+    cnt.textContent=_importSelected.length>0
+      ? _importSelected.length+' pizze selezionate'
+      : 'Nessuna pizza selezionata';
+  }
+}
+
+function eseguiImport(){
+  if(!_importSelected.length){showToast('\u26a0\ufe0f Seleziona almeno una pizza');return;}
+  var src=getClient(_importSourceCid);
+  var dest=getClient(_importDestCid);
+  var maxId=(dest.pizze||[]).reduce(function(m,p){return Math.max(m,p.id);},0);
+  var imported=0;
+  _importSelected.forEach(function(pid){
+    var srcP=src.pizze.find(function(p){return p.id===pid;});
+    if(!srcP)return;
+    // Copia profonda della pizza
+    var copy=JSON.parse(JSON.stringify(srcP));
+    copy.id=++maxId;
+    // Adatta i parametri cottura al cliente destinazione
+    copy.cottura={
+      forno:dest.forno,
+      gradi:dest.tCottura,
+      minuti:dest.tMinuti,
+      rigenerazione:dest.tRigenerazione||0,
+      vapore:dest.vapore||false,
+      ventilato:dest.ventilato||false
+    };
+    copy.stato='\ud83d\udd2c In prova'; // Importata = in prova
+    dest.pizze.push(copy);
+    imported++;
+  });
+  save();
+  closeModal('modalImport');
+  renderPizze(_importDestCid);
+  showToast('\u2705 '+imported+' pizza'+(imported>1?'e':'')+' importata'+(imported>1?'e':'')+' in prova!');
+}
+
+// ══════════════════════════════════════════
+
 function renderPizzaEdit(cid,pid){
   var c=getClient(cid);var p=getPizza(cid,pid);var html='';
   html+='<div class="pdf-header"><div style="font-size:22px;font-weight:700">'+p.nome+'</div>';
@@ -569,6 +789,7 @@ function renderPizzaEdit(cid,pid){
   html+='<div class="card"><div class="card-hdr"><div class="card-icon">\ud83d\udcdd</div><div class="card-meta"><div class="card-tag">Note</div><div class="card-title2">Annotazioni consulente</div></div></div><div class="card-body">';
   html+='<textarea class="inp-field" id="pe_note" rows="3" placeholder="Es. Doppio strato \u00b7 inserire prima i funghi..." oninput="upPStr(\'note\',this.value)">'+escHtml(p.note||'')+'</textarea></div></div>';
   html+='<button class="btn btn-pdf" onclick="exportPDF(\''+cid+'\','+pid+')">\ud83d\udcc4 Esporta scheda PDF</button>';
+  html+='<button class="btn-copy" onclick="openCopiaPizza(\''+cid+'\','+pid+')">📋 Copia pizza in altro cliente</button>';
   html+='<button class="btn btn-ghost" style="margin-top:8px;color:#EF9A9A;border-color:rgba(244,67,54,0.3)" onclick="deletePizza(\''+cid+'\','+pid+')">Elimina pizza</button>';
   document.getElementById('pgPizza').innerHTML=html;
 }
@@ -619,6 +840,121 @@ function delIngr(i){
   var s=nav[nav.length-1];var p=getPizza(s.cid,s.pid);
   p.ingredienti.splice(i,1);save();renderPizzaEdit(s.cid,s.pid);
 }
+// ══════════════════════════════════════════
+// ══ COPIA PIZZA IN ALTRO CLIENTE ══
+// ══════════════════════════════════════════
+
+function openCopiaPizza(cid,pid){
+  var p=getPizza(cid,pid);
+  document.getElementById('copiaTitle').textContent='Copia "'+p.nome+'" in...';
+  document.getElementById('copiaSub').textContent='La pizza verrà copiata con ingredienti e note. I parametri cottura si adatteranno al cliente scelto.';
+  var html='';
+  DB.clients.forEach(function(c,idx){
+    if(c.id===cid)return;
+    var col=getClientColor(idx);
+    var letter=getClientInitial(c.nome);
+    var exists=(c.pizze||[]).some(function(p2){return p2.nome.toLowerCase()===p.nome.toLowerCase();});
+    html+='<div class="import-source-btn" onclick="eseguiCopiaPizza(\''+cid+'\','+pid+',\''+c.id+'\')">';
+    html+='<div class="import-source-icon" style="background:'+col.bg+';color:'+col.text+'">'+letter+'</div>';
+    html+='<div class="import-source-info">';
+    html+='<div class="import-source-name">'+c.nome+'</div>';
+    html+='<div class="import-source-count">'+(c.citta?c.citta+' · ':'')+c.tipo+(exists?' · ⚠️ nome già presente':'')+'</div>';
+    html+='</div><div style="color:var(--dim);font-size:18px">›</div></div>';
+  });
+  document.getElementById('copiaClientList').innerHTML=html;
+  openModal('modalCopia');
+}
+
+function eseguiCopiaPizza(srcCid,pid,destCid){
+  var src=getClient(srcCid);
+  var dest=getClient(destCid);
+  var srcP=getPizza(srcCid,pid);
+  var copy=JSON.parse(JSON.stringify(srcP));
+  var maxId=(dest.pizze||[]).reduce(function(m,p){return Math.max(m,p.id);},0);
+  copy.id=maxId+1;
+  copy.stato='🔬 In prova';
+  copy.cottura={
+    forno:dest.forno,
+    gradi:dest.tCottura,
+    minuti:dest.tMinuti,
+    rigenerazione:dest.tRigenerazione||0,
+    vapore:dest.vapore||false,
+    ventilato:dest.ventilato||false
+  };
+  dest.pizze.push(copy);
+  save();
+  closeModal('modalCopia');
+  showToast('✅ "'+copy.nome+'" copiata in '+dest.nome+' — In prova');
+}
+
+// ══════════════════════════════════════════
+// ══ LISTA INGREDIENTI PDF ══
+// ══════════════════════════════════════════
+
+function exportListaIngredienti(cid){
+  var c=getClient(cid);
+  var ingrMap={};
+  (c.pizze||[]).forEach(function(p){
+    (p.ingredienti||[]).forEach(function(ing){
+      if(!ing.nome||!ing.nome.trim())return;
+      var key=ing.nome.trim().toLowerCase();
+      if(!ingrMap[key]){ingrMap[key]={nome:ing.nome.trim(),pizze:[]};}
+      ingrMap[key].pizze.push(p.nome);
+    });
+  });
+  var lista=Object.values(ingrMap).sort(function(a,b){return a.nome.localeCompare(b.nome,'it');});
+  if(!lista.length){showToast('\u26a0\ufe0f Nessun ingrediente trovato');return;}
+
+  var righe='';
+  lista.forEach(function(ing,i){
+    var pizzeStr=escHtml(ing.pizze.join(', '));
+    righe+='<tr style="background:'+(i%2===0?'#fafafa':'#fff')+'">';
+    righe+='<td style="padding:9px 14px;border-bottom:1px solid #eee;font-weight:500">'+escHtml(ing.nome)+'</td>';
+    righe+='<td style="padding:9px 14px;border-bottom:1px solid #eee;color:#888;font-size:12px">'+pizzeStr+'</td>';
+    righe+='<td style="padding:9px 14px;border-bottom:1px solid #eee;width:80px;color:#bbb;font-size:12px">___</td>';
+    righe+='</tr>';
+  });
+
+  var noteHtml=c.note?'<div style="background:#fffbf0;border-left:3px solid #c8973a;padding:10px 14px;font-size:12px;margin-top:20px;line-height:1.6">Note: '+escHtml(c.note)+'</div>':'';
+  var oggi=new Date().toLocaleDateString('it-IT');
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Lista Ingredienti \u2014 '+escHtml(c.nome)+'</title>'
+    +'<style>*{box-sizing:border-box;margin:0;padding:0}'
+    +'body{font-family:Helvetica Neue,Arial,sans-serif;color:#1a1a1a;padding:32px;font-size:14px}'
+    +'.logo{font-size:10px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:16px}'
+    +'h1{font-size:24px;font-weight:700;margin-bottom:4px}'
+    +'.meta{font-size:12px;color:#666;margin-bottom:6px}'
+    +'.stats{font-size:11px;color:#c8973a;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #1a1a1a}'
+    +'table{width:100%;border-collapse:collapse}'
+    +'thead tr{background:#1a1a1a;color:#fff}'
+    +'thead th{padding:10px 14px;text-align:left;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}'
+    +'.footer{margin-top:28px;padding-top:14px;border-top:1px solid #eee;font-size:11px;color:#aaa;display:flex;justify-content:space-between}'
+    +'@media print{body{padding:16px}}'
+    +'</style></head><body>'
+    +'<div class="logo">Consulenza Pizza \u00b7 Matteo La Spada</div>'
+    +'<h1>Lista Ingredienti</h1>'
+    +'<div class="meta">'+escHtml(c.nome)+(c.citta?' \u2014 '+escHtml(c.citta):'')+'</div>'
+    +'<div class="stats">'+lista.length+' ingredienti \u00b7 '+((c.pizze||[]).length)+' pizze in carta \u00b7 '+oggi+'</div>'
+    +'<table><thead><tr><th>Ingrediente</th><th>Usato in</th><th>Spunta</th></tr></thead><tbody>'
+    +righe
+    +'</tbody></table>'
+    +noteHtml
+    +'<div class="footer"><span>Pizza Lab \u00b7 Matteo La Spada \u00b7 Consulenza Tecnica</span><span>'+oggi+'</span></div>'
+    +'</body></html>';
+
+  // Apre tramite blob URL — funziona su Safari iOS senza blocco popup
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.target='_blank';
+  a.rel='noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},5000);
+}
+
 function deletePizza(cid,pid){
   if(!confirm('Eliminare questa pizza?'))return;
   var c=getClient(cid);c.pizze=c.pizze.filter(function(p){return p.id!==pid;});
@@ -627,30 +963,41 @@ function deletePizza(cid,pid){
 
 function exportPDF(cid,pid){
   var c=getClient(cid);var p=getPizza(cid,pid);var co=p.cottura||{};
-  var w=window.open('','_blank');
   var ingr='';
   (p.ingredienti||[]).forEach(function(ing,i){
     if(ing.nome)ingr+='<tr><td style="padding:6px 12px 6px 0;border-bottom:1px solid #eee">'+(i+1)+'. '+escHtml(ing.nome)+'</td><td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right;font-weight:600">'+ing.g+'g</td></tr>';
   });
   var opt=[];
   if(co.statico)opt.push('Statico');if(co.vapore)opt.push('Vapore');if(co.ventilato)opt.push('Ventilato');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+escHtml(p.nome)+' \u2014 '+escHtml(c.nome)+'</title>');
-  w.document.write('<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;padding:32px;max-width:600px;margin:0 auto;font-size:14px}.logo{font-size:10px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:20px}h1{font-size:28px;font-weight:700;margin-bottom:4px}.meta{font-size:12px;color:#666;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #1a1a1a}.section{margin-bottom:20px}.section-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px;font-weight:600}table{width:100%;border-collapse:collapse}.cottura-box{background:#f5f5f5;border-radius:8px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}.c-item{font-size:13px}.c-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}.note-box{background:#fffbf0;border-left:3px solid #c8973a;padding:12px;font-size:13px;line-height:1.6}.finitura-box{background:#f0f8f0;border-left:3px solid #4caf50;padding:12px;font-size:13px;line-height:1.6}.footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center}@media print{body{padding:20px}.footer{position:fixed;bottom:20px;left:0;right:0}}</style></head><body>');
-  w.document.write('<div class="logo">Consulenza Pizza \u00b7 Matteo La Spada</div>');
-  w.document.write('<h1>'+escHtml(p.nome)+'</h1>');
-  w.document.write('<div class="meta">'+escHtml(c.nome)+(c.citta?' \u2014 '+escHtml(c.citta):'')+' &nbsp;\u00b7&nbsp; '+escHtml(p.cat)+' &nbsp;\u00b7&nbsp; '+escHtml(p.stato)+'</div>');
-  if(ingr){w.document.write('<div class="section"><div class="section-title">\ud83e\uddc0 Ingredienti (g/porzione)</div><table>'+ingr+'</table></div>');}
-  if(p.finitura){w.document.write('<div class="section"><div class="section-title">\u2728 Finitura a crudo</div><div class="finitura-box">'+escHtml(p.finitura)+'</div></div>');}
-  w.document.write('<div class="section"><div class="section-title">\ud83d\udd25 Parametri cottura</div><div class="cottura-box">');
-  w.document.write('<div class="c-item"><div class="c-label">Forno</div>'+escHtml(co.forno||c.forno)+'</div>');
-  w.document.write('<div class="c-item"><div class="c-label">Temperatura</div>'+(co.gradi||c.tCottura)+'\u00b0C</div>');
-  w.document.write('<div class="c-item"><div class="c-label">Tempo cottura</div>'+(co.minuti||c.tMinuti)+' min</div>');
-  if(co.rigenerazione)w.document.write('<div class="c-item"><div class="c-label">Rigenerazione</div>'+co.rigenerazione+'\u00b0C</div>');
-  if(opt.length)w.document.write('<div class="c-item"><div class="c-label">Opzioni</div>'+opt.join(' \u00b7 ')+'</div>');
-  w.document.write('</div></div>');
-  if(p.note){w.document.write('<div class="section"><div class="section-title">\ud83d\udcdd Note consulente</div><div class="note-box">'+escHtml(p.note)+'</div></div>');}
-  w.document.write('<div class="footer">Pizza Lab \u00b7 Matteo La Spada \u00b7 Consulenza Tecnica</div></body></html>');
-  w.document.close();w.focus();setTimeout(function(){w.print();},400);
+  var ingrHtml=ingr?'<div class="section"><div class="section-title">\ud83e\uddc0 Ingredienti (g/porzione)</div><table>'+ingr+'</table></div>':'';
+  var finHtml=p.finitura?'<div class="section"><div class="section-title">\u2728 Finitura a crudo</div><div class="finitura-box">'+escHtml(p.finitura)+'</div></div>':'';
+  var noteHtml=p.note?'<div class="section"><div class="section-title">\ud83d\udcdd Note consulente</div><div class="note-box">'+escHtml(p.note)+'</div></div>':'';
+  var rigHtml=co.rigenerazione?'<div class="c-item"><div class="c-label">Rigenerazione</div>'+co.rigenerazione+'\u00b0C</div>':'';
+  var optHtml=opt.length?'<div class="c-item"><div class="c-label">Opzioni</div>'+opt.join(' \u00b7 ')+'</div>':'';
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+escHtml(p.nome)+' \u2014 '+escHtml(c.nome)+'</title>'
+    +'<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Helvetica Neue,Arial,sans-serif;color:#1a1a1a;padding:32px;max-width:600px;margin:0 auto;font-size:14px}.logo{font-size:10px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:20px}h1{font-size:28px;font-weight:700;margin-bottom:4px}.meta{font-size:12px;color:#666;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #1a1a1a}.section{margin-bottom:20px}.section-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px;font-weight:600}table{width:100%;border-collapse:collapse}.cottura-box{background:#f5f5f5;border-radius:8px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}.c-item{font-size:13px}.c-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}.note-box{background:#fffbf0;border-left:3px solid #c8973a;padding:12px;font-size:13px;line-height:1.6}.finitura-box{background:#f0f8f0;border-left:3px solid #4caf50;padding:12px;font-size:13px;line-height:1.6}.footer{margin-top:32px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center}@media print{body{padding:20px}}</style>'
+    +'</head><body>'
+    +'<div class="logo">Consulenza Pizza \u00b7 Matteo La Spada</div>'
+    +'<h1>'+escHtml(p.nome)+'</h1>'
+    +'<div class="meta">'+escHtml(c.nome)+(c.citta?' \u2014 '+escHtml(c.citta):'')+' &nbsp;\u00b7&nbsp; '+escHtml(p.cat)+' &nbsp;\u00b7&nbsp; '+escHtml(p.stato)+'</div>'
+    +ingrHtml+finHtml
+    +'<div class="section"><div class="section-title">\ud83d\udd25 Parametri cottura</div><div class="cottura-box">'
+    +'<div class="c-item"><div class="c-label">Forno</div>'+escHtml(co.forno||c.forno)+'</div>'
+    +'<div class="c-item"><div class="c-label">Temperatura</div>'+(co.gradi||c.tCottura)+'\u00b0C</div>'
+    +'<div class="c-item"><div class="c-label">Tempo cottura</div>'+(co.minuti||c.tMinuti)+' min</div>'
+    +rigHtml+optHtml
+    +'</div></div>'
+    +noteHtml
+    +'<div class="footer">Pizza Lab \u00b7 Matteo La Spada \u00b7 Consulenza Tecnica</div>'
+    +'</body></html>';
+
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},5000);
 }
 
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
@@ -767,7 +1114,7 @@ function addIngrCustom(){
 
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-['modalClient','modalPizza'].forEach(function(id){
+['modalClient','modalPizza','modalImport','modalCopia'].forEach(function(id){
   document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});
 });
 </script>
