@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Pizza Lab v2.1">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%230D2B1F'/%3E%3Ccircle cx='256' cy='230' r='170' fill='%23C8973A'/%3E%3Ccircle cx='256' cy='230' r='140' fill='%23F5E6C8'/%3E%3Ccircle cx='256' cy='230' r='110' fill='%23E8C56A'/%3E%3Ccircle cx='215' cy='205' r='20' fill='%238B2020'/%3E%3Ccircle cx='285' cy='195' r='16' fill='%238B2020'/%3E%3Ccircle cx='250' cy='250' r='18' fill='%238B2020'/%3E%3C/svg%3E">
 <title>Pizza Lab v2.1 — Matteo La Spada</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#0A1A12;overflow:hidden}
@@ -846,23 +846,23 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Licoli di partenza (g)</label><div class="inp-row"><input class="inp-field" id="lLic" type="number" value="1000" min="100" max="10000" step="100" oninput="calcLicoli()"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli di partenza (g)</label><div class="inp-row"><input class="inp-field" id="lLic" type="number" value="1000" min="100" max="10000" step="100"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">Rapporto Farina (parti)</label><div class="inp-row"><input class="inp-field" id="lRF" type="number" value="3" min="1" max="5" step="1" oninput="syncRapportoAcqua(this.value)"><span class="inp-unit">parti</span></div></div>
-      <div class="inp-group"><label class="inp-label">Rapporto Acqua (parti) — modifica per forzare</label><div class="inp-row"><input class="inp-field" id="lRA" type="number" value="3" min="1" max="5" step="1" oninput="calcLicoli()"><span class="inp-unit">parti</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora rinfresco (es. 9 = le 09:00)</label><div class="inp-row"><input class="inp-field" id="lOra" type="number" value="9" min="0" max="23" step="1" oninput="calcLicoli()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Rapporto Acqua (parti) — modifica per forzare</label><div class="inp-row"><input class="inp-field" id="lRA" type="number" value="3" min="1" max="5" step="1"><span class="inp-unit">parti</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco (es. 9 = le 09:00)</label><div class="inp-row"><input class="inp-field" id="lOra" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Programma Esmach (1-6) o P Frigorifero (7)</label><div class="inp-row"><input class="inp-field" id="lProg" type="number" value="4" min="1" max="7" step="1" oninput="toggleP7Fields(this.value)"><span class="inp-unit">prog</span></div></div>
 
       <!-- CAMPI FRIGORIFERO — visibili solo se prog=7 -->
       <div id="p7fields" style="display:none;background:rgba(13,59,59,0.15);border:1px solid rgba(13,59,59,0.4);border-radius:12px;padding:12px;margin-bottom:14px">
         <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">❄️ Programma Frigorifero</div>
-        <div class="inp-group"><label class="inp-label">Fermentazione — ore</label><div class="inp-row"><input class="inp-field" id="p7FermH" type="number" value="1" min="0.5" max="12" step="0.5" oninput="calcLicoli()"><span class="inp-unit">h</span></div></div>
-        <div class="inp-group"><label class="inp-label">Fermentazione — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7FermT" type="number" value="23" min="17" max="27" step="0.5" oninput="calcLicoli()"><span class="inp-unit">°C</span></div></div>
-        <div class="inp-group"><label class="inp-label">1ª Fase — ore</label><div class="inp-row"><input class="inp-field" id="p7Fase1H" type="number" value="1" min="0" max="6" step="0.5" oninput="calcLicoli()"><span class="inp-unit">h</span></div></div>
-        <div class="inp-group"><label class="inp-label">1ª Fase — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7Fase1T" type="number" value="18" min="17" max="27" step="0.5" oninput="calcLicoli()"><span class="inp-unit">°C</span></div></div>
-        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Conservazione in frigo — T °C (4-12)</label><div class="inp-row"><input class="inp-field" id="p7ConsT" type="number" value="4" min="4" max="12" step="0.5" oninput="calcLicoli()"><span class="inp-unit">°C</span></div></div>
+        <div class="inp-group"><label class="inp-label">Fermentazione — ore</label><div class="inp-row"><input class="inp-field" id="p7FermH" type="number" value="1" min="0.5" max="12" step="0.5"><span class="inp-unit">h</span></div></div>
+        <div class="inp-group"><label class="inp-label">Fermentazione — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7FermT" type="number" value="23" min="17" max="27" step="0.5"><span class="inp-unit">°C</span></div></div>
+        <div class="inp-group"><label class="inp-label">1ª Fase — ore</label><div class="inp-row"><input class="inp-field" id="p7Fase1H" type="number" value="1" min="0" max="6" step="0.5"><span class="inp-unit">h</span></div></div>
+        <div class="inp-group"><label class="inp-label">1ª Fase — T °C (17-27)</label><div class="inp-row"><input class="inp-field" id="p7Fase1T" type="number" value="18" min="17" max="27" step="0.5"><span class="inp-unit">°C</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Conservazione in frigo — T °C (4-12)</label><div class="inp-row"><input class="inp-field" id="p7ConsT" type="number" value="4" min="4" max="12" step="0.5"><span class="inp-unit">°C</span></div></div>
       </div>
 
-      <div class="inp-group"><label class="inp-label">pH PRIMA del rinfresco (stato madre)</label><div class="inp-row"><input class="inp-field" id="lPH" type="number" value="" step="0.1" min="2.5" max="7" placeholder="es. 3.8" oninput="calcLicoli()"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">pH PRIMA del rinfresco (stato madre)</label><div class="inp-row"><input class="inp-field" id="lPH" type="number" value="" step="0.1" min="2.5" max="7" placeholder="es. 3.8"><span class="inp-unit">pH</span></div></div>
       <div class="inp-group"><label class="inp-label">Destinazione — per chi è questo rinfresco?</label><div class="inp-row"><input class="inp-field" id="lLab" type="text" placeholder="Es: Roma, Cosenza, Palermo..." style="font-size:14px" oninput="salvaLabLicoli()"></div></div>
     </div>
   </div>
@@ -873,7 +873,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Ora esatta miscelazione (acqua+farina+licoli)</label><div class="inp-row"><input class="inp-field" id="lOraMisc" type="time" style="font-size:15px" oninput="calcLicoli()"><span class="inp-unit" style="min-width:0"></span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora esatta miscelazione (acqua+farina+licoli)</label><div class="inp-row"><input class="inp-field" id="lOraMisc" type="time" style="font-size:15px"><span class="inp-unit" style="min-width:0"></span></div></div>
     </div>
   </div>
   <div class="card open" id="cardLicoliOut">
@@ -946,13 +946,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.3" min="0.1" max="0.8" step="0.1"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5063 Special nel rinfresco</label><div class="inp-row"><input class="inp-field" id="sB63" type="number" value="70" min="0" max="100" step="5"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5078 nel rinfresco (resto = 0102HP)</label><div class="inp-row"><input class="inp-field" id="sB78" type="number" value="30" min="0" max="100" step="5"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 10 oppure 10.5 = 10:30)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="10" min="0" max="23" step="0.5"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9 oppure 9.5 = 9:30)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="0.5"><span class="inp-unit">:00</span></div></div>
-      <div style="background:rgba(200,151,58,0.1);border:1px solid rgba(200,151,58,0.3);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">⏱️</span>
-        <div><div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px">Ore biga calcolate</div>
-        <div id="sOreBigaDisplay" style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold)">—</div></div>
-      </div>
+      <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Servizio G2 (es. 19)</label><div class="inp-row"><input class="inp-field" id="sSV" type="number" value="19" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="sStaglio" type="number" value="15" min="0" max="23" step="0.5"><span class="inp-unit">:30</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="sF1" type="number" value="60" min="30" max="90" step="5"><span class="inp-unit">%</span></div></div>
@@ -2516,86 +2511,7 @@ function openPage(key){
   calcAll();
   window.scrollTo(0,0);
   // Mostra memoria rinfresco se siamo su licoli
-  if(key==='licoli'){ renderUltimoRinfresco(); renderEsmachPrograms(); }
-}
-
-function shareLicoli(){
-  const el = document.getElementById('licoliOut');
-  if(!el || !el.innerHTML){ alert('Calcola prima il rinfresco!'); return; }
-  const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
-  const acqua=Math.round(lic*rA),farina=Math.round(lic*rF);
-  const tot=lic+acqua+farina,util=Math.round(tot*0.85);
-  const oggi=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const progLabel = prog===7 ? 'P Frigorifero' : 'Programma '+prog;
-  const lLab = (document.getElementById('lLab')||{}).value||'';
-  const ph = (document.getElementById('lPH')||{}).value||'';
-
-  let righe=[];
-  righe.push('🌿 *GESTIONE LICOLI MADRE*');
-  righe.push('📅 '+oggi+(lLab?' — '+lLab:''));
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('⚖️ *Ricetta Rinfresco*');
-  righe.push('  • Licoli di partenza: '+lic+'g');
-  righe.push('  • Farina: '+farina+'g (rapporto 1:'+rF+')');
-  righe.push('  • Acqua: '+acqua+'g (rapporto 1:'+rA+')');
-  righe.push('  • Totale prodotto: '+tot+'g');
-  righe.push('  • Utilizzabile (85%): '+util+'g');
-  if(ph) righe.push('  • pH pre-rinfresco: '+ph);
-  righe.push('');
-  righe.push('⏱️ *'+progLabel+'*');
-  righe.push('  • Ora rinfresco: '+String(ora).padStart(2,'0')+':00');
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('_Pizza Lab · Matteo La Spada · L\'Orso Messina 🐻_');
-
-  const testo=righe.join('\n');
-  const a=document.createElement('a');
-  a.href='https://wa.me/?text='+encodeURIComponent(testo);
-  a.target='_blank';
-  a.rel='noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-function buildWaLink(el, pageId, titolo){
-  const page = document.getElementById(pageId);
-  if(!page){ return false; }
-
-  // Raccogli tutti i res-row visibili nella pagina
-  const rows = page.querySelectorAll('.res-row');
-  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-
-  let righe=[];
-  righe.push('🍕 *'+titolo.toUpperCase()+'*');
-  righe.push('📅 '+oggi+' — Pizza Lab · Matteo La Spada');
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-
-  rows.forEach(function(r){
-    const label = r.querySelector('.res-row-label');
-    const val = r.querySelector('.res-row-val');
-    const note = r.querySelector('.res-row-note');
-    if(label && val){
-      const n = note ? ' ('+note.textContent.trim()+')' : '';
-      righe.push('  • '+label.textContent.trim()+': *'+val.textContent.trim()+'*'+n);
-    }
-  });
-
-  // Aggiungi anche semafori se presenti
-  const sems = page.querySelectorAll('.sem');
-  if(sems.length>0){
-    righe.push('');
-    righe.push('📊 *Valutazioni*');
-    sems.forEach(function(s){
-      righe.push('  '+s.textContent.trim().split('\n')[0]);
-    });
-  }
-
-  righe.push('━━━━━━━━━━━━━━━━━━━━━━━━');
-  righe.push('_Pizza Lab · Matteo La Spada · L\'Orso Messina 🐻_');
-
-  const testo = righe.join('\n');
-  el.href = 'https://wa.me/?text='+encodeURIComponent(testo);
-  return true;
+  if(key==='licoli') renderUltimoRinfresco();
 }
 
 function goHome(){
@@ -2617,22 +2533,6 @@ function toggleCard(id){
 // ══════════════════════════════════════════════
 // CALCOLI — MOTORE SCIENTIFICO
 // ══════════════════════════════════════════════
-function calcAll(){
-  if(currentPage==='motore') calcMotore();
-  else if(currentPage==='licoli') calcLicoli();
-  else if(currentPage==='suprema') calcSuprema();
-  else if(currentPage==='scrocch') calcScrocch();
-  else if(currentPage==='tondabiga') calcTondaBiga();
-  else if(currentPage==='tondacroc') calcTondaCroc();
-  else if(currentPage==='palasuprema') calcPalaSuprema();
-  else if(currentPage==='palascient') calcPalaScient();
-  else if(currentPage==='palabiga') calcPalaBiga();
-  else if(currentPage==='napofrigo') calcNapoFrigo && calcNapoFrigo();
-  else if(currentPage==='tegliapf') calcTegliaPF();
-  else if(currentPage==='diretto') calcDiretto();
-  else if(currentPage==='romana') calcRomana();
-}
-
 function calcMotore(){
   const crocc=G('mCrocc'),legg=G('mLegg'),alv=G('mAlv');
   const latt=G('mLatt'),acet=G('mAcet'),dig=G('mDig');
@@ -2733,7 +2633,6 @@ function salvaLabLicoli(){
 function syncRapportoAcqua(val){
   const raEl = document.getElementById('lRA');
   if(raEl) raEl.value = val;
-  if(currentPage==='licoli') calcLicoli();
 }
 
 function toggleP7Fields(val){
@@ -2933,12 +2832,8 @@ function calcSuprema(){
   const Tacq=R(22*3.75-10*1.63-19*1.12-7.8*3.75,1);
 
   // Semaforo biga
-  const oreBRaw=or_>ob?or_-ob:or_<ob?24-ob+or_:24;
-  const oreB=oreBRaw<=0?24:oreBRaw;
+  const oreB=or_>=ob?or_-ob:24-ob+or_;
   const picco=ldbP<=0.2?24:ldbP<=0.3?21:18;
-  // Mostra ore biga in tempo reale
-  const dispOreB=document.getElementById('sOreBigaDisplay');
-  if(dispOreB) dispOreB.textContent=oreB+'h';
   const att=R(100*Math.exp(-Math.pow(oreB-picco,2)/50),1);
   const semBiga=att>=85?'ok':att>=70?'ok':att>=50?'warn':'bad';
   const emjBiga=att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO';
@@ -3093,8 +2988,7 @@ function calcTondaBiga(){
   const pan=Math.floor(kgTot*(1+idr/100+saleP/100+strP/100+zucP/100)*1000/gr);
   const Tacq=R(23*3.75-10*1.63-19*1.12-7.8*3.75,1);
 
-  const oreBRaw=or_>ob?or_-ob:or_<ob?24-ob+or_:24;
-  const oreB=oreBRaw<=0?24:oreBRaw;
+  const oreB=or_>=ob?or_-ob:24-ob+or_;
   const picco=ldbP<=0.2?24:ldbP<=0.3?21:18;
   const att=R(100*Math.exp(-Math.pow(oreB-picco,2)/50),1);
   const emjB=att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO';
@@ -3199,8 +3093,7 @@ function calcPalaSuprema(){
   const bass=Math.max(0,aa-f1);
   const pan=Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
 
-  const oreBRaw=or_>ob?or_-ob:or_<ob?24-ob+or_:24;
-  const oreB=oreBRaw<=0?24:oreBRaw;
+  const oreB=or_>=ob?or_-ob:24-ob+or_;
   const att=R(100*Math.exp(-Math.pow(oreB-22,2)/50),1);
   const semB=att>=70?'ok':att>=50?'warn':'bad';
 
@@ -3534,78 +3427,67 @@ function renderEsmachPrograms(){
   const progs = loadEsmachPrograms();
   const el = document.getElementById('esmach-programs');
   if(!el) return;
-
-  el.innerHTML = progs.map(function(p, i){
+  
+  el.innerHTML = progs.map((p,i) => {
+    const isFrigo = false;
     const border = p.matteo ? 'rgba(200,151,58,0.4)' : 'var(--border)';
     const bg = p.matteo ? 'rgba(200,151,58,0.06)' : 'transparent';
     const matteoTag = p.matteo ? '<span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px;font-family:DM Mono,monospace">★ MATTEO</span>' : '';
-
-    // Fase 1 — costruita senza backtick annidati
-    var fase1Html;
-    if(p.f1H > 0){
-      fase1Html = '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">' +
-        '<input type="number" value="' + p.f1T + '" step="0.5" min="15" max="30"' +
-        ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"' +
-        ' onchange="updateEsmach(' + i + ',\'f1T\',this.value)">' +
-        '<span style="font-size:10px;color:var(--dim)">°C</span>' +
-        '</div>';
-    } else {
-      fase1Html = '<div style="font-size:11px;color:var(--dim);margin-top:6px">—</div>';
-    }
-    var f1Color = p.f1H > 0 ? 'var(--gold)' : 'var(--border)';
-    var f1TextColor = p.f1H > 0 ? 'var(--gold)' : 'var(--dim)';
-
-    return '<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:' + bg + '">' +
-      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">' +
-        '<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">' + p.n + '</div>' +
-        '<div style="flex:1">' +
-          '<div style="font-size:14px;font-weight:700;color:var(--cream)">' + p.nome + matteoTag + '</div>' +
-          '<div style="font-size:11px;color:var(--dim);margin-top:1px">' + p.sub + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">' +
-        // Fermentazione
-        '<div style="background:var(--bg);border:1px solid ' + border + ';border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>' +
-          '<div style="display:flex;align-items:center;justify-content:center;gap:3px">' +
-            '<input type="number" value="' + p.fH + '" step="0.5" min="0" max="24"' +
-            ' style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"' +
-            ' onchange="updateEsmach(' + i + ',\'fH\',this.value)">' +
-            '<span style="font-size:11px;color:var(--gold)">h</span>' +
-          '</div>' +
-          '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">' +
-            '<input type="number" value="' + p.fT + '" step="0.5" min="15" max="35"' +
-            ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"' +
-            ' onchange="updateEsmach(' + i + ',\'fT\',this.value)">' +
-            '<span style="font-size:10px;color:var(--dim)">°C</span>' +
-          '</div>' +
-        '</div>' +
-        // 1a Fase
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1ª Fase</div>' +
-          '<div style="display:flex;align-items:center;justify-content:center;gap:3px">' +
-            '<input type="number" value="' + p.f1H + '" step="0.5" min="0" max="24"' +
-            ' style="width:45px;background:transparent;border:none;border-bottom:1px solid ' + f1Color + ';color:' + f1TextColor + ';font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"' +
-            ' onchange="updateEsmach(' + i + ',\'f1H\',this.value)">' +
-            '<span style="font-size:11px;color:var(--dim)">h</span>' +
-          '</div>' +
-          fase1Html +
-        '</div>' +
-        // Conservazione
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>' +
-          '<div style="display:flex;align-items:center;justify-content:center;gap:3px">' +
-            '<input type="number" value="' + p.cT + '" step="0.5" min="4" max="15"' +
-            ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"' +
-            ' onchange="updateEsmach(' + i + ',\'cT\',this.value)">' +
-            '<span style="font-size:11px;color:var(--blue)">°C</span>' +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
+    
+    const fmtH = (h) => h===0 ? '—' : (h===Math.floor(h) ? h+'h' : (Math.floor(h)>0?Math.floor(h)+'h ':'')+Math.round((h%1)*60)+'min');
+    
+    return `<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:${bg}">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">${p.n}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--cream)">${p.nome}${matteoTag}</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:1px">${p.sub}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:var(--bg);border:1px solid ${border};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.fH}" step="0.5" min="0" max="24" 
+              style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'fH',this.value)">
+            <span style="font-size:11px;color:var(--gold)">h</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">
+            <input type="number" value="${p.fT}" step="0.5" min="15" max="35"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"
+              onchange="updateEsmach(${i},'fT',this.value)">
+            <span style="font-size:10px;color:var(--dim)">°C</span>
+          </div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1ª Fase</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.f1H}" step="0.5" min="0" max="24"
+              style="width:45px;background:transparent;border:none;border-bottom:1px solid ${p.f1H>0?'var(--gold)':'var(--border)'};color:${p.f1H>0?'var(--gold)':'var(--dim)'};font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'f1H',this.value)">
+            <span style="font-size:11px;color:var(--dim)">h</span>
+          </div>
+          ${p.f1H>0?`<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">
+            <input type="number" value="${p.f1T}" step="0.5" min="15" max="30"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"
+              onchange="updateEsmach(${i},'f1T',this.value)">
+            <span style="font-size:10px;color:var(--dim)">°C</span>
+          </div>`:'<div style="font-size:11px;color:var(--dim);margin-top:6px">—</div>'}
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+            <input type="number" value="${p.cT}" step="0.5" min="4" max="15"
+              style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"
+              onchange="updateEsmach(${i},'cT',this.value)">
+            <span style="font-size:11px;color:var(--blue)">°C</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
-
 
 function updateEsmach(idx, field, val){
   const progs = loadEsmachPrograms();
@@ -3619,86 +3501,262 @@ function updateEsmach(idx, field, val){
 // ══════════════════════════════════════════════
 // STAMPA PDF
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// WHATSAPP SHARE
+// ══════════════════════════════════════════════
+function buildWaLink(el,pageId,titolo){
+  try{calcAll();}catch(e){}
+  var pagina=document.getElementById(pageId);
+  if(!pagina) return false;
+  var lines=[];
+  lines.push('🍕 *Pizza Lab — '+titolo+'*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━');
+  pagina.querySelectorAll('.inp-group').forEach(function(g){
+    var label=g.querySelector('.inp-label');
+    var input=g.querySelector('.inp-field');
+    var unit=g.querySelector('.inp-unit');
+    if(label&&input&&input.value){
+      var u=unit?unit.textContent.trim():'';
+      lines.push('• '+label.textContent.trim()+': *'+input.value+' '+u+'*');
+    }
+  });
+  lines.push('');
+  lines.push('📊 *Risultati*');
+  lines.push('─────────────────────');
+  var outIds=['supremaOut','phBigaOut','licoliOut','scrocchOut',
+    'tondaBigaOut','tondaCrocOut','palaSuprOut','palaScientOut',
+    'palaBigaOut','tegliaPFOut','direttoOut','romanaOut','napoFrigoOut'];
+  outIds.forEach(function(id){
+    var el2=document.getElementById(id);
+    if(!el2||!el2.innerHTML.trim()) return;
+    el2.querySelectorAll('.res-row').forEach(function(r){
+      var name=r.querySelector('.res-name');
+      var val=r.querySelector('.res-val');
+      if(name&&val) lines.push('• '+name.textContent.trim()+': *'+val.textContent.trim()+'*');
+    });
+    el2.querySelectorAll('.sem').forEach(function(s){
+      lines.push('⚡ '+s.textContent.trim());
+    });
+    el2.querySelectorAll('.tl-row').forEach(function(r){
+      var time=r.querySelector('.tl-time');
+      var txt=r.querySelector('.tl-text');
+      if(time&&txt) lines.push('🕐 '+time.textContent.trim()+' — '+txt.textContent.trim());
+    });
+  });
+  lines.push('');
+  lines.push('_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  lines.push('_Pizza Lab v2.1_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+  return false;
+}
+
+function shareLicoli(){
+  try{calcLicoli();}catch(e){}
+  var lines=[];
+
+  // Destinazione — legge il campo lLab
+  var labEl=document.getElementById('lLab');
+  var lab=labEl&&labEl.value.trim()?labEl.value.trim():'';
+  if(lab) lines.push('📍 *Per Laboratorio '+lab+'*');
+
+  lines.push('🌿 *Pizza Lab — Gestione Licoli Madre*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━');
+  [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00'],
+   ['lProg','Programma Esmach','']].forEach(function(c){
+    var el=document.getElementById(c[0]);
+    if(el&&el.value) lines.push('• '+c[1]+': *'+el.value+' '+c[2]+'*');
+  });
+  lines.push('');
+  lines.push('📊 *Risultati*');
+  lines.push('─────────────────────');
+  var out=document.getElementById('licoliOut');
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var name=r.querySelector('.res-name');
+      var val=r.querySelector('.res-val');
+      if(name&&val) lines.push('• '+name.textContent.trim()+': *'+val.textContent.trim()+'*');
+    });
+    // Semafori — escludi la riga UNICA
+    out.querySelectorAll('.sem').forEach(function(s){
+      var t=s.textContent.trim();
+      if(t.indexOf('UNICA')===-1) lines.push('⚡ '+t);
+    });
+  }
+  lines.push('');
+  lines.push('_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+}
+
+function shareRicetta(pageId,titolo){
+  buildWaLink(null,pageId,titolo);
+}
+
+function calcAll(){
+  try{calcMotore();}catch(e){}
+  try{calcLicoli();}catch(e){}
+  try{calcSuprema();}catch(e){}
+  try{calcScrocch();}catch(e){}
+  try{calcTondaBiga();}catch(e){}
+  try{calcTondaCroc();}catch(e){}
+  try{calcPalaSuprema();}catch(e){}
+  try{calcPalaScient();}catch(e){}
+  try{calcPalaBiga();}catch(e){}
+  try{calcTegliaPF();}catch(e){}
+  try{calcDiretto();}catch(e){}
+  try{calcRomana();}catch(e){}
+  try{calcNapoFrigo();}catch(e){}
+  try{calcPhBiga();}catch(e){}
+}
+
 function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
 function stampaPDF(pageId,titolo){
-  // 1. Ricalcola tutto — valori JS nel DOM
-  calcAll();
-
+  try{calcAll();}catch(e){}
   var pagina=document.getElementById(pageId);
   if(!pagina)return;
 
-  // 2. Forza apertura card PRIMA di clonare
+  // Forza ricalcolo e apertura card
   pagina.querySelectorAll('.card').forEach(function(c){c.classList.add('open');});
   pagina.querySelectorAll('.card-body').forEach(function(cb){
-    cb.style.display='block';
-    cb.style.maxHeight='none';
-    cb.style.overflow='visible';
+    cb.style.display='block';cb.style.maxHeight='none';cb.style.overflow='visible';
   });
 
-  // 3. Clona con tutto il DOM già calcolato e visibile
-  var clone=pagina.cloneNode(true);
-  clone.querySelectorAll(".card-body").forEach(function(cb){cb.setAttribute("style","display:block!important;padding:12px 14px");});
-  clone.querySelectorAll(".btn-share,.btn-pdf,.card-chevron").forEach(function(b){b.remove();});
-
-  // 4. Copia manualmente il contenuto dei div output JS (non clonati correttamente)
-  var outputIds=[
-    'supremaOut','phBigaOut','licoliOut','esmachOut',
-    'scrocchOut','tondaBigaOut','tondaCrocOut','palaSuprOut',
-    'palaScientOut','palaBigaOut','tegliaPFOut','direttoOut','romanaOut'
-  ];
-  outputIds.forEach(function(id){
-    var src=document.getElementById(id);
-    var dst=clone.querySelector('#'+id);
-    if(src && dst) dst.innerHTML=src.innerHTML;
+  // Raccoglie INPUT dalla pagina
+  var inputHtml='';
+  pagina.querySelectorAll('.inp-group').forEach(function(g){
+    var label=g.querySelector('.inp-label');
+    var input=g.querySelector('.inp-field');
+    var unit=g.querySelector('.inp-unit');
+    if(!label||!input) return;
+    var v=input.value||'—';
+    var u=unit?unit.textContent.trim():'';
+    inputHtml+='<tr><td style="font-size:13px;color:#3A2A1A;font-weight:600;padding:9px 0;border-bottom:1px solid #EEE8DC;width:60%">'+label.textContent.trim()+'</td>'+
+      '<td style="font-size:15px;font-weight:800;color:#1A3D28;padding:9px 0;border-bottom:1px solid #EEE8DC;text-align:right">'+v+' <span style="font-size:11px;color:#8A7060;font-weight:400">'+u+'</span></td></tr>';
   });
 
-  // 5. Copia anche div con output generici che potrebbero essersi persi
-  clone.querySelectorAll('[id$="Out"]').forEach(function(dst){
-    var src=document.getElementById(dst.id);
-    if(src && dst && src.innerHTML.trim()) dst.innerHTML=src.innerHTML;
+  // Raccoglie RISULTATI dagli output div
+  var outIds=['supremaOut','phBigaOut','licoliOut','esmachOut','scrocchOut',
+    'tondaBigaOut','tondaCrocOut','palaSuprOut','palaScientOut',
+    'palaBigaOut','tegliaPFOut','direttoOut','romanaOut','napoFrigoOut'];
+  var risultatiHtml='';
+  var visti={};
+  outIds.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el&&el.innerHTML.trim()&&!visti[id]){
+      risultatiHtml+=el.innerHTML;
+      visti[id]=true;
+    }
+  });
+  // fallback: altri output nella pagina
+  pagina.querySelectorAll('[id$="Out"]').forEach(function(el){
+    if(el.id&&!visti[el.id]&&el.innerHTML.trim()){
+      risultatiHtml+=el.innerHTML;
+      visti[el.id]=true;
+    }
   });
 
-  var overlay=document.createElement("div");
-  overlay.id="pdf-overlay";
-  overlay.setAttribute("style","position:fixed;inset:0;background:#fff;z-index:99999;overflow-y:auto;-webkit-overflow-scrolling:touch");
+  // Hero sub
+  var heroSub='';
+  var hs=pagina.querySelector('.page-hero-sub');
+  if(hs) heroSub=hs.textContent.trim();
 
-  var hdr=document.createElement("div");
-  hdr.setAttribute("style","position:sticky;top:0;background:#fff;border-bottom:2px solid #C8973A;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px");
-  
-  var titSpan=document.createElement("span");
-  titSpan.textContent="Pizza Lab - "+titolo;
-  titSpan.setAttribute("style","font-size:13px;font-weight:700;color:#111;flex:1");
-  
-  var btnS=document.createElement("button");
-  btnS.textContent="Stampa / PDF";
-  btnS.setAttribute("style","background:#C8973A;color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
-  btnS.onclick=function(){window.print();};
-  
-  var btnC=document.createElement("button");
-  btnC.textContent="X Chiudi";
-  btnC.setAttribute("style","background:#eee;color:#333;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
-  btnC.onclick=closePdfOverlay;
+  // CSS pulito per la scheda
+  var css=`
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'DM Sans',sans-serif;background:#F7F3EC;color:#1A0A00}
+    .pdf-header{background:linear-gradient(135deg,#1A3D28,#0D2018);color:#F8F2E6;padding:18px 20px;display:flex;align-items:center;gap:14px}
+    .pdf-brand{font-size:10px;color:#A8D5B0;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+    .pdf-title{font-size:22px;font-weight:900;color:#F0CC5A;font-style:italic}
+    .pdf-sub{font-size:11px;color:#A8D5B0;margin-top:3px}
+    .pdf-body{padding:18px 16px;max-width:100%}
+    .section-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#1A3D28;font-weight:800;border-bottom:2px solid #D4A03E;padding-bottom:5px;margin:18px 0 10px}
+    .res-section{margin-bottom:14px}
+    .res-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#1A3D28;font-weight:800;margin-bottom:8px;display:block;border-bottom:2px solid #D4A03E;padding-bottom:3px}
+    .res-row{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid #F0EBE0;font-size:13px;gap:8px}
+    .res-name{color:#3A2A1A;flex:1;line-height:1.4}
+    .res-val{font-weight:800;color:#1A3D28;font-size:14px;text-align:right;flex-shrink:0}
+    .res-val.big{font-size:18px;color:#D4A03E}
+    .res-note{font-size:10px;color:#8A7060;margin-top:2px;text-align:right}
+    .sem{padding:10px 13px;border-radius:10px;font-weight:700;margin-bottom:10px;font-size:13px;line-height:1.4}
+    .sem.ok{background:#EAF4EC;color:#1A5C26;border-left:4px solid #4CAF50}
+    .sem.warn{background:#FFF8E8;color:#7A4800;border-left:4px solid #D4A03E}
+    .sem.bad{background:#FFEAEA;color:#8B1A1A;border-left:4px solid #E53935}
+    .sem.info{background:#E8F0FB;color:#1A3D7A;border-left:4px solid #5B9BD5}
+    .tl{margin:6px 0 14px}
+    .tl-row{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #F0EBE0;font-size:12px;align-items:flex-start}
+    .tl-time{font-weight:800;color:#1A3D28;min-width:60px;font-family:monospace;flex-shrink:0}
+    .tl-dot{width:8px;height:8px;border-radius:50%;background:#D4A03E;flex-shrink:0;margin-top:2px}
+    .tl-text{font-weight:600;color:#2A1A0A;flex:1;line-height:1.4}
+    .tl-sub{font-size:10px;color:#8A7060;margin-top:2px}
+    .sec-div{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#1A3D28;padding:12px 0 4px;font-weight:800;border-bottom:1px solid #D4A03E;margin-bottom:8px}
+    .pdf-footer{text-align:center;padding:18px 16px 24px;border-top:1px solid #D4C0A0;margin-top:12px}
+    .btn-share,.btn-pdf,.card-chevron,.hdr-back{display:none!important}
+    #p7fields{display:none!important}
+    .inp-group{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #EEE8DC;gap:8px}
+    .inp-label{font-size:13px;color:#2A1A0A;font-weight:600;flex:1}
+    .inp-row{display:flex;align-items:center;gap:5px}
+    .inp-field{border:1.5px solid #D4A03E;border-radius:7px;padding:4px 8px;font-size:13px;font-weight:700;color:#1A3D28;background:#FFFDF8;pointer-events:none;text-align:right;min-width:60px}
+    .inp-unit{font-size:11px;color:#8A7060}
+    @media print{
+      .no-print{display:none!important}
+      body{background:#fff}
+      .pdf-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .sem{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    }
+  `;
 
-  hdr.appendChild(titSpan);
-  hdr.appendChild(btnS);
-  hdr.appendChild(btnC);
+  // Rimuovi vecchio overlay se esiste
+  var old=document.getElementById('pdf-overlay');
+  if(old) old.remove();
 
-  var body=document.createElement("div");
-  body.setAttribute("style","padding:16px;max-width:700px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;color:#111");
-  body.innerHTML=clone.innerHTML+"<div style='text-align:center;margin-top:20px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:8px'>Pizza Lab - Matteo La Spada - L Orso Messina</div>";
+  // Crea overlay
+  var overlay=document.createElement('div');
+  overlay.id='pdf-overlay';
+  overlay.style.cssText='position:fixed;inset:0;z-index:99999;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#F7F3EC';
 
-  var styleEl=document.createElement("style");
-  styleEl.textContent=".card-body{display:block!important;padding:12px 14px}.card-hdr{padding:10px 14px;background:#f5f5f5;display:flex;align-items:center;gap:10px}.card{border:1.5px solid #ddd;border-radius:10px;margin-bottom:12px;overflow:hidden}.page-hero{text-align:center;padding:16px;border-bottom:2px solid #C8973A;margin-bottom:16px}.page-hero-title{font-size:20px;font-weight:800}.page-hero-sub{font-size:11px;color:#666}.inp-group{margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.inp-label{font-size:12px;color:#444;font-weight:600;flex:1}.inp-row{display:flex;align-items:center;gap:4px}.inp-field{border:1px solid #ccc;border-radius:5px;padding:3px 6px;font-size:13px;color:#111;width:65px;text-align:right}.inp-unit{font-size:11px;color:#666}.res-section{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}.res-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#C8973A;font-weight:700;margin-bottom:6px;display:block}.sem{padding:8px 12px;border-radius:7px;font-weight:700;margin-bottom:8px;font-size:13px}.sem.ok{background:#E8F5E9;color:#2E7D32;border-left:4px solid #4CAF50}.sem.warn{background:#FFF8E1;color:#F57F17;border-left:4px solid #FFC107}.sem.bad{background:#FFEBEE;color:#C62828;border-left:4px solid #F44336}.res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px;gap:8px}.res-row-label{color:#444;flex:1}.res-row-val{font-weight:700;color:#111}.res-row-note{font-size:10px;color:#888}.res-row.highlight{background:#FFFDE7;padding:7px;border-radius:5px}.tl-row{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:12px}.tl-time{font-weight:700;color:#C8973A;min-width:55px;font-family:monospace}.tl-label{font-weight:600;color:#111;flex:1}.tl-note{font-size:10px;color:#888}.dist-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #f0f0f0}.sec-div{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8973A;padding:6px 0 3px;font-weight:700}.card-chevron,.btn-share,.btn-pdf{display:none!important}#p7fields{display:none!important}@media print{#pdf-overlay>div:first-child{display:none!important}body>*:not(#pdf-overlay){display:none!important}}";
+  overlay.innerHTML=
+    '<style>'+css+'</style>'+
+    // Barra sticky azioni
+    '<div class="no-print" style="position:sticky;top:0;background:#1A3D28;padding:10px 14px;display:flex;align-items:center;gap:8px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.3)">'+
+      '<span style="flex:1;color:#A8D5B0;font-size:13px;font-weight:600">&#127829; '+titolo+'</span>'+
+      '<button onclick="window.print()" style="background:#D4A03E;color:#000;border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px;cursor:pointer">&#128196; Salva PDF</button>'+
+      '<button onclick="closePdfOverlay()" style="background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer">&#10005;</button>'+
+    '</div>'+
+    // Header documento
+    '<div class="pdf-header">'+
+      '<div style="font-size:30px">&#127829;</div>'+
+      '<div>'+
+        '<div class="pdf-brand">Pizza Lab · Scheda Tecnica</div>'+
+        '<div class="pdf-title">'+titolo+'</div>'+
+        '<div class="pdf-sub">'+heroSub+'</div>'+
+      '</div>'+
+    '</div>'+
+    // Body
+    '<div class="pdf-body">'+
+      '<div class="section-lbl">Parametri inseriti</div>'+
+      '<table style="width:100%;border-collapse:collapse;margin-bottom:6px">'+inputHtml+'</table>'+
+      '<div class="section-lbl">Risultati calcolati</div>'+
+      risultatiHtml+
+    '</div>'+
+    // Footer
+    '<div class="pdf-footer">'+
+      '<div style="font-size:11px;color:#8A7060;letter-spacing:1.5px;text-transform:uppercase">Matteo La Spada &mdash; L&rsquo;Orso Messina</div>'+
+      '<div style="font-size:10px;color:#B0A090;margin-top:3px">Pizza Lab v2.1 &middot; Scheda Tecnica</div>'+
+    '</div>';
 
-  overlay.appendChild(styleEl);
-  overlay.appendChild(hdr);
-  overlay.appendChild(body);
   document.body.appendChild(overlay);
 }
 
 
-document.addEventListener('DOMContentLoaded', function(){ renderEsmachPrograms(); });
-
+</script>
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("./sw.js")
+      .then(function(reg){ console.log("SW ok:", reg.scope); })
+      .catch(function(err){ console.log("SW err:", err); });
+  });
+}
 </script>
 </body>
 </html>
