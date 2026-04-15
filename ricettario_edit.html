@@ -338,12 +338,37 @@ var BASE_RECIPES = [
   }
 ];
 
-// ── STATO ──
+// ── STATO CON PERSISTENZA localStorage ──
 var multipliers = {};
-var editedRecipes = {}; // copie modificate in memoria
+var editedRecipes = {};
+
+function saveToStorage(){
+  try{
+    localStorage.setItem('ricettario_recipes', JSON.stringify(editedRecipes));
+    localStorage.setItem('ricettario_mult', JSON.stringify(multipliers));
+  }catch(e){}
+}
+
+function loadFromStorage(){
+  try{
+    var savedR = localStorage.getItem('ricettario_recipes');
+    var savedM = localStorage.getItem('ricettario_mult');
+    if(savedR) editedRecipes = JSON.parse(savedR);
+    if(savedM) multipliers = JSON.parse(savedM);
+  }catch(e){}
+}
+
+// Inizializza con i valori base
 BASE_RECIPES.forEach(function(r){
   multipliers[r.id] = 1;
-  editedRecipes[r.id] = JSON.parse(JSON.stringify(r)); // deep copy
+  editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
+});
+// Poi sovrascrive con quelli salvati (se esistono)
+loadFromStorage();
+// Assicura che ricette nuove aggiunte al codice siano presenti
+BASE_RECIPES.forEach(function(r){
+  if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
+  if(!multipliers[r.id]) multipliers[r.id] = 1;
 });
 
 var tags = ['Tutte'];
@@ -416,26 +441,30 @@ function escH(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').
 // ── MODIFICA INGREDIENTI ──
 function updateIngName(id, idx, val){
   getRecipe(id).ingredienti[idx].nome = val;
+  saveToStorage();
 }
 function updateIngQty(id, idx, val, mult){
   var r = getRecipe(id);
   var raw = parseFloat(val);
   if(isNaN(raw)) raw = 0;
-  // salva il valore BASE (diviso per il moltiplicatore attuale)
   r.ingredienti[idx].qty = mult > 1 ? raw / mult : raw;
   if(r.ingredienti[idx].unit === 'q.b.' && raw > 0) r.ingredienti[idx].unit = 'g';
+  saveToStorage();
 }
 function updateIngUnit(id, idx, val){
   var r = getRecipe(id);
   r.ingredienti[idx].unit = val || 'g';
   if(val === 'q.b.') r.ingredienti[idx].qty = 0;
+  saveToStorage();
 }
 function deleteIng(id, idx){
   getRecipe(id).ingredienti.splice(idx, 1);
+  saveToStorage();
   renderIngTable(id);
 }
 function addIng(id){
   getRecipe(id).ingredienti.push({nome:'',qty:0,unit:'g'});
+  saveToStorage();
   renderIngTable(id);
   // focus sull'ultimo campo nome
   setTimeout(function(){
@@ -449,16 +478,10 @@ function resetRecipe(id){
   if(!confirm('Ripristinare la ricetta originale?')) return;
   editedRecipes[id] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===id;})));
   multipliers[id] = 1;
-  // re-render card
-  var card = document.getElementById('rc_'+id);
-  if(card){
-    var wasOpen = card.classList.contains('open');
-    renderList();
-    if(wasOpen){
-      var newCard = document.getElementById('rc_'+id);
-      if(newCard) newCard.classList.add('open');
-    }
-  }
+  saveToStorage();
+  var wasOpen = document.getElementById('rc_'+id) && document.getElementById('rc_'+id).classList.contains('open');
+  renderList();
+  if(wasOpen){ var c=document.getElementById('rc_'+id); if(c) c.classList.add('open'); }
 }
 
 // ── MOLTIPLICATORE ──
@@ -466,6 +489,7 @@ function changeMult(id, delta){
   var m = (multipliers[id]||1) + delta;
   if(m < 1) m = 1;
   multipliers[id] = m;
+  saveToStorage();
   document.getElementById('mv_'+id).textContent = '×' + m;
   renderIngTable(id);
 }
@@ -585,7 +609,7 @@ function renderList(){
         // Istruzioni
         '<div class="istr-block">' +
           '<div class="istr-title">📋 Istruzioni — modifica qui sotto</div>' +
-          '<textarea class="istr-textarea" rows="5" onchange="editedRecipes['+base.id+'].istruzioni=this.value">'+escH(r.istruzioni)+'</textarea>' +
+          '<textarea class="istr-textarea" rows="5" onchange="editedRecipes['+base.id+'].istruzioni=this.value;saveToStorage()">'+escH(r.istruzioni)+'</textarea>' +
         '</div>' +
         // Azioni
         '<div class="share-bar">' +
