@@ -332,6 +332,10 @@ var BASE_RECIPES = [
     ingredienti:[{nome:'Mugnuli (funghi selvatici)',qty:100,unit:'g'},{nome:'Olio al peperoncino',qty:1,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Olio EVO',qty:7,unit:'g'},{nome:'Timo',qty:1,unit:'g'},{nome:'Olio aglio',qty:1,unit:'g'},{nome:'Pepe nero',qty:1,unit:'g'}],
     istruzioni:'Procedere allo sbiancamento della verdura a 92°C per cinque minuti esclusivamente tramite vapore.\nSuccessivamente raffreddare immediatamente il prodotto e procedere alla cottura in padella con olio e sale.\nInfine trasferire il prodotto confezionato nei sacchetti sottovuoto, aggiungere gli aromi desiderati e procedere alla pastorizzazione.'
   },
+  { id:31, emoji:'🌱', title:'Sponzali', tag:'Verdure',
+    ingredienti:[{nome:'Sponzali',qty:100,unit:'g'},{nome:'Olio extra vergine d\'oliva',qty:1,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Timo',qty:1,unit:'g'},{nome:'Pepe nero',qty:1,unit:'g'},{nome:'Olio al limone',qty:0.5,unit:'g'}],
+    istruzioni:'Procedere allo sbiancamento degli sponzali a 92°C per cinque minuti esclusivamente tramite vapore.\nSuccessivamente raffreddare immediatamente il prodotto e procedere alla cottura in padella con olio EVO e sale.\nInfine trasferire il prodotto nei sacchetti sottovuoto, aggiungere timo, pepe nero e olio al limone, e procedere alla pastorizzazione.'
+  },
   { id:30, emoji:'🍯', title:'Ricotta alla Senape e Miele', tag:'Salse & Creme',
     ingredienti:[{nome:'Ricotta',qty:100,unit:'g'},{nome:'Senape',qty:7,unit:'g'},{nome:'Miele',qty:7,unit:'g'},{nome:'Succo di limone',qty:5,unit:'g'},{nome:'Timo',qty:1,unit:'g'}],
     istruzioni:'Frullare insieme tutti gli ingredienti fino a quando non diventa una crema liscia e omogenea.'
@@ -630,6 +634,15 @@ function toggleRecipe(id){
 
 buildFilters();
 renderList();
+</script>
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("./sw.js")
+      .then(function(reg){ console.log("SW ok:", reg.scope); })
+      .catch(function(err){ console.log("SW err:", err); });
+  });
+}
 </script>
 </body>
 </html>
