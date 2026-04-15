@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ricettario Pro">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23F5F0E8'/%3E%3Ctext x='256' y='330' font-size='300' text-anchor='middle'%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E">
+<title>📖 Ricettario Pro — Matteo La Spada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --bg:       #F8F4EE;
+  --surface:  #FFFFFF;
+  --surface2: #F2EDE4;
+  --border:   #DDD5C8;
+  --accent:   #8B4A1C;
+  --accent2:  #C4782A;
+  --text:     #1E1208;
+  --muted:    #7A6A58;
+  --green:    #2D6A4F;
+  --red:      #C0392B;
+  --gold:     #C4782A;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px}
+
+/* ── HEADER ── */
+header{
+  background:var(--accent);
+  padding:env(safe-area-inset-top,20px) 16px 16px;
+  padding-top:calc(env(safe-area-inset-top,0px) + 20px);
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(139,74,28,0.25);
+}
+.hdr-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.hdr-logo{width:38px;height:38px;background:rgba(255,255,255,0.18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hdr-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#FFF8F0;font-style:italic}
+.hdr-sub{font-size:10px;color:rgba(255,248,240,0.65);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted)}
+.search-box{
+  background:#FFF8F0;border:none;border-radius:12px;
+  padding:11px 14px 11px 36px;width:100%;
+  font-family:'Source Serif 4',serif;font-size:14px;color:var(--text);outline:none;
+}
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-btn{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px;padding:5px 13px;
+  font-family:'Source Serif 4',serif;font-size:11px;color:rgba(255,248,240,0.8);
+  cursor:pointer;white-space:nowrap;
+}
+.filter-btn.active{background:#FFF8F0;border-color:#FFF8F0;color:var(--accent);font-weight:600}
+
+/* ── COUNT ── */
+.count-bar{font-size:10px;color:var(--muted);padding:12px 16px 0;letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace}
+
+/* ── LISTA ── */
+.recipe-list{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+
+/* ── CARD ── */
+.recipe-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(139,74,28,0.06);
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.recipe-card.open{border-color:var(--accent2);box-shadow:0 4px 18px rgba(139,74,28,0.12)}
+
+.recipe-header{display:flex;align-items:center;padding:14px 16px;cursor:pointer;gap:12px;user-select:none;-webkit-user-select:none}
+.recipe-emoji{font-size:28px;line-height:1;flex-shrink:0;width:40px;text-align:center}
+.recipe-info{flex:1;min-width:0}
+.recipe-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
+.recipe-meta{font-size:10px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace}
+.recipe-tag{font-size:9px;background:rgba(196,120,42,0.1);border:1px solid rgba(196,120,42,0.25);border-radius:6px;padding:2px 7px;color:var(--accent2);white-space:nowrap;display:inline-block;margin-top:4px;font-family:'DM Mono',monospace;letter-spacing:0.5px}
+.recipe-arrow{color:var(--muted);font-size:10px;transition:transform 0.25s;flex-shrink:0}
+.recipe-card.open .recipe-arrow{transform:rotate(180deg);color:var(--accent)}
+
+.recipe-body{display:none;border-top:1px solid var(--border)}
+.recipe-card.open .recipe-body{display:block}
+
+/* ── MOLTIPLICATORE ── */
+.mult-bar{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:var(--surface2);border-bottom:1px solid var(--border);
+}
+.mult-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex:1;font-family:'DM Mono',monospace}
+.mult-btn{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:9px;
+  width:34px;height:34px;font-size:18px;cursor:pointer;color:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-family:inherit;
+  transition:all 0.15s;
+}
+.mult-btn:active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mult-value{font-size:16px;font-weight:600;color:var(--accent);min-width:36px;text-align:center;font-family:'DM Mono',monospace}
+
+/* ── SEZIONE LABEL ── */
+.section-label{
+  font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;
+  padding:14px 16px 6px;font-weight:600;font-family:'DM Mono',monospace;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.btn-add-ing{
+  background:rgba(196,120,42,0.1);border:1px solid rgba(196,120,42,0.3);
+  border-radius:8px;padding:4px 10px;font-size:10px;color:var(--accent2);
+  cursor:pointer;font-family:'DM Mono',monospace;letter-spacing:0.3px;
+}
+.btn-add-ing:active{background:var(--accent2);color:#fff}
+
+/* ── TABELLA INGREDIENTI ── */
+.ing-table{width:100%;border-collapse:collapse}
+.ing-row{border-bottom:1px solid var(--border);display:flex;align-items:center}
+.ing-row:last-child{border-bottom:none}
+
+.ing-name-cell{flex:1;padding:0}
+.ing-qty-cell{padding:0;display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ing-del-cell{padding:0 8px 0 4px;flex-shrink:0}
+
+/* Campi editabili */
+.ing-name-input{
+  background:transparent;border:none;outline:none;
+  padding:11px 8px 11px 16px;font-size:13px;color:var(--text);
+  font-family:'Source Serif 4',serif;width:100%;
+}
+.ing-name-input:focus{background:rgba(196,120,42,0.05)}
+
+.ing-qty-input{
+  background:transparent;border:none;outline:none;
+  padding:11px 4px;font-size:13px;font-weight:600;color:var(--accent);
+  font-family:'DM Mono',monospace;width:62px;text-align:right;
+}
+.ing-qty-input:focus{background:rgba(196,120,42,0.05);border-radius:6px}
+
+.ing-unit-input{
+  background:transparent;border:none;outline:none;
+  padding:11px 4px;font-size:11px;color:var(--muted);
+  font-family:'DM Mono',monospace;width:30px;
+}
+
+.btn-del-ing{
+  background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;
+  padding:4px;border-radius:6px;line-height:1;
+}
+.btn-del-ing:active{background:rgba(192,57,43,0.1);color:var(--red)}
+
+/* ── ISTRUZIONI ── */
+.istr-block{padding:14px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.istr-title{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:10px;font-family:'DM Mono',monospace}
+.istr-textarea{
+  width:100%;background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:12px 14px;
+  font-family:'Source Serif 4',serif;font-size:13px;color:var(--text);
+  line-height:1.7;outline:none;resize:vertical;min-height:80px;
+}
+.istr-textarea:focus{border-color:var(--accent2)}
+
+/* ── SHARE BAR ── */
+.share-bar{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.btn-wa{
+  flex:1;background:linear-gradient(135deg,#25d366 0%,#128c7e 100%);
+  border:none;border-radius:12px;padding:13px 16px;
+  font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-wa:active{opacity:0.85}
+.btn-reset{
+  background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:12px;padding:13px 14px;font-size:13px;color:var(--muted);
+  cursor:pointer;font-family:inherit;
+}
+.btn-reset:active{background:var(--border)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#fff;font-size:13px;font-weight:600;
+  padding:10px 22px;border-radius:20px;z-index:9999;opacity:0;
+  transition:opacity 0.3s;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(139,74,28,0.3);
+}
+.toast.show{opacity:1}
+
+/* ── PRINT CARD (per screenshot WA) ── */
+.print-card-wa{
+  position:fixed;left:-9999px;top:0;width:420px;
+  background:#FFFDF8;color:#1E1208;
+  font-family:'Georgia',serif;padding:28px 24px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-top">
+    <div class="hdr-logo">🐻</div>
+    <div>
+      <div class="hdr-title">Ricettario</div>
+      <div class="hdr-sub">Matteo La Spada · L'Orso Messina</div>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-box" type="text" placeholder="Cerca ricetta o categoria..." oninput="filterRecipes(this.value)">
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+</header>
+
+<div class="count-bar" id="countBar"></div>
+<div class="recipe-list" id="recipeList"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var BASE_RECIPES = [
+  { id:1, emoji:'🧀', title:'Crema di Pecorino', tag:'Salse & Creme',
+    ingredienti:[{nome:'Latte',qty:100,unit:'g'},{nome:'Panna',qty:100,unit:'g'},{nome:'Pecorino',qty:100,unit:'g'}],
+    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Una volta raggiunta la temperatura, aggiungere il pecorino in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Spegnere e lasciare raffreddare a temperatura ambiente. Mettere nel sacchetto sottovuoto e pastorizzare a 85°C per 15 minuti.'
+  },
+  { id:2, emoji:'🧀', title:'Crema di Grana', tag:'Salse & Creme',
+    ingredienti:[{nome:'Latte',qty:100,unit:'g'},{nome:'Panna',qty:100,unit:'g'},{nome:'Grana grattugiato (fine)',qty:100,unit:'g'}],
+    istruzioni:'In una casseruola su piastra induzione portare a 80°C latte e panna. Aggiungere il grana grattugiato finissimo in 3 volte girando con una frusta. Assicurarsi che non si formino grumi. Raffreddare. Mettere sottovuoto e pastorizzare a 85°C per 15 minuti.'
+  },
+  { id:3, emoji:'🎃', title:'Crema di Zucca', tag:'Salse & Creme',
+    ingredienti:[{nome:'Zucca con buccia',qty:100,unit:'g'},{nome:'Rosmarino',qty:3,unit:'g'},{nome:'Timo',qty:3,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Pepe di Sichuan',qty:0.1,unit:'g'}],
+    istruzioni:'Tagliare la zucca con la buccia in 4-8 parti. Aggiungere gli ingredienti e infornare a 180°C con ventilazione per 35 minuti.'
+  },
+  { id:4, emoji:'🧅', title:'Crema di Cipolla', tag:'Salse & Creme',
+    ingredienti:[{nome:'Cipolla',qty:100,unit:'g'},{nome:'Sale',qty:10,unit:'g'},{nome:'Olio extra vergine d\'oliva',qty:10,unit:'g'}],
+    istruzioni:'1. Tagliare a metà la cipolla, aggiungere sale e olio. Infornare a 170°C per 40 minuti.\n2. Raffreddare, pulire dal primo strato e frullare.'
+  },
+  { id:5, emoji:'🌿', title:'Salsa Verde', tag:'Salse & Creme',
+    ingredienti:[{nome:'Prezzemolo',qty:100,unit:'g'},{nome:'Acciughe',qty:10,unit:'g'},{nome:'Capperi',qty:2,unit:'g'},{nome:'Aceto bianco',qty:40,unit:'g'},{nome:'Olio EVO',qty:50,unit:'g'},{nome:'Pane per tramezzini',qty:40,unit:'g'}],
+    istruzioni:'Vaporizzare il prezzemolo e abbattere in negativo fino a 0°C. Mettere nel cutter con tutti gli ingredienti e frullare fino ad ottenere un composto omogeneo.'
+  },
+  { id:6, emoji:'🍅', title:'Datterino Semi Secco', tag:'Pomodori & Basi',
+    ingredienti:[{nome:'Datterino',qty:100,unit:'g'},{nome:'Olio EVO',qty:4,unit:'g'},{nome:'Sale bilanciato',qty:2,unit:'g'},{nome:'Timo',qty:1,unit:'g'},{nome:'Aglio',qty:1,unit:'g'}],
+    istruzioni:'Tagliare a metà e adagiare sulla teglia. Cucinare a 110°C ventola 2, valvola aperta per 70-100 minuti. Raffreddare e mettere sottovuoto con 20g olio EVO + 20g olio girasole + basilico per kg. Chiudere al 99% e pastorizzare a vapore 85°C per 15 minuti.'
+  },
+  { id:7, emoji:'🥔', title:'Crema di Patate', tag:'Salse & Creme',
+    ingredienti:[{nome:'Patate pasta gialla',qty:1000,unit:'g'},{nome:'Acqua',qty:1500,unit:'g'},{nome:'Olio extra vergine d\'oliva',qty:100,unit:'g'},{nome:'Porro',qty:20,unit:'g'},{nome:'Carote',qty:30,unit:'g'},{nome:'Sale',qty:20,unit:'g'},{nome:'Rosmarino',qty:10,unit:'g'},{nome:'Timo',qty:10,unit:'g'}],
+    istruzioni:'Pelare le patate e tagliarle a cubetti.\nMettere in pentola con tutti gli ingredienti pelati.\nA ebollizione cucinare 15 minuti. Raffreddare e frullare: prima le patate sole, poi aggiungere il brodo con carota, porro ed erbe aromatiche.'
+  },
+  { id:8, emoji:'🥒', title:'Salsa Tzatziki', tag:'Salse & Creme',
+    ingredienti:[{nome:'Yogurt greco',qty:100,unit:'g'},{nome:'Cetrioli',qty:50,unit:'g'},{nome:'Olio extra vergine d\'oliva',qty:5,unit:'g'},{nome:'Aceto bianco',qty:2.5,unit:'g'},{nome:'Sale',qty:2.5,unit:'g'},{nome:'Prezzemolo',qty:2.5,unit:'g'},{nome:'Alpigiana (per salsa cremosa)',qty:50,unit:'g'}],
+    istruzioni:'Lavare i cetrioli e grattugiarli. Far colare l\'acqua di vegetazione almeno per 1 ora.\nMescolare tutto e mettere in un frullatore tranne lo yogurt, che verrà inserito solo alla fine senza che tocchi la lama del cutter, fino ad ottenere la consistenza voluta.'
+  },
+  { id:9, emoji:'🫑', title:'Pesto di Zucchine', tag:'Salse & Creme',
+    ingredienti:[{nome:'Zucchine',qty:100,unit:'g'},{nome:'Patate',qty:10,unit:'g'},{nome:'Olio EVO',qty:13,unit:'g'},{nome:'Aglio',qty:1,unit:'g'},{nome:'Sale bilanciato verdure',qty:2,unit:'g'},{nome:'Grana padano',qty:10,unit:'g'},{nome:'Basilico',qty:1.5,unit:'g'},{nome:'Mandorle',qty:10,unit:'g'}],
+    istruzioni:'Tagliare a rondelle zucchine e a cubetti le patate. Disporre su teglia con olio, aglio e sale bilanciato. Forno 180°C per 18-25 minuti. Raffreddare e frullare nel cutter aggiungendo grana, basilico e mandorle.'
+  },
+  { id:10, emoji:'🫐', title:'Crema di Cavolo Rosso', tag:'Salse & Creme',
+    ingredienti:[{nome:'Cavolo rosso',qty:100,unit:'g'},{nome:'Olio semi girasole',qty:20,unit:'g'},{nome:'Acqua',qty:20,unit:'g'},{nome:'Sale bilanciato verdure',qty:2,unit:'g'}],
+    istruzioni:'Lavare e tagliare in 4 il cavolo. Vapore a 100°C per 19 minuti. Mettere nel cutter con gli ingredienti. Abbattere e pastorizzare.'
+  },
+  { id:11, emoji:'🐷', title:'Guancia di Maiale Stracotta', tag:'Carni',
+    ingredienti:[{nome:'Carrialda di suino',qty:1000,unit:'g'},{nome:'Olio EVO',qty:20,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:20,unit:'g'},{nome:'Alloro',qty:5,unit:'g'},{nome:'Cipolla maturata',qty:20,unit:'g'},{nome:'Timo',qty:10,unit:'g'},{nome:'Pepe nero in grani',qty:2,unit:'g'}],
+    istruzioni:'Massaggiare la carrialda con olio EVO e sale bilanciato. Grigliare Rational 4° colorazione 4 minuti. Raffreddare e mettere sottovuoto con sale bilanciato 9g/kg, alloro, rosmarino, timo, olio EVO e cipolla maturata. Cucinare 5 ore vapore a 93°C.'
+  },
+  { id:12, emoji:'🥬', title:'Crema di Scarola', tag:'Salse & Creme',
+    ingredienti:[{nome:'Scarola',qty:100,unit:'g'},{nome:'Basilico',qty:2,unit:'g'},{nome:'Patate cotte',qty:10,unit:'g'},{nome:'Acciughe sott\'olio',qty:10,unit:'g'},{nome:'Cipolla maturata',qty:6,unit:'g'},{nome:'Olio semi girasole',qty:50,unit:'g'},{nome:'Sale',qty:0,unit:'q.b.'},{nome:'Peperoncino',qty:0,unit:'q.b.'}],
+    istruzioni:'1. Lavare la scarola in pezzi grandi. Non asciugare troppo.\n2. Rational vapore 100%, 90-95°C, ventilazione 3, per 2-3 minuti.\n3. Abbattere subito in acqua e ghiaccio per 1 minuto. Scolare e strizzare.\n4. Fondo olio + aglio + peperoncino + acciughe. Saltare a 200°C per 2 minuti. Sale solo alla fine.'
+  },
+  { id:13, emoji:'🌱', title:'Crema di Basilico', tag:'Salse & Creme',
+    ingredienti:[{nome:'Basilico',qty:100,unit:'g'},{nome:'Patate cotte',qty:10,unit:'g'},{nome:'Olio semi girasole',qty:50,unit:'g'},{nome:'Sale',qty:0,unit:'q.b.'}],
+    istruzioni:'Lavare il basilico. Cucinare a vapore 104°C per 6 minuti. Abbattere in abbattitore. Frullare nel cutter con tutti gli ingredienti per 5 minuti a velocità 10.'
+  },
+  { id:14, emoji:'🥚', title:'Uovo Pochè BT', tag:'Tecniche',
+    ingredienti:[{nome:'Uova',qty:1,unit:'pz'}],
+    istruzioni:'1. Rational vapore 100%, 64°C per 45 minuti. Teglie porta-uova.\n2. Shock termico: immergere in acqua e ghiaccio per 15-20 minuti.\n3. Conservazione nel guscio in frigo +3°C per 2-3 giorni. Sgusciare delicatamente al momento dell\'uso.'
+  },
+  { id:15, emoji:'🍆', title:'Babaganoush', tag:'Salse & Creme',
+    ingredienti:[{nome:'Melanzane',qty:1000,unit:'g'},{nome:'Limone (succo)',qty:40,unit:'g'},{nome:'Aglio',qty:4,unit:'g'},{nome:'Tahina',qty:15,unit:'g'},{nome:'Semi di sesamo',qty:10,unit:'g'},{nome:'Menta fresca',qty:4,unit:'g'},{nome:'Sale',qty:12,unit:'g'},{nome:'Pepe nero',qty:0,unit:'q.b.'}],
+    istruzioni:'Cuocere le melanzane intere in forno statico 180°C per 1h30 (ventilato 160°C 1h20), rigirandole. Raffreddare, eliminare il peduncolo, scavare la polpa.\nSchiacciare con forchetta, salare, aggiungere aglio, succo limone filtrato, tahina e semi di sesamo. Mettere nel mixer.'
+  },
+  { id:16, emoji:'🍆', title:'Crema di Melanzane', tag:'Salse & Creme',
+    ingredienti:[{nome:'Melanzane',qty:100,unit:'g'},{nome:'Sale',qty:3,unit:'g'},{nome:'Pomodori secchi',qty:7,unit:'g'},{nome:'Basilico',qty:6,unit:'g'},{nome:'Miele di agrumi',qty:6,unit:'g'},{nome:'Olio semi girasole',qty:10,unit:'g'}],
+    istruzioni:'Lavate e pelate alternando la buccia di melanzana.\nTagliate a cubetti, spurgare con il sale su un colapasta. Passare nella farina di riso (facoltativo) e friggere a 180°C. Far sgocciolare su carta paglia. Frullare al mixer con pomodoro secco e basilico.'
+  },
+  { id:17, emoji:'🍅', title:'Polpa Finissima Cotta', tag:'Pomodori & Basi',
+    ingredienti:[{nome:'Salsa finissima Gusta Rosso',qty:1000,unit:'g'},{nome:'Sale',qty:6.5,unit:'g'},{nome:'Zucchero',qty:9,unit:'g'},{nome:'Basilico',qty:1,unit:'g'}],
+    istruzioni:'Disporre in teglia GN1 altezza 4cm. Infornare a 145°C per 55 minuti, umidità 60%. Raffreddare, mettere sottovuoto e pastorizzare. Unità Rational.'
+  },
+  { id:18, emoji:'🍞', title:'Mollica Tostata', tag:'Topping',
+    ingredienti:[{nome:'Mollica',qty:1000,unit:'g'},{nome:'Sale',qty:7,unit:'g'},{nome:'Olio EVO',qty:200,unit:'g'},{nome:'Basilico',qty:30,unit:'g'},{nome:'Aglio',qty:1,unit:'g'}],
+    istruzioni:'Versare nella teglia la mollica, aggiungere olio e basilico. Miscelare con le mani. Forno 180°C per 18 minuti. Unità Rational.'
+  },
+  { id:19, emoji:'🧅', title:'Cipolla Caramellata', tag:'Topping',
+    ingredienti:[{nome:'Cipolla rossa',qty:100,unit:'g'},{nome:'Acqua',qty:10,unit:'g'},{nome:'Aceto bianco',qty:10,unit:'g'},{nome:'Zucchero semolato',qty:30,unit:'g'}],
+    istruzioni:'Tagliare a rondelle e mettere nel sacchetto con tutti gli ingredienti (1/3 della capacità). Sottovuoto 99%. Vapore 85°C per 15 minuti. Abbattere a +3°C.'
+  },
+  { id:20, emoji:'🫒', title:'Salamoia per Focaccia', tag:'Basi',
+    ingredienti:[{nome:'Olio EVO',qty:160,unit:'g'},{nome:'Acqua',qty:320,unit:'g'},{nome:'Sale',qty:35,unit:'g'}],
+    istruzioni:'Mescolare energicamente. Dose per 2 teglie 60x40.'
+  },
+  { id:21, emoji:'🐟', title:'Salsa Tonnata', tag:'Salse & Creme',
+    ingredienti:[{nome:'Tonno',qty:100,unit:'g'},{nome:'Maionese',qty:50,unit:'g'},{nome:'Acciughe',qty:3,unit:'g'},{nome:'Capperi',qty:2,unit:'g'},{nome:'Vino bianco fermo',qty:2,unit:'g'},{nome:'Aceto di mele',qty:1,unit:'g'}],
+    istruzioni:'Frullare tutti gli ingredienti con mixer ad immersione fino ad ottenere una salsa omogenea.'
+  },
+  { id:22, emoji:'🍄', title:'Funghi Gelo (Sottovuoto)', tag:'Topping',
+    ingredienti:[{nome:'Funghi',qty:100,unit:'g'},{nome:'Olio EVO',qty:5,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Aglio',qty:0.1,unit:'g'},{nome:'Rosmarino',qty:0.5,unit:'g'},{nome:'Timo',qty:0.5,unit:'g'},{nome:'Pepe di Sichuan',qty:0.1,unit:'g'},{nome:'Burro',qty:10,unit:'g'}],
+    istruzioni:'Vapore a 100°C per 3-4 minuti. Raffreddare e mettere in sacchetti sottovuoto con tutti gli aromi. Chiudere al 99% e pastorizzare Rational a 85°C vapore per 55 minuti.'
+  },
+  { id:23, emoji:'🧅', title:'Cipolla Giarratana Agrodolce 2.0', tag:'Topping',
+    ingredienti:[{nome:'Cipolla giarratana',qty:100,unit:'g'},{nome:'Olio EVO',qty:25,unit:'g'},{nome:'Olio semi girasole',qty:25,unit:'g'},{nome:'Uva passa',qty:5,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Zucchero',qty:3,unit:'g'},{nome:'Aceto di mele',qty:1,unit:'g'}],
+    istruzioni:'Sbucciare e tagliare a metà. Vapore 100°C per 19 minuti. Raffreddare. Mettere sottovuoto con ingredienti. Forno 85°C vapore per 15 minuti.'
+  },
+  { id:24, emoji:'🌭', title:'Salsiccia Sottovuoto', tag:'Carni',
+    ingredienti:[{nome:'Pasta di salsiccia',qty:1000,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:20,unit:'g'}],
+    istruzioni:'Mettere in sacchetto sottovuoto. Cucinare vapore 100% a 62°C per 45 minuti.'
+  },
+  { id:25, emoji:'🌭', title:'Salsiccia Rational Combi', tag:'Carni',
+    ingredienti:[{nome:'Pasta di salsiccia',qty:1000,unit:'g'},{nome:'Sale bilanciato carni rosse',qty:15,unit:'g'},{nome:'Olio EVO',qty:20,unit:'g'}],
+    istruzioni:'Sbriciolata in teglie GN 1/1 con carta forno, max 2-3 cm spessore. Combi-Steam 30-40% umidità, 160-170°C, 12-18 minuti. Temperatura cuore: 75°C per 2 minuti (HACCP). Raffreddamento rapido: da 75°C a 10°C in 90 minuti. Sottovuoto, pastorizzare 85°C vapore 20 minuti. Shelf life 21-29 giorni.'
+  },
+  { id:26, emoji:'🧂', title:'Sale Bilanciato Verdure', tag:'Miscele Sale',
+    ingredienti:[{nome:'Sale marino fino',qty:59,unit:'g'},{nome:'Zucchero',qty:41,unit:'g'}],
+    istruzioni:'Miscelare con le mani. Utilizzo: 10g al kg di prodotto.'
+  },
+  { id:27, emoji:'🐟', title:'Sale Bilanciato Pesce', tag:'Miscele Sale',
+    ingredienti:[{nome:'Sale marino fino',qty:65,unit:'g'},{nome:'Zucchero semolato',qty:25,unit:'g'},{nome:'Zucchero di canna',qty:10,unit:'g'}],
+    istruzioni:'Miscelare con le mani. 9g/kg per pesce di mare, 12g/kg per pesce di acqua dolce.'
+  },
+  { id:28, emoji:'🥩', title:'Sale Bilanciato Carne Rossa', tag:'Miscele Sale',
+    ingredienti:[{nome:'Sale marino fino',qty:63,unit:'g'},{nome:'Zucchero semolato',qty:37,unit:'g'}],
+    istruzioni:'Miscelare con le mani. Utilizzo: 9g al kg di carne.'
+  },
+  { id:29, emoji:'🌿', title:'Mugnuli Selvatici', tag:'Verdure',
+    ingredienti:[{nome:'Mugnuli (funghi selvatici)',qty:100,unit:'g'},{nome:'Olio al peperoncino',qty:1,unit:'g'},{nome:'Sale',qty:1,unit:'g'},{nome:'Olio EVO',qty:7,unit:'g'},{nome:'Timo',qty:1,unit:'g'},{nome:'Olio aglio',qty:1,unit:'g'},{nome:'Pepe nero',qty:1,unit:'g'}],
+    istruzioni:'Procedere allo sbiancamento della verdura a 92°C per cinque minuti esclusivamente tramite vapore.\nSuccessivamente raffreddare immediatamente il prodotto e procedere alla cottura in padella con olio e sale.\nInfine trasferire il prodotto confezionato nei sacchetti sottovuoto, aggiungere gli aromi desiderati e procedere alla pastorizzazione.'
+  },
+  { id:30, emoji:'🍯', title:'Ricotta alla Senape e Miele', tag:'Salse & Creme',
+    ingredienti:[{nome:'Ricotta',qty:100,unit:'g'},{nome:'Senape',qty:7,unit:'g'},{nome:'Miele',qty:7,unit:'g'},{nome:'Succo di limone',qty:5,unit:'g'},{nome:'Timo',qty:1,unit:'g'}],
+    istruzioni:'Frullare insieme tutti gli ingredienti fino a quando non diventa una crema liscia e omogenea.'
+  }
+];
+
+// ── STATO ──
+var multipliers = {};
+var editedRecipes = {}; // copie modificate in memoria
+BASE_RECIPES.forEach(function(r){
+  multipliers[r.id] = 1;
+  editedRecipes[r.id] = JSON.parse(JSON.stringify(r)); // deep copy
+});
+
+var tags = ['Tutte'];
+BASE_RECIPES.forEach(function(r){ if(tags.indexOf(r.tag)===-1) tags.push(r.tag); });
+var activeTag = 'Tutte';
+var searchTerm = '';
+
+// ── UTILS ──
+function getRecipe(id){ return editedRecipes[id]; }
+
+function fmtQty(qty, mult){
+  if(qty === 0) return 'q.b.';
+  var v = qty * mult;
+  if(v === Math.floor(v)) return v + '';
+  return parseFloat(v.toFixed(1)) + '';
+}
+
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ── FILTRI ──
+function buildFilters(){
+  var row = document.getElementById('filterRow');
+  row.innerHTML = tags.map(function(t){
+    return '<button class="filter-btn'+(t===activeTag?' active':'')+'" onclick="setTag(\''+t+'\')">'+t+'</button>';
+  }).join('');
+}
+function setTag(t){ activeTag=t; buildFilters(); renderList(); }
+function filterRecipes(v){ searchTerm=v.toLowerCase(); renderList(); }
+function getFiltered(){
+  return BASE_RECIPES.filter(function(r){
+    var mt = activeTag==='Tutte' || r.tag===activeTag;
+    var ms = !searchTerm || r.title.toLowerCase().indexOf(searchTerm)!==-1 || r.tag.toLowerCase().indexOf(searchTerm)!==-1;
+    return mt && ms;
+  });
+}
+
+// ── RENDER INGREDIENTI EDITABILI ──
+function renderIngTable(id){
+  var r = getRecipe(id);
+  var mult = multipliers[id] || 1;
+  var rows = r.ingredienti.map(function(ing, idx){
+    var displayQty = ing.qty === 0 ? '' : fmtQty(ing.qty, mult);
+    var displayUnit = ing.unit === 'q.b.' ? 'q.b.' : ing.unit;
+    return '<div class="ing-row" data-idx="'+idx+'">' +
+      '<div class="ing-name-cell">' +
+        '<input class="ing-name-input" type="text" value="'+escH(ing.nome)+'" placeholder="Ingrediente" ' +
+          'onchange="updateIngName('+id+','+idx+',this.value)">' +
+      '</div>' +
+      '<div class="ing-qty-cell">' +
+        '<input class="ing-qty-input" type="number" value="'+displayQty+'" placeholder="qty" min="0" step="any" ' +
+          'onchange="updateIngQty('+id+','+idx+',this.value,'+mult+')">' +
+        '<input class="ing-unit-input" type="text" value="'+escH(displayUnit)+'" placeholder="g" ' +
+          'onchange="updateIngUnit('+id+','+idx+',this.value)">' +
+      '</div>' +
+      '<div class="ing-del-cell">' +
+        '<button class="btn-del-ing" onclick="deleteIng('+id+','+idx+')" title="Rimuovi">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  var table = document.getElementById('ing_'+id);
+  if(table) table.innerHTML = rows;
+}
+
+function escH(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+// ── MODIFICA INGREDIENTI ──
+function updateIngName(id, idx, val){
+  getRecipe(id).ingredienti[idx].nome = val;
+}
+function updateIngQty(id, idx, val, mult){
+  var r = getRecipe(id);
+  var raw = parseFloat(val);
+  if(isNaN(raw)) raw = 0;
+  // salva il valore BASE (diviso per il moltiplicatore attuale)
+  r.ingredienti[idx].qty = mult > 1 ? raw / mult : raw;
+  if(r.ingredienti[idx].unit === 'q.b.' && raw > 0) r.ingredienti[idx].unit = 'g';
+}
+function updateIngUnit(id, idx, val){
+  var r = getRecipe(id);
+  r.ingredienti[idx].unit = val || 'g';
+  if(val === 'q.b.') r.ingredienti[idx].qty = 0;
+}
+function deleteIng(id, idx){
+  getRecipe(id).ingredienti.splice(idx, 1);
+  renderIngTable(id);
+}
+function addIng(id){
+  getRecipe(id).ingredienti.push({nome:'',qty:0,unit:'g'});
+  renderIngTable(id);
+  // focus sull'ultimo campo nome
+  setTimeout(function(){
+    var table = document.getElementById('ing_'+id);
+    if(!table) return;
+    var inputs = table.querySelectorAll('.ing-name-input');
+    if(inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+}
+function resetRecipe(id){
+  if(!confirm('Ripristinare la ricetta originale?')) return;
+  editedRecipes[id] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===id;})));
+  multipliers[id] = 1;
+  // re-render card
+  var card = document.getElementById('rc_'+id);
+  if(card){
+    var wasOpen = card.classList.contains('open');
+    renderList();
+    if(wasOpen){
+      var newCard = document.getElementById('rc_'+id);
+      if(newCard) newCard.classList.add('open');
+    }
+  }
+}
+
+// ── MOLTIPLICATORE ──
+function changeMult(id, delta){
+  var m = (multipliers[id]||1) + delta;
+  if(m < 1) m = 1;
+  multipliers[id] = m;
+  document.getElementById('mv_'+id).textContent = '×' + m;
+  renderIngTable(id);
+}
+
+// ── SCREENSHOT WHATSAPP ──
+function doScreenshot(id){
+  var r = getRecipe(id);
+  var mult = multipliers[id] || 1;
+
+  var pc = document.createElement('div');
+  pc.style.cssText = 'position:fixed;left:-9999px;top:0;width:420px;background:#FFFDF8;color:#1E1208;font-family:Georgia,serif;padding:28px 24px;';
+
+  var ingRows = r.ingredienti.map(function(ing){
+    var q = ing.unit==='q.b.' ? 'q.b.' : fmtQty(ing.qty, mult) + ' ' + ing.unit;
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #E8DDD0;font-size:14px">' +
+      '<span style="color:#2A1A0A">'+escH(ing.nome)+'</span>' +
+      '<span style="color:#8B4A1C;font-weight:700;font-family:monospace">'+q+'</span>' +
+    '</div>';
+  }).join('');
+
+  var istrHTML = '';
+  r.istruzioni.split('\n').forEach(function(s){
+    s = s.trim(); if(!s) return;
+    var m = s.match(/^(\d+)\.\s*(.*)/);
+    if(m) istrHTML += '<div style="display:flex;gap:10px;margin-bottom:9px;font-size:13px;line-height:1.65"><span style="color:#C4782A;font-weight:700;min-width:20px">'+m[1]+'.</span><span>'+m[2]+'</span></div>';
+    else istrHTML += '<p style="font-size:13px;line-height:1.65;margin-bottom:9px">'+s+'</p>';
+  });
+
+  pc.innerHTML =
+    // Header
+    '<div style="background:#8B4A1C;margin:-28px -24px 24px;padding:22px 24px;display:flex;align-items:center;gap:14px">' +
+      '<span style="font-size:38px">'+r.emoji+'</span>' +
+      '<div>' +
+        '<div style="font-family:Georgia,serif;font-size:22px;font-style:italic;color:#FFF8F0;font-weight:700">'+escH(r.title)+'</div>' +
+        '<div style="font-size:10px;color:rgba(255,248,240,0.65);margin-top:4px;letter-spacing:1px;text-transform:uppercase">MATTEO LA SPADA · L\'ORSO MESSINA</div>' +
+      '</div>' +
+    '</div>' +
+    // Badge moltiplicatore
+    (mult>1 ? '<div style="background:#FEF3E2;border:1.5px solid #C4782A;border-radius:10px;padding:8px 14px;margin-bottom:16px;font-size:12px;color:#8B4A1C;font-family:monospace">✖'+mult+' — Dosi moltiplicate per '+mult+'</div>' : '') +
+    // Ingredienti
+    '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-family:monospace;font-weight:600">Ingredienti</div>' +
+    ingRows +
+    // Istruzioni
+    '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;margin:18px 0 10px;font-family:monospace;font-weight:600">Istruzioni</div>' +
+    istrHTML +
+    // Footer
+    '<div style="margin-top:20px;padding-top:14px;border-top:1px solid #E8DDD0;text-align:center;font-size:11px;color:#7A6A58;letter-spacing:1px">🐻 L\'ORSO MESSINA · #SEGUILORSO</div>';
+
+  document.body.appendChild(pc);
+  html2canvas(pc, {backgroundColor:'#FFFDF8', scale:2, useCORS:true, logging:false}).then(function(canvas){
+    document.body.removeChild(pc);
+    canvas.toBlob(function(blob){
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob],'r.png',{type:'image/png'})]})){
+        var file = new File([blob], 'ricetta_'+r.title.replace(/\s+/g,'_')+'.png', {type:'image/png'});
+        navigator.share({title:r.title, text:'Ricetta: '+r.title+' — Matteo La Spada', files:[file]})
+          .then(function(){ showToast('✅ Condiviso!'); })
+          .catch(function(){ downloadImage(canvas, r.title); });
+      } else { downloadImage(canvas, r.title); }
+    }, 'image/png');
+  });
+}
+
+function downloadImage(canvas, title){
+  var link = document.createElement('a');
+  link.download = 'ricetta_'+title.replace(/\s+/g,'_')+'.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  showToast('📥 Immagine salvata!');
+}
+
+// ── RENDER LISTA ──
+function renderList(){
+  var filtered = getFiltered();
+  document.getElementById('countBar').textContent = filtered.length + ' ricette';
+  var list = document.getElementById('recipeList');
+  list.innerHTML = '';
+
+  filtered.forEach(function(base){
+    var r = getRecipe(base.id);
+    var mult = multipliers[base.id] || 1;
+    var card = document.createElement('div');
+    card.className = 'recipe-card';
+    card.id = 'rc_' + base.id;
+
+    var istrHTML = '';
+    r.istruzioni.split('\n').forEach(function(s){
+      s = s.trim(); if(!s) return;
+      var m = s.match(/^(\d+)\.\s*(.*)/);
+      if(m) istrHTML += '<div class="istr-step"><span class="step-num">'+m[1]+'.</span><span>'+m[2]+'</span></div>';
+      else istrHTML += '<p class="istr-text">'+s+'</p>';
+    });
+
+    card.innerHTML =
+      '<div class="recipe-header" onclick="toggleRecipe('+base.id+')">' +
+        '<div class="recipe-emoji">'+r.emoji+'</div>' +
+        '<div class="recipe-info">' +
+          '<div class="recipe-title">'+escH(r.title)+'</div>' +
+          '<div class="recipe-meta">'+r.ingredienti.length+' ingredienti</div>' +
+          '<span class="recipe-tag">'+r.tag+'</span>' +
+        '</div>' +
+        '<span class="recipe-arrow">▼</span>' +
+      '</div>' +
+      '<div class="recipe-body">' +
+        // Moltiplicatore
+        '<div class="mult-bar">' +
+          '<span class="mult-label">Moltiplica dosi</span>' +
+          '<button class="mult-btn" onclick="changeMult('+base.id+',-1)">−</button>' +
+          '<span class="mult-value" id="mv_'+base.id+'">×'+mult+'</span>' +
+          '<button class="mult-btn" onclick="changeMult('+base.id+',1)">+</button>' +
+        '</div>' +
+        // Ingredienti
+        '<div class="section-label">' +
+          '<span>🧾 Ingredienti</span>' +
+          '<button class="btn-add-ing" onclick="addIng('+base.id+')">+ Aggiungi</button>' +
+        '</div>' +
+        '<div id="ing_'+base.id+'"></div>' +
+        // Istruzioni
+        '<div class="istr-block">' +
+          '<div class="istr-title">📋 Istruzioni — modifica qui sotto</div>' +
+          '<textarea class="istr-textarea" rows="5" onchange="editedRecipes['+base.id+'].istruzioni=this.value">'+escH(r.istruzioni)+'</textarea>' +
+        '</div>' +
+        // Azioni
+        '<div class="share-bar">' +
+          '<button class="btn-wa" onclick="doScreenshot('+base.id+')">📲 Condividi su WhatsApp</button>' +
+          '<button class="btn-reset" onclick="resetRecipe('+base.id+')" title="Ripristina originale">↺</button>' +
+        '</div>' +
+      '</div>';
+
+    list.appendChild(card);
+    renderIngTable(base.id);
+  });
+}
+
+function toggleRecipe(id){
+  var card = document.getElementById('rc_'+id);
+  if(card) card.classList.toggle('open');
+}
+
+buildFilters();
+renderList();
+</script>
+</body>
+</html>
