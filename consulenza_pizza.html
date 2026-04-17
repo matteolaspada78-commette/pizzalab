@@ -185,23 +185,57 @@ select.inp-field{background-image:none}
   </div>
 </div>
 
-<!-- MODAL NUOVA PIZZA -->
-<div class="modal-bg hidden" id="modalPizza">
-  <div class="modal">
-    <span class="modal-close" onclick="closeModal('modalPizza')">✕</span>
-    <div class="modal-title">Nuova Pizza</div>
-    <div class="inp-group"><label class="inp-label">Nome pizza</label><input class="inp-field" id="mpNome" placeholder="Es. Margherita"></div>
-    <div class="inp-group"><label class="inp-label">Categoria</label>
-      <select class="inp-field" id="mpCat">
-        <option value="🔴 Rossa">🔴 Rossa</option>
-        <option value="⬜ Bianca">⬜ Bianca</option>
-        <option value="🟣 Speciale">🟣 Speciale</option>
-        <option value="🟡 Stagionale">🟡 Stagionale</option>
-        <option value="🌿 Vegana">🌿 Vegana</option>
-        <option value="🫓 Pala Ripiena">🫓 Pala Ripiena</option>
-      </select>
+<!-- PAGINA NUOVA PIZZA (inline, non modal) -->
+<div class="scroll hidden" id="pgNuovaPizza" style="padding-bottom:100px">
+
+  <!-- Nome -->
+  <div style="padding:18px 16px 10px">
+    <div style="font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;font-weight:600">Nome pizza</div>
+    <input id="npNome" type="text" placeholder="Es. Margherita Speciale..."
+      style="background:var(--bg);border:2px solid var(--gold);border-radius:12px;padding:14px 16px;color:var(--cream);font-size:18px;font-family:inherit;width:100%;outline:none;font-weight:600"
+      oninput="npNomeChange(this.value)"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('npIngr0Name')&&document.getElementById('npIngr0Name').focus();}">
+  </div>
+
+  <!-- Categoria — bottoni colorati -->
+  <div style="padding:0 16px 14px">
+    <div style="font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:10px;font-weight:600">Categoria</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px" id="npCatBtns">
+      <button onclick="npSelCat(this,'🔴 Rossa')"     style="padding:8px 14px;border-radius:20px;border:2px solid #c0392b;background:rgba(192,57,43,0.15);color:#c0392b;font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn npcat-sel">🔴 Rossa</button>
+      <button onclick="npSelCat(this,'⬜ Bianca')"    style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;color:var(--cream);font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn">⬜ Bianca</button>
+      <button onclick="npSelCat(this,'🟣 Speciale')"  style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;color:var(--cream);font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn">🟣 Speciale</button>
+      <button onclick="npSelCat(this,'🟡 Stagionale')" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;color:var(--cream);font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn">🟡 Stagionale</button>
+      <button onclick="npSelCat(this,'🌿 Vegana')"    style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;color:var(--cream);font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn">🌿 Vegana</button>
+      <button onclick="npSelCat(this,'🫓 Pala Ripiena')" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;color:var(--cream);font-size:13px;font-weight:600;cursor:pointer" class="npcat-btn">🫓 Pala Ripiena</button>
     </div>
-    <button class="btn btn-gold" onclick="savePizza()">Aggiungi Pizza</button>
+  </div>
+
+  <!-- Ingredienti -->
+  <div style="border-top:1px solid var(--border);padding-top:14px">
+    <div style="padding:0 16px 10px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;font-weight:600">Ingredienti</div>
+      <div style="font-size:11px;color:var(--dim)">nome · grammi</div>
+    </div>
+    <div id="npIngrList"></div>
+    <div style="padding:8px 16px">
+      <button onclick="npAddIngr()" style="background:transparent;border:2px dashed var(--border);border-radius:12px;color:var(--gold);font-size:14px;font-weight:600;padding:12px;width:100%;cursor:pointer;font-family:inherit">＋ Aggiungi ingrediente</button>
+    </div>
+  </div>
+
+  <!-- Finitura -->
+  <div style="padding:10px 16px">
+    <div style="font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;font-weight:600">Finitura a crudo (opzionale)</div>
+    <input id="npFinitura" type="text" placeholder="Es. Rucola fresca · basilico a crudo dopo cottura"
+      style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--cream);font-size:14px;font-family:inherit;width:100%;outline:none">
+  </div>
+
+  <!-- Bottone salva fisso in basso -->
+  <div style="position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:var(--bg);border-top:1px solid var(--border);z-index:50">
+    <button onclick="npSalva()" id="npBtnSalva"
+      style="width:100%;background:var(--gold);color:#000;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;opacity:0.4;pointer-events:none"
+      disabled>
+      Salva Pizza
+    </button>
   </div>
 </div>
 
@@ -257,8 +291,20 @@ function showToast(msg){var t=document.getElementById('toast');if(!t){t=document
 function getClient(id){return DB.clients.find(function(c){return c.id===id;});}
 function getPizza(cid,pid){return getClient(cid).pizze.find(function(p){return p.id===pid;});}
 function startApp(){document.getElementById('splash').style.display='none';document.getElementById('app').style.display='flex';nav=[];showPage('pgHome');renderHome();}
-function showPage(id){['pgHome','pgClient','pgPizza'].forEach(function(p){document.getElementById(p).classList.add('hidden');});document.getElementById(id).classList.remove('hidden');}
-function navBack(){nav.pop();var cur=nav[nav.length-1];if(!cur||cur.page==='home'){nav=[{page:'home'}];showPage('pgHome');renderHome();setHdr('Consulenza <em>Pizza</em>','Matteo La Spada',false);document.getElementById('hdrAction').classList.add('hidden');}else if(cur.page==='client'){showPage('pgClient');var c=getClient(cur.cid);setHdr(c.nome,c.citta||c.tipo,true);setAction('+ Pizza',function(){openModalPizza(cur.cid);});switchTab('pizze',document.querySelector('.tab.on')||document.querySelector('.tab'));renderPizze(cur.cid);}}
+function showPage(id){['pgHome','pgClient','pgPizza','pgNuovaPizza'].forEach(function(p){document.getElementById(p).classList.add('hidden');});document.getElementById(id).classList.remove('hidden');}
+function navBack(){
+  // Se siamo nella pagina nuova pizza, torna al client senza pop
+  if(!document.getElementById('pgNuovaPizza').classList.contains('hidden')){
+    var cid = _npCid;
+    var c = getClient(cid);
+    showPage('pgClient');
+    setHdr(c.nome, c.citta||c.tipo, true);
+    setAction('+ Pizza', function(){ openModalPizza(cid); });
+    renderPizze(cid);
+    return;
+  }
+  nav.pop();var cur=nav[nav.length-1];if(!cur||cur.page==='home'){nav=[{page:'home'}];showPage('pgHome');renderHome();setHdr('Consulenza <em>Pizza</em>','Matteo La Spada',false);document.getElementById('hdrAction').classList.add('hidden');}else if(cur.page==='client'){showPage('pgClient');var c=getClient(cur.cid);setHdr(c.nome,c.citta||c.tipo,true);setAction('+ Pizza',function(){openModalPizza(cur.cid);});switchTab('pizze',document.querySelector('.tab.on')||document.querySelector('.tab'));renderPizze(cur.cid);}
+}
 var _currentCid='';
 function openClient(cid){_currentCid=cid;nav.push({page:'client',cid:cid});var c=getClient(cid);showPage('pgClient');setHdr(c.nome,c.citta||c.tipo,true);setAction('+ Pizza',function(){openModalPizza(cid);});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.tab')[0].classList.add('on');document.getElementById('tabPizze').classList.remove('hidden');document.getElementById('tabInfo').classList.add('hidden');renderPizze(cid);}
 function openPizza(cid,pid){nav.push({page:'pizza',cid:cid,pid:pid});var p=getPizza(cid,pid);var c=getClient(cid);showPage('pgPizza');setHdr(p.nome,c.nome+' \u00b7 '+p.cat,true);setAction('\ud83d\udcc4 PDF',function(){exportPDF(cid,pid);});renderPizzaEdit(cid,pid);}
@@ -305,8 +351,129 @@ function stampaPDF(){var iframe=document.getElementById('pdfIframe');if(iframe&&
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 function saveClient(){var nome=document.getElementById('mcNome').value.trim();if(!nome)return;var id=nome.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,12)+'_'+Date.now();DB.clients.push({id:id,nome:nome,citta:document.getElementById('mcCitta').value,tipo:document.getElementById('mcTipo').value,forno:document.getElementById('mcForno').value,tCottura:250,tRigenerazione:0,tMinuti:2,vapore:false,ventilato:false,note:'',pizze:[]});save();closeModal('modalClient');renderHome();showPage('pgHome');}
-function openModalPizza(cid){_currentCid=cid;document.getElementById('mpNome').value='';var sel=document.getElementById('mpCat');if(sel)sel.selectedIndex=0;openModal('modalPizza');}
-function savePizza(){var nome=document.getElementById('mpNome').value.trim();if(!nome)return;var cid=_currentCid||nav[nav.length-1].cid;if(!cid)return;var c=getClient(cid);if(!c)return;var maxId=(c.pizze||[]).reduce(function(m,p){return Math.max(m,p.id);},0);var cat=document.getElementById('mpCat').value;c.pizze.push({id:maxId+1,nome:nome,cat:cat,stato:'\ud83d\udd2c In prova',ingredienti:[],finitura:'',cottura:{forno:c.forno,gradi:c.tCottura,minuti:c.tMinuti,rigenerazione:c.tRigenerazione,vapore:c.vapore,ventilato:c.ventilato},note:''});save();closeModal('modalPizza');document.getElementById('mpNome').value='';renderPizze(cid);}
+// ══ NUOVA PIZZA — pagina full screen ══
+var _npCid = '';
+var _npCat = '🔴 Rossa';
+var _npIngrCount = 0;
+
+function openModalPizza(cid){
+  _npCid = cid;
+  _npCat = '🔴 Rossa';
+  _npIngrCount = 0;
+  // Reset campi
+  document.getElementById('npNome').value = '';
+  document.getElementById('npFinitura').value = '';
+  document.getElementById('npIngrList').innerHTML = '';
+  // Reset categoria
+  document.querySelectorAll('.npcat-btn').forEach(function(b){
+    b.style.background = 'transparent';
+    b.style.borderColor = 'var(--border)';
+    b.style.color = 'var(--cream)';
+    b.classList.remove('npcat-sel');
+  });
+  var first = document.querySelector('.npcat-btn');
+  if(first){ first.style.background='rgba(192,57,43,0.15)'; first.style.borderColor='#c0392b'; first.style.color='#c0392b'; first.classList.add('npcat-sel'); }
+  // Disabilita salva
+  npToggleSalva(false);
+  // Aggiungi prima riga ingrediente
+  npAddIngr();
+  // Naviga alla pagina
+  var c = getClient(cid);
+  setHdr('Nuova Pizza', c.nome, true);
+  document.getElementById('hdrAction').classList.add('hidden');
+  showPage('pgNuovaPizza');
+  setTimeout(function(){ document.getElementById('npNome').focus(); }, 100);
+}
+
+function npSelCat(btn, cat){
+  _npCat = cat;
+  document.querySelectorAll('.npcat-btn').forEach(function(b){
+    b.style.background = 'transparent';
+    b.style.borderColor = 'var(--border)';
+    b.style.color = 'var(--cream)';
+    b.classList.remove('npcat-sel');
+  });
+  // Colori per categoria
+  var colors = {'🔴 Rossa':'#c0392b','⬜ Bianca':'#8a7a60','🟣 Speciale':'#7b1fa2','🟡 Stagionale':'#c8860a','🌿 Vegana':'#2e7a4f','🫓 Pala Ripiena':'#1565c0'};
+  var col = colors[cat] || 'var(--gold)';
+  btn.style.background = col + '22';
+  btn.style.borderColor = col;
+  btn.style.color = col;
+  btn.classList.add('npcat-sel');
+}
+
+function npAddIngr(){
+  var idx = _npIngrCount++;
+  var row = document.createElement('div');
+  row.id = 'nprow_' + idx;
+  row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid var(--border)';
+  row.innerHTML =
+    '<input id="npIngr'+idx+'Name" type="text" placeholder="Ingrediente..." autocomplete="off"' +
+    ' style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--cream);font-size:14px;font-family:inherit;outline:none;min-width:0"' +
+    ' oninput="npNomeChange()">' +
+    '<input id="npIngr'+idx+'G" type="number" placeholder="g" min="0" step="1"' +
+    ' style="width:64px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 8px;color:var(--gold);font-size:14px;font-family:monospace;text-align:center;outline:none">' +
+    '<span onclick="npDelIngr('+idx+')" style="color:var(--dim);font-size:20px;cursor:pointer;padding:0 4px;flex-shrink:0;line-height:1">✕</span>';
+  document.getElementById('npIngrList').appendChild(row);
+  // Focus sul campo nome del nuovo ingrediente
+  setTimeout(function(){ document.getElementById('npIngr'+idx+'Name') && document.getElementById('npIngr'+idx+'Name').focus(); }, 50);
+}
+
+function npDelIngr(idx){
+  var row = document.getElementById('nprow_' + idx);
+  if(row) row.remove();
+}
+
+function npNomeChange(){
+  var nome = document.getElementById('npNome').value.trim();
+  npToggleSalva(nome.length > 0);
+}
+
+function npToggleSalva(on){
+  var btn = document.getElementById('npBtnSalva');
+  if(!btn) return;
+  btn.disabled = !on;
+  btn.style.opacity = on ? '1' : '0.4';
+  btn.style.pointerEvents = on ? 'auto' : 'none';
+}
+
+function npSalva(){
+  var nome = document.getElementById('npNome').value.trim();
+  if(!nome) return;
+  var cid = _npCid;
+  var c = getClient(cid);
+  if(!c) return;
+  var maxId = (c.pizze||[]).reduce(function(m,p){return Math.max(m,p.id);},0);
+  // Raccoglie ingredienti
+  var ingredienti = [];
+  for(var i = 0; i < _npIngrCount; i++){
+    var nEl = document.getElementById('npIngr'+i+'Name');
+    var gEl = document.getElementById('npIngr'+i+'G');
+    if(!nEl) continue;
+    var n = nEl.value.trim();
+    if(!n) continue;
+    ingredienti.push({nome:n, g: gEl ? (parseFloat(gEl.value)||0) : 0});
+  }
+  var finitura = document.getElementById('npFinitura').value.trim();
+  c.pizze.push({
+    id: maxId+1,
+    nome: nome,
+    cat: _npCat,
+    stato: '\ud83d\udd2c In prova',
+    ingredienti: ingredienti,
+    finitura: finitura,
+    cottura:{forno:c.forno,gradi:c.tCottura,minuti:c.tMinuti,rigenerazione:c.tRigenerazione||0,vapore:c.vapore||false,ventilato:c.ventilato||false},
+    note:''
+  });
+  save();
+  // Torna alla lista pizze
+  showPage('pgClient');
+  setHdr(c.nome, c.citta||c.tipo, true);
+  setAction('+ Pizza', function(){ openModalPizza(cid); });
+  renderPizze(cid);
+}
+
+function savePizza(){ npSalva(); }
 var INGR_DB={'\ud83e\uddc0 Formaggi':[{nome:'Fiordilatte',g:80},{nome:'Mozzarella bufala',g:80},{nome:'Burrata',g:50},{nome:'Provola affumicata',g:60},{nome:'Gorgonzola',g:40},{nome:'Grana Padano DOP',g:20},{nome:'Parmigiano Reggiano',g:20},{nome:'Pecorino romano',g:15},{nome:'Ricotta',g:60},{nome:'Scamorza',g:60},{nome:'Provola di Cesar\u00f2',g:40}],'\ud83c\udf45 Basi e Salse':[{nome:'Passata pomodoro',g:80},{nome:'Pomodoro pelato schiacciato',g:80},{nome:'Passata Gustorosso 104\u00b0C',g:80},{nome:'Pomodorini datterino',g:60},{nome:'Datterino rosso semi secco',g:30},{nome:'Maionese',g:30},{nome:'Pesto genovese',g:30},{nome:'Crema di pistacchio',g:25}],'\ud83e\udd69 Salumi':[{nome:'Prosciutto crudo DOP',g:50},{nome:'Prosciutto cotto',g:60},{nome:'Mortadella',g:60},{nome:'Speck',g:50},{nome:'Salame',g:50},{nome:'Salsiccia artigianale',g:60},{nome:'Spianata piccante',g:50},{nome:'Nduja',g:30},{nome:'Pancetta',g:40},{nome:"Salame Sant'Angelo IGP",g:50}],'\ud83c\udf44 Verdure e Funghi':[{nome:'Funghi champignon',g:50},{nome:'Funghi shiitake',g:40},{nome:'Funghi nameko',g:40},{nome:'Funghi porcini',g:40},{nome:'Carciofi alla brace',g:30},{nome:'Melanzane grigliate',g:40},{nome:'Rucola fresca',g:15},{nome:'Iceberg',g:30},{nome:'Olive',g:15},{nome:'Capperi',g:10}],'\ud83d\udc1f Pesce':[{nome:'Tonno in busta',g:40},{nome:'Acciughe',g:15},{nome:'Salmone affumicato',g:50}],'\ud83c\udf3f Condimenti':[{nome:'Olio EVO',g:8},{nome:'Basilico fresco',g:5},{nome:'Origano',g:2},{nome:'Granella pistacchio',g:10},{nome:'Pepe nero',g:2}]};
 var _ingrCid='',_ingrPid=0;
 function openIngrModal(cid,pid){_ingrCid=cid;_ingrPid=pid;document.getElementById('ingrSearch').value='';document.getElementById('ingrCustomNome').value='';document.getElementById('ingrCustomG').value='';renderIngrDB('');openModal('modalIngr');}
@@ -315,7 +482,7 @@ function filterIngr(q){renderIngrDB(q);}
 function addIngrFromDB(nome,g){var p=getPizza(_ingrCid,_ingrPid);p.ingredienti=p.ingredienti||[];p.ingredienti.push({nome:nome,g:g});save();var il=document.getElementById('ingrList');if(il){var div=document.createElement('div');div.innerHTML=ingrRow(p.ingredienti.length-1,nome,g);il.appendChild(div.firstChild);}}
 function addIngrCustom(){var nome=document.getElementById('ingrCustomNome').value.trim();var g=parseFloat(document.getElementById('ingrCustomG').value)||0;if(!nome)return;addIngrFromDB(nome,g);document.getElementById('ingrCustomNome').value='';document.getElementById('ingrCustomG').value='';closeModal('modalIngr');}
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-['modalClient','modalPizza','modalImport','modalCopia'].forEach(function(id){document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});});
+['modalClient','modalImport','modalCopia'].forEach(function(id){document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});});
 </script>
 <script>
 if("serviceWorker" in navigator){
