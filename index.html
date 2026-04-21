@@ -501,6 +501,22 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
       <div class="menu-arrow">›</div>
     </div>
+    <div class="menu-btn" onclick="openPage('tondadiretta')">
+      <div class="menu-icon" style="background:rgba(200,80,0,0.35)">🔥</div>
+      <div class="menu-text">
+        <div class="menu-name">Tonda Romana Forno Diretto</div>
+        <div class="menu-sub">5046 Allegra · Olio EVO · Senza Strutto · Cottura Unica</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+    <div class="menu-btn" onclick="openPage('tondaRigenero')">
+      <div class="menu-icon" style="background:rgba(0,120,80,0.35)">♻️</div>
+      <div class="menu-text">
+        <div class="menu-name">Tonda Romana Pre-cotta Rigenero</div>
+        <div class="menu-sub">5046 Allegra · Miele · Pre-cottura + Frigo + Rigenerazione</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
     <div class="menu-section-label">⚡ Impasto Diretto</div>
     <div class="menu-btn" onclick="openPage('diretto')">
       <div class="menu-icon" style="background:rgba(230,100,0,0.3)">⚡</div>
@@ -1167,7 +1183,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="scrocchOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageScrocch','Scrocchiarella')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pageScrocch" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageScrocch','Scrocchiarella')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageScrocch','Scrocchiarella Teglia')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
@@ -1208,7 +1224,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="tondaBigaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageTondaBiga','Tonda Romana Biga')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pageTondaBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTondaBiga','Tonda Romana Biga')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageTondaBiga','Tonda Romana Biga')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
@@ -1245,7 +1261,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="tondaCrocOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageTondaCroc','Tonda Romana Croccante')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pageTondaCroc" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTondaCroc','Tonda Romana Croccante')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageTondaCroc','Tonda Romana Croccante')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
@@ -1280,7 +1296,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="palaSupremaOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pagePalaSuprema" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePalaSuprema','Pala Romana Suprema')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
@@ -1314,7 +1330,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="palaScientOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pagePalaScient','Pala Romana Scientifica')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pagePalaScient" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePalaScient','Pala Romana Scientifica')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pagePalaScient','Pala Romana Scientifica')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
@@ -1473,7 +1489,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="direttoOut"></div></div>
   </div>
-  <button class="btn-share" onclick="shareRicetta('pageDiretto','Impasto Diretto')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
+  <a id="waLink_pageDiretto" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageDiretto','Impasto Diretto')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageDiretto','Impasto Diretto')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 
   <div class="card" id="cardDirSci">
@@ -1518,6 +1534,106 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   </div>
   <a id="waLink_pageRomana" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageRomana','Romana Croccante Diretta')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageRomana','Romana Croccante')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
+</div>
+
+
+<!-- TONDA ROMANA FORNO DIRETTO -->
+<div id="pageTondaDiretta" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔥</div>
+    <div class="page-hero-title">Tonda Romana Forno Diretto</div>
+    <div class="page-hero-sub">Petra 5046 Allegra · Olio EVO 4% · Senza Strutto · Autolisi · Cottura Unica</div>
+  </div>
+  <div style="margin:0 16px 4px;background:rgba(200,80,0,0.12);border:1px solid rgba(200,80,0,0.35);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#FF8C42;text-transform:uppercase;margin-bottom:10px">🔬 Protocollo Scientifico</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Farina</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">5046 Allegra W180</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">IDR</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">56% <span style="color:var(--dim);font-size:9px">range 54-58%</span></div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Grasso</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">Olio EVO 4%</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Zucchero</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">1.5%</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Forno platea</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">320-340°C</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Cottura</div><div style="color:#FF8C42;font-weight:700;font-family:'DM Mono',monospace">4-5 min lenta</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">Senza strutto · Maglia corta W180 → croccantezza secca · Mattarello obbligatorio · Stesura da freddo</div>
+  </div>
+  <div class="card open" id="cardTDirInp">
+    <div class="card-hdr" onclick="toggleCard('cardTDirInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Kg · Grammatura · Ore · Staglio</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina 5046 Allegra</label><div class="inp-row"><input class="inp-field" id="tdirKg" type="number" value="4" min="1" max="50" step="0.5" oninput="calcTondaDiretta()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura panetti (g)</label><div class="inp-row"><input class="inp-field" id="tdirGr" type="number" value="160" min="140" max="220" step="10" oninput="calcTondaDiretta()"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="tdirIDR" type="number" value="56" min="54" max="60" step="1" oninput="calcTondaDiretta()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore totali disponibili</label><div class="inp-row"><input class="inp-field" id="tdirOre" type="number" value="10" min="6" max="14" step="1" oninput="calcTondaDiretta()"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora inizio impasto</label><div class="inp-row"><input class="inp-field" id="tdirOI" type="number" value="10" min="0" max="23" step="1" oninput="calcTondaDiretta()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="tdirTA" type="number" value="22" min="16" max="30" step="1" oninput="calcTondaDiretta()"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora staglio (vincolo)</label><div class="inp-row"><input class="inp-field" id="tdirStaglio" type="number" value="15" min="0" max="23" step="1" oninput="calcTondaDiretta()"><span class="inp-unit">:00</span></div></div>
+    </div>
+  </div>
+  <div class="card open" id="cardTDirOut">
+    <div class="card-hdr" onclick="toggleCard('cardTDirOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Ricetta Scientifica</div><div class="card-hdr-title">Grammi · Distribuzione · Timeline</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="tondaDirettaOut"></div></div>
+  </div>
+  <a id="waLink_pageTondaDiretta" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTondaDiretta','Tonda Romana Forno Diretto')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageTondaDiretta','Tonda Romana Forno Diretto')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
+</div>
+
+<!-- TONDA ROMANA PRE-COTTA RIGENERO -->
+<div id="pageTondaRigenero" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">♻️</div>
+    <div class="page-hero-title">Tonda Romana Pre-cotta Rigenero</div>
+    <div class="page-hero-sub">5046 Allegra · Miele 1% · Pre-cottura 320°C · Frigo/Freezer · Rigenero 390°C</div>
+  </div>
+  <div style="margin:0 16px 4px;background:rgba(0,120,80,0.12);border:1px solid rgba(0,180,100,0.35);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🔬 Protocollo Pre-cotta + Rigenerazione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Grasso</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">Olio EVO 3%</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Miele</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">1% <span style="color:var(--dim);font-size:9px">Maillard rigenero</span></div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">IDR</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">58%</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Pre-cottura</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">320°C · 90 sec</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Conserva</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">Frigo 3-4gg / Freezer 3 sett</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px"><div style="color:var(--dim);margin-bottom:2px">Rigenerazione</div><div style="color:#4CAF7D;font-weight:700;font-family:'DM Mono',monospace">390°C · 2-3 min</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">Miele caramellizza in rigenero → doratura esplosiva · Da frigo FREDDO diretto in forno · Mai a T ambiente prima</div>
+  </div>
+  <div class="card open" id="cardTRigInp">
+    <div class="card-hdr" onclick="toggleCard('cardTRigInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Kg · Grammatura · Ore · Conservazione</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina 5046 Allegra</label><div class="inp-row"><input class="inp-field" id="trigKg" type="number" value="4" min="1" max="50" step="0.5" oninput="calcTondaRigenero()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura panetti (g)</label><div class="inp-row"><input class="inp-field" id="trigGr" type="number" value="160" min="140" max="220" step="10" oninput="calcTondaRigenero()"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="trigIDR" type="number" value="58" min="56" max="62" step="1" oninput="calcTondaRigenero()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore totali disponibili</label><div class="inp-row"><input class="inp-field" id="trigOre" type="number" value="10" min="6" max="14" step="1" oninput="calcTondaRigenero()"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora inizio impasto</label><div class="inp-row"><input class="inp-field" id="trigOI" type="number" value="10" min="0" max="23" step="1" oninput="calcTondaRigenero()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="trigTA" type="number" value="22" min="16" max="30" step="1" oninput="calcTondaRigenero()"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">Conservazione</label>
+        <select class="inp-field" id="trigConserva" style="font-size:14px;-webkit-appearance:none" onchange="calcTondaRigenero()">
+          <option value="frigo">Frigo 4°C — max 3-4 giorni</option>
+          <option value="freezer">Freezer -18°C — max 3 settimane</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card open" id="cardTRigOut">
+    <div class="card-hdr" onclick="toggleCard('cardTRigOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Ricetta Scientifica</div><div class="card-hdr-title">Grammi · Pre-cottura · Rigenerazione</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="tondaRigeneroOut"></div></div>
+  </div>
+  <a id="waLink_pageTondaRigenero" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTondaRigenero','Tonda Romana Pre-cotta Rigenero')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageTondaRigenero','Tonda Romana Pre-cotta Rigenero')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <!-- DIARIO DI PRODUZIONE -->
@@ -2475,7 +2591,9 @@ const pages={
   tegliapf:'pageTegliaPF',
   diario:'pageDiario',
   diretto:'pageDiretto',
-  romana:'pageRomana'
+  romana:'pageRomana',
+  tondadiretta:'pageTondaDiretta',
+  tondaRigenero:'pageTondaRigenero'
 };
 const titles={
   motore:['🔬 Motore Scientifico','Reologia · Fermentazione · Cottura'],
@@ -2491,7 +2609,9 @@ const titles={
   tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
   diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico'],
-  romana:['🫓 Romana Croccante','5046 Allegra · Diretta · Mattarello']
+  romana:['🫓 Romana Croccante','5046 Allegra · Diretta · Mattarello'],
+  tondadiretta:['🔥 Tonda Romana Forno Diretto','5046 Allegra · Olio EVO · Senza Strutto · Cottura Unica'],
+  tondaRigenero:['♻️ Tonda Romana Pre-cotta Rigenero','5046 Allegra · Miele · Pre-cottura + Conserva + Rigenerazione']
 };
 
 let currentPage='home';
@@ -2629,6 +2749,174 @@ function calcAll(){
   else if(currentPage==='tegliapf') calcTegliaPF();
   else if(currentPage==='diretto') calcDiretto();
   else if(currentPage==='romana') calcRomana();
+  else if(currentPage==='tondadiretta') calcTondaDiretta();
+  else if(currentPage==='tondaRigenero') calcTondaRigenero();
+}
+
+
+// ══════════════════════════════════════════════
+// TONDA ROMANA FORNO DIRETTO
+// ══════════════════════════════════════════════
+function calcTondaDiretta(){
+  var kg=G('tdirKg')||4,gr=G('tdirGr')||160,idr=G('tdirIDR')||56;
+  var ore=G('tdirOre')||10,oi=G('tdirOI')||10,ta=G('tdirTA')||22;
+  var staglio=G('tdirStaglio')||15;
+  // LdB Monod-Arrhenius calibrato
+  var ldbBase;
+  if(ta<=18)ldbBase=0.55; else if(ta<=20)ldbBase=0.45; else if(ta<=22)ldbBase=0.4; else if(ta<=24)ldbBase=0.5; else ldbBase=0.6;
+  if(ore<=7)ldbBase=Math.min(1.2,ldbBase*1.5); else if(ore>=11)ldbBase=Math.max(0.2,ldbBase*0.65);
+  ldbBase=Math.round(ldbBase*10)/10;
+  var ldb=Math.round(kg*ldbBase/100*1000);
+  var acqTot=Math.round(kg*idr/100*1000);
+  var sale=Math.round(kg*2.5/100*1000);
+  var zuc=Math.round(kg*1.5/100*1000);
+  var olio=Math.round(kg*4/100*1000);
+  var acqAut=Math.round(acqTot*0.70);
+  var acqSale=Math.round(acqTot*0.20);
+  var acqBass=acqTot-acqAut-acqSale;
+  var pan=Math.floor((kg*1000+acqTot+sale+zuc+olio)/gr);
+  // Puntata = da fine impasto allo staglio meno appretto
+  var puntataOre=staglio>=oi+0.5?staglio-oi-0.5:24-oi-0.5+staglio;
+  puntataOre=Math.round(puntataOre*10)/10;
+  var apprettoH=Math.max(3,Math.round(ore*0.35));
+  var frigoOra=((staglio+apprettoH)%24);
+  var fornoOra=((frigoOra+0.5)%24);
+  var puntSem,puntMsg;
+  if(puntataOre<1.5){puntSem='warn';puntMsg='⚠️ Puntata breve ('+puntataOre+'h) — impasta più tardi';}
+  else if(puntataOre<=3.5){puntSem='ok';puntMsg='✅ Puntata ottimale ('+puntataOre+'h) — maglia con tensione giusta';}
+  else if(puntataOre<=5){puntSem='warn';puntMsg='⚠️ Puntata lunga ('+puntataOre+'h) — controlla T uscita impasto';}
+  else{puntSem='bad';puntMsg='❌ Puntata troppo lunga ('+puntataOre+'h) — anticipa lo staglio';}
+  var Tacq=Math.round((22*3.75-18*1.63-ta*1.12-7.8*3.75)*10)/10;
+  document.getElementById('tondaDirettaOut').innerHTML=
+    sem(puntMsg,puntSem)+
+    '<div class="res-section"><div class="res-label">Ricetta — '+kg+'kg Petra 5046 Allegra</div>'+
+    row('Petra 5046 Allegra (100%)',kg*1000+'g','W180 · proteine corte · croccantezza secca')+
+    row('Acqua (IDR '+idr+'%)',acqTot+'g','')+
+    row('LdB fresco ('+ldbBase+'%)',ldb+'g','per '+ore+'h a '+ta+'°C')+
+    row('Sale (2.5%)',sale+'g','')+
+    row('Zucchero semolato (1.5%)',zuc+'g','doratura — NO Maillard aggressivo')+
+    row('Olio EVO (4%)',olio+'g','a filo 2ª vel · NO strutto')+
+    row('Panetti da '+gr+'g',pan+' panetti','',true)+
+    '</div>'+
+    '<div class="res-section"><div class="res-label">Distribuzione Acqua</div>'+
+    row('① Autolisi 15min (70%)',acqAut+'g','T '+Tacq+'°C · solo farina+acqua · NO lievito')+
+    row('② Con sale (20%)',acqSale+'g','sale sciolto qui')+
+    row('③ Bassinage finale (10%)',acqBass+'g','a filo 8°C lentissimo')+
+    '</div>'+
+    sem('⚙️ Macchina: farina+acqua 4min 1ª vel → FERMO 15min autolisi → LdB+Zucchero 3min → Sale+acqua 3min → 5min 2ª vel olio a filo → bassinage','info')+
+    '<div class="res-section"><div class="res-label">Timeline — Staglio ore '+H(staglio)+'</div>'+
+    row('Puntata in frigo 4°C',puntataOre+'h','blocca fermentazione · struttura compatta')+
+    row('Staglio',H(staglio),pan+' panetti da '+gr+'g · chiusura stretta')+
+    row('Appretto a '+ta+'°C',apprettoH+'h','coperto fuori frigo')+
+    row('Pre-frigo 20min',H(frigoOra),'panetti si rassodano')+
+    row('FORNO',H(fornoOra),'stendi da freddo · mattarello · 1.5mm',true)+
+    '</div>'+
+    tl([
+      [H(oi),'⚙️ IMPASTO + AUTOLISI 15min',kg*1000+'g farina + '+acqAut+'g acqua a '+Tacq+'°C'],
+      [H(oi+0.25),'▶️ RIPRENDI','LdB '+ldb+'g + zucchero '+zuc+'g → sale → olio EVO '+olio+'g'],
+      [H(oi+0.5),'❄️ FRIGO 4°C — puntata','fermentazione bloccata · struttura compatta'],
+      [H(staglio),'✂️ STAGLIO',pan+' panetti da '+gr+'g · chiudi bene sotto'],
+      [H(staglio+1),'🌡️ APPRETTO a '+ta+'°C',apprettoH+'h coperto · non spostare'],
+      [H(frigoOra),'❄️ 20min FRIGO','panetti si rassodano → stesura perfetta'],
+      [H(fornoOra),'🔥 FORNO 320-340°C PLATEA','280°C cielo · 4-5 min · non aprire i primi 3min']
+    ])+
+    '<div style="margin-top:14px;background:rgba(200,80,0,0.1);border:1px solid rgba(200,80,0,0.3);border-radius:12px;padding:12px 14px">'+
+    '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#FF8C42;text-transform:uppercase;margin-bottom:8px">🔑 Regole Croccantezza Assoluta</div>'+
+    '<div style="font-size:12px;color:var(--dim);line-height:1.9">'+
+    '• <span style="color:var(--cream);font-weight:600">Mattarello obbligatorio</span> — mai stendere a mano<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Spessore 1.5mm</span> — usa stecchini come guida laterale<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Bucherella tutta</span> la superficie col rullo prima del condimento<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Stendi FREDDO</span> — panetto da frigo non si ritira<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Cottura lenta 4-5min</span> — non rapida — asciuga bene l&#39;interno<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Platea 320-340°C</span> · cielo 280°C'+
+    '</div></div>';
+}
+
+// ══════════════════════════════════════════════
+// TONDA ROMANA PRE-COTTA RIGENERO
+// ══════════════════════════════════════════════
+function calcTondaRigenero(){
+  var kg=G('trigKg')||4,gr=G('trigGr')||160,idr=G('trigIDR')||58;
+  var ore=G('trigOre')||10,oi=G('trigOI')||10,ta=G('trigTA')||22;
+  var conservaEl=document.getElementById('trigConserva');
+  var conserva=conservaEl?conservaEl.value:'frigo';
+  // LdB calibrato
+  var ldbBase;
+  if(ta<=18)ldbBase=0.5; else if(ta<=20)ldbBase=0.4; else if(ta<=22)ldbBase=0.35; else if(ta<=24)ldbBase=0.45; else ldbBase=0.55;
+  if(ore<=7)ldbBase=Math.min(1.2,ldbBase*1.5); else if(ore>=11)ldbBase=Math.max(0.2,ldbBase*0.7);
+  ldbBase=Math.round(ldbBase*10)/10;
+  var ldb=Math.round(kg*ldbBase/100*1000);
+  var acqTot=Math.round(kg*idr/100*1000);
+  var sale=Math.round(kg*2.5/100*1000);
+  var zuc=Math.round(kg*1.5/100*1000);
+  var olio=Math.round(kg*3/100*1000);
+  var miele=Math.round(kg*1/100*1000);
+  var acqAut=Math.round(acqTot*0.70);
+  var acqSale=Math.round(acqTot*0.20);
+  var acqBass=acqTot-acqAut-acqSale;
+  var pan=Math.floor((kg*1000+acqTot+sale+zuc+olio+miele)/gr);
+  var staglio=((oi+Math.round(ore*0.45*10)/10)%24);
+  var apprettoH=Math.max(3,Math.round(ore*0.35));
+  var frigoOra=((staglio+apprettoH)%24);
+  var precottaOra=((frigoOra+0.5)%24);
+  var conservaLabel=conserva==='freezer'?'❄️ Freezer -18°C · max 3 settimane · sottovuoto':'🌡️ Frigo 4°C · max 3-4 giorni · bustina sigillata';
+  var Tacq=Math.round((22*3.75-18*1.63-ta*1.12-7.8*3.75)*10)/10;
+  var tForno=conserva==='freezer'?400:390;
+  document.getElementById('tondaRigeneroOut').innerHTML=
+    sem('🍯 Miele 1% attivo: caramellizza nella rigenerazione → doratura esplosiva e croccantezza perfetta in soli 2 min','ok')+
+    '<div class="res-section"><div class="res-label">Ricetta — '+kg+'kg Petra 5046 Allegra</div>'+
+    row('Petra 5046 Allegra (100%)',kg*1000+'g','W180 · proteine corte')+
+    row('Acqua (IDR '+idr+'%)',acqTot+'g','IDR 58% per umidità residua pre-cottura')+
+    row('LdB fresco ('+ldbBase+'%)',ldb+'g','per '+ore+'h a '+ta+'°C')+
+    row('Sale (2.5%)',sale+'g','')+
+    row('Zucchero (1.5%)',zuc+'g','')+
+    row('Miele millefiori (1%)',miele+'g','✅ SOLO per rigenero — Maillard + igroscopicità + diastasi')+
+    row('Olio EVO (3%)',olio+'g','film anti-retrogradazione per conservazione')+
+    row('Panetti da '+gr+'g',pan+' panetti','',true)+
+    '</div>'+
+    '<div class="res-section"><div class="res-label">Distribuzione Acqua</div>'+
+    row('① Autolisi 15min (70%)',acqAut+'g','T '+Tacq+'°C · farina+acqua soli')+
+    row('② Con sale (20%)',acqSale+'g','')+
+    row('③ Bassinage (10%)',acqBass+'g','a filo 8°C')+
+    '</div>'+
+    sem('⚙️ Macchina: autolisi 15min → LdB+Zucchero+Miele → Sale+acqua → 2ª vel con olio 3% a filo → bassinage','info')+
+    '<div class="res-section"><div class="res-label">PRE-COTTURA — Fase 1</div>'+
+    row('Forno','320°C platea · 240°C cielo','')+
+    row('Tempo','90 secondi','pallida · quasi bianca · non deve colorare')+
+    row('Aspetto uscita','bianca opaca — tipo piadina rigida','')+
+    row('Condimento','❌ NO — base nuda','condisci solo al momento del rigenero')+
+    row('Abbattimento','SUBITO a caldo','non aspettare · abbatti o frigo immediato',true)+
+    '</div>'+
+    '<div class="res-section"><div class="res-label">CONSERVAZIONE</div>'+
+    row('Metodo',conservaLabel,'')+
+    row('Imballaggio','Bustina sigillata / sottovuoto','pellicola a contatto diretto sulla base')+
+    '</div>'+
+    '<div class="res-section"><div class="res-label">RIGENERAZIONE — Fase 2</div>'+
+    row('Partenza','FREDDO — direttamente da '+(conserva==='freezer'?'freezer':'frigo'),'❌ mai portare a T ambiente prima')+
+    row('Condimento','Pomodoro + mozzarella + tutto subito','condisci la base ancora fredda')+
+    row('Forno rigenerazione',tForno+'°C platea','')+
+    row('Tempo','2-3 minuti','miele caramellizza → doratura esplosiva',true)+
+    '</div>'+
+    tl([
+      [H(oi),'⚙️ AUTOLISI 15min',kg*1000+'g farina + '+acqAut+'g acqua a '+Tacq+'°C'],
+      [H(oi+0.25),'▶️ IMPASTO','LdB '+ldb+'g + Zucchero '+zuc+'g + Miele '+miele+'g → Sale → Olio '+olio+'g'],
+      [H(oi+0.5),'❄️ FRIGO 4°C — puntata','struttura compatta'],
+      [H(staglio),'✂️ STAGLIO',pan+' panetti da '+gr+'g'],
+      [H(staglio+1),'🌡️ APPRETTO a '+ta+'°C',apprettoH+'h fuori frigo coperto'],
+      [H(frigoOra),'❄️ 20min FRIGO','panetti si rassodano'],
+      [H(precottaOra),'🔥 PRE-COTTURA 320°C','90 sec · base bianca · abbatti/frigo SUBITO'],
+      ['','📦 CONSERVA',conservaLabel],
+      ['','♻️ RIGENERO '+tForno+'°C','condisci freddo → 2-3 min → croccantezza esplosiva 🔥']
+    ])+
+    '<div style="margin-top:14px;background:rgba(0,120,80,0.1);border:1px solid rgba(0,180,100,0.3);border-radius:12px;padding:12px 14px">'+
+    '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:8px">🔑 Perché il Miele — Non lo Zucchero</div>'+
+    '<div style="font-size:12px;color:var(--dim);line-height:1.9">'+
+    '• <span style="color:var(--cream);font-weight:600">Fruttosio igroscopico</span> — la base non si secca nel frigo/freezer<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Glucosio + Maillard</span> — colore dorato in soli 2 min di rigenero<br>'+
+    '• <span style="color:var(--cream);font-weight:600">pH 3.9-4.5</span> — stabilizza la conservazione<br>'+
+    '• <span style="color:var(--cream);font-weight:600">Diastasi naturale</span> — amidi degradati → croccantezza superiore<br>'+
+    '• Nella <span style="color:#FF8C42;font-weight:600">cottura unica diretta NON serve</span> — per il rigenero è fondamentale'+
+    '</div></div>';
 }
 
 function calcMotore(){
