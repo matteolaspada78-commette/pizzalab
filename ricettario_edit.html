@@ -190,6 +190,104 @@ header{
   background:#FFFDF8;color:#1E1208;
   font-family:'Georgia',serif;padding:28px 24px;
 }
+
+/* ── FAB NUOVA RICETTA ── */
+.fab{
+  position:fixed;bottom:28px;right:20px;z-index:200;
+  width:58px;height:58px;border-radius:50%;
+  background:var(--accent);border:none;
+  box-shadow:0 4px 18px rgba(139,74,28,0.45);
+  font-size:28px;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.fab:active{transform:scale(0.93);box-shadow:0 2px 10px rgba(139,74,28,0.35)}
+
+/* ── MODAL NUOVA RICETTA ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(30,18,8,0.55);z-index:300;
+  display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex}
+.modal-sheet{
+  background:var(--surface);border-radius:24px 24px 0 0;
+  width:100%;max-width:600px;
+  max-height:92vh;overflow-y:auto;
+  padding:0 0 env(safe-area-inset-bottom,20px);
+  animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--border);
+}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--accent);font-style:italic}
+.modal-close{background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;padding:4px 8px;line-height:1}
+.modal-body{padding:16px 20px}
+
+/* Campi del form */
+.form-row{margin-bottom:14px}
+.form-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-family:'DM Mono',monospace;font-weight:600;margin-bottom:6px;display:block}
+.form-input{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:12px;padding:11px 14px;
+  font-family:'Source Serif 4',serif;font-size:14px;color:var(--text);outline:none;
+}
+.form-input:focus{border-color:var(--accent2);background:#fff}
+.form-row-2{display:flex;gap:10px}
+.form-row-2 .form-row{flex:1;margin-bottom:0}
+
+/* Ingredienti nel form */
+.new-ing-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.new-ing-row{display:flex;gap:6px;align-items:center}
+.new-ing-row input[type=text]{
+  flex:2;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:9px 12px;font-size:13px;font-family:'Source Serif 4',serif;color:var(--text);outline:none;
+}
+.new-ing-row input[type=text]:focus{border-color:var(--accent2)}
+.new-ing-row input[type=number]{
+  flex:1;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:9px 10px;font-size:13px;font-family:'DM Mono',monospace;color:var(--accent);outline:none;text-align:center;
+}
+.new-ing-row input[type=number]:focus{border-color:var(--accent2)}
+.new-ing-row input.unit-in{
+  flex:0 0 52px;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:9px 6px;font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);outline:none;text-align:center;
+}
+.new-ing-row input.unit-in:focus{border-color:var(--accent2)}
+.btn-del-row{background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;padding:4px;flex-shrink:0}
+.btn-del-row:active{color:var(--red)}
+
+.btn-add-row{
+  background:rgba(196,120,42,0.1);border:1.5px dashed rgba(196,120,42,0.4);
+  border-radius:10px;padding:9px;width:100%;
+  font-family:'DM Mono',monospace;font-size:12px;color:var(--accent2);cursor:pointer;
+}
+.btn-add-row:active{background:rgba(196,120,42,0.2)}
+
+/* Bottoni azione modal */
+.modal-actions{display:flex;gap:10px;padding:16px 20px 4px;border-top:1px solid var(--border);margin-top:16px}
+.btn-salva{
+  flex:1;background:var(--accent);border:none;border-radius:14px;
+  padding:15px;font-family:'Source Serif 4',serif;font-size:15px;font-weight:600;color:#fff;cursor:pointer;
+}
+.btn-salva:active{opacity:0.85}
+.btn-annulla{
+  background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;
+  padding:15px 18px;font-family:inherit;font-size:14px;color:var(--muted);cursor:pointer;
+}
+.btn-annulla:active{background:var(--border)}
+
+/* Badge CUSTOM sulla card */
+.recipe-tag.custom{background:rgba(45,106,79,0.12);border-color:rgba(45,106,79,0.3);color:var(--green)}
+.btn-delete-recipe{
+  background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;
+  padding:6px 8px;border-radius:8px;margin-left:4px;
+}
+.btn-delete-recipe:active{background:rgba(192,57,43,0.1);color:var(--red)}
 </style>
 </head>
 <body>
@@ -212,6 +310,50 @@ header{
 <div class="count-bar" id="countBar"></div>
 <div class="recipe-list" id="recipeList"></div>
 <div class="toast" id="toast"></div>
+
+<!-- FAB -->
+<button class="fab" onclick="openModal()" title="Nuova Ricetta">+</button>
+
+<!-- MODAL NUOVA RICETTA -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal-sheet" id="modalSheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-title">Nuova Ricetta</span>
+      <button class="modal-close" onclick="closeModal()">X</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row-2">
+        <div class="form-row" style="flex:0 0 80px">
+          <label class="form-label">Emoji</label>
+          <input class="form-input" id="new_emoji" type="text" value="" maxlength="4" placeholder="🍕" style="text-align:center;font-size:24px;padding:8px">
+        </div>
+        <div class="form-row" style="flex:1">
+          <label class="form-label">Nome Ricetta</label>
+          <input class="form-input" id="new_title" type="text" placeholder="Es. Crema di ricotta...">
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:14px">
+        <label class="form-label">Categoria</label>
+        <input class="form-input" id="new_tag" type="text" placeholder="Es. Salse &amp; Creme, Verdure..." list="tags-datalist">
+        <datalist id="tags-datalist"></datalist>
+      </div>
+      <div class="form-row" style="margin-top:14px">
+        <label class="form-label">Ingredienti</label>
+        <div class="new-ing-list" id="newIngList"></div>
+        <button class="btn-add-row" onclick="addNewIngRow()">+ Aggiungi ingrediente</button>
+      </div>
+      <div class="form-row" style="margin-top:14px">
+        <label class="form-label">Istruzioni</label>
+        <textarea class="form-input" id="new_istr" rows="5" placeholder="1. Prima cosa&#10;2. Seconda cosa..." style="resize:vertical;min-height:90px;line-height:1.7"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-annulla" onclick="closeModal()">Annulla</button>
+        <button class="btn-salva" onclick="saveNewRecipe()">Salva Ricetta</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 /*!
@@ -366,11 +508,13 @@ var BASE_RECIPES = [
 // ── STATO CON PERSISTENZA localStorage ──
 var multipliers = {};
 var editedRecipes = {};
+var customRecipes = []; // ricette create dall'utente
 
 function saveToStorage(){
   try{
     localStorage.setItem('ricettario_recipes', JSON.stringify(editedRecipes));
     localStorage.setItem('ricettario_mult', JSON.stringify(multipliers));
+    localStorage.setItem('ricettario_custom', JSON.stringify(customRecipes));
   }catch(e){}
 }
 
@@ -378,8 +522,10 @@ function loadFromStorage(){
   try{
     var savedR = localStorage.getItem('ricettario_recipes');
     var savedM = localStorage.getItem('ricettario_mult');
+    var savedC = localStorage.getItem('ricettario_custom');
     if(savedR) editedRecipes = JSON.parse(savedR);
     if(savedM) multipliers = JSON.parse(savedM);
+    if(savedC) customRecipes = JSON.parse(savedC);
   }catch(e){}
 }
 
@@ -395,9 +541,23 @@ BASE_RECIPES.forEach(function(r){
   if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
   if(!multipliers[r.id]) multipliers[r.id] = 1;
 });
+// Assicura le custom in editedRecipes
+customRecipes.forEach(function(r){
+  if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
+  if(!multipliers[r.id]) multipliers[r.id] = 1;
+});
 
-var tags = ['Tutte'];
-BASE_RECIPES.forEach(function(r){ if(tags.indexOf(r.tag)===-1) tags.push(r.tag); });
+function getAllRecipes(){
+  return BASE_RECIPES.concat(customRecipes);
+}
+
+var allTags = ['Tutte'];
+function rebuildTags(){
+  allTags = ['Tutte'];
+  getAllRecipes().forEach(function(r){ if(allTags.indexOf(r.tag)===-1) allTags.push(r.tag); });
+}
+rebuildTags();
+
 var activeTag = 'Tutte';
 var searchTerm = '';
 
@@ -420,18 +580,134 @@ function showToast(msg){
 // ── FILTRI ──
 function buildFilters(){
   var row = document.getElementById('filterRow');
-  row.innerHTML = tags.map(function(t){
+  row.innerHTML = allTags.map(function(t){
     return '<button class="filter-btn'+(t===activeTag?' active':'')+'" onclick="setTag(\''+t+'\')">'+t+'</button>';
   }).join('');
 }
 function setTag(t){ activeTag=t; buildFilters(); renderList(); }
 function filterRecipes(v){ searchTerm=v.toLowerCase(); renderList(); }
 function getFiltered(){
-  return BASE_RECIPES.filter(function(r){
+  return getAllRecipes().filter(function(r){
     var mt = activeTag==='Tutte' || r.tag===activeTag;
     var ms = !searchTerm || r.title.toLowerCase().indexOf(searchTerm)!==-1 || r.tag.toLowerCase().indexOf(searchTerm)!==-1;
     return mt && ms;
   });
+}
+
+// ── MODAL NUOVA RICETTA ──
+var newIngRows = [];
+
+function openModal(){
+  newIngRows = [];
+  document.getElementById('new_emoji').value = '';
+  document.getElementById('new_title').value = '';
+  document.getElementById('new_tag').value = '';
+  document.getElementById('new_istr').value = '';
+  // Popola datalist categorie
+  var dl = document.getElementById('tags-datalist');
+  dl.innerHTML = allTags.filter(function(t){return t!=='Tutte';}).map(function(t){return '<option value="'+t+'">';}).join('');
+  renderNewIngRows();
+  addNewIngRow();
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnBg(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function renderNewIngRows(){
+  var list = document.getElementById('newIngList');
+  list.innerHTML = newIngRows.map(function(row, i){
+    return '<div class="new-ing-row" id="nir_'+i+'">' +
+      '<input type="text" placeholder="Ingrediente" value="'+escH(row.nome||'')+'" onchange="newIngRows['+i+'].nome=this.value">' +
+      '<input type="number" placeholder="qty" min="0" step="any" value="'+(row.qty||'')+'" onchange="newIngRows['+i+'].qty=parseFloat(this.value)||0">' +
+      '<input type="text" class="unit-in" placeholder="g" value="'+escH(row.unit||'g')+'" onchange="newIngRows['+i+'].unit=this.value||\'g\'">' +
+      '<button class="btn-del-row" onclick="removeNewIngRow('+i+')" title="Rimuovi">✕</button>' +
+    '</div>';
+  }).join('');
+}
+
+function addNewIngRow(){
+  newIngRows.push({nome:'', qty:0, unit:'g'});
+  renderNewIngRows();
+  // focus sull'ultimo campo nome
+  setTimeout(function(){
+    var rows = document.querySelectorAll('#newIngList .new-ing-row');
+    if(rows.length){ var inp = rows[rows.length-1].querySelector('input[type=text]'); if(inp) inp.focus(); }
+  }, 50);
+}
+
+function removeNewIngRow(i){
+  newIngRows.splice(i,1);
+  renderNewIngRows();
+}
+
+function saveNewRecipe(){
+  var emoji = document.getElementById('new_emoji').value.trim() || '🍕';
+  var title = document.getElementById('new_title').value.trim();
+  var tag   = document.getElementById('new_tag').value.trim() || 'Altro';
+  var istr  = document.getElementById('new_istr').value.trim();
+
+  if(!title){ showToast('⚠️ Inserisci un nome!'); return; }
+
+  // Sincronizza i valori dagli input prima di salvare
+  var ings = [];
+  var rows = document.querySelectorAll('#newIngList .new-ing-row');
+  rows.forEach(function(row, i){
+    var inputs = row.querySelectorAll('input');
+    var nome = inputs[0].value.trim();
+    if(!nome) return;
+    var qty  = parseFloat(inputs[1].value) || 0;
+    var unit = inputs[2].value.trim() || 'g';
+    ings.push({nome:nome, qty:qty, unit:unit});
+  });
+
+  // ID univoco basato su timestamp
+  var newId = 'c' + Date.now();
+
+  var newRecipe = {
+    id: newId,
+    emoji: emoji,
+    title: title,
+    tag: tag,
+    ingredienti: ings,
+    istruzioni: istr,
+    isCustom: true
+  };
+
+  customRecipes.push(newRecipe);
+  editedRecipes[newId] = JSON.parse(JSON.stringify(newRecipe));
+  multipliers[newId] = 1;
+  saveToStorage();
+  rebuildTags();
+  buildFilters();
+  renderList();
+  closeModal();
+  showToast('Ricetta salvata!');
+
+  // Apri la card appena creata
+  setTimeout(function(){
+    var card = document.getElementById('rc_'+newId);
+    if(card){ card.classList.add('open'); card.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }, 100);
+}
+
+function deleteCustomRecipe(id){
+  if(!confirm('Eliminare questa ricetta?')) return;
+  customRecipes = customRecipes.filter(function(r){ return r.id !== id; });
+  delete editedRecipes[id];
+  delete multipliers[id];
+  saveToStorage();
+  rebuildTags();
+  buildFilters();
+  renderList();
+  showToast('Ricetta eliminata');
 }
 
 // ── RENDER INGREDIENTI EDITABILI ──
@@ -500,8 +776,14 @@ function addIng(id){
   }, 50);
 }
 function resetRecipe(id){
+  var baseR = BASE_RECIPES.find(function(r){return r.id===id;});
+  if(!baseR){
+    // ricetta custom: non c'è originale, chiedi conferma eliminazione
+    if(confirm('Questa è una ricetta personalizzata. Eliminarla?')) deleteCustomRecipe(id);
+    return;
+  }
   if(!confirm('Ripristinare la ricetta originale?')) return;
-  editedRecipes[id] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===id;})));
+  editedRecipes[id] = JSON.parse(JSON.stringify(baseR));
   multipliers[id] = 1;
   saveToStorage();
   var wasOpen = document.getElementById('rc_'+id) && document.getElementById('rc_'+id).classList.contains('open');
@@ -613,8 +895,9 @@ function renderList(){
         '<div class="recipe-info">' +
           '<div class="recipe-title">'+escH(r.title)+'</div>' +
           '<div class="recipe-meta">'+r.ingredienti.length+' ingredienti</div>' +
-          '<span class="recipe-tag">'+r.tag+'</span>' +
+          '<span class="recipe-tag'+(base.isCustom?' custom':'')+'">'+r.tag+(base.isCustom?' ✦':'')+'</span>' +
         '</div>' +
+        (base.isCustom ? '<button class="btn-delete-recipe" onclick="event.stopPropagation();deleteCustomRecipe(\''+base.id+'\')" title="Elimina">🗑</button>' : '') +
         '<span class="recipe-arrow">▼</span>' +
       '</div>' +
       '<div class="recipe-body">' +
@@ -653,6 +936,7 @@ function toggleRecipe(id){
   if(card) card.classList.toggle('open');
 }
 
+rebuildTags();
 buildFilters();
 renderList();
 </script>
