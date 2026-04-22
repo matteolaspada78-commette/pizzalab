@@ -332,7 +332,7 @@ thead th {
   color: var(--gold-light); font-weight: 500;
   border-bottom: 1px solid var(--gold-dim);
 }
-thead th:first-child { color: var(--white-40); }
+thead th:first-child { color: var(--white); }
 tbody tr {
   border-bottom: 1px solid rgba(200,149,42,0.1);
   transition: background 0.25s;
@@ -341,14 +341,14 @@ tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: rgba(200,149,42,0.05); }
 td {
   padding: 18px 28px; font-size: 14px;
-  color: var(--white-70); vertical-align: middle; line-height: 1.5;
+  color: var(--white); vertical-align: middle; line-height: 1.5;
 }
 td:first-child {
   font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--white-40); font-weight: 400;
+  color: var(--white); font-weight: 400;
 }
 .td-yes { color: var(--gold-light) !important; font-weight: 500 !important; font-size:14px !important; }
-.td-no  { color: rgba(255,255,255,0.22) !important; }
+.td-no  { color: rgba(255,255,255,0.85) !important; }
 
 /* ══════════════════════════════
    MERCATO
@@ -466,6 +466,7 @@ footer {
   .steps-row { grid-template-columns:1fr; }
   .steps-row::before { display:none; }
   .mercato-grid { grid-template-columns:1fr; }
+  .soci-grid { grid-template-columns:repeat(2,1fr); }
   nav { padding:18px 30px; }
   .nav-links { gap:20px; }
 }
@@ -479,8 +480,12 @@ footer {
   .num-val { font-size:50px; }
 }
 
+/* ── LABEL SIZE FIX ── */
+.sec-label, .sec-label.r { font-size: 13px !important; letter-spacing: 5px; }
+
 /* ── MOBILE BACKGROUND FIX ── */
 html, body { background-color: #0C0B09 !important; }
+.soci-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
 section, div[id], .sec, .sec-full, #manifesto, #numeri, #prodotti, #processo, #confronto, #mercato, #contatto {
   background-color: #0C0B09;
 }
@@ -626,7 +631,7 @@ section, div[id], .sec, .sec-full, #manifesto, #numeri, #prodotti, #processo, #c
 .team-inner { max-width: 1200px; margin: 0 auto; }
 
 .soci-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 2px; margin-top: 56px;
 }
 .socio-card {
@@ -726,7 +731,7 @@ section, div[id], .sec, .sec-full, #manifesto, #numeri, #prodotti, #processo, #c
 .claim-text em { color: var(--gold-light); font-style: normal; }
 
 @media (max-width:1024px) {
-  .soci-grid { grid-template-columns: 1fr; }
+  .soci-grid { grid-template-columns: repeat(2, 1fr); }
   .impresa-grid { grid-template-columns: 1fr; }
   #team { padding: 80px 40px; }
   .team-claim { flex-direction: column; gap: 20px; }
@@ -963,111 +968,37 @@ section, div[id], .sec, .sec-full, #manifesto, #numeri, #prodotti, #processo, #c
   </div>
 </section>
 
-<!-- ── MATTEO LA SPADA ── -->
-<section id="matteo" style="background:#0C0B09 !important;">
-  <div class="matteo-inner">
-    <div class="matteo-left r">
-      <div class="sec-label">I Fondatori</div>
-      <h2 class="matteo-name">Matteo<br>La Spada</h2>
-      <p class="matteo-role">Pizzaiolo · Consulente · Co-Fondatore Scirocco</p>
-      <p class="matteo-bio">Messinese, classe 1978. <strong>Dal 1999 nel mondo dell'arte bianca</strong>, Matteo non è figlio d'arte — è figlio della ricerca. Ha costruito la sua competenza su migliaia di impasti sbagliati, corretti, perfezionati.</p>
-      <p class="matteo-bio">Dal 2014 è la mente creativa e tecnica de <strong>L'Orso di Messina</strong>, che ha trasformato da semplice pizzeria a riferimento nazionale, conquistando i massimi riconoscimenti delle principali guide di settore italiane — per la prima volta in Sicilia.</p>
-      <p class="matteo-bio">La sua filosofia: <strong>fisica, chimica e rispetto della materia prima</strong>. Non tradizione per tradizione, ma scienza al servizio del gusto.</p>
-    </div>
-    <div class="r r1">
-      <div class="sec-label">Il Medagliere</div>
-      <div class="awards-list">
-        <div class="award-row">
-          <span class="award-icon">🏅</span>
-          <div class="award-text">
-            <strong>Tre Spicchi Gambero Rosso · 2024 & 2025</strong>
-            Massimo riconoscimento per la pizza tonda — L'Orso, Messina. Confermato per il quinto anno consecutivo.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">🏅</span>
-          <div class="award-text">
-            <strong>Tre Rotelle Gambero Rosso · 2024 & 2025</strong>
-            Unica pizzeria in Sicilia a ottenere questo riconoscimento per la pizza in teglia — L'Orso in Teglia.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">🥇</span>
-          <div class="award-text">
-            <strong>50 Top Pizza Italia 2024 — 49° posto</strong>
-            Tra le 50 migliori pizzerie d'Italia. L'Orso unica insegna siciliana ai vertici della classifica nazionale.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">🥇</span>
-          <div class="award-text">
-            <strong>50 Top Pizza in Viaggio 2024 — 21° posto</strong>
-            L'Orso in Teglia: prima pizzeria siciliana da taglio in classifica, con un balzo di 16 posizioni rispetto all'anno precedente.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">⭐</span>
-          <div class="award-text">
-            <strong>Identità Golose — Guida Pizza & Cocktail</strong>
-            Premio per L'Orso in Duomo — format gourmet con abbinamento cocktail.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">⭐</span>
-          <div class="award-text">
-            <strong>L'Espresso — 2 Pizze, Guida Ristoranti & Vini 2022</strong>
-            Riconoscimento dalla storica guida gastronomica italiana.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">🏆</span>
-          <div class="award-text">
-            <strong>Best in Sicily — Migliore Pizzeria 2021</strong>
-            Premio regionale per la miglior pizzeria della Sicilia.
-          </div>
-        </div>
-        <div class="award-row">
-          <span class="award-icon">🎖️</span>
-          <div class="award-text">
-            <strong>Premio Speciale Gambero Rosso</strong>
-            "Pizza e territorio — Le migliori interpretazioni delle tradizioni locali", in collaborazione con Levoni.
-          </div>
-        </div>
-      </div>
-      <div class="quote-block" style="margin-top:32px;">
-        <p class="quote-text">"Un'istituzione a Messina e tra i best in Sicilia: semplicità e gusto, sperimentazione e ricerca — un mix unico."</p>
-        <p class="quote-source">— Gambero Rosso, Guida Pizzerie d'Italia 2024</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
 <!-- ── TEAM ── -->
 <section id="team">
   <div class="team-inner">
-    <div class="sec-label r">I Fondatori</div>
-    <h2 class="sec-title r">Il Team<br><em>Fondatore</em></h2>
+    <div class="sec-label r">I Soci</div>
+    <h2 class="sec-title r">Il Team<br><em>Scirocco</em></h2>
     <p class="sec-body r">Dietro Scirocco non c'è solo un pizzaiolo d'eccellenza. C'è un <strong>gruppo imprenditoriale solido</strong>, con anni di esperienza nella gestione multi-sede, nel controllo dei costi, nell'apertura e nel consolidamento di locali di successo in un mercato competitivo.</p>
 
     <div class="soci-grid">
       <div class="socio-card r">
         <div class="socio-initials">GA</div>
         <div class="socio-name">Gianluca Arcovito</div>
-        <div class="socio-role">Co-Fondatore — Strategia & Sviluppo</div>
+        <div class="socio-role">Socio — Strategia & Sviluppo</div>
         <p class="socio-bio">Co-fondatore del gruppo L'Orso, Gianluca ha guidato la <strong>crescita da singolo locale a brand multi-sede</strong>, coordinando aperture, investimenti e posizionamento. La sua visione imprenditoriale ha trasformato una pizzeria artigianale in una delle realtà più premiate d'Italia.</p>
       </div>
       <div class="socio-card r r1">
         <div class="socio-initials">JA</div>
         <div class="socio-name">Giuseppe Arcovito</div>
-        <div class="socio-role">Co-Fondatore — Finance & Controllo</div>
+        <div class="socio-role">Socio — Finance & Controllo</div>
         <p class="socio-bio">Il riferimento per <strong>finanza d'impresa, controllo costi e pianificazione</strong>. Ha sviluppato i modelli gestionali che permettono al gruppo L'Orso di operare con efficienza e redditività su format diversi — dalla pizzeria gourmet al beach club estivo.</p>
       </div>
       <div class="socio-card r r2">
         <div class="socio-initials">GD</div>
         <div class="socio-name">Giuseppe Denaro</div>
-        <div class="socio-role">Co-Fondatore — Operations, Gestione & Eventi</div>
+        <div class="socio-role">Socio — Operations, Gestione & Eventi</div>
         <p class="socio-bio">Responsabile della <strong>gestione operativa</strong> dei quattro locali del gruppo — L'Orso, L'Orso in Teglia, L'Orso in Duomo, Blanco Beach Club. Coordina inoltre l'<strong>organizzazione di eventi privati e servizi catering</strong> per clienti corporate, matrimoni, cerimonie e format su misura. Ha costruito un sistema operativo che garantisce standard qualitativi costanti su più sedi e contesti.</p>
+      </div>
+      <div class="socio-card r r3">
+        <div class="socio-initials">ML</div>
+        <div class="socio-name">Matteo La Spada</div>
+        <div class="socio-role">Socio — Pizzaiolo &amp; Consulente Tecnico</div>
+        <p class="socio-bio"><strong>25 anni di ricerca sull'impasto</strong>, dai primi laboratori artigianali ai massimi riconoscimenti nazionali. Con Scirocco porta la sua competenza come consulente attivo: impasto, farine, fermentazione, formazione del personale e sviluppo menu. La figura tecnica di riferimento — premiata da Gambero Rosso, 50 Top Pizza, Identità Golose e Best in Sicily.</p>
       </div>
     </div>
 
@@ -1230,8 +1161,8 @@ section, div[id], .sec, .sec-full, #manifesto, #numeri, #prodotti, #processo, #c
   <h2 class="contatto-h2 r">Portiamo <em>Scirocco</em><br>nella tua cucina</h2>
   <p class="contatto-sub r">B2B · Ho.Re.Ca. · Distribuzione</p>
   <div class="contatto-info r">
-    <p><strong>Matteo La Spada</strong> — Fondatore & Pizzaiolo</p>
-    <p>Messina, Sicilia · L'Orso · Tre Rotelle Gambero Rosso</p>
+    <p><strong>Messina, Sicilia</strong></p>
+    <p>L'Orso · Tre Rotelle Gambero Rosso · Tre Spicchi Gambero Rosso</p>
   </div>
   <a class="btn r" href="mailto:info@scirocco.it">Richiedi Campioni Gratuiti →</a>
 </section>
