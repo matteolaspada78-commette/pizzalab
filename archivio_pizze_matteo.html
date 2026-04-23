@@ -907,6 +907,7 @@ function renderPizzas() {
           onblur="editIngr(${p.n},${i},this.textContent)">${c}</span>
         <input class="ingr-gr" type="number" placeholder="gr" value="${grVal}"
           onchange="editGr(${p.n},${i},this.value)">
+        <span onclick="deleteIngr(${p.n},${i})" title="Elimina ingrediente" style="cursor:pointer;color:#c0392b;font-size:16px;padding:0 4px;line-height:1;flex-shrink:0">×</span>
       </li>`;
     }).join('');
 
@@ -941,13 +942,29 @@ function toggleCard(n) {
 
 function editIngr(n, idx, val) {
   const p = PIZZAS.find(x => x.n === n);
-  if (p) p.cond[idx] = val.trim();
+  if (p && val.trim()) {
+    p.cond[idx] = val.trim();
+    saveAllModifications();
+  }
+}
+
+function deleteIngr(n, idx) {
+  const p = PIZZAS.find(x => x.n === n);
+  if (!p || p.cond.length <= 1) { showToast('⚠️ Minimo 1 ingrediente'); return; }
+  if (!confirm('Elimina "' + p.cond[idx] + '"?')) return;
+  p.cond.splice(idx, 1);
+  if (GRAMMI[n] && Array.isArray(GRAMMI[n])) GRAMMI[n].splice(idx, 1);
+  saveAllModifications();
+  renderPizzas();
+  setTimeout(() => document.getElementById('card-'+n)?.classList.add('expanded'), 50);
+  showToast('🗑 Ingrediente eliminato');
 }
 
 function editGr(n, idx, val) {
   if (!GRAMMI[n] || !Array.isArray(GRAMMI[n])) GRAMMI[n] = [];
   if (!GRAMMI[n][idx]) GRAMMI[n][idx] = {};
   GRAMMI[n][idx].gr = val ? +val : null;
+  saveAllModifications();
 }
 
 function editNome(n) {
@@ -955,6 +972,7 @@ function editNome(n) {
   const v = prompt('Nuovo nome:', p.nome);
   if (v && v.trim()) {
     p.nome = v.trim();
+    saveAllModifications();
     renderPizzas();
     setTimeout(() => document.getElementById('card-'+n)?.classList.add('expanded'), 50);
     showToast('✏️ Rinominata');
@@ -966,6 +984,7 @@ function addIngrToPizza(n) {
   const v = prompt('Nuovo ingrediente:');
   if (v && v.trim()) {
     p.cond.push(v.trim());
+    saveAllModifications();
     renderPizzas();
     setTimeout(() => document.getElementById('card-'+n)?.classList.add('expanded'), 50);
     showToast('✅ Ingrediente aggiunto');
@@ -1018,10 +1037,27 @@ function addIngrRow(val='') {
 }
 
 function savePizzas() {
-  // Salva solo le pizze aggiunte manualmente (n > PIZZAS_STATIC_MAX)
+  // Salva le pizze aggiunte manualmente (n > PIZZAS_STATIC_MAX)
   try {
     var extra = PIZZAS.filter(function(p){ return p.n > PIZZAS_STATIC_MAX; });
     localStorage.setItem('archivio_pizzas_extra_v1', JSON.stringify(extra));
+  } catch(e) {}
+}
+
+function saveAllModifications() {
+  // Salva TUTTE le modifiche: pizze nuove + modifiche agli ingredienti di pizze esistenti
+  try {
+    // Salva pizze extra (aggiunte manualmente)
+    var extra = PIZZAS.filter(function(p){ return p.n > PIZZAS_STATIC_MAX; });
+    localStorage.setItem('archivio_pizzas_extra_v1', JSON.stringify(extra));
+    // Salva le modifiche agli ingredienti di pizze statiche
+    var modifiche = {};
+    PIZZAS.forEach(function(p) {
+      if (p.n <= PIZZAS_STATIC_MAX) {
+        modifiche[p.n] = { nome: p.nome, cond: p.cond, note: p.note };
+      }
+    });
+    localStorage.setItem('archivio_pizzas_mod_v1', JSON.stringify(modifiche));
   } catch(e) {}
 }
 
@@ -1140,13 +1176,25 @@ let menuSelezionate = [];
   } catch(e) {}
 })();
 
-// Carica pizze aggiunte manualmente
+// Carica pizze aggiunte manualmente + modifiche a pizze esistenti
 (function(){
   try {
+    // 1. Applica modifiche a pizze statiche (ingredienti/nome cambiati)
+    var mod = localStorage.getItem('archivio_pizzas_mod_v1');
+    if(mod) {
+      var modifiche = JSON.parse(mod);
+      PIZZAS.forEach(function(p) {
+        if(modifiche[p.n]) {
+          p.nome = modifiche[p.n].nome;
+          p.cond = modifiche[p.n].cond;
+          p.note = modifiche[p.n].note;
+        }
+      });
+    }
+    // 2. Aggiungi pizze create manualmente
     var extra = localStorage.getItem('archivio_pizzas_extra_v1');
     if(extra) {
       var extraPizzas = JSON.parse(extra);
-      // Rimuovi eventuali duplicati per numero e aggiungi
       extraPizzas.forEach(function(ep) {
         if(!PIZZAS.find(function(p){ return p.n === ep.n; })) {
           PIZZAS.push(ep);
