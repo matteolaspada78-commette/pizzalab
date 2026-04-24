@@ -167,6 +167,13 @@ header{
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .btn-wa:active{opacity:0.85}
+.btn-pdf{
+  flex:1;background:linear-gradient(135deg,#c0392b 0%,#922b21 100%);
+  border:none;border-radius:12px;padding:13px 16px;
+  font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-pdf:active{opacity:0.85}
 .btn-reset{
   background:var(--surface2);border:1.5px solid var(--border);
   border-radius:12px;padding:13px 14px;font-size:13px;color:var(--muted);
@@ -189,6 +196,14 @@ header{
   position:fixed;left:-9999px;top:0;width:420px;
   background:#FFFDF8;color:#1E1208;
   font-family:'Georgia',serif;padding:28px 24px;
+}
+
+/* ── STAMPA PDF ── */
+@media print{
+  body > *:not(#pdf-overlay){ display:none !important; }
+  #pdf-overlay{ position:static !important; overflow:visible !important; background:#fff !important; }
+  .no-print{ display:none !important; }
+  #pdf-content{ max-width:100% !important; }
 }
 
 /* ── FAB NUOVA RICETTA ── */
@@ -658,7 +673,7 @@ var BASE_RECIPES = [
   },
   { id:139, emoji:'🍰', title:'Cheesecake Orso', tag:'Dolci',
     ingredienti:[{nome:'Ricotta',qty:3000,unit:'g'},{nome:'Zucchero semolato',qty:700,unit:'g'},{nome:'Vanillina (o bacca di vaniglia)',qty:1,unit:'g'},{nome:'Panna Hoplà zuccherata',qty:450,unit:'ml'},{nome:'Biscotti Digestive (2 pacchi)',qty:2,unit:'pz'},{nome:'Burro',qty:400,unit:'g'},{nome:'Gelatina di pesce',qty:3,unit:'fogli'},{nome:'Sale fino',qty:1,unit:'g'}],
-    istruzioni:'BASE: Frullare i biscotti Digestive fino a ottenere una polvere fine. Sciogliere il burro e mescolarlo ai biscotti. Stendere il composto sul fondo della tortiera e compattare bene. Mettere in frigo a rassodare per almeno 30 minuti.\nFARCITURA: Ammollare i fogli di gelatina in acqua fredda per 10 minuti. Montare la panna Hoplà ben fredda. In una ciotola lavorare la ricotta con lo zucchero, il sale e la vanillina fino a ottenere un composto liscio e omogeneo. Strizzare la gelatina, scioglierla in poca panna calda e incorporarla al composto di ricotta. Aggiungere delicatamente la panna montata con movimenti dal basso verso l\'alto.\nASSEMBLAGGIO: Versare la farcitura sulla base biscotto. Livellare e mettere in frigo per almeno 4-6 ore, meglio tutta la notte. Sformare e servire.'
+    istruzioni:'RESA: Con queste dosi escono 28 pezzi.\n\nBASE: Frullare i biscotti Digestive fino a ottenere una polvere fine. Sciogliere il burro e mescolarlo ai biscotti. Stendere il composto sul fondo della tortiera e compattare bene. Mettere in frigo a rassodare per almeno 30 minuti.\nFARCITURA: Ammollare i fogli di gelatina in acqua fredda per 10 minuti. Montare la panna Hoplà ben fredda. In una ciotola lavorare la ricotta con lo zucchero, il sale e la vanillina fino a ottenere un composto liscio e omogeneo. Strizzare la gelatina, scioglierla in poca panna calda e incorporarla al composto di ricotta. Aggiungere delicatamente la panna montata con movimenti dal basso verso l\'alto.\nASSEMBLAGGIO: Versare la farcitura sulla base biscotto. Livellare e mettere in frigo per almeno 4-6 ore, meglio tutta la notte. Sformare e servire.'
   },
   { id:140, emoji:'🍕', title:'Diretto Napoletano Freddo 24h', tag:'Impasti & Base',
     ingredienti:[{nome:'Petra 3 HP (tipo 1, W330-360)',qty:18000,unit:'g'},{nome:'Acqua (fredda 8°C)',qty:11340,unit:'ml'},{nome:'Sale marino',qty:504,unit:'g'},{nome:'Olio EVO',qty:360,unit:'ml'},{nome:'Lievito di birra fresco',qty:11,unit:'g'}],
@@ -1041,6 +1056,76 @@ function downloadImage(canvas, title){
   showToast('📥 Immagine salvata!');
 }
 
+// ── PDF RICETTA (no popup - overlay) ──
+function doPDF(id){
+  var r = getRecipe(id);
+  var mult = multipliers[id] || 1;
+
+  var ingRows = r.ingredienti.map(function(ing){
+    var q = ing.unit==='q.b.' ? 'q.b.' : fmtQty(ing.qty, mult) + ' ' + ing.unit;
+    return '<tr>' +
+      '<td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#2A1A0A;font-size:13px">'+escH(ing.nome)+'</td>' +
+      '<td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#8B4A1C;font-weight:700;font-family:monospace;font-size:13px;text-align:right;white-space:nowrap">'+q+'</td>' +
+    '</tr>';
+  }).join('');
+
+  var istrHTML = '';
+  r.istruzioni.split('\n').forEach(function(s){
+    s = s.trim(); if(!s) return;
+    var m = s.match(/^(\d+)\.\s*(.*)/);
+    if(m) istrHTML += '<div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#C4782A;font-weight:700;min-width:22px;font-size:13px">'+m[1]+'.</span><span style="font-size:13px;line-height:1.7">'+m[2]+'</span></div>';
+    else if(s.match(/^(FASE|CCP|NOTA|RESA|CONSERV|SHELF|RIGENERA|ETICHETTA|STOCCAGGIO)/i))
+      istrHTML += '<div style="font-size:11px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.2px;margin:14px 0 6px;font-weight:700">'+s+'</div>';
+    else istrHTML += '<p style="font-size:13px;line-height:1.7;margin-bottom:8px;color:#2A1A0A">'+s+'</p>';
+  });
+
+  var multBadge = mult > 1
+    ? '<div style="background:#FEF3E2;border:1.5px solid #C4782A;border-radius:8px;padding:7px 14px;margin-bottom:18px;font-size:12px;color:#8B4A1C;font-family:monospace">x'+mult+' — Dosi moltiplicate per '+mult+'</div>'
+    : '';
+
+  // Rimuovi eventuale overlay precedente
+  var old = document.getElementById('pdf-overlay');
+  if(old) document.body.removeChild(old);
+
+  var overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:#fff;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch;';
+
+  overlay.innerHTML =
+    // Barra chiudi/stampa
+    '<div style="position:sticky;top:0;background:#8B4A1C;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:10" class="no-print">' +
+      '<button onclick="closePDFOverlay()" style="background:rgba(255,255,255,0.2);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-size:14px;font-family:Georgia,serif;cursor:pointer">✕ Chiudi</button>' +
+      '<button onclick="window.print()" style="background:#fff;border:none;border-radius:10px;padding:8px 18px;color:#8B4A1C;font-size:14px;font-weight:700;font-family:Georgia,serif;cursor:pointer">🖨 Stampa / PDF</button>' +
+    '</div>' +
+    // Contenuto ricetta
+    '<div id="pdf-content" style="max-width:700px;margin:0 auto;padding:0 0 40px">' +
+      '<div style="background:#8B4A1C;padding:28px 32px;display:flex;align-items:center;gap:18px">' +
+        '<div style="font-size:48px;line-height:1">'+r.emoji+'</div>' +
+        '<div>' +
+          '<div style="font-size:24px;font-style:italic;color:#FFF8F0;font-weight:700;font-family:Georgia,serif">'+escH(r.title)+'</div>' +
+          '<div style="font-size:10px;color:rgba(255,248,240,0.65);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px">Matteo La Spada &middot; L\'Orso Messina &middot; '+escH(r.tag)+'</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="padding:24px 32px">' +
+        multBadge +
+        '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:10px">Ingredienti</div>' +
+        '<table style="width:100%;border-collapse:collapse;margin-bottom:24px">'+ingRows+'</table>' +
+        '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:12px">Istruzioni</div>' +
+        '<div>'+istrHTML+'</div>' +
+      '</div>' +
+      '<div style="border-top:1px solid #E8DDD0;padding:14px 32px;text-align:center;font-size:11px;color:#7A6A58;letter-spacing:1px">&#128059; L\'Orso Messina &mdash; Ricettario Interno &mdash; &copy; Matteo La Spada</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+}
+
+function closePDFOverlay(){
+  var ov = document.getElementById('pdf-overlay');
+  if(ov) document.body.removeChild(ov);
+  document.body.style.overflow = '';
+}
+
 // ── RENDER LISTA ──
 function renderList(){
   var filtered = getFiltered();
@@ -1095,7 +1180,8 @@ function renderList(){
         '</div>' +
         // Azioni
         '<div class="share-bar">' +
-          '<button class="btn-wa" onclick="doScreenshot('+base.id+')">📲 Condividi su WhatsApp</button>' +
+          '<button class="btn-wa" onclick="doScreenshot('+base.id+')">📲 WhatsApp</button>' +
+          '<button class="btn-pdf" onclick="doPDF('+base.id+')">📄 PDF</button>' +
           '<button class="btn-reset" onclick="resetRecipe('+base.id+')" title="Ripristina originale">↺</button>' +
         '</div>' +
       '</div>';
