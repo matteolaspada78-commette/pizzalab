@@ -113,6 +113,13 @@ textarea.form-input{min-height:100px;resize:vertical}
 .btn-chiudi{width:100%;padding:13px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:15px;cursor:pointer;margin-top:8px}
 
 .cat-select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;background:var(--card);color:var(--text);outline:none;-webkit-appearance:none}
+
+.share-bar{display:flex;gap:10px;margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.btn-share{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border-radius:12px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:opacity 0.15s}
+.btn-share:active{opacity:0.75}
+.btn-wa{background:#25D366;color:#fff}
+.btn-pdf{background:var(--gold);color:#fff}
+@media print{.det-header,.moltiplicatore,.share-bar,.fab,.toolbar,nav{display:none!important}.dettaglio{position:static!important;overflow:visible!important}.det-body{padding:0}}
 </style>
 </head>
 <body>
@@ -161,6 +168,10 @@ textarea.form-input{min-height:100px;resize:vertical}
     <div>
       <div class="istr-title">👨‍🍳 Procedimento</div>
       <div class="istr-text" id="detIstruzioni"></div>
+    </div>
+    <div class="share-bar">
+      <button class="btn-share btn-wa" onclick="condividiWhatsApp()">📲 WhatsApp</button>
+      <button class="btn-share btn-pdf" onclick="stampaPDF()">🖨️ Stampa / PDF</button>
     </div>
   </div>
 </div>
@@ -579,6 +590,29 @@ if('serviceWorker'in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('/sw.js').catch(e=>console.log('SW:',e));
   });
+}
+
+function condividiWhatsApp(){
+  if(!ricettaAperta) return;
+  const r = ricettaAperta;
+  const port = parseFloat(document.getElementById('porzioniInput').value) || r.porteBase;
+  const mult = port / r.porteBase;
+  let testo = r.emoji + ' *' + r.nome + '*\n';
+  testo += '━━━━━━━━━━━━━━━\n';
+  testo += '🧂 *Ingredienti* (x' + port + ' porzioni):\n';
+  r.ingredienti.forEach(function(ing){
+    const q = Math.round(ing.qta * mult * 10) / 10;
+    testo += '• ' + ing.nome + ': ' + q + (ing.unit ? ' ' + ing.unit : '') + '\n';
+  });
+  testo += '\n👨‍🍳 *Procedimento:*\n' + r.istruzioni;
+  testo += '\n\n— Ricettario L\'Orso 🍕';
+  const url = 'https://wa.me/?text=' + encodeURIComponent(testo);
+  window.open(url, '_blank');
+}
+
+function stampaPDF(){
+  if(!ricettaAperta) return;
+  window.print();
 }
 </script>
 </body>
