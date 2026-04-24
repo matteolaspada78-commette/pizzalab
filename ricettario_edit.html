@@ -625,7 +625,43 @@ function condividiWhatsApp(){
 
 function stampaPDF(){
   if(!ricettaAperta) return;
-  window.print();
+  const r = ricettaAperta;
+  const port = parseFloat(document.getElementById('porzioniInput').value) || r.porteBase;
+  const mult = port / r.porteBase;
+
+  let righeIngredienti = r.ingredienti.map(function(ing){
+    const q = Math.round(ing.qta * mult * 10) / 10;
+    return '<tr><td>' + ing.nome + '</td><td><strong>' + q + (ing.unit ? ' ' + ing.unit : '') + '</strong></td></tr>';
+  }).join('');
+
+  const istrHtml = r.istruzioni.replace(/\n/g,'<br>');
+
+  const html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>' + r.nome + '</title><style>' +
+    'body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#1a1a1a;padding:0 20px}' +
+    'h1{font-size:26px;margin-bottom:4px}' +
+    '.sub{color:#888;font-size:13px;margin-bottom:28px}' +
+    'h2{font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#b8860b;border-bottom:1px solid #e0c97f;padding-bottom:6px;margin-top:28px}' +
+    'table{width:100%;border-collapse:collapse;margin-top:10px}' +
+    'td{padding:7px 6px;border-bottom:1px solid #f0e8d0;font-size:14px}' +
+    'td:last-child{text-align:right;white-space:nowrap}' +
+    '.proc{font-size:14px;line-height:1.7;margin-top:10px}' +
+    '.firma{margin-top:40px;padding-top:16px;border-top:1px solid #ccc;text-align:right;font-size:12px;color:#666;font-style:italic}' +
+    '@media print{body{margin:20px}}' +
+    '</style></head><body>' +
+    '<div style="font-size:32px;margin-bottom:8px">' + r.emoji + '</div>' +
+    '<h1>' + r.nome + '</h1>' +
+    '<div class="sub">Porzioni: ' + port + ' &nbsp;|&nbsp; Categoria: ' + r.categoria + '</div>' +
+    '<h2>Ingredienti</h2>' +
+    '<table>' + righeIngredienti + '</table>' +
+    '<h2>Procedimento</h2>' +
+    '<div class="proc">' + istrHtml + '</div>' +
+    '<div class="firma">Ricetta di <strong>Matteo La Spada</strong> — L\'Orso Messina 🍕</div>' +
+    '</body></html>';
+
+  const w = window.open('','_blank','width=800,height=900');
+  w.document.write(html);
+  w.document.close();
+  w.onload = function(){ w.print(); };
 }
 </script>
 </body>
