@@ -27,6 +27,7 @@ body{font-family:"DM Sans",sans-serif;color:#F0E8D8}
 .sp-man{background:linear-gradient(135deg,#141210,#111009);border:1px solid #2E2820;color:#F8F2E6;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
 #wrapCalc{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0A1A12}
 #wrapManuale{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0A0A0A;flex-direction:column;color:#F5F0E8}
+#wrapProd{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0C0B09;flex-direction:column}
 
 :root {
   /* Sfondi — verde L'Orso */
@@ -127,6 +128,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 .hdr-sub{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
 
 /* ── SCROLL AREA ── */
+.scroll-prod{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:80px;display:none}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--safe-bot) + 80px)}
 
 /* ── HOME MENU ── */
@@ -346,6 +348,60 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 .scroll{scrollbar-width:none}
 
 .mhdr{background:linear-gradient(180deg,#0A0A0A,rgba(10,10,9,.95));border-bottom:1px solid #C8973A;padding:calc(env(safe-area-inset-top,44px)+8px) 20px 14px;text-align:center;position:relative}.mbk{position:absolute;left:16px;top:calc(env(safe-area-inset-top,44px)+6px);width:36px;height:36px;border-radius:50%;background:#1A1208;border:1px solid #C8973A;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:#C8973A}.mscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.mscroll::-webkit-scrollbar{display:none}.msw{padding:20px 24px 0;max-width:700px;margin:0 auto}.msb{display:flex;align-items:center;background:#141414;border:1.5px solid #2A2520;border-radius:14px;padding:0 16px;gap:12px}.msb:focus-within{border-color:#C8973A}.msb input{flex:1;background:none;border:none;outline:none;color:#E8E0D0;font-size:16px;padding:14px 0}.msb input::placeholder{color:#A09080}.msi{color:#C8973A;font-size:18px}.msc{background:none;border:none;color:#A09080;font-size:20px;padding:4px;cursor:pointer;display:none}.msk{font-size:11px;color:#C8973A;padding:6px 0;text-align:center;min-height:28px}.mnav{display:flex;gap:8px;padding:0 24px 16px;overflow-x:auto;max-width:700px;margin:0 auto;scrollbar-width:none}.mnav::-webkit-scrollbar{display:none}.mcb{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid #2A2520;background:none;color:#A09080;font-size:12px;cursor:pointer;white-space:nowrap}.mcb.active{background:#C8973A;border-color:#C8973A;color:#0A0A0A;font-weight:700}.mmain{max-width:700px;margin:0 auto;padding:0 24px 60px}.mcard{background:#141414;border:1px solid #2A2520;border-radius:18px;margin-bottom:16px;overflow:hidden}.mcard.hidden{display:none}.mcard-hdr{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;cursor:pointer;-webkit-user-select:none;user-select:none}.mcard-icon{font-size:24px;flex-shrink:0;width:40px;text-align:center}.mcard-meta{flex:1}.mcard-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8973A;margin-bottom:3px}.mcard-title{font-size:17px;font-weight:700;color:#F5F0E8;line-height:1.2}.mcard-toggle{color:#A09080;font-size:20px;transition:transform .3s;flex-shrink:0}.mcard.open .mcard-toggle{transform:rotate(180deg)}.mcard-body{display:none;padding:0 20px 20px;border-top:1px solid #2A2520}.mcard.open .mcard-body{display:block}.mcard .section-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#C8973A;margin:20px 0 10px}.mcard p{color:#A09080;margin-bottom:12px;font-size:15px}.mcard .highlight-text{color:#F5F0E8;font-weight:600}.mcard .formula-box{background:#0F0F0F;border:1px solid #2A2520;border-left:3px solid #C8973A;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13px;color:#E8C56A;line-height:1.6}.mcard .data-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #1A1A1A;font-size:14px}.mcard .data-row:last-child{border-bottom:none}.mcard .data-label{color:#A09080}.mcard .data-value{color:#F5F0E8;font-weight:600;font-size:13px;text-align:right}.mcard .sem-ok{color:#4CAF50;font-weight:700}.mcard .sem-warn{color:#C8973A;font-weight:700}.mcard .sem-no{color:#E53935;font-weight:700}.mcard .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin:2px}.mcard .pill-gold{background:rgba(200,151,58,.2);color:#C8973A;border:1px solid #C8973A}.mcard .pill-green{background:rgba(76,175,80,.15);color:#81C784;border:1px solid #2E7D32}.mcard .pill-red{background:rgba(229,57,53,.15);color:#EF9A9A;border:1px solid #8B1A1A}.mcard mark{background:rgba(200,151,58,.35);color:#E8C56A;border-radius:3px;padding:0 2px}.mnores{text-align:center;padding:60px 24px;color:#A09080;display:none}.mfooter{text-align:center;padding:20px;color:#A09080;font-size:11px;letter-spacing:1px;border-top:1px solid #2A2520;margin-top:20px}
+
+/* Biga Produzione + Scheduler */
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0C0B09;--card:#1A1814;--border:#2A2520;--cream:#F0E8D8;--dim:#8A7C6A;--gold:#C8973A}
+body{background:var(--bg);color:var(--cream);font-family:'Helvetica Neue',Arial,sans-serif;min-height:100vh;padding:0 0 60px}
+.hero{padding:32px 20px 20px;text-align:center}
+.hero-emoji{font-size:48px;margin-bottom:8px}
+.hero-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.hero-sub{font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.section{padding:0 16px;margin-bottom:16px}
+.label{font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600}
+.row{display:flex;align-items:center;gap:8px}
+.inp{background:#1A1814;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--cream);font-size:16px;width:100%;outline:none;font-family:inherit;-webkit-appearance:none}
+.inp:focus{border-color:var(--gold)}
+.inp-text{background:#1A1814;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--cream);font-size:15px;width:100%;outline:none;font-family:inherit}
+.unit{font-size:13px;color:var(--dim);flex-shrink:0;width:30px}
+.group{margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+.card-title{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.drow:last-child{border-bottom:none}
+.dlabel{font-size:12px;color:var(--dim)}
+.dval{font-size:14px;font-weight:600;font-family:monospace}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.blend-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
+.blend-title{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.sem{border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;font-weight:700;font-size:14px}
+#results{display:none}
+
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0C0B09;--card:#1A1814;--border:#2A2520;--cream:#F0E8D8;--dim:#8A7C6A;--gold:#C8973A}
+body{background:var(--bg);color:var(--cream);font-family:'Helvetica Neue',Arial,sans-serif;min-height:100vh;padding:0 0 60px}
+.hero{padding:32px 20px 20px;text-align:center}
+.hero-emoji{font-size:48px;margin-bottom:8px}
+.hero-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.hero-sub{font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.section{padding:0 16px;margin-bottom:16px}
+.label{font-size:10px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600}
+.row{display:flex;align-items:center;gap:8px}
+.inp{background:#1A1814;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--cream);font-size:16px;width:100%;outline:none;font-family:inherit;-webkit-appearance:none}
+.inp:focus{border-color:var(--gold)}
+.unit{font-size:13px;color:var(--dim);flex-shrink:0;width:30px}
+.group{margin-bottom:14px}
+.card{border-radius:14px;padding:14px;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:700;margin-bottom:10px}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.drow:last-child{border-bottom:none}
+.dlabel{font-size:12px;color:var(--dim)}
+.dval{font-size:13px;font-weight:600;font-family:monospace}
+.note{font-size:11px;color:var(--dim);margin-bottom:10px;line-height:1.6;font-style:italic}
+#results{display:none}
+
 </style>
 </head>
 <body>
@@ -357,9 +413,28 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="sp-btns">
     <button class="sp-btn sp-calc" onclick="showCalc()"><span class="sp-icon">🧮</span><span><span class="sp-title">Calcolatore</span><span class="sp-desc">9 impasti · Motore scientifico · Diario</span></span></button>
     <button class="sp-btn sp-man" onclick="showManuale()"><span class="sp-icon">📖</span><span><span class="sp-title">Manuale Scientifico</span><span class="sp-desc">Farine · Fermentazione · Diagnosi</span></span></button>
+    <button class="sp-btn" style="background:rgba(200,151,58,0.12);border:1px solid rgba(200,151,58,0.4)" onclick="showProduzione()"><span class="sp-icon">📅</span><span><span class="sp-title">Produzione</span><span class="sp-desc">Biga 24h·48h·64h · Scheduler settimanale</span></span></button>
   </div>
   <div style="font-size:12px;color:#7A6E5E;text-align:center;margin-top:8px">Fisica · Chimica · Biologia degli Impasti</div>
 </div>
+<div id="wrapProd" style="display:none;position:fixed;inset:0;z-index:900;background:#0C0B09;flex-direction:column">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));background:#0C0B09;border-bottom:1px solid #2A2520;flex-shrink:0">
+    <div onclick="showSplash()" style="font-size:22px;cursor:pointer;color:#C8973A;padding:2px 8px 2px 0">←</div>
+    <div style="font-family:Georgia,serif;font-size:17px;font-weight:700;color:#F0E8D8">📅 Produzione</div>
+  </div>
+  <!-- Tab bar -->
+  <div style="display:flex;border-bottom:1px solid #2A2520;flex-shrink:0">
+    <button id="tabBigaBtn" onclick="showTabProd('biga')" style="flex:1;padding:12px 8px;background:#C8973A;color:#000;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">🧱 Biga</button>
+    <button id="tabSchedBtn" onclick="showTabProd('sched')" style="flex:1;padding:12px 8px;background:transparent;color:#8A7C6A;border:none;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border-left:1px solid #2A2520">⏱️ Scheduler</button>
+  </div>
+  <!-- Content -->
+  <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+    <div id="tabBiga" style="display:block;padding:0 0 80px"></div>
+    <div id="tabSched" style="display:none;padding:0 0 80px"></div>
+  </div>
+</div>
+
 <div id="wrapCalc"><div id="app">
 
 <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
@@ -966,8 +1041,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.3" min="0.05" max="1" step="0.05" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5078 nel rinfresco</label><div class="inp-row"><input class="inp-field" id="sB63" type="number" value="70" min="0" max="100" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5037 Unica nel rinfresco (resto = HP)</label><div class="inp-row"><input class="inp-field" id="sB78" type="number" value="30" min="0" max="100" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1" oninput="calcSuprema()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1" oninput="calcSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Servizio G2 (es. 19)</label><div class="inp-row"><input class="inp-field" id="sSV" type="number" value="19" min="0" max="23" step="1"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="sStaglio" type="number" value="15" min="0" max="23" step="0.5"><span class="inp-unit">:30</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="sF1" type="number" value="60" min="30" max="90" step="5"><span class="inp-unit">%</span></div></div>
@@ -2438,10 +2513,377 @@ pH biga &lt; 5.0  → 15g su 10kg — impasta prima</div>
     <div class="mfooter">Manuale · Matteo La Spada · 2026</div>
   </div>
 </div>
+<!-- ══ BIGA PRODUZIONE ══ -->
+<div id="pageBigaProd" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px">
+<div class="hero">
+  <div class="hero-emoji">🧱</div>
+  <div class="hero-title">Biga Produzione</div>
+  <div class="hero-sub">Blend scientifico · Lievito preciso</div>
+</div>
+
+<div class="section">
+
+  <div class="group">
+    <label class="label">Kg farina biga (HP 0102 o Petra 3 HP)</label>
+    <div class="row"><input class="inp" id="kgBiga" type="number" value="9" min="1" max="100" step="0.5"><span class="unit">kg</span></div>
+  </div>
+
+  <div class="group">
+    <label class="label">Grammatura pallina</label>
+    <div class="row"><input class="inp" id="gram" type="number" value="260" min="200" max="320" step="5"><span class="unit">g</span></div>
+  </div>
+
+  <div class="group">
+    <label class="label">Ore biga in cella 4°C</label>
+    <div class="row"><input class="inp" id="ore" type="number" value="24" min="16" max="72" step="1"><span class="unit">h</span></div>
+  </div>
+
+  <div class="group">
+    <label class="label">IDR finale %</label>
+    <div class="row"><input class="inp" id="idr" type="number" value="65" min="55" max="80" step="0.5"><span class="unit">%</span></div>
+  </div>
+
+  <div class="group">
+    <label class="label">Sale %</label>
+    <div class="row"><input class="inp" id="sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1"><span class="unit">%</span></div>
+  </div>
+
+  <div class="blend-box">
+    <div class="blend-title">🌾 Blend rinfresco — modifica libera</div>
+
+    <div class="group">
+      <label class="label">Farina 1 — nome</label>
+      <input class="inp-text" id="f1nome" type="text" value="Petra 3 HP">
+    </div>
+    <div class="group">
+      <label class="label">Farina 1 — W</label>
+      <div class="row"><input class="inp" id="f1w" type="number" value="345" min="100" max="500" step="5"><span class="unit">W</span></div>
+    </div>
+    <div class="group">
+      <label class="label">Farina 1 — % blend</label>
+      <div class="row"><input class="inp" id="f1p" type="number" value="70" min="0" max="100" step="5"><span class="unit">%</span></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="group">
+      <label class="label">Farina 2 — nome</label>
+      <input class="inp-text" id="f2nome" type="text" value="5037 Unica">
+    </div>
+    <div class="group">
+      <label class="label">Farina 2 — W</label>
+      <div class="row"><input class="inp" id="f2w" type="number" value="320" min="100" max="500" step="5"><span class="unit">W</span></div>
+    </div>
+    <div class="group">
+      <label class="label">Farina 2 — % blend</label>
+      <div class="row"><input class="inp" id="f2p" type="number" value="30" min="0" max="100" step="5"><span class="unit">%</span></div>
+    </div>
+  </div>
+
+  <button onclick="calcBP()" style="width:100%;background:var(--gold);color:#000;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:16px">Calcola</button>
+
+  <div id="results">
+
+    <div class="sem" id="sem"></div>
+
+    <div class="card">
+      <div class="card-title">🧱 Biga</div>
+      <div class="drow"><span class="dlabel">Farina biga</span><span class="dval" id="r-fbiga"></span></div>
+      <div class="drow"><span class="dlabel">Acqua biga 45%</span><span class="dval" id="r-abiga"></span></div>
+      <div class="drow"><span class="dlabel">Lievito fresco</span><span class="dval" id="r-liev" style="color:var(--gold)"></span></div>
+      <div class="drow"><span class="dlabel">Temp acqua</span><span class="dval">6-8°C</span></div>
+      <div class="drow"><span class="dlabel">Temp impasto finale</span><span class="dval">18-20°C max</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🌾 Rinfresco</div>
+      <div class="drow"><span class="dlabel" id="r-f1lab"></span><span class="dval" id="r-f1kg"></span></div>
+      <div class="drow"><span class="dlabel" id="r-f2lab"></span><span class="dval" id="r-f2kg"></span></div>
+      <div class="drow"><span class="dlabel">W blend calcolato</span><span class="dval" id="r-wblend" style="color:var(--gold)"></span></div>
+      <div class="drow"><span class="dlabel">Licoli</span><span class="dval" id="r-lic"></span></div>
+      <div class="drow"><span class="dlabel">Acqua fase 1 — autolisi 60%</span><span class="dval" id="r-a1"></span></div>
+      <div class="drow"><span class="dlabel">Acqua fase 2 — bassinage</span><span class="dval" id="r-a2"></span></div>
+      <div class="drow"><span class="dlabel">Sale</span><span class="dval" id="r-sale"></span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🍕 Produzione</div>
+      <div class="drow"><span class="dlabel">Peso impasto totale</span><span class="dval" id="r-peso"></span></div>
+      <div class="drow"><span class="dlabel">Palline</span><span class="dval" id="r-palline" style="color:var(--gold);font-size:24px"></span></div>
+    </div>
+
+    <div class="card" id="r-note-card">
+      <div class="dval" id="r-note" style="font-size:12px;color:var(--dim);line-height:1.8"></div>
+    </div>
+
+  </div>
+
+</div>
+
 <script>
-function showSplash(){document.getElementById("splash").style.display="flex";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="none";}
-function showCalc(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="block";document.getElementById("wrapManuale").style.display="none";goHome();}
-function showManuale(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="flex";}
+function g(id){var el=document.getElementById(id);if(!el)return 0;return parseFloat(el.value)||0;}
+function gs(id){var el=document.getElementById(id);if(!el)return'';return el.value||'';}
+function set(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+function calcola(){
+  var kg=g('kgBiga')||9;
+  var gr=g('gram')||260;
+  var ore=g('ore')||24;
+  var idr=g('idr')||65;
+  var saleP=g('sale')||2.8;
+  var licP=0;
+  var f1n=gs('f1nome')||'Farina 1';
+  var f1w=g('f1w')||345;
+  var f1p=g('f1p')||70;
+  var f2n=gs('f2nome')||'Farina 2';
+  var f2w=g('f2w')||320;
+  var f2p=g('f2p')||30;
+
+  // Lievito scientifico per ore a 4°C
+  var lievPct = ore<=20?0.5 : ore<=24?0.3 : ore<=36?0.2 : ore<=48?0.1 : ore<=60?0.07 : ore<=64?0.06 : 0.04;
+
+  var kgR = kg;
+  var kgTot = kg + kgR;
+  var acqBiga = Math.round(kg*450);
+  var lievG = Math.round(kg*lievPct/100*1000*10)/10;
+  var licG = Math.round(kgR*licP/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var acqTot = Math.round(kgTot*idr/100*1000);
+  var acqR = acqTot - acqBiga - licAcq;
+  var acq1 = Math.round(acqR*0.6);
+  var acq2 = acqR - acq1;
+  var saleG = Math.round(kgTot*saleP/100*1000);
+  var f1kg = Math.round(kgR*f1p/100*1000);
+  var f2kg = Math.round(kgR*f2p/100*1000);
+  var wBlend = Math.round(f1w*f1p/100 + f2w*f2p/100);
+  var pesoTot = kgTot*1000 + acqTot + saleG;
+  var palline = Math.floor(pesoTot/gr);
+
+  // Semaforo
+  var sem = document.getElementById('sem');
+  if(lievG < 5){
+    sem.style.background='rgba(76,175,80,0.15)';
+    sem.style.border='1px solid #4CAF50';
+    sem.style.color='#4CAF50';
+    sem.textContent='⚗️ Lievito '+lievG+'g — calibrato per '+ore+'h a 4°C';
+  } else {
+    sem.style.background='rgba(255,152,0,0.15)';
+    sem.style.border='1px solid #FF9800';
+    sem.style.color='#FF9800';
+    sem.textContent='⚠️ Lievito '+lievG+'g — controlla ore di fermentazione';
+  }
+
+  set('r-fbiga', kg+'kg');
+  set('r-abiga', acqBiga+'g a 6-8°C');
+  set('r-liev', lievG+'g ('+lievPct+'% su farina biga)');
+  set('r-f1lab', f1n+' ('+f1p+'%)');
+  set('r-f1kg', f1kg+'g');
+  set('r-f2lab', f2n+' ('+f2p+'%)');
+  set('r-f2kg', f2kg+'g');
+  set('r-wblend', 'W '+wBlend);
+  set('r-a1', acq1+'g a 14°C');
+  set('r-a2', acq2+'g a 8°C');
+  set('r-sale', saleG+'g');
+  set('r-peso', Math.round(pesoTot/100)/10+'kg');
+  set('r-palline', palline+' palline');
+
+  var note = wBlend>=320&&wBlend<=360
+    ? '✅ W blend '+wBlend+' — ottimale. La maglia regge 4-6h di appretto e trattiene bene il gas per un cornicione gonfio.'
+    : wBlend>360
+    ? '⚠️ W blend '+wBlend+' — blend forte. Il cornicione sarà strutturato. Aumenta appretto di 30 min.'
+    : '⚠️ W blend '+wBlend+' — blend debole per questa biga. Aumenta la % della farina più forte.';
+  set('r-note', note);
+
+  document.getElementById('results').style.display='block';
+}
+
+// Calcola subito al caricamento
+window.onload = function(){ calcola(); };
+</script>
+</div>
+<div id="pageScheduler" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px">
+<div class="hero">
+  <div class="hero-emoji">⏱️</div>
+  <div class="hero-title">Scheduler</div>
+  <div class="hero-sub">Venerdì → Sabato → Domenica → Lunedì</div>
+</div>
+
+<div class="section">
+
+  <div class="group">
+    <label class="label">Grammatura pallina</label>
+    <div class="row"><input class="inp" id="gram" type="number" value="260" min="200" max="320" step="5"><span class="unit">g</span></div>
+  </div>
+  <div class="group">
+    <label class="label">IDR finale %</label>
+    <div class="row"><input class="inp" id="idr" type="number" value="65" min="55" max="80" step="0.5"><span class="unit">%</span></div>
+  </div>
+  <div class="group">
+    <label class="label">Sale %</label>
+    <div class="row"><input class="inp" id="sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1"><span class="unit">%</span></div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;margin-bottom:14px">
+    <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:600">Palline per giorno</div>
+    <div class="group">
+      <label class="label">🟡 Sabato</label>
+      <div class="row"><input class="inp" id="pSab" type="number" value="450" min="10" max="1000" step="10"><span class="unit">pz</span></div>
+    </div>
+    <div class="group">
+      <label class="label">🔵 Domenica</label>
+      <div class="row"><input class="inp" id="pDom" type="number" value="280" min="10" max="1000" step="10"><span class="unit">pz</span></div>
+    </div>
+    <div class="group">
+      <label class="label">🟢 Lunedì</label>
+      <div class="row"><input class="inp" id="pLun" type="number" value="150" min="10" max="1000" step="10"><span class="unit">pz</span></div>
+    </div>
+  </div>
+
+  <button onclick="calcSC()" style="width:100%;background:var(--gold);color:#000;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:16px">Calcola</button>
+
+  <div id="results">
+
+    <!-- VENERDÌ -->
+    <div class="card" style="background:#1A1814;border:2px solid var(--gold)">
+      <div class="card-title" style="color:var(--gold)">🗓️ VENERDÌ ore 14:00 — fai 3 bighe separate</div>
+
+      <div style="font-size:10px;color:#FFD700;text-transform:uppercase;letter-spacing:1px;margin:8px 0 6px">🟡 Biga SABATO (28h)</div>
+      <div class="drow"><span class="dlabel">Farina biga</span><span class="dval" id="v-fbSab"></span></div>
+      <div class="drow"><span class="dlabel">Acqua 45%</span><span class="dval" id="v-abSab"></span></div>
+      <div class="drow"><span class="dlabel">Lievito</span><span class="dval" id="v-lbSab" style="color:var(--gold)"></span></div>
+
+      <div style="font-size:10px;color:#64B5F6;text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px">🔵 Biga DOMENICA (52h)</div>
+      <div class="drow"><span class="dlabel">Farina biga</span><span class="dval" id="v-fbDom"></span></div>
+      <div class="drow"><span class="dlabel">Acqua 45%</span><span class="dval" id="v-abDom"></span></div>
+      <div class="drow"><span class="dlabel">Lievito</span><span class="dval" id="v-lbDom" style="color:var(--gold)"></span></div>
+
+      <div style="font-size:10px;color:#81C784;text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px">🟢 Biga LUNEDÌ (64h)</div>
+      <div class="drow"><span class="dlabel">Farina biga</span><span class="dval" id="v-fbLun"></span></div>
+      <div class="drow"><span class="dlabel">Acqua 45%</span><span class="dval" id="v-abLun"></span></div>
+      <div class="drow"><span class="dlabel">Lievito</span><span class="dval" id="v-lbLun" style="color:var(--gold)"></span></div>
+    </div>
+
+    <!-- SABATO -->
+    <div class="card" style="background:#1A1814;border:1px solid #FFD700">
+      <div class="card-title" style="color:#FFD700">🟡 SABATO ore 19:00 — <span id="r-pSab"></span> palline</div>
+      <div class="note">Rinfresco 09:00 · Staglio 15:00 · Appretto 4h · Servizio 19:00</div>
+      <div class="drow"><span class="dlabel">Petra 3 HP 70%</span><span class="dval" id="r-f1Sab"></span></div>
+      <div class="drow"><span class="dlabel">5037 Unica 30%</span><span class="dval" id="r-f2Sab"></span></div>
+      <div class="drow"><span class="dlabel">Licoli</span><span class="dval" id="r-licSab"></span></div>
+      <div class="drow"><span class="dlabel">Acqua rinfresco</span><span class="dval" id="r-aqSab"></span></div>
+      <div class="drow"><span class="dlabel">Sale</span><span class="dval" id="r-saleSab"></span></div>
+    </div>
+
+    <!-- DOMENICA -->
+    <div class="card" style="background:#1A1814;border:1px solid #64B5F6">
+      <div class="card-title" style="color:#64B5F6">🔵 DOMENICA ore 19:00 — <span id="r-pDom"></span> palline</div>
+      <div class="note">Rinfresco 09:00 · Staglio subito · Appretto 10h · Servizio 19:00</div>
+      <div class="drow"><span class="dlabel">Petra 3 HP 70%</span><span class="dval" id="r-f1Dom"></span></div>
+      <div class="drow"><span class="dlabel">5037 Unica 30%</span><span class="dval" id="r-f2Dom"></span></div>
+      <div class="drow"><span class="dlabel">Licoli</span><span class="dval" id="r-licDom"></span></div>
+      <div class="drow"><span class="dlabel">Acqua rinfresco</span><span class="dval" id="r-aqDom"></span></div>
+      <div class="drow"><span class="dlabel">Sale</span><span class="dval" id="r-saleDom"></span></div>
+    </div>
+
+    <!-- LUNEDÌ -->
+    <div class="card" style="background:#1A1814;border:1px solid #81C784">
+      <div class="card-title" style="color:#81C784">🟢 LUNEDÌ ore 20:00 — <span id="r-pLun"></span> palline</div>
+      <div class="note">Rinfresco 08:00 · Staglio 08:30 · Appretto 11h · Servizio 20:00</div>
+      <div class="drow"><span class="dlabel">Petra 3 HP 70%</span><span class="dval" id="r-f1Lun"></span></div>
+      <div class="drow"><span class="dlabel">5037 Unica 30%</span><span class="dval" id="r-f2Lun"></span></div>
+      <div class="drow"><span class="dlabel">Licoli</span><span class="dval" id="r-licLun"></span></div>
+      <div class="drow"><span class="dlabel">Acqua rinfresco</span><span class="dval" id="r-aqLun"></span></div>
+      <div class="drow"><span class="dlabel">Sale</span><span class="dval" id="r-saleLun"></span></div>
+    </div>
+
+    <!-- TOTALE -->
+    <div class="card" style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3)">
+      <div class="card-title" style="color:var(--gold)">📦 Totale farine da preparare venerdì</div>
+      <div class="drow"><span class="dlabel">HP 0102 / Petra 3 HP (biga)</span><span class="dval" id="tot-biga"></span></div>
+      <div class="drow"><span class="dlabel">Petra 3 HP 70% (rinfresco)</span><span class="dval" id="tot-f1"></span></div>
+      <div class="drow"><span class="dlabel">5037 Unica 30% (rinfresco)</span><span class="dval" id="tot-f2"></span></div>
+      <div class="drow"><span class="dlabel" style="font-weight:700">Palline totali settimana</span><span class="dval" id="tot-pal" style="color:var(--gold);font-size:18px"></span></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function g(id){var el=document.getElementById(id);if(!el)return 0;return parseFloat(el.value)||0;}
+function set(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+function impasto(palline, ore, gr, idr, saleP, licP){
+  var pesoNec = palline * gr;
+  var kgFarTot = pesoNec / (1 + idr/100 + saleP/100) / 1000;
+  var kgBiga = Math.round(kgFarTot/2*10)/10;
+  var kgRinf = Math.round((kgFarTot-kgBiga)*10)/10;
+  var lievPct = ore<=24?0.3 : ore<=48?0.1 : ore<=64?0.06 : 0.04;
+  var lievG = Math.round(kgBiga*lievPct/100*1000*10)/10;
+  var acqBiga = Math.round(kgBiga*450);
+  var licG = Math.round(kgRinf*licP/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var acqTot = Math.round(kgFarTot*idr/100*1000);
+  var acqRinf = acqTot - acqBiga - licAcq;
+  var saleG = Math.round(kgFarTot*saleP/100*1000);
+  var f1kg = Math.round(kgRinf*0.7*1000);
+  var f2kg = Math.round(kgRinf*0.3*1000);
+  return {kgBiga,lievG,lievPct,acqBiga,licG,acqRinf,saleG,f1kg,f2kg};
+}
+
+function calcola(){
+  var gr=g('gram')||260;
+  var idr=g('idr')||65;
+  var saleP=g('sale')||2.8;
+  var licP=0;
+  var pSab=g('pSab')||450;
+  var pDom=g('pDom')||280;
+  var pLun=g('pLun')||150;
+
+  var sab=impasto(pSab,24,gr,idr,saleP,licP);
+  var dom=impasto(pDom,48,gr,idr,saleP,licP);
+  var lun=impasto(pLun,64,gr,idr,saleP,licP);
+
+  // VENERDÌ
+  set('v-fbSab', sab.kgBiga+'kg');
+  set('v-abSab', sab.acqBiga+'g a 6-8°C');
+  set('v-lbSab', sab.lievG+'g ('+sab.lievPct+'%)');
+  set('v-fbDom', dom.kgBiga+'kg');
+  set('v-abDom', dom.acqBiga+'g a 6-8°C');
+  set('v-lbDom', dom.lievG+'g ('+dom.lievPct+'%)');
+  set('v-fbLun', lun.kgBiga+'kg');
+  set('v-abLun', lun.acqBiga+'g a 6-8°C');
+  set('v-lbLun', lun.lievG+'g ('+lun.lievPct+'%)');
+
+  // SABATO
+  set('r-pSab', pSab); set('r-f1Sab', sab.f1kg+'g'); set('r-f2Sab', sab.f2kg+'g'); set('r-aqSab', sab.acqRinf+'g'); set('r-saleSab', sab.saleG+'g');
+
+  // DOMENICA
+  set('r-pDom', pDom); set('r-f1Dom', dom.f1kg+'g'); set('r-f2Dom', dom.f2kg+'g'); set('r-aqDom', dom.acqRinf+'g'); set('r-saleDom', dom.saleG+'g');
+
+  // LUNEDÌ
+  set('r-pLun', pLun); set('r-f1Lun', lun.f1kg+'g'); set('r-f2Lun', lun.f2kg+'g'); set('r-aqLun', lun.acqRinf+'g'); set('r-saleLun', lun.saleG+'g');
+
+  // TOTALE
+  var totBiga = Math.round((sab.kgBiga+dom.kgBiga+lun.kgBiga)*10)/10;
+  var totF1 = Math.round((sab.f1kg+dom.f1kg+lun.f1kg)/100)/10;
+  var totF2 = Math.round((sab.f2kg+dom.f2kg+lun.f2kg)/100)/10;
+  set('tot-biga', totBiga+'kg');
+  set('tot-f1', totF1+'kg');
+  set('tot-f2', totF2+'kg');
+  set('tot-pal', pSab+pDom+pLun+' pz');
+
+  document.getElementById('results').style.display='block';
+}
+
+window.onload = function(){ calcola(); };
+</script>
+</div>
+
+<script>
+function showSplash(){document.getElementById("splash").style.display="flex";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="none";document.getElementById("wrapProd").style.display="none";}
+function showCalc(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="block";document.getElementById("wrapManuale").style.display="none";document.getElementById("wrapProd").style.display="none";goHome();}
+function showManuale(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="flex";document.getElementById("wrapProd").style.display="none";}
 
 // ══════════════════════════════════════════════
 // UTILS
@@ -2518,6 +2960,7 @@ let currentPage='home';
 function openPage(key){
   document.getElementById('pageHome').style.display='none';
   // hide all
+  document.querySelectorAll('.scroll-prod').forEach(el=>{el.style.display='none';});
   Object.values(pages).forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.style.display='none';
@@ -2525,6 +2968,15 @@ function openPage(key){
   const pageId=pages[key];
   if(pageId){
     document.getElementById(pageId).style.display='block';
+    // Calcola subito dopo che la pagina è visibile
+    if(key==='bigaprod'||key==='scheduler'){
+      var prod=document.getElementById(key==='bigaprod'?'pageBigaProd':'pageScheduler');
+      if(prod){prod.style.display='block';}
+    }
+    setTimeout(function(){
+      if(key==='bigaprod'){try{calcBP();}catch(e){console.log('BP:',e);}}
+      if(key==='scheduler'){try{calcSC();}catch(e){console.log('SC:',e);}}
+    },100);
   }
   document.getElementById('backBtn').style.display='flex';
   if(titles[key]){
@@ -2539,6 +2991,7 @@ function openPage(key){
 }
 
 function goHome(){
+  document.querySelectorAll('.scroll-prod').forEach(el=>{el.style.display='none';});
   Object.values(pages).forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.style.display='none';
@@ -2858,10 +3311,19 @@ function calcSuprema(){
 
   // Semaforo biga
   const oreB=or_>=ob?or_-ob:24-ob+or_;
-  const picco=ldbP<=0.2?24:ldbP<=0.3?21:18;
-  const att=R(100*Math.exp(-Math.pow(oreB-picco,2)/50),1);
-  const semBiga=att>=85?'ok':att>=70?'ok':att>=50?'warn':'bad';
-  const emjBiga=att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO';
+  // Finestra ottimale: 18-24h per ldb<=0.3%, 16-22h per ldb>0.3%
+  let semBiga, emjBiga;
+  if(ldbP<=0.3){
+    if(oreB>=18&&oreB<=26){semBiga='ok';emjBiga='✅ OTTIMALE — '+oreB.toFixed(0)+'h perfette';}
+    else if(oreB>=15&&oreB<18){semBiga='warn';emjBiga='🟡 UN PO CORTA — '+oreB.toFixed(0)+'h, aspetta ancora';}
+    else if(oreB>26&&oreB<=30){semBiga='warn';emjBiga='🟡 LUNGA — '+oreB.toFixed(0)+'h, usa subito';}
+    else{semBiga='bad';emjBiga='🔴 FUORI FINESTRA — '+oreB.toFixed(0)+'h';}
+  } else {
+    if(oreB>=16&&oreB<=22){semBiga='ok';emjBiga='✅ OTTIMALE — '+oreB.toFixed(0)+'h perfette';}
+    else if(oreB>=13&&oreB<16){semBiga='warn';emjBiga='🟡 UN PO CORTA — '+oreB.toFixed(0)+'h';}
+    else if(oreB>22&&oreB<=26){semBiga='warn';emjBiga='🟡 LUNGA — '+oreB.toFixed(0)+'h';}
+    else{semBiga='bad';emjBiga='🔴 FUORI FINESTRA — '+oreB.toFixed(0)+'h';}
+  }
 
   // ═══ SEMAFORO PUNTATA + BLEND ═══
   // Ore puntata = dal rinfresco allo staglio (staglio = sv - 1h appretto - 0.5h fuori ~ sv-4h)
@@ -3606,256 +4068,410 @@ function stampaPDF(pageId,titolo){
 
 
 
-function calcBigaProd(){
-  var kg=parseFloat(document.getElementById('bp-kgBiga').value)||9;
-  var gr=parseFloat(document.getElementById('bp-gram').value)||260;
-  var ore=parseFloat(document.getElementById('bp-ore').value)||24;
-  var idr=parseFloat(document.getElementById('bp-idr').value)||65;
-  var saleP=parseFloat(document.getElementById('bp-sale').value)||2.8;
-  var licP=parseFloat(document.getElementById('bp-lic').value)||10;
-  var f1nome=document.getElementById('bp-f1nome').value||'Farina 1';
-  var f1w=parseFloat(document.getElementById('bp-f1w').value)||345;
-  var f1pct=parseFloat(document.getElementById('bp-f1pct').value)||70;
-  var f2nome=document.getElementById('bp-f2nome').value||'Farina 2';
-  var f2w=parseFloat(document.getElementById('bp-f2w').value)||320;
-  var f2pct=parseFloat(document.getElementById('bp-f2pct').value)||30;
-  var lievPct=ore<=20?0.5:ore<=24?0.3:ore<=36?0.2:ore<=48?0.1:ore<=60?0.07:ore<=64?0.06:0.04;
-  var kgRinf=kg;
-  var kgTot=kg+kgRinf;
-  var acqBiga=Math.round(kg*0.45*1000);
-  var lievG=Math.round(kg*lievPct/100*1000*10)/10;
-  var licG=Math.round(kgRinf*licP/100*1000);
-  var licAcq=Math.round(licG*0.5);
-  var acqTot=Math.round(kgTot*idr/100*1000);
-  var acqRinf=acqTot-acqBiga-licAcq;
-  var acq1=Math.round(acqRinf*0.6);
-  var acq2=acqRinf-acq1;
-  var sale=Math.round(kgTot*saleP/100*1000);
-  var f1kg=Math.round(kgRinf*f1pct/100*1000);
-  var f2kg=Math.round(kgRinf*f2pct/100*1000);
-  var resto=Math.round(kgRinf*1000-f1kg-f2kg);
-  var wBlend=Math.round(f1w*f1pct/100+f2w*f2pct/100);
-  var pesoTot=kgTot*1000+acqTot+sale;
-  var palline=Math.floor(pesoTot/gr);
-  var sem=document.getElementById('bp-semaforo');
-  if(lievG<1){sem.style.cssText='border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;font-weight:700;font-size:14px;background:rgba(200,151,58,0.15);border:1px solid var(--gold);color:var(--gold)';sem.textContent='⚗️ Lievito '+lievG+'g — dose precisa per '+ore+'h a 4°C';}
-  else if(lievG<5){sem.style.cssText='border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;font-weight:700;font-size:14px;background:rgba(76,175,80,0.15);border:1px solid #4CAF50;color:#4CAF50';sem.textContent='✅ Lievito '+lievG+'g — ottimale per '+ore+'h a 4°C';}
-  else{sem.style.cssText='border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;font-weight:700;font-size:14px;background:rgba(255,152,0,0.15);border:1px solid #FF9800;color:#FF9800';sem.textContent='⚠️ Lievito '+lievG+'g — controlla le ore';}
-  var noteText=wBlend>=330&&wBlend<=360?'✅ W blend '+wBlend+' — ottimale. La maglia regge 4-6h di appretto e trattiene il gas per un cornicione gonfio e alveolato.':wBlend>360?'⚠️ W blend '+wBlend+' — molto forte. Cornicione strutturato, aggiungi 30-45 min di appretto.':'⚠️ W blend '+wBlend+' — blend debole per biga da '+ore+'h. Rischio maglia che non regge. Aumenta la % di farina forte.';
-  document.getElementById('bp-r-farBiga').textContent=kg+'kg';
-  document.getElementById('bp-r-acqBiga').textContent=acqBiga+'g a 6-8°C';
-  document.getElementById('bp-r-liev').textContent=lievG+'g ('+lievPct+'% su '+kg+'kg)';
-  document.getElementById('bp-r-f1label').textContent=f1nome+' ('+f1pct+'%)';
-  document.getElementById('bp-r-f1kg').textContent=f1kg+'g';
-  document.getElementById('bp-r-f2label').textContent=f2nome+' ('+f2pct+'%)';
-  document.getElementById('bp-r-f2kg').textContent=f2kg+'g'+(resto>50?' + '+resto+'g HP resto':'');
-  document.getElementById('bp-r-wblend').textContent='W '+wBlend;
-  document.getElementById('bp-r-lic').textContent=licG+'g (acqua licoli: '+licAcq+'g)';
-  document.getElementById('bp-r-acq1').textContent=acq1+'g a 14°C';
-  document.getElementById('bp-r-acq2').textContent=acq2+'g a 8°C';
-  document.getElementById('bp-r-sale').textContent=sale+'g';
-  document.getElementById('bp-r-pesoTot').textContent=Math.round(pesoTot/100)/10+'kg';
-  document.getElementById('bp-r-palline').textContent=palline+' palline';
-  document.getElementById('bp-note').textContent=noteText;
-  document.getElementById('bp-results').style.display='block';
+
+
+
+function G2(id){var el=document.getElementById(id);if(!el)return 0;return parseFloat(el.value)||0;}
+function GS(id){var el=document.getElementById(id);if(!el)return'';return el.value||'';}
+function R2(v,d){return Math.round(v*Math.pow(10,d))/Math.pow(10,d);}
+function DR(label,val){return '<div class="data-row"><span class="data-label">'+label+'</span><span class="data-value">'+val+'</span></div>';}
+
+function calcBP(){
+  var kg=G2('bp-kgBiga')||9;
+  var gr=G2('bp-gram')||260;
+  var ore=G2('bp-ore')||24;
+  var idr=G2('bp-idr')||65;
+  var saleP=G2('bp-sale')||2.8;
+  var licP=G2('bp-lic')||10;
+  var f1n=GS('bp-f1n')||'Petra 3 HP';
+  var f1w=G2('bp-f1w')||345;
+  var f1p=G2('bp-f1p')||70;
+  var f2n=GS('bp-f2n')||'5037 Unica';
+  var f2w=G2('bp-f2w')||320;
+  var f2p=G2('bp-f2p')||30;
+
+  // Lievito calibrato per ore a 4°C
+  var lievPct = ore<=20?0.5 : ore<=24?0.3 : ore<=36?0.2 : ore<=48?0.1 : ore<=60?0.07 : ore<=64?0.06 : 0.04;
+
+  var kgRinf = kg;
+  var kgTot = kg + kgRinf;
+  var acqBiga = Math.round(kg*0.45*1000);
+  var lievG = Math.round(kg*lievPct/100*1000*10)/10;
+  var licG = Math.round(kgRinf*licP/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var acqTot = Math.round(kgTot*idr/100*1000);
+  var acqRinf = acqTot - acqBiga - licAcq;
+  var acq1 = Math.round(acqRinf*0.6);
+  var acq2 = acqRinf - acq1;
+  var sale = Math.round(kgTot*saleP/100*1000);
+  var f1kg = Math.round(kgRinf*f1p/100*1000);
+  var f2kg = Math.round(kgRinf*f2p/100*1000);
+  var wBlend = Math.round(f1w*f1p/100 + f2w*f2p/100);
+  var pesoTot = kgTot*1000 + acqTot + sale;
+  var palline = Math.floor(pesoTot/gr);
+
+  // Semaforo lievito
+  var semCol = lievG<5 ? '#4CAF50' : '#FF9800';
+  var semTxt = '⚗️ Lievito '+lievG+'g — calibrato per '+ore+'h a 4°C';
+
+  // Note blend
+  var noteW = wBlend>=320&&wBlend<=360 ? '✅ W blend '+wBlend+' — ottimale per biga lunga' :
+              wBlend>360 ? '⚠️ W blend '+wBlend+' — forte, aumenta appretto di 30min' :
+              '⚠️ W blend '+wBlend+' — debole, aumenta % farina forte';
+
+  var html = '';
+  html += '<div style="background:rgba(76,175,80,0.15);border:1px solid '+semCol+';border-radius:12px;padding:12px;margin-bottom:14px;text-align:center;font-weight:700;color:'+semCol+'">'+semTxt+'</div>';
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🧱 Biga</div>';
+  html += DR('Farina (HP 0102 o Petra 3 HP)', kg+'kg');
+  html += DR('Acqua biga 45%', acqBiga+'g — a 6-8°C');
+  html += DR('Lievito fresco', lievG+'g');
+  html += DR('Temperatura impasto', '18-20°C max');
+  html += '</div>';
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🌾 Rinfresco</div>';
+  html += DR(f1n+' ('+f1p+'%)', f1kg+'g');
+  html += DR(f2n+' ('+f2p+'%)', f2kg+'g');
+  html += DR('W blend calcolato', 'W '+wBlend);
+  html += DR('Licoli', licG+'g');
+  html += DR('Acqua fase 1 — autolisi', acq1+'g a 14°C');
+  html += DR('Acqua fase 2 — bassinage', acq2+'g a 8°C');
+  html += DR('Sale', sale+'g');
+  html += '</div>';
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🍕 Produzione</div>';
+  html += DR('Peso impasto totale', Math.round(pesoTot/100)/10+'kg');
+  html += '<div class="data-row"><span class="data-label">Palline da '+gr+'g</span><span class="data-value" style="color:var(--gold);font-size:22px;font-weight:700">'+palline+'</span></div>';
+  html += '</div>';
+  html += '<div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);border-radius:12px;padding:12px;font-size:12px;color:var(--dim);line-height:1.8">'+noteW+'</div>';
+
+  var out = document.getElementById('bp-out');
+  if(out) out.innerHTML = html;
 }
 
-function calcScheduler(){
-  var gr=parseFloat(document.getElementById('sc-gram').value)||260;
-  var idr=parseFloat(document.getElementById('sc-idr').value)||65;
-  var saleP=parseFloat(document.getElementById('sc-sale').value)||2.8;
-  var licP=parseFloat(document.getElementById('sc-lic').value)||10;
-  var pSab=parseInt(document.getElementById('sc-pSab').value)||450;
-  var pDom=parseInt(document.getElementById('sc-pDom').value)||280;
-  var pLun=parseInt(document.getElementById('sc-pLun').value)||150;
-  function calcI(palline,ore){
-    var pesoNec=palline*gr;
-    var kgFarTot=Math.round(pesoNec/(1+idr/100+saleP/100)/100)/10;
-    var kgBiga=Math.round(kgFarTot/2*10)/10;
-    var kgRinf=Math.round((kgFarTot-kgBiga)*10)/10;
-    var lievPct=ore<=24?0.3:ore<=48?0.1:ore<=64?0.06:0.04;
-    var lievG=Math.round(kgBiga*lievPct/100*1000*10)/10;
-    var acqBiga=Math.round(kgBiga*0.45*1000);
-    var licG=Math.round(kgRinf*licP/100*1000);
-    var licAcq=Math.round(licG*0.5);
-    var acqTot=Math.round(kgFarTot*idr/100*1000);
-    var acqRinf=acqTot-acqBiga-licAcq;
-    var sale=Math.round(kgFarTot*saleP/100*1000);
-    var f1kg=Math.round(kgRinf*0.7*1000);
-    var f2kg=Math.round(kgRinf*0.3*1000);
-    return {kgBiga,kgRinf,lievG,lievPct,acqBiga,licG,acqRinf,sale,f1kg,f2kg,kgFarTot,palline};
+function calcSC(){
+  var gr=G2('sc-gram')||260;
+  var idr=G2('sc-idr')||65;
+  var saleP=G2('sc-sale')||2.8;
+  var licP=G2('sc-lic')||10;
+  var pSab=G2('sc-sab')||450;
+  var pDom=G2('sc-dom')||280;
+  var pLun=G2('sc-lun')||150;
+
+  function imp(palline, ore){
+    var pesoNec = palline * gr;
+    var kgFarTot = Math.round(pesoNec/(1+idr/100+saleP/100)/100)/10;
+    var kgBiga = Math.round(kgFarTot/2*10)/10;
+    var kgRinf = Math.round((kgFarTot-kgBiga)*10)/10;
+    var lievPct = ore<=24?0.3 : ore<=48?0.1 : ore<=64?0.06 : 0.04;
+    var lievG = Math.round(kgBiga*lievPct/100*1000*10)/10;
+    var acqBiga = Math.round(kgBiga*0.45*1000);
+    var licG = Math.round(kgRinf*licP/100*1000);
+    var licAcq = Math.round(licG*0.5);
+    var acqTot = Math.round(kgFarTot*idr/100*1000);
+    var acqRinf = acqTot - acqBiga - licAcq;
+    var sale = Math.round(kgFarTot*saleP/100*1000);
+    var f1kg = Math.round(kgRinf*0.7*1000);
+    var f2kg = Math.round(kgRinf*0.3*1000);
+    return {kgBiga,kgRinf,lievG,lievPct,acqBiga,licG,acqRinf,sale,f1kg,f2kg,kgFarTot};
   }
-  var sab=calcI(pSab,24);
-  var dom=calcI(pDom,48);
-  var lun=calcI(pLun,64);
-  function row(l,v){return '<div class="data-row"><span class="data-label">'+l+'</span><span class="data-value">'+v+'</span></div>';}
-  document.getElementById('sc-ven').innerHTML=
-    '<div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;font-weight:700">🟡 Biga SABATO — 28h</div>'+
-    row('Farina biga HP 0102',sab.kgBiga+'kg')+row('Acqua 45%',sab.acqBiga+'g a 6°C')+row('Lievito fresco',sab.lievG+'g ('+sab.lievPct+'%)')+
-    '<div style="font-size:10px;color:#64B5F6;text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px;font-weight:700">🔵 Biga DOMENICA — 52h</div>'+
-    row('Farina biga HP 0102',dom.kgBiga+'kg')+row('Acqua 45%',dom.acqBiga+'g a 6°C')+row('Lievito fresco',dom.lievG+'g ('+dom.lievPct+'%)')+
-    '<div style="font-size:10px;color:#81C784;text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px;font-weight:700">🟢 Biga LUNEDI — 64h</div>'+
-    row('Farina biga HP 0102',lun.kgBiga+'kg')+row('Acqua 45%',lun.acqBiga+'g a 6°C')+row('Lievito fresco',lun.lievG+'g ('+lun.lievPct+'%)');
-  document.getElementById('sc-sab-pz').textContent=pSab;
-  document.getElementById('sc-sab').innerHTML=
-    '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco ore 09:00 · Staglio ore 15:00 · Appretto 4h · Servizio 19:00</div>'+
-    row('Rinfresco Petra 3HP 70%',sab.f1kg+'g')+row('Rinfresco 5037 Unica 30%',sab.f2kg+'g')+
-    row('Licoli',sab.licG+'g')+row('Acqua rinfresco',sab.acqRinf+'g')+row('Sale',sab.sale+'g')+
-    '<div class="data-row"><span class="data-label">Palline da '+gr+'g</span><span class="data-value" style="color:var(--gold);font-weight:700;font-size:18px">'+sab.palline+'</span></div>';
-  document.getElementById('sc-dom-pz').textContent=pDom;
-  document.getElementById('sc-dom').innerHTML=
-    '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco ore 09:00 · Staglio subito · Appretto 10h · Servizio 19:00</div>'+
-    '<div style="font-size:10px;color:#FF9800;margin-bottom:8px">⚠️ Biga 52h — staglio immediato dopo rinfresco</div>'+
-    row('Rinfresco Petra 3HP 70%',dom.f1kg+'g')+row('Rinfresco 5037 Unica 30%',dom.f2kg+'g')+
-    row('Licoli',dom.licG+'g')+row('Acqua rinfresco',dom.acqRinf+'g')+row('Sale',dom.sale+'g')+
-    '<div class="data-row"><span class="data-label">Palline da '+gr+'g</span><span class="data-value" style="color:var(--gold);font-weight:700;font-size:18px">'+dom.palline+'</span></div>';
-  document.getElementById('sc-lun-pz').textContent=pLun;
-  document.getElementById('sc-lun').innerHTML=
-    '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco ore 08:00 · Staglio subito · Appretto 12h · Servizio 20:00</div>'+
-    '<div style="font-size:10px;color:#FF9800;margin-bottom:8px">⚠️ Biga 64h — bassinage con acqua a 4°C</div>'+
-    row('Rinfresco Petra 3HP 70%',lun.f1kg+'g')+row('Rinfresco 5037 Unica 30%',lun.f2kg+'g')+
-    row('Licoli',lun.licG+'g')+row('Acqua rinfresco',lun.acqRinf+'g')+row('Sale',lun.sale+'g')+
-    '<div class="data-row"><span class="data-label">Palline da '+gr+'g</span><span class="data-value" style="color:var(--gold);font-weight:700;font-size:18px">'+lun.palline+'</span></div>';
-  var totBiga=Math.round((sab.kgBiga+dom.kgBiga+lun.kgBiga)*10)/10;
-  var totRinf=Math.round((sab.kgRinf+dom.kgRinf+lun.kgRinf)*10)/10;
-  var f1tot=Math.round((sab.f1kg+dom.f1kg+lun.f1kg)/100)/10;
-  var f2tot=Math.round((sab.f2kg+dom.f2kg+lun.f2kg)/100)/10;
-  document.getElementById('sc-totfarine').innerHTML=
-    row('HP 0102 — biga totale',totBiga+'kg')+
-    row('Petra 3HP 70% — rinfresco',f1tot+'kg')+
-    row('5037 Unica 30% — rinfresco',f2tot+'kg')+
-    row('Farine totali',Math.round((totBiga+totRinf)*10)/10+'kg')+
-    row('Palline totali',''+(pSab+pDom+pLun));
-  document.getElementById('sc-results').style.display='block';
+
+  var sab = imp(pSab, 24);
+  var dom = imp(pDom, 48);
+  var lun = imp(pLun, 64);
+
+  var html = '';
+
+  // VENERDÌ
+  html += '<div style="background:var(--card);border:2px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:12px">🗓️ VENERDÌ ore 14:00 — fai 3 bighe</div>';
+  html += '<div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px">🟡 Biga SABATO (28h)</div>';
+  html += DR('Farina biga', sab.kgBiga+'kg') + DR('Acqua 45%', sab.acqBiga+'g a 6-8°C') + DR('Lievito', sab.lievG+'g');
+  html += '<div style="font-size:10px;color:#64B5F6;text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px">🔵 Biga DOMENICA (52h)</div>';
+  html += DR('Farina biga', dom.kgBiga+'kg') + DR('Acqua 45%', dom.acqBiga+'g a 6-8°C') + DR('Lievito', dom.lievG+'g');
+  html += '<div style="font-size:10px;color:#81C784;text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px">🟢 Biga LUNEDÌ (64h)</div>';
+  html += DR('Farina biga', lun.kgBiga+'kg') + DR('Acqua 45%', lun.acqBiga+'g a 6-8°C') + DR('Lievito', lun.lievG+'g');
+  html += '</div>';
+
+  // SABATO
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:12px;font-weight:700;color:#FFD700;margin-bottom:8px">🟡 SABATO — '+pSab+' palline</div>';
+  html += '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco 09:00 · Staglio 15:00 · Servizio 19:00</div>';
+  html += DR('Petra 3 HP 70%', sab.f1kg+'g') + DR('5037 Unica 30%', sab.f2kg+'g') + DR('Licoli', sab.licG+'g') + DR('Acqua rinfresco', sab.acqRinf+'g') + DR('Sale', sab.sale+'g');
+  html += '</div>';
+
+  // DOMENICA
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:12px;font-weight:700;color:#64B5F6;margin-bottom:8px">🔵 DOMENICA — '+pDom+' palline</div>';
+  html += '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco 09:00 · Staglio subito · Appretto 10h · Servizio 19:00</div>';
+  html += DR('Petra 3 HP 70%', dom.f1kg+'g') + DR('5037 Unica 30%', dom.f2kg+'g') + DR('Licoli', dom.licG+'g') + DR('Acqua rinfresco', dom.acqRinf+'g') + DR('Sale', dom.sale+'g');
+  html += '</div>';
+
+  // LUNEDÌ
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">';
+  html += '<div style="font-size:12px;font-weight:700;color:#81C784;margin-bottom:8px">🟢 LUNEDÌ — '+pLun+' palline</div>';
+  html += '<div style="font-size:11px;color:var(--dim);margin-bottom:8px">Rinfresco 08:00 · Staglio 08:30 · Appretto 11h · Servizio 20:00</div>';
+  html += DR('Petra 3 HP 70%', lun.f1kg+'g') + DR('5037 Unica 30%', lun.f2kg+'g') + DR('Licoli', lun.licG+'g') + DR('Acqua rinfresco', lun.acqRinf+'g') + DR('Sale', lun.sale+'g');
+  html += '</div>';
+
+  // TOTALE
+  var totBiga = Math.round((sab.kgBiga+dom.kgBiga+lun.kgBiga)*10)/10;
+  var totF1 = Math.round((sab.f1kg+dom.f1kg+lun.f1kg)/100)/10;
+  var totF2 = Math.round((sab.f2kg+dom.f2kg+lun.f2kg)/100)/10;
+  html += '<div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);border-radius:12px;padding:14px">';
+  html += '<div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">📦 Totale farine venerdì</div>';
+  html += DR('HP 0102 / Petra 3 HP (biga)', totBiga+'kg');
+  html += DR('Petra 3 HP 70% (rinfresco)', totF1+'kg');
+  html += DR('5037 Unica 30% (rinfresco)', totF2+'kg');
+  html += DR('Palline totali settimanali', pSab+pDom+pLun+'');
+  html += '</div>';
+
+  var out = document.getElementById('sc-out');
+  if(out) out.innerHTML = html;
 }
 
-</script>
 
-<!-- ══ BIGA PRODUZIONE ══ -->
-<div id="pageBigaProd" class="scroll" style="display:none">
-  <div class="page-hero">
-    <div class="page-hero-emoji">🧱</div>
-    <div class="page-hero-title">Biga Produzione</div>
-    <div class="page-hero-sub">BLEND LIBERO · 24h · 48h · 64h</div>
-  </div>
-  <div class="calc-section">
-    <div class="inp-group"><label class="inp-label">Kg farina biga (HP 0102 o Petra 3 HP)</label>
-      <div class="inp-row"><input class="inp-field" id="bp-kgBiga" type="number" value="9" min="1" max="100" step="0.5" oninput="calcBigaProd()"><span class="inp-unit">kg</span></div></div>
-    <div class="inp-group"><label class="inp-label">Grammatura pallina</label>
-      <div class="inp-row"><input class="inp-field" id="bp-gram" type="number" value="260" min="200" max="320" step="5" oninput="calcBigaProd()"><span class="inp-unit">g</span></div></div>
-    <div class="inp-group"><label class="inp-label">Ore maturazione biga in cella 4°C</label>
-      <div class="inp-row"><input class="inp-field" id="bp-ore" type="number" value="24" min="16" max="72" step="1" oninput="calcBigaProd()"><span class="inp-unit">h</span></div></div>
-    <div class="inp-group"><label class="inp-label">IDR finale %</label>
-      <div class="inp-row"><input class="inp-field" id="bp-idr" type="number" value="65" min="55" max="80" step="0.5" oninput="calcBigaProd()"><span class="inp-unit">%</span></div></div>
-    <div class="inp-group"><label class="inp-label">Sale %</label>
-      <div class="inp-row"><input class="inp-field" id="bp-sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcBigaProd()"><span class="inp-unit">%</span></div></div>
-    <div class="inp-group"><label class="inp-label">Licoli % sul rinfresco</label>
-      <div class="inp-row"><input class="inp-field" id="bp-lic" type="number" value="10" min="0" max="30" step="1" oninput="calcBigaProd()"><span class="inp-unit">%</span></div></div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:600">🌾 Blend rinfresco — modifica libera</div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 1 — nome</label>
-        <input class="inp-field" id="bp-f1nome" type="text" value="Petra 3 HP" oninput="calcBigaProd()"></div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 1 — W</label>
-        <div class="inp-row"><input class="inp-field" id="bp-f1w" type="number" value="345" min="100" max="500" step="5" oninput="calcBigaProd()"><span class="inp-unit">W</span></div></div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 1 — % blend</label>
-        <div class="inp-row"><input class="inp-field" id="bp-f1pct" type="number" value="70" min="0" max="100" step="5" oninput="calcBigaProd()"><span class="inp-unit">%</span></div></div>
-      <div style="border-top:1px solid var(--border);margin:10px 0"></div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 2 — nome</label>
-        <input class="inp-field" id="bp-f2nome" type="text" value="5037 Unica" oninput="calcBigaProd()"></div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 2 — W</label>
-        <div class="inp-row"><input class="inp-field" id="bp-f2w" type="number" value="320" min="100" max="500" step="5" oninput="calcBigaProd()"><span class="inp-unit">W</span></div></div>
-      <div class="inp-group" style="margin-bottom:8px"><label class="inp-label">Farina 2 — % blend</label>
-        <div class="inp-row"><input class="inp-field" id="bp-f2pct" type="number" value="30" min="0" max="100" step="5" oninput="calcBigaProd()"><span class="inp-unit">%</span></div></div>
-    </div>
-  </div>
-  <div id="bp-results" class="calc-section" style="display:none">
-    <div id="bp-semaforo" style="border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;font-weight:700;font-size:14px"></div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🧱 Biga</div>
-      <div class="data-row"><span class="data-label">Farina biga</span><span class="data-value" id="bp-r-farBiga">-</span></div>
-      <div class="data-row"><span class="data-label">Acqua biga 45%</span><span class="data-value" id="bp-r-acqBiga">-</span></div>
-      <div class="data-row"><span class="data-label">Temp acqua biga</span><span class="data-value">6-8°C</span></div>
-      <div class="data-row"><span class="data-label">Temp impasto finale</span><span class="data-value">18-20°C max</span></div>
-      <div class="data-row"><span class="data-label">⚗️ Lievito fresco</span><span class="data-value" id="bp-r-liev" style="color:var(--gold);font-weight:700">-</span></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🌾 Rinfresco</div>
-      <div class="data-row"><span class="data-label" id="bp-r-f1label">Farina 1</span><span class="data-value" id="bp-r-f1kg">-</span></div>
-      <div class="data-row"><span class="data-label" id="bp-r-f2label">Farina 2</span><span class="data-value" id="bp-r-f2kg">-</span></div>
-      <div class="data-row"><span class="data-label">W blend calcolato</span><span class="data-value" id="bp-r-wblend" style="color:var(--gold)">-</span></div>
-      <div class="data-row"><span class="data-label">Licoli</span><span class="data-value" id="bp-r-lic">-</span></div>
-      <div class="data-row"><span class="data-label">Acqua fase 1 autolisi 60%</span><span class="data-value" id="bp-r-acq1">-</span></div>
-      <div class="data-row"><span class="data-label">Acqua fase 2 bassinage</span><span class="data-value" id="bp-r-acq2">-</span></div>
-      <div class="data-row"><span class="data-label">Sale</span><span class="data-value" id="bp-r-sale">-</span></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">🍕 Produzione</div>
-      <div class="data-row"><span class="data-label">Peso impasto totale</span><span class="data-value" id="bp-r-pesoTot">-</span></div>
-      <div class="data-row"><span class="data-label">Palline</span><span class="data-value" id="bp-r-palline" style="color:var(--gold);font-size:22px;font-weight:700">-</span></div>
-    </div>
-    <div id="bp-note" style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);border-radius:12px;padding:14px;margin-bottom:20px;font-size:12px;line-height:1.8;color:var(--dim)"></div>
-  </div>
-</div>
+function showProduzione(){
+  document.getElementById("splash").style.display="none";
+  document.getElementById("wrapCalc").style.display="none";
+  document.getElementById("wrapManuale").style.display="none";
+  document.getElementById("wrapProd").style.display="flex";
+  var tabB=document.getElementById("tabBiga");
+  if(!tabB._loaded){
+    tabB.innerHTML=getBigaHTML();
+    tabB._loaded=true;
+    setTimeout(function(){try{calcBP();}catch(e){console.log(e);}},100);
+  }
+}
+function showTabProd(tab){
+  document.getElementById("tabBiga").style.display=tab==="biga"?"block":"none";
+  document.getElementById("tabSched").style.display=tab==="sched"?"block":"none";
+  document.getElementById("tabBigaBtn").style.background=tab==="biga"?"#C8973A":"transparent";
+  document.getElementById("tabBigaBtn").style.color=tab==="biga"?"#000":"#8A7C6A";
+  document.getElementById("tabSchedBtn").style.background=tab==="sched"?"#C8973A":"transparent";
+  document.getElementById("tabSchedBtn").style.color=tab==="sched"?"#000":"#8A7C6A";
+  if(tab==="sched"){
+    var tabS=document.getElementById("tabSched");
+    if(!tabS._loaded){tabS.innerHTML=getSchedHTML();tabS._loaded=true;}
+    setTimeout(function(){try{calcSC();}catch(e){console.log(e);}},100);
+  }
+}
 
-<!-- ══ SCHEDULER SETTIMANALE ══ -->
-<div id="pageScheduler" class="scroll" style="display:none">
-  <div class="page-hero">
-    <div class="page-hero-emoji">⏱️</div>
-    <div class="page-hero-title">Scheduler</div>
-    <div class="page-hero-sub">VEN → SAB → DOM → LUN</div>
-  </div>
-  <div class="calc-section">
-    <div class="inp-group"><label class="inp-label">Grammatura pallina</label>
-      <div class="inp-row"><input class="inp-field" id="sc-gram" type="number" value="260" min="200" max="320" step="5" oninput="calcScheduler()"><span class="inp-unit">g</span></div></div>
-    <div class="inp-group"><label class="inp-label">IDR finale %</label>
-      <div class="inp-row"><input class="inp-field" id="sc-idr" type="number" value="65" min="55" max="80" step="0.5" oninput="calcScheduler()"><span class="inp-unit">%</span></div></div>
-    <div class="inp-group"><label class="inp-label">Sale %</label>
-      <div class="inp-row"><input class="inp-field" id="sc-sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcScheduler()"><span class="inp-unit">%</span></div></div>
-    <div class="inp-group"><label class="inp-label">Licoli % sul rinfresco</label>
-      <div class="inp-row"><input class="inp-field" id="sc-lic" type="number" value="10" min="0" max="30" step="1" oninput="calcScheduler()"><span class="inp-unit">%</span></div></div>
-    <div style="border-top:1px solid var(--border);padding-top:14px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:600">Palline per giorno</div>
-      <div class="inp-group"><label class="inp-label">🟡 Sabato</label>
-        <div class="inp-row"><input class="inp-field" id="sc-pSab" type="number" value="450" min="10" max="1000" step="10" oninput="calcScheduler()"><span class="inp-unit">pz</span></div></div>
-      <div class="inp-group"><label class="inp-label">🔵 Domenica</label>
-        <div class="inp-row"><input class="inp-field" id="sc-pDom" type="number" value="280" min="10" max="1000" step="10" oninput="calcScheduler()"><span class="inp-unit">pz</span></div></div>
-      <div class="inp-group"><label class="inp-label">🟢 Lunedì</label>
-        <div class="inp-row"><input class="inp-field" id="sc-pLun" type="number" value="150" min="10" max="1000" step="10" oninput="calcScheduler()"><span class="inp-unit">pz</span></div></div>
-    </div>
-  </div>
-  <div id="sc-results" class="calc-section" style="display:none">
-    <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;font-weight:600">📅 Piano produzione completo</div>
-    <div style="background:var(--card);border:2px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px">🗓️ VENERDÌ ore 14:00 — fai 3 bighe</div>
-      <div id="sc-ven"></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:12px;font-weight:700;color:#FFD700;margin-bottom:6px">🟡 SABATO ore 19:00 — <span id="sc-sab-pz"></span> pizze</div>
-      <div id="sc-sab"></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:12px;font-weight:700;color:#64B5F6;margin-bottom:6px">🔵 DOMENICA ore 19:00 — <span id="sc-dom-pz"></span> pizze</div>
-      <div id="sc-dom"></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:12px;font-weight:700;color:#81C784;margin-bottom:6px">🟢 LUNEDÌ ore 20:00 — <span id="sc-lun-pz"></span> pizze</div>
-      <div id="sc-lun"></div>
-    </div>
-    <div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);border-radius:12px;padding:14px;margin-bottom:20px">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600">📦 Totale farine venerdì</div>
-      <div id="sc-totfarine"></div>
-    </div>
-  </div>
-</div>
 
-<script>
-if("serviceWorker" in navigator){
-  window.addEventListener("load", function(){
-    navigator.serviceWorker.register("./sw.js")
-      .then(function(reg){ console.log("SW ok:", reg.scope); })
-      .catch(function(err){ console.log("SW err:", err); });
+function getBigaHTML(){return '<div style="padding:16px"><div style="text-align:center;padding:20px 0 10px"><div style="font-size:40px">🧱</div><div style="font-size:22px;font-weight:700;color:#F0E8D8">Biga Produzione</div><div style="font-size:10px;letter-spacing:2px;color:#8A7C6A;text-transform:uppercase">Blend scientifico · Lievito preciso</div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Kg farina biga (HP 0102 o Petra 3 HP)</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-kg" type="number" value="9" min="1" max="100" step="0.5" oninput="calcBP()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">kg</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Grammatura pallina</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-gr" type="number" value="260" min="200" max="320" step="5" oninput="calcBP()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">g</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Ore biga in cella 4°C</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-ore" type="number" value="24" min="16" max="72" step="1" oninput="calcBP()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">h</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">IDR finale %</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-idr" type="number" value="65" min="55" max="80" step="0.5" oninput="calcBP()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Sale %</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcBP()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div><div style="background:#1A1814;border:1px solid #2A2520;border-radius:14px;padding:14px;margin-bottom:14px"><div style="font-size:9px;letter-spacing:2px;color:#C8973A;text-transform:uppercase;margin-bottom:12px;font-weight:600">🌾 Blend rinfresco</div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 1 — nome</label><input id="bp-f1n" type="text" value="Petra 3 HP" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none"></div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 1 — W</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-f1w" type="number" value="345" min="100" max="500" step="5" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">W</span></div></div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 1 — %</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-f1p" type="number" value="70" min="0" max="100" step="5" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div><div style="border-top:1px solid #2A2520;margin:10px 0"></div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 2 — nome</label><input id="bp-f2n" type="text" value="5037 Unica" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none"></div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 2 — W</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-f2w" type="number" value="320" min="100" max="500" step="5" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">W</span></div></div><div style="margin-bottom:10px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:5px">Farina 2 — %</label><div style="display:flex;align-items:center;gap:8px"><input id="bp-f2p" type="number" value="30" min="0" max="100" step="5" oninput="calcBP()" style="background:#0C0B09;border:1px solid #2A2520;border-radius:8px;padding:10px 12px;color:#F0E8D8;font-size:14px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div></div><div id="bp-out"></div></div>';}
+function getSchedHTML(){return '<div style="padding:16px"><div style="text-align:center;padding:20px 0 10px"><div style="font-size:40px">⏱️</div><div style="font-size:22px;font-weight:700;color:#F0E8D8">Scheduler</div><div style="font-size:10px;letter-spacing:2px;color:#8A7C6A;text-transform:uppercase">Venerdì → Sabato → Domenica → Lunedì</div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Grammatura pallina</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-gr" type="number" value="260" min="200" max="320" step="5" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">g</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">IDR finale %</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-idr" type="number" value="65" min="55" max="80" step="0.5" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">Sale %</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-sale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">%</span></div></div><div style="border-top:1px solid #2A2520;padding-top:14px;margin-bottom:14px"><div style="font-size:9px;letter-spacing:2px;color:#C8973A;text-transform:uppercase;margin-bottom:12px;font-weight:600">Palline per giorno</div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">🟡 Sabato</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-sab" type="number" value="450" min="10" max="1000" step="10" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">pz</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">🔵 Domenica</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-dom" type="number" value="280" min="10" max="1000" step="10" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">pz</span></div></div><div style="margin-bottom:12px"><label style="font-size:10px;letter-spacing:1.5px;color:#8A7C6A;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:600">🟢 Lunedì</label><div style="display:flex;align-items:center;gap:8px"><input id="sc-lun" type="number" value="150" min="10" max="1000" step="10" oninput="calcSC()" style="background:#1A1814;border:1px solid #2A2520;border-radius:10px;padding:12px 14px;color:#F0E8D8;font-size:16px;width:100%;outline:none;-webkit-appearance:none"><span style="color:#8A7C6A;flex-shrink:0">pz</span></div></div></div><div id="sc-out"></div></div>';}
+
+
+function g(id){var el=document.getElementById(id);if(!el)return 0;return parseFloat(el.value)||0;}
+function gs(id){var el=document.getElementById(id);if(!el)return'';return el.value||'';}
+function set(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+function calcBP(){
+  var kg=g('bp-kg')||9;
+  var gr=g('bp-gr')||260;
+  var ore=g('bp-ore')||24;
+  var idr=g('bp-idr')||65;
+  var saleP=g('bp-sale')||2.8;
+  var licP=0;
+  var f1n=gs('bp-f1n')||'Farina 1';
+  var f1w=g('bp-f1w')||345;
+  var f1p=g('bp-f1p')||70;
+  var f2n=gs('bp-f2n')||'Farina 2';
+  var f2w=g('bp-f2w')||320;
+  var f2p=g('bp-f2p')||30;
+
+  // Lievito scientifico per ore a 4°C
+  var lievPct = ore<=20?0.5 : ore<=24?0.3 : ore<=36?0.2 : ore<=48?0.1 : ore<=60?0.07 : ore<=64?0.06 : 0.04;
+
+  var kgR = kg;
+  var kgTot = kg + kgR;
+  var acqBiga = Math.round(kg*450);
+  var lievG = Math.round(kg*lievPct/100*1000*10)/10;
+  var licG = Math.round(kgR*licP/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var acqTot = Math.round(kgTot*idr/100*1000);
+  var acqR = acqTot - acqBiga - licAcq;
+  var acq1 = Math.round(acqR*0.6);
+  var acq2 = acqR - acq1;
+  var saleG = Math.round(kgTot*saleP/100*1000);
+  var f1kg = Math.round(kgR*f1p/100*1000);
+  var f2kg = Math.round(kgR*f2p/100*1000);
+  var wBlend = Math.round(f1w*f1p/100 + f2w*f2p/100);
+  var pesoTot = kgTot*1000 + acqTot + saleG;
+  var palline = Math.floor(pesoTot/gr);
+
+  // Semaforo
+  var sem = document.getElementById('sem');
+  if(lievG < 5){
+    sem.style.background='rgba(76,175,80,0.15)';
+    sem.style.border='1px solid #4CAF50';
+    sem.style.color='#4CAF50';
+    sem.textContent='⚗️ Lievito '+lievG+'g — calibrato per '+ore+'h a 4°C';
+  } else {
+    sem.style.background='rgba(255,152,0,0.15)';
+    sem.style.border='1px solid #FF9800';
+    sem.style.color='#FF9800';
+    sem.textContent='⚠️ Lievito '+lievG+'g — controlla ore di fermentazione';
+  }
+
+  set('r-fbiga', kg+'kg');
+  set('r-abiga', acqBiga+'g a 6-8°C');
+  set('r-liev', lievG+'g ('+lievPct+'% su farina biga)');
+  set('r-f1lab', f1n+' ('+f1p+'%)');
+  set('r-f1kg', f1kg+'g');
+  set('r-f2lab', f2n+' ('+f2p+'%)');
+  set('r-f2kg', f2kg+'g');
+  set('r-wblend', 'W '+wBlend);
+  set('r-a1', acq1+'g a 14°C');
+  set('r-a2', acq2+'g a 8°C');
+  set('r-sale', saleG+'g');
+  set('r-peso', Math.round(pesoTot/100)/10+'kg');
+  set('r-palline', palline+' palline');
+
+  var note = wBlend>=320&&wBlend<=360
+    ? '✅ W blend '+wBlend+' — ottimale. La maglia regge 4-6h di appretto e trattiene bene il gas per un cornicione gonfio.'
+    : wBlend>360
+    ? '⚠️ W blend '+wBlend+' — blend forte. Il cornicione sarà strutturato. Aumenta appretto di 30 min.'
+    : '⚠️ W blend '+wBlend+' — blend debole per questa biga. Aumenta la % della farina più forte.';
+  set('r-note', note);
+
+  document.getElementById('bp-out').innerHTML=html;
+}
+
+// Calcola subito al caricamento
+
+
+
+function g(id){var el=document.getElementById(id);if(!el)return 0;return parseFloat(el.value)||0;}
+function set(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+function impasto(palline, ore, gr, idr, saleP, licP){
+  var pesoNec = palline * gr;
+  var kgFarTot = pesoNec / (1 + idr/100 + saleP/100) / 1000;
+  var kgBiga = Math.round(kgFarTot/2*10)/10;
+  var kgRinf = Math.round((kgFarTot-kgBiga)*10)/10;
+  var lievPct = ore<=24?0.3 : ore<=48?0.1 : ore<=64?0.06 : 0.04;
+  var lievG = Math.round(kgBiga*lievPct/100*1000*10)/10;
+  var acqBiga = Math.round(kgBiga*450);
+  var licG = Math.round(kgRinf*licP/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var acqTot = Math.round(kgFarTot*idr/100*1000);
+  var acqRinf = acqTot - acqBiga - licAcq;
+  var saleG = Math.round(kgFarTot*saleP/100*1000);
+  var f1kg = Math.round(kgRinf*0.7*1000);
+  var f2kg = Math.round(kgRinf*0.3*1000);
+  return {kgBiga,lievG,lievPct,acqBiga,licG,acqRinf,saleG,f1kg,f2kg};
+}
+
+function calcSC(){
+  var gr=g('sc-gr')||260;
+  var idr=g('sc-idr')||65;
+  var saleP=g('sc-sale')||2.8;
+  var licP=0;
+  var pSab=g('sc-sab')||450;
+  var pDom=g('sc-dom')||280;
+  var pLun=g('sc-lun')||150;
+
+  var sab=impasto(pSab,24,gr,idr,saleP,licP);
+  var dom=impasto(pDom,48,gr,idr,saleP,licP);
+  var lun=impasto(pLun,64,gr,idr,saleP,licP);
+
+  // VENERDÌ
+  set('v-fbSab', sab.kgBiga+'kg');
+  set('v-abSab', sab.acqBiga+'g a 6-8°C');
+  set('v-lbSab', sab.lievG+'g ('+sab.lievPct+'%)');
+  set('v-fbDom', dom.kgBiga+'kg');
+  set('v-abDom', dom.acqBiga+'g a 6-8°C');
+  set('v-lbDom', dom.lievG+'g ('+dom.lievPct+'%)');
+  set('v-fbLun', lun.kgBiga+'kg');
+  set('v-abLun', lun.acqBiga+'g a 6-8°C');
+  set('v-lbLun', lun.lievG+'g ('+lun.lievPct+'%)');
+
+  // SABATO
+  set('r-pSab', pSab); set('r-f1Sab', sab.f1kg+'g'); set('r-f2Sab', sab.f2kg+'g'); set('r-aqSab', sab.acqRinf+'g'); set('r-saleSab', sab.saleG+'g');
+
+  // DOMENICA
+  set('r-pDom', pDom); set('r-f1Dom', dom.f1kg+'g'); set('r-f2Dom', dom.f2kg+'g'); set('r-aqDom', dom.acqRinf+'g'); set('r-saleDom', dom.saleG+'g');
+
+  // LUNEDÌ
+  set('r-pLun', pLun); set('r-f1Lun', lun.f1kg+'g'); set('r-f2Lun', lun.f2kg+'g'); set('r-aqLun', lun.acqRinf+'g'); set('r-saleLun', lun.saleG+'g');
+
+  // TOTALE
+  var totBiga = Math.round((sab.kgBiga+dom.kgBiga+lun.kgBiga)*10)/10;
+  var totF1 = Math.round((sab.f1kg+dom.f1kg+lun.f1kg)/100)/10;
+  var totF2 = Math.round((sab.f2kg+dom.f2kg+lun.f2kg)/100)/10;
+  set('tot-biga', totBiga+'kg');
+  set('tot-f1', totF1+'kg');
+  set('tot-f2', totF2+'kg');
+  set('tot-pal', pSab+pDom+pLun+' pz');
+
+  document.getElementById('sc-out').style.display='block';
+}
+
+
+
+
+function buildWaLink(el,pageId,titolo){
+  var pg=document.getElementById(pageId);
+  if(!pg){return false;}
+  var rows=pg.querySelectorAll('.data-row,.res-row,[data-wa]');
+  var lines=['*'+titolo+' — Matteo La Spada*',''];
+  rows.forEach(function(r){
+    var lbl=r.querySelector('.data-label,.res-label');
+    var val=r.querySelector('.data-value,.res-value,.sem');
+    if(lbl&&val){
+      var t=val.textContent.trim();
+      if(t&&t!=='-')lines.push('• *'+lbl.textContent.trim()+'*: '+t);
+    }
   });
+  if(lines.length<=2){
+    // Fallback: prendi tutto il testo strutturato
+    var allRows=pg.querySelectorAll('div');
+    allRows.forEach(function(d){
+      if(d.children.length===2){
+        var c0=d.children[0].textContent.trim();
+        var c1=d.children[1].textContent.trim();
+        if(c0&&c1&&c1!=='-'&&c0.length<50)lines.push('• *'+c0+'*: '+c1);
+      }
+    });
+  }
+  lines.push('','_Pizza Lab · L\u2019Orso Messina_');
+  var txt=lines.join('\n');
+  var url='whatsapp://send?text='+encodeURIComponent(txt);
+  var a=document.createElement('a');
+  a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+  return false;
 }
+
+function shareLicoli(){
+  var lines=['*Licoli — Registro Rinfresco*','*L’Orso Messina · Matteo La Spada*',''];
+  var ids=['licoliP1','licoliP2','licoliP3','licoliP4','licoliP5','licoliP6','licoliP7'];
+  var labels=['Licoli iniziale','Farina','Acqua','IDR risultante','Temp rinfresco','Ore maturazione','Note'];
+  ids.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el&&el.value&&el.value.trim()){
+      lines.push('• *'+labels[i]+'*: '+el.value.trim());
+    }
+  });
+  // Aggiungi risultati se visibili
+  var out=document.getElementById('licoliOut');
+  if(out&&out.style.display!=='none'){
+    out.querySelectorAll('.data-row').forEach(function(r){
+      var l=r.querySelector('.data-label');
+      var v=r.querySelector('.data-value');
+      if(l&&v&&v.textContent.trim()!=='-')lines.push('• *'+l.textContent.trim()+'*: '+v.textContent.trim());
+    });
+  }
+  lines.push('','_Pizza Lab · L\u2019Orso Messina_');
+  var txt=lines.join('\n');
+  var url='whatsapp://send?text='+encodeURIComponent(txt);
+  var a=document.createElement('a');
+  a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+}
+
 </script>
+
 </body>
 </html>
