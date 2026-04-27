@@ -8,7 +8,6 @@
 <meta name="apple-mobile-web-app-title" content="Ordini L'Orso">
 <title>Ordini — L'Orso</title>
 <style>
-/* Google Fonts rimossi — font di sistema */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1208;min-height:100vh}
 
@@ -87,17 +86,76 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 .nwrap{padding:10px 16px 0}
 .nfield{width:100%;background:#fff;border:1.5px solid #e8e0d0;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:13px;color:#1a1208;outline:none;resize:none;height:52px}
 
-/* COSTO */
+/* ── COSTO IMPASTO (nuovo) ── */
+.ci-wrap{padding:12px 16px}
+.ci-card{background:#fff;border:1.5px solid #e8e0d0;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.ci-card-hdr{background:#fdf8ef;border-bottom:1px solid #e8d8b0;padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.ci-card-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#c8860a}
+.ci-card-badge{font-size:9px;background:#e8d8b0;color:#8a6020;border-radius:10px;padding:2px 8px}
+.ci-card-body{padding:10px 14px}
+/* farina bloc */
+.fbl{border:1.5px solid #e8e0d0;border-radius:10px;padding:9px 11px;margin-bottom:7px;background:#faf8f3}
+.fbl:last-child{margin-bottom:0}
+.fbl-top{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.fbl-num{width:20px;height:20px;border-radius:50%;background:#c8860a;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fbl-num.opz{background:#d0c8b8}
+.fbl-sel{flex:1;background:#fff;border:1.5px solid #e8e0d0;border-radius:8px;padding:7px 9px;font-size:12px;font-family:inherit;color:#1a1208;outline:none;-webkit-appearance:none}
+.fbl-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ci-lbl{font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.ci-inp{background:#fff;border:1.5px solid #e8e0d0;border-radius:8px;padding:7px 10px;font-size:13px;font-family:monospace;color:#1a1208;width:100%;outline:none}
+.ci-inp:focus{border-color:#c8860a}
+.ci-info{background:#fdf8ef;border:1px solid #e8d8b0;border-radius:8px;padding:7px 10px;font-size:12px;font-family:monospace;color:#8a6020;min-height:33px}
+.perc-bar{font-size:10px;text-align:right;margin-top:5px}
+/* ingrediente row */
+.ing-row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #e8e0d0}
+.ing-row:last-child{border-bottom:none}
+.ing-icon{font-size:17px;text-align:center}
+.ing-name{font-size:12px;font-weight:600}
+.ing-sub{font-size:10px;color:#8a7a60;margin-top:1px}
+.ing-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.ing-inp{background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:5px 8px;font-size:13px;font-family:monospace;width:76px;text-align:right;outline:none;color:#1a1208}
+.ing-inp:focus{border-color:#c8860a}
+.ing-unit{font-size:9px;color:#8a7a60;text-align:right}
+/* toggle */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #e8e0d0}
+.tog-row:last-child{border-bottom:none}
+.tog-left{display:flex;align-items:center;gap:9px}
+.ci-toggle{width:38px;height:22px;background:#d0c8b8;border-radius:11px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:none}
+.ci-toggle.on{background:#c8860a}
+.ci-toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s}
+.ci-toggle.on::after{left:19px}
+.addbloc{display:none;padding:9px 0 3px}
+/* result */
+.ci-result{display:none;background:#fdf8ef;border:2px solid #c8860a;border-radius:14px;padding:16px;margin-bottom:12px}
+.ci-result.show{display:block}
+.ci-res-big{font-size:40px;font-weight:700;font-family:monospace;color:#c8860a;line-height:1}
+.ci-res-lbl{font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.ci-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
+.ci-res-cell{background:#fff;border-radius:9px;padding:9px;border:1px solid #e8d8b0;text-align:center}
+.ci-res-cell-val{font-size:17px;font-weight:700;font-family:monospace;color:#c8860a}
+.ci-res-cell-lbl{font-size:8px;color:#8a7a60;text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.ci-det{margin-top:11px;border-top:1px solid #e8d8b0;padding-top:9px}
+.ci-det-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;color:#8a7a60}
+.ci-det-row strong{color:#1a1208;font-family:monospace}
+/* preset */
+.preset-row{display:flex;gap:6px;flex-wrap:wrap;padding:9px 14px}
+.preset-btn{background:#fdf8ef;border:1.5px solid #e8d8b0;border-radius:20px;padding:5px 11px;font-size:10px;font-weight:600;color:#c8860a;cursor:pointer;font-family:inherit}
+.preset-btn:active{background:#e8d8b0}
+/* tabella baker's */
+.bakers-table{width:100%;border-collapse:collapse}
+.bakers-table th{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#8a7a60;padding:5px 0;border-bottom:2px solid #e8e0d0;text-align:left}
+.bakers-table td{font-size:11px;padding:7px 0;border-bottom:1px solid #e8e0d0}
+.bakers-table tr:last-child td{border-bottom:none}
+.col-r{text-align:right;font-family:monospace;font-weight:600}
+.col-cost{text-align:right;font-family:monospace;color:#c8860a}
+
+/* COSTO (vecchio stile — usato per listino) */
 .cpcard{background:#fff;border:1.5px solid #e8e0d0;border-radius:12px;padding:14px;margin-bottom:10px}
 .cptitle{font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px}
-.cpsel{width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;margin-bottom:8px;-webkit-appearance:none;font-family:inherit}
-.cpinp{width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208}
 .cpval{background:#fdf8ef;border:1px solid #e8d8b0;border-radius:8px;padding:10px;font-size:13px;font-family:monospace}
-.cpgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cplbl{font-size:9px;color:#8a7a60;margin-bottom:4px}
-.cpres{display:none;border-radius:14px;padding:16px;margin-bottom:80px;border:2px solid}
-.cpnum{font-size:38px;font-weight:700;font-family:monospace;line-height:1}
-.cpsub{font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8}
+
+/* LISTINO */
+.lrow{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #e8e0d0;background:#fff}
 
 /* GESTIONE */
 .gc{background:#fff;border-bottom:1px solid #e8e0d0;padding:11px 16px;display:flex;align-items:center;gap:10px}
@@ -106,13 +164,11 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 .slbl{font-size:9px;color:#8a7a60;background:#faf8f3;border:1px solid #e8e0d0;border-radius:4px;padding:2px 5px;margin-left:4px}
 .divid{height:8px;background:#faf8f3;border-top:1px solid #e8e0d0;border-bottom:1px solid #e8e0d0}
 
-/* LISTINO */
-.lrow{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #e8e0d0;background:#fff}
-
 /* BOTTOM */
 .bot{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;background:#fff;border-top:1px solid #e8e0d0;display:flex;gap:8px;z-index:100}
 .bwa{flex:1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:12px;padding:13px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
-.breset{background:#faf8f3;color:#8a7a60;border:1.5px solid #e8e0d0;border-radius:12px;padding:13px;font-size:13px;cursor:pointer}
+.breset{background:#faf8f3;color:#8a7a60;border:1.5px solid #e8e0d0;border-radius:12px;padding:13px;font-size:13px;cursor:pointer;font-family:inherit}
+.bcalc{flex:1;background:linear-gradient(135deg,#c8860a,#e8a020);color:#fff;border:none;border-radius:12px;padding:13px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -174,12 +230,16 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
     </div>
     <div class="consrow"><span class="conslbl" style="color:#c8860a">Consegna:</span><input class="consdate" id="f-cons" type="date" style="color:#c8860a"></div>
   </div>
+
+  <!-- TABS FARINE: 4 tab, "Costo" diventa "Impasto" -->
   <div class="tabs" id="f-tabs">
-    <button class="tab on" id="ft0" onclick="showFTab(0)" style="color:#c8860a">📦 Ordine</button>
-    <button class="tab" id="ft1" onclick="showFTab(1)">💶 Costo</button>
-    <button class="tab" id="ft2" onclick="showFTab(2)">📋 Listino</button>
-    <button class="tab" id="ft3" onclick="showFTab(3)">⚙️ Gestione</button>
+    <button class="tab on"  id="ft0" onclick="showFTab(0)" style="color:#c8860a">📦 Ordine</button>
+    <button class="tab"     id="ft1" onclick="showFTab(1)">🧮 Impasto</button>
+    <button class="tab"     id="ft2" onclick="showFTab(2)">📋 Listino</button>
+    <button class="tab"     id="ft3" onclick="showFTab(3)">⚙️ Gestione</button>
   </div>
+
+  <!-- TAB 0: ORDINE -->
   <div id="fp0">
     <div class="sumbar">
       <div class="sumcell"><div class="sumlbl">Sacchi</div><div class="sumval" id="f-sacchi">0</div></div>
@@ -194,18 +254,287 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
     <div class="nwrap" style="margin-top:10px"><div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">Note</div><textarea class="nfield" id="f-note" placeholder="Note ordine..."></textarea></div>
     <div style="height:10px"></div>
   </div>
-  <div id="fp1" style="display:none;padding:12px 16px">
-    <div style="font-family:Georgia,serif;font-size:17px;color:#c8860a;margin-bottom:4px">💶 Costo pallina</div>
-    <div style="font-size:10px;color:#8a7a60;margin-bottom:14px;text-transform:uppercase;letter-spacing:1px">Prezzi D'Ago Feb 2026 - IVA esclusa</div>
-    <div class="cpcard"><div class="cptitle" style="color:#c8860a">Farina 1</div><select class="cpsel" id="fc1" onchange="calcFCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpgrid"><div><div class="cplbl">% blend</div><input class="cpinp" id="fcp1" type="number" value="100" min="0" max="100" oninput="calcFCosto()"></div><div><div class="cplbl">euro/kg</div><div class="cpval" id="fcv1">-</div></div></div></div>
-    <div class="cpcard"><div class="cptitle" style="color:#c8860a">Farina 2 (opz.)</div><select class="cpsel" id="fc2" onchange="calcFCosto()"><option value="-1">-- Nessuna --</option></select><div class="cpgrid"><div><div class="cplbl">% blend</div><input class="cpinp" id="fcp2" type="number" value="0" min="0" max="100" oninput="calcFCosto()"></div><div><div class="cplbl">euro/kg</div><div class="cpval" id="fcv2">-</div></div></div></div>
-    <div class="cpcard"><div class="cptitle" style="color:#c8860a">Farina 3 (opz.)</div><select class="cpsel" id="fc3" onchange="calcFCosto()"><option value="-1">-- Nessuna --</option></select><div class="cpgrid"><div><div class="cplbl">% blend</div><input class="cpinp" id="fcp3" type="number" value="0" min="0" max="100" oninput="calcFCosto()"></div><div><div class="cplbl">euro/kg</div><div class="cpval" id="fcv3">-</div></div></div></div>
-    <div class="cpcard"><div class="cptitle" style="color:#c8860a">Parametri impasto</div><div class="cpgrid"><div><div class="cplbl">IDR %</div><input class="cpinp" id="fcIDR" type="number" value="70" oninput="calcFCosto()"></div><div><div class="cplbl">Sale %</div><input class="cpinp" id="fcSale" type="number" value="2.5" step="0.1" oninput="calcFCosto()"></div><div><div class="cplbl">Grammatura g</div><input class="cpinp" id="fcGram" type="number" value="260" oninput="calcFCosto()"></div><div><div class="cplbl">Costo sale euro/kg</div><input class="cpinp" id="fcCsale" type="number" value="0.5" step="0.1" oninput="calcFCosto()"></div></div></div>
-    <div class="cpres" id="f-cpres" style="background:#fdf8ef;border-color:#e8d8b0"><div style="font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Costo pallina</div><div class="cpnum" id="f-cpnum" style="color:#c8860a">-</div><div class="cpsub" id="f-cpsub"></div></div>
+
+  <!-- TAB 1: COSTO IMPASTO (nuovo) -->
+  <div id="fp1" style="display:none">
+    <div class="ci-wrap">
+
+      <!-- NOME IMPASTO -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">📝 Nome ricetta</span></div>
+        <div class="ci-card-body">
+          <div class="ci-lbl">Nome impasto</div>
+          <input class="ci-inp" id="ci-nome" type="text" placeholder="Es: Teglia Romana 75% — Blend Petra">
+        </div>
+      </div>
+
+      <!-- PRESET -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">⚡ Preset rapidi</span></div>
+        <div class="preset-row">
+          <button class="preset-btn" onclick="ciPreset('teglia')">Teglia</button>
+          <button class="preset-btn" onclick="ciPreset('napoletana')">Napoletana</button>
+          <button class="preset-btn" onclick="ciPreset('pala')">Pala</button>
+          <button class="preset-btn" onclick="ciPreset('pinsa')">Pinsa</button>
+        </div>
+      </div>
+
+      <!-- FARINE BLEND -->
+      <div class="ci-card">
+        <div class="ci-card-hdr">
+          <span class="ci-card-title">🌾 Blend farine</span>
+          <span class="ci-card-badge" id="ci-perc-badge">0%</span>
+        </div>
+        <div class="ci-card-body">
+          <div class="fbl">
+            <div class="fbl-top">
+              <div class="fbl-num">1</div>
+              <select class="fbl-sel" id="ci-f1" onchange="ciOnFarina()"><option value="-1">— Seleziona —</option></select>
+            </div>
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% blend</div><input class="ci-inp" id="ci-f1p" type="number" value="100" min="0" max="100" oninput="ciOnFarina()"></div>
+              <div><div class="ci-lbl">euro/kg</div><div class="ci-info" id="ci-f1i">—</div></div>
+            </div>
+          </div>
+          <div class="fbl">
+            <div class="fbl-top">
+              <div class="fbl-num opz">2</div>
+              <select class="fbl-sel" id="ci-f2" onchange="ciOnFarina()"><option value="-1">— Opz. —</option></select>
+            </div>
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% blend</div><input class="ci-inp" id="ci-f2p" type="number" value="0" min="0" max="100" oninput="ciOnFarina()"></div>
+              <div><div class="ci-lbl">euro/kg</div><div class="ci-info" id="ci-f2i">—</div></div>
+            </div>
+          </div>
+          <div class="fbl">
+            <div class="fbl-top">
+              <div class="fbl-num opz">3</div>
+              <select class="fbl-sel" id="ci-f3" onchange="ciOnFarina()"><option value="-1">— Opz. —</option></select>
+            </div>
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% blend</div><input class="ci-inp" id="ci-f3p" type="number" value="0" min="0" max="100" oninput="ciOnFarina()"></div>
+              <div><div class="ci-lbl">euro/kg</div><div class="ci-info" id="ci-f3i">—</div></div>
+            </div>
+          </div>
+          <div class="perc-bar" id="ci-perc-tot">Totale blend: <strong>0%</strong></div>
+        </div>
+      </div>
+
+      <!-- ACQUA + SALE -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">💧 Acqua · Sale</span></div>
+        <div class="ci-card-body">
+          <div class="ing-row">
+            <div class="ing-icon">💧</div>
+            <div><div class="ing-name">Acqua</div><div class="ing-sub">% su farina (baker's)</div></div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-acqua" type="number" value="72" min="40" max="120" step="0.5" oninput="ciCalcLive()">
+              <div class="ing-unit">%</div>
+            </div>
+          </div>
+          <div class="ing-row">
+            <div class="ing-icon">🧂</div>
+            <div>
+              <div class="ing-name">Sale</div>
+              <div class="ing-sub">% su farina · costo <input class="ing-inp" id="ci-sale-cost" type="number" value="0.50" min="0" step="0.05" oninput="ciCalcLive()" style="width:55px;font-size:11px;padding:3px 6px;display:inline"> €/kg</div>
+            </div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-sale" type="number" value="2.5" min="0" max="5" step="0.1" oninput="ciCalcLive()">
+              <div class="ing-unit">%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIEVITO -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">🦠 Lievito</span></div>
+        <div class="ci-card-body">
+          <div class="ing-row">
+            <div class="ing-icon">🦠</div>
+            <div><div class="ing-name">Tipo</div><div class="ing-sub">Tipologia lievito</div></div>
+            <div class="ing-right">
+              <select class="ing-inp" id="ci-liev-tipo" onchange="ciOnLiev()" style="width:110px;text-align:left;font-size:11px">
+                <option value="fresco">Fresco 2.5kg</option>
+                <option value="secco">Secco 500g</option>
+                <option value="istantaneo">Istantaneo 500g</option>
+                <option value="licoli">Licoli / LM</option>
+              </select>
+            </div>
+          </div>
+          <div class="ing-row">
+            <div class="ing-icon"></div>
+            <div><div class="ing-name">Quantità</div><div class="ing-sub" id="ci-liev-sub">% su farina</div></div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-liev-perc" type="number" value="0.3" min="0" step="0.01" oninput="ciCalcLive()">
+              <div class="ing-unit">%</div>
+            </div>
+          </div>
+          <div class="ing-row">
+            <div class="ing-icon"></div>
+            <div><div class="ing-name">Costo confezione</div><div class="ing-sub" id="ci-liev-fmt">euro / confezione (2.5kg)</div></div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-liev-cost" type="number" value="4.50" min="0" step="0.10" oninput="ciCalcLive()">
+              <div class="ing-unit">euro/cf.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADDITIVI -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">🌿 Additivi</span></div>
+        <div class="ci-card-body">
+
+          <!-- MALTO -->
+          <div class="tog-row">
+            <div class="tog-left">
+              <div class="ing-icon">🍯</div>
+              <div><div class="ing-name">Malto Roggena Dunkel</div><div class="ing-sub">25kg/sacco · euro 81.14 · % su farina</div></div>
+            </div>
+            <button class="ci-toggle" id="tog-malto" onclick="ciTog('malto')"></button>
+          </div>
+          <div class="addbloc" id="bloc-malto">
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% su farina</div><input class="ci-inp" id="ci-malto-perc" type="number" value="0.5" min="0" step="0.05" oninput="ciCalcLive()"></div>
+              <div><div class="ci-lbl">euro/kg (auto)</div><div class="ci-info" id="ci-malto-ckg" style="font-size:11px">euro 3.2456/kg</div></div>
+            </div>
+          </div>
+
+          <!-- ENZIMA -->
+          <div class="tog-row">
+            <div class="tog-left">
+              <div class="ing-icon">⚗️</div>
+              <div><div class="ing-name">natEnzyme Bakery Soft Salato</div><div class="ing-sub">% su farina · costo euro/kg</div></div>
+            </div>
+            <button class="ci-toggle" id="tog-enzima" onclick="ciTog('enzima')"></button>
+          </div>
+          <div class="addbloc" id="bloc-enzima">
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% su farina</div><input class="ci-inp" id="ci-enzima-perc" type="number" value="0.2" min="0" step="0.01" oninput="ciCalcLive()"></div>
+              <div><div class="ci-lbl">euro/kg</div><input class="ci-inp" id="ci-enzima-cost" type="number" value="5.14" min="0" step="0.10" oninput="ciCalcLive()"></div>
+            </div>
+          </div>
+
+          <!-- OLIO -->
+          <div class="tog-row">
+            <div class="tog-left">
+              <div class="ing-icon">🫒</div>
+              <div><div class="ing-name">Olio EVO</div><div class="ing-sub">% su farina · euro/kg</div></div>
+            </div>
+            <button class="ci-toggle" id="tog-olio" onclick="ciTog('olio')"></button>
+          </div>
+          <div class="addbloc" id="bloc-olio">
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% su farina</div><input class="ci-inp" id="ci-olio-perc" type="number" value="2.0" min="0" step="0.5" oninput="ciCalcLive()"></div>
+              <div><div class="ci-lbl">euro/kg</div><input class="ci-inp" id="ci-olio-cost" type="number" value="5.00" min="0" step="0.25" oninput="ciCalcLive()"></div>
+            </div>
+          </div>
+
+          <!-- ZUCCHERO -->
+          <div class="tog-row">
+            <div class="tog-left">
+              <div class="ing-icon">🍬</div>
+              <div><div class="ing-name">Zucchero / Miele</div><div class="ing-sub">% su farina · euro/kg</div></div>
+            </div>
+            <button class="ci-toggle" id="tog-zucc" onclick="ciTog('zucc')"></button>
+          </div>
+          <div class="addbloc" id="bloc-zucc">
+            <div class="fbl-grid">
+              <div><div class="ci-lbl">% su farina</div><input class="ci-inp" id="ci-zucc-perc" type="number" value="1.0" min="0" step="0.1" oninput="ciCalcLive()"></div>
+              <div><div class="ci-lbl">euro/kg</div><input class="ci-inp" id="ci-zucc-cost" type="number" value="1.20" min="0" step="0.10" oninput="ciCalcLive()"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PALLINA -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">⚖️ Pallina · Staglio</span></div>
+        <div class="ci-card-body">
+          <div class="ing-row">
+            <div class="ing-icon">⚖️</div>
+            <div><div class="ing-name">Peso pallina</div><div class="ing-sub">Peso staglio panetto</div></div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-gram" type="number" value="260" min="50" max="2000" step="5" oninput="ciCalcLive()">
+              <div class="ing-unit">grammi</div>
+            </div>
+          </div>
+          <div class="ing-row">
+            <div class="ing-icon">🔥</div>
+            <div><div class="ing-name">Calo cottura</div><div class="ing-sub">Perdita peso in forno (opz.)</div></div>
+            <div class="ing-right">
+              <input class="ing-inp" id="ci-calo" type="number" value="0" min="0" max="30" step="1" oninput="ciCalcLive()">
+              <div class="ing-unit">%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RISULTATO -->
+      <div class="ci-result" id="ci-result">
+        <div class="ci-res-lbl">Costo pallina</div>
+        <div class="ci-res-big" id="ci-res-big">—</div>
+        <div style="font-size:10px;color:#8a7a60;margin-top:3px" id="ci-res-nome"></div>
+        <div class="ci-res-grid">
+          <div class="ci-res-cell"><div class="ci-res-cell-val" id="ci-res-kgimp">—</div><div class="ci-res-cell-lbl">euro/kg impasto</div></div>
+          <div class="ci-res-cell"><div class="ci-res-cell-val" id="ci-res-idr">—</div><div class="ci-res-cell-lbl">Idratazione</div></div>
+        </div>
+        <div class="ci-det">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8a7a60;margin-bottom:5px">Dettaglio costo ingredienti</div>
+          <div id="ci-det-rows"></div>
+        </div>
+      </div>
+
+      <!-- SCHEDA BAKER'S -->
+      <div class="ci-card" id="ci-bakers-card" style="display:none">
+        <div class="ci-card-hdr"><span class="ci-card-title">📊 Scheda ricetta — Baker's %</span></div>
+        <div class="ci-card-body" style="padding:6px 14px">
+          <table class="bakers-table">
+            <thead><tr><th>Ingrediente</th><th style="text-align:right">%</th><th style="text-align:right">g/kg far.</th><th style="text-align:right">€/kg far.</th></tr></thead>
+            <tbody id="ci-bakers-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RICETTE SALVATE -->
+      <div class="ci-card">
+        <div class="ci-card-hdr"><span class="ci-card-title">💾 Ricette salvate</span><button onclick="ciSalva()" style="background:#fdf8ef;border:1.5px solid #e8d8b0;border-radius:20px;padding:4px 12px;font-size:10px;font-weight:600;color:#c8860a;cursor:pointer;font-family:inherit">Salva</button></div>
+        <div id="ci-saved-list" style="padding:4px 0"></div>
+      </div>
+
+      <div style="height:10px"></div>
+    </div>
   </div>
-  <div id="fp2" style="display:none"><div style="padding:10px 16px 4px;font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;font-weight:700">Listino D'Ago - Feb 2026 - IVA esclusa</div><div id="f-listino"></div><div style="padding:10px 16px;font-size:10px;color:#8a7a60;font-style:italic">Trasporto e Picking 2% - Minimo ordine 150 euro</div></div>
-  <div id="fp3" style="display:none"><div class="shdr">Attive <span id="f-cntAttG"></span></div><div id="f-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="f-cntSby"></span></div><div id="f-listSby"></div><div style="height:10px"></div></div>
-  <div class="bot" id="f-bot"><button class="breset" onclick="fReset()">Reset</button><button class="bwa" onclick="fWA()">📲 Invia WhatsApp</button></div>
+
+  <!-- TAB 2: LISTINO -->
+  <div id="fp2" style="display:none">
+    <div style="padding:10px 16px 4px;font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;font-weight:700">Listino D'Ago - Feb 2026 - IVA esclusa</div>
+    <div id="f-listino"></div>
+    <div style="padding:10px 16px;font-size:10px;color:#8a7a60;font-style:italic">Trasporto e Picking 2% - Minimo ordine 150 euro</div>
+  </div>
+
+  <!-- TAB 3: GESTIONE -->
+  <div id="fp3" style="display:none">
+    <div class="shdr">Attive <span id="f-cntAttG"></span></div>
+    <div id="f-listAtt"></div>
+    <div class="divid"></div>
+    <div class="shdr">Stand-by <span id="f-cntSby"></span></div>
+    <div id="f-listSby"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- BOT ORDINE -->
+  <div class="bot" id="f-bot-ord">
+    <button class="breset" onclick="fReset()">Reset</button>
+    <button class="bwa" onclick="fWA()">📲 Invia WhatsApp</button>
+  </div>
+  <!-- BOT IMPASTO -->
+  <div class="bot" id="f-bot-imp" style="display:none">
+    <button class="breset" onclick="ciReset()">Reset</button>
+    <button class="bcalc" onclick="ciCalcola()">🧮 Calcola</button>
+    <button class="breset" style="padding:13px 10px" onclick="ciWA()">📲</button>
+  </div>
 </div>
 
 <!-- ══ SEZIONE POMODORI ══ -->
@@ -223,7 +552,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
     <div class="nwrap" style="margin-top:10px"><div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">Note</div><textarea class="nfield" id="p-note" placeholder="Note ordine..."></textarea></div>
     <div style="height:10px"></div>
   </div>
-  <div id="pp1" style="display:none;padding:12px 16px"><div style="font-family:Georgia,serif;font-size:17px;color:#c0392b;margin-bottom:4px">🍕 Costo per pizza</div><div class="cpcard"><div class="cptitle" style="color:#c0392b">Prodotto</div><select class="cpsel" id="pc1" onchange="calcPCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="p-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#c0392b">Grammi sulla pizza</div><div class="cpgrid"><div><div class="cplbl">Grammi per pizza</div><input class="cpinp" id="p-gram" type="number" value="80" min="1" oninput="calcPCosto()"></div><div><div class="cplbl">Pizze per confezione</div><div class="cpval" id="p-pizze">-</div></div></div></div><div class="cpres" id="p-cpres" style="background:#fdf0f0;border-color:#e8c8c8"><div style="font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Costo per pizza</div><div class="cpnum" id="p-cpnum" style="color:#c0392b">-</div><div class="cpsub" id="p-cpsub"></div></div></div>
+  <div id="pp1" style="display:none;padding:12px 16px"><div style="font-family:Georgia,serif;font-size:17px;color:#c0392b;margin-bottom:4px">🍕 Costo per pizza</div><div class="cpcard"><div class="cptitle" style="color:#c0392b">Prodotto</div><select class="cpcard" id="pc1" onchange="calcPCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="p-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#c0392b">Grammi sulla pizza</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi per pizza</div><input class="cpval" id="p-gram" type="number" value="80" min="1" oninput="calcPCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze per confezione</div><div class="cpval" id="p-pizze">-</div></div></div></div><div id="p-cpres" style="display:none;background:#fdf0f0;border:2px solid #e8c8c8;border-radius:14px;padding:16px;margin-bottom:80px"><div style="font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Costo per pizza</div><div style="font-size:38px;font-weight:700;font-family:monospace;color:#c0392b" id="p-cpnum">-</div><div style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8" id="p-cpsub"></div></div></div>
   <div id="pp2" style="display:none"><div style="padding:10px 16px 4px;font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;font-weight:700">Listino D'Ago - Feb 2026</div><div id="p-listino"></div></div>
   <div id="pp3" style="display:none"><div class="shdr">Attivi <span id="p-cntAttG"></span></div><div id="p-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="p-cntSby"></span></div><div id="p-listSby"></div><div style="height:10px"></div></div>
   <div class="bot" id="p-bot"><button class="breset" onclick="pReset()">Reset</button><button class="bwa" onclick="pWA()">📲 Invia WhatsApp</button></div>
@@ -234,7 +563,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
   <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#2e7a4f">🥦 Verdure · Spirito Contadino</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="v-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="v-data" type="date" style="color:#2e7a4f"></div></div><div class="consrow"><span class="conslbl" style="color:#2e7a4f">Consegna:</span><input class="consdate" id="v-cons" type="date" style="color:#2e7a4f"></div></div>
   <div class="tabs"><button class="tab on" id="vt0" onclick="showVTab(0)" style="color:#2e7a4f">📦 Ordine</button><button class="tab" id="vt1" onclick="showVTab(1)">🍕 Costo</button><button class="tab" id="vt2" onclick="showVTab(2)">📋 Listino</button><button class="tab" id="vt3" onclick="showVTab(3)">⚙️ Gestione</button></div>
   <div id="vp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="v-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="v-pr" style="color:#2e7a4f">0</div></div><div class="sumcell"><div class="sumval" id="v-tot" style="font-size:13px;padding-top:4px;color:#2e7a4f">-</div><div class="sumlbl">euro tot</div></div></div><div id="v-listOrd"></div><div class="divid"></div><div class="rbox" id="v-rbox"><div class="rhdr" style="color:#2e7a4f">📋 Riepilogo</div><div id="v-rrows"></div><div class="rfoot"><span>Totale</span><span id="v-rtot" style="color:#2e7a4f">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="v-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
-  <div id="vp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Prodotto</div><select class="cpsel" id="vc1" onchange="calcVCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="v-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Grammi sulla pizza</div><div class="cpgrid"><div><div class="cplbl">Grammi</div><input class="cpinp" id="v-gram" type="number" value="80" min="1" oninput="calcVCosto()"></div><div><div class="cplbl">Pizze/conf.</div><div class="cpval" id="v-pizze">-</div></div></div></div><div class="cpres" id="v-cpres" style="background:#eef8f2;border-color:#b8dfc9"><div class="cpnum" id="v-cpnum" style="color:#2e7a4f">-</div><div class="cpsub" id="v-cpsub"></div></div></div>
+  <div id="vp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Prodotto</div><select class="cpcard" id="vc1" onchange="calcVCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="v-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Grammi sulla pizza</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="v-gram" type="number" value="80" min="1" oninput="calcVCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="v-pizze">-</div></div></div></div><div id="v-cpres" style="display:none;background:#eef8f2;border:2px solid #b8dfc9;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="v-cpnum" style="color:#2e7a4f;font-size:38px;font-weight:700;font-family:monospace">-</div><div class="cpsub" id="v-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
   <div id="vp2" style="display:none"><div id="v-listino"></div></div>
   <div id="vp3" style="display:none"><div class="shdr">Attivi <span id="v-cntAttG"></span></div><div id="v-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="v-cntSby"></span></div><div id="v-listSby"></div></div>
   <div class="bot" id="v-bot"><button class="breset" onclick="vReset()">Reset</button><button class="bwa" onclick="vWA()">📲 Invia WhatsApp</button></div>
@@ -245,7 +574,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
   <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#6d4c41">🍄 Funghi · Scherini</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="g-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="g-data" type="date" style="color:#6d4c41"></div></div><div class="consrow"><span class="conslbl" style="color:#6d4c41">Consegna:</span><input class="consdate" id="g-cons" type="date" style="color:#6d4c41"></div></div>
   <div class="tabs"><button class="tab on" id="gt0" onclick="showGTab(0)" style="color:#6d4c41">📦 Ordine</button><button class="tab" id="gt1" onclick="showGTab(1)">🍕 Costo</button><button class="tab" id="gt2" onclick="showGTab(2)">📋 Listino</button><button class="tab" id="gt3" onclick="showGTab(3)">⚙️ Gestione</button></div>
   <div id="gp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="g-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="g-pr" style="color:#6d4c41">0</div></div><div class="sumcell"><div class="sumval" id="g-tot" style="font-size:13px;padding-top:4px;color:#6d4c41">-</div><div class="sumlbl">euro tot</div></div></div><div id="g-listOrd"></div><div class="divid"></div><div class="rbox" id="g-rbox"><div class="rhdr" style="color:#6d4c41">📋 Riepilogo</div><div id="g-rrows"></div><div class="rfoot"><span>Totale</span><span id="g-rtot" style="color:#6d4c41">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="g-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
-  <div id="gp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Prodotto</div><select class="cpsel" id="gc1" onchange="calcGCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="g-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Grammi</div><div class="cpgrid"><div><div class="cplbl">Grammi</div><input class="cpinp" id="g-gram" type="number" value="60" min="1" oninput="calcGCosto()"></div><div><div class="cplbl">Pizze/conf.</div><div class="cpval" id="g-pizze">-</div></div></div></div><div class="cpres" id="g-cpres" style="background:#efebe9;border-color:#bcaaa4"><div class="cpnum" id="g-cpnum" style="color:#6d4c41">-</div><div class="cpsub" id="g-cpsub"></div></div></div>
+  <div id="gp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Prodotto</div><select class="cpcard" id="gc1" onchange="calcGCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="g-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="g-gram" type="number" value="60" min="1" oninput="calcGCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="g-pizze">-</div></div></div></div><div id="g-cpres" style="display:none;background:#efebe9;border:2px solid #bcaaa4;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="g-cpnum" style="color:#6d4c41;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="g-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
   <div id="gp2" style="display:none"><div id="g-listino"></div></div>
   <div id="gp3" style="display:none"><div class="shdr">Attivi <span id="g-cntAttG"></span></div><div id="g-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="g-cntSby"></span></div><div id="g-listSby"></div></div>
   <div class="bot" id="g-bot"><button class="breset" onclick="gReset()">Reset</button><button class="bwa" onclick="gWA()">📲 Invia WhatsApp</button></div>
@@ -256,7 +585,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
   <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#7b1fa2">🥩 Salumi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="s-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="s-data" type="date" style="color:#7b1fa2"></div></div><div class="consrow"><span class="conslbl" style="color:#7b1fa2">Consegna:</span><input class="consdate" id="s-cons" type="date" style="color:#7b1fa2"></div></div>
   <div class="tabs"><button class="tab on" id="st0" onclick="showSTab(0)" style="color:#7b1fa2">📦 Ordine</button><button class="tab" id="st1" onclick="showSTab(1)">🍕 Costo</button><button class="tab" id="st2" onclick="showSTab(2)">📋 Listino</button><button class="tab" id="st3" onclick="showSTab(3)">⚙️ Gestione</button></div>
   <div id="sp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="s-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="s-pr" style="color:#7b1fa2">0</div></div><div class="sumcell"><div class="sumval" id="s-tot" style="font-size:13px;padding-top:4px;color:#7b1fa2">-</div><div class="sumlbl">euro tot</div></div></div><div id="s-listOrd"></div><div class="divid"></div><div class="rbox" id="s-rbox"><div class="rhdr" style="color:#7b1fa2">📋 Riepilogo</div><div id="s-rrows"></div><div class="rfoot"><span>Totale</span><span id="s-rtot" style="color:#7b1fa2">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="s-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
-  <div id="sp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Prodotto</div><select class="cpsel" id="sc1" onchange="calcSCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="s-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Grammi</div><div class="cpgrid"><div><div class="cplbl">Grammi</div><input class="cpinp" id="s-gram" type="number" value="50" min="1" oninput="calcSCosto()"></div><div><div class="cplbl">Pizze/conf.</div><div class="cpval" id="s-pizze">-</div></div></div></div><div class="cpres" id="s-cpres" style="background:#f3e5f5;border-color:#ce93d8"><div class="cpnum" id="s-cpnum" style="color:#7b1fa2">-</div><div class="cpsub" id="s-cpsub"></div></div></div>
+  <div id="sp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Prodotto</div><select class="cpcard" id="sc1" onchange="calcSCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="s-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="s-gram" type="number" value="50" min="1" oninput="calcSCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="s-pizze">-</div></div></div></div><div id="s-cpres" style="display:none;background:#f3e5f5;border:2px solid #ce93d8;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="s-cpnum" style="color:#7b1fa2;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="s-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
   <div id="sp2" style="display:none"><div id="s-listino"></div></div>
   <div id="sp3" style="display:none"><div class="shdr">Attivi <span id="s-cntAttG"></span></div><div id="s-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="s-cntSby"></span></div><div id="s-listSby"></div></div>
   <div class="bot" id="s-bot"><button class="breset" onclick="sReset()">Reset</button><button class="bwa" onclick="sWA()">📲 Invia WhatsApp</button></div>
@@ -267,119 +596,530 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
   <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#f57f17">🧀 Formaggi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="fo-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="fo-data" type="date" style="color:#f57f17"></div></div><div class="consrow"><span class="conslbl" style="color:#f57f17">Consegna:</span><input class="consdate" id="fo-cons" type="date" style="color:#f57f17"></div></div>
   <div class="tabs"><button class="tab on" id="fot0" onclick="showFoTab(0)" style="color:#f57f17">📦 Ordine</button><button class="tab" id="fot1" onclick="showFoTab(1)">🍕 Costo</button><button class="tab" id="fot2" onclick="showFoTab(2)">📋 Listino</button><button class="tab" id="fot3" onclick="showFoTab(3)">⚙️ Gestione</button></div>
   <div id="fop0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="fo-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="fo-pr" style="color:#f57f17">0</div></div><div class="sumcell"><div class="sumval" id="fo-tot" style="font-size:13px;padding-top:4px;color:#f57f17">-</div><div class="sumlbl">euro tot</div></div></div><div id="fo-listOrd"></div><div class="divid"></div><div class="rbox" id="fo-rbox"><div class="rhdr" style="color:#f57f17">📋 Riepilogo</div><div id="fo-rrows"></div><div class="rfoot"><span>Totale</span><span id="fo-rtot" style="color:#f57f17">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="fo-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
-  <div id="fop1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#f57f17">Formaggio</div><select class="cpsel" id="foc1" onchange="calcFoCosto()"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="fo-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#f57f17">Grammi</div><div class="cpgrid"><div><div class="cplbl">Grammi</div><input class="cpinp" id="fo-gram" type="number" value="60" min="1" oninput="calcFoCosto()"></div><div><div class="cplbl">Pizze/conf.</div><div class="cpval" id="fo-pizze">-</div></div></div></div><div class="cpres" id="fo-cpres" style="background:#fff8e1;border-color:#ffcc02"><div class="cpnum" id="fo-cpnum" style="color:#f57f17">-</div><div class="cpsub" id="fo-cpsub"></div></div></div>
+  <div id="fop1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#f57f17">Formaggio</div><select class="cpcard" id="foc1" onchange="calcFoCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="fo-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#f57f17">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="fo-gram" type="number" value="60" min="1" oninput="calcFoCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="fo-pizze">-</div></div></div></div><div id="fo-cpres" style="display:none;background:#fff8e1;border:2px solid #ffcc02;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="fo-cpnum" style="color:#f57f17;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="fo-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
   <div id="fop2" style="display:none"><div id="fo-listino"></div></div>
   <div id="fop3" style="display:none"><div class="shdr">Attivi <span id="fo-cntAttG"></span></div><div id="fo-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="fo-cntSby"></span></div><div id="fo-listSby"></div></div>
   <div class="bot" id="fo-bot"><button class="breset" onclick="foReset()">Reset</button><button class="bwa" onclick="foWA()">📲 Invia WhatsApp</button></div>
 </div>
 
 <script>
-// ══ DATI FARINE ══
-var FA=[{id:'hp0102',nome:'HP 0102',kg:12.5,w:'320-340',pr:23.93},{id:'hp0101',nome:'HP 0101',kg:12.5,w:'390-420',pr:24.88},{id:'hp0103',nome:'HP 0103',kg:10,w:'-',pr:43.93},{id:'hp0104',nome:'HP 0104',kg:10,w:'-',pr:44.63},{id:'f5078',nome:'5078',kg:12.5,w:'350-380',pr:26.88},{id:'f5063',nome:'5063 Special',kg:12.5,w:'260-280',pr:19.98},{id:'f5046',nome:'5046 Allegra',kg:12.5,w:'180-220',pr:19.98},{id:'f5037',nome:'5037 Unica',kg:12.5,w:'300-340',pr:20.94},{id:'f5020',nome:'5020',kg:12.5,w:'350-360',pr:26.88},{id:'f5072',nome:'5072',kg:12.5,w:'320-340',pr:26.88},{id:'petra1hp',nome:'Petra 1 HP',kg:12.5,w:'-',pr:28.39},{id:'petra3hp',nome:'Petra 3 HP',kg:12.5,w:'-',pr:28.39},{id:'petra9hp',nome:'Petra 9 HP',kg:12.5,w:'-',pr:28.39},{id:'petra1',nome:'Petra 1',kg:12.5,w:'-',pr:26.38},{id:'petra3',nome:'Petra 3',kg:12.5,w:'-',pr:26.38},{id:'petra9',nome:'Petra 9',kg:12.5,w:'-',pr:26.38},{id:'f8610hp',nome:'8610 HP',kg:12.5,w:'-',pr:24.71},{id:'f8610',nome:'8610',kg:12.5,w:'-',pr:21.52},{id:'f0052',nome:'0052 Segale',kg:12.5,w:'-',pr:26.39},{id:'ev0201',nome:'0201 Evolutiva',kg:12.5,w:'-',pr:41.43},{id:'bs3220',nome:'3220 Bonsemi',kg:10,w:'-',pr:55.90},{id:'ot3400',nome:'3400 Ottimais',kg:10,w:'-',pr:67.83},{id:'pi5010',nome:'5010 Pinsa',kg:12.5,w:'-',pr:29.68},{id:'lievito',nome:'Lievito Hirondelle',kg:2.5,w:'-',pr:0}];
+// ══════════════════════════════════════════════
+// DATI FARINE — aggiunto Malto e natEnzyme
+// ══════════════════════════════════════════════
+var FA=[
+  {id:'hp0102',   nome:'HP 0102',                   kg:12.5, w:'320-340', pr:23.93,  tipo:'farina'},
+  {id:'hp0101',   nome:'HP 0101',                   kg:12.5, w:'390-420', pr:24.88,  tipo:'farina'},
+  {id:'hp0103',   nome:'HP 0103',                   kg:10,   w:'-',       pr:43.93,  tipo:'farina'},
+  {id:'hp0104',   nome:'HP 0104',                   kg:10,   w:'-',       pr:44.63,  tipo:'farina'},
+  {id:'f5078',    nome:'5078',                       kg:12.5, w:'350-380', pr:26.88,  tipo:'farina'},
+  {id:'f5063',    nome:'5063 Special',               kg:12.5, w:'260-280', pr:19.98,  tipo:'farina'},
+  {id:'f5046',    nome:'5046 Allegra',               kg:12.5, w:'180-220', pr:19.98,  tipo:'farina'},
+  {id:'f5037',    nome:'5037 Unica',                 kg:12.5, w:'300-340', pr:20.94,  tipo:'farina'},
+  {id:'f5020',    nome:'5020',                       kg:12.5, w:'350-360', pr:26.88,  tipo:'farina'},
+  {id:'f5072',    nome:'5072',                       kg:12.5, w:'320-340', pr:26.88,  tipo:'farina'},
+  {id:'petra1hp', nome:'Petra 1 HP',                 kg:12.5, w:'-',       pr:28.39,  tipo:'farina'},
+  {id:'petra3hp', nome:'Petra 3 HP',                 kg:12.5, w:'-',       pr:28.39,  tipo:'farina'},
+  {id:'petra9hp', nome:'Petra 9 HP',                 kg:12.5, w:'-',       pr:28.39,  tipo:'farina'},
+  {id:'petra1',   nome:'Petra 1',                    kg:12.5, w:'-',       pr:26.38,  tipo:'farina'},
+  {id:'petra3',   nome:'Petra 3',                    kg:12.5, w:'-',       pr:26.38,  tipo:'farina'},
+  {id:'petra9',   nome:'Petra 9',                    kg:12.5, w:'-',       pr:26.38,  tipo:'farina'},
+  {id:'f8610hp',  nome:'8610 HP',                    kg:12.5, w:'-',       pr:24.71,  tipo:'farina'},
+  {id:'f8610',    nome:'8610',                        kg:12.5, w:'-',       pr:21.52,  tipo:'farina'},
+  {id:'f0052',    nome:'0052 Segale',                 kg:12.5, w:'-',       pr:26.39,  tipo:'farina'},
+  {id:'ev0201',   nome:'0201 Evolutiva',              kg:12.5, w:'-',       pr:41.43,  tipo:'farina'},
+  {id:'bs3220',   nome:'3220 Bonsemi',                kg:10,   w:'-',       pr:55.90,  tipo:'farina'},
+  {id:'ot3400',   nome:'3400 Ottimais',               kg:10,   w:'-',       pr:67.83,  tipo:'farina'},
+  {id:'pi5010',   nome:'5010 Pinsa',                  kg:12.5, w:'-',       pr:29.68,  tipo:'farina'},
+  {id:'lievito',  nome:'Lievito Hirondelle',          kg:2.5,  w:'-',       pr:0,      tipo:'altro'},
+  // ── NUOVI PRODOTTI ──
+  {id:'malto_rd', nome:'Malto Roggena Dunkel',        kg:25,   w:'-',       pr:81.14,  tipo:'additivo'},
+  {id:'nat_enz',  nome:'natEnzyme Bakery Soft Salato',kg:1,    w:'-',       pr:5.14,   tipo:'additivo'}
+];
+
+// Costanti per il calcolo impasto
+var MALTO_CKG = 81.14 / 25; // euro/kg = 3.2456
+var ENZIMA_CKG = 5.14;       // euro/kg (1kg confezione)
+
 var F_DEF=['hp0102','f5078','f5063','f5046','f5037','petra3hp','hp0103','lievito'];
 var fAtt={},fOrd={};
 
-// ══ DATI POMODORI ══
-var PA=[{id:'rs1',cat:'Rosso Siculo',nome:"U Siccu di Siccagno",formato:'1kg',pz:1,pesoG:1000,pr:22.00},{id:'rs2',cat:'Rosso Siculo',nome:'Passata di Siccagno',formato:'12x680g',pz:12,pesoG:680,pr:23.95},{id:'rs3',cat:'Rosso Siculo',nome:'Pelato di Siccagno',formato:'9x700g',pz:9,pesoG:700,pr:27.35},{id:'gr1',cat:'Gustarosso',nome:'San Marzano DOP',formato:'6x2560g',pz:6,pesoG:2560,pr:52.00},{id:'gr2',cat:'Gustarosso',nome:'Pomodoro Pelati 100% Italiani',formato:'6x2500g',pz:6,pesoG:2500,pr:28.50},{id:'gr3',cat:'Gustarosso',nome:'Pomodoro Pelati Biologici',formato:'6x2500g',pz:6,pesoG:2500,pr:34.88},{id:'gr4',cat:'Gustarosso',nome:'Polpa Finissima',formato:'3x4050g',pz:3,pesoG:4050,pr:23.72},{id:'gr5',cat:'Gustarosso',nome:'Polpa Finissima Box',formato:'10kg',pz:1,pesoG:10000,pr:17.50},{id:'gg1',cat:'Grangusto',nome:'Pomodori Pelati Supremo',formato:'6x2.5kg',pz:6,pesoG:2500,pr:26.50},{id:'gg2',cat:'Grangusto',nome:'Datterino Giallo in Succo',formato:'6x800g',pz:6,pesoG:800,pr:29.52},{id:'gg3',cat:'Grangusto',nome:'Vellutata Datterino Giallo',formato:'6x800g',pz:6,pesoG:800,pr:32.87},{id:'gg4',cat:'Grangusto',nome:'Datterino Giallo Semi Dry',formato:'6x800g',pz:6,pesoG:800,pr:47.89},{id:'gg6',cat:'Grangusto',nome:'Datterino Rosso in Succo',formato:'6x800g',pz:6,pesoG:800,pr:25.87},{id:'gg7',cat:'Grangusto',nome:'Vellutata Datterino Rosso',formato:'6x800g',pz:6,pesoG:800,pr:32.87},{id:'gg8',cat:'Grangusto',nome:'Datterino Rosso Semi Dry',formato:'6x800g',pz:6,pesoG:800,pr:47.89},{id:'gg13',cat:'Grangusto',nome:'Crema di Zucca Gialla',formato:'12x400g',pz:12,pesoG:400,pr:45.95},{id:'cm1',cat:'Casa Marrazzo',nome:'San Marzano DOP',formato:'6x2560g',pz:6,pesoG:2560,pr:41.00},{id:'cm2',cat:'Casa Marrazzo',nome:'Carciofi Gambo Romano',formato:'2400g',pz:1,pesoG:2400,pr:18.91},{id:'cm4',cat:'Casa Marrazzo',nome:'Friarielli in Olio Oliva',formato:'6x800g',pz:6,pesoG:800,pr:57.50}];
-var P_DEF=['gr1','gr2','gr4','gg1','gg6','cm1'];
-var pAtt={},pOrd={};
-
-// ══ DATI VERDURE ══
-var VA=[{id:'sc1',cat:'Spirito Contadino',nome:'Senape Selvatica di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:13.57},{id:'sc2',cat:'Spirito Contadino',nome:'Marasciuolo Selvatico di Campo',formato:'4x1.25kg',pz:4,pesoG:1250,pr:13.70},{id:'sc3',cat:'Spirito Contadino',nome:'Cicoriella Selvatica di Campo',formato:'4x1.25kg',pz:4,pesoG:1250,pr:11.71},{id:'sc4',cat:'Spirito Contadino',nome:'Friarielli di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:11.85},{id:'sc5',cat:'Spirito Contadino',nome:'Mugnuli Selvatici di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:13.80},{id:'sc7',cat:'Spirito Contadino',nome:'Carciofini in Crosta',formato:'4x1kg',pz:4,pesoG:1000,pr:13.43},{id:'sc8',cat:'Spirito Contadino',nome:'Fiori di Zucca in Crosta',formato:'1x1kg',pz:1,pesoG:1000,pr:14.01},{id:'sc9',cat:'Spirito Contadino',nome:'Sponzali',formato:'8x500g',pz:8,pesoG:500,pr:9.68},{id:'sc10',cat:'Spirito Contadino',nome:'Funghi Cardoncelli',formato:'1x2kg',pz:1,pesoG:2000,pr:14.30}];
-var V_DEF=['sc1','sc4','sc7','sc10'];
-var vAtt={},vOrd={};
-
-// ══ DATI FUNGHI ══
-var GA=[{id:'fs1',cat:'Funghi Scherini',nome:'Porcini Interi Extra',formato:'5kg',pz:1,pesoG:5000,pr:21.13},{id:'fs2',cat:'Funghi Scherini',nome:'Porcini Interi Premium',formato:'5kg',pz:1,pesoG:5000,pr:17.55},{id:'fs3',cat:'Funghi Scherini',nome:'Porcini Interi Standard',formato:'5kg',pz:1,pesoG:5000,pr:12.75},{id:'fs4',cat:'Funghi Scherini',nome:'Porcini a Fette Premium',formato:'5kg',pz:1,pesoG:5000,pr:15.75},{id:'fs5',cat:'Funghi Scherini',nome:'Porcini a Fette Standard',formato:'5kg',pz:1,pesoG:5000,pr:12.50},{id:'fs7',cat:'Funghi Scherini',nome:'Shiitake Extra',formato:'1kg',pz:1,pesoG:1000,pr:6.50},{id:'fs8',cat:'Funghi Scherini',nome:'Nameko Extra',formato:'1kg',pz:1,pesoG:1000,pr:6.80},{id:'fs9',cat:'Funghi Scherini',nome:'Champignon Premium',formato:'2.5kg',pz:1,pesoG:2500,pr:2.95},{id:'fs10',cat:'Funghi Scherini',nome:'Cuore di Carciofi',formato:'1kg',pz:1,pesoG:1000,pr:5.75}];
-var G_DEF=['fs1','fs4','fs7'];
-var gAtt={},gOrd={};
-
-// ══ DATI SALUMI ══
-var SA=[{id:'sa2',cat:"L'Art. Levoni",nome:'Prosciutto Crudo Riserva 24-28 mesi',formato:'8/9kg',pesoG:8500,pr:23.00},{id:'sa3',cat:'Branchi Riserva',nome:'Cotto60 Miglior Cotto GR',formato:'10kg',pesoG:10000,pr:22.74},{id:'sa5',cat:'Branchi Riserva',nome:'Prosciutto Cotto Praga Affumicato',formato:'9/10kg',pesoG:9500,pr:17.20},{id:'sa7',cat:"L'Art. Levoni",nome:'Cotto AQ Cottura Lenta a Vapore',formato:'10kg',pesoG:10000,pr:17.20},{id:'sa9',cat:"L'Art. Levoni",nome:'Mortadella Budello Naturale Bronte DOP',formato:'7.5kg',pesoG:7500,pr:12.85},{id:'sa10',cat:"L'Art. Levoni",nome:'Speck Affumicatura alla Brace',formato:'5/6kg',pesoG:5500,pr:23.35},{id:'sa15',cat:'Levoni Riserva',nome:'Guanciale Affumicato',formato:'1kg',pesoG:1000,pr:14.65},{id:'sa16',cat:'Levoni Premium',nome:'Mortadella Oro Pistacchio Bronte DOP',formato:'13kg',pesoG:13000,pr:11.60},{id:'sa19',cat:'Levoni Premium',nome:'Finocchiona Salame Semi Finocchio',formato:'2.5kg',pesoG:2500,pr:17.20},{id:'sa20',cat:'Levoni Premium',nome:"N'duja Originale",formato:'400g',pesoG:400,pr:17.30},{id:'sa24',cat:'Levoni Premium',nome:'Ventricina Piccante',formato:'3kg',pesoG:3000,pr:18.70},{id:'sa25',cat:'Branchi Prosciutti',nome:'Prosciutto Cotto Primo Branchi',formato:'10/12kg',pesoG:11000,pr:19.86},{id:'sa26',cat:'Branchi Prosciutti',nome:'Prosciutto Cotto Arrosto',formato:'10/12kg',pesoG:11000,pr:14.72}];
-var S_DEF=['sa2','sa9','sa15','sa19'];
-var sAtt={},sOrd={};
-
-// ══ DATI FORMAGGI ══
-var FOA=[{id:'fo1',cat:'Formaggi Siciliani',nome:'Ragusano DOP - Presidio SF',formato:'1.8/15kg',pesoG:5000,pr:16.75},{id:'fo3',cat:'Formaggi Siciliani',nome:'Provola dei Nebrodi DOP',formato:'6x1kg',pesoG:1000,pr:16.50},{id:'fo4',cat:'Formaggi Siciliani',nome:'Primo Sale delle Madonie',formato:'5kg',pesoG:5000,pr:13.90},{id:'fo5',cat:'Formaggi Siciliani',nome:'Tuma Persa - Presidio SF',formato:'3.5kg',pesoG:3500,pr:25.90},{id:'fo7',cat:'Formaggi Siciliani',nome:'Pecorino Siciliano DOP',formato:'3kg',pesoG:3000,pr:21.90},{id:'fo8',cat:'Formaggi Nazionali',nome:'Parmigiano Reggiano DOP 24 mesi',formato:'4.5kg',pesoG:4500,pr:19.87},{id:'fo9',cat:'Formaggi Nazionali',nome:'Grana Padano DOP 20 mesi',formato:'4.5kg',pesoG:4500,pr:17.88},{id:'fo10',cat:'Formaggi Nazionali',nome:'Blu di Bufala Top Cheese World',formato:'4kg',pesoG:4000,pr:29.91}];
-var FO_DEF=['fo1','fo3','fo7','fo8'];
-var foAtt={},foOrd={};
-
-// ══ NAVIGAZIONE ══
+// ══════════════════════════════════════════════
+// NAVIGAZIONE
+// ══════════════════════════════════════════════
 function openSez(id){document.getElementById('splash').style.display='none';document.getElementById('sez-'+id).className='sez on';}
 function goHome(){['farine','pomodori','verdure','funghi','salumi','formaggi'].forEach(function(s){document.getElementById('sez-'+s).className='sez';});document.getElementById('splash').style.display='flex';}
-
-// ══ STORAGE ══
 function ld(key,def){var v=null;try{v=localStorage.getItem(key);}catch(e){}if(v){try{return JSON.parse(v);}catch(e){}}return def;}
 function sv(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
 function fmtD(v){if(!v)return'-';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 
-// ══ FARINE ══
-function fLoad(){fAtt=ld('fa_att_v1',{});FA.forEach(function(f){if(fAtt[f.id]===undefined)fAtt[f.id]=(F_DEF.indexOf(f.id)>=0);});fOrd=ld('fa_ord_v1',{});FA.forEach(function(f){if(fOrd[f.id]===undefined)fOrd[f.id]=0;});}
-function fGetAtt(){return FA.filter(function(f){return fAtt[f.id];});}
-function fGetSby(){return FA.filter(function(f){return !fAtt[f.id];});}
+// ══════════════════════════════════════════════
+// FARINE — ORDINE (invariato)
+// ══════════════════════════════════════════════
+function fLoad(){
+  fAtt=ld('fa_att_v1',{});
+  FA.forEach(function(f){if(fAtt[f.id]===undefined)fAtt[f.id]=(F_DEF.indexOf(f.id)>=0);});
+  fOrd=ld('fa_ord_v1',{});
+  FA.forEach(function(f){if(fOrd[f.id]===undefined)fOrd[f.id]=0;});
+}
+function fGetAtt(){return FA.filter(function(f){return fAtt[f.id]&&f.tipo!=='additivo';});}
+function fGetSby(){return FA.filter(function(f){return !fAtt[f.id]&&f.tipo!=='additivo';});}
 function fTotSacchi(){var s=0;fGetAtt().forEach(function(f){s+=fOrd[f.id]||0;});return s;}
 function fTotKg(){var s=0;fGetAtt().forEach(function(f){s+=(fOrd[f.id]||0)*f.kg;});return s;}
-function fUpd(){var tot=fTotSacchi(),om=Math.floor(tot/5),kg=fTotKg();document.getElementById('f-sacchi').textContent=tot;document.getElementById('f-omaggi').textContent=om;document.getElementById('f-kg').textContent=tot===0?'-':kg+'kg';var riga=fGetAtt().filter(function(f){return(fOrd[f.id]||0)>0;});var rb=document.getElementById('f-rbox');if(riga.length>0){rb.className='rbox on';var h='';riga.forEach(function(f){var q=fOrd[f.id];h+='<div class="rrow"><span style="color:#8a7a60">'+f.nome+'</span><span style="font-family:monospace;font-weight:600">'+q+' sacchi ('+q*f.kg+'kg)</span></div>';});document.getElementById('f-rrows').innerHTML=h;document.getElementById('f-rtot').textContent=tot+' sacchi - '+kg+'kg';}else rb.className='rbox';var ob=document.getElementById('f-obox');if(om>0){ob.className='obox on';document.getElementById('f-ocnt').textContent=om;}else ob.className='obox';}
+function fUpd(){
+  var tot=fTotSacchi(),om=Math.floor(tot/5),kg=fTotKg();
+  document.getElementById('f-sacchi').textContent=tot;
+  document.getElementById('f-omaggi').textContent=om;
+  document.getElementById('f-kg').textContent=tot===0?'-':kg+'kg';
+  var riga=fGetAtt().filter(function(f){return(fOrd[f.id]||0)>0;});
+  var rb=document.getElementById('f-rbox');
+  if(riga.length>0){rb.className='rbox on';var h='';riga.forEach(function(f){var q=fOrd[f.id];h+='<div class="rrow"><span style="color:#8a7a60">'+f.nome+'</span><span style="font-family:monospace;font-weight:600">'+q+' sacchi ('+q*f.kg+'kg)</span></div>';});document.getElementById('f-rrows').innerHTML=h;document.getElementById('f-rtot').textContent=tot+' sacchi - '+kg+'kg';}else rb.className='rbox';
+  var ob=document.getElementById('f-obox');
+  if(om>0){ob.className='obox on';document.getElementById('f-ocnt').textContent=om;}else ob.className='obox';
+}
 function fChg(id,d){fOrd[id]=Math.max(0,(fOrd[id]||0)+d);var el=document.getElementById('fqi_'+id);if(el)el.value=fOrd[id];sv('fa_ord_v1',fOrd);fUpd();}
 function fSetv(id,v){fOrd[id]=Math.max(0,parseInt(v)||0);sv('fa_ord_v1',fOrd);fUpd();}
 function fTog(id){fAtt[id]=!fAtt[id];if(!fAtt[id])fOrd[id]=0;sv('fa_att_v1',fAtt);sv('fa_ord_v1',fOrd);fRenderOrd();fRenderGest();fUpd();}
-function fRenderOrd(){var att=fGetAtt();document.getElementById('f-cntAtt').textContent=att.length+' farine';var el=document.getElementById('f-listOrd');if(att.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessuna farina attiva</div>';return;}var h='';for(var i=0;i<att.length;i++){var f=att[i];var bw=f.w!=='-'?'<span class="badge" style="background:#eef2fd;border:1px solid #b8c8e8;color:#1a4a8a">W'+f.w+'</span>':'';var bk='<span class="badge" style="background:#eef2fd;border:1px solid #b8c8e8;color:#1a4a8a">'+f.kg+'kg</span>';var q=fOrd[f.id]||0;h+='<div class="fc"><div class="fi"><div class="fn">🌾 '+f.nome+'</div><div class="fm">'+bk+bw+'</div>';if(f.pr>0){var ckg=Math.round(f.pr/f.kg*10000)/10000;h+='<div class="fp" style="color:#c8860a">euro '+f.pr.toFixed(2)+' | euro '+ckg.toFixed(4)+'/kg</div>';}h+='</div><div class="qw" style="border-color:#c8860a"><button class="qb" id="fqm_'+f.id+'" style="color:#c8860a">-</button><input class="qi" id="fqi_'+f.id+'" type="number" min="0" value="'+q+'" style="color:#c8860a"><button class="qb" id="fqp_'+f.id+'" style="color:#c8860a">+</button></div></div>';}el.innerHTML=h;for(var j=0;j<att.length;j++){(function(fid){var bm=document.getElementById('fqm_'+fid);var bp=document.getElementById('fqp_'+fid);var inp=document.getElementById('fqi_'+fid);if(bm)bm.onclick=function(){fChg(fid,-1);};if(bp)bp.onclick=function(){fChg(fid,1);};if(inp)inp.oninput=function(){fSetv(fid,this.value);};})(att[j].id);}}
-function fRenderGest(){var att=fGetAtt(),sby=fGetSby();document.getElementById('f-cntAttG').textContent=att.length;document.getElementById('f-cntSby').textContent=sby.length;var ha='';for(var i=0;i<att.length;i++){var f=att[i];ha+='<div class="gc"><div class="gi"><div class="gn">🌾 '+f.nome+'</div><div class="gm">'+f.kg+'kg/sacco</div></div><button class="btog" id="fgm_'+f.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';}document.getElementById('f-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuna attiva</div>';var hs='';for(var j=0;j<sby.length;j++){var f2=sby[j];hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">🌾 '+f2.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+f2.kg+'kg/sacco</div></div><button class="btog" id="fga_'+f2.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';}document.getElementById('f-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuna in stand-by</div>';for(var k=0;k<att.length;k++){(function(fid){var b=document.getElementById('fgm_'+fid);if(b)b.onclick=function(){fTog(fid);};})(att[k].id);}for(var l=0;l<sby.length;l++){(function(fid){var b=document.getElementById('fga_'+fid);if(b)b.onclick=function(){fTog(fid);};})(sby[l].id);}}
-function fRenderListino(){var h='';for(var i=0;i<FA.length;i++){var f=FA[i];if(f.pr===0)continue;var ckg=Math.round(f.pr/f.kg*10000)/10000;h+='<div class="lrow"><div style="flex:1"><div style="font-size:13px;font-weight:600">🌾 '+f.nome+'</div><div style="font-size:10px;color:#8a7a60">'+f.kg+'kg/sacco'+(f.w!=='-'?' - W'+f.w:'')+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:#c8860a">euro '+f.pr.toFixed(2)+'</div><div style="font-size:10px;color:#8a7a60">euro '+ckg.toFixed(4)+'/kg</div></div></div>';}document.getElementById('f-listino').innerHTML=h;}
-function fPopCosto(){var o1='<option value="-1">-- Seleziona --</option>';var o0='<option value="-1">-- Nessuna --</option>';for(var i=0;i<FA.length;i++){var f=FA[i];if(f.pr===0)continue;var ckg=Math.round(f.pr/f.kg*10000)/10000;var o='<option value="'+i+'">'+f.nome+' ('+ckg.toFixed(4)+'euro/kg)</option>';o1+=o;o0+=o;}document.getElementById('fc1').innerHTML=o1;document.getElementById('fc2').innerHTML=o0;document.getElementById('fc3').innerHTML=o0;}
-function calcFCosto(){var i1=parseInt(document.getElementById('fc1').value);var i2=parseInt(document.getElementById('fc2').value);var i3=parseInt(document.getElementById('fc3').value);var p1=parseFloat(document.getElementById('fcp1').value)||0;var p2=parseFloat(document.getElementById('fcp2').value)||0;var p3=parseFloat(document.getElementById('fcp3').value)||0;var idr=parseFloat(document.getElementById('fcIDR').value)||70;var sale=parseFloat(document.getElementById('fcSale').value)||2.5;var gram=parseFloat(document.getElementById('fcGram').value)||260;var cs=parseFloat(document.getElementById('fcCsale').value)||0.5;var f1=i1>=0?FA[i1]:null,f2=i2>=0?FA[i2]:null,f3=i3>=0?FA[i3]:null;var ck1=f1?Math.round(f1.pr/f1.kg*10000)/10000:0;var ck2=f2?Math.round(f2.pr/f2.kg*10000)/10000:0;var ck3=f3?Math.round(f3.pr/f3.kg*10000)/10000:0;document.getElementById('fcv1').textContent=f1?'euro '+ck1.toFixed(4)+'/kg':'-';document.getElementById('fcv2').textContent=f2?'euro '+ck2.toFixed(4)+'/kg':'-';document.getElementById('fcv3').textContent=f3?'euro '+ck3.toFixed(4)+'/kg':'-';var res=document.getElementById('f-cpres');if(!f1||p1<=0){res.style.display='none';return;}var blk=ck1*(p1/100)+(f2?ck2*(p2/100):0)+(f3?ck3*(p3/100):0);var pik=1+idr/100+sale/100;var cik=(blk+(sale/100)*cs)/pik;var cp=cik*(gram/1000);res.style.display='block';document.getElementById('f-cpnum').textContent='euro '+Math.round(cp*10000)/10000;document.getElementById('f-cpsub').innerHTML='Blend: '+(f1?f1.nome+' '+p1+'%':'')+(f2?' + '+f2.nome+' '+p2+'%':'')+(f3?' + '+f3.nome+' '+p3+'%':'')+'<br>IDR: '+idr+'% | Sale: '+sale+'% | Gram: '+gram+'g<br><strong style="color:#c8860a">euro '+Math.round(cp*1000)/1000+' per pallina da '+gram+'g</strong>';}
-function showFTab(n){for(var i=0;i<4;i++){document.getElementById('fp'+i).style.display=i===n?'block':'none';document.getElementById('ft'+i).className=i===n?'tab on':'tab';}document.getElementById('f-bot').style.display=n===0?'flex':'none';if(n===2)fRenderListino();if(n===1)fPopCosto();}
+function fRenderOrd(){
+  var att=fGetAtt();document.getElementById('f-cntAtt').textContent=att.length+' farine';
+  var el=document.getElementById('f-listOrd');
+  if(att.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessuna farina attiva</div>';return;}
+  var h='';
+  for(var i=0;i<att.length;i++){
+    var f=att[i];
+    var bw=f.w!=='-'?'<span class="badge" style="background:#eef2fd;border:1px solid #b8c8e8;color:#1a4a8a">W'+f.w+'</span>':'';
+    var bk='<span class="badge" style="background:#eef2fd;border:1px solid #b8c8e8;color:#1a4a8a">'+f.kg+'kg</span>';
+    var q=fOrd[f.id]||0;
+    h+='<div class="fc"><div class="fi"><div class="fn">🌾 '+f.nome+'</div><div class="fm">'+bk+bw+'</div>';
+    if(f.pr>0){var ckg=Math.round(f.pr/f.kg*10000)/10000;h+='<div class="fp" style="color:#c8860a">euro '+f.pr.toFixed(2)+' | euro '+ckg.toFixed(4)+'/kg</div>';}
+    h+='</div><div class="qw" style="border-color:#c8860a"><button class="qb" id="fqm_'+f.id+'" style="color:#c8860a">-</button><input class="qi" id="fqi_'+f.id+'" type="number" min="0" value="'+q+'" style="color:#c8860a"><button class="qb" id="fqp_'+f.id+'" style="color:#c8860a">+</button></div></div>';
+  }
+  el.innerHTML=h;
+  for(var j=0;j<att.length;j++){(function(fid){var bm=document.getElementById('fqm_'+fid);var bp=document.getElementById('fqp_'+fid);var inp=document.getElementById('fqi_'+fid);if(bm)bm.onclick=function(){fChg(fid,-1);};if(bp)bp.onclick=function(){fChg(fid,1);};if(inp)inp.oninput=function(){fSetv(fid,this.value);};})(att[j].id);}
+}
+function fRenderGest(){
+  var att=fGetAtt(),sby=fGetSby();
+  document.getElementById('f-cntAttG').textContent=att.length;
+  document.getElementById('f-cntSby').textContent=sby.length;
+  var ha='';
+  for(var i=0;i<att.length;i++){var f=att[i];ha+='<div class="gc"><div class="gi"><div class="gn">🌾 '+f.nome+'</div><div class="gm">'+f.kg+'kg/sacco</div></div><button class="btog" id="fgm_'+f.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';}
+  document.getElementById('f-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuna attiva</div>';
+  var hs='';
+  for(var j=0;j<sby.length;j++){var f2=sby[j];hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">🌾 '+f2.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+f2.kg+'kg/sacco</div></div><button class="btog" id="fga_'+f2.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';}
+  document.getElementById('f-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuna in stand-by</div>';
+  for(var k=0;k<att.length;k++){(function(fid){var b=document.getElementById('fgm_'+fid);if(b)b.onclick=function(){fTog(fid);};})(att[k].id);}
+  for(var l=0;l<sby.length;l++){(function(fid){var b=document.getElementById('fga_'+fid);if(b)b.onclick=function(){fTog(fid);};})(sby[l].id);}
+}
+function fRenderListino(){
+  // Farine normali
+  var h='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:#c8860a;text-transform:uppercase;letter-spacing:1px;background:#fdf8ef;border-bottom:1px solid #e8e0d0">Farine</div>';
+  for(var i=0;i<FA.length;i++){
+    var f=FA[i];if(f.pr===0||f.tipo==='additivo')continue;
+    var ckg=Math.round(f.pr/f.kg*10000)/10000;
+    h+='<div class="lrow"><div style="flex:1"><div style="font-size:13px;font-weight:600">🌾 '+f.nome+'</div><div style="font-size:10px;color:#8a7a60">'+f.kg+'kg/sacco'+(f.w!=='-'?' - W'+f.w:'')+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:#c8860a">euro '+f.pr.toFixed(2)+'</div><div style="font-size:10px;color:#8a7a60">euro '+ckg.toFixed(4)+'/kg</div></div></div>';
+  }
+  // Additivi
+  h+='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:#6d4c41;text-transform:uppercase;letter-spacing:1px;background:#efebe9;border-bottom:1px solid #e8e0d0;border-top:2px solid #e8e0d0">Additivi</div>';
+  for(var j=0;j<FA.length;j++){
+    var fa=FA[j];if(fa.tipo!=='additivo')continue;
+    var ckg2=Math.round(fa.pr/fa.kg*10000)/10000;
+    h+='<div class="lrow"><div style="flex:1"><div style="font-size:13px;font-weight:600">⚗️ '+fa.nome+'</div><div style="font-size:10px;color:#8a7a60">'+fa.kg+'kg/confezione</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:#6d4c41">euro '+fa.pr.toFixed(2)+'</div><div style="font-size:10px;color:#8a7a60">euro '+ckg2.toFixed(4)+'/kg</div></div></div>';
+  }
+  document.getElementById('f-listino').innerHTML=h;
+}
+function showFTab(n){
+  for(var i=0;i<4;i++){document.getElementById('fp'+i).style.display=i===n?'block':'none';document.getElementById('ft'+i).className=i===n?'tab on':'tab';}
+  document.getElementById('f-bot-ord').style.display=n===0?'flex':'none';
+  document.getElementById('f-bot-imp').style.display=n===1?'flex':'none';
+  if(n===2)fRenderListino();
+  if(n===1)ciInit();
+}
 function fReset(){FA.forEach(function(f){fOrd[f.id]=0;var el=document.getElementById('fqi_'+f.id);if(el)el.value=0;});var n=document.getElementById('f-note');if(n)n.value='';var o=document.getElementById('f-otxt');if(o)o.value='';sv('fa_ord_v1',fOrd);fUpd();}
-function fWA(){var tot=fTotSacchi();if(tot===0){alert('Aggiungi almeno un sacco!');return;}var sede=document.getElementById('f-sede').value;var dord=fmtD(document.getElementById('f-data').value);var dcons=fmtD(document.getElementById('f-cons').value);var om=Math.floor(tot/5),kg=fTotKg();var note=document.getElementById('f-note').value;var otxt=document.getElementById('f-otxt').value;var r=[];r.push('*ORDINE FARINE - L\'Orso*');r.push('Sede: *'+sede+'*');r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');r.push('---');fGetAtt().forEach(function(f){var q=fOrd[f.id]||0;if(q>0)r.push('  *'+f.nome+'* - '+q+' sacchi ('+q*f.kg+'kg)');});r.push('---');r.push('*Totale: '+tot+' sacchi - '+kg+'kg*');if(om>0){r.push('*Omaggi: '+om+' sacchi*');if(otxt)r.push('Scelti: '+otxt);}if(note)r.push('Note: '+note);r.push('_Matteo La Spada - L\'Orso Messina_');var _url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));var _a=document.createElement('a');_a.href=_url;document.body.appendChild(_a);_a.click();setTimeout(function(){try{document.body.removeChild(_a);}catch(e){}},300);}
+function fWA(){
+  var tot=fTotSacchi();if(tot===0){alert('Aggiungi almeno un sacco!');return;}
+  var sede=document.getElementById('f-sede').value;var dord=fmtD(document.getElementById('f-data').value);var dcons=fmtD(document.getElementById('f-cons').value);
+  var om=Math.floor(tot/5),kg=fTotKg();var note=document.getElementById('f-note').value;var otxt=document.getElementById('f-otxt').value;
+  var r=[];r.push('*ORDINE FARINE - L\'Orso*');r.push('Sede: *'+sede+'*');r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');r.push('---');
+  fGetAtt().forEach(function(f){var q=fOrd[f.id]||0;if(q>0)r.push('  *'+f.nome+'* - '+q+' sacchi ('+q*f.kg+'kg)');});
+  r.push('---');r.push('*Totale: '+tot+' sacchi - '+kg+'kg*');
+  if(om>0){r.push('*Omaggi: '+om+' sacchi*');if(otxt)r.push('Scelti: '+otxt);}
+  if(note)r.push('Note: '+note);r.push('_Matteo La Spada - L\'Orso Messina_');
+  var _url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));var _a=document.createElement('a');_a.href=_url;document.body.appendChild(_a);_a.click();setTimeout(function(){try{document.body.removeChild(_a);}catch(e){}},300);
+}
 
-// ══ POMODORI ══
+// ══════════════════════════════════════════════
+// COSTO IMPASTO — logica
+// ══════════════════════════════════════════════
+var ciAdd={malto:false,enzima:false,olio:false,zucc:false};
+var ciLastResult=null;
+
+function ciInit(){
+  // Popola select farine (solo tipo farina)
+  var o1='<option value="-1">— Seleziona —</option>';
+  var o0='<option value="-1">— Opz. —</option>';
+  for(var i=0;i<FA.length;i++){
+    var f=FA[i];if(f.tipo!=='farina')continue;
+    var ckg=(f.pr/f.kg).toFixed(4);
+    var opt='<option value="'+i+'">'+f.nome+(f.w!=='-'?' W'+f.w:'')+'  ('+ckg+'€/kg)</option>';
+    o1+=opt;o0+=opt;
+  }
+  document.getElementById('ci-f1').innerHTML=o1;
+  document.getElementById('ci-f2').innerHTML=o0;
+  document.getElementById('ci-f3').innerHTML=o0;
+  // malto: costo fisso da listino
+  document.getElementById('ci-malto-ckg').textContent='euro '+MALTO_CKG.toFixed(4)+'/kg';
+  ciLoadSaved();
+  ciOnFarina();
+}
+
+function ciOnFarina(){
+  [1,2,3].forEach(function(n){
+    var sel=document.getElementById('ci-f'+n);
+    var info=document.getElementById('ci-f'+n+'i');
+    var idx=parseInt(sel.value);
+    if(idx>=0){var ckg=(FA[idx].pr/FA[idx].kg).toFixed(4);info.textContent='euro '+ckg+'/kg';info.style.color='#c8860a';}
+    else{info.textContent='—';info.style.color='#8a7a60';}
+  });
+  var p1=parseFloat(document.getElementById('ci-f1p').value)||0;
+  var p2=parseFloat(document.getElementById('ci-f2p').value)||0;
+  var p3=parseFloat(document.getElementById('ci-f3p').value)||0;
+  var tot=p1+p2+p3;
+  var badge=document.getElementById('ci-perc-badge');
+  badge.textContent=Math.round(tot)+'%';
+  badge.style.background=Math.abs(tot-100)<0.1?'#d4edda':(tot>100?'#f8d7da':'#fff3cd');
+  badge.style.color=Math.abs(tot-100)<0.1?'#155724':(tot>100?'#721c24':'#856404');
+  var cl=Math.abs(tot-100)<0.1?'#2e7a4f':(tot>100?'#c0392b':'#c8860a');
+  document.getElementById('ci-perc-tot').innerHTML='Totale blend: <strong style="color:'+cl+'">'+tot+'%</strong>'+(Math.abs(tot-100)<0.1?' ✓':'');
+  ciCalcLive();
+}
+
+function ciTog(key){
+  ciAdd[key]=!ciAdd[key];
+  document.getElementById('tog-'+key).className='ci-toggle'+(ciAdd[key]?' on':'');
+  document.getElementById('bloc-'+key).style.display=ciAdd[key]?'block':'none';
+  ciCalcLive();
+}
+
+function ciOnLiev(){
+  var tipo=document.getElementById('ci-liev-tipo').value;
+  var sub=document.getElementById('ci-liev-sub');
+  var fmt=document.getElementById('ci-liev-fmt');
+  var costEl=document.getElementById('ci-liev-cost');
+  var percEl=document.getElementById('ci-liev-perc');
+  if(tipo==='licoli'){sub.textContent='% su farina (peso licoli)';fmt.textContent='euro/kg farina madre';costEl.value='0.80';percEl.value='20';}
+  else if(tipo==='fresco'){sub.textContent='% su farina';fmt.textContent='euro / confezione (2.5kg)';costEl.value='4.50';percEl.value='0.3';}
+  else if(tipo==='secco'){sub.textContent='% su farina';fmt.textContent='euro / confezione (500g)';costEl.value='3.20';percEl.value='0.1';}
+  else{sub.textContent='% su farina';fmt.textContent='euro / confezione (500g)';costEl.value='3.50';percEl.value='0.1';}
+  ciCalcLive();
+}
+
+function ciGetBlendCkg(){
+  var tot=0;
+  var ff=[{s:'ci-f1',p:'ci-f1p'},{s:'ci-f2',p:'ci-f2p'},{s:'ci-f3',p:'ci-f3p'}];
+  for(var i=0;i<ff.length;i++){
+    var idx=parseInt(document.getElementById(ff[i].s).value);
+    var p=parseFloat(document.getElementById(ff[i].p).value)||0;
+    if(idx>=0&&p>0)tot+=(FA[idx].pr/FA[idx].kg)*(p/100);
+  }
+  return tot;
+}
+
+function ciGetLievCostPerKgFarina(){
+  var tipo=document.getElementById('ci-liev-tipo').value;
+  var perc=parseFloat(document.getElementById('ci-liev-perc').value)||0;
+  var cost=parseFloat(document.getElementById('ci-liev-cost').value)||0;
+  if(tipo==='licoli'){return cost*(perc/100);}
+  var pezKg=tipo==='fresco'?2.5:0.5;
+  return (cost/pezKg)*(perc/100);
+}
+
+function ciCalc(){
+  var far=1000; // base 1kg farina
+  var acquaP=parseFloat(document.getElementById('ci-acqua').value)||0;
+  var saleP=parseFloat(document.getElementById('ci-sale').value)||0;
+  var lievP=parseFloat(document.getElementById('ci-liev-perc').value)||0;
+  var maltoP=ciAdd.malto?(parseFloat(document.getElementById('ci-malto-perc').value)||0):0;
+  var enzP=ciAdd.enzima?(parseFloat(document.getElementById('ci-enzima-perc').value)||0):0;
+  var olioP=ciAdd.olio?(parseFloat(document.getElementById('ci-olio-perc').value)||0):0;
+  var zuccP=ciAdd.zucc?(parseFloat(document.getElementById('ci-zucc-perc').value)||0):0;
+
+  var acquaG=far*(acquaP/100);
+  var saleG=far*(saleP/100);
+  var lievG=far*(lievP/100);
+  var maltoG=far*(maltoP/100);
+  var enzG=far*(enzP/100);
+  var olioG=far*(olioP/100);
+  var zuccG=far*(zuccP/100);
+  var totG=far+acquaG+saleG+lievG+maltoG+enzG+olioG+zuccG;
+
+  // costi su base 1kg farina
+  var cFar=ciGetBlendCkg();
+  var cSaleCkg=parseFloat(document.getElementById('ci-sale-cost').value)||0;
+  var cSale=cSaleCkg*(saleG/1000);
+  var cLiev=ciGetLievCostPerKgFarina();
+  var cMalto=MALTO_CKG*(maltoG/1000);
+  var cEnz=(parseFloat(document.getElementById('ci-enzima-cost').value)||0)*(enzG/1000);
+  var cOlio=(parseFloat(document.getElementById('ci-olio-cost').value)||0)*(olioG/1000);
+  var cZucc=(parseFloat(document.getElementById('ci-zucc-cost').value)||0)*(zuccG/1000);
+  var cTot=cFar+cSale+cLiev+cMalto+cEnz+cOlio+cZucc;
+
+  var cPerGImp=cTot/totG;
+  var gram=parseFloat(document.getElementById('ci-gram').value)||260;
+  var cPallina=cPerGImp*gram;
+
+  return{
+    far:far,acquaG:acquaG,saleG:saleG,lievG:lievG,maltoG:maltoG,enzG:enzG,olioG:olioG,zuccG:zuccG,totG:totG,
+    cFar:cFar,cSale:cSale,cLiev:cLiev,cMalto:cMalto,cEnz:cEnz,cOlio:cOlio,cZucc:cZucc,cTot:cTot,
+    cPerKgImp:cPerGImp*1000,cPallina:cPallina,
+    gram:gram,acquaP:acquaP,saleP:saleP,lievP:lievP,maltoP:maltoP,enzP:enzP,olioP:olioP,zuccP:zuccP
+  };
+}
+
+function ciCalcLive(){
+  // aggiorna solo badge/info, non mostra risultato finché non si preme Calcola
+  ciOnFarina();
+}
+
+function ciCalcola(){
+  var idx1=parseInt(document.getElementById('ci-f1').value);
+  if(idx1<0){alert('Seleziona la farina principale!');return;}
+  var p1=parseFloat(document.getElementById('ci-f1p').value)||0;
+  var p2=parseFloat(document.getElementById('ci-f2p').value)||0;
+  var p3=parseFloat(document.getElementById('ci-f3p').value)||0;
+  if(Math.abs(p1+p2+p3-100)>0.5){alert('Le % blend devono sommare a 100% (attuale: '+(p1+p2+p3)+'%)');return;}
+  var r=ciCalc();
+  ciLastResult=r;
+  ciRenderResult(r);
+}
+
+function ciRenderResult(r){
+  var res=document.getElementById('ci-result');
+  res.className='ci-result show';
+  document.getElementById('ci-res-big').textContent='euro '+r.cPallina.toFixed(4);
+  document.getElementById('ci-res-nome').textContent=document.getElementById('ci-nome').value||'Impasto';
+  document.getElementById('ci-res-kgimp').textContent='euro '+r.cPerKgImp.toFixed(4);
+  document.getElementById('ci-res-idr').textContent=r.acquaP.toFixed(1)+'%';
+
+  var tipo=document.getElementById('ci-liev-tipo').value;
+  var items=[
+    {n:'🌾 Farine (blend)',c:r.cFar,g:r.far,p:100},
+    {n:'💧 Acqua',c:0,g:r.acquaG,p:r.acquaP},
+    {n:'🧂 Sale',c:r.cSale,g:r.saleG,p:r.saleP},
+    {n:'🦠 Lievito ('+tipo+')',c:r.cLiev,g:r.lievG,p:r.lievP}
+  ];
+  if(ciAdd.malto)items.push({n:'🍯 Malto Roggena',c:r.cMalto,g:r.maltoG,p:r.maltoP});
+  if(ciAdd.enzima)items.push({n:'⚗️ natEnzyme',c:r.cEnz,g:r.enzG,p:r.enzP});
+  if(ciAdd.olio)items.push({n:'🫒 Olio EVO',c:r.cOlio,g:r.olioG,p:r.olioP});
+  if(ciAdd.zucc)items.push({n:'🍬 Zucchero',c:r.cZucc,g:r.zuccG,p:r.zuccP});
+
+  var det='';
+  items.forEach(function(it){
+    var cPall=it.c*(r.gram/1000);
+    det+='<div class="ci-det-row"><span>'+it.n+'</span><strong>euro '+cPall.toFixed(5)+'</strong></div>';
+  });
+  document.getElementById('ci-det-rows').innerHTML=det;
+
+  // baker's table
+  var bc=document.getElementById('ci-bakers-card');bc.style.display='block';
+  var tbody='';
+  items.forEach(function(it){
+    var perc=(it.g/r.far*100).toFixed(2);
+    var gKg=Math.round(it.g);
+    var costRig=(it.c).toFixed(4);
+    tbody+='<tr><td>'+it.n+'</td><td class="col-r">'+perc+'%</td><td class="col-r">'+gKg+'g</td><td class="col-cost">euro '+costRig+'</td></tr>';
+  });
+  tbody+='<tr style="background:#fdf8ef"><td><strong>Totale impasto</strong></td><td class="col-r" style="color:#c8860a">'+((r.totG/r.far)*100).toFixed(1)+'%</td><td class="col-r" style="color:#c8860a">'+Math.round(r.totG)+'g</td><td class="col-cost" style="font-size:12px;font-weight:700">euro '+r.cPerKgImp.toFixed(4)+'/kg</td></tr>';
+  document.getElementById('ci-bakers-body').innerHTML=tbody;
+
+  // scroll a risultato
+  document.getElementById('ci-result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── PRESET ──
+var CI_PRESETS={
+  teglia:{nome:'Teglia Romana — Petra 3 HP',f1:'petra3hp',p1:100,acqua:75,sale:2.5,liev:0.2,gram:800,malto:true,maltoP:0.3,enzima:false},
+  napoletana:{nome:'Napoletana Verace — HP 0102',f1:'hp0102',p1:100,acqua:62,sale:2.8,liev:0.15,gram:270,malto:false,enzima:false},
+  pala:{nome:'Pala Romana — HP 0102 + Petra 3 HP',f1:'hp0102',p1:70,f2:'petra3hp',p2:30,acqua:78,sale:2.3,liev:0.15,gram:400,malto:true,maltoP:0.5,enzima:false},
+  pinsa:{nome:'Pinsa — 5010 Pinsa',f1:'pi5010',p1:100,acqua:80,sale:2,liev:0.1,gram:230,malto:false,enzima:true,enzP:0.1}
+};
+function ciPreset(key){
+  var pr=CI_PRESETS[key];if(!pr)return;
+  document.getElementById('ci-nome').value=pr.nome;
+  var setF=function(n,id,p){
+    var sel=document.getElementById('ci-f'+n);var perc=document.getElementById('ci-f'+n+'p');
+    if(id){for(var i=0;i<FA.length;i++){if(FA[i].id===id){sel.value=i;break;}}}else sel.value=-1;
+    perc.value=p||0;
+  };
+  setF(1,pr.f1,pr.p1);setF(2,pr.f2||null,pr.p2||0);setF(3,null,0);
+  document.getElementById('ci-acqua').value=pr.acqua;
+  document.getElementById('ci-sale').value=pr.sale;
+  document.getElementById('ci-liev-perc').value=pr.liev;
+  document.getElementById('ci-gram').value=pr.gram;
+  if(pr.malto!==ciAdd.malto)ciTog('malto');
+  if(pr.malto&&pr.maltoP)document.getElementById('ci-malto-perc').value=pr.maltoP;
+  if(pr.enzima!==ciAdd.enzima)ciTog('enzima');
+  if(pr.enzima&&pr.enzP)document.getElementById('ci-enzima-perc').value=pr.enzP;
+  ciOnFarina();
+}
+
+// ── SALVA / CARICA ──
+function ciSalva(){
+  var idx1=parseInt(document.getElementById('ci-f1').value);
+  if(idx1<0){alert('Seleziona la farina principale prima di salvare!');return;}
+  var nome=document.getElementById('ci-nome').value||(new Date().toLocaleDateString('it-IT'));
+  var snap={
+    nome:nome,ts:Date.now(),
+    f1:document.getElementById('ci-f1').value,f1p:document.getElementById('ci-f1p').value,
+    f2:document.getElementById('ci-f2').value,f2p:document.getElementById('ci-f2p').value,
+    f3:document.getElementById('ci-f3').value,f3p:document.getElementById('ci-f3p').value,
+    acqua:document.getElementById('ci-acqua').value,
+    sale:document.getElementById('ci-sale').value,saleCost:document.getElementById('ci-sale-cost').value,
+    lievTipo:document.getElementById('ci-liev-tipo').value,
+    lievPerc:document.getElementById('ci-liev-perc').value,lievCost:document.getElementById('ci-liev-cost').value,
+    gram:document.getElementById('ci-gram').value,calo:document.getElementById('ci-calo').value,
+    maltoOn:ciAdd.malto,maltoP:document.getElementById('ci-malto-perc').value,
+    enzOn:ciAdd.enzima,enzP:document.getElementById('ci-enzima-perc').value,
+    olioOn:ciAdd.olio,olioP:document.getElementById('ci-olio-perc').value,olioCost:document.getElementById('ci-olio-cost').value,
+    zuccOn:ciAdd.zucc,zuccP:document.getElementById('ci-zucc-perc').value,zuccCost:document.getElementById('ci-zucc-cost').value
+  };
+  var saved=[];try{saved=JSON.parse(localStorage.getItem('ci_saved_v2')||'[]');}catch(e){}
+  saved.unshift(snap);if(saved.length>15)saved=saved.slice(0,15);
+  try{localStorage.setItem('ci_saved_v2',JSON.stringify(saved));}catch(e){}
+  ciLoadSaved();
+  alert('✅ Ricetta "'+nome+'" salvata!');
+}
+function ciLoadSaved(){
+  var saved=[];try{saved=JSON.parse(localStorage.getItem('ci_saved_v2')||'[]');}catch(e){}
+  var el=document.getElementById('ci-saved-list');
+  if(saved.length===0){el.innerHTML='<div style="padding:10px 14px;font-size:11px;color:#8a7a60">Nessuna ricetta salvata.</div>';return;}
+  var h='';
+  saved.forEach(function(s,i){
+    var d=new Date(s.ts).toLocaleDateString('it-IT');
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #e8e0d0">';
+    h+='<div><div style="font-size:12px;font-weight:600">'+s.nome+'</div><div style="font-size:9px;color:#8a7a60">'+d+' · IDR '+s.acqua+'% · '+s.gram+'g</div></div>';
+    h+='<div style="display:flex;gap:5px">';
+    h+='<button onclick="ciCarica('+i+')" style="background:#fdf8ef;border:1.5px solid #e8d8b0;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;color:#c8860a;cursor:pointer;font-family:inherit">Carica</button>';
+    h+='<button onclick="ciElimina('+i+')" style="background:#fdf0f0;border:1.5px solid #f0c8c8;border-radius:8px;padding:5px 8px;font-size:11px;color:#b33a3a;cursor:pointer;font-family:inherit">🗑</button>';
+    h+='</div></div>';
+  });
+  el.innerHTML=h;
+}
+function ciCarica(i){
+  var saved=[];try{saved=JSON.parse(localStorage.getItem('ci_saved_v2')||'[]');}catch(e){}
+  var s=saved[i];if(!s)return;
+  document.getElementById('ci-nome').value=s.nome;
+  document.getElementById('ci-f1').value=s.f1;document.getElementById('ci-f1p').value=s.f1p;
+  document.getElementById('ci-f2').value=s.f2;document.getElementById('ci-f2p').value=s.f2p;
+  document.getElementById('ci-f3').value=s.f3;document.getElementById('ci-f3p').value=s.f3p;
+  document.getElementById('ci-acqua').value=s.acqua;
+  document.getElementById('ci-sale').value=s.sale;document.getElementById('ci-sale-cost').value=s.saleCost;
+  document.getElementById('ci-liev-tipo').value=s.lievTipo;document.getElementById('ci-liev-perc').value=s.lievPerc;document.getElementById('ci-liev-cost').value=s.lievCost;
+  document.getElementById('ci-gram').value=s.gram;document.getElementById('ci-calo').value=s.calo||0;
+  var setA=function(key,on,pEl,pVal,cEl,cVal){
+    if(on!==ciAdd[key])ciTog(key);
+    if(pEl)document.getElementById(pEl).value=pVal;
+    if(cEl)document.getElementById(cEl).value=cVal;
+  };
+  setA('malto',s.maltoOn,'ci-malto-perc',s.maltoP,null,null);
+  setA('enzima',s.enzOn,'ci-enzima-perc',s.enzP,null,null);
+  setA('olio',s.olioOn,'ci-olio-perc',s.olioP,'ci-olio-cost',s.olioCost);
+  setA('zucc',s.zuccOn,'ci-zucc-perc',s.zuccP,'ci-zucc-cost',s.zuccCost);
+  ciOnFarina();ciOnLiev();
+}
+function ciElimina(i){
+  if(!confirm('Eliminare?'))return;
+  var saved=[];try{saved=JSON.parse(localStorage.getItem('ci_saved_v2')||'[]');}catch(e){}
+  saved.splice(i,1);try{localStorage.setItem('ci_saved_v2',JSON.stringify(saved));}catch(e){}
+  ciLoadSaved();
+}
+function ciReset(){
+  document.getElementById('ci-nome').value='';
+  document.getElementById('ci-f1').value=-1;document.getElementById('ci-f1p').value=100;
+  document.getElementById('ci-f2').value=-1;document.getElementById('ci-f2p').value=0;
+  document.getElementById('ci-f3').value=-1;document.getElementById('ci-f3p').value=0;
+  document.getElementById('ci-acqua').value=72;document.getElementById('ci-sale').value=2.5;
+  document.getElementById('ci-liev-tipo').value='fresco';document.getElementById('ci-liev-perc').value=0.3;
+  document.getElementById('ci-gram').value=260;document.getElementById('ci-calo').value=0;
+  ['malto','enzima','olio','zucc'].forEach(function(k){if(ciAdd[k])ciTog(k);});
+  document.getElementById('ci-result').className='ci-result';
+  document.getElementById('ci-bakers-card').style.display='none';
+  ciOnFarina();
+}
+function ciWA(){
+  if(!ciLastResult){alert('Premi prima Calcola!');return;}
+  var r=ciLastResult;
+  var nome=document.getElementById('ci-nome').value||'Impasto';
+  var tipo=document.getElementById('ci-liev-tipo').value;
+  var lines=['*🌾 RICETTA IMPASTO — L\'Orso*','*'+nome+'*','---'];
+  lines.push('*IDR:* '+r.acquaP+'%  |  *Sale:* '+r.saleP+'%  |  *Lievito ('+tipo+'):* '+r.lievP+'%');
+  if(ciAdd.malto)lines.push('*Malto Roggena Dunkel:* '+r.maltoP+'%');
+  if(ciAdd.enzima)lines.push('*natEnzyme Bakery Soft Salato:* '+r.enzP+'%');
+  if(ciAdd.olio)lines.push('*Olio EVO:* '+r.olioP+'%');
+  lines.push('---');
+  lines.push('*Pallina:* '+r.gram+'g');
+  lines.push('*Costo impasto/kg:* euro '+r.cPerKgImp.toFixed(4));
+  lines.push('*💶 Costo pallina:* euro *'+r.cPallina.toFixed(4)+'*');
+  lines.push('---');
+  lines.push('_Matteo La Spada — L\'Orso Messina_');
+  var url='whatsapp://send?text='+encodeURIComponent(lines.join('\n'));
+  var a=document.createElement('a');a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+}
+
+// ══════════════════════════════════════════════
+// POMODORI (invariato)
+// ══════════════════════════════════════════════
+var PA=[{id:'rs1',cat:'Rosso Siculo',nome:"U Siccu di Siccagno",formato:'1kg',pz:1,pesoG:1000,pr:22.00},{id:'rs2',cat:'Rosso Siculo',nome:'Passata di Siccagno',formato:'12x680g',pz:12,pesoG:680,pr:23.95},{id:'rs3',cat:'Rosso Siculo',nome:'Pelato di Siccagno',formato:'9x700g',pz:9,pesoG:700,pr:27.35},{id:'gr1',cat:'Gustarosso',nome:'San Marzano DOP',formato:'6x2560g',pz:6,pesoG:2560,pr:52.00},{id:'gr2',cat:'Gustarosso',nome:'Pomodoro Pelati 100% Italiani',formato:'6x2500g',pz:6,pesoG:2500,pr:28.50},{id:'gr3',cat:'Gustarosso',nome:'Pomodoro Pelati Biologici',formato:'6x2500g',pz:6,pesoG:2500,pr:34.88},{id:'gr4',cat:'Gustarosso',nome:'Polpa Finissima',formato:'3x4050g',pz:3,pesoG:4050,pr:23.72},{id:'gr5',cat:'Gustarosso',nome:'Polpa Finissima Box',formato:'10kg',pz:1,pesoG:10000,pr:17.50},{id:'gg1',cat:'Grangusto',nome:'Pomodori Pelati Supremo',formato:'6x2.5kg',pz:6,pesoG:2500,pr:26.50},{id:'gg2',cat:'Grangusto',nome:'Datterino Giallo in Succo',formato:'6x800g',pz:6,pesoG:800,pr:29.52},{id:'gg3',cat:'Grangusto',nome:'Vellutata Datterino Giallo',formato:'6x800g',pz:6,pesoG:800,pr:32.87},{id:'gg4',cat:'Grangusto',nome:'Datterino Giallo Semi Dry',formato:'6x800g',pz:6,pesoG:800,pr:47.89},{id:'gg6',cat:'Grangusto',nome:'Datterino Rosso in Succo',formato:'6x800g',pz:6,pesoG:800,pr:25.87},{id:'gg7',cat:'Grangusto',nome:'Vellutata Datterino Rosso',formato:'6x800g',pz:6,pesoG:800,pr:32.87},{id:'gg8',cat:'Grangusto',nome:'Datterino Rosso Semi Dry',formato:'6x800g',pz:6,pesoG:800,pr:47.89},{id:'gg13',cat:'Grangusto',nome:'Crema di Zucca Gialla',formato:'12x400g',pz:12,pesoG:400,pr:45.95},{id:'cm1',cat:'Casa Marrazzo',nome:'San Marzano DOP',formato:'6x2560g',pz:6,pesoG:2560,pr:41.00},{id:'cm2',cat:'Casa Marrazzo',nome:'Carciofi Gambo Romano',formato:'2400g',pz:1,pesoG:2400,pr:18.91},{id:'cm4',cat:'Casa Marrazzo',nome:'Friarielli in Olio Oliva',formato:'6x800g',pz:6,pesoG:800,pr:57.50}];
+var P_DEF=['gr1','gr2','gr4','gg1','gg6','cm1'];var pAtt={},pOrd={};
 function pLoad(){pAtt=ld('pa_att_v1',{});PA.forEach(function(p){if(pAtt[p.id]===undefined)pAtt[p.id]=(P_DEF.indexOf(p.id)>=0);});pOrd=ld('pa_ord_v1',{});PA.forEach(function(p){if(pOrd[p.id]===undefined)pOrd[p.id]=0;});}
-function pGetAtt(){return PA.filter(function(p){return pAtt[p.id];});}
-function pGetSby(){return PA.filter(function(p){return !pAtt[p.id];});}
-function pTotPz(){var s=0;pGetAtt().forEach(function(p){s+=pOrd[p.id]||0;});return s;}
-function pTotEur(){var s=0;pGetAtt().forEach(function(p){s+=(pOrd[p.id]||0)*p.pr;});return Math.round(s*100)/100;}
+function pGetAtt(){return PA.filter(function(p){return pAtt[p.id];});}function pGetSby(){return PA.filter(function(p){return !pAtt[p.id];});}
+function pTotPz(){var s=0;pGetAtt().forEach(function(p){s+=pOrd[p.id]||0;});return s;}function pTotEur(){var s=0;pGetAtt().forEach(function(p){s+=(pOrd[p.id]||0)*p.pr;});return Math.round(s*100)/100;}
 function pUpd(){var pz=pTotPz(),eur=pTotEur();var prods=pGetAtt().filter(function(p){return(pOrd[p.id]||0)>0;}).length;document.getElementById('p-pezzi').textContent=pz;document.getElementById('p-prod').textContent=prods;document.getElementById('p-tot').textContent=pz===0?'-':'euro '+eur.toFixed(2);var riga=pGetAtt().filter(function(p){return(pOrd[p.id]||0)>0;});var rb=document.getElementById('p-rbox');if(riga.length>0){rb.className='rbox on';var h='';riga.forEach(function(p){var q=pOrd[p.id];h+='<div class="rrow"><span style="color:#8a7a60">'+p.nome+'</span><span style="font-family:monospace;font-weight:600">x'+q+' - euro '+(q*p.pr).toFixed(2)+'</span></div>';});document.getElementById('p-rrows').innerHTML=h;document.getElementById('p-rtot').textContent=pz+' pz - euro '+eur.toFixed(2);}else rb.className='rbox';}
-function pChg(id,d){pOrd[id]=Math.max(0,(pOrd[id]||0)+d);var el=document.getElementById('pqi_'+id);if(el)el.value=pOrd[id];sv('pa_ord_v1',pOrd);pUpd();}
-function pSetv(id,v){pOrd[id]=Math.max(0,parseInt(v)||0);sv('pa_ord_v1',pOrd);pUpd();}
-function pTog(id){pAtt[id]=!pAtt[id];if(!pAtt[id])pOrd[id]=0;sv('pa_att_v1',pAtt);sv('pa_ord_v1',pOrd);pRenderOrd();pRenderGest();pUpd();}
+function pChg(id,d){pOrd[id]=Math.max(0,(pOrd[id]||0)+d);var el=document.getElementById('pqi_'+id);if(el)el.value=pOrd[id];sv('pa_ord_v1',pOrd);pUpd();}function pSetv(id,v){pOrd[id]=Math.max(0,parseInt(v)||0);sv('pa_ord_v1',pOrd);pUpd();}function pTog(id){pAtt[id]=!pAtt[id];if(!pAtt[id])pOrd[id]=0;sv('pa_att_v1',pAtt);sv('pa_ord_v1',pOrd);pRenderOrd();pRenderGest();pUpd();}
 function pRenderOrd(){var att=pGetAtt();var el=document.getElementById('p-listOrd');if(att.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessun prodotto attivo</div>';return;}var h='',curCat='';for(var i=0;i<att.length;i++){var p=att[i];if(p.cat!==curCat){curCat=p.cat;h+='<div class="catbar" style="background:#fdf0f0;color:#c0392b">'+curCat+'</div>';}var totG=p.pz*p.pesoG;var c100=Math.round(p.pr/totG*100*1000)/1000;var q=pOrd[p.id]||0;h+='<div class="fc"><div class="fi"><div class="fn">'+p.nome+'</div><div class="fm">'+p.formato+'</div><div class="fp" style="color:#c0392b">euro '+p.pr.toFixed(2)+' | euro '+c100.toFixed(3)+'/100g</div></div><div class="qw" style="border-color:#c0392b"><button class="qb" id="pqm_'+p.id+'" style="color:#c0392b">-</button><input class="qi" id="pqi_'+p.id+'" type="number" min="0" value="'+q+'" style="color:#c0392b"><button class="qb" id="pqp_'+p.id+'" style="color:#c0392b">+</button></div></div>';}el.innerHTML=h;for(var j=0;j<att.length;j++){(function(pid){var bm=document.getElementById('pqm_'+pid);var bp=document.getElementById('pqp_'+pid);var inp=document.getElementById('pqi_'+pid);if(bm)bm.onclick=function(){pChg(pid,-1);};if(bp)bp.onclick=function(){pChg(pid,1);};if(inp)inp.oninput=function(){pSetv(pid,this.value);};})(att[j].id);}}
 function pRenderGest(){var att=pGetAtt(),sby=pGetSby();document.getElementById('p-cntAttG').textContent=att.length;document.getElementById('p-cntSby').textContent=sby.length;var ha='';for(var i=0;i<att.length;i++){var p=att[i];ha+='<div class="gc"><div class="gi"><div class="gn">'+p.nome+'</div><div class="gm">'+p.cat+' - '+p.formato+'</div></div><button class="btog" id="pgm_'+p.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';}document.getElementById('p-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuno attivo</div>';var hs='';for(var j=0;j<sby.length;j++){var p2=sby[j];hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">'+p2.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+p2.cat+'</div></div><button class="btog" id="pga_'+p2.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';}document.getElementById('p-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuno in stand-by</div>';for(var k=0;k<att.length;k++){(function(pid){var b=document.getElementById('pgm_'+pid);if(b)b.onclick=function(){pTog(pid);};})(att[k].id);}for(var l=0;l<sby.length;l++){(function(pid){var b=document.getElementById('pga_'+pid);if(b)b.onclick=function(){pTog(pid);};})(sby[l].id);}}
 function pRenderListino(){var h='',curCat='';for(var i=0;i<PA.length;i++){var p=PA[i];if(p.cat!==curCat){curCat=p.cat;h+='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:1px;background:#fdf0f0;border-bottom:1px solid #e8e0d0">'+curCat+'</div>';}var totG=p.pz*p.pesoG;var c100=Math.round(p.pr/totG*100*1000)/1000;h+='<div class="lrow"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+p.nome+'</div><div style="font-size:10px;color:#8a7a60">'+p.formato+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:#c0392b">euro '+p.pr.toFixed(2)+'</div><div style="font-size:10px;color:#8a7a60">euro '+c100.toFixed(3)+'/100g</div></div></div>';}document.getElementById('p-listino').innerHTML=h;}
 function pPopCosto(){var opts='<option value="-1">-- Seleziona prodotto --</option>';for(var i=0;i<PA.length;i++){var p=PA[i];opts+='<option value="'+i+'">'+p.cat+' - '+p.nome+'</option>';}document.getElementById('pc1').innerHTML=opts;}
-function calcPCosto(){var i=parseInt(document.getElementById('pc1').value);var gram=parseFloat(document.getElementById('p-gram').value)||0;var res=document.getElementById('p-cpres');if(i<0||gram<=0){res.style.display='none';document.getElementById('p-cpInfo').textContent='-';document.getElementById('p-pizze').textContent='-';return;}var p=PA[i];var totG=p.pz*p.pesoG;var c100=p.pr/totG*100;var cPiz=p.pr/totG*gram;var pizze=Math.floor(totG/gram);document.getElementById('p-cpInfo').textContent=p.formato+' - euro '+p.pr.toFixed(2)+' | euro '+Math.round(c100*1000)/1000+'/100g';document.getElementById('p-pizze').textContent=pizze+' pizze';res.style.display='block';document.getElementById('p-cpnum').textContent='euro '+Math.round(cPiz*10000)/10000;document.getElementById('p-cpsub').innerHTML=p.nome+'<br>Grammi: '+gram+'g<br><strong style="color:#c0392b">euro '+Math.round(cPiz*1000)/1000+' per pizza con '+gram+'g</strong>';}
+function calcPCosto(){var i=parseInt(document.getElementById('pc1').value);var gram=parseFloat(document.getElementById('p-gram').value)||0;var res=document.getElementById('p-cpres');if(i<0||gram<=0){res.style.display='none';document.getElementById('p-cpInfo').textContent='-';document.getElementById('p-pizze').textContent='-';return;}var p=PA[i];var totG=p.pz*p.pesoG;var c100=p.pr/totG*100;var cPiz=p.pr/totG*gram;var pizze=Math.floor(totG/gram);document.getElementById('p-cpInfo').textContent=p.formato+' - euro '+p.pr.toFixed(2)+' | euro '+Math.round(c100*1000)/1000+'/100g';document.getElementById('p-pizze').textContent=pizze+' pizze';res.style.display='block';document.getElementById('p-cpnum').textContent='euro '+Math.round(cPiz*10000)/10000;document.getElementById('p-cpsub').innerHTML=p.nome+'<br>'+gram+'g → <strong style="color:#c0392b">euro '+Math.round(cPiz*1000)/1000+'</strong> per pizza';}
 function showPTab(n){for(var i=0;i<4;i++){document.getElementById('pp'+i).style.display=i===n?'block':'none';document.getElementById('pt'+i).className=i===n?'tab on':'tab';}document.getElementById('p-bot').style.display=n===0?'flex':'none';if(n===2)pRenderListino();if(n===1)pPopCosto();}
 function pReset(){PA.forEach(function(p){pOrd[p.id]=0;var el=document.getElementById('pqi_'+p.id);if(el)el.value=0;});var n=document.getElementById('p-note');if(n)n.value='';sv('pa_ord_v1',pOrd);pUpd();}
 function pWA(){var tot=pTotPz();if(tot===0){alert('Aggiungi almeno un prodotto!');return;}var sede=document.getElementById('p-sede').value;var dord=fmtD(document.getElementById('p-data').value);var dcons=fmtD(document.getElementById('p-cons').value);var eur=pTotEur();var note=document.getElementById('p-note').value;var r=[];r.push('*ORDINE POMODORI - L\'Orso*');r.push('Sede: *'+sede+'*');r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');r.push('---');var curCat='';pGetAtt().forEach(function(p){var q=pOrd[p.id]||0;if(q>0){if(p.cat!==curCat){curCat=p.cat;r.push('*'+curCat+'*');}r.push('  *'+p.nome+'* ('+p.formato+') x*'+q+'*');}});r.push('---');r.push('*Totale: '+tot+' pz*');if(note)r.push('Note: '+note);r.push('_Matteo La Spada - L\'Orso Messina_');var _url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));var _a=document.createElement('a');_a.href=_url;document.body.appendChild(_a);_a.click();setTimeout(function(){try{document.body.removeChild(_a);}catch(e){}},300);}
 
-// ══ FUNZIONE GENERICA per verdure/funghi/salumi/formaggi ══
+// ══════════════════════════════════════════════
+// GENERICA verdure/funghi/salumi/formaggi (invariata)
+// ══════════════════════════════════════════════
 function sezLoad(DATA,DEF,KEY_ATT,KEY_ORD,att,ord){var s=ld(KEY_ATT,{});DATA.forEach(function(p){att[p.id]=s[p.id]!==undefined?s[p.id]:(DEF.indexOf(p.id)>=0);});var o=ld(KEY_ORD,{});DATA.forEach(function(p){ord[p.id]=o[p.id]!==undefined?o[p.id]:0;});}
 function sezRenderOrd(DATA,att,ord,pfx,col){var active=DATA.filter(function(p){return att[p.id];});var el=document.getElementById(pfx+'-listOrd');if(!el)return;if(active.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessun prodotto attivo</div>';return;}var h='',curCat='';for(var i=0;i<active.length;i++){var p=active[i];if(p.cat!==curCat){curCat=p.cat;h+='<div class="catbar" style="background:#f5f5f5;color:'+col+'">'+curCat+'</div>';}var totG=p.pz?p.pz*p.pesoG:p.pesoG;var c100=Math.round(p.pr/totG*100*1000)/1000;var q=ord[p.id]||0;h+='<div class="fc"><div class="fi"><div class="fn">'+p.nome+'</div><div class="fm">'+p.formato+'</div><div class="fp" style="color:'+col+'">euro '+p.pr.toFixed(2)+' | euro '+c100.toFixed(3)+'/100g</div></div><div class="qw" style="border-color:'+col+'"><button class="qb" id="'+pfx+'qm_'+p.id+'" style="color:'+col+'">-</button><input class="qi" id="'+pfx+'qi_'+p.id+'" type="number" min="0" value="'+q+'" style="color:'+col+'"><button class="qb" id="'+pfx+'qp_'+p.id+'" style="color:'+col+'">+</button></div></div>';}el.innerHTML=h;for(var j=0;j<active.length;j++){(function(pid,att2,ord2,pfx2){var bm=document.getElementById(pfx2+'qm_'+pid);var bp=document.getElementById(pfx2+'qp_'+pid);var inp=document.getElementById(pfx2+'qi_'+pid);if(bm)bm.onclick=function(){ord2[pid]=Math.max(0,(ord2[pid]||0)-1);var e=document.getElementById(pfx2+'qi_'+pid);if(e)e.value=ord2[pid];sezUpd(DATA,att2,ord2,pfx2);};if(bp)bp.onclick=function(){ord2[pid]=Math.max(0,(ord2[pid]||0)+1);var e=document.getElementById(pfx2+'qi_'+pid);if(e)e.value=ord2[pid];sezUpd(DATA,att2,ord2,pfx2);};if(inp)inp.oninput=function(){ord2[pid]=Math.max(0,parseInt(this.value)||0);sezUpd(DATA,att2,ord2,pfx2);};})(active[j].id,att,ord,pfx);}}
 function sezRenderGest(DATA,att,ord,pfx,col,KEY_ATT,KEY_ORD){var active=DATA.filter(function(p){return att[p.id];});var standby=DATA.filter(function(p){return !att[p.id];});document.getElementById(pfx+'-cntAttG').textContent=active.length;document.getElementById(pfx+'-cntSby').textContent=standby.length;var ha='';for(var i=0;i<active.length;i++){var p=active[i];ha+='<div class="gc"><div class="gi"><div class="gn">'+p.nome+'</div><div class="gm">'+p.cat+' - '+p.formato+'</div></div><button class="btog" id="'+pfx+'gm_'+p.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';}document.getElementById(pfx+'-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuno attivo</div>';var hs='';for(var j=0;j<standby.length;j++){var p2=standby[j];hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">'+p2.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+p2.cat+'</div></div><button class="btog" id="'+pfx+'ga_'+p2.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';}document.getElementById(pfx+'-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuno in stand-by</div>';for(var k=0;k<active.length;k++){(function(pid){var b=document.getElementById(pfx+'gm_'+pid);if(b)b.onclick=function(){att[pid]=false;ord[pid]=0;sv(KEY_ATT,att);sv(KEY_ORD,ord);sezRenderOrd(DATA,att,ord,pfx,col);sezRenderGest(DATA,att,ord,pfx,col,KEY_ATT,KEY_ORD);sezUpd(DATA,att,ord,pfx);};})(active[k].id);}for(var l=0;l<standby.length;l++){(function(pid){var b=document.getElementById(pfx+'ga_'+pid);if(b)b.onclick=function(){att[pid]=true;sv(KEY_ATT,att);sezRenderOrd(DATA,att,ord,pfx,col);sezRenderGest(DATA,att,ord,pfx,col,KEY_ATT,KEY_ORD);sezUpd(DATA,att,ord,pfx);};})(standby[l].id);}}
 function sezRenderListino(DATA,pfx,col){var h='',curCat='';for(var i=0;i<DATA.length;i++){var p=DATA[i];if(p.cat!==curCat){curCat=p.cat;h+='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:'+col+';text-transform:uppercase;letter-spacing:1px;background:#f5f5f5;border-bottom:1px solid #e8e0d0">'+curCat+'</div>';}var totG=p.pz?p.pz*p.pesoG:p.pesoG;var c100=Math.round(p.pr/totG*100*1000)/1000;h+='<div class="lrow"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+p.nome+'</div><div style="font-size:10px;color:#8a7a60">'+p.formato+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:'+col+'">euro '+p.pr.toFixed(2)+'</div><div style="font-size:10px;color:#8a7a60">euro '+c100.toFixed(3)+'/100g</div></div></div>';}document.getElementById(pfx+'-listino').innerHTML=h;}
 function sezPopCosto(DATA,selId){var opts='<option value="-1">-- Seleziona prodotto --</option>';for(var i=0;i<DATA.length;i++){var p=DATA[i];opts+='<option value="'+i+'">'+p.cat+' - '+p.nome+'</option>';}document.getElementById(selId).innerHTML=opts;}
-function sezCalcCosto(DATA,selId,gramId,infoId,pizzeId,resId,numId,subId,col){var i=parseInt(document.getElementById(selId).value);var gram=parseFloat(document.getElementById(gramId).value)||0;var res=document.getElementById(resId);if(i<0||gram<=0){res.style.display='none';document.getElementById(infoId).textContent='-';document.getElementById(pizzeId).textContent='-';return;}var p=DATA[i];var totG=p.pz?p.pz*p.pesoG:p.pesoG;var c100=p.pr/totG*100;var cPiz=p.pr/totG*gram;var pizze=Math.floor(totG/gram);document.getElementById(infoId).textContent=p.formato+' - euro '+p.pr.toFixed(2)+' | euro '+Math.round(c100*1000)/1000+'/100g';document.getElementById(pizzeId).textContent=pizze+' pizze';res.style.display='block';document.getElementById(numId).textContent='euro '+Math.round(cPiz*10000)/10000;document.getElementById(subId).innerHTML=p.nome+'<br>Grammi: '+gram+'g<br><strong style="color:'+col+'">euro '+Math.round(cPiz*1000)/1000+' per pizza con '+gram+'g</strong>';}
+function sezCalcCosto(DATA,selId,gramId,infoId,pizzeId,resId,numId,subId,col){var i=parseInt(document.getElementById(selId).value);var gram=parseFloat(document.getElementById(gramId).value)||0;var res=document.getElementById(resId);if(i<0||gram<=0){res.style.display='none';document.getElementById(infoId).textContent='-';document.getElementById(pizzeId).textContent='-';return;}var p=DATA[i];var totG=p.pz?p.pz*p.pesoG:p.pesoG;var c100=p.pr/totG*100;var cPiz=p.pr/totG*gram;var pizze=Math.floor(totG/gram);document.getElementById(infoId).textContent=p.formato+' - euro '+p.pr.toFixed(2)+' | euro '+Math.round(c100*1000)/1000+'/100g';document.getElementById(pizzeId).textContent=pizze+' pizze';res.style.display='block';document.getElementById(numId).textContent='euro '+Math.round(cPiz*10000)/10000;document.getElementById(subId).innerHTML=p.nome+'<br>'+gram+'g → <strong style="color:'+col+'">euro '+Math.round(cPiz*1000)/1000+'</strong> per pizza';}
 function sezUpd(DATA,att,ord,pfx){var active=DATA.filter(function(p){return att[p.id];});var pz=0,eur=0,prods=0;active.forEach(function(p){var q=ord[p.id]||0;pz+=q;eur+=q*p.pr;if(q>0)prods++;});eur=Math.round(eur*100)/100;document.getElementById(pfx+'-pz').textContent=pz;document.getElementById(pfx+'-pr').textContent=prods;document.getElementById(pfx+'-tot').textContent=pz===0?'-':'euro '+eur.toFixed(2);var riga=active.filter(function(p){return(ord[p.id]||0)>0;});var rb=document.getElementById(pfx+'-rbox');if(riga.length>0){rb.className='rbox on';var h='';riga.forEach(function(p){var q=ord[p.id];h+='<div class="rrow"><span style="color:#8a7a60">'+p.nome+'</span><span style="font-family:monospace;font-weight:600">x'+q+' - euro '+(q*p.pr).toFixed(2)+'</span></div>';});document.getElementById(pfx+'-rrows').innerHTML=h;document.getElementById(pfx+'-rtot').textContent=pz+' pz - euro '+eur.toFixed(2);}else rb.className='rbox';}
 function sezWA(DATA,att,ord,pfx,titolo){var active=DATA.filter(function(p){return att[p.id];});var pz=0,eur=0;active.forEach(function(p){var q=ord[p.id]||0;pz+=q;eur+=q*p.pr;});if(pz===0){alert('Aggiungi almeno un prodotto!');return;}eur=Math.round(eur*100)/100;var sede=document.getElementById(pfx+'-sede').value;var dord=fmtD(document.getElementById(pfx+'-data').value);var dcons=fmtD(document.getElementById(pfx+'-cons').value);var note=document.getElementById(pfx+'-note').value;var r=[];r.push('*ORDINE '+titolo+' - L\'Orso*');r.push('Sede: *'+sede+'*');r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');r.push('---');var curCat='';active.forEach(function(p){var q=ord[p.id]||0;if(q>0){if(p.cat!==curCat){curCat=p.cat;r.push('*'+curCat+'*');}r.push('  *'+p.nome+'* ('+p.formato+') x*'+q+'*');}});r.push('---');r.push('*Totale: '+pz+' pz*');if(note)r.push('Note: '+note);r.push('_Matteo La Spada - L\'Orso Messina_');var _url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));var _a=document.createElement('a');_a.href=_url;document.body.appendChild(_a);_a.click();setTimeout(function(){try{document.body.removeChild(_a);}catch(e){}},300);}
 
-// ══ VERDURE ══
+// ══ Sezioni specifiche ══
+var VA=[{id:'sc1',cat:'Spirito Contadino',nome:'Senape Selvatica di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:13.57},{id:'sc2',cat:'Spirito Contadino',nome:'Marasciuolo Selvatico di Campo',formato:'4x1.25kg',pz:4,pesoG:1250,pr:13.70},{id:'sc3',cat:'Spirito Contadino',nome:'Cicoriella Selvatica di Campo',formato:'4x1.25kg',pz:4,pesoG:1250,pr:11.71},{id:'sc4',cat:'Spirito Contadino',nome:'Friarielli di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:11.85},{id:'sc5',cat:'Spirito Contadino',nome:'Mugnuli Selvatici di Campo',formato:'4x1kg',pz:4,pesoG:1000,pr:13.80},{id:'sc7',cat:'Spirito Contadino',nome:'Carciofini in Crosta',formato:'4x1kg',pz:4,pesoG:1000,pr:13.43},{id:'sc8',cat:'Spirito Contadino',nome:'Fiori di Zucca in Crosta',formato:'1x1kg',pz:1,pesoG:1000,pr:14.01},{id:'sc9',cat:'Spirito Contadino',nome:'Sponzali',formato:'8x500g',pz:8,pesoG:500,pr:9.68},{id:'sc10',cat:'Spirito Contadino',nome:'Funghi Cardoncelli',formato:'1x2kg',pz:1,pesoG:2000,pr:14.30}];
+var V_DEF=['sc1','sc4','sc7','sc10'];var vAtt={},vOrd={};
 function showVTab(n){for(var i=0;i<4;i++){document.getElementById('vp'+i).style.display=i===n?'block':'none';document.getElementById('vt'+i).className=i===n?'tab on':'tab';}document.getElementById('v-bot').style.display=n===0?'flex':'none';if(n===2)sezRenderListino(VA,'v','#2e7a4f');if(n===1)sezPopCosto(VA,'vc1');}
 function calcVCosto(){sezCalcCosto(VA,'vc1','v-gram','v-cpInfo','v-pizze','v-cpres','v-cpnum','v-cpsub','#2e7a4f');}
 function vReset(){VA.forEach(function(p){vOrd[p.id]=0;var e=document.getElementById('vqi_'+p.id);if(e)e.value=0;});sv('va_ord_v1',vOrd);sezUpd(VA,vAtt,vOrd,'v');}
 function vWA(){sezWA(VA,vAtt,vOrd,'v','VERDURE');}
 
-// ══ FUNGHI ══
+var GA=[{id:'fs1',cat:'Funghi Scherini',nome:'Porcini Interi Extra',formato:'5kg',pz:1,pesoG:5000,pr:21.13},{id:'fs2',cat:'Funghi Scherini',nome:'Porcini Interi Premium',formato:'5kg',pz:1,pesoG:5000,pr:17.55},{id:'fs3',cat:'Funghi Scherini',nome:'Porcini Interi Standard',formato:'5kg',pz:1,pesoG:5000,pr:12.75},{id:'fs4',cat:'Funghi Scherini',nome:'Porcini a Fette Premium',formato:'5kg',pz:1,pesoG:5000,pr:15.75},{id:'fs5',cat:'Funghi Scherini',nome:'Porcini a Fette Standard',formato:'5kg',pz:1,pesoG:5000,pr:12.50},{id:'fs7',cat:'Funghi Scherini',nome:'Shiitake Extra',formato:'1kg',pz:1,pesoG:1000,pr:6.50},{id:'fs8',cat:'Funghi Scherini',nome:'Nameko Extra',formato:'1kg',pz:1,pesoG:1000,pr:6.80},{id:'fs9',cat:'Funghi Scherini',nome:'Champignon Premium',formato:'2.5kg',pz:1,pesoG:2500,pr:2.95},{id:'fs10',cat:'Funghi Scherini',nome:'Cuore di Carciofi',formato:'1kg',pz:1,pesoG:1000,pr:5.75}];
+var G_DEF=['fs1','fs4','fs7'];var gAtt={},gOrd={};
 function showGTab(n){for(var i=0;i<4;i++){document.getElementById('gp'+i).style.display=i===n?'block':'none';document.getElementById('gt'+i).className=i===n?'tab on':'tab';}document.getElementById('g-bot').style.display=n===0?'flex':'none';if(n===2)sezRenderListino(GA,'g','#6d4c41');if(n===1)sezPopCosto(GA,'gc1');}
 function calcGCosto(){sezCalcCosto(GA,'gc1','g-gram','g-cpInfo','g-pizze','g-cpres','g-cpnum','g-cpsub','#6d4c41');}
 function gReset(){GA.forEach(function(p){gOrd[p.id]=0;var e=document.getElementById('gqi_'+p.id);if(e)e.value=0;});sv('ga_ord_v1',gOrd);sezUpd(GA,gAtt,gOrd,'g');}
 function gWA(){sezWA(GA,gAtt,gOrd,'g','FUNGHI');}
 
-// ══ SALUMI ══
+var SA=[{id:'sa2',cat:"L'Art. Levoni",nome:'Prosciutto Crudo Riserva 24-28 mesi',formato:'8/9kg',pesoG:8500,pr:23.00},{id:'sa3',cat:'Branchi Riserva',nome:'Cotto60 Miglior Cotto GR',formato:'10kg',pesoG:10000,pr:22.74},{id:'sa5',cat:'Branchi Riserva',nome:'Prosciutto Cotto Praga Affumicato',formato:'9/10kg',pesoG:9500,pr:17.20},{id:'sa7',cat:"L'Art. Levoni",nome:'Cotto AQ Cottura Lenta a Vapore',formato:'10kg',pesoG:10000,pr:17.20},{id:'sa9',cat:"L'Art. Levoni",nome:'Mortadella Budello Naturale Bronte DOP',formato:'7.5kg',pesoG:7500,pr:12.85},{id:'sa10',cat:"L'Art. Levoni",nome:'Speck Affumicatura alla Brace',formato:'5/6kg',pesoG:5500,pr:23.35},{id:'sa15',cat:'Levoni Riserva',nome:'Guanciale Affumicato',formato:'1kg',pesoG:1000,pr:14.65},{id:'sa16',cat:'Levoni Premium',nome:'Mortadella Oro Pistacchio Bronte DOP',formato:'13kg',pesoG:13000,pr:11.60},{id:'sa19',cat:'Levoni Premium',nome:'Finocchiona Salame Semi Finocchio',formato:'2.5kg',pesoG:2500,pr:17.20},{id:'sa20',cat:'Levoni Premium',nome:"N'duja Originale",formato:'400g',pesoG:400,pr:17.30},{id:'sa24',cat:'Levoni Premium',nome:'Ventricina Piccante',formato:'3kg',pesoG:3000,pr:18.70},{id:'sa25',cat:'Branchi Prosciutti',nome:'Prosciutto Cotto Primo Branchi',formato:'10/12kg',pesoG:11000,pr:19.86},{id:'sa26',cat:'Branchi Prosciutti',nome:'Prosciutto Cotto Arrosto',formato:'10/12kg',pesoG:11000,pr:14.72}];
+var S_DEF=['sa2','sa9','sa15','sa19'];var sAtt={},sOrd={};
 function showSTab(n){for(var i=0;i<4;i++){document.getElementById('sp'+i).style.display=i===n?'block':'none';document.getElementById('st'+i).className=i===n?'tab on':'tab';}document.getElementById('s-bot').style.display=n===0?'flex':'none';if(n===2)sezRenderListino(SA,'s','#7b1fa2');if(n===1)sezPopCosto(SA,'sc1');}
 function calcSCosto(){sezCalcCosto(SA,'sc1','s-gram','s-cpInfo','s-pizze','s-cpres','s-cpnum','s-cpsub','#7b1fa2');}
 function sReset(){SA.forEach(function(p){sOrd[p.id]=0;var e=document.getElementById('sqi_'+p.id);if(e)e.value=0;});sv('sa_ord_v1',sOrd);sezUpd(SA,sAtt,sOrd,'s');}
 function sWA(){sezWA(SA,sAtt,sOrd,'s','SALUMI');}
 
-// ══ FORMAGGI ══
+var FOA=[{id:'fo1',cat:'Formaggi Siciliani',nome:'Ragusano DOP - Presidio SF',formato:'1.8/15kg',pesoG:5000,pr:16.75},{id:'fo3',cat:'Formaggi Siciliani',nome:'Provola dei Nebrodi DOP',formato:'6x1kg',pesoG:1000,pr:16.50},{id:'fo4',cat:'Formaggi Siciliani',nome:'Primo Sale delle Madonie',formato:'5kg',pesoG:5000,pr:13.90},{id:'fo5',cat:'Formaggi Siciliani',nome:'Tuma Persa - Presidio SF',formato:'3.5kg',pesoG:3500,pr:25.90},{id:'fo7',cat:'Formaggi Siciliani',nome:'Pecorino Siciliano DOP',formato:'3kg',pesoG:3000,pr:21.90},{id:'fo8',cat:'Formaggi Nazionali',nome:'Parmigiano Reggiano DOP 24 mesi',formato:'4.5kg',pesoG:4500,pr:19.87},{id:'fo9',cat:'Formaggi Nazionali',nome:'Grana Padano DOP 20 mesi',formato:'4.5kg',pesoG:4500,pr:17.88},{id:'fo10',cat:'Formaggi Nazionali',nome:'Blu di Bufala Top Cheese World',formato:'4kg',pesoG:4000,pr:29.91}];
+var FO_DEF=['fo1','fo3','fo7','fo8'];var foAtt={},foOrd={};
 function showFoTab(n){for(var i=0;i<4;i++){document.getElementById('fop'+i).style.display=i===n?'block':'none';document.getElementById('fot'+i).className=i===n?'tab on':'tab';}document.getElementById('fo-bot').style.display=n===0?'flex':'none';if(n===2)sezRenderListino(FOA,'fo','#f57f17');if(n===1)sezPopCosto(FOA,'foc1');}
 function calcFoCosto(){sezCalcCosto(FOA,'foc1','fo-gram','fo-cpInfo','fo-pizze','fo-cpres','fo-cpnum','fo-cpsub','#f57f17');}
 function foReset(){FOA.forEach(function(p){foOrd[p.id]=0;var e=document.getElementById('foqi_'+p.id);if(e)e.value=0;});sv('foa_ord_v1',foOrd);sezUpd(FOA,foAtt,foOrd,'fo');}
@@ -396,10 +1136,8 @@ document.addEventListener('DOMContentLoaded',function(){
   var fmt=function(dt){return dt.getFullYear()+'-'+(dt.getMonth()<9?'0':'')+(dt.getMonth()+1)+'-'+(dt.getDate()<10?'0':'')+dt.getDate();};
   var c=new Date(d);c.setDate(c.getDate()+2);
   ['f','p','v','g','s','fo'].forEach(function(pfx){
-    var de=document.getElementById(pfx+'-data');
-    var co=document.getElementById(pfx+'-cons');
-    if(de)de.value=fmt(d);
-    if(co)co.value=fmt(c);
+    var de=document.getElementById(pfx+'-data');var co=document.getElementById(pfx+'-cons');
+    if(de)de.value=fmt(d);if(co)co.value=fmt(c);
   });
   fRenderOrd();fRenderGest();fUpd();
   pRenderOrd();pRenderGest();pUpd();
@@ -410,11 +1148,11 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-if("serviceWorker" in navigator){
-  window.addEventListener("load", function(){
+if("serviceWorker" in navigator && location.protocol === "https:"){
+  window.addEventListener("load",function(){
     navigator.serviceWorker.register("./sw.js")
-      .then(function(reg){ console.log("SW ok:", reg.scope); })
-      .catch(function(err){ console.log("SW err:", err); });
+      .then(function(reg){console.log("SW ok:",reg.scope);})
+      .catch(function(err){console.log("SW err:",err);});
   });
 }
 </script>
