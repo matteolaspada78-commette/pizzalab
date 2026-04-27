@@ -3498,10 +3498,85 @@ function updateEsmach(idx, field, val){
   renderEsmachPrograms();
 }
 
+
 // ══════════════════════════════════════════════
-// STAMPA PDF
+// WHATSAPP
 // ══════════════════════════════════════════════
-function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
+function buildWaLink(el, pageId, titolo){
+  try{calcAll();}catch(e){}
+  var lines=['🍕 *Pizza Lab — '+titolo+'*',''];
+  var pagina=document.getElementById(pageId);
+  if(!pagina)return false;
+  // Input values
+  pagina.querySelectorAll('.inp-group').forEach(function(g){
+    var label=g.querySelector('.inp-label');
+    var input=g.querySelector('input,select');
+    var unit=g.querySelector('.inp-unit');
+    if(label&&input&&input.value){
+      var u=unit?unit.textContent.trim():'';
+      lines.push('• '+label.textContent.trim()+': *'+input.value+' '+u+'*');
+    }
+  });
+  lines.push('','*Risultati*');
+  // Output rows
+  pagina.querySelectorAll('.res-row').forEach(function(r){
+    var n=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+    if(n&&v)lines.push('• '+n.textContent.trim()+': *'+v.textContent.trim()+'*');
+  });
+  // Semafori
+  pagina.querySelectorAll('.sem').forEach(function(s){
+    lines.push('⚡ '+s.textContent.trim());
+  });
+  // Timeline
+  pagina.querySelectorAll('.tl-row').forEach(function(r){
+    var t=r.querySelector('.tl-time'),x=r.querySelector('.tl-text');
+    if(t&&x)lines.push('🕐 '+t.textContent.trim()+' — '+x.textContent.trim());
+  });
+  lines.push('','_Matteo La Spada · L\'Orso Messina_');
+  var txt=lines.join('\n');
+  // iOS: usa whatsapp://, altri: wa.me
+  var isIOS=/iP(ad|hone|od)/.test(navigator.userAgent);
+  var url=isIOS
+    ?'whatsapp://send?text='+encodeURIComponent(txt)
+    :'https://wa.me/?text='+encodeURIComponent(txt);
+  window.location.href=url;
+  return false;
+}
+
+function shareLicoli(){
+  try{calcLicoli();}catch(e){}
+  var lines=['🌿 *Pizza Lab — Licoli Madre*',''];
+  var labEl=document.getElementById('lLab');
+  if(labEl&&labEl.value)lines.unshift('📍 *Per Laboratorio '+labEl.value+'*','');
+  // Input
+  [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00'],
+   ['lProg','Programma Esmach','']].forEach(function(c){
+    var el=document.getElementById(c[0]);
+    if(el&&el.value)lines.push('• '+c[1]+': *'+el.value+' '+c[2]+'*');
+  });
+  lines.push('','*Risultati*');
+  var out=document.getElementById('licoliOut');
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var n=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+      if(n&&v)lines.push('• '+n.textContent.trim()+': *'+v.textContent.trim()+'*');
+    });
+    out.querySelectorAll('.sem').forEach(function(s){lines.push('⚡ '+s.textContent.trim());});
+  }
+  lines.push('','_Matteo La Spada · L\'Orso Messina_');
+  var txt=lines.join('\n');
+  var isIOS=/iP(ad|hone|od)/.test(navigator.userAgent);
+  var url=isIOS
+    ?'whatsapp://send?text='+encodeURIComponent(txt)
+    :'https://wa.me/?text='+encodeURIComponent(txt);
+  window.location.href=url;
+}
+
+function shareRicetta(pageId, titolo){
+  buildWaLink(null, pageId, titolo);
+}
+
 function stampaPDF(pageId,titolo){
   // 1. Ricalcola tutto — valori JS nel DOM
   calcAll();
