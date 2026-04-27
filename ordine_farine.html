@@ -214,6 +214,12 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
       <div class="sp-desc">Siciliani · Nazionali</div>
       <div class="sp-badge">D'Ago Feb 2026</div>
     </div>
+    <div class="sp-btn" onclick="openSez('dac')" style="grid-column:1/-1;border-color:#1a6b9a;background:linear-gradient(135deg,#f0f7ff,#e8f4fd)">
+      <div class="sp-icon">🛒</div>
+      <div class="sp-name" style="color:#1a6b9a">DAC — Dispensa Completa</div>
+      <div class="sp-desc">Alimentari · Pesce · Surgelati · Latticini</div>
+      <div class="sp-badge" style="background:#1a6b9a">Feb 2026</div>
+    </div>
   </div>
 </div>
 
@@ -647,7 +653,7 @@ var fAtt={},fOrd={};
 // NAVIGAZIONE
 // ══════════════════════════════════════════════
 function openSez(id){document.getElementById('splash').style.display='none';document.getElementById('sez-'+id).className='sez on';}
-function goHome(){['farine','pomodori','verdure','funghi','salumi','formaggi'].forEach(function(s){document.getElementById('sez-'+s).className='sez';});document.getElementById('splash').style.display='flex';}
+function goHome(){['farine','pomodori','verdure','funghi','salumi','formaggi','dac'].forEach(function(s){document.getElementById('sez-'+s).className='sez';});document.getElementById('splash').style.display='flex';}
 function ld(key,def){var v=null;try{v=localStorage.getItem(key);}catch(e){}if(v){try{return JSON.parse(v);}catch(e){}}return def;}
 function sv(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
 function fmtD(v){if(!v)return'-';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
@@ -1118,12 +1124,72 @@ function calcSCosto(){sezCalcCosto(SA,'sc1','s-gram','s-cpInfo','s-pizze','s-cpr
 function sReset(){SA.forEach(function(p){sOrd[p.id]=0;var e=document.getElementById('sqi_'+p.id);if(e)e.value=0;});sv('sa_ord_v1',sOrd);sezUpd(SA,sAtt,sOrd,'s');}
 function sWA(){sezWA(SA,sAtt,sOrd,'s','SALUMI');}
 
-var FOA=[{id:'fo1',cat:'Formaggi Siciliani',nome:'Ragusano DOP - Presidio SF',formato:'1.8/15kg',pesoG:5000,pr:16.75},{id:'fo3',cat:'Formaggi Siciliani',nome:'Provola dei Nebrodi DOP',formato:'6x1kg',pesoG:1000,pr:16.50},{id:'fo4',cat:'Formaggi Siciliani',nome:'Primo Sale delle Madonie',formato:'5kg',pesoG:5000,pr:13.90},{id:'fo5',cat:'Formaggi Siciliani',nome:'Tuma Persa - Presidio SF',formato:'3.5kg',pesoG:3500,pr:25.90},{id:'fo7',cat:'Formaggi Siciliani',nome:'Pecorino Siciliano DOP',formato:'3kg',pesoG:3000,pr:21.90},{id:'fo8',cat:'Formaggi Nazionali',nome:'Parmigiano Reggiano DOP 24 mesi',formato:'4.5kg',pesoG:4500,pr:19.87},{id:'fo9',cat:'Formaggi Nazionali',nome:'Grana Padano DOP 20 mesi',formato:'4.5kg',pesoG:4500,pr:17.88},{id:'fo10',cat:'Formaggi Nazionali',nome:'Blu di Bufala Top Cheese World',formato:'4kg',pesoG:4000,pr:29.91}];
-var FO_DEF=['fo1','fo3','fo7','fo8'];var foAtt={},foOrd={};
+var FOA=[
+  // ── Formaggi Siciliani · D'Ago ──
+  {id:'fo1', cat:'Formaggi Siciliani',           nome:'Ragusano DOP - Presidio SF',              formato:'1.8/15kg', pesoG:5000, pz:1, pr:16.75},
+  {id:'fo3', cat:'Formaggi Siciliani',           nome:'Provola dei Nebrodi DOP',                 formato:'6x1kg',    pesoG:1000, pz:1, pr:16.50},
+  {id:'fo4', cat:'Formaggi Siciliani',           nome:'Primo Sale delle Madonie',                formato:'5kg',      pesoG:5000, pz:1, pr:13.90},
+  {id:'fo5', cat:'Formaggi Siciliani',           nome:'Tuma Persa - Presidio SF',                formato:'3.5kg',    pesoG:3500, pz:1, pr:25.90},
+  {id:'fo7', cat:'Formaggi Siciliani',           nome:'Pecorino Siciliano DOP',                  formato:'3kg',      pesoG:3000, pz:1, pr:21.90},
+  // ── Formaggi Nazionali · D'Ago ──
+  {id:'fo8', cat:'Formaggi Nazionali',           nome:'Parmigiano Reggiano DOP 24 mesi',         formato:'4.5kg',    pesoG:4500, pz:1, pr:19.87},
+  {id:'fo9', cat:'Formaggi Nazionali',           nome:'Grana Padano DOP 20 mesi',                formato:'4.5kg',    pesoG:4500, pz:1, pr:17.88},
+  {id:'fo10',cat:'Formaggi Nazionali',           nome:'Blu di Bufala Top Cheese World',          formato:'4kg',      pesoG:4000, pz:1, pr:29.91},
+  // ── Magross · Latteria Sorrentina ──  (prezzi €/kg · Dic 2025)
+  {id:'mg1', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte Della Penisola Gr.600x7',     formato:'vaschetta 4.2kg', pesoG:4200, pz:1, pr:8.30,  cod:'FIO-00017'},
+  {id:'mg2', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte 100% Napoli Kg.1',            formato:'1kg',             pesoG:1000, pz:1, pr:9.40,  cod:'FIO-00020'},
+  {id:'mg3', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte Fette Morbido Vasc.3kg',      formato:'vaschetta 3kg',   pesoG:3000, pz:1, pr:7.50,  cod:'FIO-00039'},
+  {id:'mg4', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte Fiammifero Busta Kg.2',       formato:'busta 2kg',       pesoG:2000, pz:1, pr:7.80,  cod:'FIO-00032'},
+  {id:'mg5', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte Filone in Carta 2kg',         formato:'filone 2kg',      pesoG:2000, pz:1, pr:7.20,  cod:'FIO-00012'},
+  {id:'mg6', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte dei Monti Agerola Kg.1',      formato:'1kg',             pesoG:1000, pz:1, pr:9.30,  cod:'FIO-00013'},
+  {id:'mg7', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte dei Monti in Acqua Agerola Gr.600',formato:'600g',       pesoG:600,  pz:1, pr:9.15,  cod:'FIO-00021'},
+  {id:'mg8', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte della Costiera Gr.500x9',     formato:'vaschetta 4.5kg', pesoG:4500, pz:1, pr:7.90,  cod:'FIO-00025'},
+  {id:'mg9', cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte della Costiera Julienne Vasc.3kg',formato:'vaschetta 3kg',pesoG:3000,pz:1, pr:8.30,  cod:'FIO-00040'},
+  {id:'mg10',cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte in Acqua Gr.100x2.5kg',       formato:'vaschetta 2.5kg', pesoG:2500, pz:1, pr:8.80,  cod:'FIO-00018'},
+  {id:'mg11',cat:'Magross · Latteria Sorrentina',nome:'Fiordilatte in Acqua Gr.500x8',           formato:'vaschetta 4kg',   pesoG:4000, pz:1, pr:7.30,  cod:'FIO-00004'},
+  {id:'mg12',cat:'Magross · Latteria Sorrentina',nome:'Provola 100% Napoli Kg.1',                formato:'1kg',             pesoG:1000, pz:1, pr:9.60,  cod:'PRO-00092'},
+  {id:'mg13',cat:'Magross · Latteria Sorrentina',nome:'Olio Spray Sapore Neutro Ml.500 Wiberg',  formato:'1 pz',            pesoG:500,  pz:1, pr:8.15,  cod:'GOL-00001', um:'PZ'}
+];
+var FO_DEF=['fo1','fo3','fo7','fo8','mg2','mg3','mg4','mg6','mg12'];var foAtt={},foOrd={};
 function showFoTab(n){for(var i=0;i<4;i++){document.getElementById('fop'+i).style.display=i===n?'block':'none';document.getElementById('fot'+i).className=i===n?'tab on':'tab';}document.getElementById('fo-bot').style.display=n===0?'flex':'none';if(n===2)sezRenderListino(FOA,'fo','#f57f17');if(n===1)sezPopCosto(FOA,'foc1');}
 function calcFoCosto(){sezCalcCosto(FOA,'foc1','fo-gram','fo-cpInfo','fo-pizze','fo-cpres','fo-cpnum','fo-cpsub','#f57f17');}
 function foReset(){FOA.forEach(function(p){foOrd[p.id]=0;var e=document.getElementById('foqi_'+p.id);if(e)e.value=0;});sv('foa_ord_v1',foOrd);sezUpd(FOA,foAtt,foOrd,'fo');}
-function foWA(){sezWA(FOA,foAtt,foOrd,'fo','FORMAGGI');}
+function foWA(){
+  var active=FOA.filter(function(p){return foAtt[p.id];});
+  var ordini=active.filter(function(p){return(foOrd[p.id]||0)>0;});
+  if(ordini.length===0){alert('Aggiungi almeno un prodotto!');return;}
+  var sede=document.getElementById('fo-sede').value;
+  var dord=fmtD(document.getElementById('fo-data').value);
+  var dcons=fmtD(document.getElementById('fo-cons').value);
+  var note=document.getElementById('fo-note').value;
+  var totPz=0,totEur=0;
+  ordini.forEach(function(p){totPz+=foOrd[p.id];totEur+=foOrd[p.id]*p.pr;});
+  var r=[];
+  r.push('*ORDINE FORMAGGI — L\'Orso*');
+  r.push('Sede: *'+sede+'*');
+  r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');
+  r.push('---');
+  // Raggruppa per categoria/fornitore
+  var cats=['Formaggi Siciliani','Formaggi Nazionali','Magross · Latteria Sorrentina'];
+  cats.forEach(function(cat){
+    var items=ordini.filter(function(p){return p.cat===cat;});
+    if(items.length===0)return;
+    r.push('*'+cat+'*');
+    items.forEach(function(p){
+      var q=foOrd[p.id];
+      var riga='  *'+p.nome+'* ('+p.formato+') x*'+q+'*';
+      if(p.cod)riga+=' ['+p.cod+']';
+      r.push(riga);
+    });
+  });
+  r.push('---');
+  r.push('*Totale: '+totPz+' pz — euro '+Math.round(totEur*100)/100+'*');
+  if(note)r.push('Note: '+note);
+  r.push('_Matteo La Spada — L\'Orso Messina_');
+  var url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
+  var a=document.createElement('a');a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+}
 
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',function(){
@@ -1135,7 +1201,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var d=new Date();
   var fmt=function(dt){return dt.getFullYear()+'-'+(dt.getMonth()<9?'0':'')+(dt.getMonth()+1)+'-'+(dt.getDate()<10?'0':'')+dt.getDate();};
   var c=new Date(d);c.setDate(c.getDate()+2);
-  ['f','p','v','g','s','fo'].forEach(function(pfx){
+  ['f','p','v','g','s','fo','dac'].forEach(function(pfx){
     var de=document.getElementById(pfx+'-data');var co=document.getElementById(pfx+'-cons');
     if(de)de.value=fmt(d);if(co)co.value=fmt(c);
   });
@@ -1145,8 +1211,386 @@ document.addEventListener('DOMContentLoaded',function(){
   sezRenderOrd(GA,gAtt,gOrd,'g','#6d4c41');sezRenderGest(GA,gAtt,gOrd,'g','#6d4c41','ga_att_v1','ga_ord_v1');sezUpd(GA,gAtt,gOrd,'g');
   sezRenderOrd(SA,sAtt,sOrd,'s','#7b1fa2');sezRenderGest(SA,sAtt,sOrd,'s','#7b1fa2','sa_att_v1','sa_ord_v1');sezUpd(SA,sAtt,sOrd,'s');
   sezRenderOrd(FOA,foAtt,foOrd,'fo','#f57f17');sezRenderGest(FOA,foAtt,foOrd,'fo','#f57f17','foa_att_v1','foa_ord_v1');sezUpd(FOA,foAtt,foOrd,'fo');
+  dacLoad();dacRenderAll();dacUpd();
 });
 </script>
+<!-- ══ SEZIONE DAC ══ -->
+<div class="sez" id="sez-dac">
+  <div class="hdr">
+    <div class="hdr-top">
+      <button class="hdr-back" onclick="goHome()">← Home</button>
+      <div class="hdr-title" style="color:#1a6b9a">🛒 DAC — Dispensa</div>
+    </div>
+    <div class="row2">
+      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dac-sede" type="text" value="Via Calapso"></div>
+      <div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dac-data" type="date" style="color:#1a6b9a"></div>
+    </div>
+    <div class="consrow"><span class="conslbl" style="color:#1a6b9a">Consegna:</span><input class="consdate" id="dac-cons" type="date" style="color:#1a6b9a"></div>
+  </div>
+
+  <!-- CAT TABS (scrollabili orizzontalmente) -->
+  <div style="display:flex;overflow-x:auto;background:#e8e0d0;border-bottom:2px solid #e8e0d0;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+    <button class="tab on" id="dact0" onclick="dacShowCat(0)" style="color:#1a6b9a;white-space:nowrap;flex-shrink:0">📦 Ordine</button>
+    <button class="tab" id="dact1" onclick="dacShowCat(1)" style="white-space:nowrap;flex-shrink:0">🐟 Pesce</button>
+    <button class="tab" id="dact2" onclick="dacShowCat(2)" style="white-space:nowrap;flex-shrink:0">🧀 Latt.</button>
+    <button class="tab" id="dact3" onclick="dacShowCat(3)" style="white-space:nowrap;flex-shrink:0">🍝 Secchi</button>
+    <button class="tab" id="dact4" onclick="dacShowCat(4)" style="white-space:nowrap;flex-shrink:0">🥦 Surg.</button>
+    <button class="tab" id="dact5" onclick="dacShowCat(5)" style="white-space:nowrap;flex-shrink:0">📋 Listino</button>
+    <button class="tab" id="dact6" onclick="dacShowCat(6)" style="white-space:nowrap;flex-shrink:0">⚙️ Gest.</button>
+  </div>
+
+  <!-- TAB 0: ORDINE RIEPILOGO -->
+  <div id="dacp0">
+    <div class="sumbar">
+      <div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="dac-nprod">0</div></div>
+      <div class="sumcell"><div class="sumlbl">Pezzi tot</div><div class="sumval" id="dac-npz" style="color:#1a6b9a">0</div></div>
+      <div class="sumcell"><div class="sumval" id="dac-ntot" style="font-size:13px;padding-top:4px;color:#1a6b9a">-</div><div class="sumlbl">euro tot</div></div>
+    </div>
+    <!-- riepilogo per categoria -->
+    <div id="dac-riepilogo-cats"></div>
+    <div class="rbox" id="dac-rbox"><div class="rhdr" style="color:#1a6b9a">📋 Riepilogo ordine</div><div id="dac-rrows"></div><div class="rfoot"><span>Totale</span><span id="dac-rtot" style="color:#1a6b9a">-</span></div></div>
+    <div class="nwrap" style="margin-top:10px"><div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">Note</div><textarea class="nfield" id="dac-note" placeholder="Note ordine DAC..."></textarea></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 1: PESCE -->
+  <div id="dacp1" style="display:none">
+    <div class="shdr">🐟 Pesce · Surgelati <span id="dac-cnt-pesce"></span></div>
+    <div id="dac-list-pesce"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 2: LATTICINI -->
+  <div id="dacp2" style="display:none">
+    <div class="shdr">🧀 Latticini · Formaggi <span id="dac-cnt-latt"></span></div>
+    <div id="dac-list-latt"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 3: SECCHI -->
+  <div id="dacp3" style="display:none">
+    <div class="shdr">🍝 Pasta · Riso · Secchi <span id="dac-cnt-secchi"></span></div>
+    <div id="dac-list-secchi"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 4: SURGELATI VERDURE/ALTRO -->
+  <div id="dacp4" style="display:none">
+    <div class="shdr">🥦 Verdure · Surgelati · Altro <span id="dac-cnt-surg"></span></div>
+    <div id="dac-list-surg"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 5: LISTINO -->
+  <div id="dacp5" style="display:none">
+    <div style="padding:10px 16px 4px;font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;font-weight:700">Listino DAC — Feb 2026</div>
+    <div id="dac-listino"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <!-- TAB 6: GESTIONE -->
+  <div id="dacp6" style="display:none">
+    <div class="shdr">Attivi <span id="dac-cntAttG"></span></div>
+    <div id="dac-listAtt"></div>
+    <div class="divid"></div>
+    <div class="shdr">Stand-by <span id="dac-cntSby"></span></div>
+    <div id="dac-listSby"></div>
+    <div style="height:10px"></div>
+  </div>
+
+  <div class="bot" id="dac-bot">
+    <button class="breset" onclick="dacReset()">Reset</button>
+    <button class="bwa" onclick="dacWA()" style="background:linear-gradient(135deg,#25d366,#128c7e)">📲 WhatsApp</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATI DAC
+// Categorie: pesce | latt | secchi | surg
+// UM: CA=cartone, PZ=pezzo, KG=kg, CF=conf
+// prezzo = prezzo unitario (per pezzo/cartone come da fattura)
+// ══════════════════════════════════════════════
+var DAC_DATA = [
+  // ── PESCE / SURGELATI ──
+  {id:'d_polpo',    cat:'pesce', nome:'Polpo T5 (1.2/1.5kg) IQF "El Pulpo Diablo"', formato:'CA 10 KG', um:'KG',  pr:14.90,  cod:'801758'},
+  {id:'d_calam1',   cat:'pesce', nome:'Calamari SP. U/3 India 800g IQF',            formato:'CA 10 PZ', um:'PZ',  pr:6.90,   cod:'804077'},
+  {id:'d_ricciola', cat:'pesce', nome:'Ricciola Fil. "Hamachi" Sashimi 1/2kg',      formato:'PZ 7.49kg',um:'KG',  pr:23.80,  cod:'811372'},
+  {id:'d_spada1',   cat:'pesce', nome:'Spada Fil. Lavato Sashimi S/O S/P',          formato:'CA 4.5 KG',um:'KG',  pr:11.00,  cod:'89156'},
+  {id:'d_acquad',   cat:'pesce', nome:'Acquadelle Latterino 1kg',                   formato:'CA 10 PZ', um:'PZ',  pr:2.20,   cod:'88654'},
+  {id:'d_spada2',   cat:'pesce', nome:'Spada Fil. Cuore (Parti Centrali) C/P',      formato:'CA 4.5 KG',um:'KG',  pr:9.95,   cod:'804676'},
+  {id:'d_tonno',    cat:'pesce', nome:'Tonno DAC Fil. S/O S/S "MSC"',               formato:'CA 2.5 KG',um:'KG',  pr:13.26,  cod:'85776'},
+  {id:'d_sarda',    cat:'pesce', nome:'Sarda Fil. "Mediterraneo" FAO37 1kg',        formato:'PZ 1 KG',  um:'PZ',  pr:8.49,   cod:'804716'},
+  {id:'d_triglia',  cat:'pesce', nome:'Triglia Fil. 15/40 C/P "Atlantica" 1kg',    formato:'CA 4 KG',  um:'KG',  pr:11.00,  cod:'805144'},
+  {id:'d_branzino', cat:'pesce', nome:'Branzino Fil. 160/200 S/Add. Real IQF',      formato:'CA 3 KG',  um:'KG',  pr:19.60,  cod:'87567'},
+  {id:'d_baccala',  cat:'pesce', nome:'Baccalà Fil. 900g C/P IQF Dissalato',       formato:'CA 7 KG',  um:'KG',  pr:18.49,  cod:'801653'},
+  {id:'d_gros5',    cat:'pesce', nome:'Gambero Rosso Mediterr. 5" 70pz+ 1kg',      formato:'PZ 1 KG',  um:'PZ',  pr:17.23,  cod:'807479'},
+  {id:'d_gros4',    cat:'pesce', nome:'Gambero Rosso Mediterr. 4" 56/70pz 1kg',    formato:'PZ 1 KG',  um:'PZ',  pr:31.95,  cod:'807468'},
+  {id:'d_scampi1',  cat:'pesce', nome:'Scampi 11/15 IRL C/B "Porcupine" 3kg',      formato:'PZ 3 KG',  um:'PZ',  pr:125.00, cod:'88706'},
+  {id:'d_scampi2',  cat:'pesce', nome:'Scampi 11/15 Irlanda C/B 3kg BL',           formato:'PZ 3 KG',  um:'PZ',  pr:106.04, cod:'88718'},
+  {id:'d_maze',     cat:'pesce', nome:'Code Mazzancolle "Mariposa" 36/40 P&D 750g',formato:'CA 10 PZ', um:'PZ',  pr:6.60,   cod:'805858'},
+  {id:'d_grmoz',    cat:'pesce', nome:'Gambero Rosso "Mozambico" M41/60 800g',      formato:'PZ 1 KG',  um:'PZ',  pr:41.00,  cod:'800482'},
+  {id:'d_astice',   cat:'pesce', nome:'Astice Rete 500/550 "Canada" Crudo IQF',    formato:'CA 5 KG',  um:'KG',  pr:21.00,  cod:'806412'},
+  {id:'d_riccio',   cat:'pesce', nome:'Riccio di Mare "Mediterraneo" 100g',        formato:'PZ 1',     um:'PZ',  pr:13.00,  cod:'808773'},
+  {id:'d_tart',     cat:'pesce', nome:'Tartare Gambero Rosso "Veritas" 20x50g',    formato:'CF 1',     um:'CF',  pr:73.00,  cod:'802592'},
+  {id:'d_carp',     cat:'pesce', nome:'Carpaccio Gambero Rosso "Veritas" 10x50g',  formato:'CF 1',     um:'CF',  pr:49.49,  cod:'808811'},
+  {id:'d_gver1',    cat:'pesce', nome:'Gambero Rosso "Veritas" 1" 18/23pz 1kg',   formato:'PZ 1 KG',  um:'PZ',  pr:69.90,  cod:'88561'},
+  {id:'d_gver2',    cat:'pesce', nome:'Gambero Rosso "Veritas" 2" 25/35pz 1kg',   formato:'PZ 1 KG',  um:'PZ',  pr:58.50,  cod:'88630'},
+  {id:'d_gambl1',   cat:'pesce', nome:'Gamberoni L1 10/20 "Arbumasa" 2kg C/B',     formato:'PZ 1',     um:'PZ',  pr:22.70,  cod:'84067'},
+  {id:'d_gambl2',   cat:'pesce', nome:'Gamberoni L1 10/20 "Frozen Bistro" 2kg',   formato:'PZ 1',     um:'PZ',  pr:22.50,  cod:'811204'},
+  {id:'d_calam2',   cat:'pesce', nome:'Calamaro 2P (16/21cm) Marocco IWP',        formato:'CA 5 KG',  um:'KG',  pr:10.99,  cod:'89885'},
+  {id:'d_calam3',   cat:'pesce', nome:'Calamaro Sporco M S.Africa IWP',            formato:'CA 8 KG',  um:'KG',  pr:10.50,  cod:'807449'},
+  {id:'d_sep1',     cat:'pesce', nome:'Seppie Sporca M8 400/600 Marocco P/Amo',   formato:'CA 5 KG',  um:'KG',  pr:7.98,   cod:'810545'},
+  {id:'d_sep2',     cat:'pesce', nome:'Seppie 1000+ "East Devon" FAO27 IQF',      formato:'CA 6 KG',  um:'KG',  pr:12.39,  cod:'800068'},
+  {id:'d_sep3',     cat:'pesce', nome:'Seppie 1/UP Pulite "Valkyria"',             formato:'CA 12 KG', um:'KG',  pr:11.95,  cod:'805129'},
+  {id:'d_salmone',  cat:'pesce', nome:'Salmone Preaf "Re Salmone" 1kg Norv. Aff.', formato:'PZ 1',     um:'PZ',  pr:24.38,  cod:'4185'},
+  {id:'d_tonnobu',  cat:'pesce', nome:'Tonno Busta 1kg Sirenetta Olio/Girasole',   formato:'CA 12 PZ', um:'PZ',  pr:6.90,   cod:'60534'},
+  {id:'d_tartufo',  cat:'pesce', nome:'Tartufo Fette "Carpaccio" O/EVO 180g',      formato:'PZ 1',     um:'PZ',  pr:25.80,  cod:'59700'},
+
+  // ── LATTICINI / FORMAGGI ──
+  {id:'d_grana',    cat:'latt',  nome:'Grana "Del Casale" Padano DOP 1/8 (4.9kg)', formato:'CA 1 PZ',  um:'CA',  pr:58.31,  cod:'19398'},
+  {id:'d_pecrm',    cat:'latt',  nome:'Pecorino Romano S/V 1/4 Spicchi DOP 6.5kg', formato:'CA 1 PZ',  um:'CA',  pr:91.00,  cod:'839'},
+  {id:'d_burro',    cat:'latt',  nome:'Burro "Parmareggio" 1kg',                   formato:'CA 4 PZ',  um:'PZ',  pr:5.60,   cod:'56035'},
+  {id:'d_masca',    cat:'latt',  nome:'Mascarpone Centr. Latte BS 500g 48%',        formato:'CA 6 PZ',  um:'PZ',  pr:4.50,   cod:'726'},
+  {id:'d_burrat',   cat:'latt',  nome:'Burratina "F.Paladini" Bicch. 100g',        formato:'CA 8 PZ',  um:'PZ',  pr:1.135,  cod:'51552'},
+  {id:'d_minibu',   cat:'latt',  nome:'Mini Burrata "F.Paladini" 50g x4',          formato:'CA 4 CF',  um:'CF',  pr:2.857,  cod:'51556'},
+  {id:'d_cacio',    cat:'latt',  nome:'Caciocavallo Silano DOP Boccia 1.8kg',      formato:'CA 2 PZ',  um:'KG',  pr:14.50,  cod:'39988'},
+  {id:'d_gorgo',    cat:'latt',  nome:'Gorgonzola "Locatelli" DOP Dolce 1.6kg',    formato:'PZ 1',     um:'KG',  pr:8.00,   cod:'42478'},
+  {id:'d_taleg',    cat:'latt',  nome:'Taleggio DOP 2.2kg',                        formato:'CA 1 PZ',  um:'KG',  pr:8.50,   cod:'9199'},
+  {id:'d_brie',     cat:'latt',  nome:'Brie "Paysan Breton" Forma 1kg',            formato:'PZ 1',     um:'PZ',  pr:8.00,   cod:'48423'},
+  {id:'d_berg',     cat:'latt',  nome:'Bergader "Edelpilz" Tondo 2.3kg',           formato:'PZ 1',     um:'KG',  pr:9.50,   cod:'63732'},
+  {id:'d_spalm',    cat:'latt',  nome:'Formaggio Spalmabile "Galbani" 1kg',        formato:'PZ 1',     um:'PZ',  pr:5.90,   cod:'61702'},
+  {id:'d_capri',    cat:'latt',  nome:'Caprini "Mauri di Capra" 560g (7x80g)',     formato:'CF 1',     um:'CF',  pr:9.908,  cod:'60646'},
+
+  // ── PASTA / RISO / SECCHI ──
+  {id:'d_eliche',   cat:'secchi',nome:'Eliche di Gragnano IGP "Amadio" 500g',      formato:'CA 12 PZ', um:'PZ',  pr:2.817,  cod:'5934'},
+  {id:'d_lingu',    cat:'secchi',nome:'Linguine di Gragnano IGP "Amadio" 500g',    formato:'CA 12 PZ', um:'PZ',  pr:2.817,  cod:'5936'},
+  {id:'d_riso1',    cat:'secchi',nome:'Riso "Gallo" Carnaroli 1kg',                formato:'CA 6 PZ',  um:'PZ',  pr:3.111,  cod:'10800'},
+  {id:'d_riso2',    cat:'secchi',nome:'Riso Scotti Carnaroli 5kg (5x1kg)',          formato:'CA 2 PZ',  um:'PZ',  pr:12.90,  cod:'455'},
+  {id:'d_semola',   cat:'secchi',nome:'Semola Rimacinata Casillo 5kg Grano Duro',  formato:'CA 1 PZ',  um:'PZ',  pr:5.474,  cod:'52607'},
+  {id:'d_couscous', cat:'secchi',nome:'Cous Cous "Bia" Precotto 1kg',              formato:'CA 10 KG', um:'KG',  pr:1.954,  cod:'47744'},
+  {id:'d_maiz',     cat:'secchi',nome:'Maizena (Amido di Mais) "Knorr" 700g',      formato:'PZ 1',     um:'PZ',  pr:5.443,  cod:'60938'},
+  {id:'d_pancar',   cat:'secchi',nome:'Pancarré Mulino Bianco 16 fette 285g',      formato:'CA 18 CF', um:'CF',  pr:0.882,  cod:'64344'},
+  {id:'d_acetob',   cat:'secchi',nome:'Aceto "Arco" Bianco 1lt',                   formato:'CA 12 PZ', um:'PZ',  pr:0.650,  cod:'4254'},
+  {id:'d_acetor',   cat:'secchi',nome:'Aceto "Arco" Rosso 1lt',                    formato:'CA 12 PZ', um:'PZ',  pr:0.650,  cod:'4255'},
+  {id:'d_olioe',    cat:'secchi',nome:'Olio Extra Vergine "Arco" 5lt Lattina',     formato:'CA 2 PZ',  um:'PZ',  pr:28.00,  cod:'661'},
+  {id:'d_olioao',   cat:'secchi',nome:'Olio Alto Oleico Girasole PET 10lt',        formato:'CA 1 PZ',  um:'PZ',  pr:23.50,  cod:'33961'},
+  {id:'d_pangrat',  cat:'secchi',nome:'Pangrattato Caber 3kg',                     formato:'CA 1 PZ',  um:'PZ',  pr:9.80,   cod:'807762'},
+  {id:'d_cornfl',   cat:'secchi',nome:'Corn Flakes "Venosta" 1kg',                 formato:'CA 6 PZ',  um:'PZ',  pr:3.457,  cod:'43336'},
+  {id:'d_sale',     cat:'secchi',nome:'Sale Iodato Italkali Fino 1kg',             formato:'CA 12 PZ', um:'PZ',  pr:0.733,  cod:'49756'},
+
+  // ── SURGELATI VERDURE / ALTRO ──
+  {id:'d_senape',   cat:'surg',  nome:'Senape Selvatica di Campo "Spirito C." 1kg',formato:'CA 4 PZ',  um:'PZ',  pr:13.737, cod:'803136'},
+  {id:'d_mugn',     cat:'surg',  nome:'Mugnuli Selvatici di Campo "Spirito C." 1kg',formato:'CA 4 PZ', um:'PZ',  pr:13.737, cod:'87030'},
+  {id:'d_borr',     cat:'surg',  nome:'Borragine "Spirito C." 1.25kg',             formato:'CA 4 PZ',  um:'PZ',  pr:17.367, cod:'87033'},
+  {id:'d_cicor',    cat:'surg',  nome:'Cicoriella Selvatica "Spirito C." 1.25kg',  formato:'CA 4 PZ',  um:'PZ',  pr:14.812, cod:'87034'},
+  {id:'d_fiori',    cat:'surg',  nome:'Fiori di Zucca "Spirito C." 500g',          formato:'CA 2 PZ',  um:'PZ',  pr:8.256,  cod:'803774'},
+  {id:'d_cime',     cat:'surg',  nome:'Cime di Rape "Spirito C." 2kg',             formato:'CA 2 PZ',  um:'PZ',  pr:23.104, cod:'87031'},
+  {id:'d_carci',    cat:'surg',  nome:'Carciofini Spicchi "Spirito C." 2kg',       formato:'CA 2 PZ',  um:'PZ',  pr:23.728, cod:'87027'},
+  {id:'d_card',     cat:'surg',  nome:'Funghi Cardoncelli "Spirito C." 2kg',       formato:'CA 2 PZ',  um:'PZ',  pr:26.531, cod:'87028'},
+  {id:'d_pomod1',   cat:'surg',  nome:'Pomodori Pelati FT 3kg "Don Peppe"',        formato:'CA 6 PZ',  um:'PZ',  pr:5.307,  cod:'35762'},
+  {id:'d_carcos',   cat:'surg',  nome:'Carciofi Arrostiti S/O Italcarc Vaso 3.1kg',formato:'PZ 1',     um:'PZ',  pr:23.423, cod:'39291'},
+  {id:'d_olive',    cat:'surg',  nome:'Olive Taggiasche Anfosso Snoc. O/EX 950g',  formato:'PZ 1',     um:'PZ',  pr:14.35,  cod:'35692'},
+  {id:'d_champ',    cat:'surg',  nome:'Champignon "Busta" Primofungo Trif. 1.7kg', formato:'CA 6 PZ',  um:'PZ',  pr:7.094,  cod:'47627'},
+  {id:'d_fungiall', cat:'surg',  nome:'Funghi Fam. Gialli "Nova" Chiodini Trif. 1kg',formato:'CA 6 PZ',um:'PZ', pr:7.349,  cod:'26832'},
+  {id:'d_dattg1',   cat:'surg',  nome:'Datterino Giallo in Succo 800g Grangusto',  formato:'CA 6 PZ',  um:'PZ',  pr:4.790,  cod:'25533'},
+  {id:'d_dattg2',   cat:'surg',  nome:'Datterino Giallo Acq. Mare 800g Grangusto', formato:'CA 6 PZ',  um:'PZ',  pr:5.337,  cod:'34183'},
+  {id:'d_dattr2',   cat:'surg',  nome:'Datterino Rosso Acq. Mare 800g Grangusto',  formato:'CA 6 PZ',  um:'PZ',  pr:5.464,  cod:'34185'},
+  {id:'d_dattr1',   cat:'surg',  nome:'Datterino Rosso in Succo 800g Grangusto',   formato:'CA 6 PZ',  um:'PZ',  pr:4.679,  cod:'25532'},
+  {id:'d_dattga',   cat:'surg',  nome:'Datterino Giallo in Acqua 800g Grangusto',  formato:'CA 6 PZ',  um:'PZ',  pr:4.134,  cod:'25535'},
+  {id:'d_pelg',     cat:'surg',  nome:'Datterino Pelato Giallo in Succo 800g',     formato:'CA 6 PZ',  um:'PZ',  pr:5.150,  cod:'37674'},
+  {id:'d_pelr',     cat:'surg',  nome:'Datterino Pelato Rosso in Succo 800g',      formato:'CA 6 PZ',  um:'PZ',  pr:4.559,  cod:'37675'},
+  {id:'d_patdip',   cat:'surg',  nome:'Patate Dippers C/Bucc. L.W. 2.5kg',        formato:'CA 4 PZ',  um:'PZ',  pr:6.456,  cod:'83628'},
+  {id:'d_pat6x6',   cat:'surg',  nome:'Patate 6x6 Stealth L.W. 2.5kg',            formato:'CA 4 PZ',  um:'PZ',  pr:5.590,  cod:'84568'},
+  {id:'d_patdolc',  cat:'surg',  nome:'Patate Dolci 9x13 L.W. 2.5kg',             formato:'CA 4 PZ',  um:'PZ',  pr:14.520, cod:'88579'},
+  {id:'d_frutti',   cat:'surg',  nome:'Frutti di Bosco "Petruccci" 1kg',           formato:'CA 6 PZ',  um:'PZ',  pr:7.925,  cod:'805773'},
+  {id:'d_panci',    cat:'surg',  nome:'Panciotti Melanz/Scamorza "Divine C." 2kg', formato:'CA 1 PZ',  um:'PZ',  pr:23.735, cod:'82863'},
+  {id:'d_fillo',    cat:'surg',  nome:'Fillopasta "Preferita" 1kg (Rotolo)',       formato:'PZ 1',     um:'PZ',  pr:5.290,  cod:'80450'},
+  {id:'d_panbur',   cat:'surg',  nome:'Pane Mini Burger 35g C/S "Pastr." x10',    formato:'CA 12 CF', um:'CF',  pr:4.626,  cod:'805476'},
+  // Salumi presenti nel listino DAC
+  {id:'d_protto',   cat:'surg',  nome:'Proscuitto Cotto "Nostrano A/Straccio" AQ Branchi',formato:'CA 10.5 KG',um:'KG',pr:17.60,cod:'57069'},
+  {id:'d_ferrar',   cat:'surg',  nome:'Prosciutto Cotto Ferrarini Intero A.Qual. 8.4kg',  formato:'CA 1 PZ',um:'KG',pr:8.90,cod:'54017'},
+  {id:'d_wurst1',   cat:'surg',  nome:'Wurstel "Tedeschi" S/P 90gx8pz 720g',      formato:'CA 6 PZ',  um:'PZ',  pr:6.50,   cod:'45073'},
+  {id:'d_wurst2',   cat:'surg',  nome:'Wurstel "Scarlino" Grill 3pz 250g C/Suino',formato:'CA 20 CF', um:'CF',  pr:0.850,  cod:'53627'},
+  {id:'d_speck',    cat:'surg',  nome:'Speck "1/2 Baita S/V Arco" 2.5kg',         formato:'CA 1 PZ',  um:'KG',  pr:8.30,   cod:'22886'},
+  {id:'d_guanc',    cat:'surg',  nome:'Guanciale Amatriciana "Fiorucci" 1.2kg',    formato:'PZ 1',     um:'KG',  pr:9.90,   cod:'5594'}
+];
+
+// DEFAULT attivi per ogni categoria
+var DAC_DEF = ['d_branzino','d_baccala','d_scampi1','d_gver1','d_gver2',
+               'd_grana','d_masca','d_burro','d_burrat',
+               'd_eliche','d_lingu','d_riso1','d_olioe','d_olioao','d_pangrat',
+               'dac-d_senape','d_mugn','d_cicor','d_dattg1','d_dattr1','d_patdip',
+               'd_senape','d_card','d_champ'];
+
+var dacAtt={}, dacOrd={};
+
+// Mappa categoria → label/icona
+var DAC_CATS = {
+  pesce:  {label:'🐟 Pesce · Surgelati',  col:'#0277bd'},
+  latt:   {label:'🧀 Latticini',           col:'#f57f17'},
+  secchi: {label:'🍝 Pasta · Secchi',      col:'#6d4c41'},
+  surg:   {label:'🥦 Verdure · Surg.',     col:'#2e7a4f'}
+};
+
+function dacLoad(){
+  dacAtt=ld('dac_att_v1',{});
+  DAC_DATA.forEach(function(p){if(dacAtt[p.id]===undefined)dacAtt[p.id]=(DAC_DEF.indexOf(p.id)>=0);});
+  dacOrd=ld('dac_ord_v1',{});
+  DAC_DATA.forEach(function(p){if(dacOrd[p.id]===undefined)dacOrd[p.id]=0;});
+}
+
+function dacGetCat(cat){return DAC_DATA.filter(function(p){return p.cat===cat&&dacAtt[p.id];});}
+function dacGetSby(cat){return DAC_DATA.filter(function(p){return p.cat===cat&&!dacAtt[p.id];});}
+
+function dacTotPz(){var s=0;DAC_DATA.forEach(function(p){s+=dacOrd[p.id]||0;});return s;}
+function dacTotEur(){
+  var s=0;
+  DAC_DATA.forEach(function(p){s+=(dacOrd[p.id]||0)*p.pr;});
+  return Math.round(s*100)/100;
+}
+function dacTotProd(){return DAC_DATA.filter(function(p){return(dacOrd[p.id]||0)>0;}).length;}
+
+function dacUpd(){
+  var pz=dacTotPz(),eur=dacTotEur(),np=dacTotProd();
+  document.getElementById('dac-nprod').textContent=np;
+  document.getElementById('dac-npz').textContent=pz;
+  document.getElementById('dac-ntot').textContent=pz===0?'-':'€ '+eur.toFixed(2);
+  // Riepilogo per categoria
+  var catHtml='';
+  Object.keys(DAC_CATS).forEach(function(cat){
+    var items=DAC_DATA.filter(function(p){return p.cat===cat&&(dacOrd[p.id]||0)>0;});
+    if(items.length===0)return;
+    var totCat=0;items.forEach(function(p){totCat+=p.pr*(dacOrd[p.id]||0);});
+    catHtml+='<div style="display:flex;justify-content:space-between;padding:6px 16px;border-bottom:1px solid #e8e0d0;font-size:12px"><span>'+DAC_CATS[cat].label+'</span><span style="font-family:monospace;font-weight:600;color:'+DAC_CATS[cat].col+'">€ '+totCat.toFixed(2)+'</span></div>';
+  });
+  document.getElementById('dac-riepilogo-cats').innerHTML=catHtml;
+  // Riepilogo completo
+  var ordini=DAC_DATA.filter(function(p){return(dacOrd[p.id]||0)>0;});
+  var rb=document.getElementById('dac-rbox');
+  if(ordini.length>0){
+    rb.className='rbox on';
+    var h='';
+    var curCat='';
+    ordini.forEach(function(p){
+      if(p.cat!==curCat){curCat=p.cat;h+='<div class="rrow" style="background:#faf8f3;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:'+DAC_CATS[cat]+'">'+DAC_CATS[p.cat].label+'</div>';}
+      var q=dacOrd[p.id];
+      h+='<div class="rrow"><span style="color:#8a7a60;font-size:11px">'+p.nome+'</span><span style="font-family:monospace;font-weight:600;font-size:11px">x'+q+' — € '+(q*p.pr).toFixed(2)+'</span></div>';
+    });
+    document.getElementById('dac-rrows').innerHTML=h;
+    document.getElementById('dac-rtot').textContent=np+' prod. — € '+eur.toFixed(2);
+  }else rb.className='rbox';
+}
+
+function dacChg(id,d){dacOrd[id]=Math.max(0,(dacOrd[id]||0)+d);var el=document.getElementById('dacqi_'+id);if(el)el.value=dacOrd[id];sv('dac_ord_v1',dacOrd);dacUpd();}
+function dacSetv(id,v){dacOrd[id]=Math.max(0,parseInt(v)||0);sv('dac_ord_v1',dacOrd);dacUpd();}
+function dacTog(id){dacAtt[id]=!dacAtt[id];if(!dacAtt[id])dacOrd[id]=0;sv('dac_att_v1',dacAtt);sv('dac_ord_v1',dacOrd);dacRenderAll();dacUpd();}
+
+function dacRenderCat(cat,listId,cntId){
+  var att=dacGetCat(cat);
+  var el=document.getElementById(listId);
+  if(cntId)document.getElementById(cntId).textContent=att.length+' prodotti';
+  if(att.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessun prodotto attivo</div>';return;}
+  var col=DAC_CATS[cat].col;
+  var h='';
+  for(var i=0;i<att.length;i++){
+    var p=att[i];var q=dacOrd[p.id]||0;
+    h+='<div class="fc"><div class="fi">';
+    h+='<div class="fn">'+p.nome+'</div>';
+    h+='<div class="fm">'+p.formato+' · Cod. '+p.cod+'</div>';
+    h+='<div class="fp" style="color:'+col+'">€ '+p.pr.toFixed(3)+'/'+p.um+'</div>';
+    h+='</div><div class="qw" style="border-color:'+col+'">';
+    h+='<button class="qb" id="dacqm_'+p.id+'" style="color:'+col+'">-</button>';
+    h+='<input class="qi" id="dacqi_'+p.id+'" type="number" min="0" value="'+q+'" style="color:'+col+'">';
+    h+='<button class="qb" id="dacqp_'+p.id+'" style="color:'+col+'">+</button>';
+    h+='</div></div>';
+  }
+  el.innerHTML=h;
+  for(var j=0;j<att.length;j++){(function(pid){
+    var bm=document.getElementById('dacqm_'+pid);var bp=document.getElementById('dacqp_'+pid);var inp=document.getElementById('dacqi_'+pid);
+    if(bm)bm.onclick=function(){dacChg(pid,-1);};
+    if(bp)bp.onclick=function(){dacChg(pid,1);};
+    if(inp)inp.oninput=function(){dacSetv(pid,this.value);};
+  })(att[j].id);}
+}
+
+function dacRenderGest(){
+  var att=DAC_DATA.filter(function(p){return dacAtt[p.id];});
+  var sby=DAC_DATA.filter(function(p){return !dacAtt[p.id];});
+  document.getElementById('dac-cntAttG').textContent=att.length;
+  document.getElementById('dac-cntSby').textContent=sby.length;
+  var ha='';
+  att.forEach(function(p){
+    var col=DAC_CATS[p.cat].col;
+    ha+='<div class="gc"><div class="gi"><div class="gn">'+p.nome+'</div><div class="gm" style="color:'+col+'">'+DAC_CATS[p.cat].label+' · € '+p.pr.toFixed(3)+'/'+p.um+'</div></div><button class="btog" id="dacgm_'+p.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';
+  });
+  document.getElementById('dac-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuno attivo</div>';
+  var hs='';
+  sby.forEach(function(p){
+    hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">'+p.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+DAC_CATS[p.cat].label+'</div></div><button class="btog" id="dacga_'+p.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';
+  });
+  document.getElementById('dac-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuno in stand-by</div>';
+  att.forEach(function(p){(function(pid){var b=document.getElementById('dacgm_'+pid);if(b)b.onclick=function(){dacTog(pid);};})(p.id);});
+  sby.forEach(function(p){(function(pid){var b=document.getElementById('dacga_'+pid);if(b)b.onclick=function(){dacTog(pid);};})(p.id);});
+}
+
+function dacRenderListino(){
+  var h='';var curCat='';
+  DAC_DATA.forEach(function(p){
+    if(p.cat!==curCat){curCat=p.cat;var col=DAC_CATS[p.cat].col;h+='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:'+col+';text-transform:uppercase;letter-spacing:1px;background:#f5f5f5;border-bottom:1px solid #e8e0d0">'+DAC_CATS[p.cat].label+'</div>';}
+    h+='<div class="lrow"><div style="flex:1"><div style="font-size:12px;font-weight:600">'+p.nome+'</div><div style="font-size:9px;color:#8a7a60">'+p.formato+' · Cod. '+p.cod+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:'+DAC_CATS[p.cat].col+'">€ '+p.pr.toFixed(3)+'</div><div style="font-size:9px;color:#8a7a60">'+p.um+'</div></div></div>';
+  });
+  document.getElementById('dac-listino').innerHTML=h;
+}
+
+function dacRenderAll(){
+  dacRenderCat('pesce','dac-list-pesce','dac-cnt-pesce');
+  dacRenderCat('latt','dac-list-latt','dac-cnt-latt');
+  dacRenderCat('secchi','dac-list-secchi','dac-cnt-secchi');
+  dacRenderCat('surg','dac-list-surg','dac-cnt-surg');
+  dacRenderGest();
+}
+
+function dacShowCat(n){
+  for(var i=0;i<7;i++){document.getElementById('dacp'+i).style.display=i===n?'block':'none';document.getElementById('dact'+i).className=i===n?'tab on':'tab';}
+  if(n===5)dacRenderListino();
+}
+
+function dacReset(){
+  DAC_DATA.forEach(function(p){dacOrd[p.id]=0;var e=document.getElementById('dacqi_'+p.id);if(e)e.value=0;});
+  var n=document.getElementById('dac-note');if(n)n.value='';
+  sv('dac_ord_v1',dacOrd);dacUpd();
+}
+
+function dacWA(){
+  var ordini=DAC_DATA.filter(function(p){return(dacOrd[p.id]||0)>0;});
+  if(ordini.length===0){alert('Aggiungi almeno un prodotto!');return;}
+  var sede=document.getElementById('dac-sede').value;
+  var dord=fmtD(document.getElementById('dac-data').value);
+  var dcons=fmtD(document.getElementById('dac-cons').value);
+  var note=document.getElementById('dac-note').value;
+  var eur=dacTotEur();
+  var r=[];
+  r.push('*ORDINE DAC — L\'Orso*');
+  r.push('Sede: *'+sede+'*');
+  r.push('Ordine: '+dord+' | Consegna: *'+dcons+'*');
+  r.push('---');
+  var curCat='';
+  ordini.forEach(function(p){
+    if(p.cat!==curCat){curCat=p.cat;r.push('*'+DAC_CATS[p.cat].label+'*');}
+    var q=dacOrd[p.id];
+    r.push('  *'+p.nome+'* ('+p.formato+') x*'+q+'*  [Cod. '+p.cod+']');
+  });
+  r.push('---');
+  r.push('*Totale: '+dacTotProd()+' prodotti — € '+eur.toFixed(2)+'*');
+  if(note)r.push('Note: '+note);
+  r.push('_Matteo La Spada — L\'Orso Messina_');
+  var url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
+  var a=document.createElement('a');a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+}
+</script>
+
 <script>
 if("serviceWorker" in navigator && location.protocol === "https:"){
   window.addEventListener("load",function(){
