@@ -3502,84 +3502,112 @@ function updateEsmach(idx, field, val){
 // STAMPA PDF
 // ══════════════════════════════════════════════
 function closePdfOverlay(){var o=document.getElementById("pdf-overlay");if(o)o.remove();}
-function stampaPDF(pageId,titolo){
-  // 1. Ricalcola tutto — valori JS nel DOM
-  calcAll();
 
+// ══ WHATSAPP + PDF ══
+function buildWaLink(el,pageId,titolo){
+  try{calcAll();}catch(e){}
   var pagina=document.getElementById(pageId);
-  if(!pagina)return;
-
-  // 2. Forza apertura card PRIMA di clonare
-  pagina.querySelectorAll('.card').forEach(function(c){c.classList.add('open');});
-  pagina.querySelectorAll('.card-body').forEach(function(cb){
-    cb.style.display='block';
-    cb.style.maxHeight='none';
-    cb.style.overflow='visible';
+  if(!pagina)return false;
+  var lines=['\uD83C\uDF55 *Pizza Lab \u2014 '+titolo+'*',''];
+  pagina.querySelectorAll('.inp-group').forEach(function(g){
+    var label=g.querySelector('.inp-label');
+    var input=g.querySelector('.inp-field');
+    var unit=g.querySelector('.inp-unit');
+    if(label&&input&&input.value){
+      var u=unit?unit.textContent.trim():'';
+      lines.push('\u2022 '+label.textContent.trim()+': *'+input.value+' '+u+'*');
+    }
   });
-
-  // 3. Clona con tutto il DOM già calcolato e visibile
-  var clone=pagina.cloneNode(true);
-  clone.querySelectorAll(".card-body").forEach(function(cb){cb.setAttribute("style","display:block!important;padding:12px 14px");});
-  clone.querySelectorAll(".btn-share,.btn-pdf,.card-chevron").forEach(function(b){b.remove();});
-
-  // 4. Copia manualmente il contenuto dei div output JS (non clonati correttamente)
-  var outputIds=[
-    'supremaOut','phBigaOut','licoliOut','esmachOut',
-    'scrocchOut','tondaBigaOut','tondaCrocOut','palaSuprOut',
-    'palaScientOut','palaBigaOut','tegliaPFOut','direttoOut','romanaOut'
-  ];
-  outputIds.forEach(function(id){
-    var src=document.getElementById(id);
-    var dst=clone.querySelector('#'+id);
-    if(src && dst) dst.innerHTML=src.innerHTML;
+  lines.push('','*Risultati*');
+  ['supremaOut','phBigaOut','licoliOut','scrocchOut','tondaBigaOut','tondaCrocOut',
+   'palaSuprOut','palaScientOut','palaBigaOut','tegliaPFOut','direttoOut','romanaOut','napoFrigoOut'].forEach(function(id){
+    var el2=document.getElementById(id);
+    if(!el2||!el2.innerHTML.trim())return;
+    el2.querySelectorAll('.res-row').forEach(function(r){
+      var n=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+      if(n&&v)lines.push('\u2022 '+n.textContent.trim()+': *'+v.textContent.trim()+'*');
+    });
+    el2.querySelectorAll('.sem').forEach(function(s){lines.push('\u26a1 '+s.textContent.trim());});
+    el2.querySelectorAll('.tl-row').forEach(function(r){
+      var t=r.querySelector('.tl-time'),x=r.querySelector('.tl-text');
+      if(t&&x)lines.push('\uD83D\uDD50 '+t.textContent.trim()+' \u2014 '+x.textContent.trim());
+    });
   });
-
-  // 5. Copia anche div con output generici che potrebbero essersi persi
-  clone.querySelectorAll('[id$="Out"]').forEach(function(dst){
-    var src=document.getElementById(dst.id);
-    if(src && dst && src.innerHTML.trim()) dst.innerHTML=src.innerHTML;
-  });
-
-  var overlay=document.createElement("div");
-  overlay.id="pdf-overlay";
-  overlay.setAttribute("style","position:fixed;inset:0;background:#fff;z-index:99999;overflow-y:auto;-webkit-overflow-scrolling:touch");
-
-  var hdr=document.createElement("div");
-  hdr.setAttribute("style","position:sticky;top:0;background:#fff;border-bottom:2px solid #C8973A;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px");
-  
-  var titSpan=document.createElement("span");
-  titSpan.textContent="Pizza Lab - "+titolo;
-  titSpan.setAttribute("style","font-size:13px;font-weight:700;color:#111;flex:1");
-  
-  var btnS=document.createElement("button");
-  btnS.textContent="Stampa / PDF";
-  btnS.setAttribute("style","background:#C8973A;color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
-  btnS.onclick=function(){window.print();};
-  
-  var btnC=document.createElement("button");
-  btnC.textContent="X Chiudi";
-  btnC.setAttribute("style","background:#eee;color:#333;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
-  btnC.onclick=closePdfOverlay;
-
-  hdr.appendChild(titSpan);
-  hdr.appendChild(btnS);
-  hdr.appendChild(btnC);
-
-  var body=document.createElement("div");
-  body.setAttribute("style","padding:16px;max-width:700px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;color:#111");
-  body.innerHTML=clone.innerHTML+"<div style='text-align:center;margin-top:20px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:8px'>Pizza Lab - Matteo La Spada - L Orso Messina</div>";
-
-  var styleEl=document.createElement("style");
-  styleEl.textContent=".card-body{display:block!important;padding:12px 14px}.card-hdr{padding:10px 14px;background:#f5f5f5;display:flex;align-items:center;gap:10px}.card{border:1.5px solid #ddd;border-radius:10px;margin-bottom:12px;overflow:hidden}.page-hero{text-align:center;padding:16px;border-bottom:2px solid #C8973A;margin-bottom:16px}.page-hero-title{font-size:20px;font-weight:800}.page-hero-sub{font-size:11px;color:#666}.inp-group{margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.inp-label{font-size:12px;color:#444;font-weight:600;flex:1}.inp-row{display:flex;align-items:center;gap:4px}.inp-field{border:1px solid #ccc;border-radius:5px;padding:3px 6px;font-size:13px;color:#111;width:65px;text-align:right}.inp-unit{font-size:11px;color:#666}.res-section{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}.res-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#C8973A;font-weight:700;margin-bottom:6px;display:block}.sem{padding:8px 12px;border-radius:7px;font-weight:700;margin-bottom:8px;font-size:13px}.sem.ok{background:#E8F5E9;color:#2E7D32;border-left:4px solid #4CAF50}.sem.warn{background:#FFF8E1;color:#F57F17;border-left:4px solid #FFC107}.sem.bad{background:#FFEBEE;color:#C62828;border-left:4px solid #F44336}.res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px;gap:8px}.res-row-label{color:#444;flex:1}.res-row-val{font-weight:700;color:#111}.res-row-note{font-size:10px;color:#888}.res-row.highlight{background:#FFFDE7;padding:7px;border-radius:5px}.tl-row{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:12px}.tl-time{font-weight:700;color:#C8973A;min-width:55px;font-family:monospace}.tl-label{font-weight:600;color:#111;flex:1}.tl-note{font-size:10px;color:#888}.dist-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #f0f0f0}.sec-div{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8973A;padding:6px 0 3px;font-weight:700}.card-chevron,.btn-share,.btn-pdf{display:none!important}#p7fields{display:none!important}@media print{#pdf-overlay>div:first-child{display:none!important}body>*:not(#pdf-overlay){display:none!important}}";
-
-  overlay.appendChild(styleEl);
-  overlay.appendChild(hdr);
-  overlay.appendChild(body);
-  document.body.appendChild(overlay);
+  lines.push('','_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+  return false;
 }
 
+function shareLicoli(){
+  try{calcLicoli();}catch(e){}
+  var lines=[];
+  var sede=document.getElementById('lSede');
+  if(sede&&sede.value)lines.push('\uD83D\uDCCD *Per Laboratorio '+sede.value+'*');
+  lines.push('\uD83C\uDF3F *Pizza Lab \u2014 Licoli Madre*','');
+  [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00'],
+   ['lProg','Programma Esmach','']].forEach(function(c){
+    var el=document.getElementById(c[0]);
+    if(el&&el.value)lines.push('\u2022 '+c[1]+': *'+el.value+' '+c[2]+'*');
+  });
+  lines.push('','*Risultati*');
+  var out=document.getElementById('licoliOut');
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var n=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+      if(n&&v){
+        var t=n.textContent.trim();
+        if(t.indexOf('UNICA')<0)lines.push('\u2022 '+t+': *'+v.textContent.trim()+'*');
+      }
+    });
+    out.querySelectorAll('.sem').forEach(function(s){lines.push('\u26a1 '+s.textContent.trim());});
+  }
+  lines.push('','_Matteo La Spada \u00b7 L\u2019Orso Messina_');
+  window.location.href='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+}
 
+function shareRicetta(pageId,titolo){buildWaLink(null,pageId,titolo);}
 
+function calcAll(){
+  ['calcMotore','calcLicoli','calcSuprema','calcScrocch','calcTondaBiga','calcTondaCroc',
+   'calcPalaSuprema','calcPalaScient','calcPalaBiga','calcTegliaPF','calcDiretto','calcRomana',
+   'calcNapoFrigo','calcPhBiga'].forEach(function(fn){try{window[fn]();}catch(e){}});
+}
+
+function stampaPDF(pageId,titolo){
+  try{calcAll();}catch(e){}
+  var pagina=document.getElementById(pageId);
+  if(!pagina)return;
+  var style='<style>body{font-family:Helvetica Neue,Arial,sans-serif;color:#1a1a1a;padding:24px;font-size:13px}'
+    +'.res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee}'
+    +'.res-name{color:#666}.res-val{font-weight:600}.sem{padding:8px;border-radius:6px;margin:6px 0}'
+    +'.tl-row{display:flex;gap:12px;padding:5px 0}.tl-time{font-weight:700;min-width:50px}'
+    +'h2{font-size:18px;margin-bottom:4px}p{color:#888;font-size:11px;margin-bottom:16px}'
+    +'@media print{}</style>';
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8">'+style+'</head><body>'
+    +'<h2>'+titolo+'</h2><p>Matteo La Spada \u00b7 L\u2019Orso Messina \u00b7 Pizza Lab</p>'
+    +pagina.innerHTML+'</body></html>';
+  var overlay=document.createElement('div');
+  overlay.id='pdf-overlay';
+  overlay.style.cssText='position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column';
+  var bar=document.createElement('div');
+  bar.style.cssText='padding:12px 16px;background:#1a1814;display:flex;justify-content:space-between;align-items:center;flex-shrink:0';
+  bar.innerHTML='<span style="color:#f0e8d8;font-weight:600">'+titolo+'</span>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button onclick="document.getElementById(\'pdf-overlay\').querySelector(\'iframe\').contentWindow.print()" style="background:#c8973a;color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer">Stampa / PDF</button>'
+    +'<button onclick="closePdfOverlay()" style="background:transparent;border:1px solid #2a2520;color:#f0e8d8;border-radius:8px;padding:8px 14px;cursor:pointer">Chiudi</button>'
+    +'</div>';
+  var iframe=document.createElement('iframe');
+  iframe.style.cssText='flex:1;width:100%;border:none;background:#fff';
+  overlay.appendChild(bar);
+  overlay.appendChild(iframe);
+  document.body.appendChild(overlay);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(html);
+  iframe.contentDocument.close();
+}
+
+function closePdfOverlay(){var o=document.getElementById('pdf-overlay');if(o)o.remove();}
 </script>
 </body>
 </html>
