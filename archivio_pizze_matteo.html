@@ -622,6 +622,12 @@
         <div id="menuChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
       </div>
 
+      <div style="margin-bottom:10px">
+        <input type="text" id="nomeLocale" placeholder="🏠 Nome del locale (es. L'Orso, Blanco…)"
+          oninput="try{localStorage.setItem('archivio_nomelocale_v1',this.value)}catch(e){}"
+          style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:#fff;outline:none;font-family:'Inter',sans-serif;color:var(--text)">
+      </div>
+
       <div style="display:flex;gap:8px;margin-bottom:16px">
         <button onclick="buildMenu()" style="flex:1;padding:11px;background:var(--red-deep);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
           📋 Genera Menù
@@ -1195,6 +1201,17 @@ let menuSelezionate = [];
   } catch(e) {}
 })();
 
+// Ripristina nome locale
+(function(){
+  try {
+    var saved = localStorage.getItem('archivio_nomelocale_v1');
+    if(saved) {
+      var el = document.getElementById('nomeLocale');
+      if(el) el.value = saved;
+    }
+  } catch(e) {}
+})();
+
 // Carica pizze aggiunte manualmente + modifiche a pizze esistenti + grammi/cottura
 (function(){
   try {
@@ -1321,6 +1338,8 @@ function buildMenu() {
     return pa.nome.localeCompare(pb.nome);
   });
 
+  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
+
   cards.innerHTML = sorted.map(n => {
     const p = PIZZAS.find(x => x.n === n);
     if (!p) return '';
@@ -1412,6 +1431,7 @@ function shareMenu() {
 function exportMenuPDF() {
   if (menuSelezionate.length === 0) return;
   const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
 
   const sorted = [...menuSelezionate].sort((a, b) => {
     const pa = PIZZAS.find(x => x.n === a);
@@ -1585,7 +1605,7 @@ function exportMenuPDF() {
 </div>
 
 <div class="header-pdf">
-  <h1>🐻 L'Orso — Menù</h1>
+  <h1>🐻 ${nomeLocale}</h1>
   <div class="sub">Pizza Lab · Matteo La Spada</div>
   <div class="data">📅 ${oggi} &nbsp;·&nbsp; ${sorted.length} pizz${sorted.length===1?'a':'e'} selezionat${sorted.length===1?'a':'e'}</div>
 </div>
