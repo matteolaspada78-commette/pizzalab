@@ -489,9 +489,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="menu-icon" style="background:rgba(13,27,75,0.5)">🏅</div>
       <div class="menu-text">
         <div class="menu-name">Pala Romana 48h</div>
-        <div class="menu-sub">Biga 40% IDR 48% · LdB 0.5% · 70% 5078 · IDR 75%</div>
+        <div class="menu-sub">Biga 30% IDR 48% · LdB 0.5% · 70% 5078 · IDR 75%</div>
       </div>
-      <div class="menu-badge">G' 2747</div>
+      <div class="menu-badge">30% biga</div>
       <div class="menu-arrow">›</div>
     </div>
     <div class="menu-btn" onclick="openPage('tegliapf')">
@@ -1366,7 +1366,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div class="page-hero">
     <div class="page-hero-icon">🏅</div>
     <div class="page-hero-title">Pala Romana 48h</div>
-    <div class="page-hero-sub">Biga 40% 0102HP · IDR biga 48% · LdB 0.5% · 70% 5078 · IDR 75% · G' 2747 Pa</div>
+    <div class="page-hero-sub">Biga 30% 0102HP · IDR biga 48% · LdB 0.5% · 70% 5078 · IDR 75% · Frigo 18-24h</div>
   </div>
 
   <!-- PROTOCOLLO SCIENTIFICO -->
@@ -1375,7 +1375,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
       <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
         <div style="color:var(--dim);margin-bottom:2px">Biga sul totale</div>
-        <div style="color:#5B9BD5;font-weight:700;font-family:'DM Mono',monospace">40% · 0102HP</div>
+        <div style="color:#5B9BD5;font-weight:700;font-family:'DM Mono',monospace">30% · 0102HP</div>
       </div>
       <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
         <div style="color:var(--dim);margin-bottom:2px">LdB biga</div>
@@ -1395,7 +1395,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
       <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
         <div style="color:var(--dim);margin-bottom:2px">Frigo bocce</div>
-        <div style="color:#5B9BD5;font-weight:700;font-family:'DM Mono',monospace">21h a 4°C</div>
+        <div style="color:#5B9BD5;font-weight:700;font-family:'DM Mono',monospace">18-24h a 4°C</div>
       </div>
     </div>
     <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">
@@ -1411,7 +1411,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Kg farina biga (0102HP)</label><div class="inp-row"><input class="inp-field" id="p48KgB" type="number" value="4" min="1" max="60" step="0.5" oninput="calcPala48h()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Kg farina biga 0102HP <span style="font-size:9px;opacity:0.6">(30% sul totale)</span></label><div class="inp-row"><input class="inp-field" id="p48KgB" type="number" value="4" min="1" max="60" step="0.5" oninput="calcPala48h()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">LdB biga %</label><div class="inp-row"><input class="inp-field" id="p48Ldb" type="number" value="0.5" min="0.2" max="0.8" step="0.05" oninput="calcPala48h()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">IDR biga % (48% = max alveoli · 45% = più controllabile)</label><div class="inp-row"><input class="inp-field" id="p48IdrB" type="number" value="48" min="44" max="50" step="1" oninput="calcPala48h()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Ore biga in cella (al momento del rinfresco)</label><div class="inp-row"><input class="inp-field" id="p48OreB" type="number" value="20" min="16" max="26" step="1" oninput="calcPala48h()"><span class="inp-unit">h</span></div></div>
@@ -1421,7 +1421,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="inp-group"><label class="inp-label">Malto %</label><div class="inp-row"><input class="inp-field" id="p48Malto" type="number" value="0.3" min="0.1" max="0.5" step="0.1" oninput="calcPala48h()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura pala (g)</label><div class="inp-row"><input class="inp-field" id="p48Gr" type="number" value="330" min="200" max="1200" step="10" oninput="calcPala48h()"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora rinfresco</label><div class="inp-row"><input class="inp-field" id="p48OR" type="number" value="8" min="0" max="23" step="1" oninput="calcPala48h()"><span class="inp-unit">:00</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ore bocce in frigo</label><div class="inp-row"><input class="inp-field" id="p48FreH" type="number" value="21" min="18" max="24" step="1" oninput="calcPala48h()"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore bocce in frigo</label><div class="inp-row"><input class="inp-field" id="p48FreH" type="number" value="20" min="18" max="24" step="1" oninput="calcPala48h()"><span class="inp-unit">h</span></div></div>
     </div>
   </div>
 
@@ -3423,9 +3423,10 @@ function calcTegliaPF(){
                attB>=50?'🟡 Biga acerba — aspetta ancora':'🔴 Biga fuori picco';
 
   // SEMAFORO FRIGO
-  const semFrigoCls=freH>=18&&freH<=22?'ok':freH>22?'warn':'bad';
-  const semFrigoTxt=freH>=18&&freH<=22?'✅ '+freH+'h in frigo — finestra ottimale (18-22h)':
-                    freH>22?'🟡 '+freH+'h — attenzione over-fermentazione oltre 24h':
+  // Biga 30%: finestra frigo allargata a 18-24h (Cauvain 2015)
+  const semFrigoCls=freH>=18&&freH<=24?'ok':freH>24?'warn':'bad';
+  const semFrigoTxt=freH>=18&&freH<=24?'✅ '+freH+'h — finestra ottimale con biga 30% (18-24h)':
+                    freH>24?'🟡 '+freH+'h — limite superato, inforna subito':
                     '🔴 '+freH+'h — troppo poco, maglia non rilassata';
 
   document.getElementById('tegliaPFOut').innerHTML=
@@ -3913,8 +3914,10 @@ function calcPala48h(){
   var freH   = parseFloat((document.getElementById('p48FreH')||{}).value)||21;
 
   var p02r   = Math.max(0, 100 - p78);
-  var kgTot  = Math.round(kgB / 0.40 * 10) / 10;
-  var kgR    = Math.round((kgTot - kgB) * 10) / 10;
+  // Biga 30% scientificamente ottimale per frigo 18-24h (Cauvain 2015)
+  // 40% → proteasi in eccesso nelle 18-24h → G' sotto soglia
+  var kgTot  = Math.round(kgB / 0.30 * 10) / 10;
+  var kgR    = Math.round((kgTot - kgB) * 10) / 10; // 70% rinfresco
   var kg5078 = Math.round(kgR * p78/100 * 1000);
   var kg0102r= Math.round(kgR * p02r/100 * 1000);
 
@@ -3985,9 +3988,11 @@ function calcPala48h(){
   var emjIdrB = idrB===48?'✅ IDR 48% — massima performance alveoli + friabilità':
                 idrB<46?'⚠️ IDR '+idrB+'% — alveoli ridotti, più controllabile':'⚠️ IDR '+idrB+'% — ottimo compromesso';
 
-  // Orari
+  // Orari — puntata max dinamica in funzione IDR biga (Cauvain 2015)
+  // IDR 44-45%→90min · 46-47%→75min · 48%→50min · 49-50%→35min
+  var puntataMax = idrB<=45 ? 1.5 : idrB<=47 ? 1.25 : idrB<=48 ? 0.83 : 0.58;
   var oraImp    = orR + 0.5;
-  var oraPunt   = oraImp + 1.0;
+  var oraPunt   = oraImp + puntataMax;
   var oraFrigo  = oraPunt;
   var oraForno  = ((oraFrigo + freH) % 24);
 
@@ -4034,12 +4039,14 @@ function calcPala48h(){
       [H(orR) + ' G2', '🌾 AUTOLISI 20min', kg5078 + 'g 5078 + ' + (p02r>0?kg0102r+'g 0102HP + ':'') + fase1 + 'g acqua 16°C'],
       [H(oraImp) + ' G2', '⚙️ BIGA + INCORDATURA', 'spezza la biga · aggiungi poco a poco'],
       [H(oraImp+0.25) + ' G2', '🧂 SALE + BASSINAGE ' + bass + 'g', 'a filo lentissimo · T uscita 22-24°C'],
-      [H(oraImp+0.5) + ' G2', '💪 S&F x2 → PUNTATA 1h', 'a 22°C · NO cella · coperto'],
+      [H(oraImp+0.5) + ' G2', '💪 S&F x2 → PUNTATA MAX ' + Math.round(puntataMax*60) + 'min', 'a 22°C · NO cella · coperto — IDR biga ' + idrB + '% riduce la finestra'],
       [H(oraPunt) + ' G2', '✂️ STAGLIO → ' + pale + ' bocce', 'frigo 4°C per ' + freH + 'h'],
       [H(oraForno-0.5) + ' G3', '❄️ BOCCE ANCORA IN FRIGO', 'stendi FREDDA direttamente — NO T ambiente'],
       [H(oraForno) + ' G3', '🔥 FORNO 280°C PLATEA', '250°C cielo · vapore 5min · 20-25min · alveoli esplosivi']
     ]) +
 
+    // Semaforo puntata dinamico
+    sem('⏱ PUNTATA MAX con IDR biga ' + idrB + '% → ' + Math.round(puntataMax*60) + ' min — NON SUPERARE: proteasi attive continuano anche a 4°C', idrB<=45?'ok':idrB<=47?'warn':'bad') +
     sem('IDR 48% → proteolisi +18% vs 45% → alveoli 5.2mm vs 3.4mm · LdB 0.5% → finestra 14-20h · MISURA pH OBBLIGATORIA prima del rinfresco', 'info');
 }
 
