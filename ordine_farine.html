@@ -12,17 +12,30 @@
 body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1208;min-height:100vh}
 
 /* ── SPLASH HOME ── */
-#splash{position:fixed;inset:0;background:#faf8f3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:0;z-index:200}
-.sp-logo{font-family:Georgia,serif;font-size:48px;color:#1a1208;line-height:1;margin-bottom:4px}
+#splash{
+  position:fixed;inset:0;background:#faf8f3;
+  display:flex;flex-direction:column;align-items:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px);
+  z-index:200
+}
+.sp-inner{
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;max-width:420px;
+  padding:24px 0 16px;
+  min-height:100%;
+  justify-content:center;
+}
+.sp-logo{font-family:Georgia,serif;font-size:40px;color:#1a1208;line-height:1;margin-bottom:4px;text-align:center}
 .sp-logo em{color:#c8860a;font-style:italic}
-.sp-sub{font-family:monospace;font-size:9px;letter-spacing:3px;color:#8a7a60;text-transform:uppercase;margin-bottom:48px}
-.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:380px}
-.sp-btn{background:#fff;border:2px solid #e8e0d0;border-radius:16px;padding:22px 16px;text-align:center;cursor:pointer;transition:all 0.15s}
+.sp-sub{font-family:monospace;font-size:9px;letter-spacing:3px;color:#8a7a60;text-transform:uppercase;margin-bottom:24px;text-align:center}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.sp-btn{background:#fff;border:2px solid #e8e0d0;border-radius:16px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .sp-btn:active{transform:scale(0.97);background:#fdf8ef}
-.sp-icon{font-size:36px;margin-bottom:8px}
-.sp-name{font-weight:700;font-size:14px;color:#1a1208;margin-bottom:3px}
-.sp-desc{font-size:10px;color:#8a7a60}
-.sp-badge{font-size:9px;background:#c8860a;color:#fff;border-radius:10px;padding:2px 8px;margin-top:6px;display:inline-block}
+.sp-icon{font-size:32px;margin-bottom:6px}
+.sp-name{font-weight:700;font-size:13px;color:#1a1208;margin-bottom:2px}
+.sp-desc{font-size:10px;color:#8a7a60;line-height:1.3}
+.sp-badge{font-size:9px;background:#c8860a;color:#fff;border-radius:10px;padding:2px 8px;margin-top:5px;display:inline-block}
 
 /* ── SEZIONE ── */
 .sez{display:none;min-height:100vh;padding-bottom:90px}
@@ -175,6 +188,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 
 <!-- ══ HOME SPLASH ══ -->
 <div id="splash">
+ <div class="sp-inner">
   <div class="sp-logo">Ordini <em>Lab</em></div>
   <div class="sp-sub">L'Orso · Matteo La Spada</div>
   <div class="sp-grid">
@@ -211,7 +225,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
     <div class="sp-btn" onclick="openSez('formaggi')">
       <div class="sp-icon">🧀</div>
       <div class="sp-name">Formaggi</div>
-      <div class="sp-desc">Siciliani · Nazionali</div>
+      <div class="sp-desc">Siciliani · Nazionali · Magross</div>
       <div class="sp-badge">D'Ago Feb 2026</div>
     </div>
     <div class="sp-btn" onclick="openSez('dac')" style="grid-column:1/-1;border-color:#1a6b9a;background:linear-gradient(135deg,#f0f7ff,#e8f4fd)">
@@ -226,8 +240,9 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
       <div class="sp-desc">Salumi · Formaggi · Pomodori · Conserve · Olio · Pasta · +</div>
       <div class="sp-badge" style="background:#8b1a1a">Feb 2026</div>
     </div>
-  </div>
-</div>
+  </div><!-- fine sp-grid -->
+ </div><!-- fine sp-inner -->
+</div><!-- fine splash -->
 
 <!-- ══ SEZIONE FARINE ══ -->
 <div class="sez" id="sez-farine">
