@@ -3648,11 +3648,17 @@ function shareLicoli(){
   var labEl=document.getElementById('lLab');
   if(labEl&&labEl.value)lines.unshift('📍 *Per: '+labEl.value+'*','');
   [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
-   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00'],
-   ['lProg','Programma Esmach','']].forEach(function(c){
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00']].forEach(function(c){
     var el=document.getElementById(c[0]);
     if(el&&el.value)lines.push('• '+c[1]+': *'+el.value+' '+c[2]+'*');
   });
+  // Programma: se 7 → mostra "Frigorifero" invece di "7"
+  var progEl=document.getElementById('lProg');
+  if(progEl&&progEl.value){
+    var progVal=parseInt(progEl.value);
+    var progLabel=progVal===7?'❄️ Frigorifero':'P'+progVal+' Esmach';
+    lines.push('• Programma: *'+progLabel+'*');
+  }
   lines.push('','*Risultati*');
   var out=document.getElementById('licoliOut');
   if(out){
