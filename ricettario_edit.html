@@ -909,16 +909,16 @@ function renderIngTable(id){
     return '<div class="ing-row" data-idx="'+idx+'">' +
       '<div class="ing-name-cell">' +
         '<input class="ing-name-input" type="text" value="'+escH(ing.nome)+'" placeholder="Ingrediente" ' +
-          'onchange="updateIngName('+id+','+idx+',this.value)">' +
+          'onchange="updateIngName(\''+id+'\','+idx+',this.value)">' +
       '</div>' +
       '<div class="ing-qty-cell">' +
         '<input class="ing-qty-input" type="number" value="'+displayQty+'" placeholder="qty" min="0" step="any" ' +
-          'onchange="updateIngQty('+id+','+idx+',this.value,'+mult+')">' +
+          'onchange="updateIngQty(\''+id+'\','+idx+',this.value,'+mult+')">' +
         '<input class="ing-unit-input" type="text" value="'+escH(displayUnit)+'" placeholder="g" ' +
-          'onchange="updateIngUnit('+id+','+idx+',this.value)">' +
+          'onchange="updateIngUnit(\''+id+'\','+idx+',this.value)">' +
       '</div>' +
       '<div class="ing-del-cell">' +
-        '<button class="btn-del-ing" onclick="deleteIng('+id+','+idx+')" title="Rimuovi">✕</button>' +
+        '<button class="btn-del-ing" onclick="deleteIng(\''+id+'\','+idx+')" title="Rimuovi">✕</button>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -1149,7 +1149,7 @@ function renderList(){
     });
 
     card.innerHTML =
-      '<div class="recipe-header" onclick="toggleRecipe('+base.id+')">' +
+      '<div class="recipe-header" onclick="toggleRecipe(\''+base.id+'\')">' +
         '<div class="recipe-emoji">'+r.emoji+'</div>' +
         '<div class="recipe-info">' +
           '<div class="recipe-title">'+escH(r.title)+'</div>' +
@@ -1163,26 +1163,26 @@ function renderList(){
         // Moltiplicatore
         '<div class="mult-bar">' +
           '<span class="mult-label">Moltiplica dosi</span>' +
-          '<button class="mult-btn" onclick="changeMult('+base.id+',-1)">−</button>' +
+          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',-1)">−</button>' +
           '<span class="mult-value" id="mv_'+base.id+'">×'+mult+'</span>' +
-          '<button class="mult-btn" onclick="changeMult('+base.id+',1)">+</button>' +
+          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',1)">+</button>' +
         '</div>' +
         // Ingredienti
         '<div class="section-label">' +
           '<span>🧾 Ingredienti</span>' +
-          '<button class="btn-add-ing" onclick="addIng('+base.id+')">+ Aggiungi</button>' +
+          '<button class="btn-add-ing" onclick="addIng(\''+base.id+'\')">+ Aggiungi</button>' +
         '</div>' +
         '<div id="ing_'+base.id+'"></div>' +
         // Istruzioni
         '<div class="istr-block">' +
           '<div class="istr-title">📋 Istruzioni — modifica qui sotto</div>' +
-          '<textarea class="istr-textarea" rows="5" onchange="editedRecipes['+base.id+'].istruzioni=this.value;saveToStorage()">'+escH(r.istruzioni)+'</textarea>' +
+          '<textarea class="istr-textarea" rows="5" onchange="editedRecipes[\''+base.id+'\'].istruzioni=this.value;saveToStorage()">'+escH(r.istruzioni)+'</textarea>' +
         '</div>' +
         // Azioni
         '<div class="share-bar">' +
-          '<button class="btn-wa" onclick="doScreenshot('+base.id+')">📲 WhatsApp</button>' +
-          '<button class="btn-pdf" onclick="doPDF('+base.id+')">📄 PDF</button>' +
-          '<button class="btn-reset" onclick="resetRecipe('+base.id+')" title="Ripristina originale">↺</button>' +
+          '<button class="btn-wa" onclick="doScreenshot(\''+base.id+'\')">📲 WhatsApp</button>' +
+          '<button class="btn-pdf" onclick="doPDF(\''+base.id+'\')">📄 PDF</button>' +
+          '<button class="btn-reset" onclick="resetRecipe(\''+base.id+'\')" title="Ripristina originale">↺</button>' +
         '</div>' +
       '</div>';
 
