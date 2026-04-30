@@ -220,6 +220,12 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
       <div class="sp-desc">Alimentari · Pesce · Surgelati · Latticini</div>
       <div class="sp-badge" style="background:#1a6b9a">Feb 2026</div>
     </div>
+    <div class="sp-btn" onclick="openSez('dago')" style="grid-column:1/-1;border-color:#8b1a1a;background:linear-gradient(135deg,#fff5f5,#fdeaea)">
+      <div class="sp-icon">⭐</div>
+      <div class="sp-name" style="color:#8b1a1a">D'Ago — Listino Completo</div>
+      <div class="sp-desc">Salumi · Formaggi · Pomodori · Conserve · Olio · Pasta · +</div>
+      <div class="sp-badge" style="background:#8b1a1a">Feb 2026</div>
+    </div>
   </div>
 </div>
 
@@ -653,7 +659,7 @@ var fAtt={},fOrd={};
 // NAVIGAZIONE
 // ══════════════════════════════════════════════
 function openSez(id){document.getElementById('splash').style.display='none';document.getElementById('sez-'+id).className='sez on';}
-function goHome(){['farine','pomodori','verdure','funghi','salumi','formaggi','dac'].forEach(function(s){document.getElementById('sez-'+s).className='sez';});document.getElementById('splash').style.display='flex';}
+function goHome(){['farine','pomodori','verdure','funghi','salumi','formaggi','dac','dago'].forEach(function(s){document.getElementById('sez-'+s).className='sez';});document.getElementById('splash').style.display='flex';}
 function ld(key,def){var v=null;try{v=localStorage.getItem(key);}catch(e){}if(v){try{return JSON.parse(v);}catch(e){}}return def;}
 function sv(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
 function fmtD(v){if(!v)return'-';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
@@ -1201,7 +1207,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var d=new Date();
   var fmt=function(dt){return dt.getFullYear()+'-'+(dt.getMonth()<9?'0':'')+(dt.getMonth()+1)+'-'+(dt.getDate()<10?'0':'')+dt.getDate();};
   var c=new Date(d);c.setDate(c.getDate()+2);
-  ['f','p','v','g','s','fo','dac'].forEach(function(pfx){
+  ['f','p','v','g','s','fo','dac','dago'].forEach(function(pfx){
     var de=document.getElementById(pfx+'-data');var co=document.getElementById(pfx+'-cons');
     if(de)de.value=fmt(d);if(co)co.value=fmt(c);
   });
@@ -1212,6 +1218,7 @@ document.addEventListener('DOMContentLoaded',function(){
   sezRenderOrd(SA,sAtt,sOrd,'s','#7b1fa2');sezRenderGest(SA,sAtt,sOrd,'s','#7b1fa2','sa_att_v1','sa_ord_v1');sezUpd(SA,sAtt,sOrd,'s');
   sezRenderOrd(FOA,foAtt,foOrd,'fo','#f57f17');sezRenderGest(FOA,foAtt,foOrd,'fo','#f57f17','foa_att_v1','foa_ord_v1');sezUpd(FOA,foAtt,foOrd,'fo');
   dacLoad();dacRenderAll();dacUpd();
+  dagoLoad();dagoRenderAll();dagoUpd();
 });
 </script>
 <!-- ══ SEZIONE DAC ══ -->
@@ -1585,6 +1592,460 @@ function dacWA(){
   r.push('*Totale: '+dacTotProd()+' prodotti — € '+eur.toFixed(2)+'*');
   if(note)r.push('Note: '+note);
   r.push('_Matteo La Spada — L\'Orso Messina_');
+  var url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
+  var a=document.createElement('a');a.href=url;document.body.appendChild(a);a.click();
+  setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
+}
+</script>
+
+<!-- ══ SEZIONE D'AGO LISTINO COMPLETO ══ -->
+<div class="sez" id="sez-dago">
+  <div class="hdr">
+    <div class="hdr-top">
+      <button class="hdr-back" onclick="goHome()">← Home</button>
+      <div class="hdr-title" style="color:#8b1a1a">⭐ D'Ago — Eccelsi Cibi</div>
+    </div>
+    <div class="row2">
+      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-sede" type="text" value="Via Calapso"></div>
+      <div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-data" type="date" style="color:#8b1a1a"></div>
+    </div>
+    <div class="consrow"><span class="conslbl" style="color:#8b1a1a">Consegna:</span><input class="consdate" id="dago-cons" type="date" style="color:#8b1a1a"></div>
+  </div>
+  <div style="display:flex;overflow-x:auto;background:#e8e0d0;border-bottom:2px solid #e8e0d0;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+    <button class="tab on" id="dagot0" onclick="dagoShowCat(0)" style="color:#8b1a1a;white-space:nowrap;flex-shrink:0">📦 Ordine</button>
+    <button class="tab" id="dagot1" onclick="dagoShowCat(1)" style="white-space:nowrap;flex-shrink:0">🥩 Salumi</button>
+    <button class="tab" id="dagot2" onclick="dagoShowCat(2)" style="white-space:nowrap;flex-shrink:0">🧀 Formaggi</button>
+    <button class="tab" id="dagot3" onclick="dagoShowCat(3)" style="white-space:nowrap;flex-shrink:0">🍅 Pomodori</button>
+    <button class="tab" id="dagot4" onclick="dagoShowCat(4)" style="white-space:nowrap;flex-shrink:0">🫙 Conserve</button>
+    <button class="tab" id="dagot5" onclick="dagoShowCat(5)" style="white-space:nowrap;flex-shrink:0">🫒 Olio·Spezie</button>
+    <button class="tab" id="dagot6" onclick="dagoShowCat(6)" style="white-space:nowrap;flex-shrink:0">🍝 Pasta</button>
+    <button class="tab" id="dagot7" onclick="dagoShowCat(7)" style="white-space:nowrap;flex-shrink:0">🍽️ Pronti</button>
+    <button class="tab" id="dagot8" onclick="dagoShowCat(8)" style="white-space:nowrap;flex-shrink:0">📋 Listino</button>
+    <button class="tab" id="dagot9" onclick="dagoShowCat(9)" style="white-space:nowrap;flex-shrink:0">⚙️ Gest.</button>
+  </div>
+
+  <div id="dagop0">
+    <div class="sumbar">
+      <div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="dago-nprod">0</div></div>
+      <div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="dago-npz" style="color:#8b1a1a">0</div></div>
+      <div class="sumcell"><div class="sumval" id="dago-ntot" style="font-size:13px;padding-top:4px;color:#8b1a1a">-</div><div class="sumlbl">euro tot</div></div>
+    </div>
+    <div id="dago-riepilogo-cats"></div>
+    <div class="rbox" id="dago-rbox"><div class="rhdr" style="color:#8b1a1a">📋 Riepilogo ordine</div><div id="dago-rrows"></div><div class="rfoot"><span>Totale</span><span id="dago-rtot" style="color:#8b1a1a">-</span></div></div>
+    <div class="nwrap" style="margin-top:10px"><div style="font-size:9px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700">Note</div><textarea class="nfield" id="dago-note" placeholder="Note ordine D'Ago..."></textarea></div>
+    <div style="height:10px"></div>
+  </div>
+  <div id="dagop1" style="display:none"><div class="shdr">🥩 Salumi <span id="dago-cnt-salumi"></span></div><div id="dago-list-salumi"></div><div style="height:10px"></div></div>
+  <div id="dagop2" style="display:none"><div class="shdr">🧀 Formaggi <span id="dago-cnt-form"></span></div><div id="dago-list-form"></div><div style="height:10px"></div></div>
+  <div id="dagop3" style="display:none"><div class="shdr">🍅 Pomodori <span id="dago-cnt-pom"></span></div><div id="dago-list-pom"></div><div style="height:10px"></div></div>
+  <div id="dagop4" style="display:none"><div class="shdr">🫙 Conserve · Specialità <span id="dago-cnt-cons"></span></div><div id="dago-list-cons"></div><div style="height:10px"></div></div>
+  <div id="dagop5" style="display:none"><div class="shdr">🫒 Olio · Spezie · Salse <span id="dago-cnt-olio"></span></div><div id="dago-list-olio"></div><div style="height:10px"></div></div>
+  <div id="dagop6" style="display:none"><div class="shdr">🍝 Pasta · Cereali <span id="dago-cnt-pasta"></span></div><div id="dago-list-pasta"></div><div style="height:10px"></div></div>
+  <div id="dagop7" style="display:none"><div class="shdr">🍽️ Pronti · Sistema Gusto <span id="dago-cnt-pronti"></span></div><div id="dago-list-pronti"></div><div style="height:10px"></div></div>
+  <div id="dagop8" style="display:none"><div style="padding:10px 16px 4px;font-size:10px;color:#8a7a60;text-transform:uppercase;letter-spacing:1px;font-weight:700">Listino D'Ago · Eccelsi Cibi — Feb 2026 · IVA esclusa</div><div id="dago-listino"></div><div style="padding:10px 16px;font-size:10px;color:#8a7a60;font-style:italic">Min. ordine Ambiente €150 · Surgelati/Salumi €250 · Trasporto+Picking 2%</div><div style="height:10px"></div></div>
+  <div id="dagop9" style="display:none"><div class="shdr">Attivi <span id="dago-cntAttG"></span></div><div id="dago-listAtt"></div><div class="divid"></div><div class="shdr">Stand-by <span id="dago-cntSby"></span></div><div id="dago-listSby"></div><div style="height:10px"></div></div>
+
+  <div class="bot" id="dago-bot">
+    <button class="breset" onclick="dagoReset()">Reset</button>
+    <button class="bwa" onclick="dagoWA()">📲 WhatsApp</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATI D'AGO — LISTINO COMPLETO Feb 2026
+// cat: salumi | form | pom | cons | olio | pasta | pronti
+// um: KG | PZ | CF | SET
+// pr = prezzo unitario (per pezzo/kg/conf come da listino)
+// UM specifica come è espresso il prezzo
+// ══════════════════════════════════════════════
+var DAGO = [
+
+  // ─── SALUMI ───────────────────────────────────────────
+  // Sant'Ilario
+  {id:'dg_s01',cat:'salumi',sub:"Sant'Ilario",nome:'Parma Perfetto "Riserva" 30-36 mesi',formato:'9/10kg',pesoG:9500,um:'KG',pr:32.90},
+  {id:'dg_s02',cat:'salumi',sub:"Sant'Ilario",nome:'Parma Perfetto "Riserva" 30-36 mesi FATTO A MANO',formato:'9/10kg',pesoG:9500,um:'KG',pr:33.90},
+  // L'Artemano Exclusive Levoni
+  {id:'dg_s03',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Prosciutto Crudo L\'Artemano Riserva 24-28 mesi',formato:'8/9kg',pesoG:8500,um:'KG',pr:23.00},
+  {id:'dg_s04',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Cotto AQ L\'Artemano Cottura Lenta a Vapore',formato:'10kg',pesoG:10000,um:'KG',pr:17.20},
+  {id:'dg_s05',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Cotto AQ L\'Artemano Affumicato Naturale',formato:'10kg',pesoG:10000,um:'KG',pr:17.20},
+  {id:'dg_s06',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Mortadella L\'Artemano Budello Nat. Bronte DOP',formato:'7.5kg',pesoG:7500,um:'KG',pr:12.85},
+  {id:'dg_s07',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Speck L\'Artemano Affumicatura alla Brace',formato:'5/6kg',pesoG:5500,um:'KG',pr:23.35},
+  {id:'dg_s08',cat:'salumi',sub:"L'Artemano Exclusive Levoni",nome:'Coppa Legata a Mano Budello Nat. 6 mesi',formato:'2.5kg',pesoG:2500,um:'KG',pr:24.05},
+  // Branchi Riserva
+  {id:'dg_s09',cat:'salumi',sub:'Branchi Riserva',nome:'Cotto60 Miglior Cotto D\'Italia Gambero Rosso',formato:'10kg',pesoG:10000,um:'KG',pr:22.74},
+  {id:'dg_s10',cat:'salumi',sub:'Branchi Riserva',nome:'Culatta di Cotto60 Cotta o Affumicata',formato:'7/8kg',pesoG:7500,um:'KG',pr:22.98},
+  {id:'dg_s11',cat:'salumi',sub:'Branchi Riserva',nome:'Prosciutto Cotto Praga Affumicato',formato:'9/10kg',pesoG:9500,um:'KG',pr:17.20},
+  {id:'dg_s12',cat:'salumi',sub:'Branchi Riserva',nome:'Stinco di Cotto60',formato:'1.2kg',pesoG:1200,um:'PZ',pr:7.20},
+  // Levoni Riserva
+  {id:'dg_s13',cat:'salumi',sub:'Levoni Riserva',nome:'Bresaola Valtellina IGP Punta d\'Anca',formato:'1.5kg',pesoG:1500,um:'KG',pr:34.50},
+  {id:'dg_s14',cat:'salumi',sub:'Levoni Riserva',nome:'Bresaola Medaglia d\'Oro',formato:'3kg',pesoG:3000,um:'KG',pr:36.75},
+  {id:'dg_s15',cat:'salumi',sub:'Levoni Riserva',nome:'Culatello di Zibello DOP "Gran Riserva"',formato:'4/5kg',pesoG:4500,um:'KG',pr:57.60},
+  {id:'dg_s16',cat:'salumi',sub:'Levoni Riserva',nome:'Guanciale Affumicato "Best Seller"',formato:'1kg',pesoG:1000,um:'KG',pr:14.65},
+  // Levoni Premium
+  {id:'dg_s17',cat:'salumi',sub:'Levoni Premium',nome:'Prosciutto di Parma DOP Don Romeo 24 mesi',formato:'8/9kg',pesoG:8500,um:'KG',pr:21.75},
+  {id:'dg_s18',cat:'salumi',sub:'Levoni Premium',nome:'Prosciutto di Parma DOP 18-20 mesi',formato:'7kg',pesoG:7000,um:'KG',pr:20.75},
+  {id:'dg_s19',cat:'salumi',sub:'Levoni Esclusiva Sicilia',nome:'Prosciutto di Parma DOP 16m Cantina',formato:'7/8kg',pesoG:7500,um:'KG',pr:16.01},
+  {id:'dg_s20',cat:'salumi',sub:'Levoni Esclusiva Sicilia',nome:'Prosciutto di Parma DOP 16m Classica',formato:'7/8kg',pesoG:7500,um:'KG',pr:15.89},
+  {id:'dg_s21',cat:'salumi',sub:'Levoni Esclusiva Sicilia',nome:'San Daniele DOP 16m Cantina',formato:'7/8kg',pesoG:7500,um:'KG',pr:16.01},
+  {id:'dg_s22',cat:'salumi',sub:'Levoni Esclusiva Sicilia',nome:'Prosciutto Nazionale 16m Cantina',formato:'7/8kg',pesoG:7500,um:'KG',pr:13.90},
+  {id:'dg_s23',cat:'salumi',sub:'Levoni Premium',nome:'Mortadella Oro Pistacchio Bronte DOP',formato:'13kg',pesoG:13000,um:'KG',pr:11.60},
+  {id:'dg_s24',cat:'salumi',sub:'Levoni Premium',nome:'Mortadella al Tartufo Nero Pregiato',formato:'3.5kg',pesoG:3500,um:'KG',pr:13.65},
+  {id:'dg_s25',cat:'salumi',sub:'Levoni Premium',nome:'Prosciutto Cotto al Tartufo Nero',formato:'3.5/4.5kg',pesoG:4000,um:'KG',pr:20.80},
+  {id:'dg_s26',cat:'salumi',sub:'Levoni Premium',nome:'Finocchiona Salame Semi Finocchio',formato:'2.5kg',pesoG:2500,um:'KG',pr:17.20},
+  {id:'dg_s27',cat:'salumi',sub:'Levoni Premium',nome:'Paisanella Dolce Speziato',formato:'3kg',pesoG:3000,um:'KG',pr:16.25},
+  {id:'dg_s28',cat:'salumi',sub:'Levoni Premium',nome:'Pancetta Stufata Affumicata Bacon',formato:'1.5kg',pesoG:1500,um:'KG',pr:15.55},
+  {id:'dg_s29',cat:'salumi',sub:'Levoni Premium',nome:'Salsiccia Stagionata Napoli Piccante',formato:'6x400g',pesoG:400,um:'KG',pr:20.15},
+  {id:'dg_s30',cat:'salumi',sub:'Levoni Premium',nome:'Salame Napoli Affumicato',formato:'1kg',pesoG:1000,um:'KG',pr:20.75},
+  {id:'dg_s31',cat:'salumi',sub:'Levoni Premium',nome:'Salame Schiacciata Piccante',formato:'1.8kg',pesoG:1800,um:'KG',pr:20.10},
+  {id:'dg_s32',cat:'salumi',sub:'Levoni Premium',nome:'Salsiccia Stag. Mediterranea Pepperoni',formato:'1kg',pesoG:1000,um:'KG',pr:18.60},
+  {id:'dg_s33',cat:'salumi',sub:'Levoni Premium',nome:'Ventricina Piccante',formato:'3kg',pesoG:3000,um:'KG',pr:18.70},
+  {id:'dg_s34',cat:'salumi',sub:'Levoni Premium',nome:'N\'Duja L\'Originale',formato:'400g',pesoG:400,um:'PZ',pr:17.30},
+  {id:'dg_s35',cat:'salumi',sub:'Levoni Premium',nome:'Capocollo Affumicato',formato:'1.7kg',pesoG:1700,um:'KG',pr:21.10},
+  {id:'dg_s36',cat:'salumi',sub:'Levoni Premium',nome:'Lardo Stagionato Pancettato',formato:'4kg',pesoG:4000,um:'KG',pr:14.66},
+  {id:'dg_s37',cat:'salumi',sub:'Levoni Premium',nome:'Pancetta Arrotolata con Spezie',formato:'3kg',pesoG:3000,um:'KG',pr:17.80},
+  {id:'dg_s38',cat:'salumi',sub:'Levoni Premium',nome:'Pancetta Coppata',formato:'3kg',pesoG:3000,um:'KG',pr:21.10},
+  {id:'dg_s39',cat:'salumi',sub:'Levoni Premium',nome:'Petto di Tacchino Italiano',formato:'5.5kg',pesoG:5500,um:'KG',pr:16.20},
+  {id:'dg_s40',cat:'salumi',sub:'Levoni Premium',nome:'Porchetta Arrosto 100% Italiano',formato:'3.5kg',pesoG:3500,um:'KG',pr:14.70},
+  // Branchi Prosciutti
+  {id:'dg_s41',cat:'salumi',sub:'Branchi Prosciutti',nome:'Prosciutto Cotto "Primo Branchi" AQ Legato',formato:'10/12kg',pesoG:11000,um:'KG',pr:19.86},
+  {id:'dg_s42',cat:'salumi',sub:'Branchi Prosciutti',nome:'Prosciutto Cotto Arrosto "Sensazione Unica"',formato:'10/12kg',pesoG:11000,um:'KG',pr:14.72},
+  {id:'dg_s43',cat:'salumi',sub:'Branchi Prosciutti',nome:'Spalla60 Tradizione di San Secondo',formato:'9/10kg',pesoG:9500,um:'KG',pr:16.25},
+  {id:'dg_s44',cat:'salumi',sub:'Branchi Prosciutti',nome:'Prosciutto Cotto Speciale 220 Alta Qualità',formato:'9/10kg',pesoG:9500,um:'KG',pr:14.72},
+  {id:'dg_s45',cat:'salumi',sub:'Branchi Prosciutti',nome:'Prosciutto Cotto Scelto "Magnolia"',formato:'9/10kg',pesoG:9500,um:'KG',pr:11.85},
+  // D'Ago Selezione Salumi
+  {id:'dg_s46',cat:'salumi',sub:"D'Ago Selezione",nome:'Black Angus Affumicato',formato:'2kg',pesoG:2000,um:'KG',pr:25.00},
+  {id:'dg_s47',cat:'salumi',sub:"D'Ago Selezione",nome:'Lardo di Patanegra',formato:'2kg',pesoG:2000,um:'KG',pr:12.90},
+  {id:'dg_s48',cat:'salumi',sub:"Venditti Factory's",nome:'Porchetta Artigianale "Campione d\'Italia" 10kg',formato:'10kg',pesoG:10000,um:'KG',pr:15.30},
+  {id:'dg_s49',cat:'salumi',sub:"Venditti Factory's",nome:'Porchetta Artigianale "Campione d\'Italia" 4kg',formato:'4kg',pesoG:4000,um:'KG',pr:16.20},
+  {id:'dg_s50',cat:'salumi',sub:"Venditti Factory's",nome:'Pulled Pork "Campione d\'Italia" 500g',formato:'500g',pesoG:500,um:'PZ',pr:15.30},
+  {id:'dg_s51',cat:'salumi',sub:"D'Ago Selezione",nome:'Sbrisolona Toscana 12/18kg',formato:'12/18kg',pesoG:15000,um:'KG',pr:13.90},
+  {id:'dg_s52',cat:'salumi',sub:"D'Ago Selezione",nome:'Capocollo Speciale',formato:'1/2kg',pesoG:1500,um:'KG',pr:19.80},
+
+  // ─── FORMAGGI ─────────────────────────────────────────
+  {id:'dg_f01',cat:'form',sub:'Quattro Portoni',nome:'Blu di Bufala Top Cheese World Erborinata',formato:'4kg',pesoG:4000,um:'KG',pr:29.91},
+  {id:'dg_f02',cat:'form',sub:'Levoni Selezione',nome:'Parmigiano Reggiano DOP Montagna 24 mesi',formato:'4.5kg',pesoG:4500,um:'KG',pr:19.87},
+  {id:'dg_f03',cat:'form',sub:'Levoni Selezione',nome:'Grana Padano DOP Montagna 20 mesi',formato:'4.5kg',pesoG:4500,um:'KG',pr:17.88},
+  {id:'dg_f04',cat:'form',sub:"D'Ago Selezione",nome:'Ragusano DOP Presidio Slow Food',formato:'1.8/15kg',pesoG:5000,um:'KG',pr:16.75},
+  {id:'dg_f05',cat:'form',sub:"D'Ago Selezione",nome:'Cosacavaddu Ibleo Semi Stagionato',formato:'1.8/15kg',pesoG:5000,um:'KG',pr:14.50},
+  {id:'dg_f06',cat:'form',sub:"D'Ago Selezione",nome:'Cosacavaddu Grattugiato Busta 1kg',formato:'1kg',pesoG:1000,um:'PZ',pr:12.97},
+  {id:'dg_f07',cat:'form',sub:'Caseificio Fioriglio',nome:'Provola dei Nebrodi DOP Presidio SF',formato:'6x1kg',pesoG:1000,um:'KG',pr:16.50},
+  {id:'dg_f08',cat:'form',sub:'Caseificio Privitera',nome:'Primo Sale delle Madonie',formato:'5kg',pesoG:5000,um:'KG',pr:13.90},
+  {id:'dg_f09',cat:'form',sub:'Caseificio Privitera',nome:'Ricotta Fresca',formato:'vaso',pesoG:500,um:'PZ',pr:8.00},
+  {id:'dg_f10',cat:'form',sub:'Caseificio Fioriglio',nome:'Ricotta Salata',formato:'500g',pesoG:500,um:'PZ',pr:11.50},
+  {id:'dg_f11',cat:'form',sub:'Caseificio Passalacqua',nome:'Tuma Persa Presidio Slow Food',formato:'3.5kg',pesoG:3500,um:'KG',pr:25.90},
+  {id:'dg_f12',cat:'form',sub:'Caseificio Il Cavalcatore',nome:'Piacentino Ennese DOP Presidio SF',formato:'2kg',pesoG:2000,um:'KG',pr:24.75},
+  {id:'dg_f13',cat:'form',sub:'Caseificio Il Cavalcatore',nome:'Pecorino Siciliano DOP',formato:'3kg',pesoG:3000,um:'KG',pr:21.90},
+
+  // ─── POMODORI ─────────────────────────────────────────
+  {id:'dg_p01',cat:'pom',sub:'Rosso Siculo',nome:'U\' Siccu di Siccagno Top Italian Food 2024',formato:'1kg',pesoG:1000,um:'PZ',pr:22.00},
+  {id:'dg_p02',cat:'pom',sub:'Rosso Siculo',nome:'Passata di Siccagno',formato:'12x680g',pesoG:680,um:'CF',pr:23.95},
+  {id:'dg_p03',cat:'pom',sub:'Rosso Siculo',nome:'Pelato di Siccagno',formato:'9x700g',pesoG:700,um:'CF',pr:27.35},
+  {id:'dg_p04',cat:'pom',sub:'Rosso Siculo',nome:'Astratto di Siccagno',formato:'9x700g',pesoG:700,um:'CF',pr:11.50},
+  {id:'dg_p05',cat:'pom',sub:'Gustarosso',nome:'San Marzano DOP dell\'Agro Sarnese Nocerino',formato:'6x2560g',pesoG:2560,um:'CF',pr:52.00},
+  {id:'dg_p06',cat:'pom',sub:'Gustarosso',nome:'Pomodoro Pelati 100% Italiani',formato:'6x2500g',pesoG:2500,um:'CF',pr:28.50},
+  {id:'dg_p07',cat:'pom',sub:'Gustarosso',nome:'Pomodoro Pelati Biologici 100% Italiani',formato:'6x2500g',pesoG:2500,um:'CF',pr:34.88},
+  {id:'dg_p08',cat:'pom',sub:'Gustarosso',nome:'Polpa di Pomodoro Finissima 100% Italiana',formato:'3x4050g',pesoG:4050,um:'CF',pr:23.72},
+  {id:'dg_p09',cat:'pom',sub:'Gustarosso',nome:'Polpa Finissima Box 10kg',formato:'10kg',pesoG:10000,um:'PZ',pr:17.50},
+  {id:'dg_p10',cat:'pom',sub:'Gustarosso',nome:'E\' Pacchetelle — Filetti Pomodoro Lungo',formato:'12x400g',pesoG:400,um:'CF',pr:23.99},
+  {id:'dg_p11',cat:'pom',sub:'Gustarosso',nome:'I Friarielli — Cime di Rapa al Naturale',formato:'12x800g',pesoG:800,um:'CF',pr:67.90},
+  {id:'dg_p12',cat:'pom',sub:'I Sapori di Corbara',nome:'Crema di Corbarino',formato:'520g',pesoG:520,um:'PZ',pr:9.40},
+  {id:'dg_p13',cat:'pom',sub:'Bucce di Pomodoro',nome:'Pomodorino del Piennolo del Vesuvio DOP',formato:'12x400g',pesoG:400,um:'CF',pr:30.11},
+  {id:'dg_p14',cat:'pom',sub:'Grangusto',nome:'Pomodori Pelati 100% Italiani QS "Supremo"',formato:'6x2.5kg',pesoG:2500,um:'CF',pr:26.50},
+  {id:'dg_p15',cat:'pom',sub:'Grangusto',nome:'Datterino Giallo in Succo',formato:'6x800g',pesoG:800,um:'CF',pr:29.52},
+  {id:'dg_p16',cat:'pom',sub:'Grangusto',nome:'Vellutata di Datterino Giallo',formato:'6x800g',pesoG:800,um:'CF',pr:32.87},
+  {id:'dg_p17',cat:'pom',sub:'Grangusto',nome:'Datterino Giallo Semi Dry',formato:'6x800g',pesoG:800,um:'CF',pr:47.89},
+  {id:'dg_p18',cat:'pom',sub:'Grangusto',nome:'Datterino Giallo in Acqua di Mare',formato:'6x800g',pesoG:800,um:'CF',pr:32.85},
+  {id:'dg_p19',cat:'pom',sub:'Grangusto',nome:'Datterino Rosso in Succo',formato:'6x800g',pesoG:800,um:'CF',pr:25.87},
+  {id:'dg_p20',cat:'pom',sub:'Grangusto',nome:'Vellutata di Datterino Rosso',formato:'6x800g',pesoG:800,um:'CF',pr:32.87},
+  {id:'dg_p21',cat:'pom',sub:'Grangusto',nome:'Datterino Rosso Semi Dry',formato:'6x800g',pesoG:800,um:'CF',pr:47.89},
+  {id:'dg_p22',cat:'pom',sub:'Grangusto',nome:'Datterino Rosso in Acqua di Mare',formato:'6x800g',pesoG:800,um:'CF',pr:29.52},
+  {id:'dg_p23',cat:'pom',sub:'Grangusto',nome:'Datterino Arancione in Succo',formato:'6x800g',pesoG:800,um:'CF',pr:29.52},
+  {id:'dg_p24',cat:'pom',sub:'Grangusto',nome:'Vellutata di Datterino Arancione',formato:'6x800g',pesoG:800,um:'CF',pr:32.87},
+  {id:'dg_p25',cat:'pom',sub:'Grangusto',nome:'Datterino Giallo e Rosso in Acqua',formato:'6x800g',pesoG:800,um:'CF',pr:19.80},
+  {id:'dg_p26',cat:'pom',sub:'Grangusto',nome:'Crema di Zucca Gialla',formato:'12x400g',pesoG:400,um:'CF',pr:45.95},
+  {id:'dg_p27',cat:'pom',sub:'Casa Marrazzo',nome:'San Marzano DOP dell\'Agro Sarnese Nocerino',formato:'6x2560g',pesoG:2560,um:'CF',pr:41.00},
+  {id:'dg_p28',cat:'pom',sub:'Casa Marrazzo',nome:'Carciofi in Olio Gambo alla Romana',formato:'2400g',pesoG:2400,um:'PZ',pr:18.91},
+  {id:'dg_p29',cat:'pom',sub:'Casa Marrazzo',nome:'Confettura di San Marzano DOP',formato:'6x350g',pesoG:350,um:'CF',pr:45.20},
+  {id:'dg_p30',cat:'pom',sub:'Casa Marrazzo',nome:'Friarielli in Olio d\'Oliva',formato:'6x800g',pesoG:800,um:'CF',pr:57.50},
+
+  // ─── CONSERVE / SPECIALITÀ ────────────────────────────
+  {id:'dg_c01',cat:'cons',sub:"D'Ago Selezione",nome:'Filetti di Alacce di Lampedusa Presidio SF',formato:'500g',pesoG:500,um:'PZ',pr:19.75},
+  {id:'dg_c02',cat:'cons',sub:"D'Ago Selezione",nome:'Filetti di Alici "Triscele" Selezione Superior',formato:'500g',pesoG:500,um:'PZ',pr:25.77},
+  {id:'dg_c03',cat:'cons',sub:'Armatore Cetara',nome:'Filetti di Alici FAO 37.2 Antico Metodo',formato:'1.3kg 3pz',pesoG:1300,um:'CF',pr:36.91},
+  {id:'dg_c04',cat:'cons',sub:'Armatore Cetara',nome:'Ventresca di Tonno Rosso in Olio EVO 850g',formato:'850g',pesoG:850,um:'PZ',pr:62.00},
+  {id:'dg_c05',cat:'cons',sub:'Armatore Cetara',nome:'Tonno Rosso in Olio EVO Ami e Palangari 850g',formato:'850g',pesoG:850,um:'PZ',pr:58.00},
+  {id:'dg_c06',cat:'cons',sub:'Delfino Battista',nome:'Filetti di Alici del Mediterraneo 1.5kg',formato:'1.5kg 2pz',pesoG:1500,um:'CF',pr:33.61},
+  {id:'dg_c07',cat:'cons',sub:'Delfino Battista',nome:'Tonno Linea Top Selezione Delfino 6x540g',formato:'6x540g',pesoG:540,um:'CF',pr:62.90},
+  {id:'dg_c08',cat:'cons',sub:'Delfino Battista',nome:'Carciofi alla Brace Grigliati Forno a Legna 8x580g',formato:'8x580g',pesoG:580,um:'CF',pr:59.21},
+  {id:'dg_c09',cat:'cons',sub:'Callipo',nome:'Tonno a Filetti in Olio d\'Oliva 6x1kg',formato:'6x1kg',pesoG:1000,um:'CF',pr:28.90},
+  {id:'dg_c10',cat:'cons',sub:'Frantoio Bianco',nome:'Olive Taggiasche DOP 950g',formato:'950g',pesoG:950,um:'PZ',pr:16.25},
+  {id:'dg_c11',cat:'cons',sub:'Ulidea',nome:'Polvere di Olive Selezionate Vegane 150g',formato:'150g',pesoG:150,um:'PZ',pr:17.90},
+  {id:'dg_c12',cat:'cons',sub:'Piemontfungo',nome:'I Porcini al Naturale L\'Originale del Piemonte 1.6kg',formato:'1.6kg 4pz',pesoG:1600,um:'CF',pr:36.58},
+  {id:'dg_c13',cat:'cons',sub:"D'Ago Selezione",nome:'Peperone di Senise IGP Fritto in Olio EVO (Crusco)',formato:'150g 2pz',pesoG:150,um:'CF',pr:25.35},
+  {id:'dg_c14',cat:'cons',sub:'La Nicchia di Pantelleria',nome:'Foglie di Cappero di Pantelleria 900g',formato:'900g',pesoG:900,um:'PZ',pr:43.91},
+  {id:'dg_c15',cat:'cons',sub:'La Nicchia di Pantelleria',nome:'Capperi di Pantelleria 1kg',formato:'1kg',pesoG:1000,um:'PZ',pr:39.88},
+  {id:'dg_c16',cat:'cons',sub:'La Nicchia di Pantelleria',nome:'Polvere di Capperi di Pantelleria 100g',formato:'100g',pesoG:100,um:'PZ',pr:26.31},
+  {id:'dg_c17',cat:'cons',sub:'La Nicchia di Pantelleria',nome:'Cucunci di Pantelleria 1kg',formato:'1kg',pesoG:1000,um:'PZ',pr:28.65},
+  {id:'dg_c18',cat:'cons',sub:'Caviaroli',nome:'Perlage di Olio Extra Vergine di Oliva 200g',formato:'200g',pesoG:200,um:'PZ',pr:42.18},
+  {id:'dg_c19',cat:'cons',sub:'Tartuflanghe',nome:'Perlage di Pesto al Basilico 200g',formato:'200g',pesoG:200,um:'PZ',pr:18.91},
+  {id:'dg_c20',cat:'cons',sub:'Tartuflanghe',nome:'Perlage di Acciughe 200g',formato:'200g',pesoG:200,um:'PZ',pr:18.91},
+  {id:'dg_c21',cat:'cons',sub:'Tartuflanghe',nome:'Perlage di Salmone 200g',formato:'200g',pesoG:200,um:'PZ',pr:18.91},
+  {id:'dg_c22',cat:'cons',sub:'Tartuflanghe',nome:'Perlage Tartufo Nero Pregiato 200g',formato:'200g',pesoG:200,um:'PZ',pr:35.60},
+  {id:'dg_c23',cat:'cons',sub:'Tartuflanghe',nome:'Crumble di Tartufo 260g',formato:'260g',pesoG:260,um:'PZ',pr:14.90},
+  {id:'dg_c24',cat:'cons',sub:'Tartuflanghe',nome:'Salsa Tartufata Nera 160g',formato:'160g',pesoG:160,um:'PZ',pr:14.90},
+  {id:'dg_c25',cat:'cons',sub:'Tartuflanghe',nome:'Polvere di Tartufo Bianco 160g',formato:'160g',pesoG:160,um:'PZ',pr:14.90},
+  {id:'dg_c26',cat:'cons',sub:'Tartuflanghe',nome:'Polvere al Basilico 40g',formato:'40g',pesoG:40,um:'PZ',pr:13.88},
+  {id:'dg_c27',cat:'cons',sub:"A'Ricchigia",nome:'Pesto di Pistacchio Siciliano "A\'Ricchigia" 1kg',formato:'1kg 5pz',pesoG:1000,um:'CF',pr:26.50},
+  {id:'dg_c28',cat:'cons',sub:"D'Ago Selezione",nome:'Pesto di Pistacchio del Mediterraneo 1kg',formato:'1kg',pesoG:1000,um:'PZ',pr:18.75},
+  {id:'dg_c29',cat:'cons',sub:'Frantoio Bianco',nome:'Salsa alle Noci Juglas Regia Pregiata 500g',formato:'500g',pesoG:500,um:'PZ',pr:10.60},
+  {id:'dg_c30',cat:'cons',sub:'Frantoio Bianco',nome:'Crema all\'Aglio 350g',formato:'350g',pesoG:350,um:'PZ',pr:7.25},
+  {id:'dg_c31',cat:'cons',sub:'Fagone',nome:'Cipolla di Giarratana in Olio EVO SF 1.5kg',formato:'1.5kg 4pz',pesoG:1500,um:'CF',pr:17.90},
+  {id:'dg_c32',cat:'cons',sub:'Fagone',nome:'Cipolla di Giarratana in Agrodolce SF 1.5kg',formato:'1.5kg 4pz',pesoG:1500,um:'CF',pr:17.90},
+  {id:'dg_c33',cat:'cons',sub:'Fagone',nome:'Ketchup Bianco di Cipolla di Giarratana SF',formato:'1.5kg 4pz',pesoG:1500,um:'CF',pr:18.90},
+  {id:'dg_c34',cat:'cons',sub:'Fagone',nome:'Crema Dolce di Cipolla di Giarratana SF',formato:'1.5kg 4pz',pesoG:1500,um:'CF',pr:18.90},
+  {id:'dg_c35',cat:'cons',sub:'Fagone',nome:'Capuliato di Pomodoro 1.5kg',formato:'1.5kg 4pz',pesoG:1500,um:'CF',pr:17.00},
+  {id:'dg_c36',cat:'cons',sub:'Fagone',nome:'Cipolla Croccante 400g',formato:'400g',pesoG:400,um:'PZ',pr:18.25},
+  {id:'dg_c37',cat:'cons',sub:'Riserva del Mare',nome:'Sale Marino Integrale Presidio SF 3x5kg',formato:'3x5kg',pesoG:5000,um:'CF',pr:23.98},
+  {id:'dg_c38',cat:'cons',sub:'Musarra Salvatore',nome:'Origano di Villalba Montagnola 5kg',formato:'5kg',pesoG:5000,um:'PZ',pr:85.00},
+  {id:'dg_c39',cat:'cons',sub:'Montosco',nome:'Peperoncino a Fili Decorations 40g',formato:'40g',pesoG:40,um:'PZ',pr:8.44},
+  {id:'dg_c40',cat:'cons',sub:'Montosco',nome:'Fiordaliso Blu Decorations 15g',formato:'15g',pesoG:15,um:'PZ',pr:9.85},
+
+  // ─── OLIO · SPEZIE · SALSE ────────────────────────────
+  {id:'dg_o01',cat:'olio',sub:'AO Zucchi',nome:'Fritturista — Miglior Fritto d\'Italia 10Lx2',formato:'fusto 20L',pesoG:20000,um:'PZ',pr:62.00},
+  {id:'dg_o02',cat:'olio',sub:'Habamix',nome:'Olio Speciale ai 5 Peperoncini 50ml',formato:'50ml',pesoG:50,um:'PZ',pr:9.00},
+  {id:'dg_o03',cat:'olio',sub:'Terraliva',nome:'Cherubino EVO Bio Tonda Iblea Monocult. Presidio SF 500ml',formato:'12x500ml',pesoG:500,um:'CF',pr:20.85},
+  {id:'dg_o04',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Affumicato 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:11.90},
+  {id:'dg_o05',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Tartufo 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:11.90},
+  {id:'dg_o06',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Timo 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o07',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Rosmarino 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o08',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Aglio 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o09',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Limone 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o10',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Basilico 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o11',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Peperoncino 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o12',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Origano 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o13',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Menta 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o14',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Finocchinetto 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o15',cat:'olio',sub:'Terraliva Fusion EVO',nome:'Fusion EVO Arancia 100ml',formato:'100ml',pesoG:100,um:'PZ',pr:10.50},
+  {id:'dg_o16',cat:'olio',sub:'Heinz',nome:'Tomato Ketchup Squeezer 8x875g',formato:'8x875g',pesoG:875,um:'CF',pr:26.71},
+  {id:'dg_o17',cat:'olio',sub:'Heinz',nome:'Maionese Squeezer 6x875g',formato:'6x875g',pesoG:875,um:'CF',pr:25.47},
+  {id:'dg_o18',cat:'olio',sub:'Heinz',nome:'Salsa Barbecue Squeezer 6x875g',formato:'6x875g',pesoG:875,um:'CF',pr:26.43},
+  {id:'dg_o19',cat:'olio',sub:'Heinz',nome:'Salsa Dolce Speziata per Pizza Piccante 6x875g',formato:'6x875g',pesoG:875,um:'CF',pr:39.16},
+  {id:'dg_o20',cat:'olio',sub:'Heinz Grandi Formati',nome:'Maionese Gastro GF Secchio 5kg',formato:'5kg',pesoG:5000,um:'PZ',pr:13.02},
+  {id:'dg_o21',cat:'olio',sub:'Heinz Grandi Formati',nome:'Ketchup GF Secchio 5kg',formato:'5kg',pesoG:5000,um:'PZ',pr:13.90},
+  {id:'dg_o22',cat:'olio',sub:'Heinz Grandi Formati',nome:'Maionese GF Secchio 5kg',formato:'5kg',pesoG:5000,um:'PZ',pr:15.50},
+  {id:'dg_o23',cat:'olio',sub:'Heinz Grandi Formati',nome:'Barbecue GF Secchio 2.5kg',formato:'2.5kg',pesoG:2500,um:'PZ',pr:17.72},
+
+  // ─── PASTA · CEREALI ──────────────────────────────────
+  {id:'dg_pa01',cat:'pasta',sub:'Pastificio Graziano',nome:'Busiate Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa02',cat:'pasta',sub:'Pastificio Graziano',nome:'Calamarata Liscia Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa03',cat:'pasta',sub:'Pastificio Graziano',nome:'Fusillone Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa04',cat:'pasta',sub:'Pastificio Graziano',nome:'Linguine Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa05',cat:'pasta',sub:'Pastificio Graziano',nome:'Mezzi Paccheri Lisci Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa06',cat:'pasta',sub:'Pastificio Graziano',nome:'Paccheri Lisci Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa07',cat:'pasta',sub:'Pastificio Graziano',nome:'Scialatielli Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa08',cat:'pasta',sub:'Pastificio Graziano',nome:'Spaghetti N.6 Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa09',cat:'pasta',sub:'Pastificio Graziano',nome:'Spago Quadro Trafilatura al Bronzo 500g',formato:'500g',pesoG:500,um:'PZ',pr:3.16},
+  {id:'dg_pa10',cat:'pasta',sub:'Pastificio Graziano',nome:'Mezzi Paccheri Lisci Trafilatura al Platino 500g',formato:'500g',pesoG:500,um:'PZ',pr:5.50},
+  {id:'dg_pa11',cat:'pasta',sub:'Pastificio Graziano',nome:'Paccheri Lisci Trafilatura al Platino 500g',formato:'500g',pesoG:500,um:'PZ',pr:5.50},
+  {id:'dg_pa12',cat:'pasta',sub:"D'Ago Selezione",nome:'Cristallo di Riso Termotrattato 25kg',formato:'25kg',pesoG:25000,um:'PZ',pr:40.41},
+  {id:'dg_pa13',cat:'pasta',sub:"D'Ago Selezione",nome:'Cristallo di Mais Termotrattato 25kg',formato:'25kg',pesoG:25000,um:'PZ',pr:40.41},
+  {id:'dg_pa14',cat:'pasta',sub:"D'Ago Selezione",nome:'Cereali Misti (Avena-Lino-Sesamo-Girasole) 5kg',formato:'5kg',pesoG:5000,um:'PZ',pr:28.41},
+  {id:'dg_pa15',cat:'pasta',sub:'Maltus Italia',nome:'Roggena Dunkel — Farina di Malto Tostato 12.5kg',formato:'12.5kg',pesoG:12500,um:'PZ',pr:87.90},
+  {id:'dg_pa16',cat:'pasta',sub:'Riso Buono',nome:'Farina di Riso Artemide 500g',formato:'500g',pesoG:500,um:'PZ',pr:9.40},
+
+  // ─── PRONTI · SISTEMA GUSTO ───────────────────────────
+  {id:'dg_pr01',cat:'pronti',sub:'Sistema Gusto',nome:'Crema di Carote e Zenzero 20x250g',formato:'20x250g',pesoG:250,um:'CF',pr:2.90},
+  {id:'dg_pr02',cat:'pronti',sub:'Sistema Gusto',nome:'Vellutata di Asparagi 20x220g',formato:'20x220g',pesoG:220,um:'CF',pr:3.20},
+  {id:'dg_pr03',cat:'pronti',sub:'Sistema Gusto',nome:'Crema di Fagioli Bianchi 20x220g',formato:'20x220g',pesoG:220,um:'CF',pr:2.90},
+  {id:'dg_pr04',cat:'pronti',sub:'Sistema Gusto',nome:'Minestrone di Verdura 15x290g',formato:'15x290g',pesoG:290,um:'CF',pr:3.10},
+  {id:'dg_pr05',cat:'pronti',sub:'Sistema Gusto',nome:'Crema Parmantier 20x240g',formato:'20x240g',pesoG:240,um:'CF',pr:2.55},
+  {id:'dg_pr06',cat:'pronti',sub:'Sistema Gusto',nome:'Caesar Dressing 10x500g',formato:'10x500g',pesoG:500,um:'CF',pr:9.05},
+  {id:'dg_pr07',cat:'pronti',sub:'Sistema Gusto',nome:'Parmigiana di Melanzane 15x270g',formato:'15x270g',pesoG:270,um:'CF',pr:4.70},
+  {id:'dg_pr08',cat:'pronti',sub:'Sistema Gusto',nome:'Cannelloni di Magro 15x250g',formato:'15x250g',pesoG:250,um:'CF',pr:3.75},
+  {id:'dg_pr09',cat:'pronti',sub:'Sistema Gusto',nome:'Lasagna al Ragù 15x250g',formato:'15x250g',pesoG:250,um:'CF',pr:3.35},
+  {id:'dg_pr10',cat:'pronti',sub:'Sistema Gusto',nome:'Lasagna Vegetariana 15x250g',formato:'15x250g',pesoG:250,um:'CF',pr:3.70},
+  {id:'dg_pr11',cat:'pronti',sub:'Sistema Gusto',nome:'Cannelloni di Carne 15x250g',formato:'15x250g',pesoG:250,um:'CF',pr:5.05},
+  {id:'dg_pr12',cat:'pronti',sub:'Sistema Gusto',nome:'Cous Cous alle Verdure 12x270g',formato:'12x270g',pesoG:270,um:'CF',pr:2.80},
+  {id:'dg_pr13',cat:'pronti',sub:'Sistema Gusto',nome:'Ragù di Vitello 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:2.80},
+  {id:'dg_pr14',cat:'pronti',sub:'Sistema Gusto',nome:'Ragù di Anatra 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:4.20},
+  {id:'dg_pr15',cat:'pronti',sub:'Sistema Gusto',nome:'Ragù di Polpo 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:3.90},
+  {id:'dg_pr16',cat:'pronti',sub:'Sistema Gusto',nome:'Salsa al Salmone 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:3.25},
+  {id:'dg_pr17',cat:'pronti',sub:'Sistema Gusto',nome:'Salsa allo Scoglio 15x250g',formato:'15x250g',pesoG:250,um:'CF',pr:4.65},
+  {id:'dg_pr18',cat:'pronti',sub:'Sistema Gusto',nome:'Ragù Bolognese 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:2.30},
+  {id:'dg_pr19',cat:'pronti',sub:'Sistema Gusto',nome:'Ragù di Agnello 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:3.90},
+  {id:'dg_pr20',cat:'pronti',sub:'Sistema Gusto',nome:'Salsa all\'Amatriciana 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:2.15},
+  {id:'dg_pr21',cat:'pronti',sub:'Sistema Gusto',nome:'Salsa alla Norma 25x150g',formato:'25x150g',pesoG:150,um:'CF',pr:2.15},
+  {id:'dg_pr22',cat:'pronti',sub:'Sistema Gusto',nome:'Ravioli di Mazzancolle 2kg',formato:'2kg',pesoG:2000,um:'PZ',pr:22.80},
+  {id:'dg_pr23',cat:'pronti',sub:'Sistema Gusto',nome:'Ravioli al Brasato 2kg',formato:'2kg',pesoG:2000,um:'PZ',pr:23.55},
+  {id:'dg_pr24',cat:'pronti',sub:'Sistema Gusto',nome:'Petto di Pollo BT 8 ore 15x220g',formato:'15x220g',pesoG:220,um:'CF',pr:3.45},
+  {id:'dg_pr25',cat:'pronti',sub:'Sistema Gusto',nome:'Puntine di Maiale BBQ Josper 10x350g',formato:'10x350g',pesoG:350,um:'CF',pr:5.40},
+  {id:'dg_pr26',cat:'pronti',sub:'Sistema Gusto',nome:'Ribs Josper 10x700g',formato:'10x700g',pesoG:700,um:'CF',pr:9.80},
+  {id:'dg_pr27',cat:'pronti',sub:'Sistema Gusto',nome:'Ossobuco di Manzo BT 12 ore 10x375g',formato:'10x375g',pesoG:375,um:'CF',pr:7.45},
+  {id:'dg_pr28',cat:'pronti',sub:'Sistema Gusto',nome:'Galletto Vallespluga Josper 14x390g',formato:'14x390g',pesoG:390,um:'CF',pr:6.35},
+  {id:'dg_pr29',cat:'pronti',sub:'Sistema Gusto',nome:'Guancia di Maiale Aceto Balsamico BT 8 ore 15x180g',formato:'15x180g',pesoG:180,um:'CF',pr:5.10},
+  {id:'dg_pr30',cat:'pronti',sub:'Sistema Gusto',nome:'Controfiletto di Manzo BT 12 ore 15x200g',formato:'15x200g',pesoG:200,um:'CF',pr:6.90},
+  {id:'dg_pr31',cat:'pronti',sub:'Sistema Gusto',nome:'Caciucco di Polpo BT 12 ore 9x315g',formato:'9x315g',pesoG:315,um:'CF',pr:10.20},
+  {id:'dg_pr32',cat:'pronti',sub:'Sistema Gusto',nome:'Polpo a Bassa Temperatura BT 12 ore 10x300g',formato:'10x300g',pesoG:300,um:'CF',pr:11.50},
+  {id:'dg_pr33',cat:'pronti',sub:'Sistema Gusto',nome:'Filetto di Salmone BT 8 ore 15x200g',formato:'15x200g',pesoG:200,um:'CF',pr:7.90},
+  {id:'dg_pr34',cat:'pronti',sub:'Sistema Gusto',nome:'Filetto di Baccalà BT 8 ore 15x180g',formato:'15x180g',pesoG:180,um:'CF',pr:6.90},
+  {id:'dg_pr35',cat:'pronti',sub:'Sistema Gusto',nome:'Brasato al Vino Rosso BT 10 ore 12x230g',formato:'12x230g',pesoG:230,um:'CF',pr:6.80},
+  {id:'dg_pr36',cat:'pronti',sub:'Sistema Gusto',nome:'Stinco di Agnello al Pomodoro BT 10 ore 15x370g',formato:'15x370g',pesoG:370,um:'CF',pr:11.90},
+  {id:'dg_pr37',cat:'pronti',sub:'Sistema Gusto',nome:'Half Rotisserie Chicken 8x400g',formato:'8x400g',pesoG:400,um:'CF',pr:5.30},
+  {id:'dg_pr38',cat:'pronti',sub:'Sistema Gusto',nome:'Tiramisù in Vaschetta 3x2300g',formato:'3x2300g',pesoG:2300,um:'CF',pr:27.70}
+];
+
+var DAGO_DEF = [
+  'dg_s03','dg_s06','dg_s09','dg_s11','dg_s16','dg_s23','dg_s26','dg_s33','dg_s34','dg_s41',
+  'dg_f02','dg_f03','dg_f04','dg_f07','dg_f08','dg_f11','dg_f13',
+  'dg_p01','dg_p05','dg_p08','dg_p14','dg_p15','dg_p19','dg_p26','dg_p27',
+  'dg_c01','dg_c10','dg_c27',
+  'dg_o03','dg_o16','dg_o17',
+  'dg_pa01','dg_pa06','dg_pa08'
+];
+
+var DAGO_CATS = {
+  salumi: {label:'🥩 Salumi',     col:'#7b1fa2', tab:1, listId:'dago-list-salumi', cntId:'dago-cnt-salumi'},
+  form:   {label:'🧀 Formaggi',   col:'#f57f17', tab:2, listId:'dago-list-form',   cntId:'dago-cnt-form'},
+  pom:    {label:'🍅 Pomodori',   col:'#c0392b', tab:3, listId:'dago-list-pom',    cntId:'dago-cnt-pom'},
+  cons:   {label:'🫙 Conserve',   col:'#2e7a4f', tab:4, listId:'dago-list-cons',   cntId:'dago-cnt-cons'},
+  olio:   {label:'🫒 Olio·Spezie',col:'#c8860a', tab:5, listId:'dago-list-olio',   cntId:'dago-cnt-olio'},
+  pasta:  {label:'🍝 Pasta',      col:'#6d4c41', tab:6, listId:'dago-list-pasta',  cntId:'dago-cnt-pasta'},
+  pronti: {label:'🍽️ Pronti',    col:'#1565c0', tab:7, listId:'dago-list-pronti', cntId:'dago-cnt-pronti'}
+};
+
+var dagoAtt={}, dagoOrd={};
+
+function dagoLoad(){
+  dagoAtt=ld('dago_att_v1',{});
+  DAGO.forEach(function(p){if(dagoAtt[p.id]===undefined)dagoAtt[p.id]=(DAGO_DEF.indexOf(p.id)>=0);});
+  dagoOrd=ld('dago_ord_v1',{});
+  DAGO.forEach(function(p){if(dagoOrd[p.id]===undefined)dagoOrd[p.id]=0;});
+}
+
+function dagoUpd(){
+  var np=DAGO.filter(function(p){return(dagoOrd[p.id]||0)>0;}).length;
+  var pz=0,eur=0;
+  DAGO.forEach(function(p){var q=dagoOrd[p.id]||0;pz+=q;eur+=q*p.pr;});
+  eur=Math.round(eur*100)/100;
+  document.getElementById('dago-nprod').textContent=np;
+  document.getElementById('dago-npz').textContent=pz;
+  document.getElementById('dago-ntot').textContent=pz===0?'-':'€ '+eur.toFixed(2);
+  // riepilogo per cat
+  var catHtml='';
+  Object.keys(DAGO_CATS).forEach(function(cat){
+    var items=DAGO.filter(function(p){return p.cat===cat&&(dagoOrd[p.id]||0)>0;});
+    if(items.length===0)return;
+    var tot=0;items.forEach(function(p){tot+=p.pr*(dagoOrd[p.id]||0);});
+    catHtml+='<div style="display:flex;justify-content:space-between;padding:6px 16px;border-bottom:1px solid #e8e0d0;font-size:12px"><span>'+DAGO_CATS[cat].label+'</span><span style="font-family:monospace;font-weight:600;color:'+DAGO_CATS[cat].col+'">€ '+tot.toFixed(2)+'</span></div>';
+  });
+  document.getElementById('dago-riepilogo-cats').innerHTML=catHtml;
+  // riepilogo completo
+  var ordini=DAGO.filter(function(p){return(dagoOrd[p.id]||0)>0;});
+  var rb=document.getElementById('dago-rbox');
+  if(ordini.length>0){
+    rb.className='rbox on';
+    var h='',curSub='';
+    ordini.forEach(function(p){
+      var q=dagoOrd[p.id];
+      if(p.sub!==curSub){curSub=p.sub;h+='<div class="rrow" style="background:#faf8f3;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8a7a60">'+p.sub+'</div>';}
+      h+='<div class="rrow"><span style="color:#8a7a60;font-size:11px">'+p.nome+'</span><span style="font-family:monospace;font-weight:600;font-size:11px">x'+q+' — € '+(q*p.pr).toFixed(2)+'</span></div>';
+    });
+    document.getElementById('dago-rrows').innerHTML=h;
+    document.getElementById('dago-rtot').textContent=np+' prod. — € '+eur.toFixed(2);
+  }else rb.className='rbox';
+}
+
+function dagoChg(id,d){dagoOrd[id]=Math.max(0,(dagoOrd[id]||0)+d);var el=document.getElementById('dagoqi_'+id);if(el)el.value=dagoOrd[id];sv('dago_ord_v1',dagoOrd);dagoUpd();}
+function dagoSetv(id,v){dagoOrd[id]=Math.max(0,parseInt(v)||0);sv('dago_ord_v1',dagoOrd);dagoUpd();}
+function dagoTog(id){dagoAtt[id]=!dagoAtt[id];if(!dagoAtt[id])dagoOrd[id]=0;sv('dago_att_v1',dagoAtt);sv('dago_ord_v1',dagoOrd);dagoRenderAll();dagoUpd();}
+
+function dagoRenderCat(cat){
+  var info=DAGO_CATS[cat];
+  var att=DAGO.filter(function(p){return p.cat===cat&&dagoAtt[p.id];});
+  var el=document.getElementById(info.listId);
+  document.getElementById(info.cntId).textContent=att.length+' prodotti';
+  if(att.length===0){el.innerHTML='<div style="padding:20px;color:#8a7a60;font-size:13px">Nessun prodotto attivo</div>';return;}
+  var col=info.col;
+  var h='',curSub='';
+  for(var i=0;i<att.length;i++){
+    var p=att[i];var q=dagoOrd[p.id]||0;
+    if(p.sub!==curSub){curSub=p.sub;h+='<div class="catbar" style="background:#f5f5f5;color:'+col+';font-size:9px;letter-spacing:1.5px">'+p.sub+'</div>';}
+    h+='<div class="fc"><div class="fi"><div class="fn">'+p.nome+'</div><div class="fm">'+p.formato+'</div><div class="fp" style="color:'+col+'">€ '+p.pr.toFixed(2)+'/'+p.um+'</div></div>';
+    h+='<div class="qw" style="border-color:'+col+'"><button class="qb" id="dagoqm_'+p.id+'" style="color:'+col+'">-</button><input class="qi" id="dagoqi_'+p.id+'" type="number" min="0" value="'+q+'" style="color:'+col+'"><button class="qb" id="dagoqp_'+p.id+'" style="color:'+col+'">+</button></div></div>';
+  }
+  el.innerHTML=h;
+  for(var j=0;j<att.length;j++){(function(pid){
+    var bm=document.getElementById('dagoqm_'+pid);var bp=document.getElementById('dagoqp_'+pid);var inp=document.getElementById('dagoqi_'+pid);
+    if(bm)bm.onclick=function(){dagoChg(pid,-1);};
+    if(bp)bp.onclick=function(){dagoChg(pid,1);};
+    if(inp)inp.oninput=function(){dagoSetv(pid,this.value);};
+  })(att[j].id);}
+}
+
+function dagoRenderGest(){
+  var att=DAGO.filter(function(p){return dagoAtt[p.id];});
+  var sby=DAGO.filter(function(p){return !dagoAtt[p.id];});
+  document.getElementById('dago-cntAttG').textContent=att.length;
+  document.getElementById('dago-cntSby').textContent=sby.length;
+  var ha='';
+  att.forEach(function(p){var col=DAGO_CATS[p.cat].col;ha+='<div class="gc"><div class="gi"><div class="gn">'+p.nome+'</div><div class="gm" style="color:'+col+'">'+DAGO_CATS[p.cat].label+' · '+p.sub+'</div></div><button class="btog" id="dagogm_'+p.id+'" style="background:#fdf0f0;color:#b33a3a;border:1px solid #f0c8c8">Stand-by</button></div>';});
+  document.getElementById('dago-listAtt').innerHTML=ha||'<div style="padding:16px;color:#8a7a60">Nessuno attivo</div>';
+  var hs='';
+  sby.forEach(function(p){hs+='<div class="gc" style="opacity:0.6"><div class="gi"><div class="gn">'+p.nome+' <span class="slbl">stand-by</span></div><div class="gm">'+DAGO_CATS[p.cat].label+'</div></div><button class="btog" id="dagoga_'+p.id+'" style="background:#eef8f2;color:#2e7a4f;border:1px solid #b8dfc9">Attiva</button></div>';});
+  document.getElementById('dago-listSby').innerHTML=hs||'<div style="padding:16px;color:#8a7a60">Nessuno in stand-by</div>';
+  att.forEach(function(p){(function(pid){var b=document.getElementById('dagogm_'+pid);if(b)b.onclick=function(){dagoTog(pid);};})(p.id);});
+  sby.forEach(function(p){(function(pid){var b=document.getElementById('dagoga_'+pid);if(b)b.onclick=function(){dagoTog(pid);};})(p.id);});
+}
+
+function dagoRenderListino(){
+  var h='',curCat='';
+  DAGO.forEach(function(p){
+    if(p.cat!==curCat){curCat=p.cat;var col=DAGO_CATS[p.cat].col;h+='<div style="padding:7px 16px;font-size:10px;font-weight:700;color:'+col+';text-transform:uppercase;letter-spacing:1px;background:#f5f5f5;border-bottom:1px solid #e8e0d0;border-top:2px solid #e8e0d0">'+DAGO_CATS[p.cat].label+'</div>';}
+    var col=DAGO_CATS[p.cat].col;
+    h+='<div class="lrow"><div style="flex:1"><div style="font-size:12px;font-weight:600">'+p.nome+'</div><div style="font-size:9px;color:#8a7a60">'+p.sub+' · '+p.formato+'</div></div><div style="text-align:right"><div style="font-family:monospace;font-size:13px;font-weight:700;color:'+col+'">€ '+p.pr.toFixed(2)+'</div><div style="font-size:9px;color:#8a7a60">'+p.um+'</div></div></div>';
+  });
+  document.getElementById('dago-listino').innerHTML=h;
+}
+
+function dagoRenderAll(){
+  Object.keys(DAGO_CATS).forEach(function(cat){dagoRenderCat(cat);});
+  dagoRenderGest();
+}
+
+function dagoShowCat(n){
+  for(var i=0;i<10;i++){var p=document.getElementById('dagop'+i);var t=document.getElementById('dagot'+i);if(p)p.style.display=i===n?'block':'none';if(t)t.className=i===n?'tab on':'tab';}
+  if(n===8)dagoRenderListino();
+}
+
+function dagoReset(){
+  DAGO.forEach(function(p){dagoOrd[p.id]=0;var e=document.getElementById('dagoqi_'+p.id);if(e)e.value=0;});
+  var n=document.getElementById('dago-note');if(n)n.value='';
+  sv('dago_ord_v1',dagoOrd);dagoUpd();
+}
+
+function dagoWA(){
+  var ordini=DAGO.filter(function(p){return(dagoOrd[p.id]||0)>0;});
+  if(ordini.length===0){alert('Aggiungi almeno un prodotto!');return;}
+  var sede=document.getElementById('dago-sede').value;
+  var dord=fmtD(document.getElementById('dago-data').value);
+  var dcons=fmtD(document.getElementById('dago-cons').value);
+  var note=document.getElementById('dago-note').value;
+  var pz=0,eur=0;
+  ordini.forEach(function(p){var q=dagoOrd[p.id]||0;pz+=q;eur+=q*p.pr;});
+  eur=Math.round(eur*100)/100;
+  var r=["*ORDINE D'AGO — L'Orso*","Sede: *"+sede+"*","Ordine: "+dord+" | Consegna: *"+dcons+"*","---"];
+  var curCat='',curSub='';
+  ordini.forEach(function(p){
+    var q=dagoOrd[p.id];
+    if(p.cat!==curCat){curCat=p.cat;r.push('*'+DAGO_CATS[p.cat].label+'*');curSub='';}
+    if(p.sub!==curSub){curSub=p.sub;r.push('_'+p.sub+'_');}
+    r.push('  *'+p.nome+'* ('+p.formato+') x*'+q+'* — € '+(q*p.pr).toFixed(2));
+  });
+  r.push('---');
+  r.push('*Totale: '+ordini.length+' prodotti, '+pz+' pz — € '+eur.toFixed(2)+'*');
+  if(note)r.push('Note: '+note);
+  r.push("_Matteo La Spada — L'Orso Messina_");
   var url='whatsapp://send?text='+encodeURIComponent(r.join('\n'));
   var a=document.createElement('a');a.href=url;document.body.appendChild(a);a.click();
   setTimeout(function(){try{document.body.removeChild(a);}catch(e){}},300);
