@@ -3,91 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Lab v2.2 - Beta Test</title>
+    <title>Pizza Lab v2.2 - Full Mod</title>
     <style>
-        /* Stile moderno e pulito */
-        body { font-family: 'Segoe UI', sans-serif; background-color: #eef2f3; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 100%; max-width: 450px; border-top: 8px solid #1b5e20; }
-        h1 { color: #1b5e20; text-align: center; margin-bottom: 20px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
-        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        input:focus { border-color: #1b5e20; outline: none; }
-        button { width: 100%; padding: 15px; background-color: #1b5e20; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #2e7d32; }
-        .result { margin-top: 20px; padding: 15px; background-color: #f1f8e9; border-radius: 10px; border-left: 5px solid #1b5e20; display: none; }
-        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777; }
+        /* Ripristino il look "L'Orso" che ti piace */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f7f6; padding: 15px; margin: 0; }
+        .card-container { display: flex; flex-direction: column; gap: 20px; max-width: 550px; margin: auto; }
+        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #2e7d32; }
+        h2 { color: #2e7d32; margin-top: 0; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        button { width: 100%; padding: 12px; background: #2e7d32; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .result-box { margin-top: 15px; padding: 12px; background: #e8f5e9; border-radius: 8px; font-size: 14px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>🍕 Pizza Lab v2.2 (Mod)</h1>
+<div class="card-container">
     
-    <div class="input-group">
-        <label>Farina (g)</label>
-        <input type="number" id="farina" class="save-data" placeholder="Es. 1000">
-    </div>
-    
-    <div class="input-group">
-        <label>Idratazione (%)</label>
-        <input type="number" id="idra" class="save-data" placeholder="Es. 65">
-    </div>
-
-    <div class="input-group">
-        <label>Sale (g per kg farina)</label>
-        <input type="number" id="sale" class="save-data" value="25">
+    <!-- SCHEDA 1: DIARIO -->
+    <div class="card">
+        <h2>📔 Diario Impasto</h2>
+        <div class="input-group">
+            <label>Nome Farina</label>
+            <input type="text" id="diario_farina" class="save-all" placeholder="E.g. Caputo Blu">
+        </div>
+        <div class="input-group">
+            <label>Note Tecnice (W, P/L)</label>
+            <input type="text" id="diario_note" class="save-all">
+        </div>
     </div>
 
-    <button onclick="generaRicetta()">CALCOLA MODIFICHE</button>
-
-    <div id="box-risultato" class="result">
-        <p id="res-acqua"></p>
-        <p id="res-sale"></p>
-        <p id="res-totale"></p>
+    <!-- SCHEDA 2: CALCOLATRICE SCIENTIFICA -->
+    <div class="card">
+        <h2>🧪 Motore Scientifico</h2>
+        <div class="input-group">
+            <label>Farina Totale (g)</label>
+            <input type="number" id="sci_farina" class="save-all">
+        </div>
+        <div class="input-group">
+            <label>Idratazione (%)</label>
+            <input type="number" id="sci_idra" class="save-all">
+        </div>
+        <button onclick="calcolaSci()">ESEGUI CALCOLO</button>
+        <div id="res_sci" class="result-box" style="display:none;"></div>
     </div>
 
-    <div class="footer">Stai testando la versione su index..html</div>
+    <!-- SCHEDA 3: TEMPERATURA ACQUA -->
+    <div class="card">
+        <h2>🌡️ Regola del 55/60</h2>
+        <div class="input-group">
+            <label>Temp. Ambiente</label>
+            <input type="number" id="t_amb" class="save-all">
+        </div>
+        <div class="input-group">
+            <label>Temp. Farina</label>
+            <input type="number" id="t_far" class="save-all">
+        </div>
+        <button onclick="calcolaTemp()">CALCOLA ACQUA</button>
+        <div id="res_temp" class="result-box" style="display:none;"></div>
+    </div>
+
 </div>
 
 <script>
-    // LOGICA DI CALCOLO
-    function generaRicetta() {
-        const f = parseFloat(document.getElementById('farina').value);
-        const i = parseFloat(document.getElementById('idra').value);
-        const s = parseFloat(document.getElementById('sale').value);
-
-        if (f > 0 && i > 0) {
-            const acqua = (f * i) / 100;
-            const saleTot = (f / 1000) * s;
-            const totale = f + acqua + saleTot;
-
-            document.getElementById('res-acqua').innerHTML = "💧 <b>Acqua:</b> " + acqua.toFixed(0) + "g";
-            document.getElementById('res-sale').innerHTML = "🧂 <b>Sale:</b> " + saleTot.toFixed(1) + "g";
-            document.getElementById('res-totale').innerHTML = "⚖️ <b>Peso Impasto:</b> " + totale.toFixed(0) + "g";
-            document.getElementById('box-risultato').style.display = "block";
-        } else {
-            alert("Inserisci farina e idratazione!");
+    // FUNZIONE CALCOLO SCIENTIFICO
+    function calcolaSci() {
+        const f = parseFloat(document.getElementById('sci_farina').value);
+        const i = parseFloat(document.getElementById('sci_idra').value);
+        if(f && i) {
+            const a = (f * i) / 100;
+            const res = document.getElementById('res_sci');
+            res.style.display = "block";
+            res.innerHTML = `✅ <b>Acqua:</b> ${a}g<br>✅ <b>Sale (2.5%):</b> ${(f*0.025).toFixed(1)}g`;
         }
     }
 
-    // SALVATAGGIO AUTOMATICO (NON PERDERAI PIÙ I DATI)
-    const inputs = document.querySelectorAll('.save-data');
-    
-    // Salva quando scrivi
-    inputs.forEach(input => {
-        input.addEventListener('input', () => {
-            localStorage.setItem('test_' + input.id, input.value);
-        });
-    });
+    // FUNZIONE TEMPERATURA
+    function calcolaTemp() {
+        const ta = parseFloat(document.getElementById('t_amb').value) || 0;
+        const tf = parseFloat(document.getElementById('t_far').value) || 0;
+        const costante = 58; // Media professionale
+        const tacqua = costante - ta - tf - 2; // -2 per riscaldamento macchina
+        const res = document.getElementById('res_temp');
+        res.style.display = "block";
+        res.innerHTML = `💧 <b>Usa acqua a:</b> ${tacqua.toFixed(1)}°C`;
+    }
 
-    // Recupera quando apri la pagina
+    // --- IL MOTORE DELLA MEMORIA (LocalStorage) ---
+    const inputs = document.querySelectorAll('.save-all');
+
+    // Recupera i dati quando apri
     window.onload = () => {
-        inputs.forEach(input => {
-            const saved = localStorage.getItem('test_' + input.id);
-            if (saved) input.value = saved;
+        inputs.forEach(el => {
+            const val = localStorage.getItem('pizza_' + el.id);
+            if (val) el.value = val;
         });
     };
+
+    // Salva ogni volta che scrivi qualcosa
+    inputs.forEach(el => {
+        el.addEventListener('input', () => {
+            localStorage.setItem('pizza_' + el.id, el.value);
+        });
+    });
 </script>
 
 </body>
