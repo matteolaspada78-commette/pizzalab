@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Scheda Sala — L'Orso</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark only; }
+  html { background-color: #111009 !important; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #111009 !important;
+    background: #111009 !important;
+    color: #f0ebe0 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+    min-height: 100vh;
+  }
+
+  /* COVER */
+  .cover {
+    background-color: #0a0908 !important;
+    text-align: center;
+    padding: 3rem 1.5rem 2.5rem;
+    border-bottom: 1px solid #c9a84c;
+  }
+  .cover-eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #c9a84c !important;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .cover-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.8rem;
+    font-weight: 400;
+    color: #f0ebe0 !important;
+    line-height: 1;
+    margin-bottom: 0.15rem;
+    display: block;
+  }
+  .cover-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #c9a84c !important;
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.1em;
+    display: block;
+  }
+  .cover-divider {
+    width: 50px;
+    height: 1px;
+    background-color: #c9a84c;
+    margin: 0 auto 1.8rem;
+    display: block;
+  }
+  .cover-info {
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #8a7f6e !important;
+    line-height: 2.3;
+    display: block;
+  }
+  .cover-firma {
+    margin-top: 1.8rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(201,168,76,0.25);
+  }
+  .cover-firma-label {
+    font-size: 0.52rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #8a7f6e !important;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  .cover-firma-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #f0ebe0 !important;
+    display: block;
+  }
+
+  /* FILTRI */
+  .filter-wrap {
+    background-color: #0a0908 !important;
+    padding: 0.9rem 1rem 0.7rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+  }
+  .filter-label {
+    font-size: 0.48rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #6a6050 !important;
+    margin-bottom: 0.55rem;
+    display: block;
+  }
+  .filter-scroll {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.5em 1em;
+    border: 1px solid rgba(201,168,76,0.3);
+    background-color: transparent !important;
+    color: #8a7f6e !important;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .filter-btn.active {
+    border-color: #c9a84c !important;
+    color: #c9a84c !important;
+    background-color: rgba(201,168,76,0.1) !important;
+  }
+
+  /* SEZIONE */
+  .section-head {
+    text-align: center;
+    padding: 2rem 1.5rem 1.2rem;
+    background-color: #111009 !important;
+  }
+  .section-eyebrow {
+    font-size: 0.52rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #c9a84c !important;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: #f0ebe0 !important;
+  }
+
+  /* CARD */
+  .pizza-list {
+    padding: 0 0 3rem;
+    background-color: #111009 !important;
+  }
+  .pizza-card {
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+    padding: 1.5rem 1.1rem;
+    background-color: #111009 !important;
+  }
+  .pizza-card:first-child {
+    border-top: 1px solid rgba(201,168,76,0.18);
+  }
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    margin-bottom: 0.45rem;
+    flex-wrap: wrap;
+  }
+  .card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: rgba(201,168,76,0.4) !important;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #e8d08a !important;
+    line-height: 1.2;
+  }
+  .card-ingredienti {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6a6050 !important;
+    margin-bottom: 0.8rem;
+    line-height: 2;
+  }
+  .card-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.08rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #d8d0bc !important;
+    line-height: 1.72;
+  }
+  .card-tag {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 0.48rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c9a84c !important;
+    border: 1px solid rgba(201,168,76,0.45);
+    padding: 0.28em 0.75em;
+    border-radius: 2px;
+    background-color: rgba(201,168,76,0.06) !important;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    background-color: #0a0908 !important;
+  }
+  .footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    color: #6a6050 !important;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+  .footer-sign {
+    font-size: 0.52rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #c9a84c !important;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <span class="cover-eyebrow">Messina · Sicilia</span>
+  <span class="cover-logo">L'Orso</span>
+  <span class="cover-sub">Carta delle Pizze</span>
+  <span class="cover-divider"></span>
+  <span class="cover-info">Scheda Sala · Uso Interno · Stagione 2025 · 2026</span>
+  <div class="cover-firma">
+    <span class="cover-firma-label">a cura di</span>
+    <span class="cover-firma-name">Matteo La Spada</span>
+    <span class="cover-firma-label" style="margin-top:0.2rem">Pizzaiolo</span>
+  </div>
+</div>
+
+<!-- FILTRI sticky -->
+<div class="filter-wrap">
+  <span class="filter-label">Filtra per categoria</span>
+  <div class="filter-scroll">
+    <button class="filter-btn active" onclick="fil('all',this)">Tutte</button>
+    <button class="filter-btn" onclick="fil('stagionale',this)">Stagionali</button>
+    <button class="filter-btn" onclick="fil('mare',this)">Mare</button>
+    <button class="filter-btn" onclick="fil('terra',this)">Terra</button>
+    <button class="filter-btn" onclick="fil('vegetariana',this)">Vegetariane</button>
+    <button class="filter-btn" onclick="fil('classica',this)">Classiche</button>
+  </div>
+</div>
+
+<div class="section-head">
+  <span class="section-eyebrow">Descrizioni per il personale di sala</span>
+  <div class="section-title">Le Pizze</div>
+</div>
+
+<div class="pizza-list" id="lista">
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">153</span><span class="card-name">"Braccio di Ferro"</span></div>
+    <div class="card-ingredienti">Salsiccia · Ricotta · Spinacio novello · Fior di latte</div>
+    <div class="card-desc">Un classico della tradizione siciliana reinterpretato con carattere: la salsiccia artigianale incontra la morbidezza della ricotta fresca, mentre gli spinaci novelli portano freschezza e colore. Una pizza dal cuore genuino, confortante e piena di sapore.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare">
+    <div class="card-head"><span class="card-num">12</span><span class="card-name">"Brezza Marina"</span></div>
+    <div class="card-ingredienti">Fior di latte · Pomodori in acqua di mare · Rucola · Croccante di grana · Prosciutto crudo di Parma · Olio EVO</div>
+    <div class="card-desc">I pomodori cotti in acqua di mare restituiscono alla pizza il profumo dello Stretto, con quella sapidita naturale che non si dimentica. Il croccante di grana aggiunge texture e persistenza, mentre la rucola fresca chiude ogni morso con una nota vegetale vivace. Fresca, marina, irresistibile.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">14</span><span class="card-name">"Burrata (v2)"</span></div>
+    <div class="card-ingredienti">Pomodoro pelato schiacciato · Fior di latte · Datterino rosso semi secco · Burrata · Prosciutto crudo</div>
+    <div class="card-desc">La burrata arriva fuori dal forno, candida e gonfia, e si apre sul pomodoro ancora caldo liberando il suo cuore cremoso. I datterini semi secchi concentrano la dolcezza dell'estate siciliana, e il prosciutto crudo aggiunge una nota sapida che completa il quadro con eleganza.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra stagionale">
+    <div class="card-head"><span class="card-num">165</span><span class="card-name">"Dall'Etna alle Alpi"</span></div>
+    <div class="card-ingredienti">Crema di melanzane bruciata alla brace · Bufala · Speck · Gherigli di noci · Olio all'arancia</div>
+    <div class="card-desc">Un viaggio verticale dell'Italia in un solo morso: la melanzana bruciata alla brace porta il fumo e la memoria del Sud, lo speck Alto Adige introduce il Nord con la sua nota affumicata e speziata. La bufala fa da ponte, e l'olio all'arancia firma ogni fetta con un tocco agrumato inaspettato.</div>
+    <span class="card-tag">Stagionale</span>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">30</span><span class="card-name">"Disgraziata"</span></div>
+    <div class="card-ingredienti">Mortadella Levoni · Melanzane sott'olio · Datterino · Funghi · Salame · Gocce di habamix · Primo sale · Polvere di olive</div>
+    <div class="card-desc">Il nome e un gioco, ma la pizza e seria: e la piu golosa della carta, generosa fino all'eccesso, costruita per chi non vuole scegliere. Le gocce di habamix portano un caldo piccante controllato, la polvere di olive un finale scuro e profondo che sorprende sempre.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">31</span><span class="card-name">"Donna Fugata"</span></div>
+    <div class="card-ingredienti">Passata pomodoro pelato biologico · Fior di latte · Salsiccia · Cipolla caramellata · Gorgonzola · Peperoncino</div>
+    <div class="card-desc">Una pizza dal carattere deciso e appassionato: la dolcezza della cipolla caramellata si scontra e si innamora del gorgonzola pungente, mentre il peperoncino chiude con una scossa che scalda. Seducente, contraddittoria, memorabile.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">162</span><span class="card-name">"Dove il sentiero si fa selvatico"</span></div>
+    <div class="card-ingredienti">Mugnuli selvatici · Provola dei Nebrodi · Guancia di maiale · Crema di pecorino · Olio al limone</div>
+    <div class="card-desc">I mugnuli - cime di rapa selvatiche dei Peloritani - portano il sapore autentico della montagna messinese, amarognolo e profumato. La guancia di maiale si scioglie in cottura, e la crema di pecorino avvolge tutto con sapidita intensa. L'olio al limone in uscita e la firma: luminosa, necessaria.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra classica">
+    <div class="card-head"><span class="card-num">39</span><span class="card-name">"Evergreen"</span></div>
+    <div class="card-ingredienti">Pomodoro biologico · Fior di latte · Prosciutto cotto Branchi · Olive taggiasche · Funghi</div>
+    <div class="card-desc">Una pizza che non passa mai di moda: il prosciutto cotto Branchi, scelto tra i migliori d'Italia, incontra i funghi e le olive taggiasche in un equilibrio senza sbavature. Semplice nella forma, impeccabile nella materia prima. Per chi sa cosa vuole.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare">
+    <div class="card-head"><span class="card-num">44</span><span class="card-name">"Fata Morgana"</span></div>
+    <div class="card-ingredienti">Stracciatella · Gambero rosso di Mazara · Datterino giallo · Erba cipollina · Polvere di pomodoro · Olio EVO Terraliva</div>
+    <div class="card-desc">Come il miraggio sullo Stretto, questa pizza e un'illusione bellissima che si rivela reale al primo morso: il gambero rosso di Mazara - crudo, dolce, quasi burroso - affonda nella stracciatella fresca mentre i datterini gialli portano acidita brillante. Una delle piu eleganti in carta.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare stagionale">
+    <div class="card-head"><span class="card-num">158</span><span class="card-name">"Il canto delle nasse"</span></div>
+    <div class="card-ingredienti">Pesto di zucchine · Tartara di gambero · Granella di pistacchio · Provola dei Nebrodi · Olio al limone · Polvere di cappero</div>
+    <div class="card-desc">Le nasse dei pescatori dello Stretto ispirano questa pizza di mare e terra: la tartara di gambero si distende sul pesto di zucchine, e la polvere di cappero - intensa, marina, quasi iodica - evoca il fondo del mare siciliano. La granella di pistacchio porta crunch e il profumo verde della Sicilia interna.</div>
+    <span class="card-tag">Stagionale</span>
+  </div>
+
+  <div class="pizza-card" data-cat="terra classica">
+    <div class="card-head"><span class="card-num">57</span><span class="card-name">"Italiana"</span></div>
+    <div class="card-ingredienti">Pomodoro pelato schiacciato · Fior di latte · Rucola · Prosciutto crudo di Parma Levoni · Scaglie di grana · Olio EVO</div>
+    <div class="card-desc">La classica italiana nella sua versione piu onesta e ben eseguita: prosciutto crudo di Parma Levoni su base di pomodoro e fior di latte, coperta di rucola fresca e scaglie di grana che si sciolgono al calore. Nessuna sorpresa, nessun compromesso - solo la certezza di una grande pizza.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare">
+    <div class="card-head"><span class="card-num">58</span><span class="card-name">"L'abbraccio di Scilla"</span></div>
+    <div class="card-ingredienti">Vellutata di scarola · Datterino rosso e giallo semi secco · Scaglie di primo sale · Filetti di alici selezionate · Pepe nero in grani · Olio al limone</div>
+    <div class="card-desc">La scarola in vellutata fa da letto morbido e leggermente amaro alle alici selezionate, che portano sapidita e profondita marina. I datterini semi secchi aggiungono dolcezza concentrata, e il pepe nero in grani crea piccole esplosioni di calore. Una carezza di mare.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">161</span><span class="card-name">"L'alba che profuma di pascoli"</span></div>
+    <div class="card-ingredienti">Spinacio aromatizzato al limone · Salame · Ricotta · Fior di latte · Pinoli</div>
+    <div class="card-desc">Una pizza che sa di mattino fresco sui Nebrodi: gli spinaci aromatizzati al limone portano una nota verde e brillante che taglia la ricchezza del salame e della ricotta cremosa. I pinoli tostati chiudono con un retrogusto dolce e resinoso che ricorda la macchia mediterranea all'alba.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">170</span><span class="card-name">"L'anima del Borgo"</span></div>
+    <div class="card-ingredienti">Scarola saltata · Uva passa nello Zibibbo · Pinoli · Salame Sant'Angelo · Provola dei Nebrodi · Datterino confit · Olive nere · Olio al mandarino</div>
+    <div class="card-desc">E la Sicilia intera in una pizza: la scarola saltata, l'uva passa ammollata nel vino Zibibbo delle Eolie, il salame Sant'Angelo IGP e la provola dei Nebrodi si intrecciano in un racconto di borghi e cucine di famiglia. L'olio al mandarino in uscita e il sole di Sicilia.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana classica">
+    <div class="card-head"><span class="card-num">72</span><span class="card-name">"Margherita"</span></div>
+    <div class="card-ingredienti">Pomodoro biologico · Mozzarella · Olio EVO · Basilico</div>
+    <div class="card-desc">La Margherita e il metro con cui si misura ogni pizzaiolo, e qui non si scherza: pomodoro biologico, mozzarella di qualita, olio extravergine selezionato e basilico fresco su un impasto a lunga fermentazione che fa tutta la differenza. Umile nella forma, straordinaria nell'esecuzione.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana classica">
+    <div class="card-head"><span class="card-num">140</span><span class="card-name">"Marinara Intensa"</span></div>
+    <div class="card-ingredienti">Pomodoro · Aglio orsino · Origano del territorio · Acciughe · Capperi croccanti</div>
+    <div class="card-desc">Non e la marinara che si conosce: l'aglio orsino - piu delicato e profumato dell'aglio comune - sostituisce il classico, mentre i capperi croccanti regalano texture e sapidita esplosiva. Le acciughe si sciolgono in cottura diventando un fondo marino intenso. Per chi ama le pizze con carattere.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana">
+    <div class="card-head"><span class="card-num">168</span><span class="card-name">"Memoria di un orto contemporaneo"</span></div>
+    <div class="card-ingredienti">Pesto siculo · Mugnuli selvatici · Funghi shiitake · Olio al mandarino · Cipolla rossa caramellata · Mandorle · Gel di soia all'umami</div>
+    <div class="card-desc">Una pizza vegetariana che gioca con l'umami: il gel di soia fermentata porta una profondita di gusto solitamente riservata alla carne, mentre i funghi shiitake aggiungono una nota terrosa orientale su una base di pesto siculo. I mugnuli e le mandorle riportano tutto in Sicilia. Sorprende sempre.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">134</span><span class="card-name">"Nebrodi Umami"</span></div>
+    <div class="card-ingredienti">Provola di Cesaro · Funghi shiitake · Fior di latte · Salsiccia · Crema di grana · Elisir di tartufo</div>
+    <div class="card-desc">La provola di Cesaro - uno dei formaggi piu pregiati dei Nebrodi, prodotto in quota con latte di vacca al pascolo - e l'anima di questa pizza, affiancata dai funghi shiitake per un doppio umami che conquista. L'elisir di tartufo in uscita e una nota finale lussuosa e profonda che rimane a lungo.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana">
+    <div class="card-head"><span class="card-num">141</span><span class="card-name">"Norma Contemporanea"</span></div>
+    <div class="card-ingredienti">Crema di melanzane arrosto · Fior di latte · Pomodorini confit · Scaglie di ricotta salata</div>
+    <div class="card-desc">La pasta alla Norma e il piatto simbolo di Catania, e questa pizza ne porta il DNA con rispetto e modernita: la melanzana diventa crema arrosto vellutata, i pomodorini sono confit per concentrare la dolcezza, e la ricotta salata arriva in scaglie fuori dal forno sciogliendosi sul calore.</div>
+    <span class="card-tag">Ricotta salata in uscita</span>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana classica">
+    <div class="card-head"><span class="card-num">87</span><span class="card-name">"O Sole Mio"</span></div>
+    <div class="card-ingredienti">Mozzarella di bufala DOP · Mozzarella · Datterino rosso e giallo · Basilico · Olio EVO Terraliva</div>
+    <div class="card-desc">Due mozzarelle, due mondi: la bufala DOP con la sua acidita lattea e il suo carattere, il fior di latte con la delicatezza rassicurante. I datterini rossi e gialli portano un campo cromatico che fa gia sorridere, e l'olio Terraliva - tonda iblea di Ragusa - firma tutto con un amaro nobile. Luminosa come il suo nome.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">89</span><span class="card-name">"Oro Peloritano"</span></div>
+    <div class="card-ingredienti">Salame Sant'Angelo · Pomodoro confit · Fior di latte · Scaglie di maiorchino · Melanzane sott'olio · Origano selvatico · Zeste di limone</div>
+    <div class="card-desc">Il maiorchino e un pecorino stagionato tipico di Novara di Sicilia, prodotto sui Peloritani e presidio Slow Food: raro, intenso, con sentori di latte e pascolo. Abbinato al salame Sant'Angelo IGP e all'origano selvatico dei nostri monti, e un atto d'amore verso il territorio messinese. Le zeste di limone in uscita la rendono viva.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">90</span><span class="card-name">"Orso Iberico"</span></div>
+    <div class="card-ingredienti">Fior di latte · Funghi porcini · Timo · Lardo di patanegra · Scaglie Parmigiano Reggiano Vacche Rosse · Pepe nero · Olio EVO</div>
+    <div class="card-desc">Il lardo di patanegra - grasso nobilissimo del maiale iberico allevato a ghiande - si scioglie lentamente sul calore del forno, insaporendo i porcini con la sua eleganza untuosa. Le scaglie di Parmigiano Vacche Rosse portano la complessita di una grande stagionatura. Una pizza di alto profilo.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="terra">
+    <div class="card-head"><span class="card-num">115</span><span class="card-name">"Stretto (v2)"</span></div>
+    <div class="card-ingredienti">Fior di latte · Mortadella Levoni Linea Oro · Burrata · Pistacchio tostato · Pesto di pistacchio</div>
+    <div class="card-desc">E la pizza di Messina per eccellenza: la mortadella Levoni Linea Oro - la migliore in commercio, con i pistacchi interi - arriva in uscita dal forno, morbida e profumata, su una base di fior di latte e pesto di pistacchio. La burrata la rende cremosa e indulgente. Difficile resistere al secondo giro.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare">
+    <div class="card-head"><span class="card-num">127</span><span class="card-name">"Un giorno alle Eolie"</span></div>
+    <div class="card-ingredienti">Passata pomodoro siccagno · Filetti di tonno sott'olio · Cipolla caramellata · Capperi di Salina · Sponzali · Olive · Zeste di limone · Elisir di acciughe</div>
+    <div class="card-desc">I capperi di Salina - i piu pregiati del Mediterraneo, IGP - sono il cuore aromatico di questa pizza che evoca la cucina povera e ricchissima delle isole Eolie. L'elisir di acciughe aggiunge una sapidita profonda e sottile, mentre gli sponzali - cipolline fresche - portano croccantezza e freschezza. Un viaggio.</div>
+  </div>
+
+  <div class="pizza-card" data-cat="mare stagionale">
+    <div class="card-head"><span class="card-num">164</span><span class="card-name">"Vento caldo nello stretto"</span></div>
+    <div class="card-ingredienti">Crema di melanzane · Provola affumicata · Cipolla caramellata · Filetti di tonno · Olio alla menta</div>
+    <div class="card-desc">Lo scirocco che soffia caldo attraverso lo Stretto porta con se i profumi di questa pizza: la provola affumicata e la melanzana in crema costruiscono una base scura e avvolgente, su cui i filetti di tonno portano il mare con eleganza. L'olio alla menta in uscita e la brezza che rompe l'afa - fresca, inaspettata, necessaria.</div>
+    <span class="card-tag">Stagionale</span>
+  </div>
+
+  <div class="pizza-card" data-cat="vegetariana stagionale">
+    <div class="card-head"><span class="card-num">159</span><span class="card-name">"Zagara e cenere"</span></div>
+    <div class="card-ingredienti">Pesto di zucchine · Fior di latte · Zucchine fritte · Ricotta infornata · Datterino rosso semi secco · Crumble di pane ai grani antichi · Soffio di zagara</div>
+    <div class="card-desc">Il titolo racconta tutto: la zagara - il fiore del limone e dell'arancio siciliano - arriva come soffio finale su una pizza costruita sull'estate. Le zucchine fritte e il pesto verde, la ricotta infornata dai bordi bruniti, il crumble ai grani antichi: ogni elemento ha la sua ragione. Poetica e stagionale.</div>
+    <span class="card-tag">Stagionale</span>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Ogni pizza nasce da un impasto a lunga fermentazione con prefermento naturale e farine selezionate Mulino Quaglia Petra.</p>
+  <div class="footer-sign">L'Orso · Messina · Sicilia</div>
+</div>
+
+<script>
+function fil(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pizza-card').forEach(c => {
+    c.style.display = (cat === 'all' || (c.dataset.cat||'').includes(cat)) ? '' : 'none';
+  });
+  document.querySelector('.section-head').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
