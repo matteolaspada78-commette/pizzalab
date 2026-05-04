@@ -1536,8 +1536,365 @@ function buildRecap(sorted) {
           style="padding:8px 14px;background:#b33a3a;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600">＋</button>
       </div>
 
+      <!-- Pulsanti PDF -->
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e8d8b0;display:flex;flex-direction:column;gap:8px">
+        <button onclick="exportRecapPDF()"
+          style="width:100%;padding:11px;background:linear-gradient(135deg,#7a1a1a,#b33a3a);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
+          📄 Scarica PDF Analisi Menù
+        </button>
+        <button onclick="exportSchedaSala()" id="btnSchedaSala"
+          style="width:100%;padding:11px;background:linear-gradient(135deg,#1a4a7a,#2980b9);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
+          👨‍🍽️ Genera Scheda Sala (AI)
+        </button>
+        <div id="schedaSalaStatus" style="display:none;text-align:center;font-size:13px;color:#1a4a7a;padding:8px;background:#eaf4fd;border-radius:8px">
+          ⏳ L'AI sta scrivendo le descrizioni per il personale di sala…
+        </div>
+      </div>
+
     </div>
   </div>`;
+}
+
+async function exportSchedaSala() {
+  if (!menuSelezionate.length) return;
+
+  const btn = document.getElementById('btnSchedaSala');
+  const status = document.getElementById('schedaSalaStatus');
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  status.style.display = 'block';
+
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
+
+  const sorted = [...menuSelezionate].sort((a,b) => {
+    const pa = PIZZAS.find(x=>x.n===a), pb = PIZZAS.find(x=>x.n===b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+
+  const pizzePerAI = sorted.map(n => {
+    const p = PIZZAS.find(x=>x.n===n);
+    if (!p) return '';
+    const grammi = GRAMMI[String(n)] || [];
+    const ingr = p.cond.map((c,i) => {
+      const g = grammi[i];
+      const cottura = g?.cottura ? ` (${g.cottura} forno)` : '';
+      return `${c}${cottura}`;
+    }).join(', ');
+    return `N°${p.n} "${p.nome}": ${ingr}${p.note ? ' — NOTE: '+p.note : ''}`;
+  }).join('\n');
+
+  let descrizioni = [];
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `Sei un esperto pizzaiolo e maitre. Per ogni pizza qui sotto scrivi UNA descrizione breve (2-3 frasi max) in italiano, adatta al personale di sala per spiegare la pizza ai clienti. Tono caldo, evocativo ma chiaro. Evidenzia la tecnica o l'ingrediente principale. Rispondi SOLO in JSON valido: array di oggetti con campi "n" (numero pizza, intero) e "desc" (stringa descrizione). Nessun testo fuori dal JSON.
+
+Pizze:
+${pizzePerAI}`
+        }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(b => b.text || '').join('');
+    const clean = text.replace(/\`\`\`json|\`\`\`/g,'').trim();
+    descrizioni = JSON.parse(clean);
+  } catch(e) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    status.style.display = 'none';
+    showToast('❌ Errore generazione AI. Riprova.');
+    return;
+  }
+
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  status.style.display = 'none';
+
+  // Costruisce HTML scheda sala
+  const carteHtml = sorted.map(n => {
+    const p = PIZZAS.find(x=>x.n===n);
+    if (!p) return '';
+    const grammi = GRAMMI[String(n)] || [];
+    const desc = descrizioni.find(d => d.n === p.n)?.desc || '';
+    const ingrHtml = p.cond.map((c,i) => {
+      const g = grammi[i];
+      const icon = g?.cottura === 'dentro' ? ' 🔥' : g?.cottura === 'fuori' ? ' ❄️' : '';
+      return `<span class="chip">${c}${icon}</span>`;
+    }).join('');
+    return `<div class="pizza-card-sala">
+      <div class="pizza-header-sala">
+        <span class="num">N°${p.n}</span>
+        <span class="titolo">${p.nome}</span>
+      </div>
+      <div class="descrizione">${desc}</div>
+      <div class="ingr-chips">${ingrHtml}</div>
+      ${p.note ? `<div class="nota-sala">📝 ${p.note}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Crea iframe PDF
+  const existing = document.getElementById('__sala_iframe');
+  if (existing) existing.remove();
+  const iframe = document.createElement('iframe');
+  iframe.id = '__sala_iframe';
+  iframe.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:9999;background:#fff;';
+  document.body.appendChild(iframe);
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(`<!DOCTYPE html><html lang="it"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scheda Sala — ${nomeLocale} — ${oggi}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#2c1810}
+  @page{margin:0;size:A4}
+  @media print{.toolbar{display:none!important}body{padding:8mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+  .toolbar{position:sticky;top:0;z-index:100;background:#1a4a7a;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .toolbar span{color:#fff;font-size:14px;font-weight:600}
+  .toolbar-btns{display:flex;gap:8px}
+  .btn-t{border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+  .btn-print{background:#fff;color:#1a4a7a}
+  .btn-close{background:rgba(255,255,255,.2);color:#fff}
+
+  .header{background:linear-gradient(135deg,#1a4a7a,#2980b9);color:#fff;padding:20px;text-align:center}
+  .header h1{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:4px}
+  .header .sub{font-size:11px;opacity:.8;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+  .header .info{font-size:13px;opacity:.9}
+
+  .intro{background:#eaf4fd;padding:12px 20px;font-size:12px;color:#1a4a7a;border-bottom:2px solid #b3d4f0;font-style:italic}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
+
+  .pizza-card-sala{border:1.5px solid #d0e8f8;border-radius:12px;overflow:hidden;break-inside:avoid;page-break-inside:avoid}
+  .pizza-header-sala{background:linear-gradient(135deg,#eaf4fd,#d0e8f8);padding:10px 14px;border-bottom:1px solid #b3d4f0;display:flex;align-items:center;gap:8px}
+  .num{font-size:10px;font-weight:700;color:#1a4a7a;min-width:32px}
+  .titolo{font-family:'Playfair Display',serif;font-size:14px;color:#1a4a7a;font-weight:700;flex:1}
+  .descrizione{padding:10px 14px;font-size:12px;color:#2c1810;line-height:1.6;font-style:italic;border-bottom:1px solid #edf5fc}
+  .ingr-chips{padding:8px 14px;display:flex;flex-wrap:wrap;gap:4px}
+  .chip{background:#f0f8ff;border:1px solid #b3d4f0;border-radius:12px;padding:2px 8px;font-size:10px;color:#1a4a7a;font-weight:500}
+  .nota-sala{padding:6px 14px;font-size:10px;color:#888;font-style:italic;border-top:1px solid #edf5fc}
+
+  .footer{text-align:center;font-size:10px;color:#bbb;padding:14px;border-top:1px solid #eee;margin-top:4px}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+
+<div class="toolbar">
+  <span>👨‍🍽️ Scheda Sala — ${nomeLocale}</span>
+  <div class="toolbar-btns">
+    <button class="btn-t btn-print" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
+    <button class="btn-t btn-close" onclick="document.getElementById('__sala_iframe').remove()">✕ Chiudi</button>
+  </div>
+</div>
+
+<div class="header">
+  <h1>👨‍🍽️ Scheda Sala</h1>
+  <div class="sub">Pizza Lab · Matteo La Spada</div>
+  <div class="info">🐻 ${nomeLocale} &nbsp;·&nbsp; 📅 ${oggi} &nbsp;·&nbsp; ${sorted.length} pizze</div>
+</div>
+
+<div class="intro">
+  Questa scheda è riservata al personale di sala. Per ogni pizza trovi una descrizione da utilizzare con i clienti, gli ingredienti principali e le eventuali note di servizio.
+</div>
+
+<div class="grid">${carteHtml}</div>
+
+<div class="footer">Pizza Lab · ${nomeLocale} · Matteo La Spada 🐻 &nbsp;·&nbsp; Uso interno — personale di sala</div>
+
+</body></html>`);
+  doc.close();
+}
+
+function exportRecapPDF() {
+  // Raccoglie dati recap attuali
+  const sorted = [...menuSelezionate].sort((a,b) => {
+    const pa = PIZZAS.find(x=>x.n===a), pb = PIZZAS.find(x=>x.n===b);
+    return pa.nome.localeCompare(pb.nome);
+  });
+  if (!sorted.length) return;
+
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
+
+  // Raccoglie ingredienti
+  const allIngr = {};
+  sorted.forEach(n => {
+    const p = PIZZAS.find(x=>x.n===n); if(!p) return;
+    p.cond.forEach(c => {
+      const key = c.trim().toLowerCase();
+      if (!allIngr[key]) allIngr[key] = {nome: c.trim(), pizze: []};
+      allIngr[key].pizze.push(p.nome);
+    });
+  });
+  const ingrList = Object.values(allIngr).sort((a,b) => b.pizze.length - a.pizze.length);
+
+  // Raccoglie preparazioni
+  const preps = {};
+  ingrList.forEach(item => {
+    const low = item.nome.toLowerCase();
+    PREP_KEYWORDS.forEach(kw => {
+      if (low.includes(kw.k)) {
+        if (!preps[kw.label]) preps[kw.label] = {emoji: kw.emoji, label: kw.label, items: []};
+        if (!preps[kw.label].items.find(x => x.toLowerCase()===item.nome.toLowerCase()))
+          preps[kw.label].items.push(item.nome);
+      }
+    });
+  });
+  let prepExtra = [];
+  try { prepExtra = JSON.parse(localStorage.getItem('archivio_prep_extra_v1')||'[]'); } catch(e) {}
+
+  // Difficoltà
+  const totIngr = ingrList.length;
+  const totPrep = Object.values(preps).reduce((s,p)=>s+p.items.length,0) + prepExtra.length;
+  const totPizze = sorted.length;
+  const score = totIngr*1 + totPrep*3 + totPizze*0.5;
+  let difficolta, diffEmoji, diffColor, diffDesc;
+  if (score<30)       { difficolta='Facile';     diffEmoji='🟢'; diffColor='#27ae60'; diffDesc='Menù lineare, poche preparazioni, esecuzione rapida.'; }
+  else if (score<65)  { difficolta='Media';      diffEmoji='🟡'; diffColor='#f39c12'; diffDesc='Alcune preparazioni da gestire, buona organizzazione richiesta.'; }
+  else if (score<110) { difficolta='Alta';       diffEmoji='🟠'; diffColor='#e67e22'; diffDesc='Menù articolato, molte prep. da anticipare, richiede brigata organizzata.'; }
+  else                { difficolta='Molto alta'; diffEmoji='🔴'; diffColor='#c0392b'; diffDesc='Menù complesso ad alto livello tecnico. Massima organizzazione richiesta.'; }
+
+  // HTML ingredienti per PDF (due colonne)
+  const mid = Math.ceil(ingrList.length/2);
+  const col1 = ingrList.slice(0, mid);
+  const col2 = ingrList.slice(mid);
+  const maxRows = Math.max(col1.length, col2.length);
+  let righeIngr = '';
+  for (let i=0; i<maxRows; i++) {
+    const a = col1[i];
+    const b = col2[i];
+    righeIngr += `<tr>
+      <td class="ingr-td">${a ? `${a.nome}${a.pizze.length>1?' <span class="badge">×'+a.pizze.length+'</span>':''}` : ''}</td>
+      <td class="ingr-td">${b ? `${b.nome}${b.pizze.length>1?' <span class="badge">×'+b.pizze.length+'</span>':''}` : ''}</td>
+    </tr>`;
+  }
+
+  // HTML preparazioni per PDF
+  const prepGroups = Object.values(preps);
+  let prepHtml = prepGroups.map(g =>
+    `<div class="prep-group"><div class="prep-title">${g.emoji} ${g.label}</div>${g.items.map(i=>`<div class="prep-item">• ${i}</div>`).join('')}</div>`
+  ).join('');
+  if (prepExtra.length) {
+    prepHtml += `<div class="prep-group"><div class="prep-title">✏️ Manuali</div>${prepExtra.map(e=>`<div class="prep-item">• ${e}</div>`).join('')}</div>`;
+  }
+  if (!prepHtml) prepHtml = '<div style="color:#aaa;font-style:italic;font-size:12px">Nessuna preparazione rilevata.</div>';
+
+  // Lista pizze selezionate
+  const pizzeList = sorted.map(n => { const p=PIZZAS.find(x=>x.n===n); return p ? `<span class="pizza-chip">N°${p.n} ${p.nome}</span>` : ''; }).join('');
+
+  // Crea iframe
+  const existing = document.getElementById('__recap_pdf_iframe');
+  if (existing) existing.remove();
+  const iframe = document.createElement('iframe');
+  iframe.id = '__recap_pdf_iframe';
+  iframe.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:9999;background:#fff;';
+  document.body.appendChild(iframe);
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(`<!DOCTYPE html><html lang="it"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analisi Menù — ${nomeLocale} — ${oggi}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#fff;color:#2c1810;font-size:13px}
+  @page{margin:0;size:A4}
+  @media print{.toolbar{display:none!important}body{padding:8mm}-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  .toolbar{position:sticky;top:0;z-index:100;background:#7a1a1a;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .toolbar span{color:#fff;font-size:14px;font-weight:600}
+  .toolbar-btns{display:flex;gap:8px}
+  .btn-t{border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+  .btn-print{background:#fff;color:#7a1a1a}
+  .btn-close{background:rgba(255,255,255,.2);color:#fff}
+
+  .header{background:#b33a3a;color:#fff;padding:18px 20px;text-align:center}
+  .header h1{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:3px}
+  .header .sub{font-size:11px;opacity:.8;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+  .header .info{font-size:12px;opacity:.9}
+
+  .diff-bar{display:flex;align-items:center;gap:14px;background:#fdf5ec;padding:12px 20px;border-bottom:2px solid #e8d8b0}
+  .diff-badge{text-align:center;background:#fff;border:2px solid ${diffColor};border-radius:10px;padding:6px 14px;min-width:90px}
+  .diff-badge .emoji{font-size:20px}
+  .diff-badge .label{font-size:13px;font-weight:700;color:${diffColor}}
+  .diff-desc{font-size:12px;color:#7a4a1a;font-style:italic;flex:1}
+  .diff-stats{display:flex;gap:10px}
+  .stat{text-align:center;background:#fff;border:1px solid #e8d8b0;border-radius:8px;padding:6px 12px}
+  .stat .num{font-size:18px;font-weight:700;color:#b33a3a}
+  .stat .lbl{font-size:10px;color:#aaa;text-transform:uppercase}
+
+  .body{padding:16px 20px}
+  .section-title{font-family:'Playfair Display',serif;font-size:15px;color:#7a1a1a;border-bottom:2px solid #e8d8b0;padding-bottom:6px;margin-bottom:10px;margin-top:16px}
+
+  /* Pizze selezionate */
+  .pizze-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+  .pizza-chip{background:#fdf0e8;border:1px solid #e8d8b0;border-radius:20px;padding:3px 10px;font-size:11px;color:#7a1a1a;font-weight:600}
+
+  /* Ingredienti */
+  table.ingr{width:100%;border-collapse:collapse}
+  .ingr-td{padding:4px 8px;border-bottom:1px solid #f5ede0;font-size:12px;width:50%}
+  .badge{background:#e8d8b0;color:#b33a3a;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700}
+
+  /* Preparazioni */
+  .prep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .prep-group{background:#fdf5ec;border:1px solid #e8d8b0;border-radius:8px;padding:8px 10px}
+  .prep-title{font-size:11px;font-weight:700;color:#b33a3a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .prep-item{font-size:11px;color:#555;padding:1px 0}
+
+  .footer{text-align:center;font-size:10px;color:#bbb;padding:12px;border-top:1px solid #eee;margin-top:10px}
+  @media(max-width:600px){.prep-grid{grid-template-columns:1fr 1fr}.diff-stats{flex-wrap:wrap}}
+</style></head><body>
+
+<div class="toolbar">
+  <span>📊 Analisi Menù — ${nomeLocale}</span>
+  <div class="toolbar-btns">
+    <button class="btn-t btn-print" onclick="window.print()">🖨️ Salva PDF</button>
+    <button class="btn-t btn-close" onclick="document.getElementById('__recap_pdf_iframe').remove()">✕ Chiudi</button>
+  </div>
+</div>
+
+<div class="header">
+  <h1>📊 Analisi Menù</h1>
+  <div class="sub">Pizza Lab · Matteo La Spada</div>
+  <div class="info">🐻 ${nomeLocale} &nbsp;·&nbsp; 📅 ${oggi}</div>
+</div>
+
+<div class="diff-bar">
+  <div class="diff-badge"><div class="emoji">${diffEmoji}</div><div class="label">${difficolta}</div></div>
+  <div class="diff-desc">${diffDesc}</div>
+  <div class="diff-stats">
+    <div class="stat"><div class="num">${totPizze}</div><div class="lbl">Pizze</div></div>
+    <div class="stat"><div class="num">${totIngr}</div><div class="lbl">Ingredienti</div></div>
+    <div class="stat"><div class="num">${totPrep}</div><div class="lbl">Preparazioni</div></div>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="section-title">🍕 Pizze selezionate (${totPizze})</div>
+  <div class="pizze-wrap">${pizzeList}</div>
+
+  <div class="section-title">🛒 Lista ingredienti (${totIngr} unici)</div>
+  <table class="ingr"><tbody>${righeIngr}</tbody></table>
+
+  <div class="section-title">👨‍🍳 Preparazioni da fare (${totPrep})</div>
+  <div class="prep-grid">${prepHtml}</div>
+
+  <div class="footer">Pizza Lab · ${nomeLocale} · Matteo La Spada 🐻</div>
+</div>
+
+</body></html>`);
+  doc.close();
 }
 
 function addPrepExtra() {
