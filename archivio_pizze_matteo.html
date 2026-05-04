@@ -1542,12 +1542,12 @@ function buildRecap(sorted) {
           style="width:100%;padding:11px;background:linear-gradient(135deg,#7a1a1a,#b33a3a);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
           📄 Scarica PDF Analisi Menù
         </button>
-        <button onclick="exportSchedaSala()" id="btnSchedaSala"
+        <button onclick="copiaPerSchedaSala()" id="btnSchedaSala"
           style="width:100%;padding:11px;background:linear-gradient(135deg,#1a4a7a,#2980b9);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer">
-          👨‍🍽️ Genera Scheda Sala (AI)
+          📋 Copia testo per Scheda Sala
         </button>
-        <div id="schedaSalaStatus" style="display:none;text-align:center;font-size:13px;color:#1a4a7a;padding:8px;background:#eaf4fd;border-radius:8px">
-          ⏳ L'AI sta scrivendo le descrizioni per il personale di sala…
+        <div id="schedaSalaStatus" style="display:none;text-align:center;font-size:12px;color:#1a4a7a;padding:10px;background:#eaf4fd;border-radius:8px;line-height:1.5">
+          ✅ Testo copiato! Incollalo su Claude.ai — ti risponde con le descrizioni per il personale di sala, poi torna qui e premi 📄 Scheda Sala con testo.
         </div>
       </div>
 
@@ -1555,164 +1555,52 @@ function buildRecap(sorted) {
   </div>`;
 }
 
-async function exportSchedaSala() {
+function copiaPerSchedaSala() {
   if (!menuSelezionate.length) return;
-
-  const btn = document.getElementById('btnSchedaSala');
-  const status = document.getElementById('schedaSalaStatus');
-  btn.disabled = true;
-  btn.style.opacity = '0.6';
-  status.style.display = 'block';
-
-  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
-
   const sorted = [...menuSelezionate].sort((a,b) => {
     const pa = PIZZAS.find(x=>x.n===a), pb = PIZZAS.find(x=>x.n===b);
     return pa.nome.localeCompare(pb.nome);
   });
-
-  const pizzePerAI = sorted.map(n => {
+  const nomeLocale = (document.getElementById('nomeLocale')?.value.trim()) || 'L\'Orso';
+  let testo = `Ciao! Sono Matteo, pizzaiolo de ${nomeLocale}. Scrivi una scheda sala per il personale. Per ogni pizza scrivi UNA descrizione breve (2-3 frasi), tono caldo ed evocativo, adatta ai camerieri per spiegare la pizza ai clienti. Rispondimi con un elenco numerato pizza per pizza.\n\nPizze selezionate:\n`;
+  sorted.forEach(n => {
     const p = PIZZAS.find(x=>x.n===n);
-    if (!p) return '';
+    if (!p) return;
     const grammi = GRAMMI[String(n)] || [];
     const ingr = p.cond.map((c,i) => {
       const g = grammi[i];
       const cottura = g?.cottura ? ` (${g.cottura} forno)` : '';
-      return `${c}${cottura}`;
+      return c + cottura;
     }).join(', ');
-    return `N°${p.n} "${p.nome}": ${ingr}${p.note ? ' — NOTE: '+p.note : ''}`;
-  }).join('\n');
+    testo += `\nN°${p.n} "${p.nome}"\nIngredienti: ${ingr}`;
+    if (p.note) testo += `\nNote: ${p.note}`;
+    testo += '\n';
+  });
 
-  let descrizioni = [];
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: `Sei un esperto pizzaiolo e maitre. Per ogni pizza qui sotto scrivi UNA descrizione breve (2-3 frasi max) in italiano, adatta al personale di sala per spiegare la pizza ai clienti. Tono caldo, evocativo ma chiaro. Evidenzia la tecnica o l'ingrediente principale. Rispondi SOLO in JSON valido: array di oggetti con campi "n" (numero pizza, intero) e "desc" (stringa descrizione). Nessun testo fuori dal JSON.
-
-Pizze:
-${pizzePerAI}`
-        }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content.map(b => b.text || '').join('');
-    const clean = text.replace(/\`\`\`json|\`\`\`/g,'').trim();
-    descrizioni = JSON.parse(clean);
-  } catch(e) {
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    status.style.display = 'none';
-    showToast('❌ Errore generazione AI. Riprova.');
-    return;
-  }
-
-  btn.disabled = false;
-  btn.style.opacity = '1';
-  status.style.display = 'none';
-
-  // Costruisce HTML scheda sala
-  const carteHtml = sorted.map(n => {
-    const p = PIZZAS.find(x=>x.n===n);
-    if (!p) return '';
-    const grammi = GRAMMI[String(n)] || [];
-    const desc = descrizioni.find(d => d.n === p.n)?.desc || '';
-    const ingrHtml = p.cond.map((c,i) => {
-      const g = grammi[i];
-      const icon = g?.cottura === 'dentro' ? ' 🔥' : g?.cottura === 'fuori' ? ' ❄️' : '';
-      return `<span class="chip">${c}${icon}</span>`;
-    }).join('');
-    return `<div class="pizza-card-sala">
-      <div class="pizza-header-sala">
-        <span class="num">N°${p.n}</span>
-        <span class="titolo">${p.nome}</span>
-      </div>
-      <div class="descrizione">${desc}</div>
-      <div class="ingr-chips">${ingrHtml}</div>
-      ${p.note ? `<div class="nota-sala">📝 ${p.note}</div>` : ''}
-    </div>`;
-  }).join('');
-
-  // Crea iframe PDF
-  const existing = document.getElementById('__sala_iframe');
-  if (existing) existing.remove();
-  const iframe = document.createElement('iframe');
-  iframe.id = '__sala_iframe';
-  iframe.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:9999;background:#fff;';
-  document.body.appendChild(iframe);
-  const doc = iframe.contentDocument || iframe.contentWindow.document;
-  doc.open();
-  doc.write(`<!DOCTYPE html><html lang="it"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Scheda Sala — ${nomeLocale} — ${oggi}</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&display=swap');
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter',sans-serif;background:#fff;color:#2c1810}
-  @page{margin:0;size:A4}
-  @media print{.toolbar{display:none!important}body{padding:8mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-
-  .toolbar{position:sticky;top:0;z-index:100;background:#1a4a7a;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-  .toolbar span{color:#fff;font-size:14px;font-weight:600}
-  .toolbar-btns{display:flex;gap:8px}
-  .btn-t{border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
-  .btn-print{background:#fff;color:#1a4a7a}
-  .btn-close{background:rgba(255,255,255,.2);color:#fff}
-
-  .header{background:linear-gradient(135deg,#1a4a7a,#2980b9);color:#fff;padding:20px;text-align:center}
-  .header h1{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:4px}
-  .header .sub{font-size:11px;opacity:.8;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
-  .header .info{font-size:13px;opacity:.9}
-
-  .intro{background:#eaf4fd;padding:12px 20px;font-size:12px;color:#1a4a7a;border-bottom:2px solid #b3d4f0;font-style:italic}
-
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
-
-  .pizza-card-sala{border:1.5px solid #d0e8f8;border-radius:12px;overflow:hidden;break-inside:avoid;page-break-inside:avoid}
-  .pizza-header-sala{background:linear-gradient(135deg,#eaf4fd,#d0e8f8);padding:10px 14px;border-bottom:1px solid #b3d4f0;display:flex;align-items:center;gap:8px}
-  .num{font-size:10px;font-weight:700;color:#1a4a7a;min-width:32px}
-  .titolo{font-family:'Playfair Display',serif;font-size:14px;color:#1a4a7a;font-weight:700;flex:1}
-  .descrizione{padding:10px 14px;font-size:12px;color:#2c1810;line-height:1.6;font-style:italic;border-bottom:1px solid #edf5fc}
-  .ingr-chips{padding:8px 14px;display:flex;flex-wrap:wrap;gap:4px}
-  .chip{background:#f0f8ff;border:1px solid #b3d4f0;border-radius:12px;padding:2px 8px;font-size:10px;color:#1a4a7a;font-weight:500}
-  .nota-sala{padding:6px 14px;font-size:10px;color:#888;font-style:italic;border-top:1px solid #edf5fc}
-
-  .footer{text-align:center;font-size:10px;color:#bbb;padding:14px;border-top:1px solid #eee;margin-top:4px}
-  @media(max-width:600px){.grid{grid-template-columns:1fr}}
-</style></head><body>
-
-<div class="toolbar">
-  <span>👨‍🍽️ Scheda Sala — ${nomeLocale}</span>
-  <div class="toolbar-btns">
-    <button class="btn-t btn-print" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
-    <button class="btn-t btn-close" onclick="document.getElementById('__sala_iframe').remove()">✕ Chiudi</button>
-  </div>
-</div>
-
-<div class="header">
-  <h1>👨‍🍽️ Scheda Sala</h1>
-  <div class="sub">Pizza Lab · Matteo La Spada</div>
-  <div class="info">🐻 ${nomeLocale} &nbsp;·&nbsp; 📅 ${oggi} &nbsp;·&nbsp; ${sorted.length} pizze</div>
-</div>
-
-<div class="intro">
-  Questa scheda è riservata al personale di sala. Per ogni pizza trovi una descrizione da utilizzare con i clienti, gli ingredienti principali e le eventuali note di servizio.
-</div>
-
-<div class="grid">${carteHtml}</div>
-
-<div class="footer">Pizza Lab · ${nomeLocale} · Matteo La Spada 🐻 &nbsp;·&nbsp; Uso interno — personale di sala</div>
-
-</body></html>`);
-  doc.close();
+  navigator.clipboard.writeText(testo).then(() => {
+    document.getElementById('schedaSalaStatus').style.display = 'block';
+    setTimeout(() => document.getElementById('schedaSalaStatus').style.display = 'none', 8000);
+  }).catch(() => {
+    // fallback: mostra textarea con testo
+    const ta = document.createElement('textarea');
+    ta.value = testo;
+    ta.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80vw;height:60vh;z-index:9999;padding:12px;font-size:12px;border-radius:10px;border:2px solid #1a4a7a';
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998';
+    const btn = document.createElement('button');
+    btn.textContent = '✕ Chiudi';
+    btn.style.cssText = 'position:fixed;top:calc(50% - 30vh - 36px);left:50%;transform:translateX(-50%);z-index:9999;padding:8px 20px;background:#1a4a7a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px';
+    btn.onclick = () => { ta.remove(); overlay.remove(); btn.remove(); };
+    overlay.onclick = btn.onclick;
+    document.body.appendChild(overlay);
+    document.body.appendChild(ta);
+    document.body.appendChild(btn);
+    ta.select();
+    document.execCommand('copy');
+    showToast('📋 Testo copiato — incollalo su Claude.ai!');
+  });
 }
+
 
 function exportRecapPDF() {
   // Raccoglie dati recap attuali
