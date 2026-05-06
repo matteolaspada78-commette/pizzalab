@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Il Pomodoro — L'Orso 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rosso:    #c0392b;
+  --rosso-v:  #8b1a10;
+  --oro:      #c9a84c;
+  --avorio:   #f5f0e6;
+  --nero:     #0e0b09;
+  --carbone:  #160e0a;
+  --grigio:   #7a6a5a;
+  --verde:    #3a5a2a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--nero) !important; scroll-behavior: smooth; }
+body {
+  background: var(--nero) !important;
+  color: var(--avorio) !important;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+  background: var(--nero);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(192,57,43,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 0%,   rgba(192,57,43,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* pomodoro decorativo SVG */
+.hero-tomato {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.2s forwards;
+}
+
+.hero-eyebrow {
+  font-size: 0.55rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--oro);
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 16vw, 7rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.9;
+  color: var(--avorio);
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.55s forwards;
+}
+.hero-title em {
+  color: var(--rosso);
+  font-style: normal;
+  display: block;
+}
+
+.hero-divider {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--oro), transparent);
+  margin: 1.8rem auto;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.7s forwards;
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(245,240,230,0.75);
+  line-height: 1.7;
+  max-width: 380px;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.85s forwards;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  font-size: 0.52rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  opacity: 0;
+  animation: fadeUp 1s ease 1s forwards;
+  line-height: 2.2;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.48rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  opacity: 0;
+  animation: fadeUp 1s ease 1.3s forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-scroll::after {
+  content: '';
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, var(--grigio), transparent);
+  animation: pulse 2s ease infinite;
+}
+
+/* ── SEZIONE MANIFESTO ── */
+.manifesto {
+  padding: 5rem 1.5rem;
+  background: var(--carbone);
+  position: relative;
+  overflow: hidden;
+}
+.manifesto::before {
+  content: 'Pomodoro';
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(192,57,43,0.04);
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.manifesto-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--rosso);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.manifesto-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--avorio);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+.manifesto-text strong {
+  color: var(--oro);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.manifesto-firma {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(201,168,76,0.2);
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  line-height: 2.2;
+}
+
+/* ── SEZIONE PERCHÉ ── */
+.perche {
+  padding: 5rem 1.5rem;
+  background: var(--nero);
+}
+
+.section-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--oro);
+  margin-bottom: 2rem;
+  display: block;
+}
+.section-title-lg {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 700;
+  color: var(--avorio);
+  line-height: 1.15;
+  margin-bottom: 2.5rem;
+}
+
+.pillar-list { display: flex; flex-direction: column; gap: 0; }
+.pillar {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  align-items: start;
+}
+.pillar:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+.pillar-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: rgba(192,57,43,0.35);
+  line-height: 1;
+  padding-top: 0.1rem;
+}
+.pillar-body {}
+.pillar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--avorio);
+  margin-bottom: 0.4rem;
+}
+.pillar-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(245,240,230,0.65);
+  line-height: 1.7;
+}
+
+/* ── LE 10 MARGHERITE ── */
+.margherite {
+  padding: 5rem 0 5rem;
+  background: var(--carbone);
+  overflow: hidden;
+}
+.margherite-inner { padding: 0 1.5rem; }
+
+.margherite-intro {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: rgba(245,240,230,0.65);
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+.pizza-strip { display: flex; flex-direction: column; gap: 0; }
+
+.pizza-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 0.8rem 1rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid rgba(192,57,43,0.15);
+  align-items: baseline;
+}
+.pizza-row:first-child { border-top: 1px solid rgba(192,57,43,0.15); }
+
+.pizza-row-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--rosso);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  padding-top: 0.2rem;
+}
+.pizza-row-body {}
+.pizza-row-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--avorio);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+.pizza-row-pomodoro {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rosso);
+  margin-bottom: 0.3rem;
+}
+.pizza-row-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: rgba(245,240,230,0.6);
+  line-height: 1.6;
+}
+.pizza-row-note {
+  font-size: 0.48rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  white-space: nowrap;
+  padding-top: 0.25rem;
+}
+
+/* tag bianca */
+.tag-bianca {
+  display: inline-block;
+  font-size: 0.42rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--oro);
+  border: 1px solid rgba(201,168,76,0.4);
+  padding: 0.2em 0.6em;
+  border-radius: 2px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* ── ANNUNCIO FESTA ── */
+.annuncio {
+  padding: 5rem 1.5rem;
+  background: var(--nero);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.annuncio::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(192,57,43,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.annuncio-eyebrow {
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--rosso);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.annuncio-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 900;
+  font-style: italic;
+  color: var(--avorio);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+.annuncio-title span { color: var(--rosso); }
+
+.annuncio-divider {
+  width: 50px;
+  height: 1px;
+  background: var(--oro);
+  margin: 1.5rem auto;
+}
+
+.annuncio-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(245,240,230,0.75);
+  line-height: 1.8;
+  max-width: 420px;
+  margin: 0 auto 2.5rem;
+}
+
+.annuncio-data {
+  display: inline-block;
+  border: 1px solid rgba(192,57,43,0.5);
+  padding: 1rem 2rem;
+  border-radius: 2px;
+  background: rgba(192,57,43,0.06);
+}
+.annuncio-data-label {
+  font-size: 0.48rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--rosso);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+.annuncio-data-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--avorio);
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--carbone);
+  border-top: 1px solid rgba(192,57,43,0.2);
+  padding: 2.5rem 1.5rem 3rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--avorio);
+  margin-bottom: 0.3rem;
+}
+.footer-sub {
+  font-size: 0.5rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--grigio);
+  margin-bottom: 1.5rem;
+  line-height: 2;
+}
+.footer-firma {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--grigio);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <!-- pomodoro SVG inline -->
+  <svg class="hero-tomato" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="58" rx="36" ry="32" fill="#c0392b" opacity="0.9"/>
+    <ellipse cx="50" cy="55" rx="36" ry="32" fill="#c0392b"/>
+    <path d="M50 26 C50 26 44 18 36 20 C40 20 42 26 50 26Z" fill="#3a5a2a"/>
+    <path d="M50 26 C50 26 50 14 50 10" stroke="#3a5a2a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M50 26 C50 26 58 16 62 20 C57 19 54 26 50 26Z" fill="#3a5a2a"/>
+    <path d="M50 26 C50 26 56 20 60 16" stroke="#3a5a2a" stroke-width="1.8" stroke-linecap="round"/>
+    <ellipse cx="40" cy="48" rx="6" ry="8" fill="rgba(255,255,255,0.08)" transform="rotate(-20 40 48)"/>
+  </svg>
+
+  <span class="hero-eyebrow">L'Orso · Via Calapso · Messina · Giugno 2026</span>
+
+  <h1 class="hero-title">
+    Il<br>
+    <em>Pomodoro</em>
+  </h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">
+    Dieci margherite d'autore.<br>
+    Un solo ingrediente, infinita complessità.<br>
+    La distillazione dell'eccellenza dell'Orso.
+  </p>
+
+  <div class="hero-meta">
+    Menu speciale · Giugno 2026<br>
+    Preludio alla Festa del PomodOrso · Blanco · Estate 2026
+  </div>
+
+  <div class="hero-scroll">Scorri</div>
+</section>
+
+
+<!-- ══ MANIFESTO ══ -->
+<section class="manifesto">
+  <div class="reveal">
+    <span class="manifesto-label">Il Manifesto</span>
+    <p class="manifesto-text">
+      Non è una riduzione. È una <strong>scelta d'élite</strong>.<br><br>
+      Mentre il Blanco si prepara ad aprire con la sua carta articolata e ambiziosa, l'Orso di via Calapso compie un atto di coraggio: spogliare la pizza di tutto il superfluo e portare sulla tavola <strong>il principe della dieta mediterranea</strong>.<br><br>
+      Il pomodoro. Solo il pomodoro. Dieci varietà, dieci storie, dieci cotture diverse. Un manifesto di identità che anticipa quello che succederà al Blanco a fine estate: <strong>la Festa del PomodOrso</strong>, quest'anno finalmente sul mare.
+    </p>
+    <p class="manifesto-text">
+      La semplicità è la sfida più difficile per un pizzaiolo. <strong>Qui la vinciamo.</strong>
+    </p>
+    <div class="manifesto-firma">
+      Matteo La Spada · Pizzaiolo · L'Orso Messina<br>
+      Menu di lancio · Giugno — Prima decade Luglio 2026
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PERCHÉ ══ -->
+<section class="perche">
+  <div class="reveal">
+    <span class="section-label">La Scelta Vincente</span>
+    <h2 class="section-title-lg">Perché questo<br>menu adesso</h2>
+  </div>
+  <div class="pillar-list">
+    <div class="pillar reveal">
+      <span class="pillar-num">01</span>
+      <div class="pillar-body">
+        <div class="pillar-title">Qualità Maniacale</div>
+        <div class="pillar-desc">Con due pizzaioli, il focus è totale sulla cottura e sulla qualità del pomodoro. Zero distrazioni. Solo perfezione. La riduzione del menu non è un limite — è la condizione per raggiungere un livello altrimenti impossibile.</div>
+      </div>
+    </div>
+    <div class="pillar reveal">
+      <span class="pillar-num">02</span>
+      <div class="pillar-body">
+        <div class="pillar-title">Identità Fortissima</div>
+        <div class="pillar-desc">Non si viene all'Orso per "una" pizza. Si viene per la Verticale di Margherite. Un format da enoteca applicato alla pizza — ogni varietà di pomodoro è come un cru, un terroir, una storia da raccontare al tavolo.</div>
+      </div>
+    </div>
+    <div class="pillar reveal">
+      <span class="pillar-num">03</span>
+      <div class="pillar-body">
+        <div class="pillar-title">Il Pomodoro come Elisir</div>
+        <div class="pillar-desc">Leggerezza, digeribilità, dieta mediterranea. Il pomodoro è un elisir di bellezza, di salute e di benessere — il modo più intelligente di interpretare l'estate e il mood di un pubblico che cerca qualità senza pesantezza.</div>
+      </div>
+    </div>
+    <div class="pillar reveal">
+      <span class="pillar-num">04</span>
+      <div class="pillar-body">
+        <div class="pillar-title">Annuncio della Festa</div>
+        <div class="pillar-desc">Questo menu è un preludio. Un annuncio. La Festa del PomodOrso — che da anni si tiene a fine agosto / inizio settembre — quest'anno si terrà al Blanco. Questo menu è il seme che prepara il terreno.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ LE 10 MARGHERITE ══ -->
+<section class="margherite">
+  <div class="margherite-inner">
+    <div class="reveal">
+      <span class="section-label">Il Menu</span>
+      <h2 class="section-title-lg">10 Sfumature<br>di Margherita</h2>
+      <p class="margherite-intro">
+        Stesso impasto a lunga fermentazione, farine Petra selezionate, stessa mano. Cambia il pomodoro — e cambia tutto. Ogni pizza è un'educazione al gusto.
+      </p>
+    </div>
+
+    <div class="pizza-strip">
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°01</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Tradizionale</div>
+          <div class="pizza-row-pomodoro">San Marzano DOP · Agro Sarnese-Nocerino</div>
+          <div class="pizza-row-desc">L'equilibrio perfetto. Dolcezza e acidità bilanciate, polpa densa, bassisima acidità residua. Il punto di riferimento da cui parte tutto.</div>
+        </div>
+        <span class="pizza-row-note">Classica</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°02</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">L'Oro Giallo</div>
+          <div class="pizza-row-pomodoro">Datterino Giallo</div>
+          <div class="pizza-row-desc">Dolcezza estrema e sapidità. Il carotene al posto del licopene regala una nota quasi burrosa — la margherita che sorprende chi si aspetta il rosso.</div>
+        </div>
+        <span class="pizza-row-note">Delicata</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°03</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Vulcanica</div>
+          <div class="pizza-row-pomodoro">Piennolo del Vesuvio DOP</div>
+          <div class="pizza-row-desc">Nota minerale e polpa soda. Il terreno vulcanico del Vesuvio si sente nel sapore — intenso, quasi selvatico, con buccia sottile che resiste al calore. La più longeva.</div>
+        </div>
+        <span class="pizza-row-note">Intensa</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°04</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Siccagna</div>
+          <div class="pizza-row-pomodoro">Pomodoro Siccagno · Sicilia interna</div>
+          <div class="pizza-row-desc">L'anima della terra siciliana. Coltivato senz'acqua, sotto il sole di agosto, concentra gli zuccheri in modo estremo. Dolce-acidulo, carnoso, con retrogusto lungo e persistente.</div>
+        </div>
+        <span class="pizza-row-note">Siciliana</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°05</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Pachino</div>
+          <div class="pizza-row-pomodoro">Ciliegino di Pachino IGP · passata cruda</div>
+          <div class="pizza-row-desc">Freschezza e leggerezza estiva. Il ciliegino di Pachino IGP — coltivato nel Siracusano, sotto il sole più forte della Sicilia — viene lavorato a crudo per preservare tutta la sua vitalità aromatica. Dolce, profumato, con quella nota marina che solo il territorio ibleo sa dare.</div>
+        </div>
+        <span class="pizza-row-note">Siciliana IGP</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°06</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Gran Gusto</div>
+          <div class="pizza-row-pomodoro">Pelato Gran Gusto · schiacciato a mano</div>
+          <div class="pizza-row-desc">Consistenza rustica e irregolare. Il pelato schiacciato a mano non viene passato — rimane con i suoi grumi, la sua personalità, la sua imperfezione voluta. Sapore pieno, rotondo, antico.</div>
+        </div>
+        <span class="pizza-row-note">Rustica</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°07</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">L'Arancione</div>
+          <div class="pizza-row-pomodoro">Datterino Arancione</div>
+          <div class="pizza-row-desc">Ricco di carotene, gusto vellutato e morbido. Colore ambrato sulla pizza, sapore tra il fruttato e il vegetale. Una margherita che visivamente stupisce prima ancora di essere assaggiata.</div>
+        </div>
+        <span class="pizza-row-note">Insolita</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°08</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Corbara</div>
+          <div class="pizza-row-pomodoro">Pomodorino Corbarino · Coreno Ausonio</div>
+          <div class="pizza-row-desc">L'agrodolce profondo. Il corbarino cresce sulle colline campane tra limoni e oliveti — assorbe aromi dal territorio. Sapore complesso, lungo, con una nota quasi piccante sul finale.</div>
+        </div>
+        <span class="pizza-row-note">Complessa</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°09</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">L'Astrattu</div>
+          <div class="pizza-row-pomodoro">Astrattu di Siccagno · estratto di pomodoro siccagno</div>
+          <div class="pizza-row-desc">L'astrattu è la forma più concentrata che esiste del pomodoro siccagno: una pasta densa, quasi nera, ottenuta dall'essiccazione lenta al sole della polpa di siccagno siciliano. Pochissima quantità basta a trasformare una pizza — sapore profondissimo, umami naturale, la memoria del sole di agosto in ogni morso.</div>
+        </div>
+        <span class="pizza-row-note">Concentrata</span>
+      </div>
+
+      <div class="pizza-row reveal">
+        <span class="pizza-row-num">N°10</span>
+        <div class="pizza-row-body">
+          <div class="pizza-row-name">La Blanco <span class="tag-bianca">Bianca</span></div>
+          <div class="pizza-row-pomodoro">Pacchetelle miste · a crudo · nessuna cottura</div>
+          <div class="pizza-row-desc">La chiusura del cerchio. Nessun pomodoro cotto — solo pacchetelle di varietà miste depositate in uscita sul disco caldo. Olio EVO, basilico, sale. Il pomodoro nella sua forma più pura, viva, non alterata dal calore.</div>
+        </div>
+        <span class="pizza-row-note">A crudo</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ ANNUNCIO FESTA ══ -->
+<section class="annuncio">
+  <span class="annuncio-eyebrow reveal">Anteprima · Fine Estate 2026</span>
+
+  <h2 class="annuncio-title reveal">
+    La Festa<br>del <span>PomodOrso</span><br>arriva al mare
+  </h2>
+
+  <div class="annuncio-divider reveal"></div>
+
+  <p class="annuncio-text reveal">
+    Questo menu è il preludio.<br>
+    Ciò che nasce qui, in giugno, tra le mura di via Calapso, fiorirà in agosto sul mare.<br><br>
+    <strong style="color:var(--oro);font-style:normal">La Festa del PomodOrso</strong> — l'appuntamento che da anni celebra il principe della dieta mediterranea — quest'anno cambia casa e approda al Blanco, sulla riviera di Messina.
+  </p>
+
+  <div class="annuncio-data reveal">
+    <span class="annuncio-data-label">Prossimamente</span>
+    <div class="annuncio-data-val">Blanco · Fine Estate 2026</div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-logo">L'Orso</div>
+  <div class="footer-sub">
+    Via Calapso · Messina · Sicilia<br>
+    Giugno — Prima decade Luglio 2026
+  </div>
+  <div class="footer-firma">
+    Menu ideato e realizzato da Matteo La Spada · Pizzaiolo
+  </div>
+</footer>
+
+
+<script>
+// scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
