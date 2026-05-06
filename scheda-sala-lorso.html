@@ -178,6 +178,38 @@
   .overlay-label { font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: #6a6050 !important; margin-bottom: 0.3rem; display: block; }
   .overlay-text { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; font-style: italic; color: #d0c8b4 !important; line-height: 1.7; }
   .overlay-allergens { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.6rem; }
+  /* ── IMPASTO CARDS ── */
+  .impasto-list { padding: 0 0 4rem; background-color: #111009 !important; }
+  .impasto-card { border-bottom: 1px solid rgba(201,168,76,0.15); padding: 1.5rem 1.1rem; background-color: #111009 !important; }
+  .impasto-card:first-child { border-top: 1px solid rgba(201,168,76,0.15); }
+  .impasto-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: #e8d08a !important; margin-bottom: 0.15rem; }
+  .impasto-soprannome { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: #c9a84c !important; margin-bottom: 0.2rem; display: block; }
+  .impasto-cat { font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase; color: #6a6050 !important; margin-bottom: 1rem; display: block; }
+  .impasto-section { margin-bottom: 1rem; }
+  .impasto-label { font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: #6a6050 !important; margin-bottom: 0.3rem; display: block; }
+  .impasto-text { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; font-style: italic; color: #d0c8b4 !important; line-height: 1.72; }
+  .impasto-specs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .spec-chip { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3em 0.75em; border-radius: 2px; background-color: rgba(201,168,76,0.08) !important; color: #c9a84c !important; border: 1px solid rgba(201,168,76,0.3); }
+  .farina-box { background: rgba(201,168,76,0.04) !important; border: 1px solid rgba(201,168,76,0.15); border-radius: 3px; padding: 0.9rem 0.9rem 0.7rem; margin-bottom: 0.6rem; }
+  .farina-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: #e8d08a !important; margin-bottom: 0.1rem; }
+  .farina-tipo { font-size: 0.48rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c9a84c !important; margin-bottom: 0.4rem; display: block; }
+  .farina-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: #b0a898 !important; line-height: 1.65; }
+  .farina-desc-breve { font-size: 0.65rem; color: #8a7f6e !important; margin-top: 0.35rem; line-height: 1.6; }
+  .runner-box { background: rgba(139,58,30,0.08) !important; border: 1px solid rgba(139,58,30,0.3); border-radius: 3px; padding: 0.75rem 0.9rem; margin-top: 0.8rem; }
+  .runner-label { font-size: 0.45rem; letter-spacing: 0.25em; text-transform: uppercase; color: #d4956a !important; margin-bottom: 0.3rem; display: block; }
+  .runner-text { font-size: 0.68rem; color: #d8d0bc !important; line-height: 1.65; font-weight: 500; }
+  /* ── INGREDIENTI ── */
+  .ingr-main-card { border-bottom: 1px solid rgba(201,168,76,0.15); padding: 1.5rem 1.1rem; background-color: #111009 !important; }
+  .ingr-main-card:first-child { border-top: 1px solid rgba(201,168,76,0.15); }
+  .ingr-main-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: #e8d08a !important; margin-bottom: 0.15rem; }
+  .ingr-main-produttore { font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: #c9a84c !important; margin-bottom: 1rem; display: block; }
+  .ingr-main-section { margin-bottom: 0.85rem; }
+  .ingr-main-label { font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: #6a6050 !important; margin-bottom: 0.3rem; display: block; }
+  .ingr-main-text { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; font-style: italic; color: #d0c8b4 !important; line-height: 1.7; }
+  .ingr-runner-box { background: rgba(139,58,30,0.08) !important; border: 1px solid rgba(139,58,30,0.3); border-radius: 3px; padding: 0.7rem 0.9rem; margin-top: 0.8rem; }
+  .ingr-runner-label { font-size: 0.45rem; letter-spacing: 0.25em; text-transform: uppercase; color: #d4956a !important; margin-bottom: 0.3rem; display: block; }
+  .ingr-runner-text { font-size: 0.68rem; color: #d8d0bc !important; line-height: 1.65; font-weight: 500; }
+  .ingr-list-main { padding: 0 0 4rem; background-color: #111009 !important; }
 </style>
 </head>
 <body>
@@ -200,6 +232,8 @@
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="showSection('pizze', this)">Le Pizze</button>
   <button class="nav-tab" onclick="showSection('prep', this)">Preparazioni</button>
+  <button class="nav-tab" onclick="showSection('impasti', this)">Impasti</button>
+  <button class="nav-tab" onclick="showSection('ingredienti', this)">Ingredienti</button>
 </div>
 
 <!-- ════════════════════════════════════
@@ -986,6 +1020,471 @@
 
 
 <!-- FOOTER -->
+<!-- ════════════════════════════════════
+     SEZIONE 3 — IMPASTI
+════════════════════════════════════ -->
+<div class="section" id="sec-impasti">
+  <div class="section-head">
+    <span class="section-eyebrow">Farine · Prefermento · Tecnica</span>
+    <div class="section-title">I Nostri Impasti</div>
+  </div>
+
+  <div class="impasto-list">
+
+    <!-- IMPASTO 21 -->
+    <div class="impasto-card">
+      <div class="impasto-name">Napoletano</div>
+      <span class="impasto-soprannome">Il Cornicione — Napoletana Contemporanea</span>
+      <span class="impasto-cat">Pallina 250g · Biga + Licoli · Senza grassi</span>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le Farine</span>
+        <div class="farina-box">
+          <div class="farina-name">Petra 0102 HP — Mulino Quaglia</div>
+          <span class="farina-tipo">Farina di grano tenero Tipo 1 · da grano germogliato</span>
+          <div class="farina-desc">Il cuore dell'impasto. La germogliazione controllata — frutto di cinque anni di ricerca di Molino Quaglia — trasforma le proteine del grano rendendole più digeribili e aromatiche. La macinazione dolce a cilindri di ghisa rispetta le caratteristiche sensoriali del chicco: il risultato è una farina di tipo 1 che lavora come una 0, con tutta la fragranza e il profumo del frumento intatto. Idratazioni fino al 70%, stabilità eccellente anche a 48h in cella fredda, alveolatura pronunciata e crosta mai gommosa.</div>
+          <div class="farina-desc-breve">Per il runner: farina di grano tenero semintegrale, grano parzialmente germogliato. Dà leggerezza, profumo e quel cornicione alveolato che si vede.</div>
+        </div>
+        <div class="farina-box">
+          <div class="farina-name">Petra 5078 — Mulino Quaglia</div>
+          <span class="farina-tipo">Miscela Tipo 0 · farro integrale + soia + crusca tostata</span>
+          <div class="farina-desc">La farina della complessità aromatica. La 5078 è una miscela di grano tenero tipo 0 arricchita con farro integrale, soia e crusca tostati — tre ingredienti che lavorano insieme per dare all'impasto fragranza, friabilità e una nota tostata profonda che si sente già nell'odore della pizza cotta. Ideale per lunghe fermentazioni, anche gestite in cella a 4°C, mantenendo stabilità e resa eccellenti.</div>
+          <div class="farina-desc-breve">Per il runner: miscela con farro e soia — dà colore ambrato al cornicione e quella nota tostata che si sente al naso quando la pizza esce dal forno.</div>
+        </div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Il Prefermento — Biga</span>
+        <div class="impasto-text">La Biga si fa il giorno prima: una percentuale di farina, poca acqua e pochissimo lievito vengono impastati a mano fino a un composto grezzo e grumoso — non liscio, non incordato — e lasciati fermentare 24 ore a temperatura controllata. Il giorno dopo la Biga viene rinfrescata con le farine finali, l'acqua rimanente e il sale. È questo prefermento che costruisce la struttura dell'impasto: aromi complessi, acidità bilanciata, alveolatura aperta e cornicione pronunciato. A questo si aggiunge una piccola percentuale di licoli — lievito madre in coltura liquida — per supportare e modulare la fermentazione.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Cosa non c'è</span>
+        <div class="impasto-text">Nessun grasso — né olio extravergine, né strutto, né margarina. Nessun additivo. Solo farina, acqua, sale, Biga e licoli. La leggerezza che senti è tecnica, non chimica.</div>
+      </div>
+
+      <div class="impasto-specs">
+        <span class="spec-chip">Pallina 250g</span>
+        <span class="spec-chip">Biga 24h</span>
+        <span class="spec-chip">Licoli</span>
+        <span class="spec-chip">Zero grassi</span>
+        <span class="spec-chip">Cornicione pronunciato</span>
+      </div>
+
+      <div class="runner-box">
+        <span class="runner-label">⚡ Runner — cosa ricordare</span>
+        <div class="runner-text">Due farine Petra, prefermento Biga fatto ieri, lievito madre liquido. Nessun olio nell'impasto. Pallina da 250g. Cornicione alto e alveolato — è la nostra napoletana contemporanea.</div>
+      </div>
+    </div>
+
+    <!-- IMPASTO 100 ORE -->
+    <div class="impasto-card">
+      <div class="impasto-name">100 Ore</div>
+      <span class="impasto-soprannome">La Pizza Sottile — omaggio alla pizza siciliana di una volta</span>
+      <span class="impasto-cat">Pallina 160g · Allegra + 8610 · Con olio EVO · Stesa col mattarello</span>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le Farine</span>
+        <div class="farina-box">
+          <div class="farina-name">Petra 5046 Allegra — Mulino Quaglia</div>
+          <span class="farina-tipo">Farina di grano tenero Tipo 0 · W 180-220 · la base</span>
+          <div class="farina-desc">La farina della gestibilità. Allegra è una tipo 0 bilanciata, con un P/L di 0,55-0,65 che la rende perfettamente equilibrata tra tenacità ed estensibilità — la dote fondamentale per stendere col mattarello senza strappi. È stabile, affidabile, e produce impasti con ottima alveolatura anche a basse idratazioni. La scelta giusta per una pizza sottile che deve restare croccante, non cartone.</div>
+          <div class="farina-desc-breve">Per il runner: farina bianca equilibrata, la struttura dell'impasto sottile.</div>
+        </div>
+        <div class="farina-box">
+          <div class="farina-name">Petra 8610 — Mulino Quaglia</div>
+          <span class="farina-tipo">Semola rimacinata di grano duro · circa 20%</span>
+          <div class="farina-desc">Il grano duro è il grano della Sicilia — quello del pane, della pasta, della tradizione contadina. La semola rimacinata 8610 entra in percentuale circa del 20% e cambia tutto: porta il caratteristico colore ambrato-dorato al cornicione, una granulometria più accentuata che dà croccantezza, e un sapore più strutturato e persistente. Era il grano con cui i pizzaioli siciliani di una volta facevano la pizza — Matteo lo riporta qui, in forma contemporanea.</div>
+          <div class="farina-desc-breve">Per il runner: semola di grano duro — dà il colore dorato, la croccantezza e il sapore siciliano all'impasto.</div>
+        </div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">La Storia — nasce da un errore</span>
+        <div class="impasto-text">Questo impasto non è stato progettato — è nato da un errore. Matteo aveva lasciato lievitare un impasto per molto più tempo del previsto. Invece di buttarlo, lo ha steso col mattarello fino a renderlo sottilissimo e lo ha infornato. Quando è uscito — croccante, friabile, leggerissimo — lo hanno assaggiato insieme ad altri colleghi. Era qualcosa di nuovo. Da quel giorno è rimasto in carta. Il nome "100 Ore" è un'ironia: di 100 ore di lievitazione non ne ha mai fatte, ma quella lievitazione prolungata è il suo segreto.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">La tecnica — mattarello</span>
+        <div class="impasto-text">Si stende col mattarello, non a mano. È l'unico dei nostri impasti che richiede il mattarello — necessario per ottenere uno spessore uniforme e sottilissimo che la stesura a mano non garantirebbe. La cottura è rapida e ad alta temperatura: esce croccante, quasi come una cracker di alta qualità, ma con tutta la leggerezza di un impasto a lunga maturazione.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Il grasso — c'è, ma per una ragione</span>
+        <div class="impasto-text">È l'unico impasto che contiene una piccola percentuale di olio extravergine d'oliva — non per ricchezza, ma per due motivi precisi: aumentare la doratura del cornicione in cottura, e ricordare la pizza siciliana tradizionale che veniva impastata con grano duro e olio. Un'omaggio alla memoria con una funzione tecnica.</div>
+      </div>
+
+      <div class="impasto-specs">
+        <span class="spec-chip">Pallina 160g</span>
+        <span class="spec-chip">Sottile · mattarello</span>
+        <span class="spec-chip">Croccante</span>
+        <span class="spec-chip">Grano duro 20%</span>
+        <span class="spec-chip">Olio EVO</span>
+        <span class="spec-chip">Omaggio alla pizza siciliana</span>
+      </div>
+
+      <div class="runner-box">
+        <span class="runner-label">⚡ Runner — cosa ricordare</span>
+        <div class="runner-text">Pizza sottile, stesa col mattarello. Pallina da 160g contro i 250g dell'altro impasto — molto più leggera. Croccante e friabile. C'è un filo d'olio EVO nell'impasto. Nasce da un errore di lievitazione diventato ricetta. Per chi ama la pizza sottile e croccante.</div>
+      </div>
+    </div>
+
+    <!-- IMPASTO ALLA VEGLIA -->
+    <div class="impasto-card">
+      <div class="impasto-name">Impasto Teglia</div>
+      <span class="impasto-soprannome">Alta idratazione — con Maiorca di Sicilia</span>
+      <span class="impasto-cat">Alta idratazione 85%+ · Biga + Licoli · Senza grassi · Grano antico siciliano</span>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le Farine</span>
+        <div class="farina-box">
+          <div class="farina-name">Petra 0102 HP + Petra 5078 — Mulino Quaglia</div>
+          <span class="farina-tipo">Come nell'impasto 21 — la base forte</span>
+          <div class="farina-desc">Stessa coppia di farine dell'Impasto 21 — la 0102 HP germogliata e la 5078 con farro e soia. Forniscono la struttura proteica necessaria a reggere un'idratazione spinta oltre l'85% senza che l'impasto collassi.</div>
+          <div class="farina-desc-breve">Per il runner: stesse farine dell'impasto 21, ma con acqua in più e il grano antico.</div>
+        </div>
+        <div class="farina-box">
+          <div class="farina-name">Maiorca — Grano antico siciliano</div>
+          <span class="farina-tipo">Piccola percentuale · grano tenero antico · coltivato in Sicilia da 500 anni</span>
+          <div class="farina-desc">La Maiorca è un grano tenero antico coltivato in Sicilia da oltre 500 anni — abbandonato nel Novecento per la scarsa redditività industriale, oggi recuperato dai mulini artigianali. Si riconosce dalla spiga quadrangolare con le barbe rossastre. La sua farina è morbida al tatto, cipriosa, profumata — con un aroma floreale e burroso che nessun grano moderno ha. La maglia glutinica è più debole dei grani moderni, quindi entra in piccola percentuale: basta poco per cambiare completamente il profilo aromatico dell'impasto. Era il grano delle nonne siciliane per i dolci di ricorrenza — qui torna in forma di pizza.</div>
+          <div class="farina-desc-breve">Per il runner: grano antico siciliano, coltivato da 500 anni in Sicilia. Dà quel profumo caratteristico e floreale che si sente nell'impasto.</div>
+        </div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Il Prefermento e l'idratazione</span>
+        <div class="impasto-text">Come nell'Impasto 21: Biga fatta il giorno prima, rinfrescata il giorno dopo, con l'aggiunta del licoli. La differenza è nell'acqua — qui si va oltre l'85% di idratazione. Un'idratazione così alta rende l'impasto più difficile da lavorare ma produce una struttura interna aperta e leggera, con una mollica quasi traslucida e una crosta che crepita. La Maiorca in piccola percentuale non destabilizza la struttura ma la profuma in modo inconfondibile.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Cosa non c'è</span>
+        <div class="impasto-text">Nessun grasso — né olio, né strutto, né margarina. Come nell'Impasto 21: solo farina, acqua, sale, Biga e licoli.</div>
+      </div>
+
+      <div class="impasto-specs">
+        <span class="spec-chip">Idratazione 85%+</span>
+        <span class="spec-chip">Biga + Licoli</span>
+        <span class="spec-chip">Maiorca siciliana</span>
+        <span class="spec-chip">Zero grassi</span>
+        <span class="spec-chip">Profumo floreale</span>
+        <span class="spec-chip">Alta digeribilità</span>
+      </div>
+
+      <div class="runner-box">
+        <span class="runner-label">⚡ Runner — cosa ricordare</span>
+        <div class="runner-text">Impasto con il grano antico siciliano — la Maiorca, coltivata in Sicilia da 500 anni. Ha un profumo floreale caratteristico. Alta idratazione, nessun grasso. Biga fatta il giorno prima. Il più leggero e profumato dei tre.</div>
+      </div>
+    </div>
+
+    <!-- NERO DI SEPPIA -->
+    <div class="impasto-card">
+      <div class="impasto-name">Nero di Seppia</div>
+      <span class="impasto-soprannome">Il Nero — doppia cottura vapore + statico</span>
+      <span class="impasto-cat">Stesse farine dell'Impasto Teglia + nero di seppia · 2 cotture · Senza grassi</span>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le Farine</span>
+        <div class="farina-box">
+          <div class="farina-name">Petra 0102 HP + Petra 5078 + Maiorca</div>
+          <span class="farina-tipo">Identico all'Impasto Teglia — con l'aggiunta del nero di seppia</span>
+          <div class="farina-desc">La base è la stessa dell'Impasto Teglia: 0102 HP germogliata, 5078 con farro e soia, e la Maiorca siciliana per il profumo floreale. A questo blend si aggiunge il nero di seppia — non come colorante artificiale, ma come ingrediente vero, con il suo sapore marino delicato e il suo colore nero profondo che tinge uniformemente tutto il disco.</div>
+          <div class="farina-desc-breve">Per il runner: stesso impasto della teglia, con nero di seppia. Disco completamente nero, sapore con nota marina sottile.</div>
+        </div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le 2 Cotture</span>
+        <div class="impasto-text">Prima cottura a vapore: l'umidità penetra nell'impasto aprendo la struttura interna senza seccare la superficie. Seconda cottura in forno statico: fissa la struttura, asciuga la crosta e porta la pizza a temperatura uniforme. Il risultato è un disco nero, lucido, con una crosta che si nota ma non domina — l'umidità del vapore rimane intrappolata nella mollica.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Cosa non c'è</span>
+        <div class="impasto-text">Nessun grasso. Solo farine, acqua, sale, nero di seppia, Biga e licoli.</div>
+      </div>
+
+      <div class="impasto-specs">
+        <span class="spec-chip">Nero di seppia</span>
+        <span class="spec-chip">2 cotture</span>
+        <span class="spec-chip">Vapore + Statico</span>
+        <span class="spec-chip">Maiorca siciliana</span>
+        <span class="spec-chip">Zero grassi</span>
+      </div>
+
+      <div class="runner-box">
+        <span class="runner-label">⚡ Runner — cosa ricordare</span>
+        <div class="runner-text">Disco nero — il colore viene dal nero di seppia, non da coloranti. Sapore marino delicato. Doppia cottura: vapore poi statico. Stessa base dell'impasto teglia. Nessun grasso.</div>
+      </div>
+    </div>
+
+    <!-- PADELLINO DISGRAZIATA -->
+    <div class="impasto-card">
+      <div class="impasto-name">Padellino — Disgraziata</div>
+      <span class="impasto-soprannome">Le Tre Cotture — croccante fuori, morbido dentro</span>
+      <span class="impasto-cat">0102 HP + 5078 + 8610 · 3 cotture: vapore → ventilato → statico · Massima croccantezza</span>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le Farine — tre farine, tre caratteri</span>
+        <div class="farina-box">
+          <div class="farina-name">Petra 0102 HP — struttura e leggerezza</div>
+          <span class="farina-tipo">Grano tenero Tipo 1 germogliato · la spina dorsale</span>
+          <div class="farina-desc">Porta la forza proteica necessaria a reggere tre cotture consecutive senza collassare. La germogliazione controllata garantisce friabilità interna e quell'alveolatura aperta che permette alla mollica di restare morbida anche dopo il terzo passaggio in forno.</div>
+          <div class="farina-desc-breve">Per il runner: dà struttura e leggerezza all'impasto.</div>
+        </div>
+        <div class="farina-box">
+          <div class="farina-name">Petra 5078 — aroma e colore</div>
+          <span class="farina-tipo">Farro integrale + soia + crusca tostata · il profumo</span>
+          <div class="farina-desc">Il farro e la crusca tostata della 5078 si esaltano con le tre cotture — ogni passaggio in forno intensifica le note tostate e la crosta prende un colore ambrato profondo. È la farina che fa sembrare il padellino cotto due volte di più di quanto è.</div>
+          <div class="farina-desc-breve">Per il runner: dà il colore ambrato scuro e l'aroma tostato della crosta.</div>
+        </div>
+        <div class="farina-box">
+          <div class="farina-name">Petra 8610 — la semola di grano duro</div>
+          <span class="farina-tipo">Semola rimacinata di grano duro · la croccantezza</span>
+          <div class="farina-desc">La semola rimacinata di grano duro entra qui con una funzione precisa: la granulometria più accentuata del grano duro crea una crosta esterna che scrocchia in modo diverso dal grano tenero — più netta, più persistente. È il terzo elemento che porta il padellino da "buono" a "indimenticabile". Il colore dorato intenso della crosta esterna viene proprio da qui.</div>
+          <div class="farina-desc-breve">Per il runner: semola di grano duro — fa scrocchiare la crosta esterna in modo deciso.</div>
+        </div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Le 3 Cotture — la sequenza</span>
+        <div class="impasto-text">Prima cottura a vapore: l'umidità penetra in profondità, apre la struttura interna e garantisce la morbidezza della mollica — questa fase è fondamentale per evitare che le tre cotture secchino l'impasto. Seconda cottura in forno ventilato: il calore circolante asciuga la superficie uniformemente e inizia a formare la crosta esterna croccante. Terza cottura — rigenerazione statica: fissa tutto, caramellizza la crosta e porta la pizza a quella doratura scura e profonda che si vede. Il risultato è la massima espressione della pizza in padellino: crosta che scrocchia, mollica che cede.</div>
+      </div>
+
+      <div class="impasto-section">
+        <span class="impasto-label">Il contrasto</span>
+        <div class="impasto-text">Il padellino Disgraziata è l'impasto con il maggior contrasto di texture che facciamo: esterno croccante e caramellizzato come un biscotto di alta qualità, interno morbido e quasi spugnoso. È un risultato che si ottiene solo con tre farine diverse e tre cotture sequenziali — nessun singolo passaggio da solo lo raggiungerebbe.</div>
+      </div>
+
+      <div class="impasto-specs">
+        <span class="spec-chip">3 farine Petra</span>
+        <span class="spec-chip">3 cotture</span>
+        <span class="spec-chip">Vapore · Ventilato · Statico</span>
+        <span class="spec-chip">Crosta massima</span>
+        <span class="spec-chip">Morbido dentro</span>
+      </div>
+
+      <div class="runner-box">
+        <span class="runner-label">⚡ Runner — cosa ricordare</span>
+        <div class="runner-text">Tre farine, tre cotture. Vapore → ventilato → statico. Crosta scura e croccante fuori, morbido dentro. È l'impasto della Disgraziata — la pizza più elaborata tecnicamente che abbiamo in carta.</div>
+      </div>
+    </div>
+
+  </div><!-- /impasto-list -->
+</div><!-- /sec-impasti -->
+
+
+<!-- ════════════════════════════════════
+     SEZIONE 4 — INGREDIENTI CHIAVE
+════════════════════════════════════ -->
+<div class="section" id="sec-ingredienti">
+  <div class="section-head">
+    <span class="section-eyebrow">Produttori selezionati · Materie prime</span>
+    <div class="section-title">Gli Ingredienti</div>
+  </div>
+
+  <div class="ingr-list-main">
+
+    <!-- GRANGUSTO PELATO -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Pomodoro Pelato in Succo</div>
+      <span class="ingr-main-produttore">Gran Gusto · Finagricola · Battipaglia (SA) · Campania</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Chi è</span>
+        <div class="ingr-main-text">Finagricola è una cooperativa campana con oltre 300 ettari propri nella Piana del Sele. La linea Gran Gusto nasce per i professionisti: coltivazione integrata, filiera controllata al 100%, raccolta a mano. Il pelato in succo è il pomodoro lungo intero, pelato e immerso nel proprio succo naturale — nessun additivo, nessun conservante.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Profilo di gusto</span>
+        <div class="ingr-main-text">Polpa soda e carnosa, bassa acidità, sapore delicato ed equilibrato. È un pelato che regge le cotture lunghe senza disfarsi — ideale per schiacciarlo a mano sul disco mantenendo la consistenza. Il succo di pomodoro in cui è immerso è parte del condimento, non un riempitivo.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Pomodoro pelato intero campano, filiera controllata, nessun additivo. Lo schiacciamo a mano — non viene passato. Base di molte pizze rosse classiche.</div>
+      </div>
+    </div>
+
+    <!-- GRANGUSTO DATTERINO ROSSO SEMI SECCO -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Datterino Rosso Semi Secco in Olio</div>
+      <span class="ingr-main-produttore">Gran Gusto · Finagricola · Battipaglia (SA) · Campania</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come viene prodotto</span>
+        <div class="ingr-main-text">Il datterino rosso viene tagliato a metà, essiccato parzialmente — non completamente disidratato, ma "semi secco" — e conservato in olio di girasole con aglio, peperoncino e una miscela di erbe aromatiche mediterranee. La semi-essiccazione concentra gli zuccheri e riduce l'acqua senza togliere la morbidezza della polpa. Il risultato è un pomodorino che ha tutta la dolcezza concentrata di un'essiccazione ma ancora la texture succulenta del fresco.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come lo usiamo</span>
+        <div class="ingr-main-text">Entra in forno come ingrediente in molte pizze — il calore ne esalta ulteriormente la dolcezza e caramellizza leggermente i bordi. Porta colore, dolcezza concentrata e una nota aromatica che i datterini freschi non hanno.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Datterino rosso essiccato a metà, in olio. Più dolce e concentrato del datterino fresco. Aromatico. Va in forno.</div>
+      </div>
+    </div>
+
+    <!-- GRANGUSTO DATTERINO GIALLO SEMI SECCO -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Datterino Giallo Semi Secco in Olio</div>
+      <span class="ingr-main-produttore">Gran Gusto · Finagricola · Battipaglia (SA) · Campania</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Perché è diverso dal rosso</span>
+        <div class="ingr-main-text">Il datterino giallo è geneticamente diverso da quello rosso — non è semplicemente non maturo. Ha un profilo zuccherino diverso, con meno licopene e più carotene, che gli dà una dolcezza quasi burrosa, vellutata, con acidità molto bassa. In forma semi secca questo carattere si amplifica: il risultato è il pomodorino più dolce che abbiamo in carta, con un colore ambrato dorato in cottura.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come lo usiamo</span>
+        <div class="ingr-main-text">Entra in forno o in uscita a seconda della pizza. Porta una nota dolce cromaticamente visibile — il giallo contrasta con il rosso del pomodoro e il bianco della mozzarella.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Datterino giallo semi secco — il più dolce dei nostri pomodori. Colore dorato in cottura, sapore burroso. Non è un datterino rosso non maturo — è una varietà diversa.</div>
+      </div>
+    </div>
+
+    <!-- SICCAGNO RINASCITA -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Passata di Pomodoro Siccagno</div>
+      <span class="ingr-main-produttore">Cooperativa Rinascita · Valledolmo (PA) · Sicilia · Madonie</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">La storia</span>
+        <div class="ingr-main-text">La cooperativa Rinascita nasce nel 1977 a Valledolmo, sulle colline delle basse Madonie, fondata da tre giovani agricoltori. Da oltre tre generazioni, i contadini di Valledolmo portano a termine il ciclo di maturazione del pomodoro senza aggiungere una goccia d'acqua — è la tecnica "in Siccagno", che sfrutta i terreni argillosi montmorillonitici e l'escursione termica tra giorno e notte per far maturare la pianta in asciutto. La pianta è rustica, produce pochi frutti di dimensione ridotta, ma concentratissimi.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Perché è unico</span>
+        <div class="ingr-main-text">Pochissima acqua, tanta polpa, zuccheri alti. Il licopene — il potente antiossidante del pomodoro — è presente in quantità tre volte superiori rispetto ai pomodori irrigati. Nessun additivo, nessun conservante. La passata è 100% pomodoro siciliano, densa, con una resa altissima. Premio della Stampa Estera al Salone del Gusto 2005, Gambero Rosso Top Italian Food 2022. È il pomodoro che sa di Sicilia intera.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come lo usiamo</span>
+        <div class="ingr-main-text">Come base in diverse pizze — entra in forno. La sua densità non richiede cottura preliminare: pochi minuti di calore bastano a esaltarne il sapore. Non va allungato con acqua o olio.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Pomodoro siciliano coltivato senz'acqua sulle Madonie. Dolce, denso, senza additivi. Tre volte più licopene del pomodoro normale. Cooperativa siciliana fondata nel 1977. Presidio di qualità.</div>
+      </div>
+    </div>
+
+    <!-- FIOR DI LATTE LATTERIA SORRENTINA -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Fior di Latte</div>
+      <span class="ingr-main-produttore">Latteria Sorrentina · Campania</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Cos'è e perché è diverso dalla mozzarella</span>
+        <div class="ingr-main-text">Il fior di latte è mozzarella di latte vaccino — non di bufala. La Latteria Sorrentina è uno dei caseifici di riferimento per la ristorazione professionale in Italia: produzione con latte fresco a filiera corta, filatura a mano, struttura compatta che regge bene le alte temperature del forno a legna senza rilasciare troppa acqua. La scelta del fior di latte sulla pizza non è un compromesso rispetto alla bufala — è una scelta tecnica precisa: fonde in modo uniforme, non acidifica in cottura, non bagna il disco.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come lo usiamo</span>
+        <div class="ingr-main-text">Sempre in forno, tagliato a fette o spezzato a mano. La quantità è calibrata per non sovrastare gli altri ingredienti. Quando vedete una pizza con macchie bianche brunite intorno ai bordi — è la firma del fior di latte che ha raggiunto la temperatura giusta.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Mozzarella di latte vaccino — non di bufala. Latteria Sorrentina. Regge il forno senza fare acqua. È la base bianca delle nostre pizze classiche.</div>
+      </div>
+    </div>
+
+    <!-- SALUMI LEVONI -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Salumi — Linea Levoni</div>
+      <span class="ingr-main-produttore">Levoni · Mantova · Lombardia · dal 1911</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Chi è Levoni</span>
+        <div class="ingr-main-text">Levoni è una salumeria mantovana fondata nel 1911 — oltre un secolo di tradizione nella lavorazione del maiale. Selezionano carni italiane di alta qualità e producono salumi a lenta stagionatura con ricette tradizionali. È il fornitore di riferimento per la ristorazione d'eccellenza italiana. Usiamo esclusivamente la loro linea alta — nessun compromesso sulla qualità dei salumi.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">I prodotti che usiamo</span>
+        <div class="ingr-main-text">Mortadella Levoni Linea Oro — con pistacchi interi, la migliore in commercio, arriva in uscita dal forno. Prosciutto crudo di Parma Levoni — dolce, delicato, sempre in uscita. Prosciutto cotto Branchi (linea premium) — entra in forno. Salame — in forno. Ogni salume ha la sua tecnica: quelli in uscita arrivano morbidi e profumati sul calore della pizza, quelli in forno si integrano nella cottura.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Tutti i salumi sono Levoni — una delle salumerie più prestigiose d'Italia, dal 1911. La mortadella e il crudo arrivano sempre in uscita, mai cotti. Il cotto e il salame entrano in forno.</div>
+      </div>
+    </div>
+
+    <!-- TERRALIVA -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Olio Extravergine d'Oliva Tonda Iblea</div>
+      <span class="ingr-main-produttore">Terraliva · Buccheri (SR) · Monti Iblei · 700m s.l.m.</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">L'azienda e l'olivo</span>
+        <div class="ingr-main-text">Terraliva nasce nel 2003 dalla famiglia Cavarra a Buccheri, un borgo dell'altopiano ibleo in provincia di Siracusa, a 700 metri di quota. Qui crescono 1700 ulivi centenari di Tonda Iblea su terreno vulcanico — una cultivar autoctona siciliana che trova nelle province di Ragusa, Siracusa e Catania il suo habitat naturale. Le olive vengono raccolte verdi, all'inizio della maturazione, e portate al frantoio entro poche ore dalla raccolta. Estrazione a freddo, filtrato immediato.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Il profilo sensoriale</span>
+        <div class="ingr-main-text">Colore verde brillante con riflessi dorati. Al naso sentori intensi di pomodoro fresco, mandorla e note di carciofo — caratteristica distintiva della Tonda Iblea tra tutte le cultivar italiane. In bocca amaro e piccante equilibrati, mai aggressivi. Un olio da finissaggio, non da cottura — lo usiamo sempre a crudo in uscita, dove i suoi profumi rimangono intatti.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Olio biologico siciliano, Monti Iblei, cultivar Tonda Iblea. Profumo di pomodoro e mandorla. Sempre in uscita, mai in cottura — è un olio da crudo. Famiglia Cavarra, Buccheri.</div>
+      </div>
+    </div>
+
+    <!-- MUGNULI -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Mugnuli Selvatici</div>
+      <span class="ingr-main-produttore">Raccolta spontanea · Monti Peloritani · Messina</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Cosa sono</span>
+        <div class="ingr-main-text">I mugnuli sono le cime di rapa selvatiche — Brassica rapa sylvestris — che crescono spontaneamente sui Peloritani e sui Nebrodi, la catena montuosa che abbraccia Messina. Non vengono coltivati: sono una pianta selvatica che cresce nei campi incolti e lungo i sentieri di montagna da ottobre ad aprile. I germogli e le infiorescenze giovani si raccolgono a mano. Il sapore è amarognolo, erbaceo, con una nota quasi piccante — più intenso delle cime di rapa coltivate, con più personalità.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come li usiamo</span>
+        <div class="ingr-main-text">Entrano in forno — il calore ne attenua l'amarognolo e li appassisce leggermente lasciando la loro essenza. Vanno sempre abbinati a qualcosa di grasso e sapido che ne bilanci l'amaro: la provola dei Nebrodi, la guancia, il pecorino.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Cime di rapa selvatiche dei Peloritani — non coltivate, raccolte in natura. Sapore amarognolo e erbaceo, più intenso delle cime di rapa normali. Stagionali: autunno-primavera. Vanno in forno.</div>
+      </div>
+    </div>
+
+    <!-- SPONZALI -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Sponzali</div>
+      <span class="ingr-main-produttore">Prodotto tipico siciliano · cipollina fresca di campo</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Cosa sono</span>
+        <div class="ingr-main-text">Gli sponzali — o spunsali — sono le cipolline fresche tipiche della cucina siciliana e campana: la parte verde e il bulbo tenero della cipolla prima che si sviluppi completamente. Simili agli scalogni o alle cipolline di Tropea, ma più delicati e con la parte verde ancora lunga e morbida. Il nome deriva dall'arabo "isfanākh", traccia della dominazione araba in Sicilia. Hanno un sapore dolce e fresco, con la nota pungente della cipolla molto attenuata — nulla a che vedere con la cipolla matura.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come li usiamo</span>
+        <div class="ingr-main-text">Entrano in forno nella pizza "Un giorno alle Eolie" — la cottura li ammorbidisce ulteriormente e ne esalta la dolcezza naturale. Per i clienti che non li conoscono, spiegare che sono cipolline fresche tenere, non cipolle mature.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Cipolline fresche siciliane — bulbo e parte verde teneri, dolci, delicati. Non sono cipolle mature. Nome dialettale siciliano-campano. Vanno in forno.</div>
+      </div>
+    </div>
+
+    <!-- CAPPERI DI SALINA -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Capperi di Salina</div>
+      <span class="ingr-main-produttore">Isola di Salina · Isole Eolie · Messina · Presidio Slow Food</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Perché Salina</span>
+        <div class="ingr-main-text">Il cappero di Salina è tra i più pregiati del Mediterraneo — compatto, profumato, con una struttura che regge la lavorazione meglio di qualsiasi altra varietà. Cresce spontaneamente sull'isola da quando i Greci colonizzarono le Eolie. La varietà più pregiata è la Nocella. Si raccoglie a mano ogni 10 giorni da maggio ad agosto, all'alba o al tramonto — mai nelle ore calde. Vengono poi "curati" sotto sale marino per attenuarne l'amaro iniziale e sviluppare il profumo caratteristico. Il 95% della produzione italiana di capperi di qualità viene da Salina e Pantelleria. È un Presidio Slow Food.</div>
+      </div>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Come li usiamo</span>
+        <div class="ingr-main-text">Li usiamo sia interi in forno (vengono croccanti in cottura) che in polvere in uscita. Quando sono interi e vengono cotti si concentrano e diventano croccanti — il contrasto di texture con gli altri ingredienti è preciso. In polvere (vedi scheda preparazioni) moltiplicano la loro intensità per tre o quattro volte. Prima dell'uso vanno sempre sciacquati e dissalati.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Capperi dell'isola di Salina, Eolie — a pochi km da Messina. Presidio Slow Food. Raccolti a mano, conservati sotto sale. I migliori d'Italia. Li usiamo interi (in forno, diventano croccanti) o in polvere (in uscita, intensissimi).</div>
+      </div>
+    </div>
+
+    <!-- CIPOLLA CARAMELLATA nota -->
+    <div class="ingr-main-card">
+      <div class="ingr-main-name">Cipolla Caramellata</div>
+      <span class="ingr-main-produttore">Preparazione della casa · vedi sezione Preparazioni</span>
+      <div class="ingr-main-section">
+        <span class="ingr-main-label">Nota</span>
+        <div class="ingr-main-text">La cipolla caramellata è una preparazione che facciamo internamente ogni giorno — non è un prodotto acquistato. La scheda tecnica completa (come si fa, tempi, tecnica, allergeni) è nella sezione Preparazioni.</div>
+      </div>
+      <div class="ingr-runner-box">
+        <span class="ingr-runner-label">⚡ Runner</span>
+        <div class="ingr-runner-text">Fatta da noi ogni giorno. Cipolle cotte lentamente 40-60 minuti finché diventano quasi confettura. Dolce, morbida, nessun additivo. Scheda completa in Preparazioni.</div>
+      </div>
+    </div>
+
+  </div><!-- /ingr-list-main -->
+</div><!-- /sec-ingredienti -->
+
+
 <div class="footer">
   <p>Ogni pizza nasce da un impasto a lunga fermentazione con prefermento naturale e farine selezionate Mulino Quaglia · Petra.</p>
   <div class="footer-sign">Blanco · Messina · Estate 2026</div>
