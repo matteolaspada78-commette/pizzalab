@@ -3,496 +3,645 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="dark only">
-<title>Aperi·Teglia — Blanco 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light">
+<title>Aperi·Teglia — Presentazione — Blanco 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --nero:    #0b0907;
-  --carbone: #130f0c;
-  --oro:     #c9a84c;
-  --oro-v:   #e8d08a;
-  --rosso:   #8b1a10;
-  --avorio:  #f2ece0;
-  --grigio:  #7a6a58;
-  --grigio-v:#b0a090;
-  --verde:   #2a4a1e;
+  --sabbia:   #f4ede0;
+  --sabbia-v: #ece3d2;
+  --mare:     #1a3a4a;
+  --mare-v:   #0d2535;
+  --mare-mid: #1e4a60;
+  --oro:      #b8913a;
+  --oro-v:    #d4a84b;
+  --testo:    #1c1810;
+  --grigio:   #6b5f50;
+  --bianco:   #fdfaf5;
+  --rosso:    #8b2020;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--nero) !important; }
+html { background: var(--sabbia); }
 body {
-  background: var(--nero) !important;
-  color: var(--avorio) !important;
-  font-family: 'Montserrat', sans-serif;
+  background: var(--sabbia);
+  color: var(--testo);
+  font-family: 'DM Sans', sans-serif;
+  max-width: 480px;
+  margin: 0 auto;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
 }
 
-/* ── HERO ── */
-.hero {
+/* ══ COVER ══ */
+.cover {
+  background: var(--mare-v);
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 3rem 1.5rem 4rem;
-  position: relative;
-  overflow: hidden;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 3rem 2rem 5rem;
+  position: relative; overflow: hidden;
 }
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 110%, rgba(201,168,76,0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 30% at 10% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+.cover-waves {
+  position: absolute; bottom: -1px; left: -5%; width: 110%;
+  pointer-events: none; z-index: 2;
+}
+.cover-glow {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 200px;
+  background: radial-gradient(ellipse, rgba(184,145,58,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
+.cover-content { position: relative; z-index: 3; }
 
-.hero-badge {
-  font-size: 0.5rem; letter-spacing: 0.45em; text-transform: uppercase;
-  color: var(--oro); margin-bottom: 2rem;
-  border: 1px solid rgba(201,168,76,0.3); padding: 0.4em 1.2em; border-radius: 2px;
-  display: inline-block;
-  animation: fadeUp 0.9s ease 0.2s both;
+.c-eyebrow {
+  font-size: 0.58rem; font-weight: 500; letter-spacing: 0.42em;
+  text-transform: uppercase; color: var(--oro-v);
+  margin-bottom: 2.2rem; display: block;
+  animation: fu 0.9s ease 0.2s both;
 }
-.hero-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(4rem, 18vw, 9rem);
-  font-weight: 900; font-style: italic; line-height: 0.88;
-  color: var(--avorio);
-  animation: fadeUp 0.9s ease 0.4s both;
+.c-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(3.2rem, 17vw, 5rem);
+  font-weight: 700; font-style: italic;
+  color: #fff; line-height: 0.92;
+  letter-spacing: -0.02em;
+  animation: fu 0.9s ease 0.4s both;
 }
-.hero-logo span { color: var(--oro); }
-.hero-divider {
-  width: 1px; height: 55px;
-  background: linear-gradient(to bottom, var(--oro), transparent);
-  margin: 1.8rem auto;
-  animation: fadeUp 0.9s ease 0.6s both;
+.c-title span { color: var(--oro-v); font-style: normal; }
+.c-divider {
+  width: 48px; height: 1px; background: var(--oro-v);
+  margin: 2rem auto;
+  animation: fu 0.9s ease 0.6s both;
 }
-.hero-claim {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 3.5vw, 1.4rem);
-  font-style: italic; font-weight: 300;
-  color: rgba(242,236,224,0.7);
-  line-height: 1.75; max-width: 360px;
-  animation: fadeUp 0.9s ease 0.75s both;
+.c-claim {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.1rem; font-style: italic;
+  color: rgba(255,255,255,0.7); line-height: 1.7;
+  animation: fu 0.9s ease 0.75s both;
 }
-.hero-meta {
-  margin-top: 2rem;
-  font-size: 0.5rem; letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--grigio); line-height: 2.3;
-  animation: fadeUp 0.9s ease 0.9s both;
+.c-meta {
+  font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-top: 1.8rem; line-height: 2.3;
+  animation: fu 0.9s ease 0.9s both;
 }
-.hero-scroll {
-  position: absolute; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+.c-scroll {
+  position: absolute; bottom: 4rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
   font-size: 0.44rem; letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--grigio);
-  animation: fadeUp 0.9s ease 1.2s both;
+  color: rgba(255,255,255,0.28);
+  animation: fu 0.9s ease 1.1s both;
 }
-.hero-scroll::after {
-  content: ''; width: 1px; height: 28px;
-  background: linear-gradient(to bottom, var(--grigio), transparent);
+.c-scroll::after {
+  content:''; width:1px; height:26px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.28), transparent);
   animation: pulse 2s ease infinite;
 }
 
-/* ── SEZIONE CONCETTO ── */
-.concetto {
-  padding: 5rem 1.5rem;
-  background: var(--carbone);
+/* ══ BLOCCHI GENERICI ══ */
+.blk { padding: 3rem 1.5rem; }
+.blk-dark { background: var(--mare-v); }
+.blk-mid { background: var(--mare-mid); }
+.blk-sand { background: var(--sabbia-v); }
+.blk-white { background: var(--bianco); }
+
+.lbl {
+  font-size: 0.52rem; font-weight: 600; letter-spacing: 0.42em;
+  text-transform: uppercase; color: var(--oro);
+  margin-bottom: 0.7rem; display: block;
 }
-.s-label { font-size: 0.5rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--oro); margin-bottom: 1.5rem; display: block; }
-.s-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 700; color: var(--avorio); line-height: 1.1; margin-bottom: 1.5rem; }
-.s-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 3vw, 1.2rem); font-style: italic; font-weight: 300; color: rgba(242,236,224,0.72); line-height: 1.82; margin-bottom: 1.2rem; }
-.s-text strong { color: var(--oro-v); font-style: normal; font-weight: 400; }
+.lbl-w { color: var(--oro-v); }
 
-/* ── IMPASTO BOX ── */
-.impasto-box {
-  background: rgba(201,168,76,0.05) !important;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 3px; padding: 1.2rem 1rem; margin-top: 2rem;
+.ttl {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+  font-weight: 700; color: var(--testo);
+  line-height: 1.12; margin-bottom: 1rem;
 }
-.impasto-box-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--oro-v); margin-bottom: 0.3rem; }
-.impasto-box-sub { font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--grigio); margin-bottom: 0.7rem; display: block; }
-.impasto-box-text { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic; color: rgba(242,236,224,0.65); line-height: 1.7; }
+.ttl-w { color: #fff; }
+.ttl em { color: var(--oro); font-style: italic; }
+.ttl-w em { color: var(--oro-v); }
 
-/* ── FORMAT APERI TEGLIA ── */
-.format {
-  padding: 5rem 1.5rem;
-  background: var(--nero);
+.body-text {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.97rem; font-style: italic;
+  color: var(--grigio); line-height: 1.78;
 }
-.format-grid { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
-.format-card {
-  border: 1px solid rgba(201,168,76,0.2); border-radius: 3px;
-  padding: 1.2rem 1rem;
-  background: rgba(201,168,76,0.03) !important;
+.body-text-w { color: rgba(255,255,255,0.62); }
+.body-text strong { color: var(--testo); font-style: normal; font-weight: 700; }
+.body-text-w strong { color: #fff; font-style: normal; }
+
+.divider-line { width: 100%; height: 1px; background: rgba(28,24,16,0.1); margin: 0; }
+.divider-line-w { background: rgba(255,255,255,0.1); }
+
+/* ══ MANIFESTO ══ */
+.manifesto-quote {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  font-style: italic; font-weight: 400;
+  color: #fff; line-height: 1.65;
+  border-left: 3px solid var(--oro-v);
+  padding-left: 1.2rem; margin: 1.5rem 0;
 }
-.format-card-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: rgba(201,168,76,0.2); line-height: 1; margin-bottom: 0.4rem; }
-.format-card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--avorio); margin-bottom: 0.3rem; }
-.format-card-text { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: rgba(242,236,224,0.6); line-height: 1.65; }
-.format-card-price { margin-top: 0.6rem; font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro); }
+.manifesto-sign { font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--oro-v); margin-top: 1rem; }
 
-/* ── MENU SEZIONE ── */
-.menu-section { padding: 1rem 0 0; }
-.menu-section-title {
-  font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
-  color: var(--oro); letter-spacing: 0.05em;
-  padding: 1.2rem 1.5rem 0.8rem;
-  border-top: 1px solid rgba(201,168,76,0.15);
-  text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.3em;
+/* ══ IMPASTO CARD ══ */
+.impasto-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px; padding: 1.4rem 1.2rem; margin-top: 1.5rem;
 }
+.impasto-card-title { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+.impasto-card-sub { font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--oro-v); margin-bottom: 0.7rem; display: block; }
+.impasto-card-text { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+.farine-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
+.farina-chip { font-size: 0.48rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3em 0.8em; border-radius: 50px; background: rgba(212,168,75,0.18); color: var(--oro-v); }
 
-/* ── PIZZA ROW ── */
-.p-wrap { padding: 0 0 3rem; background: var(--carbone); }
-.p-row {
-  display: flex; flex-direction: column;
-  padding: 1.3rem 1.5rem;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  gap: 0.3rem;
+/* ══ FORMAT ══ */
+.format-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1px; }
+.format-row {
+  display: grid; grid-template-columns: 28px 1fr auto;
+  gap: 0.8rem; padding: 1rem 0;
+  border-bottom: 1px solid rgba(28,24,16,0.08);
+  align-items: baseline;
 }
-.p-row:first-child { border-top: 1px solid rgba(201,168,76,0.1); }
-.p-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.p-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; font-style: italic; color: var(--avorio); line-height: 1.2; }
-.p-price { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; color: var(--oro); white-space: nowrap; flex-shrink: 0; }
-.p-ingr { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grigio); line-height: 1.8; margin-top: 0.1rem; }
-.p-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic; color: rgba(242,236,224,0.62); line-height: 1.68; margin-top: 0.4rem; }
-.p-tag { display: inline-block; margin-top: 0.5rem; font-size: 0.44rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro); border: 1px solid rgba(201,168,76,0.35); padding: 0.22em 0.65em; border-radius: 2px; }
-.p-tag-special { color: #8ec97a !important; border-color: rgba(142,201,122,0.4) !important; }
-.p-tag-gambero { color: #d4956a !important; border-color: rgba(212,149,106,0.45) !important; }
-
-/* ── PECCATI ── */
-.peccati-wrap { padding: 5rem 1.5rem; background: var(--nero); }
-.peccati-grid { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
-.peccato-card {
-  border: 1px solid rgba(201,168,76,0.2); border-radius: 3px;
-  padding: 1.3rem 1.1rem;
-  background: rgba(201,168,76,0.03) !important;
+.format-row:first-child { border-top: 1px solid rgba(28,24,16,0.08); }
+.format-row-n {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.2rem; font-weight: 700; font-style: italic;
+  color: var(--sabbia-v);
 }
-.peccato-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; font-style: italic; color: var(--avorio); margin-bottom: 0.2rem; }
-.peccato-ingr { font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grigio); margin-bottom: 0.55rem; }
-.peccato-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic; color: rgba(242,236,224,0.62); line-height: 1.68; }
-.peccato-price { margin-top: 0.6rem; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--oro); }
+.format-row-name { font-size: 0.88rem; font-weight: 500; color: var(--testo); }
+.format-row-price { font-size: 0.72rem; font-weight: 600; color: var(--oro); white-space: nowrap; }
+.format-row-desc { font-size: 0.72rem; color: var(--grigio); margin-top: 0.15rem; grid-column: 2 / -1; }
 
-/* ── COCKTAIL PAIRING ── */
-.pairing-wrap { padding: 5rem 1.5rem; background: var(--carbone); }
-.pairing-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
-.pairing-row {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5rem 1rem; padding: 1.1rem 0;
-  border-bottom: 1px solid rgba(201,168,76,0.1); align-items: start;
+/* ══ PIZZA ROWS – LISTA ══ */
+.menu-cat-bar {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--mare-v);
 }
-.pairing-row:first-child { border-top: 1px solid rgba(201,168,76,0.1); }
-.pairing-pizza { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; font-style: italic; color: var(--avorio); }
-.pairing-cocktail { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--grigio-v); line-height: 1.6; }
-.pairing-cocktail strong { color: var(--oro); font-weight: 600; }
+.menu-cat-lbl { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--oro-v); }
+.menu-cat-line { flex: 1; height: 1px; background: rgba(255,255,255,0.12); }
 
-/* ── NOTE ── */
-.note-wrap { padding: 3rem 1.5rem 5rem; background: var(--nero); }
-.note-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--avorio); margin-bottom: 1.2rem; }
-.note-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-.note-list li { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic; color: rgba(242,236,224,0.6); line-height: 1.6; padding-left: 1.2rem; position: relative; }
-.note-list li::before { content: '·'; position: absolute; left: 0; color: var(--oro); }
+.pz {
+  background: var(--bianco);
+  padding: 1.4rem 1.5rem;
+  border-bottom: 1px solid rgba(28,24,16,0.07);
+}
+.pz:last-child { border-bottom: none; }
+.pz-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.3rem; }
+.pz-name { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; font-weight: 700; color: var(--mare-v); flex: 1; line-height: 1.2; }
+.pz-price { font-family: 'Libre Baskerville', serif; font-size: 1rem; font-weight: 700; color: var(--oro); flex-shrink: 0; }
+.pz-ingr { font-size: 0.68rem; color: var(--grigio); line-height: 1.6; margin-bottom: 0.4rem; }
+.pz-desc { font-family: 'Libre Baskerville', serif; font-size: 0.87rem; font-style: italic; color: var(--grigio); line-height: 1.62; }
+.pz-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+.ptag { font-size: 0.48rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.22em 0.65em; border-radius: 50px; }
+.pt-oro { background: rgba(184,145,58,0.12); color: var(--oro); }
+.pt-mare { background: rgba(26,58,74,0.1); color: var(--mare); }
+.pt-rosso { background: rgba(139,32,32,0.1); color: var(--rosso); }
+.pt-verde { background: rgba(42,74,42,0.12); color: #2a4a2a; }
 
-/* ── FOOTER ── */
-.footer { background: var(--carbone); border-top: 1px solid rgba(201,168,76,0.2); padding: 2.5rem 1.5rem 3.5rem; text-align: center; }
-.footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; font-style: italic; color: var(--avorio); margin-bottom: 0.3rem; }
-.footer-sub { font-size: 0.48rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--grigio); line-height: 2.3; margin-bottom: 1rem; }
-.footer-firma { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-style: italic; color: var(--grigio); }
+/* ══ FIRME — hero cards ══ */
+.firme-wrap { background: var(--mare-v); padding: 0; }
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
-@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-.reveal { opacity:0; transform:translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.firma-hero {
+  padding: 2.5rem 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: relative; overflow: hidden;
+}
+.firma-hero::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(184,145,58,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.firma-tipo { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--oro-v); margin-bottom: 0.4rem; display: block; }
+.firma-nome { font-family: 'Libre Baskerville', serif; font-size: clamp(1.8rem, 9vw, 2.5rem); font-weight: 700; font-style: italic; color: #fff; line-height: 1; margin-bottom: 0.5rem; }
+.firma-sottotitolo { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; font-style: italic; color: rgba(255,255,255,0.5); margin-bottom: 1.2rem; }
+.firma-prezzo-box { display: inline-flex; align-items: baseline; gap: 0.2rem; }
+.firma-euro { font-family: 'Libre Baskerville', serif; font-size: 1rem; color: var(--oro-v); font-weight: 400; }
+.firma-num { font-family: 'Libre Baskerville', serif; font-size: 2.2rem; font-weight: 700; color: var(--oro-v); line-height: 1; }
+.firma-ingr { font-size: 0.68rem; color: rgba(255,255,255,0.45); line-height: 1.65; margin: 1rem 0 0.8rem; }
+.firma-desc { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; font-style: italic; color: rgba(255,255,255,0.68); line-height: 1.7; }
+.firma-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.9rem; }
+.firma-tag { font-size: 0.48rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25em 0.7em; border-radius: 50px; }
+.ft-oro { background: rgba(212,168,75,0.2); color: var(--oro-v); }
+.ft-rosso { background: rgba(255,100,100,0.1); color: rgba(255,160,160,0.9); }
+.ft-bianco { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.ft-gambero { background: rgba(212,168,75,0.25); color: var(--oro-v); border: 1px solid rgba(212,168,75,0.4); }
+
+.cotture-box {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px; padding: 1rem 1rem 0.8rem;
+  margin-top: 1.2rem;
+}
+.cotture-lbl { font-size: 0.48rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--oro-v); margin-bottom: 0.6rem; display: block; }
+.cotture-steps { display: flex; align-items: center; gap: 0; }
+.cottura-step {
+  flex: 1; text-align: center; padding: 0.5rem 0.3rem;
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  line-height: 1.3;
+}
+.cottura-step:last-child { border-right: none; }
+.cottura-step span { display: block; font-size: 1rem; margin-bottom: 0.2rem; }
+
+/* ══ PECCATI ══ */
+.peccati-section { background: var(--sabbia-v); padding: 2.8rem 1.5rem; }
+.peccato-card-p {
+  background: var(--bianco); border-radius: 14px;
+  padding: 1.4rem 1.2rem; margin-top: 1.2rem;
+  border: 1px solid rgba(28,24,16,0.07);
+}
+.pec-nome { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; font-weight: 700; color: var(--mare-v); margin-bottom: 0.2rem; }
+.pec-impasto { font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--oro); margin-bottom: 0.5rem; display: block; }
+.pec-ingr { font-size: 0.68rem; color: var(--grigio); line-height: 1.6; margin-bottom: 0.5rem; }
+.pec-desc { font-family: 'Libre Baskerville', serif; font-size: 0.87rem; font-style: italic; color: var(--grigio); line-height: 1.65; }
+.pec-price { font-family: 'Libre Baskerville', serif; font-size: 1rem; font-weight: 700; color: var(--oro); margin-top: 0.6rem; }
+
+.tre-cotture-badge {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: var(--mare-v); border-radius: 8px;
+  padding: 0.7rem 0.9rem; margin-top: 0.8rem;
+}
+.tcb-text { font-size: 0.62rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.tcb-text strong { color: var(--oro-v); }
+
+/* ══ PERCHÉ SCEGLIERLO ══ */
+.perche-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0; }
+.perche-row {
+  display: grid; grid-template-columns: 32px 1fr;
+  gap: 0.8rem; padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  align-items: start;
+}
+.perche-row:last-child { border-bottom: none; }
+.perche-n { font-family: 'Libre Baskerville', serif; font-size: 1.5rem; font-weight: 700; font-style: italic; color: rgba(212,168,75,0.3); line-height: 1; }
+.perche-title { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+.perche-text { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ══ PAIRING ══ */
+.pairing-section { background: var(--bianco); padding: 2.8rem 1.5rem; }
+.pairing-row-p {
+  display: grid; grid-template-columns: 1fr;
+  padding: 0.9rem 0; border-bottom: 1px solid rgba(28,24,16,0.07); gap: 0.2rem;
+}
+.pairing-row-p:last-child { border-bottom: none; }
+.pr-pizza { font-family: 'Libre Baskerville', serif; font-size: 0.92rem; font-weight: 700; color: var(--mare-v); }
+.pr-drink { font-size: 0.72rem; color: var(--grigio); line-height: 1.55; }
+.pr-drink strong { color: var(--oro); font-weight: 600; }
+
+/* ══ NOTE ══ */
+.note-section { background: var(--mare-v); padding: 2.5rem 1.5rem; }
+.note-title { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 1.2rem; }
+.note-i { display: flex; gap: 0.7rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.note-i:last-child { border-bottom: none; }
+.note-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--oro-v); flex-shrink: 0; margin-top: 0.5rem; }
+.note-txt { font-size: 0.76rem; color: rgba(255,255,255,0.58); line-height: 1.6; }
+.note-txt strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+/* ══ FOOTER ══ */
+.footer { background: var(--mare-v); border-top: 1px solid rgba(255,255,255,0.08); padding: 2.5rem 1.5rem 3.5rem; text-align: center; }
+.footer-logo { font-family: 'Libre Baskerville', serif; font-size: 2rem; font-weight: 400; font-style: italic; color: #fff; }
+.footer-sub { font-size: 0.48rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 0.5rem; line-height: 2.4; }
+.footer-firma { font-family: 'Libre Baskerville', serif; font-size: 0.82rem; font-style: italic; color: rgba(255,255,255,0.38); margin-top: 1rem; }
+
+@keyframes fu { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+@keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+.reveal { opacity:0; transform:translateY(20px); transition:opacity .65s ease, transform .65s ease; }
 .reveal.visible { opacity:1; transform:none; }
 </style>
 </head>
 <body>
 
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <span class="hero-badge">Blanco · Cocktail Bar · Messina · Estate 2026</span>
-  <div class="hero-logo">Aperi<span>·</span><br>Teglia</div>
-  <div class="hero-divider"></div>
-  <p class="hero-claim">Pizza in teglia d'autore.<br>Il formato perfetto per il cocktail.</p>
-  <div class="hero-meta">
-    Impasto Teglia · Maiorca siciliana · Alta idratazione 85%+<br>
-    Blanco Pizzalab · Stretto di Messina
+<!-- ══ COVER ══ -->
+<section class="cover">
+  <div class="cover-glow"></div>
+  <svg class="cover-waves" viewBox="0 0 480 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,35 Q60,5 120,35 Q180,65 240,35 Q300,5 360,35 Q420,65 480,35 L480,70 L0,70 Z" fill="#f4ede0"/>
+    <path d="M0,50 Q80,20 160,50 Q240,80 320,50 Q400,20 480,50 L480,70 L0,70 Z" fill="#f4ede0" opacity="0.4"/>
+  </svg>
+  <div class="cover-content">
+    <span class="c-eyebrow">Blanco · Cocktail Bar · Messina · Estate 2026</span>
+    <div class="c-title">Aperi<span>·</span><br>Teglia</div>
+    <div class="c-divider"></div>
+    <p class="c-claim">Pizza in teglia d'autore.<br>Lo Stretto davanti,<br>il cocktail in mano.</p>
+    <div class="c-meta">
+      Impasto Teglia · Maiorca siciliana · Alta idratazione<br>
+      Blanco Pizzalab · Stretto di Messina
+    </div>
   </div>
-  <div class="hero-scroll">Scopri</div>
+  <div class="c-scroll">Scorri</div>
 </section>
 
 
-<!-- ══ CONCETTO ══ -->
-<section class="concetto">
-  <div class="reveal">
-    <span class="s-label">Il Concept</span>
-    <h2 class="s-title">Pizza in teglia<br>per il cocktail</h2>
-    <p class="s-text">
-      Al Blanco la pizza non è il piatto principale — è il <strong>compagno perfetto del cocktail</strong>. Porzioni generose da 250 a 400 grammi, impasto in teglia ad alta idratazione, tagliata e portata direttamente al tavolo su vassoio. Niente attese lunghe, niente coltello e forchetta — solo pizza e aperitivo.
-    </p>
-    <p class="s-text">
-      La teglia è il formato ideale per questo contesto: <strong>crosta croccante fuori, alveolata e morbida dentro</strong>, regge bene anche a qualche minuto dal forno. Ogni pezzo è autonomo, si condivide o si gusta da soli, ed è pensato per accompagnare un drink senza appesantire.
-    </p>
+<!-- ══ MANIFESTO ══ -->
+<div class="blk blk-dark reveal">
+  <span class="lbl lbl-w">Il manifesto</span>
+  <div class="ttl ttl-w">La pizza<br>del <em>cocktail</em></div>
+  <div class="manifesto-quote">
+    Al Blanco non si ordina una pizza. Si sceglie una teglia da accompagnare al proprio drink, si condivide, si racconta. È il format che mancava sul mare di Messina.
   </div>
-  <div class="impasto-box reveal">
-    <div class="impasto-box-title">Impasto Teglia — con Maiorca siciliana</div>
-    <span class="impasto-box-sub">Petra 0102 HP + Petra 5078 + Maiorca · Biga 24h + Licoli · Idratazione 85%+ · Zero grassi</span>
-    <div class="impasto-box-text">Prefermento Biga fatto il giorno prima, rinfrescato con le farine e il lievito madre liquido. La Maiorca — grano antico siciliano coltivato da 500 anni — porta il suo profumo floreale inconfondibile. Nessun grasso: solo farina, acqua, sale e fermentazione. Leggerissimo, altamente digeribile, profumato.</div>
+  <p class="body-text body-text-w">
+    Porzioni da 250 a 400 grammi. Impasto ad alta idratazione con Maiorca siciliana. <strong>Crosta croccante fuori, alveolata e morbida dentro.</strong> Tagliata e servita direttamente su vassoio. Nessuna attesa lunga, nessun coltello e forchetta — solo pizza, mare e aperitivo.
+  </p>
+  <div class="manifesto-sign">Matteo La Spada · Pizzaiolo · L'Orso Messina</div>
+</div>
+
+
+<!-- ══ IMPASTO ══ -->
+<div class="blk blk-mid reveal">
+  <span class="lbl lbl-w">L'impasto</span>
+  <div class="ttl ttl-w">Teglia con <em>Maiorca</em></div>
+  <p class="body-text body-text-w">Grano antico siciliano coltivato in Sicilia da 500 anni — profumo floreale inconfondibile. Prefermento Biga fatto il giorno prima. Idratazione oltre 85%. Zero grassi: solo farina, acqua, sale e fermentazione.</p>
+  <div class="impasto-card">
+    <div class="impasto-card-title">Petra 0102 HP + Petra 5078 + Maiorca</div>
+    <span class="impasto-card-sub">Mulino Quaglia · Biga 24h · Licoli · Idratazione 85%+</span>
+    <div class="impasto-card-text">La 0102 HP è un grano germogliato che porta leggerezza e digeribilità. La 5078 con farro e soia dà il colore ambrato e la nota tostata. La Maiorca — il grano delle nonne siciliane — porta il profumo che non ha paragoni.</div>
+    <div class="farine-chips">
+      <span class="farina-chip">Biga 24h</span>
+      <span class="farina-chip">Licoli</span>
+      <span class="farina-chip">85%+ idratazione</span>
+      <span class="farina-chip">Zero grassi</span>
+      <span class="farina-chip">Maiorca siciliana</span>
+    </div>
   </div>
-</section>
+</div>
 
 
 <!-- ══ FORMAT & PREZZI ══ -->
-<section class="format">
-  <div class="reveal">
-    <span class="s-label">Come funziona</span>
-    <h2 class="s-title">Il format<br>Aperi·Teglia</h2>
+<div class="blk blk-white reveal">
+  <span class="block-label" style="font-size:0.52rem;font-weight:600;letter-spacing:0.42em;text-transform:uppercase;color:var(--oro);margin-bottom:0.7rem;display:block;">Come funziona</span>
+  <div class="ttl">Il format<br><em>Aperi·Teglia</em></div>
+  <div class="format-list">
+    <div class="format-row">
+      <div class="format-row-n">1</div>
+      <div>
+        <div class="format-row-name">Pezzo Singolo</div>
+        <div class="format-row-desc">~250g. Il compagno del primo cocktail.</div>
+      </div>
+      <div class="format-row-price">€7 — €10</div>
+    </div>
+    <div class="format-row">
+      <div class="format-row-n">2</div>
+      <div>
+        <div class="format-row-name">Vassoio da Condividere</div>
+        <div class="format-row-desc">Due gusti a scelta, ~250g ciascuno.</div>
+      </div>
+      <div class="format-row-price">€16 — €22</div>
+    </div>
+    <div class="format-row">
+      <div class="format-row-n">3</div>
+      <div>
+        <div class="format-row-name">La Selezione</div>
+        <div class="format-row-desc">Tre gusti in piccole porzioni. Per esplorare.</div>
+      </div>
+      <div class="format-row-price">€18 — €24</div>
+    </div>
+    <div class="format-row">
+      <div class="format-row-n">★</div>
+      <div>
+        <div class="format-row-name">Le Firme</div>
+        <div class="format-row-desc">Disgraziata & Fata Morgana — intere, complete.</div>
+      </div>
+      <div class="format-row-price">€16 · €28</div>
+    </div>
   </div>
-  <div class="format-grid">
-    <div class="format-card reveal">
-      <div class="format-card-num">01</div>
-      <div class="format-card-title">Il Pezzo Singolo</div>
-      <div class="format-card-text">Una porzione da ~250g. Il compagno del primo cocktail — leggero, da mangiare in piedi o seduti al bancone. Ideale per chi vuole assaggiare senza impegnarsi.</div>
-      <div class="format-card-price">Fascia consigliata · €7 — €10 a pezzo · secondo gusto</div>
-    </div>
-    <div class="format-card reveal">
-      <div class="format-card-num">02</div>
-      <div class="format-card-title">Il Vassoio da Condividere</div>
-      <div class="format-card-text">Due gusti diversi, due pezzi da ~250g ciascuno, su vassoio. Per due persone che vogliono condividere l'aperitivo. Si sceglie la combinazione al tavolo.</div>
-      <div class="format-card-price">Fascia consigliata · €16 — €22 il vassoio</div>
-    </div>
-    <div class="format-card reveal">
-      <div class="format-card-num">03</div>
-      <div class="format-card-title">La Selezione</div>
-      <div class="format-card-text">Tre gusti in piccole porzioni da ~130g ciascuno — la proposta per chi vuole esplorare la teglia. Il sommelier della pizza: si assaggiano gli impasti, i condimenti, il territorio.</div>
-      <div class="format-card-price">Fascia consigliata · €18 — €24 la selezione · tre gusti</div>
-    </div>
-    <div class="format-card reveal">
-      <div class="format-card-num">04</div>
-      <div class="format-card-title">Le Firme — Disgraziata & Fata Morgana</div>
-      <div class="format-card-text">I due pezzi signature del Blanco. Impasti diversi, tecniche diverse, prezzo dedicato. La Disgraziata con le tre cotture e la Fata Morgana al nero di seppia sono le pizze da raccontare al tavolo.</div>
-      <div class="format-card-price">Fascia consigliata · €12 — €16 al pezzo</div>
-    </div>
-  </div>
-</section>
+</div>
 
 
-<!-- ══ MENU ══ -->
-<div class="p-wrap">
+<!-- ══ LE FIRME — PRIMA ══ -->
+<div class="reveal" style="background:var(--mare-v);padding:2.8rem 1.5rem 1rem">
+  <span class="lbl lbl-w">Le nostre firme</span>
+  <div class="ttl ttl-w" style="margin-bottom:0.5rem">Inizia<br>da <em>qui</em></div>
+  <p class="body-text body-text-w" style="font-size:0.88rem">Le due pizze signature del Blanco. Impasti diversi, tecniche diverse, prezzi dedicati. Arrivano <strong>complete e intere</strong> — non in formato teglia. Sono i pezzi da raccontare.</p>
+</div>
 
-  <!-- LA TEGLIA -->
-  <div class="menu-section">
-    <div class="menu-section-title reveal">La Teglia — Impasto con Maiorca siciliana</div>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Margherita</div>
-      <span class="p-price">€ 7</span>
-    </div>
-    <div class="p-ingr">Pomodoro siccagno · Fior di latte Latteria Sorrentina · Olio EVO Terraliva · Basilico</div>
-    <div class="p-desc">Il metro di misura. Pomodoro siccagno di Valledolmo — coltivato senz'acqua, dolce e denso — fior di latte che fonde in modo uniforme, olio Terraliva in uscita. La pizza più semplice e la più difficile da fare bene.</div>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Capricciosa</div>
-      <span class="p-price">€ 9</span>
-    </div>
-    <div class="p-ingr">Pomodoro · Fior di latte · Prosciutto cotto Branchi · Funghi · Carciofi · Olive · Uovo</div>
-    <div class="p-desc">La classica senza compromessi — prosciutto cotto Branchi, la linea premium Levoni, e ogni ingrediente selezionato. La capricciosa che ricorda com'era prima che diventasse generica.</div>
+<!-- ══ LE FIRME ══ -->
+<div class="firme-wrap">
+  <div class="menu-cat-bar reveal">
+    <div class="menu-cat-lbl">Le Firme — Signature</div>
+    <div class="menu-cat-line"></div>
   </div>
 
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Norma</div>
-      <span class="p-price">€ 8</span>
+  <!-- DISGRAZIATA -->
+  <div class="firma-hero reveal">
+    <span class="firma-tipo">Premio Pizza e Territorio · Gambero Rosso</span>
+    <div class="firma-nome">Disgraziata</div>
+    <div class="firma-sottotitolo">Omaggio a Don Minicu — impasto tre cotture</div>
+    <div class="firma-prezzo-box">
+      <span class="firma-euro">€</span>
+      <span class="firma-num">16</span>
     </div>
-    <div class="p-ingr">Pomodoro siccagno · Fior di latte · Melanzane fritte · Basilico · Ricotta salata in uscita</div>
-    <div class="p-desc">La pasta alla Norma in forma di teglia. La ricotta salata arriva in scaglie fuori dal forno — comunicarlo sempre ai clienti. Sapore catanese, impasto siciliano, tutto coerente.</div>
-    <span class="p-tag">Ricotta salata in uscita</span>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Diavola</div>
-      <span class="p-price">€ 8</span>
+    <div class="firma-ingr">Salame Levoni · Mortadella Levoni · Melanzane sott'olio · Funghi · Datterino semi secco · Primo sale · Olive · Gocce di Habamix · Polvere di olive</div>
+    <div class="firma-desc">La pizza più elaborata tecnicamente che facciamo. Tre cotture sequenziali costruiscono una crosta scura e croccante che non si ottiene in altro modo. La mortadella Levoni Linea Oro — la migliore in commercio — arriva morbida e profumata in uscita sul calore. Le gocce di habamix portano un piccante caldo e controllato. Premio Gambero Rosso Pizza e Territorio.</div>
+    <div class="cotture-box">
+      <span class="cotture-lbl">Le tre cotture</span>
+      <div class="cotture-steps">
+        <div class="cottura-step"><span>💨</span>Vapore<br>struttura</div>
+        <div class="cottura-step"><span>🌀</span>Ventilato<br>crosta</div>
+        <div class="cottura-step"><span>🔥</span>Statico<br>doratura</div>
+      </div>
     </div>
-    <div class="p-ingr">Pomodoro · Fior di latte · Salame piccante · Nduja · Olio al peperoncino</div>
-    <div class="p-desc">Piccante, diretta, senza scuse. La nduja si scioglie in cottura creando una base rosso acceso piccante e untuosa. L'olio al peperoncino in uscita alza ancora l'intensità. Avvisare sempre per il piccante.</div>
-    <span class="p-tag">⚠ Piccante — avvisare</span>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Primavera</div>
-      <span class="p-price">€ 9</span>
+    <div class="firma-tags">
+      <span class="firma-tag ft-gambero">★ Gambero Rosso · Pizza e Territorio</span>
+      <span class="firma-tag ft-oro">Impasto dedicato · 3 farine</span>
+      <span class="firma-tag ft-rosso">⚠ Piccante</span>
     </div>
-    <div class="p-ingr">Base bianca · Fior di latte · Zucchine trifolate · Fiori di zucca · Provola dei Nebrodi · Menta fresca</div>
-    <div class="p-desc">Una teglia bianca, estiva, profumata. Le zucchine trifolate e i fiori di zucca entrano in forno, la menta fresca arriva in uscita — un morso che sa di orto al mattino. La più leggera della carta.</div>
-    <span class="p-tag">Stagionale</span>
   </div>
 
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Rucola, Crudo e Fichi</div>
-      <span class="p-price">€ 10</span>
+  <!-- FATA MORGANA -->
+  <div class="firma-hero reveal" style="border-bottom:none">
+    <span class="firma-tipo">Impasto al nero di seppia · Doppia cottura</span>
+    <div class="firma-nome">Fata Morgana</div>
+    <div class="firma-sottotitolo">Il miraggio sullo Stretto</div>
+    <div class="firma-prezzo-box">
+      <span class="firma-euro">€</span>
+      <span class="firma-num">28</span>
     </div>
-    <div class="p-ingr">Base bianca · Fior di latte · Prosciutto crudo Levoni · Fichi freschi · Rucola · Scaglie di grana · Miele di zagara</div>
-    <div class="p-desc">Dolce, salato, fresco — il trittico perfetto per l'aperitivo estivo. Il crudo Levoni e i fichi freschi arrivano tutti in uscita sul fior di latte caldo. Il miele di zagara chiude con un filo d'arancio siciliano. La teglia da abbinare a bollicine.</div>
-    <span class="p-tag">Stagionale · a crudo</span>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Messinese</div>
-      <span class="p-price">€ 9</span>
+    <div class="firma-ingr">Stracciatella · Gambero rosso di Mazara (crudo) · Polvere di peperone crusco · Erba cipollina · Olio EVO Terraliva al limone</div>
+    <div class="firma-desc">Disco nero al nero di seppia — doppia cottura vapore e statico. Il gambero rosso di Mazara arriva crudo in uscita insieme alla stracciatella fresca: dolce, quasi burroso, con tutta la sapidità del mare siciliano. Il nero del disco, il bianco della stracciatella, il rosso del gambero. La pizza più fotografata del locale. Comunicare sempre ai clienti che il gambero è a crudo.</div>
+    <div class="cotture-box">
+      <span class="cotture-lbl">Le due cotture</span>
+      <div class="cotture-steps">
+        <div class="cottura-step"><span>💨</span>Vapore<br>interno morbido</div>
+        <div class="cottura-step"><span>🔥</span>Statico<br>crosta e colore</div>
+      </div>
     </div>
-    <div class="p-ingr">Provola affumicata dei Nebrodi · Salame Sant'Angelo IGP · Melanzane sott'olio · Pomodoro confit · Origano selvatico · Zeste di limone</div>
-    <div class="p-desc">Il territorio messinese in una teglia. La provola affumicata dei Nebrodi e il salame Sant'Angelo IGP — due presidi locali — si fondono sul pomodoro confit. L'origano selvatico dei nostri monti e le zeste di limone in uscita firmano ogni pezzo con il profumo della Sicilia nord-orientale.</div>
-    <span class="p-tag">Territorio Messinese</span>
-  </div>
-
-
-  <!-- LE FIRME -->
-  <div class="menu-section">
-    <div class="menu-section-title reveal">Le Firme — Teglie Signature</div>
-  </div>
-
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Disgraziata</div>
-      <span class="p-price">€ 14</span>
+    <div class="firma-tags">
+      <span class="firma-tag ft-oro">Nero di seppia</span>
+      <span class="firma-tag ft-bianco">Gambero crudo — comunicarlo sempre</span>
     </div>
-    <div class="p-ingr">Salame Levoni · Mortadella Levoni · Melanzane sott'olio · Funghi · Datterino semi secco · Primo sale · Olive · Gocce di Habamix · Polvere di olive</div>
-    <div class="p-desc">L'impasto a tre cotture: vapore, ventilato, statico. Crosta scura e croccante come non si vede altrove, mollica morbida e alveolata dentro. La mortadella arriva in uscita sul calore. Le gocce di habamix portano caldo piccante — avvisare sempre. Premio Pizza e Territorio Gambero Rosso.</div>
-    <span class="p-tag p-tag-gambero">★ Gambero Rosso · Pizza e Territorio</span>
-    <span class="p-tag">Tre cotture · Impasto dedicato</span>
-    <span class="p-tag">⚠ Piccante</span>
   </div>
+</div>
 
-  <div class="p-row reveal">
-    <div class="p-head">
-      <div class="p-name">Fata Morgana</div>
-      <span class="p-price">€ 16</span>
-    </div>
-    <div class="p-ingr">Impasto nero di seppia · Stracciatella · Gambero rosso di Mazara (crudo) · Polvere di peperone crusco · Erba cipollina · Olio EVO Terraliva al limone</div>
-    <div class="p-desc">Impasto al nero di seppia — doppia cottura vapore e statico. Il gambero rosso di Mazara arriva crudo in uscita insieme alla stracciatella fresca. Il disco nero, il bianco latteo della stracciatella, il rosso del gambero: è la pizza più fotografata del locale. Spiegare sempre che il gambero è a crudo.</div>
-    <span class="p-tag p-tag-special">Nero di seppia · Doppia cottura</span>
-    <span class="p-tag">Gambero crudo — comunicarlo sempre</span>
-  </div>
 
-</div><!-- /p-wrap -->
+
+<!-- ══ MENU TEGLIE ══ -->
+<div class="menu-cat-bar reveal">
+  <div class="menu-cat-lbl">La Teglia</div>
+  <div class="menu-cat-line"></div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Margherita</div><div class="pz-price">€7</div></div>
+  <div class="pz-ingr">Pomodoro siccagno · Fior di latte · Olio EVO Terraliva · Basilico</div>
+  <div class="pz-desc">Siccagno di Valledolmo, coltivato senz'acqua. Il metro di misura.</div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Capricciosa</div><div class="pz-price">€9</div></div>
+  <div class="pz-ingr">Pomodoro · Fior di latte · Prosciutto cotto Branchi · Funghi · Carciofi · Olive</div>
+  <div class="pz-desc">La classica senza compromessi. Prosciutto cotto Branchi, linea premium Levoni.</div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Norma</div><div class="pz-price">€8</div></div>
+  <div class="pz-ingr">Pomodoro siccagno · Fior di latte · Melanzane fritte · Basilico · Ricotta salata</div>
+  <div class="pz-desc">La pasta alla Norma in forma di teglia. La ricotta salata arriva in scaglie in uscita.</div>
+  <div class="pz-tags"><span class="ptag pt-oro">Ricotta salata in uscita</span></div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Diavola</div><div class="pz-price">€8</div></div>
+  <div class="pz-ingr">Pomodoro · Fior di latte · Salame piccante · Nduja · Olio al peperoncino</div>
+  <div class="pz-desc">La nduja si scioglie in cottura creando una base rossa e piccante. Senza scuse.</div>
+  <div class="pz-tags"><span class="ptag pt-rosso">⚠ Piccante</span></div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Primavera</div><div class="pz-price">€9</div></div>
+  <div class="pz-ingr">Fior di latte · Zucchine trifolate · Fiori di zucca · Provola dei Nebrodi · Menta</div>
+  <div class="pz-desc">Bianca, estiva. La menta fresca in uscita. La più leggera della carta.</div>
+  <div class="pz-tags"><span class="ptag pt-verde">Stagionale</span></div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Rucola, Crudo e Fichi</div><div class="pz-price">€10</div></div>
+  <div class="pz-ingr">Fior di latte · Prosciutto crudo Levoni · Fichi freschi · Rucola · Grana · Miele di zagara</div>
+  <div class="pz-desc">Dolce, salato, fresco. Crudo, fichi e miele di zagara tutti in uscita. Da abbinare a bollicine.</div>
+  <div class="pz-tags"><span class="ptag pt-verde">Stagionale</span><span class="ptag pt-mare">A crudo</span></div>
+</div>
+
+<div class="pz reveal">
+  <div class="pz-top"><div class="pz-name">Messinese</div><div class="pz-price">€9</div></div>
+  <div class="pz-ingr">Provola affumicata Nebrodi · Salame Sant'Angelo IGP · Melanzane sott'olio · Pomodoro confit · Origano selvatico · Zeste di limone</div>
+  <div class="pz-desc">Il territorio messinese in una teglia. Due presidi locali, un'identità precisa.</div>
+  <div class="pz-tags"><span class="ptag pt-oro">Territorio Messinese</span></div>
+</div>
 
 
 <!-- ══ PECCATI IN PADELLA ══ -->
-<section class="peccati-wrap">
-  <div class="reveal">
-    <span class="s-label">Piccolo formato · Da condividere</span>
-    <h2 class="s-title">Peccati<br>in Padella</h2>
-    <p class="s-text">Il padellino è il formato più goloso che abbiamo. Impasto a tre farine Petra — 0102 HP, 5078 e semola di grano duro 8610 — con le tre cotture vapore, ventilato e statico. <strong>Crosta esterna che scrocchia, interno morbido e spugnoso.</strong> Il contrasto più alto che facciamo. Portato al tavolo direttamente in padellino, ancora caldo.</p>
+<div class="peccati-section reveal">
+  <span class="lbl">Piccolo formato · Da condividere</span>
+  <div class="ttl">Peccati<br><em>in Padella</em></div>
+  <p class="body-text">Tre farine Petra — 0102 HP, 5078 e semola di grano duro 8610 — con tre cotture: vapore, ventilato, statico. <strong>Crosta che scrocchia, interno morbido e spugnoso.</strong> Il contrasto più alto che facciamo. Servito nel padellino caldo.</p>
+
+  <div class="peccato-card-p">
+    <div class="pec-nome">Crudo e Bufala</div>
+    <span class="pec-impasto">Padellino · 3 farine · 3 cotture</span>
+    <div class="pec-ingr">Mozzarella di bufala DOP · Prosciutto crudo Levoni · Olio EVO Terraliva · Basilico</div>
+    <div class="pec-desc">La semplicità portata al massimo della tecnica. Bufala e crudo in uscita sul calore del padellino. Il contrasto tra la crosta croccante e la freschezza a crudo è il punto.</div>
+    <div class="pec-price">€10 — €12</div>
   </div>
-  <div class="peccati-grid">
 
-    <div class="peccato-card reveal">
-      <div class="peccato-name">Crudo e Bufala</div>
-      <div class="peccato-ingr">Mozzarella di bufala DOP · Prosciutto crudo Levoni · Olio EVO Terraliva · Basilico</div>
-      <div class="peccato-desc">La semplicità portata al massimo della tecnica. La bufala DOP con la sua acidità lattea e il crudo Levoni arrivano entrambi in uscita sul padellino caldo. L'olio Terraliva e il basilico fresco completano. Il contrasto tra la crosta croccante del padellino e la freschezza del crudo è il punto.</div>
-      <div class="peccato-price">Fascia consigliata · €10 — €12</div>
-    </div>
-
-    <div class="peccato-card reveal">
-      <div class="peccato-name">Tonno, Txiki e Rucola</div>
-      <div class="peccato-ingr">Filetti di tonno sott'olio · Salsa Txiki · Rucola fresca · Cipolla di Tropea · Olio al limone</div>
-      <div class="peccato-desc">La salsa Txiki — tipica della cucina basca, con peperone piquillo e pomodoro — porta una dolcezza affumicata mediterranea che si abbina perfettamente al tonno. La rucola fresca in uscita aggiunge nota verde e amara. Un padellino che guarda al mare ma strizza l'occhio all'Europa.</div>
-      <div class="peccato-price">Fascia consigliata · €11 — €13</div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ══ COCKTAIL PAIRING ══ -->
-<section class="pairing-wrap">
-  <div class="reveal">
-    <span class="s-label">Abbinamenti consigliati</span>
-    <h2 class="s-title">Pizza<br>& Cocktail</h2>
-    <p class="s-text">Suggerimenti per il personale — non è una regola, è una guida. L'obiettivo è aiutare il cliente a scegliere il drink che esalta la pizza, o viceversa.</p>
-  </div>
-  <div class="pairing-list">
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Margherita</div>
-      <div class="pairing-cocktail"><strong>Spritz bianco o Prosecco</strong> — l'acidità delle bollicine pulisce il palato tra un morso e l'altro senza coprire il siccagno</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Rucola, Crudo e Fichi</div>
-      <div class="pairing-cocktail"><strong>Franciacorta o Champagne-style</strong> — le note di frutta secca esaltano i fichi; in alternativa un Negroni bianco per chi vuole contrasto amaro</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Norma</div>
-      <div class="pairing-cocktail"><strong>Vodka tonic o Gin tonic secco</strong> — la nota amara del gin bilancia la ricotta salata e la dolcezza delle melanzane</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Diavola</div>
-      <div class="pairing-cocktail"><strong>Birra artigianale lager o Margarita</strong> — l'amaro della birra o l'acidità del lime smorzano il piccante senza coprirlo</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Messinese</div>
-      <div class="pairing-cocktail"><strong>Amaro Siciliano Spritz o Campari Soda</strong> — l'amaro mediterraneo amplifica la provola affumicata e l'origano selvatico</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Fata Morgana</div>
-      <div class="pairing-cocktail"><strong>Martini Dry o Champagne Blanc de Blancs</strong> — mineralità e sapidità esaltano il gambero crudo; l'abbinamento da raccontare al tavolo</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Disgraziata</div>
-      <div class="pairing-cocktail"><strong>Manhattan o Negroni classico</strong> — la complessità amara e speziata del cocktail reggono la potenza della pizza a tre cotture</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Crudo e Bufala (padellino)</div>
-      <div class="pairing-cocktail"><strong>Prosecco o Hugo</strong> — leggerezza che non copre la bufala; l'Hugo con il sambuco porta una nota floreale che si abbina al basilico</div>
-    </div>
-    <div class="pairing-row reveal">
-      <div class="pairing-pizza">Tonno, Txiki e Rucola (padellino)</div>
-      <div class="pairing-cocktail"><strong>Gin Tonic con cetriolo o Sauvignon Blanc</strong> — la nota erbacea del gin o l'acidità del bianco esaltano la salsa Txiki e la rucola</div>
+  <div class="peccato-card-p">
+    <div class="pec-nome">Tonno, Txiki e Rucola</div>
+    <span class="pec-impasto">Padellino · 3 farine · 3 cotture</span>
+    <div class="pec-ingr">Filetti di tonno sott'olio · Salsa Txiki · Rucola fresca · Cipolla di Tropea · Olio al limone</div>
+    <div class="pec-desc">La salsa Txiki basca — peperone piquillo e pomodoro affumicato — incontra il tonno siciliano. La rucola fresca in uscita aggiunge nota verde e amara. Uno sguardo al Mediterraneo allargato.</div>
+    <div class="pec-price">€11 — €13</div>
+    <div class="tre-cotture-badge">
+      <div class="tcb-text">Padellino · <strong>3 cotture</strong>: vapore → ventilato → statico</div>
     </div>
   </div>
-</section>
+</div>
 
 
-<!-- ══ NOTE OPERATIVE ══ -->
-<section class="note-wrap">
-  <div class="reveal">
-    <div class="note-title">Note per il personale</div>
-    <ul class="note-list">
-      <li>Il gambero della Fata Morgana è sempre crudo — comunicarlo prima che il cliente ordini, non dopo.</li>
-      <li>La ricotta salata della Norma arriva in uscita in scaglie — il cliente la vede aggiungersi al tavolo.</li>
-      <li>Le gocce di habamix della Disgraziata sono piccanti — avvisare sempre, non aspettare che lo chiedano.</li>
-      <li>La Diavola ha nduja — piccante. Stesso avviso.</li>
-      <li>Rucola, crudo, fichi e miele sono tutti ingredienti a crudo in uscita — la pizza arriva "in divenire".</li>
-      <li>I padellini arrivano ancora nel padellino — sono caldi, avvisare i clienti di non toccare il bordo.</li>
-      <li>Le firme (Disgraziata e Fata Morgana) hanno impasti diversi dalla teglia standard — vale la pena raccontarlo.</li>
-      <li>Il peso indicativo per il pezzo singolo è 250–400g — le firme tendono verso i 400g.</li>
-    </ul>
+<!-- ══ PERCHÉ SCEGLIERLO ══ -->
+<div class="blk blk-dark reveal">
+  <span class="lbl lbl-w">La scelta vincente</span>
+  <div class="ttl ttl-w">Perché<br><em>Aperi·Teglia</em></div>
+  <div class="perche-list">
+    <div class="perche-row">
+      <div class="perche-n">01</div>
+      <div>
+        <div class="perche-title">Il formato giusto per il cocktail</div>
+        <div class="perche-text">La teglia regge bene qualche minuto dopo il forno — non richiede consumo immediato. Perfetta per il ritmo dell'aperitivo.</div>
+      </div>
+    </div>
+    <div class="perche-row">
+      <div class="perche-n">02</div>
+      <div>
+        <div class="perche-title">Alta digeribilità</div>
+        <div class="perche-text">85%+ di idratazione e lunga fermentazione Biga. Si mangia senza appesantire — essenziale in un contesto da cocktail bar sul mare.</div>
+      </div>
+    </div>
+    <div class="perche-row">
+      <div class="perche-n">03</div>
+      <div>
+        <div class="perche-title">Due firme uniche</div>
+        <div class="perche-text">Disgraziata e Fata Morgana non esistono altrove con questi impasti e queste tecniche. Sono i pezzi da raccontare, fotografare, ricordare.</div>
+      </div>
+    </div>
+    <div class="perche-row">
+      <div class="perche-n">04</div>
+      <div>
+        <div class="perche-title">Identità territoriale forte</div>
+        <div class="perche-text">Maiorca siciliana, siccagno di Valledolmo, capperi di Salina, provola dei Nebrodi. Ogni pizza racconta un posto preciso della Sicilia.</div>
+      </div>
+    </div>
   </div>
-</section>
+</div>
+
+
+<!-- ══ PAIRING ══ -->
+<div class="pairing-section reveal">
+  <span class="lbl">Abbinamenti consigliati</span>
+  <div class="ttl">Pizza<br><em>& Cocktail</em></div>
+  <div style="margin-top:1.2rem">
+    <div class="pairing-row-p"><div class="pr-pizza">Margherita</div><div class="pr-drink"><strong>Spritz bianco · Prosecco</strong> — pulisce il palato tra un morso e l'altro</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Rucola, Crudo e Fichi</div><div class="pr-drink"><strong>Franciacorta · Negroni bianco</strong> — bollicine con i fichi, amaro con il crudo</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Norma</div><div class="pr-drink"><strong>Gin tonic secco</strong> — l'amaro bilancia la ricotta salata</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Diavola</div><div class="pr-drink"><strong>Birra lager · Margarita</strong> — smorzano il piccante senza coprirlo</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Messinese</div><div class="pr-drink"><strong>Amaro Siciliano Spritz</strong> — amplifica provola affumicata e origano selvatico</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Fata Morgana</div><div class="pr-drink"><strong>Martini Dry · Champagne</strong> — mineralità che esalta il gambero crudo</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Disgraziata</div><div class="pr-drink"><strong>Negroni · Manhattan</strong> — reggono la complessità delle tre cotture</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Crudo e Bufala</div><div class="pr-drink"><strong>Hugo · Prosecco</strong> — note floreali vicine al basilico</div></div>
+    <div class="pairing-row-p"><div class="pr-pizza">Tonno e Txiki</div><div class="pr-drink"><strong>Gin tonic con cetriolo</strong> — nota erbacea che esalta la salsa Txiki</div></div>
+  </div>
+</div>
+
+
+<!-- ══ NOTE ══ -->
+<div class="note-section reveal">
+  <div class="note-title">Note per il personale</div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Fata Morgana</strong> — il gambero è crudo. Comunicarlo prima dell'ordine, non dopo.</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Norma</strong> — la ricotta salata arriva in scaglie in uscita. Il cliente la vede aggiungersi al tavolo.</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Disgraziata & Diavola</strong> — piccanti. Avvisare sempre, senza aspettare che lo chiedano.</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Rucola, crudo, fichi, miele</strong> — tutti in uscita a crudo. La pizza arriva "in divenire".</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Padellini</strong> — serviti nel padellino caldo. Avvisare di non toccare il bordo metallico.</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Firme</strong> — Disgraziata e Fata Morgana hanno impasti diversi dalla teglia standard. Vale la pena raccontarlo.</div></div>
+  <div class="note-i"><div class="note-dot"></div><div class="note-txt"><strong>Peso</strong> — il pezzo singolo è 250–400g. Le firme sono complete e arrivano intere.</div></div>
+</div>
 
 
 <!-- ══ FOOTER ══ -->
-<footer class="footer">
+<footer class="footer reveal">
   <div class="footer-logo">Blanco</div>
   <div class="footer-sub">
-    Pizzalab · Messina · Stretto di Messina<br>
-    Aperi·Teglia · Estate 2026
+    Pizzalab · Stretto di Messina · Estate 2026<br>
+    #SEGUILORSO · blancopizzalab.it
   </div>
   <div class="footer-firma">Menu ideato da Matteo La Spada · Pizzaiolo</div>
 </footer>
 
-
 <script>
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.1 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
