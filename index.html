@@ -599,6 +599,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div class="menu-arrow">›</div>
     </div>
     <div class="menu-section-label">⚡ Impasto Diretto</div>
+    <div class="menu-btn" onclick="openPage('diretto02')">
+      <div class="menu-icon" style="background:rgba(136,14,79,0.3)">🔬</div>
+      <div class="menu-text">
+        <div class="menu-name">Napoletana Diretta 0102HP</div>
+        <div class="menu-sub">75% 0102HP · 25% 5063 Special · 12-24h · Cornicione esplosivo</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(212,160,62,0.2);border-color:var(--gold);color:var(--gold)">NEW</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-btn" onclick="openPage('diretto')">
       <div class="menu-icon" style="background:rgba(230,100,0,0.3)">⚡</div>
       <div class="menu-text">
@@ -1602,6 +1612,84 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   </div>
   <a id="waLink_pageTegliaPF" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTegliaPF','Teglia Pronta Forno')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pageTegliaPF','Teglia Pronta Forno')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
+</div>
+
+
+<!-- NAPOLETANA DIRETTA 0102HP -->
+<div id="pageDirecto02" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔬</div>
+    <div class="page-hero-title">Napoletana Diretta 0102HP</div>
+    <div class="page-hero-sub">75% 0102HP · 25% 5063 Special · W blend 315 · LdB calibrato · 12-24h</div>
+  </div>
+
+  <!-- SCHEDA SCIENTIFICA -->
+  <div style="margin:0 16px 4px;background:rgba(136,14,79,0.1);border:1px solid rgba(136,14,79,0.3);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#CE93D8;text-transform:uppercase;margin-bottom:10px">🔬 Parametri Scientifici — Blend Ottimale</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">0102HP</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">75% · W330</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">5063 Special</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">25% · W270</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">W blend</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">315 Pa</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">P/L blend</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">0.59 ✅</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">IDR consigliata</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">70-72%</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">μ blend a 22°C</div>
+        <div style="color:#CE93D8;font-weight:700;font-family:'DM Mono',monospace">0.049 h⁻¹</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);line-height:1.6;font-style:italic">
+      Il 25% 5063 Special accelera la Maillard (leopardatura) e abbassa P/L a 0.59 — stesura fluida senza ritiro · 0102HP domina la struttura · W blend 315 regge 12-24h
+    </div>
+  </div>
+
+  <div class="card open" id="cardD02Inp">
+    <div class="card-hdr" onclick="toggleCard('cardD02Inp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Input</div><div class="card-hdr-title">Kg · Grammatura · T ambiente · Ore cella</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="d02Kg" type="number" value="10" min="1" max="150" step="0.5" oninput="calcDiretto02()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="d02Gr" type="number" value="260" min="220" max="320" step="5" oninput="calcDiretto02()"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR % (consigliata 70-72)</label><div class="inp-row"><input class="inp-field" id="d02IDR" type="number" value="70" min="65" max="75" step="1" oninput="calcDiretto02()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="d02Sale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcDiretto02()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">% 5063 Special nel blend (ottimale 25%)</label><div class="inp-row"><input class="inp-field" id="d02P63" type="number" value="25" min="10" max="40" step="5" oninput="calcDiretto02()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group">
+        <label class="inp-label">Ore panetti in cella dopo staglio</label>
+        <div class="inp-row"><input class="inp-field" id="d02HCella" type="number" value="10" min="4" max="18" step="1" oninput="calcDiretto02()"><span class="inp-unit">h</span></div>
+      </div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="d02TA" type="number" value="22" min="16" max="30" step="1" oninput="calcDiretto02()"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora impasto (es. 21 = stasera)</label><div class="inp-row"><input class="inp-field" id="d02OI" type="number" value="21" min="0" max="23" step="1" oninput="calcDiretto02()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">% acqua fase 1 autolisi</label><div class="inp-row"><input class="inp-field" id="d02F1" type="number" value="65" min="50" max="80" step="5" oninput="calcDiretto02()"><span class="inp-unit">%</span></div></div>
+    </div>
+  </div>
+
+  <div class="card open" id="cardD02Out">
+    <div class="card-hdr" onclick="toggleCard('cardD02Out')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text"><div class="card-hdr-label">Ricetta Scientifica</div><div class="card-hdr-title">Grammi · LdB calibrato · Timeline</div></div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="diretto02Out"></div></div>
+  </div>
+
+  <a id="waLink_pageDirecto02" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageDirecto02','Napoletana Diretta 0102HP')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageDirecto02','Napoletana Diretta 0102HP')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
 </div>
 
 <div id="pageDiretto" class="scroll" style="display:none">
@@ -2643,7 +2731,7 @@ const pages={
   napofrigo:'pageNapoFrigo',
   tegliapf:'pageTegliaPF',
   diario:'pageDiario',
-  diretto:'pageDiretto',
+  diretto02:'pageDirecto02',diretto:'pageDiretto',
   romana:'pageRomana',
   pala48h:'pagePala48h'
 };
@@ -2661,6 +2749,7 @@ const titles={
   napofrigo:['❄️ Napoletana Pronta Forno','Biga G1 → Panetti frigo 24-36h → Forno'],
   tegliapf:['❄️ Teglia Pronta Forno','Biga + Frigo 18-24h → Forno diretto'],
   diario:['📔 Diario di Produzione','Registro scientifico produzioni'],
+  diretto02:['🔬 Napoletana Diretta 0102HP','75% 0102HP · 25% 5063 Special · W315 · 12-24h'],
   diretto:['⚡ Impasto Diretto 6-12h','Napoletana · Tonda · Forno elettrico'],
   romana:['🫓 Romana Croccante','5046 Allegra · Diretta · Mattarello'],
   pala48h:['🏅 Pala Romana 48h','Biga 40% IDR 48% · LdB 0.5% · 70% 5078 · IDR 75%']
@@ -4264,8 +4353,177 @@ function sharePalline(){
   window.open('https://wa.me/?text='+encodeURIComponent(lines.join('\n')),'_blank');
 }
 
+
+
+// ══════════════════════════════════════════════════════════
+// NAPOLETANA DIRETTA 0102HP + 5063 SPECIAL — v2
+// Blend: 75% 0102HP W330 + 25% 5063 W270
+// Protocollo: puntata T ambiente → panetti cella → forno
+// LdB calibrato su puntata reale (Suas p.42)
+// G' target forno: 2000-2400 Pa (Dobraszczyk JCS 2003)
+// ══════════════════════════════════════════════════════════
+function calcDiretto02(){
+  const kg    = parseFloat((document.getElementById('d02Kg')||{value:10}).value)||10;
+  const gr    = parseFloat((document.getElementById('d02Gr')||{value:260}).value)||260;
+  const idr   = parseFloat((document.getElementById('d02IDR')||{value:70}).value)||70;
+  const saleP = parseFloat((document.getElementById('d02Sale')||{value:2.8}).value)||2.8;
+  const p63   = parseFloat((document.getElementById('d02P63')||{value:25}).value)||25;
+  const ta    = parseFloat((document.getElementById('d02TA')||{value:22}).value)||22;
+  const oi    = parseFloat((document.getElementById('d02OI')||{value:21}).value)||21;
+  const hCella= parseFloat((document.getElementById('d02HCella')||{value:10}).value)||10;
+  const f1Pct = parseFloat((document.getElementById('d02F1')||{value:65}).value)||65;
+  const out   = document.getElementById('diretto02Out');
+  if(!out) return;
+
+  const p02 = Math.max(0, 100 - p63);
+  const Q10 = 2.2;
+
+  // ── BLEND REOLOGICO (media ponderata — Mulino Quaglia Tech Sheet 2023) ──
+  const W_blend  = R(330*(p02/100) + 270*(p63/100), 0);
+  const PL_blend = R(0.60*(p02/100) + 0.55*(p63/100), 2);
+  const mu22     = R(0.045*(p02/100) + 0.060*(p63/100), 4);
+
+  // ── G'₀ INIZIALE (Dobraszczyk & Morgenstern JCS 2003) ──
+  const Gp0 = R(2000 * Math.pow(W_blend/300, 1.5) * Math.pow(65/idr, 2), 0);
+
+  // ── PROTOCOLLO MISTO: ore equivalenti a 22°C ──
+  // Fase 1: puntata a T ambiente fino a +60% volume
+  // Fase 2: panetti in cella (hCella ore a 4°C)
+  // Fase 3: appretto 35min a T ambiente → forno
+  const muT_amb  = mu22 * Math.pow(Q10, (ta-22)/10);
+  const t_punt   = R(Math.log(1.60) / muT_amb, 1); // ore per +60% a T ambiente
+  const t_eq_c   = R(hCella * Math.pow(Q10, (4-22)/10), 2); // ore eq. cella
+  const t_eq_app = R(0.58 * muT_amb, 3); // 35min appretto in ore eq.
+  const t_eq_tot = R(t_punt + t_eq_c + t_eq_app, 2);
+
+  // ── G' AL FORNO ──
+  const Gp_staglio = R(Gp0 * Math.exp(-mu22 * t_punt * Math.pow(Q10,(ta-22)/10)), 0);
+  const Gp_forno   = R(Gp0 * Math.exp(-mu22 * t_eq_tot), 0);
+
+  // ── LdB CALIBRATO (Suas p.42: k=0.35 / μ(T) × t_puntata) ──
+  const ldbP = R(Math.min(1.2, Math.max(0.15, 0.35 / (muT_amb * t_punt))), 2);
+  const ldbG = R(kg * ldbP/100 * 1000, 1);
+
+  // ── IDR max teorica (Dobraszczyk 2003) ──
+  const IDR_max = R(Math.sqrt(W_blend) * 3.9, 1);
+
+  // ── FARINE ──
+  const kg0102 = R(kg * p02/100 * 1000, 0);
+  const kg5063 = R(kg * p63/100 * 1000, 0);
+
+  // ── ACQUA ──
+  const acqTot  = R(kg * idr/100 * 1000, 0);
+  const sale    = R(kg * saleP/100 * 1000, 0);
+  const acqSale = R(sale * 3, 0);
+  const fase1   = R(acqTot * f1Pct/100, 0);
+  const bass    = Math.max(0, acqTot - fase1);
+
+  // ── T ACQUA — DDT 3 variabili diretto (Suas p.42) ──
+  const Tacq = R(22*3 - 18 - ta - 7.8, 1);
+
+  // ── PANETTI ──
+  const pan = Math.floor((kg*1000 + acqTot + sale) / gr);
+
+  // ── ORARI ──
+  const oraStaglio = H(oi + t_punt);
+  const oraFuoriC  = H(oi + t_punt + hCella);
+  const oraForno   = H(oi + t_punt + hCella + 0.58);
+
+  // ── SEMAFORI ──
+  // #1 G' forno — cuore del cornicione esplosivo
+  const semGp = Gp_forno>=2000&&Gp_forno<=2400?'ok':Gp_forno<1800?'bad':'warn';
+  const txtGp = Gp_forno>=2000&&Gp_forno<=2400
+    ? '✅ CORNICIONE ESPLOSIVO — G\' al forno '+Gp_forno+' Pa (target 2000-2400)'
+    : Gp_forno<1800
+    ? '❌ MAGLIA ESAURITA — G\' '+Gp_forno+' Pa — riduci ore cella o LdB'
+    : Gp_forno<=2700
+    ? '🟡 BUONO — G\' '+Gp_forno+' Pa — cornicione aperto ma non esplosivo'
+    : '⚠️ ANCORA RIGIDO — G\' '+Gp_forno+' Pa — allunga puntata o riduci LdB';
+
+  // #2 Puntata
+  const semPunt = t_punt>=8&&t_punt<=12?'ok':t_punt<6?'bad':'warn';
+  const txtPunt = t_punt>=8&&t_punt<=12
+    ? '✅ Puntata '+t_punt+'h a '+ta+'°C — finestra ottimale'
+    : t_punt<6
+    ? '❌ Puntata troppo breve — alza LdB o abbassa temperatura'
+    : '⚠️ Puntata lunga '+t_punt+'h — rischio over a '+ta+'°C';
+
+  // #3 LdB
+  const semLdb = ldbP>=0.25&&ldbP<=0.55?'ok':ldbP>0.55?'warn':'bad';
+  const txtLdb = ldbP>=0.25&&ldbP<=0.55
+    ? '✅ LdB '+ldbP+'% calibrato su μ blend e temperatura'
+    : ldbP>0.55
+    ? '⚠️ LdB '+ldbP+'% un po\' alto — riduce margine di sicurezza'
+    : '❌ LdB '+ldbP+'% troppo basso — non fermenterà abbastanza';
+
+  // #4 Blend
+  const semW = W_blend>=300?'ok':W_blend>=270?'warn':'bad';
+
+  // #5 Volume staglio
+  const txtVol = '✅ STAGLIO quando vedi +55-70% volume — non prima, non dopo';
+
+  out.innerHTML =
+    // Semaforo principale — G' forno
+    '<div style="background:rgba('+( semGp==='ok'?'30,90,38':semGp==='warn'?'122,74,0':'100,20,20')+',0.3);border:2px solid rgba('+( semGp==='ok'?'30,90,38':semGp==='warn'?'122,74,0':'100,20,20')+',0.6);border-radius:14px;padding:16px;margin-bottom:14px">'+
+    '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">G\' Al Forno — Cuore del Cornicione</div>'+
+    '<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:'+(semGp==='ok'?'#A5D6A7':semGp==='warn'?'#F0CC5A':'#FFCDD2')+'">'+Gp_forno+' Pa</div>'+
+    '<div style="font-size:13px;color:'+(semGp==='ok'?'#A5D6A7':semGp==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:6px">'+txtGp+'</div>'+
+    '<div style="display:flex;gap:12px;margin-top:10px;font-size:10px;font-family:DM Mono,monospace">'+
+    '<span style="color:var(--dim)">G\' staglio: <span style="color:var(--cream)">'+Gp_staglio+' Pa</span></span>'+
+    '<span style="color:var(--dim)">G\'₀: <span style="color:var(--cream)">'+Gp0+' Pa</span></span>'+
+    '<span style="color:var(--dim)">t_eq: <span style="color:var(--cream)">'+t_eq_tot+'h</span></span>'+
+    '</div></div>'+
+
+    sem(txtPunt, semPunt)+
+    sem('⚖️ VOLUME STAGLIO: guarda l\'impasto — '+txtVol, 'ok')+
+    sem('🕐 APPRETTO panetti 30-45 min max — oltre le proteasi 0102HP collassano la maglia', 'warn')+
+    sem(txtLdb, semLdb)+
+    sem('W blend '+W_blend+' Pa · P/L '+PL_blend+' · μ₂₂ '+mu22+' h⁻¹ — '+(semW==='ok'?'✅ Struttura solida per 24h':'⚠️ Blend debole'), semW)+
+
+    // Ricetta
+    '<div class="res-section"><div class="res-label">🌾 Blend farine</div>'+
+    row('Petra 0102HP ('+p02+'%)', kg0102+'g', 'W330 · proteasi germogliate · struttura')+
+    row('Petra 5063 Special ('+p63+'%)', kg5063+'g', 'W270 · leopardatura · Maillard accelerata')+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">🦠 Lievito calibrato su puntata reale</div>'+
+    row('LdB ('+ldbP+'%)', ldbG+'g', 'Suas p.42: 0.35/(μ(T)×t_punt) — '+t_punt+'h a '+ta+'°C', true)+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">💧 Acqua — IDR '+idr+'% (max teorico '+IDR_max+'%)</div>'+
+    row('Acqua totale', acqTot+'g', '')+
+    row('T acqua autolisi', Tacq>0?Tacq+'°C':'ghiaccio '+Math.abs(Tacq)+'°C', 'DDT 22°C · K attrito 7.8', true)+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">💧 Distribuzione acqua</div>'+
+    row('① Autolisi 20min ('+f1Pct+'%)', fase1+'g a '+Tacq+'°C', 'solo farine — NO lievito NO sale')+
+    row('② LdB dopo autolisi', ldbG+'g', 'sciolto in poca acqua fredda')+
+    row('③ Sale', sale+'g', 'sciolto in '+acqSale+'g acqua')+
+    row('④ Bassinage 8°C', bass+'g', 'a filo lentissimo — max 10 min', true)+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">📐 Resa</div>'+
+    row('Sale ('+saleP+'%)', sale+'g', '')+
+    row('Panetti da '+gr+'g', pan+' panetti', '', true)+
+    '</div>'+
+
+    tl([
+      [H(oi)+':00', '🌾 AUTOLISI 20min', kg0102+'g 0102HP + '+kg5063+'g 5063 + '+fase1+'g acqua '+Tacq+'°C'],
+      [H(oi)+':20', '🦠 LdB '+ldbG+'g + INCORDATURA', 'sale → bassinage '+bass+'g a 8°C → S&F × 2'],
+      [H(oi)+':50', '👁️ PUNTATA A T AMBIENTE '+ta+'°C', 'Attendi +55-70% volume — circa '+t_punt+'h — NON andare a tempo fisso'],
+      [oraStaglio,  '✂️ STAGLIO '+pan+' panetti da '+gr+'g', 'G\' stimato '+Gp_staglio+' Pa → panetti in cella 4°C'],
+      ['CELLA',     '❄️ PANETTI IN CELLA '+hCella+'h a 4°C', 'maturazione lenta — gas si concentra nella maglia'],
+      [oraFuoriC,   '🌡️ FUORI CELLA — appretto 35min', 'panetti a T ambiente — max 45min — osserva il gonfiore'],
+      [oraForno,    '🔥 FORNO 440-460°C', '60-70 sec · cornicione leopardato esplosivo'],
+    ])+
+
+    sem('Fonte: Dobraszczyk & Morgenstern JCS 2003 · Hamad & Fields 1979 · Suas p.42 · Mulino Quaglia Tech Sheet 2023', 'info');
+}
+
+
 function calcAll(){
   try{calcPalline();}catch(e){}
+  try{calcDiretto02();}catch(e){}
   try{calcMotore();}catch(e){}
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
