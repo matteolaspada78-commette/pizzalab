@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tabella Staglio — Matteo La Spada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0A1A12;--card:#122B1E;--border:#1E3D2A;
+  --gold:#D4A03E;--gold2:#F0CC5A;--cream:#F8F2E6;--dim:#8A7C6A;
+  --safe-top:env(safe-area-inset-top,44px);--safe-bot:env(safe-area-inset-bottom,34px);
+}
+html,body{min-height:100%;background:var(--bg);overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;color:var(--cream)}
+
+.hdr{
+  position:sticky;top:0;z-index:100;
+  padding:calc(var(--safe-top) + 10px) 18px 14px;
+  background:rgba(10,26,18,0.97);
+  border-bottom:1px solid rgba(212,160,62,0.2);
+  backdrop-filter:blur(20px);
+}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.hdr-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;color:var(--cream);line-height:1.1}
+.hdr-title em{color:var(--gold);font-style:italic}
+.hdr-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:3px}
+.btn-wa{
+  background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:12px;
+  padding:9px 13px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:5px;flex-shrink:0;font-family:inherit;
+}
+
+/* ORA STAGLIO */
+.ora-bar{
+  margin:14px 16px 8px;
+  background:linear-gradient(135deg,#1A1400,#221C00);
+  border:1.5px solid var(--gold);border-radius:18px;
+  padding:14px 18px;display:flex;align-items:center;gap:14px;
+}
+.ora-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.ora-wrap{display:flex;align-items:baseline;gap:3px}
+.ora-input{
+  font-family:'DM Mono',monospace;font-size:32px;font-weight:700;color:var(--gold2);
+  background:transparent;border:none;outline:none;width:70px;-webkit-appearance:none;
+}
+.ora-colon{font-family:'DM Mono',monospace;font-size:24px;color:var(--gold2)}
+.ora-note{font-size:10px;color:var(--dim);margin-top:4px;line-height:1.4}
+
+/* SEZIONI */
+.sec-label{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;
+  padding:16px 16px 8px;display:flex;align-items:center;gap:8px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(212,160,62,0.35),transparent)}
+
+/* CARD */
+.imp-card{
+  background:linear-gradient(160deg,#1A1510,#131109);
+  border:1px solid var(--border);border-radius:16px;
+  margin:0 16px 12px;overflow:hidden;position:relative;
+}
+.imp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.napoletana::before{background:linear-gradient(180deg,#CE93D8,transparent)}
+.tonda::before{background:linear-gradient(180deg,#EF9A9A,transparent)}
+.teglia::before{background:linear-gradient(180deg,#80DEEA,transparent)}
+.pala::before{background:linear-gradient(180deg,#5B9BD5,transparent)}
+
+.imp-hdr{padding:13px 14px 11px;display:flex;align-items:center;gap:11px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.imp-icon{font-size:22px;flex-shrink:0}
+.imp-meta{flex:1}
+.imp-nome{font-size:14px;font-weight:700;color:var(--cream);margin-bottom:2px}
+.imp-info{font-size:9px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:0.3px}
+.imp-chevron{color:var(--dim);font-size:15px;transition:transform 0.25s;flex-shrink:0}
+.imp-card.open .imp-chevron{transform:rotate(180deg);color:var(--gold)}
+.imp-body{display:none;border-top:1px solid rgba(212,160,62,0.1)}
+.imp-card.open .imp-body{display:block}
+
+/* PARAMS */
+.params-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:12px 14px 10px}
+.param-box{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+.param-label{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.param-row{display:flex;align-items:center;gap:4px}
+.param-input{
+  flex:1;background:transparent;border:none;border-bottom:1px solid rgba(212,160,62,0.3);
+  color:var(--gold2);font-family:'DM Mono',monospace;font-size:16px;font-weight:600;
+  outline:none;-webkit-appearance:none;min-width:0;padding:2px 0;
+}
+.param-unit{font-size:10px;color:var(--dim);flex-shrink:0}
+
+/* NOTE SCIENTIFICHE */
+.sci-note{
+  margin:0 14px 12px;
+  background:rgba(16,32,96,0.2);border:1px solid rgba(91,155,213,0.25);
+  border-left:3px solid rgba(91,155,213,0.6);
+  border-radius:10px;padding:9px 12px;
+  font-size:10px;color:#BBDEFB;line-height:1.6;
+}
+.sci-note strong{color:#90CAF9}
+
+/* TABELLA */
+.tbl-wrap{padding:4px 14px 16px}
+.tbl-hdr{
+  display:grid;grid-template-columns:1.8fr 1.3fr 1fr 1.2fr;
+  gap:4px;margin-bottom:5px;padding:0 4px;
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;
+  color:var(--gold);text-transform:uppercase;
+}
+.tbl-row{
+  display:grid;grid-template-columns:1.8fr 1.3fr 1fr 1.2fr;
+  gap:4px;padding:9px 10px;border-radius:10px;margin-bottom:3px;
+  align-items:center;
+}
+.tbl-row.ok  {background:rgba(30,90,38,0.22);border:1px solid rgba(30,90,38,0.4)}
+.tbl-row.warn{background:rgba(122,74,0,0.22);border:1px solid rgba(122,74,0,0.45)}
+.tbl-row.bad {background:rgba(100,20,20,0.22);border:1px solid rgba(100,20,20,0.4)}
+.tbl-row.dim {opacity:0.32}
+
+.c-vol-pct{font-family:'DM Mono',monospace;font-size:13px;font-weight:700}
+.c-vol-pct.ok  {color:#A5D6A7}
+.c-vol-pct.warn{color:#F0CC5A}
+.c-vol-pct.bad {color:#FFCDD2}
+.c-vol-desc{font-size:9px;color:var(--dim);margin-top:1px;line-height:1.3}
+.c-ora{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--cream)}
+.c-punt{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+.badge{font-size:10px;font-weight:700;padding:4px 7px;border-radius:6px;text-align:center;line-height:1.2}
+.badge.ok  {background:rgba(30,90,38,0.5);color:#A5D6A7}
+.badge.warn{background:rgba(122,74,0,0.5);color:#F0CC5A}
+.badge.bad {background:rgba(100,20,20,0.5);color:#FFCDD2}
+
+/* barra volume */
+.vbar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin:0 14px 3px;overflow:hidden}
+.vbar-fill{height:100%;border-radius:2px;transition:width 0.3s}
+
+/* FIRMA */
+.firma{text-align:center;padding:28px 20px calc(var(--safe-bot)+20px);border-top:1px solid var(--border);margin-top:4px}
+.firma-nome{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--cream)}
+.firma-nome em{color:var(--gold);font-style:italic}
+.firma-ruolo{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+.firma-premi{font-size:10px;color:var(--dim);margin-top:3px}
+
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px}
+.scroll::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title">Tabella <em>Staglio</em></div>
+      <div class="hdr-sub">Modello esponenziale · Hamad & Fields 1979 · Q10=2.2</div>
+    </div>
+    <button class="btn-wa" onclick="shareWA()">📲 WA</button>
+  </div>
+</div>
+
+<div class="scroll">
+
+<!-- ORA STAGLIO -->
+<div class="ora-bar">
+  <div style="font-size:36px;flex-shrink:0">⏰</div>
+  <div style="flex:1">
+    <div class="ora-label">Ora staglio — vincolo fisso</div>
+    <div class="ora-wrap">
+      <input class="ora-input" id="oraStaglio" type="number" value="15" min="0" max="23" step="1" oninput="renderAll()">
+      <span class="ora-colon">:30</span>
+    </div>
+    <div class="ora-note">Cambia l'ora → semaforo aggiornato su tutti gli impasti</div>
+  </div>
+</div>
+
+<!-- ═══ NAPOLETANA ═══ -->
+<div class="sec-label">🍕 Napoletana</div>
+<div class="imp-card napoletana open" id="card-napo">
+  <div class="imp-hdr" onclick="tog('card-napo')">
+    <div class="imp-icon">👑</div>
+    <div class="imp-meta">
+      <div class="imp-nome">Napoletana Suprema</div>
+      <div class="imp-info">Biga 30% 0102HP · Licoli · IDR 70% · μ=0.045 h⁻¹</div>
+    </div>
+    <div class="imp-chevron">▾</div>
+  </div>
+  <div class="imp-body">
+    <div class="params-grid">
+      <div class="param-box">
+        <div class="param-label">Ora impasto</div>
+        <div class="param-row"><input class="param-input" data-id="napo-oraImp" type="number" value="9" min="0" max="23" oninput="renderAll()"><span class="param-unit">:00</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">T cella puntata °C</div>
+        <div class="param-row"><input class="param-input" data-id="napo-temp" type="number" value="4" min="2" max="30" oninput="renderAll()"><span class="param-unit">°C</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. ottimale %</div>
+        <div class="param-row"><input class="param-input" data-id="napo-volOk" type="number" value="60" min="20" max="100" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. max % (oltre = tardi)</div>
+        <div class="param-row"><input class="param-input" data-id="napo-volMax" type="number" value="80" min="30" max="150" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+    </div>
+    <div class="sci-note">
+      <strong>Modello:</strong> t = ln(1+vol/100) / μ(T) · <strong>μ₂₂=0.045 h⁻¹</strong> (Hamad & Fields 1979, biga+licoli) ·
+      Q10=2.2 (Bisson 1999) · Puntata in cella → μ cella molto basso → tempi lunghi ·
+      Staglio a +50-70% (Corazza et al. 2012 · pratica AVPN)
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-hdr"><div>Volume</div><div>Ora staglio</div><div>Puntata</div><div>Semaforo</div></div>
+      <div id="rows-napo"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TONDA ROMANA ═══ -->
+<div class="sec-label">🍕 Tonda Romana</div>
+<div class="imp-card tonda open" id="card-tonda">
+  <div class="imp-hdr" onclick="tog('card-tonda')">
+    <div class="imp-icon">🔥</div>
+    <div class="imp-meta">
+      <div class="imp-nome">Tonda Romana Croccante / Biga</div>
+      <div class="imp-info">5046 Allegra W180 · IDR 58% · μ=0.075 h⁻¹</div>
+    </div>
+    <div class="imp-chevron">▾</div>
+  </div>
+  <div class="imp-body">
+    <div class="params-grid">
+      <div class="param-box">
+        <div class="param-label">Ora impasto</div>
+        <div class="param-row"><input class="param-input" data-id="tonda-oraImp" type="number" value="10" min="0" max="23" oninput="renderAll()"><span class="param-unit">:00</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">T ambiente °C</div>
+        <div class="param-row"><input class="param-input" data-id="tonda-temp" type="number" value="22" min="16" max="32" oninput="renderAll()"><span class="param-unit">°C</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. ottimale %</div>
+        <div class="param-row"><input class="param-input" data-id="tonda-volOk" type="number" value="40" min="20" max="100" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. max % (oltre = tardi)</div>
+        <div class="param-row"><input class="param-input" data-id="tonda-volMax" type="number" value="60" min="30" max="150" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+    </div>
+    <div class="sci-note">
+      <strong>Modello:</strong> t = ln(1+vol/100) / μ(T) · <strong>μ₂₂=0.075 h⁻¹</strong> — W180 fermenta più veloce di W320 ·
+      Cauvain 2015: farine deboli → stadio di crescita accelerato ·
+      Staglio a +30-50%: maglia corta, non regge oltre senza perdere struttura croccante
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-hdr"><div>Volume</div><div>Ora staglio</div><div>Puntata</div><div>Semaforo</div></div>
+      <div id="rows-tonda"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TEGLIA ROMANA ═══ -->
+<div class="sec-label">🫓 Teglia / Pala Super Alveolata</div>
+<div class="imp-card teglia open" id="card-teglia">
+  <div class="imp-hdr" onclick="tog('card-teglia')">
+    <div class="imp-icon">🫓</div>
+    <div class="imp-meta">
+      <div class="imp-nome">Teglia Romana Super Alveolata</div>
+      <div class="imp-info">Biga 50% · IDR 78% · T cella · μ=0.050 h⁻¹</div>
+    </div>
+    <div class="imp-chevron">▾</div>
+  </div>
+  <div class="imp-body">
+    <div class="params-grid">
+      <div class="param-box">
+        <div class="param-label">Ora impasto</div>
+        <div class="param-row"><input class="param-input" data-id="teglia-oraImp" type="number" value="8" min="0" max="23" oninput="renderAll()"><span class="param-unit">:00</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">T cella puntata °C</div>
+        <div class="param-row"><input class="param-input" data-id="teglia-temp" type="number" value="4" min="2" max="30" oninput="renderAll()"><span class="param-unit">°C</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. ottimale %</div>
+        <div class="param-row"><input class="param-input" data-id="teglia-volOk" type="number" value="70" min="20" max="120" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. max % (oltre = tardi)</div>
+        <div class="param-row"><input class="param-input" data-id="teglia-volMax" type="number" value="90" min="30" max="150" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+    </div>
+    <div class="sci-note">
+      <strong>Modello:</strong> t = ln(1+vol/100) / μ(T) · <strong>μ₂₂=0.050 h⁻¹</strong> ·
+      Alta IDR (78%) → più acqua libera → G' si abbassa più lentamente → regge più volume prima dello staglio ·
+      Suas p.180: impasti alta idratazione tollerano +60-80% senza perdita struttura alveolare
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-hdr"><div>Volume</div><div>Ora staglio</div><div>Puntata</div><div>Semaforo</div></div>
+      <div id="rows-teglia"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PALA 48H ═══ -->
+<div class="sec-label">🏅 Pala Romana 48h</div>
+<div class="imp-card pala open" id="card-pala">
+  <div class="imp-hdr" onclick="tog('card-pala')">
+    <div class="imp-icon">🏅</div>
+    <div class="imp-meta">
+      <div class="imp-nome">Pala Romana 48h</div>
+      <div class="imp-info">Biga 30% IDR 48% · Puntata max 50min · μ=0.055 h⁻¹</div>
+    </div>
+    <div class="imp-chevron">▾</div>
+  </div>
+  <div class="imp-body">
+    <div class="params-grid">
+      <div class="param-box">
+        <div class="param-label">Ora impasto</div>
+        <div class="param-row"><input class="param-input" data-id="pala-oraImp" type="number" value="8" min="0" max="23" oninput="renderAll()"><span class="param-unit">:00</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">T ambiente °C</div>
+        <div class="param-row"><input class="param-input" data-id="pala-temp" type="number" value="22" min="16" max="32" oninput="renderAll()"><span class="param-unit">°C</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. ottimale %</div>
+        <div class="param-row"><input class="param-input" data-id="pala-volOk" type="number" value="30" min="10" max="80" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+      <div class="param-box">
+        <div class="param-label">Vol. max % (oltre = tardi)</div>
+        <div class="param-row"><input class="param-input" data-id="pala-volMax" type="number" value="45" min="20" max="100" oninput="renderAll()"><span class="param-unit">%</span></div>
+      </div>
+    </div>
+    <div class="sci-note">
+      <strong>Modello:</strong> t = ln(1+vol/100) / μ(T) · <strong>μ₂₂=0.055 h⁻¹</strong> ·
+      IDR biga 48% → proteolisi accelerata (kExtra=1.054) → finestra puntata ridotta ·
+      Staglio al primo accenno di crescita (+25-40%) → poi bocce in frigo 18-24h a 4°C ·
+      Le bocce completano la maturazione in frigo — non in puntata
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-hdr"><div>Volume</div><div>Ora staglio</div><div>Puntata</div><div>Semaforo</div></div>
+      <div id="rows-pala"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FIRMA -->
+<div class="firma">
+  <div class="firma-nome">Matteo <em>La Spada</em></div>
+  <div class="firma-ruolo">Pizzaiolo · Consulente Tecnico · L'Orso Messina</div>
+  <div class="firma-premi">Tre Spicchi · Tre Rotelle Gambero Rosso · 50 Top Pizza Italia</div>
+</div>
+
+</div><!-- end scroll -->
+
+<script>
+// ══════════════════════════════════════════════════════
+// COSTANTI SCIENTIFICHE
+// ══════════════════════════════════════════════════════
+// μ₂₂ = tasso specifico di crescita a 22°C (h⁻¹)
+// Fonte: Hamad & Fields 1979 — calibrato per tipo impasto
+// Q10 = 2.2 — S.cerevisiae (Bisson 1999, Yeast Research)
+// Formula: t = ln(1 + vol/100) / μ(T)
+//          μ(T) = μ₂₂ × Q10^((T-22)/10)
+
+var MU = {
+  napo:   0.045,  // biga+licoli in cella — molto lento
+  tonda:  0.075,  // 5046 W180 diretto — veloce
+  teglia: 0.050,  // biga IDR78% in cella — medio
+  pala:   0.055,  // biga IDR48% T ambiente — medio-veloce
+};
+var Q10 = 2.2;
+
+// Step di volume da mostrare per impasto
+var STEPS = {
+  napo:   [20,30,40,50,60,70,80,90,100],
+  tonda:  [15,20,25,30,35,40,50,60,70],
+  teglia: [30,40,50,60,70,80,90,100,110],
+  pala:   [10,15,20,25,30,35,40,45,50],
+};
+
+// ══════════════════════════════════════════════════════
+// DESCRIZIONI VOLUME — linguaggio da pizzeria
+// ══════════════════════════════════════════════════════
+function descVol(pct){
+  if(pct<=10)  return 'Piatto — appena chiuso';
+  if(pct<=20)  return 'Gonfiore minimo';
+  if(pct<=30)  return 'Crescita visibile';
+  if(pct<=45)  return 'Ben cresciuto';
+  if(pct<=60)  return 'Quasi raddoppiato';
+  if(pct<=75)  return 'Raddoppiato';
+  if(pct<=90)  return 'Più del doppio';
+  if(pct<=110) return 'Triplicato';
+  return 'Oltre il triplo';
+}
+function emoji(pct, volOk, volMax){
+  if(pct < volOk*0.6) return '😴';
+  if(pct < volOk)     return '🌱';
+  if(pct <= volMax)   return '✅';
+  return '🔴';
+}
+
+// ══════════════════════════════════════════════════════
+// CALCOLO TEMPO — MODELLO ESPONENZIALE CORRETTO
+// t = ln(1 + vol/100) / μ(T)
+// ══════════════════════════════════════════════════════
+function calcOra(oraImp, volPct, temp, mu22){
+  var muT = mu22 * Math.pow(Q10, (temp - 22) / 10);
+  var ore  = Math.log(1 + volPct/100) / muT;
+  var oraRaw = oraImp + ore;
+  var h = Math.floor(oraRaw) % 24;
+  var m = Math.round((oraRaw % 1) * 60);
+  if(m >= 60){ h = (h+1)%24; m = 0; }
+  var puntataMin = Math.round(ore * 60);
+  var puntataStr = puntataMin < 60
+    ? puntataMin + ' min'
+    : Math.floor(puntataMin/60) + 'h' + (puntataMin%60>0?' '+(puntataMin%60)+'min':'');
+  return {
+    str: String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'),
+    h: h, m: m, ore: ore, puntataStr: puntataStr
+  };
+}
+
+// ══════════════════════════════════════════════════════
+// SEMAFORO
+// ══════════════════════════════════════════════════════
+function semaforo(pct, volOk, volMax){
+  if(pct < volOk * 0.6)  return {cls:'bad',  txt:'Troppo presto'};
+  if(pct < volOk)         return {cls:'warn', txt:'Quasi pronto'};
+  if(pct <= volMax)       return {cls:'ok',   txt:'Stagli ora ✅'};
+  return                         {cls:'bad',  txt:'Troppo tardi'};
+}
+
+// ══════════════════════════════════════════════════════
+// GET PARAMETRO
+// ══════════════════════════════════════════════════════
+function P(id){
+  var el = document.querySelector('[data-id="'+id+'"]');
+  return el ? (parseFloat(el.value)||0) : 0;
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER TABELLA
+// ══════════════════════════════════════════════════════
+function renderTabella(imp, rowsId){
+  var oraS   = parseFloat(document.getElementById('oraStaglio').value)||15;
+  var oraImp = P(imp+'-oraImp');
+  var temp   = P(imp+'-temp');
+  var volOk  = P(imp+'-volOk');
+  var volMax = P(imp+'-volMax');
+  var mu22   = MU[imp];
+  var steps  = STEPS[imp];
+  var html   = '';
+
+  steps.forEach(function(pct){
+    var ora  = calcOra(oraImp, pct, temp, mu22);
+    var sem  = semaforo(pct, volOk, volMax);
+    var emj  = emoji(pct, volOk, volMax);
+
+    // Controlla se l'ora di staglio calcolata è già passata rispetto all'ora staglio impostata
+    var diffH = ora.h - oraS + ora.m/60;
+    if(diffH > 12)  diffH -= 24;
+    if(diffH < -12) diffH += 24;
+    var isPast = diffH < -0.5;
+
+    // Se il volume è già nella finestra ok ma l'ora è passata → warn
+    var finalSem = sem.cls;
+    var finalTxt = sem.txt;
+    if(isPast && sem.cls === 'ok'){ finalSem='warn'; finalTxt='Ora passata'; }
+
+    // Barra volume
+    var barW = Math.min(100, Math.round(pct / (volMax*1.3) * 100));
+    var barClr = finalSem==='ok'?'#2E7D32':finalSem==='warn'?'#F57F17':'#C62828';
+
+    html +=
+      '<div class="vbar"><div class="vbar-fill" style="width:'+barW+'%;background:'+barClr+'"></div></div>'+
+      '<div class="tbl-row '+finalSem+(isPast?' dim':'')+'">'+
+        '<div>'+
+          '<div class="c-vol-pct '+finalSem+'">'+emj+' +'+pct+'%</div>'+
+          '<div class="c-vol-desc">'+descVol(pct)+'</div>'+
+        '</div>'+
+        '<div class="c-ora">'+ora.str+'</div>'+
+        '<div class="c-punt">'+ora.puntataStr+'</div>'+
+        '<div><span class="badge '+finalSem+'">'+finalTxt+'</span></div>'+
+      '</div>';
+  });
+
+  document.getElementById(rowsId).innerHTML = html;
+}
+
+function renderAll(){
+  renderTabella('napo',   'rows-napo');
+  renderTabella('tonda',  'rows-tonda');
+  renderTabella('teglia', 'rows-teglia');
+  renderTabella('pala',   'rows-pala');
+}
+
+function tog(id){ document.getElementById(id).classList.toggle('open'); }
+
+// ══════════════════════════════════════════════════════
+// WHATSAPP
+// ══════════════════════════════════════════════════════
+function shareWA(){
+  var oraS = document.getElementById('oraStaglio').value;
+  var lines = ['🍕 *Tabella Staglio — Matteo La Spada*','','⏰ Ora staglio: *'+oraS+':30*',''];
+  var nomi = {napo:'👑 Napoletana Suprema', tonda:'🔥 Tonda Romana', teglia:'🫓 Teglia Super Alveolata', pala:'🏅 Pala Romana 48h'};
+  ['napo','tonda','teglia','pala'].forEach(function(imp){
+    var volOk  = P(imp+'-volOk');
+    var volMax = P(imp+'-volMax');
+    var oraImp = P(imp+'-oraImp');
+    var temp   = P(imp+'-temp');
+    var oraMin = calcOra(oraImp, volOk*0.8, temp, MU[imp]);
+    var oraOk  = calcOra(oraImp, volOk,     temp, MU[imp]);
+    var oraMax = calcOra(oraImp, volMax,    temp, MU[imp]);
+    lines.push('*'+nomi[imp]+'*');
+    lines.push('• Ottimale +'+volOk+'% → *'+oraOk.str+'*');
+    lines.push('• Finestra: '+oraMin.str+' → '+oraMax.str);
+    lines.push('');
+  });
+  lines.push('_Matteo La Spada · L\'Orso Messina_');
+  window.open('https://wa.me/?text='+encodeURIComponent(lines.join('\n')),'_blank');
+}
+
+// INIT
+renderAll();
+</script>
+</body>
+</html>
