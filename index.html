@@ -372,6 +372,84 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   <div style="width:36px"></div>
 </div>
 
+
+<!-- ═══════════════ CALCOLATORE RAPIDO PALLINE ═══════════════ -->
+<div id="pagePalline" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🎯</div>
+    <div class="page-hero-title">Quante Palline?</div>
+    <div class="page-hero-sub">Decidi le palline → ottieni farina · biga · acqua · lievito</div>
+  </div>
+
+  <div class="card open" id="cardPallInp">
+    <div class="card-hdr" onclick="toggleCard('cardPallInp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Input rapido</div>
+        <div class="card-hdr-title">Impasto · Palline · Grammatura</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group">
+        <label class="inp-label">Tipo impasto</label>
+        <select class="inp-field" id="pallTipo" style="font-size:14px;-webkit-appearance:none" onchange="calcPalline()">
+          <option value="napo">Napoletana Suprema — Biga 30% 0102HP + Licoli</option>
+          <option value="tondabiga">Tonda Romana Biga — Biga 30% 0102HP</option>
+          <option value="tondacroc">Tonda Romana Croccante — 5046 Allegra</option>
+          <option value="pala48">Pala Romana 48h — Biga 30% 0102HP</option>
+          <option value="palabiga">Teglia Romana Super Alveolata — Biga 50%</option>
+          <option value="scrocch">Scrocchiarella Teglia — 5046 + Licoli</option>
+          <option value="romana">Romana Croccante Diretta — 5046 Allegra</option>
+          <option value="diretto">Impasto Diretto 6-12h</option>
+        </select>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Numero palline / pezzi</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallN" type="number" value="100" min="1" max="2000" step="1" oninput="calcPalline()" style="font-size:24px;font-weight:700;color:var(--gold2)">
+          <span class="inp-unit">pz</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Grammatura pezzo (g)</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallGr" type="number" value="260" min="150" max="1800" step="5" oninput="calcPalline()">
+          <span class="inp-unit">g</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">LdB % biga</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallLdb" type="number" value="0.3" min="0.1" max="1" step="0.05" oninput="calcPalline()">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Scarto / sicurezza %</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallScarto" type="number" value="3" min="0" max="10" step="1" oninput="calcPalline()">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card open" id="cardPallOut">
+    <div class="card-hdr" onclick="toggleCard('cardPallOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Risultato</div>
+        <div class="card-hdr-title">Farina · Biga · Acqua · Lievito</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="pallineOut"></div></div>
+  </div>
+
+  <button class="btn-share" onclick="sharePalline()"><span class="btn-share-icon">📲</span> Invia su WhatsApp</button>
+</div>
+
 <!-- ═══════════════════════════ HOME ═══════════════════════════ -->
 <div id="pageHome" class="scroll">
   <div class="home-hero">
@@ -382,6 +460,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
   </div>
 
   <div class="menu-grid">
+        <div class="menu-btn" onclick="openPage('palline')" style="background:linear-gradient(135deg,#1A1400,#221C00);border:1.5px solid var(--gold);box-shadow:0 4px 24px rgba(212,160,62,0.2)">
+      <div class="menu-icon" style="background:rgba(212,160,62,0.15);border-color:rgba(212,160,62,0.4)">🎯</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:var(--gold2)">Calcolatore Rapido Palline</div>
+        <div class="menu-sub">Decidi quante palline → farina · biga · acqua · lievito</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(212,160,62,0.25);border-color:var(--gold)">NUOVO</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">🔬 Motore</div>
     <div class="menu-btn" onclick="openPage('motore')">
       <div class="menu-icon" style="background:rgba(0,77,64,0.3)">🔬</div>
@@ -2548,7 +2636,7 @@ function dist(rows){
 // NAVIGATION
 // ══════════════════════════════════════════════
 const pages={
-  home:'pageHome',motore:'pageMotore',phbiga:'pagePhBiga',licoli:'pageLicoli',
+  home:'pageHome',palline:'pagePalline',motore:'pageMotore',phbiga:'pagePhBiga',licoli:'pageLicoli',
   suprema:'pageSuprema',scrocch:'pageScrocch',
   tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
@@ -2560,6 +2648,7 @@ const pages={
   pala48h:'pagePala48h'
 };
 const titles={
+  palline:['🎯 Calcolatore Rapido Palline','Decidi le palline → farina · biga · acqua · lievito'],
   motore:['🔬 Motore Scientifico','Reologia · Fermentazione · Cottura'],
   licoli:['🌿 Licoli Madre','Gestione Rinfresco'],
   suprema:['👑 Napoletana Suprema','Biga + Licoli · Cornicione assoluto'],
@@ -4053,7 +4142,130 @@ function calcPala48h(){
 }
 
 
+
+// ══════════════════════════════════════════════
+// CALCOLATORE RAPIDO PALLINE — INVERSO
+// ══════════════════════════════════════════════
+function calcPalline(){
+  const tipo = (document.getElementById('pallTipo')||{}).value || 'napo';
+  const n    = parseFloat((document.getElementById('pallN')||{value:100}).value)||100;
+  const gr   = parseFloat((document.getElementById('pallGr')||{value:260}).value)||260;
+  const ldbP = parseFloat((document.getElementById('pallLdb')||{value:0.3}).value)||0.3;
+  const scP  = parseFloat((document.getElementById('pallScarto')||{value:3}).value)||0;
+  const out  = document.getElementById('pallineOut');
+  if(!out) return;
+
+  // Configurazioni impasto
+  const cfg = {
+    napo:      { nome:'Napoletana Suprema',    idr:70,  sale:2.8, bigaPct:30,  idrB:45, licP:10, lievito:'biga+licoli', fBiga:'0102HP W320',   fRinf:'70% 5063 + 30% 5078', str:0,   zuc:0   },
+    tondabiga: { nome:'Tonda Romana Biga',     idr:58,  sale:2.5, bigaPct:30,  idrB:45, licP:0,  lievito:'biga',        fBiga:'0102HP W320',   fRinf:'60% 5063 + 40% 5046', str:3,   zuc:1.5 },
+    tondacroc: { nome:'Tonda Romana Croccante',idr:58,  sale:2.5, bigaPct:0,   idrB:0,  licP:0,  lievito:'diretto',     fBiga:'',              fRinf:'5046 Allegra W200',   str:3,   zuc:0   },
+    pala48:    { nome:'Pala Romana 48h',       idr:75,  sale:2.5, bigaPct:30,  idrB:48, licP:0,  lievito:'biga',        fBiga:'0102HP W320',   fRinf:'70% 5078 + 30% 0102HP',str:0,  zuc:0   },
+    palabiga:  { nome:'Teglia Super Alveolata',idr:78,  sale:2.2, bigaPct:50,  idrB:45, licP:5,  lievito:'biga+licoli', fBiga:'70% 5078+30% 0102HP', fRinf:'70% 5078+30% 0102HP', str:0, zuc:0 },
+    scrocch:   { nome:'Scrocchiarella Teglia', idr:55,  sale:2.5, bigaPct:0,   idrB:0,  licP:10, lievito:'licoli',      fBiga:'',              fRinf:'5046 Allegra W200',   str:0,   zuc:0   },
+    romana:    { nome:'Romana Croccante',      idr:59,  sale:2.5, bigaPct:0,   idrB:0,  licP:0,  lievito:'diretto',     fBiga:'',              fRinf:'5046 Allegra W200',   str:3,   zuc:0   },
+    diretto:   { nome:'Impasto Diretto 6-12h', idr:68,  sale:2.5, bigaPct:0,   idrB:0,  licP:0,  lievito:'diretto',     fBiga:'',              fRinf:'5063 W270',           str:0,   zuc:0   },
+  };
+  const c = cfg[tipo] || cfg.napo;
+
+  // ── CALCOLO INVERSO ──
+  // Peso impasto lordo con scarto
+  const nLordo   = Math.ceil(n * (1 + scP/100));
+  const pesoTot  = nLordo * gr; // grammi totali impasto
+
+  // Farina totale (da peso impasto ≈ farina + acqua + sale + str + zuc)
+  // peso = farina * (1 + IDR/100 + sale/100 + str/100 + zuc/100 + licP/200)
+  const fattore  = 1 + c.idr/100 + c.sale/100 + (c.str||0)/100 + (c.zuc||0)/100 + c.licP/200;
+  const kgFarTot = Math.round(pesoTot / fattore / 1000 * 10) / 10; // kg farina totale
+
+  // Biga
+  const kgBiga   = c.bigaPct > 0 ? Math.round(kgFarTot * c.bigaPct/100 * 100)/100 : 0;
+  const kgRinf   = Math.round((kgFarTot - kgBiga) * 100)/100;
+
+  // Acqua
+  const acqTot   = Math.round(kgFarTot * c.idr/100 * 1000);
+  const acqBiga  = kgBiga > 0 ? Math.round(kgBiga * c.idrB/100 * 1000) : 0;
+  const acqRinf  = acqTot - acqBiga;
+
+  // Lieviti
+  const ldbBiga  = kgBiga > 0 ? Math.round(kgBiga * ldbP/100 * 1000 * 10)/10 : 0;
+  const ldbDir   = kgBiga === 0 ? Math.round(kgFarTot * ldbP/100 * 1000 * 10)/10 : 0;
+  const licoli   = c.licP > 0 ? Math.round(kgRinf * c.licP/100 * 1000) : 0;
+
+  // Sale · Strutto · Zucchero
+  const sale     = Math.round(kgFarTot * c.sale/100 * 1000);
+  const strutto  = (c.str||0) > 0 ? Math.round(kgFarTot * c.str/100 * 1000) : 0;
+  const zucchero = (c.zuc||0) > 0 ? Math.round(kgFarTot * c.zuc/100 * 1000) : 0;
+
+  // Verifica palline reali
+  const pesoImpReale = kgFarTot*1000 + acqTot + sale + strutto + zucchero + (licoli*0.5);
+  const pallineReali = Math.floor(pesoImpReale / gr);
+
+  out.innerHTML =
+    // Header risultato
+    '<div style="background:linear-gradient(135deg,rgba(212,160,62,0.15),rgba(212,160,62,0.05));border:1.5px solid var(--gold);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center">' +
+    '<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Impasto calcolato per</div>' +
+    '<div style="font-size:52px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">' + n + '</div>' +
+    '<div style="font-size:14px;color:var(--gold);margin-top:4px">' + c.nome + ' · ' + gr + 'g/pezzo</div>' +
+    (scP>0 ? '<div style="font-size:11px;color:var(--dim);margin-top:6px">+ ' + scP + '% scarto → calcolo su ' + nLordo + ' pezzi</div>' : '') +
+    '</div>' +
+
+    // Farina
+    '<div class="res-section"><div class="res-label">🌾 Farina totale</div>' +
+    row('FARINA TOTALE', kgFarTot + ' kg', '', true) +
+    (kgBiga > 0 ? row('→ Biga ' + c.bigaPct + '% (' + c.fBiga + ')', kgBiga + ' kg', '') : '') +
+    (kgRinf > 0 ? row('→ Rinfresco (' + c.fRinf + ')', kgRinf + ' kg', '') : '') +
+    '</div>' +
+
+    // Acqua
+    '<div class="res-section"><div class="res-label">💧 Acqua — IDR ' + c.idr + '%</div>' +
+    row('Acqua totale', acqTot + ' g', kgFarTot + ' kg × ' + c.idr + '%', true) +
+    (acqBiga > 0 ? row('→ Acqua biga IDR ' + c.idrB + '%', acqBiga + ' g', '') : '') +
+    (acqRinf > 0 ? row('→ Acqua rinfresco', acqRinf + ' g', '') : '') +
+    '</div>' +
+
+    // Lieviti
+    '<div class="res-section"><div class="res-label">🦠 Lieviti — ' + c.lievito + '</div>' +
+    (ldbBiga > 0 ? row('LdB biga ' + ldbP + '%', ldbBiga + ' g', 'solo sui ' + kgBiga + ' kg biga') : '') +
+    (ldbDir  > 0 ? row('LdB ' + ldbP + '%', ldbDir + ' g', 'su ' + kgFarTot + ' kg totali') : '') +
+    (licoli  > 0 ? row('Licoli ' + c.licP + '%', licoli + ' g', '→ ' + Math.round(licoli*0.5) + ' g acqua scorporata') : '') +
+    '</div>' +
+
+    // Altro
+    '<div class="res-section"><div class="res-label">🧂 Altro</div>' +
+    row('Sale ' + c.sale + '%', sale + ' g', '') +
+    (strutto  > 0 ? row('Strutto 3%', strutto + ' g', '') : '') +
+    (zucchero > 0 ? row('Zucchero 1.5%', zucchero + ' g', '') : '') +
+    '</div>' +
+
+    // Verifica
+    '<div style="background:rgba(30,90,38,0.2);border:1px solid rgba(30,90,38,0.5);border-radius:12px;padding:14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center">' +
+    '<div><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Verifica palline reali</div>' +
+    '<div style="font-size:22px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">' + pallineReali + ' pz</div></div>' +
+    '<div style="text-align:right"><div style="font-size:11px;color:var(--dim);margin-bottom:3px">Peso impasto totale</div>' +
+    '<div style="font-size:16px;font-weight:600;color:var(--cream)">' + Math.round(pesoImpReale/1000*10)/10 + ' kg</div></div>' +
+    '</div>';
+}
+
+function sharePalline(){
+  calcPalline();
+  const tipo = (document.getElementById('pallTipo')||{}).value||'napo';
+  const n    = (document.getElementById('pallN')||{}).value||'100';
+  const gr   = (document.getElementById('pallGr')||{}).value||'260';
+  const out  = document.getElementById('pallineOut');
+  const lines = ['🎯 *Pizza Lab — Calcolatore Palline*','','• Palline: *'+n+' pz*','• Grammatura: *'+gr+' g*','','*Ingredienti*'];
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var nm=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+      if(nm&&v)lines.push('• '+nm.textContent.trim()+': *'+v.textContent.trim()+'*');
+    });
+  }
+  lines.push('','_Matteo La Spada - L\'Orso Messina_');
+  window.open('https://wa.me/?text='+encodeURIComponent(lines.join('\n')),'_blank');
+}
+
 function calcAll(){
+  try{calcPalline();}catch(e){}
   try{calcMotore();}catch(e){}
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
