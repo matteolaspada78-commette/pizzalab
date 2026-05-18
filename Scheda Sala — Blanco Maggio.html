@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scheda Sala — Blanco Maggio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Raleway:wght@200;300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --nero: #0A0A0A;
+  --nero2: #111111;
+  --nero3: #1A1A1A;
+  --bianco: #F5F0E8;
+  --bianco2: #D4CFC6;
+  --oro: #C8A96E;
+  --oro2: #8A6E3E;
+  --grigio: #3A3A3A;
+  --grigio2: #555555;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--nero);
+  color: var(--bianco);
+  line-height: 1.6;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ===== COPERTINA ===== */
+.copertina {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem 0 4rem;
+  border-bottom: 1px solid var(--grigio);
+}
+
+.top-marca {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.linea-corta {
+  width: 40px;
+  height: 1px;
+  background: var(--oro);
+  flex-shrink: 0;
+}
+.top-marca-testo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--oro);
+  font-weight: 400;
+}
+
+.copertina-centro {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.grande-numero {
+  font-family: 'Playfair Display', serif;
+  font-size: 14rem;
+  font-weight: 900;
+  line-height: 0.8;
+  color: var(--nero3);
+  letter-spacing: -0.03em;
+  user-select: none;
+  position: relative;
+}
+.grande-numero::after {
+  content: attr(data-n);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--bianco2) 0%, var(--grigio2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.titolo-copertina {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  color: var(--bianco);
+}
+.titolo-copertina em {
+  font-style: italic;
+  color: var(--oro);
+}
+
+.sotto-titolo {
+  margin-top: 1.2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--grigio2);
+  font-weight: 400;
+}
+
+.copertina-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.note-bottom {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--grigio2);
+  font-weight: 300;
+  line-height: 2;
+}
+.note-bottom strong {
+  color: var(--oro);
+  font-weight: 400;
+}
+.ornamento {
+  font-family: 'EB Garamond', serif;
+  font-size: 3rem;
+  color: var(--grigio);
+  font-style: italic;
+  line-height: 1;
+}
+
+/* ===== LEGENDA ===== */
+.sezione-legenda {
+  padding: 5rem 0 4rem;
+  border-bottom: 1px solid var(--grigio);
+}
+
+.sezione-titolo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+.sezione-titolo-testo {
+  font-size: 0.55rem;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--oro);
+  font-weight: 400;
+}
+.sezione-titolo .linea-lunga {
+  flex: 1;
+  height: 1px;
+  background: var(--grigio);
+}
+
+.legenda-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 4rem;
+}
+.legenda-voce {
+  padding: 2rem 0;
+  border-top: 1px solid var(--grigio);
+}
+.legenda-voce:nth-child(1),
+.legenda-voce:nth-child(2) { border-top: none; }
+
+.legenda-badge {
+  display: inline-block;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 4px 10px;
+  margin-bottom: 0.8rem;
+  font-family: 'Raleway', sans-serif;
+}
+.legenda-badge.forno {
+  border: 1px solid var(--oro2);
+  color: var(--oro);
+}
+.legenda-badge.esterno {
+  border: 1px solid var(--grigio2);
+  color: var(--bianco2);
+}
+
+.legenda-voce p {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--bianco2);
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* ===== RICERCA ===== */
+.barra-ricerca-wrapper {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--grigio);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.barra-ricerca-wrapper input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--grigio2);
+  padding: 0.5rem 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--bianco);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.barra-ricerca-wrapper input::placeholder {
+  color: var(--grigio2);
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+.barra-ricerca-wrapper input:focus { border-bottom-color: var(--oro); }
+.count-pizze {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--grigio2);
+  white-space: nowrap;
+}
+
+/* ===== LISTA PIZZE ===== */
+.lista-pizze {
+  padding-bottom: 5rem;
+}
+
+/* ===== PIZZA CARD ===== */
+.pizza-card {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--grigio);
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0 3rem;
+}
+.pizza-card:last-child { border-bottom: none; }
+
+.pizza-lato-sinistro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 0.4rem;
+}
+.pizza-numero {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--grigio);
+  letter-spacing: -0.02em;
+  display: block;
+}
+.pizza-numero-label {
+  font-size: 0.48rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--oro2);
+  font-weight: 400;
+  display: block;
+  text-align: right;
+  margin-top: 3px;
+}
+.separatore-verticale {
+  flex: 1;
+  width: 1px;
+  background: var(--grigio);
+  margin: 1rem 0 0;
+  align-self: stretch;
+}
+
+.pizza-corpo {}
+
+.pizza-nome {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--bianco);
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+
+.pizza-descrizione {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--bianco2);
+  line-height: 1.8;
+  max-width: 540px;
+  margin-bottom: 2.2rem;
+  font-weight: 400;
+  border-left: 2px solid var(--oro2);
+  padding-left: 1.2rem;
+}
+
+.ingredienti-sezione { margin-top: 0.5rem; }
+
+.ing-gruppo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0;
+  margin-bottom: 0.75rem;
+}
+
+.ing-etichetta {
+  font-size: 0.5rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--oro2);
+  font-weight: 500;
+  min-width: 90px;
+  padding-top: 3px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.ing-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.ing-tag {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 0;
+}
+.ing-tag.forno {
+  border: 1px solid var(--oro2);
+  color: var(--oro);
+  background: rgba(200, 169, 110, 0.05);
+}
+.ing-tag.esterno {
+  border: 1px solid var(--grigio2);
+  color: var(--bianco2);
+  background: rgba(245, 240, 232, 0.04);
+}
+
+/* ===== PREPARAZIONI ===== */
+.preparazioni-sezione {
+  margin-top: 2rem;
+  border-top: 1px solid var(--grigio);
+  padding-top: 1.5rem;
+}
+.preparazioni-titolo {
+  font-size: 0.5rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--grigio2);
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 1.1rem;
+}
+.prep-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.prep-voce {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0 1.5rem;
+  align-items: baseline;
+}
+.prep-nome {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--oro);
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+.prep-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--bianco2);
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* ===== NOTE OPERATIVE ===== */
+.note-operative {
+  padding: 4rem 0 5rem;
+  border-top: 1px solid var(--grigio);
+  margin-top: 1rem;
+}
+
+.note-operative-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.nota {
+  padding: 2.5rem 2.5rem 2.5rem 0;
+  border-bottom: 1px solid var(--grigio);
+}
+.nota:nth-child(even) {
+  padding: 2.5rem 0 2.5rem 2.5rem;
+  border-left: 1px solid var(--grigio);
+}
+.nota:nth-last-child(-n+2) { border-bottom: none; }
+
+.nota-titolo {
+  font-size: 0.55rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--oro);
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.nota-titolo::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--oro);
+}
+
+.nota p {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.97rem;
+  font-style: italic;
+  color: var(--bianco2);
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* ===== FOOTER ===== */
+.footer-scheda {
+  padding: 3rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--grigio);
+}
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bianco2);
+}
+.footer-note {
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--grigio2);
+  font-weight: 300;
+  text-align: right;
+  line-height: 2;
+}
+.footer-oro {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--oro);
+  margin: 0 auto;
+}
+
+.nascosto { display: none !important; }
+
+@media print {
+  .barra-ricerca-wrapper { display: none; }
+  .copertina { min-height: auto; page-break-after: always; }
+  .pizza-card { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- COPERTINA -->
+  <div class="copertina">
+    <div class="top-marca">
+      <div class="linea-corta"></div>
+      <span class="top-marca-testo">Documento di sala · uso interno</span>
+    </div>
+
+    <div class="copertina-centro">
+      <div class="grande-numero" data-n="12">12</div>
+      <h1 class="titolo-copertina">Blanco<br><em>Maggio</em></h1>
+      <p class="sotto-titolo">Scheda descrittiva delle pizze</p>
+    </div>
+
+    <div class="copertina-bottom">
+      <div class="note-bottom">
+        <strong>12</strong> selezioni<br>
+        <strong>2</strong> lavorazioni<br>
+        Stagione 2025
+      </div>
+      <div class="ornamento">&</div>
+      <div class="note-bottom" style="text-align:right">
+        In forno<br>
+        Fuori forno<br>
+        &nbsp;
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="sezione-legenda">
+    <div class="sezione-titolo">
+      <span class="sezione-titolo-testo">Le lavorazioni</span>
+      <div class="linea-lunga"></div>
+    </div>
+    <div class="legenda-duo">
+      <div class="legenda-voce">
+        <span class="legenda-badge forno">In forno</span>
+        <p>L'ingrediente entra direttamente in cottura sulla pizza. Il calore ne trasforma profondamente sapore, consistenza e profumo: caramellizza, affumica, fonde. È la trasformazione che definisce l'anima della pizza.</p>
+      </div>
+      <div class="legenda-voce">
+        <span class="legenda-badge esterno">Fuori forno</span>
+        <p>Posizionato a pizza estratta, l'ingrediente preserva intatta la propria natura — cremosità, freschezza, croccantezza, fragranza. È il gesto finale del pizzaiolo, quello che porta equilibrio e contrasto.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RICERCA -->
+  <div class="barra-ricerca-wrapper">
+    <input type="text" id="ricerca" placeholder="Cerca pizza o ingrediente" oninput="filtra()">
+    <span class="count-pizze" id="countEl">12 pizze</span>
+  </div>
+
+  <!-- LISTA -->
+  <div class="lista-pizze" id="listaPizze">
+
+    <!-- 14 -->
+    <div class="pizza-card" data-cerca="burrata pomodoro pelato fior di latte datterino rosso semi secco prosciutto crudo">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">14</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Burrata <em style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:1.2rem;color:var(--bianco2)">(v2)</em></div>
+        <p class="pizza-descrizione">La dolcezza del datterino semi secco cotto in forno incontra la cremosità della burrata, che scioglie lentamente il suo cuore lattoso sulla pizza ancora calda. Il prosciutto crudo aggiunge un tocco sapido che chiude il cerchio in modo elegante.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Pomodoro pelato schiacciato</span>
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Datterino rosso semi secco</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Burrata</span>
+              <span class="ing-tag esterno">Prosciutto crudo</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Pomodoro pelato schiacciato</span>
+              <span class="prep-desc">Pelati di qualità schiacciati a mano — non frullati — per mantenere una texture irregolare e viva. Conditi in teglia con olio EVO e sale prima di essere distribuiti sulla base.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Datterino semi secco</span>
+              <span class="prep-desc">Datterini rossi tagliati a metà, conditi con olio, sale e zucchero, quindi essiccati lentamente in forno a bassa temperatura per ore. Si concentra lo zucchero, si intensifica l'acidità dolce. Entrano in forno sulla pizza già semi-essiccati.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Burrata (fuori forno)</span>
+              <span class="prep-desc">Appoggiata a pizza estratta, a temperatura ambiente. Non viene mai riscaldata: il calore residuo della pizza scioglie leggermente il cuore cremoso senza alterarne la struttura. Va servita subito dopo il posizionamento.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="pizza-card" data-cerca="capriccio passata siccagno prosciutto cotto fior di latte olive taggiasche funghi">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">15</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Capriccio</div>
+        <p class="pizza-descrizione">Una pizza che celebra la tradizione senza fronzoli: il pomodoro siccagno profumato si sposa con prosciutto cotto, olive taggiasche e funghi in un abbraccio rustico e goloso. Generosa, rassicurante, senza nulla da dimostrare.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Passata pomodoro siccagno</span>
+              <span class="ing-tag forno">Prosciutto cotto</span>
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Olive taggiasche</span>
+              <span class="ing-tag forno">Funghi</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Passata siccagno</span>
+              <span class="prep-desc">Il pomodoro siccagno è una varietà siciliana coltivata in asciutta, senza irrigazione. Si concentra naturalmente al sole, sviluppando una dolcezza intensa e una densità straordinaria. La passata viene lavorata a crudo, senza cottura preventiva.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Funghi</span>
+              <span class="prep-desc">Trifolati in padella con olio, aglio e prezzemolo prima di entrare in forno. La precottura rimuove l'acqua in eccesso: il fungo arriva sulla pizza già saporito e non rilascia umidità durante la cottura.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Olive taggiasche</span>
+              <span class="prep-desc">Varietà ligure a bassa acidità, in olio extravergine. Entrano intere in forno, dove il calore ne esalta il sapore burroso e levemente amaro senza renderle secche.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 31 -->
+    <div class="pizza-card" data-cerca="donna fugata pomodoro biologico fior di latte salsiccia cipolla caramellata gorgonzola peperoncino">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">31</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Donna Fugata</div>
+        <p class="pizza-descrizione">Carattere deciso e anima meridionale: la salsiccia si fonde col gorgonzola piccante mentre la cipolla caramellata porta dolcezza e il peperoncino accende tutto di brio. Una pizza che non si dimentica facilmente.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Passata pomodoro pelato biologico</span>
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Salsiccia</span>
+              <span class="ing-tag forno">Cipolla caramellata</span>
+              <span class="ing-tag forno">Gorgonzola</span>
+              <span class="ing-tag forno">Peperoncino</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Cipolla caramellata</span>
+              <span class="prep-desc">Cipolle bianche affettate sottilmente, stufate a fuoco lentissimo con olio, sale e un filo d'aceto per 40–60 minuti fino a completa caramellizzazione. Lo zucchero naturale della cipolla si concentra in una marmellata scura e profumata. Bilanciamento del gorgonzola.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Salsiccia</span>
+              <span class="prep-desc">Sbriciolata a mano sulla pizza cruda, distribuita in piccoli pezzi irregolari per garantire una cottura uniforme e il rilascio graduale dei grassi durante la cottura in forno.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Gorgonzola</span>
+              <span class="prep-desc">Gorgonzola piccante DOP, disposto in piccole noci sulla pizza. In forno fonde completamente integrandosi col fior di latte in una crema intensa e sapida. Il calore attenua leggermente la piccantezza.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 174 -->
+    <div class="pizza-card" data-cerca="figlia del fuoco friarielli salsiccia provola affumicata datterino rosso spuma terra olive">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">174</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Figlia del fuoco</div>
+        <p class="pizza-descrizione">Nata dal fuoco e dall'erba amara dei friarielli, questa pizza porta con sé la forza della salsiccia e la profondità affumicata della provola. La spuma di friarielli e la terra di olive la completano come un gesto finale di grande eleganza.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Friarielli</span>
+              <span class="ing-tag forno">Salsiccia</span>
+              <span class="ing-tag forno">Provola affumicata</span>
+              <span class="ing-tag forno">Datterino rosso semi secco</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Spuma di friarielli</span>
+              <span class="ing-tag esterno">Terra di olive</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Friarielli in forno</span>
+              <span class="prep-desc">Saltati in padella con olio e aglio, leggermente appassiti ma non stracotti, per preservare il colore verde intenso e la nota amara. Entrano in forno già conditi: il calore finale li asciuga e ne concentra il sapore.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Spuma di friarielli</span>
+              <span class="prep-desc">Friarielli cotti e frullati con olio EVO, poi montati con un sifone a panna fino a ottenere una spuma leggera e areata. Viene disposta fuori forno: porta il sapore vegetale amaro in una texture completamente inaspettata, aerea e delicata.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Terra di olive</span>
+              <span class="prep-desc">Olive nere denocciolate, essiccate in forno a bassissima temperatura, poi tritate finemente fino a ottenere una polvere scura e grassa dall'intenso sapore umami. Applicata fuori forno come elemento finale, porta profondità e croccantezza.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Provola affumicata</span>
+              <span class="prep-desc">Affumicatura naturale con legno di faggio. In forno la provola fonde lentamente rilasciando le note fumé nell'impasto. Tagliata a cubetti o a fette per una distribuzione uniforme.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 56 -->
+    <div class="pizza-card" data-cerca="incontro proibito fior di latte gambero marinato aglio agrumi granella pistacchio lardo patanegra sponzali rosmarino">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">56</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Incontro Proibito</div>
+        <p class="pizza-descrizione">Un gioco di contrasti audaci: il gambero marinato agli agrumi incontra il lardo di patanegra, mentre il pistacchio porta croccantezza e gli sponzali un'acidità delicata. Una pizza che sorprende ad ogni morso.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Gambero marinato aglio e agrumi</span>
+              <span class="ing-tag forno">Sponzali</span>
+              <span class="ing-tag forno">Rosmarino</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Granella di pistacchio</span>
+              <span class="ing-tag esterno">Lardo di patanegra</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Gambero marinato aglio e agrumi</span>
+              <span class="prep-desc">Gamberi freschi puliti e marinati a crudo con aglio, scorza di limone, scorza d'arancia e olio EVO per almeno 2 ore. La marinatura penetra nella polpa e la profuma. Entrano in forno già marinati: la cottura è breve, il gambero resta morbido e sugoso.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Sponzali</span>
+              <span class="prep-desc">Cipolline fresche a stelo lungo, tipiche della tradizione pugliese e campana. Vengono utilizzate sia la parte bianca che il verde, affettate sottilmente. In forno si ammorbidiscono perdendo la piccantezza e acquisendo dolcezza e carattere.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Lardo di patanegra (fuori forno)</span>
+              <span class="prep-desc">Lardo di maiale iberico di bellota, affettato finissimo. Posizionato fuori forno sulla pizza calda: il calore residuo lo fa sciogliere lentamente, liberando i grassi nobili e avvolgendo il gambero in una carezza sapida e aromatica.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Granella di pistacchio</span>
+              <span class="prep-desc">Pistacchi di Bronte sgusciati, tostati e tritati grossolanamente. Applicati fuori forno per mantenere la croccantezza. Portano colore verde e una nota dolce-burrosa che bilancia la sapidità del lardo.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 72 -->
+    <div class="pizza-card" data-cerca="margherita pomodoro biologico mozzarella olio evo basilico">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">72</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Margherita</div>
+        <p class="pizza-descrizione">Purezza assoluta: pomodoro biologico, mozzarella filante, un filo d'olio EVO e basilico fresco fuori forno. La perfezione non ha bisogno di aggiunte.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Pomodoro biologico</span>
+              <span class="ing-tag forno">Mozzarella</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Olio EVO</span>
+              <span class="ing-tag esterno">Basilico</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Pomodoro biologico</span>
+              <span class="prep-desc">Pomodoro certificato biologico, lavorato a crudo senza cottura preventiva. Schiacciato o passato a seconda della stagione, condito solo con olio EVO e sale marino. La qualità della materia prima è qui tutto — nessun artificio la può compensare.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Olio EVO (fuori forno)</span>
+              <span class="prep-desc">Versato a filo sul cornicione e al centro a pizza sfornata, non prima. Il calore dirompente del forno brucerebbe i polifenoli dell'olio a freddo, annullandone il profumo. Fuori forno, mantiene tutta la sua fragranza erbacea.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Basilico (fuori forno)</span>
+              <span class="prep-desc">Foglie fresche intere posizionate a pizza estratta. Il calore del forno annerisce e ossida il basilico in pochi secondi. Fuori forno, il calore residuo lo scalda senza bruciarlo, sprigionando gli oli essenziali al momento del servizio.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 134 -->
+    <div class="pizza-card" data-cerca="nebrodi umami provola cesaro funghi shiitake fior di latte salsiccia crema grana elisir tartufo">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">134</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Nebrodi Umami</div>
+        <p class="pizza-descrizione">Un viaggio nei Nebrodi tra funghi shiitake e salsiccia, dove la provola di Cesarò porta il carattere dei monti siciliani. La crema di grana e l'elisir di tartufo avvolgono tutto in una profondità aromatica rara.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Provola di Cesarò</span>
+              <span class="ing-tag forno">Funghi shiitake</span>
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Salsiccia</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Crema di grana</span>
+              <span class="ing-tag esterno">Elisir di tartufo</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Provola di Cesarò</span>
+              <span class="prep-desc">Formaggio a pasta filata prodotto sulle Madonie con latte vaccino intero. Carattere deciso, lieve acidità, crosta sottile. In forno fonde in modo diverso dalla mozzarella: più resistente, più grasso, lascia macchie dorate e sapore di montagna.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Funghi shiitake</span>
+              <span class="prep-desc">Funghi di origine asiatica dal potente profumo umami, ricchi di glutammato naturale. Affettati e saltati brevemente in padella con olio prima di entrare in forno. In cottura concentrano ulteriormente il loro carattere terroso e carnoso.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Crema di grana (fuori forno)</span>
+              <span class="prep-desc">Grana Padano o Parmigiano grattugiato sciolto con panna o latte a fuoco dolce fino a ottenere una crema fluida e densa. Applicata fuori forno a ciuffi o con il biberon: porta sapidità, umami e una grassezza setosa che lega tutti gli elementi.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Elisir di tartufo</span>
+              <span class="prep-desc">Olio al tartufo di alta qualità, ridotto o arricchito con estratto di tartufo, applicato in piccola quantità fuori forno con un cucchiaio o contagocce. Il calore del forno volatilizza i composti aromatici del tartufo — va sempre aggiunto a freddo.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 87 -->
+    <div class="pizza-card" data-cerca="o sole mio mozzarella bufala dop mozzarella datterino rosso giallo basilico olio terraliva">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">87</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">O Sole Mio</div>
+        <p class="pizza-descrizione">La doppia mozzarella — fior di latte in forno e bufala DOP fuori — crea una stratificazione cremosa su cui i datterini rossi e gialli disegnano un sole vero. Olio Terraliva e basilico completano il quadro con luce e profumo.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Mozzarella</span>
+              <span class="ing-tag forno">Datterino rosso e giallo</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Mozzarella di bufala DOP</span>
+              <span class="ing-tag esterno">Basilico</span>
+              <span class="ing-tag esterno">Olio EVO Terraliva</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Datterino rosso e giallo</span>
+              <span class="prep-desc">Datterini di due varietà — rosso (più dolce e carnoso) e giallo (più acidulo e fresco) — tagliati a metà e disposti alternati sulla pizza. La doppia cromaticità è anche una doppia nota gustativa: entrano in forno crudi, si concentrano in cottura.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Mozzarella di bufala DOP (fuori forno)</span>
+              <span class="prep-desc">Strappata a mano in pezzi irregolari e posizionata fuori forno. La bufala DOP ha una struttura più umida e lattica della mozzarella vaccina: il calore del forno la farebbe separare in siero. Fuori forno rimane cremosa, fredda al centro, straordinariamente fresca.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Olio EVO Terraliva</span>
+              <span class="prep-desc">Monocultivar siciliana selezionata, dall'intenso profumo erbaceo con note di mandorla e carciofo. Versato a crudo a pizza sfornata. Non è olio generico: è parte integrante del profilo aromatico della pizza.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 90 -->
+    <div class="pizza-card" data-cerca="orso iberico fior di latte funghi shiitake timo lardo patanegra crema grana pepe nero elisir tartufo">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">90</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Orso Iberico</div>
+        <p class="pizza-descrizione">Il lardo di patanegra fonde lentamente sui funghi shiitake e sul fior di latte, mentre il pepe nero e il timo danno struttura aromatica. L'elisir di tartufo e la crema di grana chiudono con lusso e rotondità.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Fior di latte</span>
+              <span class="ing-tag forno">Funghi shiitake</span>
+              <span class="ing-tag forno">Timo</span>
+              <span class="ing-tag forno">Pepe nero</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Lardo di patanegra</span>
+              <span class="ing-tag esterno">Crema di grana</span>
+              <span class="ing-tag esterno">Elisir di tartufo</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Funghi shiitake</span>
+              <span class="prep-desc">Trifolati in padella con olio e timo fresco, a fuoco vivo per pochi minuti fino a doratura. Perdono l'acqua in eccesso e concentrano la nota umami terrosa. L'abbinamento col lardo iberico è il cuore identitario di questa pizza.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Lardo di patanegra (fuori forno)</span>
+              <span class="prep-desc">Ibérico de bellota affettato a velo, posizionato su tutta la superficie fuori forno. Il calore residuo scioglie il grasso in pochi secondi, facendolo penetrare nel fior di latte sottostante. Il risultato è una pizza lucida, profumata, con una grassezza nobilissima.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Pepe nero</span>
+              <span class="prep-desc">Pepe nero macinato fresco, in grani o spezzato grossolanamente. Entra in forno con gli altri ingredienti: il calore attiva gli oli essenziali del pepe e ne esalta la piccantezza calda, diversa da quella del peperoncino — più aromatica, più persistente.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 127 -->
+    <div class="pizza-card" data-cerca="un giorno alle eolie pomodoro siccagno tonno cipolla caramellata capperi salina sponzali olive olio limone elisir acciughe crema grana">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">127</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Un giorno alle Eolie</div>
+        <p class="pizza-descrizione">Tutto il Mediterraneo in una pizza: il tonno sott'olio, i capperi di Salina e le olive dialogano col pomodoro siccagno e la cipolla caramellata. L'olio al limone e l'elisir di acciughe la sollevano verso qualcosa di poetico.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Passata pomodoro siccagno</span>
+              <span class="ing-tag forno">Filetti di tonno sott'olio</span>
+              <span class="ing-tag forno">Cipolla caramellata</span>
+              <span class="ing-tag forno">Capperi di Salina</span>
+              <span class="ing-tag forno">Sponzali</span>
+              <span class="ing-tag forno">Olive</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Olio al limone</span>
+              <span class="ing-tag esterno">Elisir di acciughe</span>
+              <span class="ing-tag esterno">Crema di grana</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Filetti di tonno sott'olio</span>
+              <span class="prep-desc">Tonno di qualità superiore conservato in olio extravergine d'oliva. Spezzato a mano in tranci irregolari e disposto sulla pizza prima della cottura. Il forno lo scalda senza cuocerlo ulteriormente, mantenendolo morbido e saporito. L'olio di conserva si fonde con la base.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Capperi di Salina</span>
+              <span class="prep-desc">Capperi delle isole Eolie, conservati sotto sale — non in aceto. Prima dell'uso vengono dissalati in acqua fredda per 20 minuti. In forno rilasciano la loro nota acidula e aromatica senza perdere la consistenza carnosa.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Olio al limone (fuori forno)</span>
+              <span class="prep-desc">Olio extravergine infuso con scorza di limone fresco, applicato fuori forno. Porta un'acidità agrumata che alleggerisce il profilo umami del tonno e delle acciughe. È il tocco che evoca il mare.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Elisir di acciughe</span>
+              <span class="prep-desc">Colatura di alici o riduzione di acciughe di Cetara in olio EVO, applicata fuori forno in piccola quantità. Porta un umami salinissimo e profondissimo che amplifica tutti gli altri sapori marini senza sovrastarli. Una o due gocce bastano.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 172 -->
+    <div class="pizza-card" data-cerca="vento scirocco mergellina crema friarielli salsiccia provola affumicata datterino rosso polvere olive nere friarielli">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">172</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Vento di scirocco verso Mergellina</div>
+        <p class="pizza-descrizione">La crema di friarielli fa da base vellutata alla salsiccia e alla provola affumicata, mentre il datterino semi secco porta dolcezza mediterranea. La polvere di olive nere è il tocco finale, evocativo come un vento caldo dal mare.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Crema di friarielli</span>
+              <span class="ing-tag forno">Salsiccia</span>
+              <span class="ing-tag forno">Provola affumicata</span>
+              <span class="ing-tag forno">Datterino rosso semi secco</span>
+              <span class="ing-tag forno">Friarielli</span>
+            </div>
+          </div>
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">Fuori forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag esterno">Polvere di olive nere</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Crema di friarielli</span>
+              <span class="prep-desc">Friarielli cotti in olio e aglio, poi frullati con olio EVO a caldo fino a ottenere una crema liscia e vellutata. Usata come base al posto del pomodoro: porta amarezza vegetale, colore verde scuro e una profondità diversa da qualsiasi salsa classica.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Friarielli interi in forno</span>
+              <span class="prep-desc">Oltre alla crema, friarielli interi sbollentati e ripassati in padella vengono disposti sopra. La doppia presenza — crema come base e steli interi come topping — crea due texture e due intensità dello stesso ingrediente.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Polvere di olive nere (fuori forno)</span>
+              <span class="prep-desc">Olive nere essiccate in forno a bassissima temperatura, poi polverizzate fino a una consistenza sabbiosa. Applicata fuori forno come finitura: porta sapidità, umami, una nota amara e un colore quasi carbonico. È la firma visiva di questa pizza.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 175 -->
+    <div class="pizza-card" data-cerca="voleva essere una marinara pomodoro pelato schiacciato salame dolce grana origano pepe nero">
+      <div class="pizza-lato-sinistro">
+        <span class="pizza-numero">175</span>
+        <span class="pizza-numero-label">n°</span>
+        <div class="separatore-verticale"></div>
+      </div>
+      <div class="pizza-corpo">
+        <div class="pizza-nome">Voleva essere una marinara</div>
+        <p class="pizza-descrizione">Una marinara che ha ceduto alla tentazione: il pomodoro pelato schiacciato a mano incontra il salame dolce, il grana e il pepe nero in un equilibrio semplice ma risoluto. Senza pretese, con molta personalità.</p>
+        <div class="ingredienti-sezione">
+          <div class="ing-gruppo">
+            <span class="ing-etichetta">In forno</span>
+            <div class="ing-lista">
+              <span class="ing-tag forno">Pomodoro pelato schiacciato a mano</span>
+              <span class="ing-tag forno">Salame dolce</span>
+              <span class="ing-tag forno">Grana</span>
+              <span class="ing-tag forno">Origano</span>
+              <span class="ing-tag forno">Pepe nero</span>
+            </div>
+          </div>
+        </div>
+        <div class="preparazioni-sezione">
+          <div class="preparazioni-titolo">Lavorazioni</div>
+          <div class="prep-lista">
+            <div class="prep-voce">
+              <span class="prep-nome">Pomodoro pelato schiacciato a mano</span>
+              <span class="prep-desc">Pelati San Marzano o di qualità equivalente, aperti e schiacciati direttamente con le dita — non frullati, non passati. Rimangono pezzi irregolari che in forno creano zone più dense e zone più liquide: una texture viva, autentica, diversa dalla passata.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Salame dolce</span>
+              <span class="prep-desc">Salame di norcineria a grana fine, con speziatura delicata. Affettato sottile e distribuito sulla pizza: in forno i bordi si arricciano leggermente, il grasso si fonde nella base e il salame acquista una leggera croccantezza ai margini.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Grana grattugiato</span>
+              <span class="prep-desc">Grana Padano stagionato grattugiato a neve sulla pizza prima della cottura. In forno si scioglie formando una crosticina dorata che trattiene gli altri sapori. Porta sapidità e la struttura tipica della pizza senza mozzarella.</span>
+            </div>
+            <div class="prep-voce">
+              <span class="prep-nome">Origano</span>
+              <span class="prep-desc">Origano secco di montagna, distribuito generosamente. In forno il calore ne attiva gli oli essenziali: il profumo si spande con forza durante la cottura e si fissa nell'impasto. È il marcatore aromatico che rimanda alla marinara classica.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NOTE OPERATIVE -->
+  <div class="note-operative">
+    <div class="sezione-titolo" style="margin-bottom:2.5rem">
+      <span class="sezione-titolo-testo">Note operative per la sala</span>
+      <div class="linea-lunga"></div>
+    </div>
+    <div class="note-operative-grid">
+      <div class="nota">
+        <div class="nota-titolo">Come spiegare il fuori forno</div>
+        <p>Gli ingredienti fuori forno sono una scelta intenzionale. Vanno presentati come un gesto di rispetto verso la materia prima: la burrata, il basilico, le spume, i lardi delicati — il calore li rovinerebbe. Spiegatelo come una tecnica, non come un'eccezione.</p>
+      </div>
+      <div class="nota">
+        <div class="nota-titolo">La trasformazione in forno</div>
+        <p>Ogni ingrediente in forno subisce una metamorfosi. Il calore caramellizza, affumica, intensifica. Quando il cliente chiede "come è cucinato?", sottolineate che ogni elemento è pensato per entrare o uscire dal forno al momento preciso.</p>
+      </div>
+      <div class="nota">
+        <div class="nota-titolo">Pizze ad alta complessità aromatica</div>
+        <p>N°134 Nebrodi Umami, N°90 Orso Iberico e N°127 Un giorno alle Eolie sono le pizze a più alta intensità. Suggeritele a chi cerca profondità. Menzionate l'elisir di tartufo o l'elisir di acciughe come dettagli di lavorazione artigianale propri della cucina.</p>
+      </div>
+      <div class="nota">
+        <div class="nota-titolo">Pesce e crostacei · allergie</div>
+        <p>N°56 Incontro Proibito contiene gambero marinato in aglio e agrumi. N°127 Un giorno alle Eolie contiene tonno e acciughe. Comunicatelo sempre proattivamente. Verificate allergie prima di consigliare queste pizze.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-scheda">
+    <div class="footer-brand">Blanco Maggio</div>
+    <span class="footer-oro"></span>
+    <div class="footer-note">
+      Scheda sala · uso interno<br>
+      Stagione 2025
+    </div>
+  </div>
+
+</div>
+
+<script>
+function filtra() {
+  const q = document.getElementById('ricerca').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.pizza-card');
+  let n = 0;
+  cards.forEach(c => {
+    const testo = (c.dataset.cerca + ' ' + c.innerText).toLowerCase();
+    const visibile = !q || testo.includes(q);
+    c.classList.toggle('nascosto', !visibile);
+    if (visibile) n++;
+  });
+  document.getElementById('countEl').textContent = q ? n + ' / 12 pizze' : '12 pizze';
+}
+</script>
+</body>
+</html>
