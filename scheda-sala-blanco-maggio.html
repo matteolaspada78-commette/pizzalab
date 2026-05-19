@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Scheda Sala — Blanco Maggio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: dark only; }
+html { background:#0b0908 !important; }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body {
+  background:#0b0908 !important;
+  color:#f0ebe0 !important;
+  font-family:'Montserrat',sans-serif;
+  font-size:15px; line-height:1.6;
+  -webkit-text-size-adjust:100%;
+  min-height:100vh;
+}
+
+/* ── COVER ── */
+.cover {
+  background:#080605 !important;
+  text-align:center;
+  padding:3.5rem 1.5rem 3rem;
+  border-bottom:1px solid #c9a84c;
+  position:relative; overflow:hidden;
+}
+.cover::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(201,168,76,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 25% at 15% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+.cover-inner { position:relative; z-index:1; }
+.c-eye { font-size:.55rem; letter-spacing:.42em; text-transform:uppercase; color:#c9a84c !important; margin-bottom:1.2rem; display:block; }
+.c-logo { font-family:'Cormorant Garamond',serif; font-size:5.2rem; font-weight:300; color:#f0ebe0 !important; line-height:.88; margin-bottom:.15rem; display:block; letter-spacing:-.01em; }
+.c-sub  { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic; color:#c9a84c !important; margin-bottom:2rem; letter-spacing:.09em; display:block; }
+.c-div  { width:48px; height:1px; background:#c9a84c; margin:0 auto 2rem; display:block; }
+.c-info { font-size:.54rem; letter-spacing:.28em; text-transform:uppercase; color:#7a6a58 !important; line-height:2.4; display:block; }
+.c-firma { margin-top:2rem; padding-top:1.4rem; border-top:1px solid rgba(201,168,76,.22); }
+.c-firma-l { font-size:.5rem; letter-spacing:.32em; text-transform:uppercase; color:#7a6a58 !important; margin-bottom:.25rem; display:block; }
+.c-firma-n { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-style:italic; color:#f0ebe0 !important; display:block; }
+
+/* ── NAV TABS ── */
+.nav {
+  background:#0d0a08 !important;
+  display:flex;
+  border-bottom:1px solid rgba(201,168,76,.2);
+  position:sticky; top:0; z-index:300;
+  overflow-x:auto; scrollbar-width:none;
+}
+.nav::-webkit-scrollbar { display:none; }
+.ntab {
+  flex-shrink:0;
+  font-family:'Montserrat',sans-serif;
+  font-size:.48rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  padding:.85rem .9rem; border:none;
+  background:transparent !important; color:#6a5f50 !important;
+  cursor:pointer; border-bottom:2px solid transparent;
+  -webkit-tap-highlight-color:transparent; -webkit-appearance:none;
+  white-space:nowrap;
+}
+.ntab.active { color:#c9a84c !important; border-bottom-color:#c9a84c; }
+
+/* ── SEZIONI ── */
+.sez { display:none; }
+.sez.active { display:block; }
+
+/* ── FILTRI ── */
+.filtri {
+  background:#0d0a08 !important;
+  padding:.75rem 1rem .6rem;
+  border-bottom:1px solid rgba(201,168,76,.12);
+}
+.filtri-lbl { font-size:.46rem; letter-spacing:.32em; text-transform:uppercase; color:#6a5f50 !important; margin-bottom:.5rem; display:block; }
+.filtri-row { display:flex; gap:.4rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:2px; }
+.filtri-row::-webkit-scrollbar { display:none; }
+.fbtn {
+  flex-shrink:0;
+  font-family:'Montserrat',sans-serif;
+  font-size:.52rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  padding:.42em .85em; border:1px solid rgba(201,168,76,.28);
+  background:transparent !important; color:#7a6a58 !important;
+  border-radius:2px; cursor:pointer;
+  -webkit-tap-highlight-color:transparent; -webkit-appearance:none;
+}
+.fbtn.active { border-color:#c9a84c !important; color:#c9a84c !important; background:rgba(201,168,76,.07) !important; }
+
+/* ── LEGENDA ── */
+.legenda {
+  background:#0d0a08 !important;
+  padding:.65rem 1.1rem;
+  border-bottom:1px solid rgba(201,168,76,.1);
+  display:flex; flex-wrap:wrap; gap:.7rem;
+}
+.leg-i { display:flex; align-items:center; gap:.3rem; font-size:.47rem; letter-spacing:.14em; text-transform:uppercase; color:#6a5f50 !important; }
+.badge { font-size:.42rem; font-weight:600; letter-spacing:.13em; text-transform:uppercase; padding:.2em .55em; border-radius:2px; flex-shrink:0; }
+.b-in   { background:rgba(201,168,76,.13) !important; color:#c9a84c !important; border:1px solid rgba(201,168,76,.3); }
+.b-out  { background:rgba(120,190,100,.1) !important; color:#8ec97a !important; border:1px solid rgba(120,190,100,.28); }
+.b-prep { background:rgba(180,120,60,.13) !important; color:#d4956a !important; border:1px solid rgba(180,120,60,.3); }
+
+/* ── SEZ HEAD ── */
+.sez-head { text-align:center; padding:1.8rem 1.5rem 1rem; background:#0b0908 !important; }
+.sez-eye { font-size:.5rem; letter-spacing:.38em; text-transform:uppercase; color:#c9a84c !important; margin-bottom:.4rem; display:block; }
+.sez-ttl { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:400; color:#f0ebe0 !important; }
+
+/* ── PIZZA CARD ── */
+.lista { padding:0 0 3rem; background:#0b0908 !important; }
+.card {
+  border-bottom:1px solid rgba(201,168,76,.13);
+  padding:1.5rem 1.1rem;
+  background:#0b0908 !important;
+}
+.card:first-child { border-top:1px solid rgba(201,168,76,.13); }
+
+.card-head { display:flex; align-items:baseline; gap:.7rem; margin-bottom:.45rem; flex-wrap:wrap; }
+.card-num  { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:rgba(201,168,76,.38) !important; line-height:1; flex-shrink:0; }
+.card-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:#e8d08a !important; line-height:1.2; }
+
+/* ingredienti */
+.ingr-list { margin-bottom:.85rem; }
+.ingr-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.26rem 0; border-bottom:1px solid rgba(255,255,255,.04); gap:.5rem;
+}
+.ingr-row:last-child { border-bottom:none; }
+.ingr-n { font-size:.65rem; color:#b0a090 !important; flex:1; }
+.ingr-n.prep { color:#c9a84c !important; text-decoration:underline; text-decoration-style:dotted; cursor:pointer; }
+
+/* descrizione */
+.card-desc {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.06rem; font-style:italic; font-weight:400;
+  color:#d8d0bc !important; line-height:1.75;
+  margin-top:.5rem;
+}
+
+/* alert */
+.card-alert {
+  display:flex; align-items:flex-start; gap:.5rem;
+  background:rgba(201,168,76,.06) !important;
+  border:1px solid rgba(201,168,76,.2); border-radius:3px;
+  padding:.55rem .7rem; margin-top:.75rem;
+  font-size:.62rem; color:#e8d08a !important; line-height:1.55;
+}
+.alert-dot { width:5px; height:5px; border-radius:50%; background:#c9a84c; flex-shrink:0; margin-top:.32rem; }
+.card-alert.piccante { border-color:rgba(220,80,80,.35); background:rgba(220,80,80,.07) !important; }
+.card-alert.piccante .alert-dot { background:#e08080; }
+.card-alert.piccante { color:#f0b0b0 !important; }
+
+.card-tag { display:inline-block; margin-top:.65rem; font-size:.46rem; letter-spacing:.2em; text-transform:uppercase; color:#c9a84c !important; border:1px solid rgba(201,168,76,.35); padding:.22em .65em; border-radius:2px; background:rgba(201,168,76,.05) !important; }
+
+/* ── PROD & PREP CARDS ── */
+.prod-card {
+  border-bottom:1px solid rgba(201,168,76,.13);
+  padding:1.5rem 1.1rem;
+  background:#0b0908 !important;
+}
+.prod-card:first-child { border-top:1px solid rgba(201,168,76,.13); }
+.prod-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:#e8d08a !important; margin-bottom:.18rem; }
+.prod-produttore { font-size:.5rem; letter-spacing:.26em; text-transform:uppercase; color:#c9a84c !important; margin-bottom:1rem; display:block; }
+.prod-lbl { font-size:.47rem; letter-spacing:.24em; text-transform:uppercase; color:#6a5f50 !important; margin-bottom:.28rem; display:block; margin-top:.9rem; }
+.prod-text { font-family:'Cormorant Garamond',serif; font-size:1.02rem; font-style:italic; color:#cec6b2 !important; line-height:1.72; }
+.prod-runner {
+  background:rgba(139,58,30,.09) !important; border:1px solid rgba(139,58,30,.3);
+  border-radius:3px; padding:.7rem .9rem; margin-top:.8rem;
+}
+.prod-runner-l { font-size:.45rem; letter-spacing:.24em; text-transform:uppercase; color:#d4956a !important; margin-bottom:.28rem; display:block; }
+.prod-runner-t { font-size:.67rem; color:#d8d0bc !important; line-height:1.62; font-weight:500; }
+.prod-allergen { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.6rem; }
+.allg { font-size:.48rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:.25em .65em; border-radius:2px; background:rgba(180,60,60,.15) !important; color:#e08080 !important; border:1px solid rgba(180,60,60,.3); }
+.allg-ok { background:rgba(100,180,100,.1) !important; color:#8ec97a !important; border-color:rgba(100,180,100,.28); }
+
+/* ── OVERLAY ── */
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.9); z-index:500; overflow-y:auto; padding:2rem 1rem 3rem; -webkit-overflow-scrolling:touch; }
+.overlay.open { display:block; }
+.ov-card { background:#1a1410 !important; border:1px solid rgba(201,168,76,.28); border-radius:4px; padding:1.5rem 1.2rem; max-width:480px; margin:0 auto; position:relative; }
+.ov-close { position:absolute; top:.8rem; right:.9rem; font-size:1.3rem; color:#7a6a58 !important; background:none; border:none; cursor:pointer; padding:.2rem .4rem; line-height:1; }
+
+/* ── FOOTER ── */
+.footer { text-align:center; padding:2rem 1.5rem 3rem; border-top:1px solid rgba(201,168,76,.18); background:#0d0a08 !important; }
+.footer p { font-family:'Cormorant Garamond',serif; font-size:.9rem; font-style:italic; color:#6a5f50 !important; line-height:1.9; margin-bottom:.8rem; }
+.footer-sign { font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:#c9a84c !important; }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-inner">
+    <span class="c-eye">Messina · Stretto di Messina</span>
+    <span class="c-logo">Blanco</span>
+    <span class="c-sub">Scheda Sala — Maggio 2026</span>
+    <span class="c-div"></span>
+    <span class="c-info">Uso interno · Personale di sala<br>12 pizze selezionate · Impasto Teglia con Maiorca</span>
+    <div class="c-firma">
+      <span class="c-firma-l">a cura di</span>
+      <span class="c-firma-n">Matteo La Spada</span>
+      <span class="c-firma-l" style="margin-top:.2rem">Pizzaiolo</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<div class="nav">
+  <button class="ntab active" onclick="showSez('pizze',this)">Le Pizze</button>
+  <button class="ntab" onclick="showSez('prep',this)">Preparazioni</button>
+  <button class="ntab" onclick="showSez('prodotti',this)">Ingredienti</button>
+</div>
+
+
+<!-- ════════════════════════════════
+     PIZZE
+════════════════════════════════ -->
+<div class="sez active" id="sez-pizze">
+
+  <div class="filtri">
+    <span class="filtri-lbl">Filtra per categoria</span>
+    <div class="filtri-row">
+      <button class="fbtn active" onclick="fil('all',this)">Tutte</button>
+      <button class="fbtn" onclick="fil('mare',this)">Mare</button>
+      <button class="fbtn" onclick="fil('terra',this)">Terra</button>
+      <button class="fbtn" onclick="fil('vegetariana',this)">Vegetariane</button>
+      <button class="fbtn" onclick="fil('piccante',this)">Piccanti</button>
+      <button class="fbtn" onclick="fil('crudo',this)">A crudo</button>
+    </div>
+  </div>
+
+  <div class="legenda">
+    <div class="leg-i"><span class="badge b-in">forno</span>entra in forno</div>
+    <div class="leg-i"><span class="badge b-out">uscita</span>aggiunto a crudo</div>
+    <div class="leg-i"><span class="badge b-prep">prep</span>preparazione casa · toccabile</div>
+  </div>
+
+  <div class="sez-head">
+    <span class="sez-eye">Descrizioni · Tecnica · Ingredienti</span>
+    <div class="sez-ttl">Le Pizze</div>
+  </div>
+
+  <div class="lista" id="lista">
+
+    <!-- ── N°14 BURRATA ── -->
+    <div class="card" data-cat="terra crudo">
+      <div class="card-head">
+        <span class="card-num">14</span>
+        <span class="card-name">"Burrata (v2)"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodoro pelato schiacciato</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('burrata')">Burrata ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Prosciutto crudo Levoni</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">La burrata arriva in uscita, candida e gonfia, e si apre sul calore del pomodoro liberando il suo cuore cremoso. I datterini semi secchi Gran Gusto portano una dolcezza concentrata che il pomodoro fresco non ha mai. Il prosciutto crudo Levoni completa con una nota sapida e delicata — tutto a crudo sopra il caldo della pizza.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Burrata e prosciutto arrivano sempre in uscita — spiegarlo prima che la pizza arrivi al tavolo.</div>
+    </div>
+
+    <!-- ── N°15 CAPRICCIO ── -->
+    <div class="card" data-cat="terra">
+      <div class="card-head">
+        <span class="card-num">15</span>
+        <span class="card-name">"Capriccio"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('siccagno')">Passata pomodoro siccagno ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Prosciutto cotto Branchi</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olive taggiasche</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Funghi</span><span class="badge b-in">forno</span></div>
+      </div>
+      <div class="card-desc">Una rossa generosa costruita sul pomodoro siccagno di Valledolmo — coltivato senz'acqua sulle Madonie, dolce e denso, tre volte più ricco di licopene. Prosciutto cotto Branchi, funghi e olive taggiasche entrano tutti in forno fondendosi in un equilibrio classico e senza sbavature. La pizza da ordinare quando non si vuole sbagliare.</div>
+    </div>
+
+    <!-- ── N°31 DONNA FUGATA ── -->
+    <div class="card" data-cat="terra piccante">
+      <div class="card-head">
+        <span class="card-num">31</span>
+        <span class="card-name">"Donna Fugata"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Passata pomodoro pelato biologico</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Salsiccia</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('cipolla')">Cipolla caramellata ↗</span><span class="badge b-prep">prep</span></div>
+        <div class="ingr-row"><span class="ingr-n">Gorgonzola</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Peperoncino</span><span class="badge b-in">forno</span></div>
+      </div>
+      <div class="card-desc">La dolcezza della cipolla caramellata si scontra e si innamora del gorgonzola pungente — è una pizza che vive di contrasti. La salsiccia porta calore e carattere, il peperoncino chiude con una scossa che scalda. Seducente, contraddittoria, difficile da dimenticare.</div>
+      <div class="card-alert piccante"><div class="alert-dot"></div>⚠ Piccante — il peperoncino entra in forno. Avvisare sempre il cliente prima dell'ordine.</div>
+    </div>
+
+    <!-- ── N°174 FIGLIA DEL FUOCO ── -->
+    <div class="card" data-cat="terra">
+      <div class="card-head">
+        <span class="card-num">174</span>
+        <span class="card-name">"Figlia del fuoco"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Friarielli</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Salsiccia</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Provola affumicata</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('spuma-friarielli')">Spuma di friarielli ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terra-olive')">Terra di olive ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Friarielli e salsiccia entrano in forno con la provola affumicata — il terzetto napoletano per eccellenza in veste contemporanea. La spuma di friarielli arriva in uscita leggera e profumata, la terra di olive firma ogni morso con una nota scura e intensa. Una pizza che porta il fuoco del Sud dritto al tavolo.</div>
+    </div>
+
+    <!-- ── N°56 INCONTRO PROIBITO ── -->
+    <div class="card" data-cat="mare crudo">
+      <div class="card-head">
+        <span class="card-num">56</span>
+        <span class="card-name">"Incontro Proibito"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Gambero marinato aglio e agrumi</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('sponzali')">Sponzali ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Rosmarino</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Granella di pistacchio</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('lardo-patanegra')">Lardo di patanegra ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Il gambero marinato con aglio e agrumi entra in forno incontrando il fior di latte, mentre il lardo di patanegra arriva in uscita sciogliendosi lentamente sul calore — due mondi opposti che si attraggono. La granella di pistacchio porta crunch e colore verde. Un abbinamento che non dovrebbe funzionare e invece funziona benissimo.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Lardo e pistacchio sempre in uscita. Gli sponzali sono cipolline fresche siciliane — spiegarlo se il cliente chiede.</div>
+    </div>
+
+    <!-- ── N°72 MARGHERITA ── -->
+    <div class="card" data-cat="vegetariana">
+      <div class="card-head">
+        <span class="card-num">72</span>
+        <span class="card-name">"Margherita"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodoro biologico</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Mozzarella</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Basilico</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Il metro con cui si misura ogni pizzaiolo — qui non si scherza. Olio Terraliva e basilico fresco sempre in uscita su un impasto con Maiorca siciliana a lunga fermentazione. Umile nella forma, straordinaria nell'esecuzione.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Basilico e olio sempre in uscita — mai in forno.</div>
+    </div>
+
+    <!-- ── N°134 NEBRODI UMAMI ── -->
+    <div class="card" data-cat="terra crudo">
+      <div class="card-head">
+        <span class="card-num">134</span>
+        <span class="card-name">"Nebrodi Umami"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('provola-cesaro')">Provola di Cesarò ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('shiitake')">Funghi shiitake ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Salsiccia</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('crema-grana')">Crema di grana ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('elisir-tartufo')">Elisir di tartufo ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">La provola di Cesarò — prodotta in quota sui Nebrodi con latte di vacca al pascolo, uno dei formaggi più pregiati della Sicilia — è l'anima di questa pizza, affiancata dai funghi shiitake per un doppio umami che conquista. La crema di grana e l'elisir di tartufo arrivano entrambi in uscita, lussuosi e persistenti.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Crema di grana ed elisir di tartufo entrambi in uscita — il cliente li vede finire la pizza al tavolo.</div>
+    </div>
+
+    <!-- ── N°87 O SOLE MIO ── -->
+    <div class="card" data-cat="vegetariana crudo">
+      <div class="card-head">
+        <span class="card-num">87</span>
+        <span class="card-name">"O Sole Mio"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Mozzarella fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso e giallo Gran Gusto</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('bufala')">Mozzarella di bufala DOP ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Basilico</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">La mozzarella di bufala DOP arriva in uscita, fresca e lattea, su una base di fior di latte già caldo — due mozzarelle, due caratteri diversi che si completano a vicenda. I datterini rossi e gialli portano un campo cromatico che sorride prima ancora di essere assaggiato. L'olio Terraliva — tonda iblea di Ragusa — firma tutto con un amaro nobile.</div>
+      <div class="card-alert"><div class="alert-dot"></div>La bufala DOP è sempre in uscita — non entra in forno. Spiegare la differenza se il cliente è curioso: più acida e carattere deciso rispetto al fior di latte.</div>
+    </div>
+
+    <!-- ── N°90 ORSO IBERICO ── -->
+    <div class="card" data-cat="terra crudo">
+      <div class="card-head">
+        <span class="card-num">90</span>
+        <span class="card-name">"Orso Iberico"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('shiitake')">Funghi shiitake ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Timo</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pepe nero</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('lardo-patanegra')">Lardo di patanegra ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('crema-grana')">Crema di grana ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('elisir-tartufo')">Elisir di tartufo ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Il lardo di patanegra — grasso nobilissimo del maiale iberico allevato a ghiande — arriva in uscita sciogliendosi lentamente sul calore dei funghi shiitake. La crema di grana e l'elisir di tartufo completano in uscita con eleganza e profondità. Una pizza di alto profilo — vale la pena raccontarla al tavolo.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Tre ingredienti in uscita insieme: lardo, crema di grana, elisir di tartufo. La pizza più articolata nella finitura.</div>
+    </div>
+
+    <!-- ── N°127 UN GIORNO ALLE EOLIE ── -->
+    <div class="card" data-cat="mare">
+      <div class="card-head">
+        <span class="card-num">127</span>
+        <span class="card-name">"Un giorno alle Eolie"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('siccagno')">Passata pomodoro siccagno ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Filetti di tonno sott'olio</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('cipolla')">Cipolla caramellata ↗</span><span class="badge b-prep">prep</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('capperi-salina')">Capperi di Salina IGP ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('sponzali')">Sponzali ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olive</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olio al limone</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Elisir di acciughe</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('crema-grana')">Crema di grana ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">I capperi di Salina IGP — i più pregiati del Mediterraneo, Presidio Slow Food, a pochi km da Messina — entrano in forno con il tonno e la cipolla caramellata in un racconto di mare e isole. L'elisir di acciughe e la crema di grana arrivano in uscita portando sapidità profonda. L'olio al limone chiude tutto come una brezza — fresca, necessaria, giusta.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Gli sponzali sono cipolline fresche siciliane — dolci e delicate. I capperi di Salina sono Presidio Slow Food: vale la pena dirlo al tavolo.</div>
+    </div>
+
+    <!-- ── N°172 VENTO DI SCIROCCO ── -->
+    <div class="card" data-cat="terra">
+      <div class="card-head">
+        <span class="card-num">172</span>
+        <span class="card-name">"Vento di scirocco verso Mergellina"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('crema-friarielli')">Crema di friarielli ↗</span><span class="badge b-prep">prep</span></div>
+        <div class="ingr-row"><span class="ingr-n">Friarielli</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Salsiccia</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Provola affumicata</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('polvere-olive')">Polvere di olive nere ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">La crema di friarielli — ricotta, friarielli e olio, fatta da noi — fa da base vellutata e leggermente amara su cui salsiccia e provola affumicata costruiscono il cuore napoletano. I datterini semi secchi portano dolcezza concentrata, la polvere di olive nere arriva in uscita come firma scura e intensa. È lo scirocco — caldo, avvolgente, impossibile da ignorare.</div>
+    </div>
+
+    <!-- ── N°175 VOLEVA ESSERE UNA MARINARA ── -->
+    <div class="card" data-cat="terra">
+      <div class="card-head">
+        <span class="card-num">175</span>
+        <span class="card-name">"Voleva essere una marinara"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodoro pelato schiacciato a mano</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Salame dolce</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Grana</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Origano</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pepe nero</span><span class="badge b-in">forno</span></div>
+      </div>
+      <div class="card-desc">Una marinara che ha cambiato idea a metà strada — il salame dolce e il grana entrano in forno con il pomodoro pelato schiacciato a mano e l'origano. Niente mozzarella, niente grassi aggiunti — solo sapori netti e materia prima onesta. La pizza più sorprendente nella sua semplicità.</div>
+    </div>
+
+  </div><!-- /lista -->
+</div><!-- /sez-pizze -->
+
+
+<!-- ════════════════════════════════
+     PREPARAZIONI
+════════════════════════════════ -->
+<div class="sez" id="sez-prep">
+  <div class="sez-head">
+    <span class="sez-eye">Ricette della casa · Tecnica · Allergeni</span>
+    <div class="sez-ttl">Le Preparazioni</div>
+  </div>
+  <div class="lista">
+
+    <div class="prod-card" id="prep-cipolla">
+      <div class="prod-name">Cipolla Caramellata</div>
+      <span class="prod-produttore">Preparazione quotidiana · Entra in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Cipolle affettate sottili cotte lentamente in padella con olio EVO per 40–60 minuti a fiamma bassissima, finché diventano morbide, quasi confettura, color ambrato scuro. Nessun addensante — solo cottura lenta e pazienza. La lentezza caramellizza gli zuccheri naturali della cipolla trasformandone il carattere pungente in dolcezza profonda.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">Dolce, morbida, si scioglie in bocca. Porta equilibrio alle pizze più sapide o piccanti. Fatta ogni giorno.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Cipolla cotta 40–60 min a fuoco bassissimo. Dolce, morbida, nessun additivo. Entra in forno.</div></div>
+      <div class="prod-allergen"><span class="allg-ok allg">✓ Nessun allergene rilevante</span></div>
+    </div>
+
+    <div class="prod-card" id="prep-crema-friarielli">
+      <div class="prod-name">Crema di Friarielli</div>
+      <span class="prod-produttore">Base bianca · Entra in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Friarielli sbollentati e strizzati, frullati con ricotta fresca e olio EVO a filo fino a crema liscia, vellutata e leggermente amara. La ricotta porta morbidezza e rotondità, l'olio lega il tutto. È una base bianca alternativa con carattere — vegetale, profumata, tutta napoletana. Entra in forno come base al posto del pomodoro o della mozzarella.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">Una crema verde profumata fatta con ricotta, friarielli e olio — leggermente amara, morbida, molto diversa dal solito bianco. Fatta da noi ogni giorno.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Ricotta + friarielli + olio frullati. Base verde leggermente amara. Entra in forno. Contiene latte.</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte (ricotta)</span></div>
+    </div>
+
+    <div class="prod-card" id="prep-spuma-friarielli">
+      <div class="prod-name">Spuma di Friarielli</div>
+      <span class="prod-produttore">Finitura in uscita · Mai in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Versione aerata della crema di friarielli — montata con sifone o frullatore ad immersione fino a consistenza spumosa, leggera, quasi eterea. Porta tutto il profumo amarognolo dei friarielli in forma impalpabile, senza appesantire. È il tocco contemporaneo che distingue la "Figlia del fuoco" da una pizza napoletana classica — arriva in uscita come nuvola verde profumata.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">Una spuma leggera di friarielli — arriva in uscita, verde e profumata. È la stessa crema della base ma aerata, montata. Il profumo dei friarielli senza il peso.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Crema di friarielli montata a spuma. In uscita, mai in forno. Contiene latte (ricotta).</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte (ricotta)</span></div>
+    </div>
+
+    <div class="prod-card" id="prep-crema-grana">
+      <div class="prod-name">Crema di Grana</div>
+      <span class="prod-produttore">Finitura in uscita · Mai in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Grana Padano grattugiato finemente sciolto a bagnomaria con panna e un goccio d'acqua, lavorato a caldo fino a crema liscia, vellutata e filante. Sapore intenso di latte stagionato, consistenza fluida che si stende facilmente. Arriva sempre in uscita — il calore della pizza la scioglie ulteriormente diventando ancora più cremosa.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">Una fonduta di grana — densa, cremosa, calda. Arriva in uscita: il cliente la vede versare sulla pizza.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Fonduta di grana e panna. Sempre in uscita, mai in forno. Contiene latte.</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte (grana, panna)</span></div>
+    </div>
+
+    <div class="prod-card" id="prep-terra-olive">
+      <div class="prod-name">Terra di Olive</div>
+      <span class="prod-produttore">Finitura in uscita · Mai in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Olive nere disidratate lentamente in forno a bassa temperatura, poi tritate a granella fine scura — quasi sabbia nera. Sapore intensissimo e concentrato: olive, sale, amarognolo profondo. La texture granulosa si chiama "terra" proprio perché ricorda il suolo arido. Poca quantità basta a cambiare completamente il profilo aromatico di una pizza.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">Una granella di olive nere disidratate — sapore concentratissimo, texture sabbiosa. Cambia la pizza con una quantità minima.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Olive nere disidratate e tritate a granella. In uscita. Sapore intenso, poca quantità.</div></div>
+      <div class="prod-allergen"><span class="allg-ok allg">✓ Nessun allergene rilevante</span></div>
+    </div>
+
+    <div class="prod-card" id="prep-polvere-olive">
+      <div class="prod-name">Polvere di Olive Nere</div>
+      <span class="prod-produttore">Finitura in uscita · Mai in forno</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">Olive nere disidratate completamente e ridotte in polvere finissima al mixer. Più fine e intensa della terra di olive — quasi iodica, scurissima, con una forza aromatica che moltiplica per tre o quattro volte quella dell'oliva intera. Spolverata in uscita aggiunge un finale scuro visivamente e gustativamente sorprendente.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Olive nere ridotte in polvere. In uscita. Più fine della terra di olive, intensissima.</div></div>
+      <div class="prod-allergen"><span class="allg-ok allg">✓ Nessun allergene rilevante</span></div>
+    </div>
+
+  </div>
+</div><!-- /sez-prep -->
+
+
+<!-- ════════════════════════════════
+     INGREDIENTI CHIAVE
+════════════════════════════════ -->
+<div class="sez" id="sez-prodotti">
+  <div class="sez-head">
+    <span class="sez-eye">Produttori selezionati · Materie prime</span>
+    <div class="sez-ttl">Gli Ingredienti</div>
+  </div>
+  <div class="lista">
+
+    <div class="prod-card" id="prod-siccagno">
+      <div class="prod-name">Passata di Pomodoro Siccagno</div>
+      <span class="prod-produttore">Cooperativa Rinascita · Valledolmo (PA) · Madonie · Sicilia</span>
+      <span class="prod-lbl">La storia</span>
+      <div class="prod-text">La cooperativa Rinascita nasce nel 1977 a Valledolmo sulle basse Madonie. Tre generazioni di contadini portano a maturazione il pomodoro senza aggiungere una goccia d'acqua — tecnica "in Siccagno", che sfrutta i terreni argillosi e l'escursione termica giorno-notte. Pochissimi frutti, concentratissimi. Il licopene — potente antiossidante — è tre volte superiore ai pomodori irrigati. Premio Stampa Estera al Salone del Gusto 2005.</div>
+      <span class="prod-lbl">Profilo gusto</span>
+      <div class="prod-text">Denso, dolce, con polpa fitta e resa altissima. Nessun additivo. Entra in forno come base — non va allungato con acqua o olio.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Pomodoro siciliano senz'acqua, Madonie. Tre volte più licopene. Cooperativa dal 1977. Premio internazionale.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-grangusto">
+      <div class="prod-name">Datterino Semi Secco in Olio</div>
+      <span class="prod-produttore">Gran Gusto · Finagricola · Battipaglia (SA) · Campania</span>
+      <span class="prod-lbl">Come viene prodotto</span>
+      <div class="prod-text">Il datterino — rosso o giallo — viene tagliato a metà, semi-essiccato parzialmente (non disidratato del tutto) e conservato in olio con aglio, peperoncino e erbe aromatiche. La semi-essiccazione concentra gli zuccheri senza togliere la morbidezza della polpa. Il rosso ha note tomate e sapide, il giallo è più burroso e vellutato — due varietà geneticamente diverse, non solo colori diversi.</div>
+      <span class="prod-lbl">Come lo usiamo</span>
+      <div class="prod-text">Entra in forno. Il calore caramellizza i bordi e amplifica la dolcezza. Mai a crudo — perde l'intensità che la semi-essiccazione ha costruito.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Datterino essiccato a metà in olio. Più dolce e concentrato del fresco. Sempre in forno. Rosso = sapido, giallo = burroso.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-bufala">
+      <div class="prod-name">Mozzarella di Bufala DOP</div>
+      <span class="prod-produttore">DOP · Campania · Caserta / Salerno</span>
+      <span class="prod-lbl">Perché è diversa dal fior di latte</span>
+      <div class="prod-text">La bufala DOP viene dal latte di bufala — non di vacca. Ha un'acidità lattea spiccata, una cremosità più intensa, e un carattere deciso che il fior di latte non ha. In cottura rilascia molta acqua e si separa — per questo la usiamo sempre in uscita, mai in forno, dove perderebbe tutta la sua freschezza e consistenza. A crudo sul calore della pizza si scioglie parzialmente in modo naturale.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Latte di bufala DOP — più acida e cremosa del fior di latte. Sempre in uscita, mai in forno. Si scioglie sul calore della pizza.</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte</span></div>
+    </div>
+
+    <div class="prod-card" id="prod-terraliva">
+      <div class="prod-name">Olio EVO Terraliva — Tonda Iblea</div>
+      <span class="prod-produttore">Terraliva · Buccheri (SR) · Monti Iblei · 700m s.l.m.</span>
+      <span class="prod-lbl">L'azienda</span>
+      <div class="prod-text">Famiglia Cavarra, Buccheri, altopiano ibleo a 700 metri. 1700 ulivi centenari di Tonda Iblea su terreno vulcanico — cultivar autoctona della Sicilia sud-orientale. Raccolta verde all'inizio della maturazione, frantoio entro poche ore, estrazione a freddo, filtrato immediato.</div>
+      <span class="prod-lbl">Profilo sensoriale</span>
+      <div class="prod-text">Verde brillante con riflessi dorati. Al naso sentori intensi di pomodoro fresco, mandorla e carciofo — caratteristica distintiva della Tonda Iblea tra tutte le cultivar italiane. Amaro e piccante equilibrati. Sempre in uscita, mai in cottura — i suoi profumi vanno preservati.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Olio biologico siciliano, Monti Iblei, Tonda Iblea. Profumo di pomodoro e mandorla. Solo in uscita — mai in forno.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-provola-cesaro">
+      <div class="prod-name">Provola di Cesarò</div>
+      <span class="prod-produttore">Cesarò · Monti Nebrodi · Messina · 1000m s.l.m.</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">La provola di Cesarò è uno dei formaggi a pasta filata più pregiati di Sicilia — prodotta a oltre 1000 metri sui Nebrodi con latte intero di vacca che pascolano libere in quota. Ha una crosta sottile paglierina, pasta elastica e compatta, sapore di latte fresco con una nota burrosa caratteristica dell'altitudine. Non è una provola industriale: ogni forma è lavorata a mano in piccoli caseifici artigianali del territorio messinese.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Entra in forno — fonde in modo diverso dal fior di latte: più lento, più filante, con una nota sapida che rimane. È l'ingrediente che fa capire ai clienti cosa significa "territorio messinese".</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Formaggio a pasta filata dei Nebrodi, vacche al pascolo in quota. Artigianale, messinese. Fonde lentamente in forno.</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte</span></div>
+    </div>
+
+    <div class="prod-card" id="prod-shiitake">
+      <div class="prod-name">Funghi Shiitake</div>
+      <span class="prod-produttore">Lentinula edodes · Fungo dell'umami</span>
+      <span class="prod-lbl">Cosa sono</span>
+      <div class="prod-text">I funghi shiitake — Lentinula edodes — sono originari dell'Asia orientale ma coltivati anche in Italia. Il nome significa "fungo del castagno" in giapponese. Sono ricchissimi di guanosina 5'-monofosfato, uno dei principali composti dell'umami — la quinta dimensione del gusto, quella profondità sapida che rende un piatto persistente e soddisfacente. Il loro sapore terroso e boscoso è più intenso dei comuni champignon.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Entrano in forno. Il calore li asciuga concentrandone la sapidità. Abbinati alla provola di Cesarò creano un doppio umami — formaggio e fungo insieme producono una sinergia gustativa superiore alla somma delle parti.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Funghi asiatici ricchi di umami — la quinta dimensione del gusto. Sapore più intenso degli champignon. Entrano in forno.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-lardo-patanegra">
+      <div class="prod-name">Lardo di Patanegra</div>
+      <span class="prod-produttore">Ibérico · Spagna · maiale allevato a ghiande</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il lardo di patanegra viene dal maiale iberico — il cerdo negro pata negra, allevato allo stato brado in Estremadura e nutriti a ghiande nella fase finale. Le ghiande trasformano il grasso del maiale in qualcosa di straordinario: ricco di acido oleico (come l'olio d'oliva), morbido a temperatura ambiente, con un profumo di nocciola e fieno. Non è grasso animale comune — è uno dei grassi più pregiati della gastronomia europea.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Arriva sempre in uscita — mai in forno. Sul calore della pizza si scioglie lentamente formando un velo lucido e profumato che impregna gli ingredienti sottostanti senza sopraffarli.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Grasso di maiale iberico allevato a ghiande. Profumo di nocciola. Solo in uscita — si scioglie sul calore. Il più pregiato dei lardi.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-elisir-tartufo">
+      <div class="prod-name">Elisir di Tartufo</div>
+      <span class="prod-produttore">Olio aromatizzato al tartufo · In uscita</span>
+      <span class="prod-lbl">Cos'è e come lo usiamo</span>
+      <div class="prod-text">L'elisir di tartufo è un olio aromatizzato con tartufo — non un'essenza sintetica, ma un olio di qualità infuso con aroma di tartufo vero. Poche gocce bastano: il tartufo ha un potere aromatico che in eccesso copre tutto il resto. Va sempre in uscita, mai in forno — il calore distruggerebbe i composti volatili che rendono il tartufo unico. Il suo ruolo è la nota finale lussuosa — quella che rimane dopo aver ingoiato.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Olio al tartufo. Sempre in uscita, poche gocce. Il calore lo distruggerebbe. È la nota finale profonda.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-capperi-salina">
+      <div class="prod-name">Capperi di Salina IGP</div>
+      <span class="prod-produttore">Isola di Salina · Isole Eolie · Presidio Slow Food</span>
+      <span class="prod-lbl">Perché Salina</span>
+      <div class="prod-text">Il cappero di Salina è tra i più pregiati del Mediterraneo — compatto, profumato, con struttura che regge la cottura. Si raccoglie a mano ogni 10 giorni da maggio ad agosto, all'alba o al tramonto. Viene curato sotto sale marino per settimane — il sale attenua l'amaro e sviluppa il profumo caratteristico. Il 95% della produzione di capperi di qualità in Italia viene da Salina e Pantelleria. Presidio Slow Food. A 50km da Messina.</div>
+      <span class="prod-lbl">Come li usiamo</span>
+      <div class="prod-text">Entrano in forno — il calore li concentra ulteriormente rendendoli quasi croccanti. Prima dell'uso vengono sciacquati e dissalati.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Capperi dell'isola di Salina, Eolie — a 50km da noi. Presidio Slow Food. Raccolti a mano. I migliori d'Italia. Entrano in forno.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-sponzali">
+      <div class="prod-name">Sponzali</div>
+      <span class="prod-produttore">Cipollina fresca siciliana · Prodotto tipico</span>
+      <span class="prod-lbl">Cosa sono</span>
+      <div class="prod-text">Gli sponzali sono le cipolline fresche tipiche della cucina siciliana — la parte verde e il bulbo tenero della cipolla prima che si sviluppi completamente. Il nome deriva dall'arabo, traccia della dominazione araba in Sicilia. Sapore dolce e fresco, nota pungente della cipolla molto attenuata — nulla a che vedere con la cipolla matura. Si mangiano crudi in insalata o cotti in padella.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Entrano in forno — la cottura li ammorbidisce e ne esalta la dolcezza naturale.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Cipolline fresche siciliane — dolci, delicate, nome arabo. Non la cipolla matura. Entrano in forno.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-burrata">
+      <div class="prod-name">Burrata</div>
+      <span class="prod-produttore">Formaggio a pasta filata farcita · Puglia</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">La burrata è una mozzarella farcita: un involucro di pasta filata che racchiude stracciatella — un mix di panna e sfilacci di mozzarella. Quando si taglia (o si apre con una forchetta) il cuore cremoso fuoriesce. È un formaggio fresco delicato che non sopporta il calore del forno — si rovinerebbe perdendo la sua consistenza e la panna coalerebbe separandosi.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Sempre e solo in uscita — mai in forno. Sul calore della pizza si scalda leggermente diventando ancora più cremosa. Spiegarlo sempre al cliente prima che arrivi la pizza.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Mozzarella farcita con panna e stracciatella. Solo in uscita — mai in forno. Si apre sul calore e libera il cuore cremoso.</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte</span></div>
+    </div>
+
+  </div>
+</div><!-- /sez-prodotti -->
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Impasto Teglia con Maiorca siciliana · Biga 24h · Licoli · Farine Petra Mulino Quaglia</p>
+  <div class="footer-sign">Blanco · Messina · Maggio 2026 · Matteo La Spada · Pizzaiolo</div>
+</div>
+
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeOv(event)">
+  <div class="ov-card" id="ov-card">
+    <button class="ov-close" onclick="document.getElementById('overlay').classList.remove('open')">✕</button>
+    <div id="ov-body"></div>
+  </div>
+</div>
+
+
+<script>
+function showSez(id, btn) {
+  document.querySelectorAll('.sez').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
+  document.getElementById('sez-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function fil(cat, btn) {
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card[data-cat]').forEach(c => {
+    c.style.display = (cat === 'all' || (c.dataset.cat || '').includes(cat)) ? '' : 'none';
+  });
+}
+
+// Mappa ID ingrediente → ID scheda prodotto o preparazione
+const prepMap = {
+  'cipolla':          { sez: 'prep',     id: 'prep-cipolla' },
+  'crema-friarielli': { sez: 'prep',     id: 'prep-crema-friarielli' },
+  'spuma-friarielli': { sez: 'prep',     id: 'prep-spuma-friarielli' },
+  'crema-grana':      { sez: 'prep',     id: 'prep-crema-grana' },
+  'terra-olive':      { sez: 'prep',     id: 'prep-terra-olive' },
+  'polvere-olive':    { sez: 'prep',     id: 'prep-polvere-olive' },
+  'burrata':          { sez: 'prodotti', id: 'prod-burrata' },
+  'siccagno':         { sez: 'prodotti', id: 'prod-siccagno' },
+  'terraliva':        { sez: 'prodotti', id: 'prod-terraliva' },
+  'provola-cesaro':   { sez: 'prodotti', id: 'prod-provola-cesaro' },
+  'shiitake':         { sez: 'prodotti', id: 'prod-shiitake' },
+  'lardo-patanegra':  { sez: 'prodotti', id: 'prod-lardo-patanegra' },
+  'elisir-tartufo':   { sez: 'prodotti', id: 'prod-elisir-tartufo' },
+  'capperi-salina':   { sez: 'prodotti', id: 'prod-capperi-salina' },
+  'sponzali':         { sez: 'prodotti', id: 'prod-sponzali' },
+  'bufala':           { sez: 'prodotti', id: 'prod-bufala' },
+};
+
+function openPrep(key) {
+  var map = prepMap[key];
+  if (!map) return;
+  var src = document.getElementById(map.id);
+  if (!src) return;
+  document.getElementById('ov-body').innerHTML = src.innerHTML;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeOv(e) {
+  if (e.target === document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>
