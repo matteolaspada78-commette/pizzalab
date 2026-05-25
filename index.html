@@ -727,6 +727,87 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 </div>
 
 <!-- PH BIGA -->
+
+<!-- ═══ IMPASTO ADESSO ═══ -->
+<div id="pageImpastoAdesso" class="scroll" style="display:none">
+  <div class="page-hero" style="background:linear-gradient(160deg,rgba(139,0,0,0.4),rgba(30,0,0,0.6))">
+    <div class="page-hero-icon">⚡</div>
+    <div class="page-hero-title">Impasto Adesso</div>
+    <div class="page-hero-sub">Inserisci pH biga · T uscita · ora fine impasto → ricevi la timeline completa</div>
+  </div>
+
+  <div class="card open" id="cardIAInp">
+    <div class="card-hdr" onclick="toggleCard('cardIAInp')">
+      <div class="card-hdr-icon">⚡</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Input — dati reali adesso</div>
+        <div class="card-hdr-title">pH biga · T uscita · ora · staglio</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+
+      <!-- pH BIGA -->
+      <div class="inp-group">
+        <label class="inp-label" style="color:var(--cream)">🔬 pH biga misurato</label>
+        <div class="inp-row">
+          <input class="inp-field" id="iaPH" type="number" value="" step="0.05" min="4.5" max="6.5" placeholder="5.40" oninput="calcImpastoAdesso()" style="font-size:32px;font-weight:700;color:var(--gold2)">
+          <span class="inp-unit" style="font-size:18px">pH</span>
+        </div>
+      </div>
+
+      <!-- T USCITA + ORA FINE IMPASTO -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🌡️ T uscita Esmach °C</label>
+          <div class="inp-row"><input class="inp-field" id="iaTUsc" type="number" value="" min="18" max="30" step="0.5" placeholder="es. 23" oninput="calcImpastoAdesso()" style="font-size:22px;color:#BBDEFB"><span class="inp-unit">°C</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">⏰ Ora fine impasto</label>
+          <div class="inp-row"><input class="inp-field" id="iaOraFine" type="number" value="10" min="0" max="23" step="0.5" oninput="calcImpastoAdesso()" style="font-size:22px;color:#BBDEFB"><span class="inp-unit">:00</span></div>
+        </div>
+      </div>
+
+      <!-- STAGLIO + T AMB -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">✂️ Ora staglio (fisso)</label>
+          <div class="inp-row"><input class="inp-field" id="iaOraStag" type="number" value="15.5" min="0" max="26" step="0.5" oninput="calcImpastoAdesso()" style="color:var(--gold2)"><span class="inp-unit">:30</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🌡️ T laboratorio °C</label>
+          <div class="inp-row"><input class="inp-field" id="iaTAmb" type="number" value="22" min="16" max="30" oninput="calcImpastoAdesso()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+
+      <!-- TIPO IMPASTO -->
+      <div class="inp-group">
+        <label class="inp-label">Tipo impasto</label>
+        <select class="inp-field" id="iaTipo" style="font-size:14px;-webkit-appearance:none" onchange="calcImpastoAdesso()">
+          <option value="napo">👑 Napoletana Suprema — Biga 50% 0102HP</option>
+          <option value="teglia">🫓 Teglia Romana — Biga 50% 5078+0102HP</option>
+          <option value="pala48">🏅 Pala Romana 48h — Biga 30% 0102HP</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card open" id="cardIAOut">
+    <div class="card-hdr" onclick="toggleCard('cardIAOut')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Piano di lavoro</div>
+        <div class="card-hdr-title">Puntata · Cella · Staglio · Qualità attesa</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="impastoAdessoOut"><div style="color:var(--dim);text-align:center;padding:24px;font-size:13px">Inserisci pH biga e T uscita → ricevi il piano completo</div></div></div>
+  </div>
+
+  <a id="waLink_pageImpastoAdesso" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageImpastoAdesso','Piano Impasto Adesso')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+</div>
+
 <div id="pagePhBiga" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">🧪</div>
@@ -3147,7 +3228,7 @@ function dist(rows){
 // NAVIGATION
 // ══════════════════════════════════════════════
 const pages={
-  home:'pageHome',palline:'pagePalline',motore:'pageMotore',phbiga:'pagePhBiga',licoli:'pageLicoli',
+  home:'pageHome',palline:'pagePalline',motore:'pageMotore',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
   suprema:'pageSuprema',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
@@ -5820,6 +5901,234 @@ function calcTondaBiga50(){
 }
 
 
+// ══════════════════════════════════════════════════════════
+// IMPASTO ADESSO — piano completo da pH biga + T uscita
+// Modello: puntata T ambiente calibrata su pH e T uscita
+// G' stima qualitativa (non numerica) per chiarezza operativa
+// Fonte: pratica L'Orso · Hamad & Fields 1979 · Suas p.42
+// ══════════════════════════════════════════════════════════
+function calcImpastoAdesso(){
+  const pH      = parseFloat((document.getElementById('iaPH')||{}).value)||0;
+  const tUsc    = parseFloat((document.getElementById('iaTUsc')||{}).value)||0;
+  const oraFine = parseFloat((document.getElementById('iaOraFine')||{value:10}).value)||10;
+  const oraStag = parseFloat((document.getElementById('iaOraStag')||{value:15.5}).value)||15.5;
+  const tAmb    = parseFloat((document.getElementById('iaTAmb')||{value:22}).value)||22;
+  const tipo    = (document.getElementById('iaTipo')||{value:'napo'}).value||'napo';
+  const out     = document.getElementById('impastoAdessoOut');
+  if(!out) return;
+
+  if(!pH || !tUsc){
+    out.innerHTML = '<div style="color:var(--dim);text-align:center;padding:24px;font-size:13px">Inserisci pH biga e T uscita → ricevi il piano completo</div>';
+    return;
+  }
+
+  const Q10 = 2.2;
+  var tUscNote = '';
+
+  // Config per tipo
+  var mu22, phOttMin, phOttMax, hPuntCellaBase, volStMin, volStMax, nomeImp;
+  if(tipo==='teglia'){
+    mu22=0.042; phOttMin=5.10; phOttMax=5.45; hPuntCellaBase=3.75;
+    volStMin=60; volStMax=80; nomeImp='Teglia Romana';
+  } else if(tipo==='pala48'){
+    mu22=0.049; phOttMin=5.20; phOttMax=5.45; hPuntCellaBase=0.83;
+    volStMin=25; volStMax=40; nomeImp='Pala Romana 48h';
+  } else {
+    mu22=0.049; phOttMin=5.20; phOttMax=5.45; hPuntCellaBase=3.0;
+    volStMin=45; volStMax=60; nomeImp='Napoletana Suprema';
+  }
+
+  // ── SEMAFORO pH BIGA ──
+  var phSem, phIco, phTxt, phCol;
+  if(pH >= 5.55){
+    phSem='bad'; phIco='🔴'; phCol='100,20,20';
+    phTxt='Biga acerba — compensazione attiva';
+  } else if(pH >= phOttMax){
+    phSem='warn'; phIco='🟡'; phCol='122,74,0';
+    phTxt='Biga quasi pronta — margine ridotto';
+  } else if(pH >= phOttMin){
+    phSem='ok'; phIco='✅'; phCol='30,90,38';
+    phTxt='Biga al picco — condizioni ottimali';
+  } else if(pH >= 5.00){
+    phSem='warn'; phIco='🟠'; phCol='122,74,0';
+    phTxt='Biga limite basso — riduci lievitante';
+  } else {
+    phSem='bad'; phIco='🔴'; phCol='100,20,20';
+    phTxt='Biga oltre picco — vai subito';
+  }
+
+  // ── SEMAFORO T USCITA ──
+  var tSem, tIco, tTxt, tCol, tNote;
+  if(tUsc <= 20){
+    tSem='ok'; tIco='✅'; tCol='30,90,38';
+    tTxt='Ottimale — cella subito dopo S&F';
+    tNote='Entra in cella senza puntata a T ambiente';
+  } else if(tUsc <= 22){
+    tSem='ok'; tIco='✅'; tCol='30,90,38';
+    tTxt='Perfetta — 20-30min T ambiente';
+    tNote='20-30min T ambiente poi cella — margine ideale';
+  } else if(tUsc <= 24){
+    tSem='ok'; tIco='✅'; tCol='30,90,38';
+    tTxt='Buona — 45min T ambiente';
+    tNote='45min T ambiente poi cella — impasto si stabilizza';
+  } else if(tUsc <= 25){
+    tSem='warn'; tIco='🟡'; tCol='122,74,0';
+    tTxt='Alta — 1h T ambiente';
+    tNote='1h T ambiente poi cella — tieni d\'occhio il gonfiore';
+  } else if(tUsc <= 26){
+    tSem='warn'; tIco='🟠'; tCol='122,74,0';
+    tTxt='Troppo alta — 1h30 T ambiente';
+    tNote='1h30 T ambiente — piano freddo se disponibile';
+  } else {
+    tSem='bad'; tIco='🔴'; tCol='100,20,20';
+    tTxt='Critica — piano marmo subito';
+    tNote='Stendi su piano di marmo freddo 10min, poi valuta';
+    tUscNote='Piano marmo freddo 10min — poi rivaluta prima della cella';
+  }
+
+  // ── CALCOLO PUNTATA T AMBIENTE ──
+  // BASE: dalla T uscita
+  var h_base;
+  if(tUsc <= 20)      h_base = 0;
+  else if(tUsc <= 22) h_base = 0.33;  // 20min
+  else if(tUsc <= 24) h_base = 0.75;  // 45min
+  else if(tUsc <= 25) h_base = 1.00;
+  else if(tUsc <= 26) h_base = 1.50;
+  else                h_base = 0;  // critica — gestione manuale
+
+  // BONUS pH acerba: ogni 0.1 pH sopra 5.45 → +15min puntata T amb
+  var delta_pH = Math.max(0, pH - phOttMax);
+  var h_bonus_pH = (delta_pH / 0.1) * 0.25;
+
+  if(!tUscNote) tUscNote = tNote; // fallback
+  var h_punt_amb = Math.round((h_base + h_bonus_pH) * 4) / 4; // arrotonda a 15min
+  h_punt_amb = Math.min(3.0, Math.max(0, h_punt_amb));
+
+  // ── ORARI DERIVATI ──
+  var oraInCella = oraFine + h_punt_amb;
+  var hDisp      = oraStag > oraFine ? oraStag - oraFine : (oraStag+24) - oraFine;
+  var h_cella    = hDisp - h_punt_amb - 0.5; // 30min appretto
+  var oraFuoriC  = oraStag - 0.5;
+  var oraStagFmt = oraStag % 1 === 0.5 
+    ? String(Math.floor(oraStag)%24).padStart(2,'0')+':30'
+    : String(Math.floor(oraStag)%24).padStart(2,'0')+':00';
+
+  function Hh(h){ var hh=((Math.floor(h)%24)+24)%24; var mm=Math.round((h%1)*60);
+    if(mm>=60){hh=(hh+1)%24;mm=0;} return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm; }
+
+  // ── QUALITÀ ATTESA (qualitativa — no G' numerico) ──
+  var qualIco, qualTxt, qualSub, qualCol;
+  var score = 0;
+  if(pH >= phOttMin && pH <= phOttMax) score += 3;
+  else if(pH < phOttMin) score += 2;
+  else score += 0;  // acerba pesa di più
+  if(tUsc <= 24) score += 2;
+  else if(tUsc <= 26) score += 1;
+  if(h_cella >= 2.5) score += 2;
+  else if(h_cella >= 1.5) score += 1;
+
+  if(score >= 6){
+    qualIco='🏆'; qualCol='30,90,38';
+    qualTxt='Condizioni ottimali';
+    qualSub='Biga al picco + T uscita corretta + cella sufficiente → cornicione esplosivo';
+  } else if(score >= 4){
+    qualIco='✅'; qualCol='30,90,38';
+    qualTxt='Risultato buono';
+    qualSub='Qualche compromesso ma pizza di alta qualità garantita';
+  } else if(score >= 2){
+    qualIco='🟡'; qualCol='122,74,0';
+    qualTxt='Risultato accettabile';
+    qualSub='Biga acerba o T alta — pizza buona ma cornicione meno aperto del solito';
+  } else {
+    qualIco='🟠'; qualCol='122,74,0';
+    qualTxt='Risultato di recupero';
+    qualSub='Condizioni non ideali — la pizza esce, il servizio è garantito';
+  }
+
+  // ── VOLUME STAGLIO ──
+  var muT = mu22 * Math.pow(Q10,(tAmb-22)/10);
+  var volStaglio = Math.round((Math.exp(muT * hDisp) - 1) * 100);
+  var volSem = volStaglio>=volStMin&&volStaglio<=volStMax?'ok':volStaglio<volStMin*0.7?'bad':'warn';
+
+  // ── PUNTATA IN CIFRE LEGGIBILI ──
+  function hToStr(h){
+    var tot = Math.round(h*60);
+    if(tot<=0) return 'subito in cella';
+    var hh = Math.floor(tot/60), mm = tot%60;
+    if(hh===0) return mm+'min';
+    if(mm===0) return hh+'h';
+    return hh+'h '+mm+'min';
+  }
+
+  out.innerHTML =
+
+  // ── SEMAFORI PH + T USCITA ──
+  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">'+
+
+  '<div style="background:rgba('+phCol+',0.22);border:2px solid rgba('+phCol+',0.55);border-radius:14px;padding:14px">'+
+  '<div style="font-family:DM Mono,monospace;font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px">pH Biga</div>'+
+  '<div style="font-size:36px;font-weight:900;font-family:DM Mono,monospace;color:'+(phSem==='ok'?'#A5D6A7':phSem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+pH+'</div>'+
+  '<div style="font-size:11px;margin-top:6px;color:'+(phSem==='ok'?'#A5D6A7':phSem==='warn'?'#F0CC5A':'#FFCDD2')+'">'+phIco+' '+phTxt+'</div>'+
+  '</div>'+
+
+  '<div style="background:rgba('+tCol+',0.22);border:2px solid rgba('+tCol+',0.55);border-radius:14px;padding:14px">'+
+  '<div style="font-family:DM Mono,monospace;font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px">T Uscita Esmach</div>'+
+  '<div style="font-size:36px;font-weight:900;font-family:DM Mono,monospace;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+tUsc+'°</div>'+
+  '<div style="font-size:11px;margin-top:6px;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+'">'+tIco+' '+tTxt+'</div>'+
+  '</div>'+
+  '</div>'+
+
+  // ── PIANO PUNTATA ──
+  '<div style="background:rgba(16,32,96,0.25);border:2px solid rgba(91,155,213,0.45);border-radius:16px;padding:16px;margin-bottom:12px">'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:12px">Piano puntata — '+nomeImp+'</div>'+
+
+  '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:12px">'+
+
+  '<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 6px">'+
+  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px">Fine impasto</div>'+
+  '<div style="font-size:18px;font-weight:700;font-family:DM Mono,monospace;color:var(--cream)">'+Hh(oraFine)+'</div>'+
+  '</div>'+
+
+  '<div style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);border-radius:10px;padding:10px 6px">'+
+  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px">T amb '+tAmb+'°C</div>'+
+  '<div style="font-size:18px;font-weight:700;font-family:DM Mono,monospace;color:#F0CC5A">'+hToStr(h_punt_amb)+'</div>'+
+  '</div>'+
+
+  '<div style="background:rgba(13,27,75,0.3);border:1px solid rgba(91,155,213,0.3);border-radius:10px;padding:10px 6px">'+
+  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px">Cella 4°C</div>'+
+  '<div style="font-size:18px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">'+hToStr(Math.max(0,h_cella))+'</div>'+
+  '</div>'+
+
+  '<div style="background:rgba(30,90,38,0.2);border:1px solid rgba(30,90,38,0.4);border-radius:10px;padding:10px 6px">'+
+  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px">Staglio</div>'+
+  '<div style="font-size:18px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+oraStagFmt+'</div>'+
+  '</div>'+
+  '</div>'+
+
+  // Note T uscita
+  '<div style="font-size:12px;color:#BBDEFB;font-style:italic;margin-bottom:6px">'+tNote+'</div>'+
+  // Staglio volume
+  '<div style="font-size:12px;color:var(--dim)">Staglio quando vedi <strong style="color:var(--cream)">+'+volStMin+'-'+volStMax+'% volume</strong> — non seguire solo l\'orologio</div>'+
+  '</div>'+
+
+  // ── TIMELINE PASSO PER PASSO ──
+  tl([
+    [Hh(oraFine), '✅ Fine impasto — S&F ×2', 'T uscita '+tUsc+'°C · '+tTxt],
+    ...(h_punt_amb > 0 ? [[Hh(oraFine), '🌡️ Puntata T ambiente '+tAmb+'°C', hToStr(h_punt_amb)+' — '+tUscNote]] : []),
+    [Hh(oraInCella), '❄️ Entra in cella 4°C', hToStr(Math.max(0,h_cella))+' · biga '+pH+' pH lavora lentamente'],
+    [Hh(oraFuoriC), '🌡️ Fuori cella — appretto 30min', 'a T ambiente · panetti si distendono'],
+    [oraStagFmt, '✂️ STAGLIO a +'+volStMin+'-'+volStMax+'% volume', nomeImp+' · '+tAmb+'°C lab'],
+  ])+
+
+  // ── QUALITÀ ATTESA ──
+  '<div style="background:rgba('+qualCol+',0.18);border:1.5px solid rgba('+qualCol+',0.45);border-radius:12px;padding:14px;display:flex;align-items:center;gap:14px;margin-bottom:8px">'+
+  '<div style="font-size:36px">'+qualIco+'</div>'+
+  '<div><div style="font-size:14px;font-weight:700;color:var(--cream)">'+qualTxt+'</div>'+
+  '<div style="font-size:11px;color:var(--dim);margin-top:3px">'+qualSub+'</div></div>'+
+  '</div>';
+}
+
+
 function calcAll(){
   try{calcPalline();}catch(e){}
   try{calcNapoDir();}catch(e){}
@@ -5839,6 +6148,7 @@ function calcAll(){
   try{calcRomana();}catch(e){}
   try{calcNapoFrigo();}catch(e){}
   try{calcPala48h();}catch(e){}
+  try{calcImpastoAdesso();}catch(e){}
   try{calcPhBiga();}catch(e){}
   try{calcDDT();}catch(e){}
 }
