@@ -531,6 +531,15 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
 
     <div class="menu-section-label">🍕 Tonda Romana</div>
+    <div class="menu-btn" onclick="openPage('tondabiga50')">
+      <div class="menu-icon" style="background:rgba(139,32,32,0.35)">🍕</div>
+      <div class="menu-text">
+        <div class="menu-name">Tonda Romana Croccante con Biga</div>
+        <div class="menu-sub">Biga 50% 0102HP · Rinfresco 5046 Allegra · IDR 58% · Strutto 3%</div>
+      </div>
+      <div class="menu-badge">NEW</div>
+      <div class="menu-arrow">›</div>
+    </div>
     <div class="menu-btn" onclick="openPage('tondabiga')">
       <div class="menu-icon" style="background:rgba(139,32,32,0.3)">🔥</div>
       <div class="menu-text">
@@ -740,12 +749,12 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
         <div id="modoA_btn" onclick="setModo('A')" style="background:rgba(212,160,62,0.2);border:2px solid var(--gold);border-radius:12px;padding:14px 12px;cursor:pointer;text-align:center;-webkit-user-select:none">
           <div style="font-size:18px;margin-bottom:4px">🕐</div>
-          <div style="font-size:12px;font-weight:700;color:var(--gold2)">Dimmi quando impastare</div>
+          <div id="modoA_lbl" style="font-size:12px;font-weight:700;color:var(--gold2)">Dimmi quando impastare</div>
           <div style="font-size:9px;color:var(--dim);margin-top:3px">Ti calcola l'ora ottimale</div>
         </div>
         <div id="modoB_btn" onclick="setModo('B')" style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:14px 12px;cursor:pointer;text-align:center;-webkit-user-select:none">
           <div style="font-size:18px;margin-bottom:4px">⚡</div>
-          <div style="font-size:12px;font-weight:700;color:var(--cream)">Devo impastare ADESSO</div>
+          <div id="modoB_lbl" style="font-size:12px;font-weight:700;color:var(--cream)">Devo impastare ADESSO</div>
           <div style="font-size:9px;color:var(--dim);margin-top:3px">Dimmi cosa aggiungere</div>
         </div>
       </div>
@@ -788,8 +797,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <!-- FARINA E BIGA -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
         <div class="inp-group" style="margin-bottom:0">
-          <label class="inp-label">Kg farina totale</label>
-          <div class="inp-row"><input class="inp-field" id="phKg" type="number" value="20" min="1" max="150" step="0.5" oninput="calcPhBiga()"><span class="inp-unit">kg</span></div>
+          <label class="inp-label">Kg farina RINFRESCO (es. 7kg)</label>
+          <div class="inp-row"><input class="inp-field" id="phKg" type="number" value="7" min="1" max="150" step="0.5" oninput="calcPhBiga()"><span class="inp-unit">kg</span></div>
         </div>
         <div class="inp-group" style="margin-bottom:0">
           <label class="inp-label">% biga sul totale</label>
@@ -802,6 +811,21 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
         <div class="inp-group" style="margin-bottom:0">
           <label class="inp-label">T laboratorio °C</label>
           <div class="inp-row"><input class="inp-field" id="phTA" type="number" value="22" min="16" max="30" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+
+      <!-- T USCITA IMPASTO -->
+      <div style="background:rgba(13,27,75,0.15);border:1px solid rgba(91,155,213,0.3);border-radius:12px;padding:12px 14px;margin-bottom:12px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:8px">🌡️ T uscita impasto (opzionale)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="inp-group" style="margin-bottom:0">
+            <label class="inp-label">T uscita dall'Esmach °C</label>
+            <div class="inp-row"><input class="inp-field" id="phTUsc" type="number" value="" min="16" max="30" step="0.5" placeholder="es. 23" oninput="calcPhBiga()" style="font-size:20px;color:#BBDEFB"><span class="inp-unit">°C</span></div>
+          </div>
+          <div class="inp-group" style="margin-bottom:0">
+            <label class="inp-label">T target cella °C</label>
+            <div class="inp-row"><input class="inp-field" id="phTCella" type="number" value="4" min="2" max="8" step="1" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div>
+          </div>
         </div>
       </div>
 
@@ -826,8 +850,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
             <div class="inp-row"><input class="inp-field" id="phLicPH" type="number" value="4.0" min="3.0" max="5.0" step="0.1" oninput="calcPhBiga()"><span class="inp-unit">pH</span></div>
           </div>
           <div class="inp-group" style="margin-bottom:0">
-            <label class="inp-label">LdB % base (se lo usi)</label>
-            <div class="inp-row"><input class="inp-field" id="phLdbBase" type="number" value="0.3" min="0.05" max="1" step="0.05" oninput="calcPhBiga()"><span class="inp-unit">%</span></div>
+            <label class="inp-label">LdB % (0.3% default — calcolato auto)</label>
+            <div class="inp-row"><input class="inp-field" id="phLdbBase" type="number" value="0.3" min="0.05" max="0.8" step="0.05" oninput="calcPhBiga()" style="color:var(--dim)"><span class="inp-unit">%</span></div>
           </div>
         </div>
       </div>
@@ -843,6 +867,129 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
     </div>
     <div class="card-body"><div id="phBigaOut"><div style="color:var(--dim);font-size:13px;padding:20px 0;text-align:center">Inserisci i valori per ricevere il semaforo</div></div></div>
   </div>
+
+  <!-- FARINA RINFRESCO + T USCITA -->
+  <div style="margin:0 16px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden">
+    <div style="padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">🌾</span>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--cream)">Farina rinfresco · T uscita impasto</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:1px">Per tipo impasto · DDT · Correzioni</div>
+      </div>
+    </div>
+    <div style="padding:14px 16px">
+
+      <!-- FARINE PER TIPO -->
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">Farina rinfresco consigliata</div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+        <!-- NAPOLETANA -->
+        <div style="background:rgba(136,14,79,0.1);border:1px solid rgba(136,14,79,0.3);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#CE93D8;margin-bottom:4px">👑 Napoletana Suprema — biga 50% 0102HP</div>
+          <div style="font-size:12px;color:var(--cream);font-family:'DM Mono',monospace;font-weight:700">70% 5063 Special + 30% 5078</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px">5063 → struttura + leopardatura · 5078 → estensibilità + regge puntata · <span style="color:#FFCDD2">NO 0102HP</span> (proteasi si sommano)</div>
+        </div>
+        <!-- TEGLIA -->
+        <div style="background:rgba(13,59,59,0.15);border:1px solid rgba(13,180,130,0.25);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#80DEEA;margin-bottom:4px">🫓 Teglia Romana — biga 50% 70%5078+30%0102HP</div>
+          <div style="font-size:12px;color:var(--cream);font-family:'DM Mono',monospace;font-weight:700">70% 5078 + 30% 0102HP</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px">5078 al 70% regge IDR 78% · 0102HP 30% proteolisi controllata per alveoli aperti</div>
+        </div>
+        <!-- PALA 48H -->
+        <div style="background:rgba(13,27,75,0.2);border:1px solid rgba(91,155,213,0.3);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#5B9BD5;margin-bottom:4px">🏅 Pala Romana 48h — biga 30% 0102HP</div>
+          <div style="font-size:12px;color:var(--cream);font-family:'DM Mono',monospace;font-weight:700">70% 5078 + 30% 0102HP</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px">Frigo 18-24h richiede maglia forte (5078 70%) · 0102HP completa proteolisi in frigo</div>
+        </div>
+        <!-- TONDA -->
+        <div style="background:rgba(139,32,32,0.15);border:1px solid rgba(139,32,32,0.3);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#EF9A9A;margin-bottom:4px">🍕 Tonda Romana — diretto</div>
+          <div style="font-size:12px;color:var(--cream);font-family:'DM Mono',monospace;font-weight:700">100% 5046 Allegra W180</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px">Croccantezza da W180 + IDR 58% + cottura · nessun blend · controindicato aggiungere farine forti</div>
+        </div>
+      </div>
+
+      <!-- T USCITA TARGET -->
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">T uscita impasto target</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
+        <div style="background:rgba(30,90,38,0.2);border:1px solid rgba(30,90,38,0.4);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:3px">Napoletana · Teglia · Pala</div>
+          <div style="font-size:22px;font-weight:900;font-family:'DM Mono',monospace;color:#A5D6A7">22-24°C</div>
+          <div style="font-size:9px;color:var(--dim);margin-top:3px">puntata cella o T amb</div>
+        </div>
+        <div style="background:rgba(212,160,62,0.12);border:1px solid rgba(212,160,62,0.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:3px">Tonda Romana W180</div>
+          <div style="font-size:22px;font-weight:900;font-family:'DM Mono',monospace;color:var(--gold2)">24-26°C</div>
+          <div style="font-size:9px;color:var(--dim);margin-top:3px">W180 richiede avvio rapido</div>
+        </div>
+        <div style="background:rgba(100,20,20,0.2);border:1px solid rgba(100,20,20,0.4);border-radius:10px;padding:10px;text-align:center;grid-column:1/-1">
+          <div style="font-size:9px;color:#FFCDD2;margin-bottom:3px">⚠️ CRITICA — tutti i tipi</div>
+          <div style="font-size:20px;font-weight:900;font-family:'DM Mono',monospace;color:#FFCDD2">&gt; 27°C</div>
+          <div style="font-size:9px;color:#FFCDD2;margin-top:3px">ogni °C sopra 24°C = 10% più veloce = 1h in meno di margine</div>
+        </div>
+      </div>
+
+      <!-- FORMULA DDT -->
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Formula T acqua — DDT 4 variabili (Suas p.42)</div>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(212,160,62,0.2);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-family:'DM Mono',monospace;font-size:12px;color:#E8C56A;line-height:1.8;margin-bottom:12px">
+        T_acqua = DDT×4 − T_farina − T_ambiente − T_biga − K<br>
+        K attrito Esmach SPI-AI = 7.8°C<br>
+        T_biga uscita cella: estate 6-8°C · inverno 4-6°C
+      </div>
+
+      <!-- CALCOLATORE T ACQUA LIVE -->
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">⚡ Calcola T acqua adesso</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">DDT target °C</label>
+          <div class="inp-row"><input class="inp-field" id="ddt_ddt" type="number" value="23" min="20" max="27" step="0.5" oninput="calcDDT()"><span class="inp-unit">°C</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">T farina °C</label>
+          <div class="inp-row"><input class="inp-field" id="ddt_far" type="number" value="18" min="10" max="30" oninput="calcDDT()"><span class="inp-unit">°C</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">T ambiente lab °C</label>
+          <div class="inp-row"><input class="inp-field" id="ddt_amb" type="number" value="22" min="15" max="35" oninput="calcDDT()"><span class="inp-unit">°C</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">T biga uscita cella °C</label>
+          <div class="inp-row"><input class="inp-field" id="ddt_big" type="number" value="6" min="2" max="20" oninput="calcDDT()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+      <div id="ddt_out" style="border-radius:12px;padding:14px;text-align:center;background:rgba(30,90,38,0.2);border:1.5px solid rgba(30,90,38,0.5)">
+        <div style="font-size:11px;color:var(--dim);margin-bottom:6px">T acqua autolisi</div>
+        <div id="ddt_val" style="font-size:40px;font-weight:900;font-family:'DM Mono',monospace;color:#A5D6A7">—</div>
+        <div id="ddt_note" style="font-size:11px;color:var(--dim);margin-top:6px">inserisci i valori</div>
+      </div>
+
+      <!-- SE T USCITA SBAGLIATA -->
+      <div style="margin-top:14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">Se T uscita è sbagliata</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:rgba(100,20,20,0.15);border:1px solid rgba(100,20,20,0.4);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#FFCDD2;margin-bottom:6px">Troppo calda &gt; 24°C</div>
+          <div style="font-size:10px;color:var(--dim);line-height:1.7">
+            1. Più ghiaccio nel bassinage<br>
+            2. Biga 30min extra in cella<br>
+            3. Raffredda ciotola Esmach<br>
+            4. Riduci velocità fase 2
+          </div>
+        </div>
+        <div style="background:rgba(13,27,75,0.2);border:1px solid rgba(91,155,213,0.3);border-radius:10px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#BBDEFB;margin-bottom:6px">Troppo fredda &lt; 21°C</div>
+          <div style="font-size:10px;color:var(--dim);line-height:1.7">
+            1. Scalda acqua autolisi +2°C<br>
+            2. Farina a T amb 2h prima<br>
+            3. Biga fuori cella 30min prima<br>
+            4. Bassinage 12°C (no ghiaccio)
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
   <a id="waLink_pagePhBiga" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pagePhBiga','Controllo pH')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   <button class="btn-pdf" onclick="stampaPDF('pagePhBiga','Controllo pH Biga')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
@@ -1356,6 +1503,87 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 </div>
 
 <!-- TONDA BIGA -->
+
+<!-- TONDA ROMANA CROCCANTE CON BIGA 50% -->
+<div id="pageTondaBiga50" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🍕</div>
+    <div class="page-hero-title">Tonda Romana con Biga</div>
+    <div class="page-hero-sub">Biga 50% 0102HP · Rinfresco 50% 5046 Allegra · IDR 58% · Strutto 3%</div>
+  </div>
+
+  <div style="margin:0 16px 6px;background:rgba(139,32,32,0.1);border:1px solid rgba(139,32,32,0.3);border-radius:14px;padding:14px 16px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#EF9A9A;text-transform:uppercase;margin-bottom:10px">🔬 Protocollo Scientifico</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Biga</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">50% 0102HP</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Rinfresco</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">50% 5046 Allegra</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">IDR finale</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">58%</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Strutto</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">3%</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">Zucchero</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">1.5% — Maillard</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">
+        <div style="color:var(--dim);margin-bottom:2px">IDR biga</div>
+        <div style="color:#EF9A9A;font-weight:700;font-family:'DM Mono',monospace">45%</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--dim);font-style:italic;line-height:1.5">
+      Croccantezza da 5046 W180 + IDR 58% + cottura · La biga 0102HP porta struttura e aromi · Staglio a +20-25% — non aspettare il raddoppio
+    </div>
+  </div>
+
+  <div class="card open" id="cardTB50Inp">
+    <div class="card-hdr" onclick="toggleCard('cardTB50Inp')">
+      <div class="card-hdr-icon">✏️</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Input</div>
+        <div class="card-hdr-title">Kg · Grammatura · IDR · Orari</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="tb50Kg" type="number" value="20" min="1" max="150" step="0.5" oninput="calcTondaBiga50()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura pezzo (g)</label><div class="inp-row"><input class="inp-field" id="tb50Gr" type="number" value="200" min="160" max="240" step="10" oninput="calcTondaBiga50()"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale % (standard 58%)</label><div class="inp-row"><input class="inp-field" id="tb50IDR" type="number" value="58" min="54" max="62" step="1" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="tb50Sale" type="number" value="2.5" min="1.8" max="3" step="0.1" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Strutto %</label><div class="inp-row"><input class="inp-field" id="tb50Str" type="number" value="3" min="0" max="5" step="0.5" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Zucchero %</label><div class="inp-row"><input class="inp-field" id="tb50Zuc" type="number" value="1.5" min="0" max="3" step="0.5" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB biga %</label><div class="inp-row"><input class="inp-field" id="tb50Ldb" type="number" value="0.3" min="0.1" max="0.8" step="0.05" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="tb50OB" type="number" value="20" min="0" max="23" oninput="calcTondaBiga50()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="tb50OR" type="number" value="9" min="0" max="23" oninput="calcTondaBiga50()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">% acqua autolisi</label><div class="inp-row"><input class="inp-field" id="tb50F1" type="number" value="65" min="50" max="80" step="5" oninput="calcTondaBiga50()"><span class="inp-unit">%</span></div></div>
+    </div>
+  </div>
+
+  <div class="card open" id="cardTB50Out">
+    <div class="card-hdr" onclick="toggleCard('cardTB50Out')">
+      <div class="card-hdr-icon">📊</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Ricetta</div>
+        <div class="card-hdr-title">Grammi · Acqua · Semaforo biga · Timeline</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body"><div id="tondaBiga50Out"></div></div>
+  </div>
+
+  <a id="waLink_pageTondaBiga50" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageTondaBiga50','Tonda Romana Biga 50%')" style="text-decoration:none;display:block;text-align:center"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
+  <button class="btn-pdf" onclick="stampaPDF('pageTondaBiga50','Tonda Romana Biga 50%')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
+</div>
+
 <div id="pageTondaBiga" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">🔥</div>
@@ -2921,7 +3149,7 @@ function dist(rows){
 const pages={
   home:'pageHome',palline:'pagePalline',motore:'pageMotore',phbiga:'pagePhBiga',licoli:'pageLicoli',
   suprema:'pageSuprema',scrocch:'pageScrocch',
-  tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
+  tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
   tegliapf:'pageTegliaPF',
@@ -2936,6 +3164,7 @@ const titles={
   licoli:['🌿 Licoli Madre','Gestione Rinfresco'],
   suprema:['👑 Napoletana Suprema','Biga + Licoli · Cornicione assoluto'],
   scrocch:['🥐 Scrocchiarella Teglia','Licoli · Pre-cotta + Gelo'],
+  tondabiga50:['🍕 Tonda Romana Croccante Biga','Biga 50% 0102HP · 5046 Allegra · IDR 58%'],
   tondabiga:['🔥 Tonda Romana Biga','Zero LdB · Zucchero · Strutto'],
   tondacroc:['🍕 Tonda Romana Croccante','LdB / Licoli / Pasta Riporto'],
   palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 82%'],
@@ -3367,8 +3596,10 @@ function calcSuprema(){
       <div class="res-label">Acqua — Scorporo Licoli</div>
       ${row('Acqua totale IDR '+idr+'%',acqTot+'g','su '+kgTot+'kg totali')}
       ${row('Acqua biga (IDR 45%)',acqBiga+'g','già dentro')}
-      ${row('Acqua licoli (50%)',licAcq+'g','già dentro')}
-      ${row('ACQUA DA AGGIUNGERE',aa+'g','= '+acqTot+'−'+acqBiga+'−'+licAcq,true)}
+      ${row('Acqua licoli (50%)',licAcq+'g','portata dal licoli')}
+      ${row('= Acqua rinfresco totale',R(acqTot-acqBiga,0)+'g','= '+acqTot+'−'+acqBiga,true)}
+      ${row('  • nel licoli',licAcq+'g','')}
+      ${row('  • VERSI NELL&#39;ESMACH',aa+'g','← questo versi nell&#39;impastatore',true)}
     </div>
     ${dist([
       ['① Fase 1 ('+f1Pct+'%) — autolisi',fase1+'g a '+Tacq+'°C'],
@@ -4152,23 +4383,27 @@ function stampaPDF(pageId,titolo){
 // GESTIONE MODALITÀ A/B — Controllo pH Biga
 // ══════════════════════════════════════════════
 function setModo(modo){
-  document.getElementById('phModo').value = modo;
+  var el = document.getElementById('phModo');
+  if(el) el.value = modo;
   var btnA = document.getElementById('modoA_btn');
   var btnB = document.getElementById('modoB_btn');
+  if(!btnA || !btnB){ calcPhBiga(); return; }
+  var lblA = document.getElementById('modoA_lbl');
+  var lblB = document.getElementById('modoB_lbl');
   if(modo==='A'){
     btnA.style.background='rgba(212,160,62,0.2)';
     btnA.style.border='2px solid var(--gold)';
-    btnA.querySelector('div:nth-child(2)').style.color='var(--gold2)';
+    if(lblA) lblA.style.color='var(--gold2)';
     btnB.style.background='rgba(0,0,0,0.2)';
     btnB.style.border='1px solid var(--border)';
-    btnB.querySelector('div:nth-child(2)').style.color='var(--cream)';
+    if(lblB) lblB.style.color='var(--cream)';
   } else {
     btnB.style.background='rgba(229,57,53,0.15)';
     btnB.style.border='2px solid rgba(229,57,53,0.6)';
-    btnB.querySelector('div:nth-child(2)').style.color='#FFCDD2';
+    if(lblB) lblB.style.color='#FFCDD2';
     btnA.style.background='rgba(0,0,0,0.2)';
     btnA.style.border='1px solid var(--border)';
-    btnA.querySelector('div:nth-child(2)').style.color='var(--cream)';
+    if(lblA) lblA.style.color='var(--cream)';
   }
   calcPhBiga();
 }
@@ -4200,7 +4435,8 @@ function calcPhBiga(){
   const ph      = parseFloat((document.getElementById('phVal')||{}).value)||0;
   const oraOra  = parseFloat((document.getElementById('phOra')||{value:12}).value)||12;
   const oraSt   = parseFloat((document.getElementById('phStaglio')||{value:15.5}).value)||15.5;
-  const kg      = parseFloat((document.getElementById('phKg')||{value:20}).value)||20;
+  // kg = kg FARINA RINFRESCO — kgBiga calcolato dopo cfg
+  const kgRinf_inp = parseFloat((document.getElementById('phKg')||{value:7}).value)||7;
   const ta      = parseFloat((document.getElementById('phTA')||{value:22}).value)||22;
   const licP    = parseFloat((document.getElementById('phLic')||{value:10}).value)||10;
   const licPH   = parseFloat((document.getElementById('phLicPH')||{value:4.0}).value)||4.0;
@@ -4252,6 +4488,41 @@ function calcPhBiga(){
 
   const bigaPct = cfg.bigaPct;
   const idr     = cfg.idr;
+  // Calcola kg totali DOPO cfg — kgBiga = kgRinf × (bigaPct/(100-bigaPct))
+  const kgBiga_calc = kgRinf_inp * (bigaPct / (100 - bigaPct));
+  const kg          = kgRinf_inp + kgBiga_calc;
+
+  // ── T USCITA IMPASTO → puntata T ambiente ──
+  const tUsc   = parseFloat((document.getElementById('phTUsc')||{value:0}).value)||0;
+  var hPuntAmb = 0, tUscSem = 'ok', tUscTxt = '', tUscNote = '';
+  if(tUsc > 0){
+    if(tUsc <= 21){
+      hPuntAmb=0; tUscSem='ok';
+      tUscTxt='✅ '+tUsc+'°C — cella subito';
+      tUscNote='T uscita ottimale — vai in cella direttamente senza puntata';
+    } else if(tUsc <= 23){
+      hPuntAmb=0.5; tUscSem='ok';
+      tUscTxt='✅ '+tUsc+'°C — 30min T ambiente poi cella';
+      tUscNote='30min a T ambiente poi cella — margine ottimale';
+    } else if(tUsc <= 24){
+      hPuntAmb=1.0; tUscSem='warn';
+      tUscTxt='🟡 '+tUsc+'°C — 1h T ambiente poi cella';
+      tUscNote='1h T ambiente per smaltire calore da attrito Esmach, poi cella';
+    } else if(tUsc <= 25){
+      hPuntAmb=1.5; tUscSem='warn';
+      tUscTxt='🟡 '+tUsc+'°C — 1h30 T ambiente poi cella';
+      tUscNote='Impasto caldo — 1h30 T ambiente. Controlla gonfiore a 45min.';
+    } else if(tUsc <= 26){
+      hPuntAmb=2.0; tUscSem='warn';
+      tUscTxt='🟠 '+tUsc+'°C — 2h T ambiente poi cella';
+      tUscNote='Caldo — stendi su piano freddo 10min poi 2h T ambiente prima della cella';
+    } else {
+      hPuntAmb=0; tUscSem='bad';
+      tUscTxt='🔴 '+tUsc+'°C — CRITICA';
+      tUscNote='Piano di marmo freddo subito. Poi rivaluta. Non cella direttamente.';
+    }
+  }
+
   const Q10     = 2.2;
   const mu22    = cfg.mu22;
   const muT     = mu22 * Math.pow(Q10,(ta-22)/10);
@@ -4265,8 +4536,8 @@ function calcPhBiga(){
   const oraImpOtt = oraOra + hPerImp; // ora ottimale di impasto
 
   // kg rinfresco
-  const kgRinf = kg * (1 - bigaPct/100);
-  const kgBiga = kg * bigaPct/100;
+  const kgRinf = kgRinf_inp;
+  const kgBiga  = kgBiga_calc;
 
   // ── STATO BIGA ──
   var bigaSem, bigaIco, bigaCol, bigaTxt;
@@ -4353,6 +4624,7 @@ function calcPhBiga(){
   const licAcq     = Rloc(licG*0.5, 0);           // acqua nel licoli (50%)
   const acqDaAgg   = acqTot - acqBigaGia - licAcq;
   const acqSale    = Rloc(kg*2.8/100*1000*3, 0);  // sale in acqua
+  const acqRinfTot = acqTot - acqBigaGia;  // acqua totale rinfresco (biga esclusa)
   const acqAutolisi= Rloc(acqDaAgg*0.65, 0);
   const acqBass    = Math.max(0, acqDaAgg - acqAutolisi);
   // Nota: LdB non porta acqua, ma va sciolto in ~30ml per 10g prima di aggiungere
@@ -4420,7 +4692,8 @@ function calcPhBiga(){
 
     // Scorporo acqua
     const acqTot_B   = Rloc(kg*idr/100*1000, 0);
-    const acqBiga_B  = Rloc(kgBiga*cfg.idrBiga*1000, 0);
+    const acqBiga_B  = Rloc(kgBiga_calc*cfg.idrBiga*1000, 0);
+    const acqRinf_B  = Rloc(acqTot_B - acqBiga_B, 0);
     const acqDaAgg_B = acqTot_B - acqBiga_B - licAcq_B;
     const acqAut_B   = Rloc(acqDaAgg_B * 0.65, 0);
     const acqBass_B  = Math.max(0, acqDaAgg_B - acqAut_B);
@@ -4475,24 +4748,11 @@ function calcPhBiga(){
     '<div style="background:rgba(16,32,96,0.2);border:1px solid rgba(91,155,213,0.35);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
     '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:8px">① Cosa fare adesso — ordine preciso</div>'+
     '<div style="background:rgba(229,57,53,0.15);border-left:3px solid #EF9A9A;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#FFCDD2;font-weight:600">⚠️ NON andare in cella subito — le proteasi della biga lavorano solo a T ambiente</div>'+
-    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:8px">'+
-    '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'+
-    '<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Impasta alle</div>'+
-    '<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:var(--cream)">'+Hstr(oraOra)+'</div></div>'+
-    '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'+
-    '<div style="font-size:8px;color:var(--dim);margin-bottom:3px">T amb '+ta+'°C</div>'+
-    '<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#F0CC5A">'+h_amb_B+'h</div></div>'+
-    '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'+
-    '<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Cella 4°C</div>'+
-    '<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">'+h_cel_B+'h</div></div>'+
-    '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'+
-    '<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Staglio</div>'+
-    '<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Hstr(oraSt)+'</div></div>'+
-    '</div>'+
-    '<div style="font-size:12px;color:var(--cream);line-height:1.9;margin-top:4px">'+
-    '🟡 Finisci impasto → <strong>rimani a T amb '+ta+'°C per '+h_amb_B+'h</strong> (fino alle '+oraInCellaB+')<br>'+
-    '🔵 Entra in cella 4°C alle '+oraInCellaB+' → fuori alle '+oraFuoriB+'<br>'+
-    '✅ Staglio alle '+Hstr(oraSt)+' quando vedi <strong>+'+cfg.volStMin+'-'+cfg.volStMax+'% volume</strong>'+
+    '<div style="font-size:13px;color:var(--cream);line-height:2.2;margin-bottom:10px">'+
+    '⚡ <strong style="color:#FFCDD2">ADESSO '+Hstr(oraOra)+'</strong> — impasta con lievitante potenziato<br>'+
+    '🟡 Rimani a <strong>T ambiente '+ta+'°C per '+h_amb_B+'h</strong> → fino alle <strong>'+oraInCellaB+'</strong><br>'+
+    '🔵 Cella 4°C dalle '+oraInCellaB+' per <strong>'+h_cel_B+'h</strong> → fuori alle <strong>'+oraFuoriB+'</strong><br>'+
+    '✅ Staglio alle <strong>'+Hstr(oraSt)+'</strong> quando vedi +<strong>'+cfg.volStMin+'-'+cfg.volStMax+'%</strong> volume'+
     '</div>'+
     '</div>'+
 
@@ -4538,7 +4798,9 @@ function calcPhBiga(){
     '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">Acqua totale IDR '+idr+'%</span><strong>'+acqTot_B+'g</strong></div>'+
     '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">− Acqua biga (già dentro)</span><strong style="color:#FFCDD2">−'+acqBiga_B+'g</strong></div>'+
     '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">− Acqua licoli '+licG_B+'g × 50%</span><strong style="color:#FFCDD2">−'+licAcq_B+'g</strong></div>'+
-    '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:2px solid rgba(78,175,125,0.5);font-weight:700"><span style="color:#4CAF7D">= ACQUA DA AGGIUNGERE</span><strong style="color:#4CAF7D;font-size:16px">'+acqDaAgg_B+'g</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:2px solid rgba(78,175,125,0.5);font-weight:700"><span style="color:#4CAF7D">= Acqua rinfresco totale</span><strong style="color:#4CAF7D;font-size:16px">'+acqRinf_B+'g</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim);">  • nel licoli '+licG_B+'g×50%</span><strong style="color:var(--dim)">'+licAcq_B+'g</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:2px solid rgba(78,175,125,0.3)"><span style="color:#A5D6A7;font-weight:700">  • VERSI NELL&#39;ESMACH</span><strong style="color:#A5D6A7;font-size:15px">'+acqDaAgg_B+'g</strong></div>'+
     '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">① Autolisi 65%</span><strong>'+acqAut_B+'g</strong></div>'+
     '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">② Bassinage 8°C</span><strong>'+acqBass_B+'g</strong></div>'+
     '</div></div>';
@@ -4547,7 +4809,51 @@ function calcPhBiga(){
 
 
   // ── OUTPUT ──
-  out.innerHTML =
+  // ── FARINA RINFRESCO CONSIGLIATA in base a pH biga ──
+  var blendRinf, blendNote;
+  var phForBlend = ph || 5.35;
+  if(tipoImp==='teglia'){
+    if(phForBlend>=5.60){blendRinf='90% 5078 + 10% 0102HP';blendNote='pH molto alto → 5078 domina, struttura massima';}
+    else if(phForBlend>=5.45){blendRinf='80% 5078 + 20% 0102HP';blendNote='pH alto → più 5078 per W blend elevato';}
+    else if(phForBlend>=5.10){blendRinf='70% 5078 + 30% 0102HP';blendNote='pH ottimale — blend standard teglia';}
+    else{blendRinf='60% 5078 + 40% 0102HP';blendNote='pH basso → più 0102HP per proteolisi aggiuntiva';}
+  } else if(tipoImp==='pala48'){
+    if(phForBlend>=5.60){blendRinf='85% 5078 + 15% 0102HP';blendNote='pH molto alto → 5078 quasi totale';}
+    else if(phForBlend>=5.45){blendRinf='80% 5078 + 20% 0102HP';blendNote='pH alto → più forza strutturale';}
+    else if(phForBlend>=5.20){blendRinf='70% 5078 + 30% 0102HP';blendNote='pH ottimale — blend standard';}
+    else{blendRinf='60% 5078 + 40% 0102HP';blendNote='pH basso → più 0102HP';}
+  } else {
+    // Napoletana
+    if(phForBlend>=5.60){blendRinf='50% 5063 + 50% 5078';blendNote='pH molto alto → 5078 al 50%, biga rigida da compensare con W alta';}
+    else if(phForBlend>=5.45){blendRinf='60% 5063 + 40% 5078';blendNote='pH alto → più 5078 per struttura aggiuntiva';}
+    else if(phForBlend>=5.20){blendRinf='70% 5063 + 30% 5078';blendNote='pH ottimale — blend standard napoletana';}
+    else{blendRinf='80% 5063 + 20% 5078';blendNote='pH basso → proteolisi avanzata, meno struttura serve';}
+  }
+
+  // ── T USCITA IMPASTO OTTIMALE ──
+  var tUscitaMin, tUscitaMax, tUscitaNota;
+  var modoB_check = (document.getElementById('phModo')||{value:'A'}).value==='B';
+  if(tipoImp==='pala48'){
+    tUscitaMin=18; tUscitaMax=21;
+    tUscitaNota='Puntata breve T ambiente → impasto più freddo per avere margine proteolisi';
+  } else if(modoB_check || phForBlend>=5.55){
+    tUscitaMin=19; tUscitaMax=21;
+    tUscitaNota='Biga acerba + puntata T ambiente → uscita più fredda per controllare velocità proteolisi';
+  } else {
+    tUscitaMin=20; tUscitaMax=23;
+    tUscitaNota='Puntata standard in cella — Q10: ogni °C sopra 22°C accelera le proteasi del 10%';
+  }
+
+
+    out.innerHTML =
+
+  // SEMAFORO T USCITA (se inserita)
+  (tUsc>0 ?
+    '<div style="background:rgba('+(tUscSem==='ok'?'30,90,38':tUscSem==='warn'?'122,74,0':'100,20,20')+',0.18);border:1px solid rgba('+(tUscSem==='ok'?'30,90,38':tUscSem==='warn'?'122,74,0':'100,20,20')+',0.45);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">'+
+    '<div><div style="font-size:9px;color:var(--dim);margin-bottom:2px">🌡️ T uscita impasto → puntata T ambiente</div>'+
+    '<div style="font-size:15px;font-weight:700;color:var(--cream)">'+tUscTxt+'</div>'+
+    '<div style="font-size:11px;color:var(--dim);margin-top:2px">'+tUscNote+'</div></div></div>'
+    : '')+
 
   // SEMAFORO pH
   '<div style="background:rgba('+bigaCol+',0.22);border:2px solid rgba('+bigaCol+',0.6);border-radius:16px;padding:16px 18px;margin-bottom:12px">'+
@@ -4568,15 +4874,16 @@ function calcPhBiga(){
 
   // ORA IMPASTO
   '<div style="background:rgba(30,90,38,0.15);border:1px solid rgba(30,90,38,0.4);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#A5D6A7;text-transform:uppercase;margin-bottom:8px">③ Ora impasto · Puntata · Staglio</div>'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#A5D6A7;text-transform:uppercase;margin-bottom:8px">③ Impasto · Puntata · Staglio</div>'+
   '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'+
   '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'+
-  '<div style="font-size:9px;color:var(--dim);margin-bottom:4px">Impasta alle</div>'+
-  '<div style="font-size:22px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Hstr(oraImpConsigliata)+'</div>'+
+  '<div style="font-size:9px;color:var(--dim);margin-bottom:4px">'+(modo==='B'?'Impasto ADESSO':'Impasta alle')+'</div>'+
+  '<div style="font-size:'+(modo==='B'?'14':'22')+'px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+(modo==='B'?'⚡ '+Hstr(oraOra):Hstr(oraImpConsigliata))+'</div>'+
   '</div>'+
   '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'+
-  '<div style="font-size:9px;color:var(--dim);margin-bottom:4px">Puntata cella</div>'+
-  '<div style="font-size:22px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Rloc(hPuntReale,1)+'h</div>'+
+  '<div style="font-size:9px;color:var(--dim);margin-bottom:4px">'+(modo==='B'?'Puntata T amb':'Puntata cella')+'</div>'+
+  '<div style="font-size:22px;font-weight:700;font-family:DM Mono,monospace;color:'+(modo==='B'?'#F0CC5A':'#A5D6A7')+'">'+(modo==='B'?Rloc(h_amb_B,1)+'h':Rloc(hPuntReale,1)+'h')+'</div>'+
+  (modo==='B'?'<div style="font-size:9px;color:var(--dim)">poi '+Rloc(h_cel_B,1)+'h cella</div>':'')+
   '</div>'+
   '<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">'+
   '<div style="font-size:9px;color:var(--dim);margin-bottom:4px">Staglio</div>'+
@@ -4628,13 +4935,30 @@ function calcPhBiga(){
   '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">Acqua totale IDR '+idr+'%</span><strong>'+acqTot+'g</strong></div>'+
   '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">− Acqua biga (IDR 45% già dentro)</span><strong style="color:#FFCDD2">−'+acqBigaGia+'g</strong></div>'+
   (licG>0?'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">− Acqua licoli '+licG+'g × 50%</span><strong style="color:#FFCDD2">−'+licAcq+'g</strong></div>':'')+
-  '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:2px solid rgba(78,175,125,0.4);margin-top:2px"><span style="color:#4CAF7D;font-weight:700">= ACQUA DA AGGIUNGERE</span><strong style="color:#4CAF7D;font-size:16px">'+acqDaAgg+'g</strong></div>'+
+  '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:2px solid rgba(78,175,125,0.5)"><span style="color:#4CAF7D;font-weight:700">= Acqua rinfresco totale</span><strong style="color:#4CAF7D;font-size:16px">'+acqRinfTot+'g</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim);">  • nel licoli '+licG+'g×50%</span><strong style="color:var(--dim)">'+licAcq+'g</strong></div>'+
+    '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:2px solid rgba(78,175,125,0.3)"><span style="color:#A5D6A7;font-weight:700">  • VERSI NELL&#39;ESMACH</span><strong style="color:#A5D6A7;font-size:15px">'+acqDaAgg+'g</strong></div>'+
   '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">① Autolisi 65%</span><strong>'+acqAutolisi+'g</strong></div>'+
   (ldbG>0?'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">② Scioglimento LdB '+ldbG+'g</span><strong>'+Rloc(ldbG*3,0)+'ml (presa dall\'autolisi)</strong></div>':'')+
   '<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--dim)">③ Bassinage 8°C</span><strong>'+acqBass+'g</strong></div>'+
   '</div></div>'+
 
   // NOTE FINALI
+
+  '<div style="background:rgba(13,59,59,0.15);border:1px solid rgba(13,180,130,0.25);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:8px">🌾 Farina rinfresco consigliata — pH '+phForBlend+'</div>'+
+  '<div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:4px">'+blendRinf+'</div>'+
+  '<div style="font-size:11px;color:var(--dim)">'+blendNote+'</div>'+
+  '</div>'+
+
+  '<div style="background:rgba(136,14,79,0.12);border:1px solid rgba(136,14,79,0.3);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#CE93D8;text-transform:uppercase;margin-bottom:8px">🌡️ T uscita impasto ottimale</div>'+
+  '<div style="display:flex;align-items:center;gap:12px">'+
+  '<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:#CE93D8">'+tUscitaMin+'–'+tUscitaMax+'°C</div>'+
+  '<div style="font-size:11px;color:var(--dim);flex:1">'+tUscitaNota+'<br><span style="color:var(--cream)">Se esci più caldo → abbassa T acqua autolisi · se più freddo → alzala</span></div>'+
+  '</div>'+
+  '</div>'+
+
   '<div style="font-size:11px;color:var(--dim);line-height:1.7;padding:4px 0">'+
   '• Volume staglio target: <strong style="color:var(--cream)">'+cfg.nomeVol+'</strong><br>'+
   '• Appretto panetti: <strong style="color:var(--cream)">30 min esatti</strong> — le proteasi 0102HP accelerano a T ambiente<br>'+
@@ -5345,6 +5669,157 @@ function sem_row(num,id,cls,ico,label,txt,ora){
 }
 
 
+// ══════════════════════════════════════════════
+// CALCOLATORE DDT — T acqua autolisi
+// T_acqua = DDT×4 - T_far - T_amb - T_biga - K
+// K attrito Esmach SPI-AI = 7.8°C (Suas p.42)
+// ══════════════════════════════════════════════
+function calcDDT(){
+  var ddt = parseFloat((document.getElementById('ddt_ddt')||{value:23}).value)||23;
+  var tf  = parseFloat((document.getElementById('ddt_far')||{value:18}).value)||18;
+  var ta  = parseFloat((document.getElementById('ddt_amb')||{value:22}).value)||22;
+  var tb  = parseFloat((document.getElementById('ddt_big')||{value:6}).value)||6;
+  var K   = 7.8;
+  var T_acq = Math.round((ddt*4 - tf - ta - tb - K)*10)/10;
+  var out = document.getElementById('ddt_val');
+  var note = document.getElementById('ddt_note');
+  var box = document.getElementById('ddt_out');
+  if(!out||!note||!box) return;
+  out.textContent = (T_acq > 0 ? T_acq+'°C' : 'Ghiaccio');
+  if(T_acq < 0){
+    var ghiaccio = Math.round(Math.abs(T_acq)/80*100); // % sul peso acqua
+    note.textContent = 'Usa ghiaccio — circa '+ghiaccio+'g ogni 100g di acqua autolisi';
+    box.style.background='rgba(13,27,75,0.3)';
+    box.style.borderColor='rgba(91,155,213,0.6)';
+    out.style.color='#BBDEFB';
+  } else if(T_acq < 8){
+    note.textContent = 'Acqua molto fredda — usa frigo o ghiaccio leggero';
+    box.style.background='rgba(13,59,59,0.2)';
+    box.style.borderColor='rgba(13,180,130,0.4)';
+    out.style.color='#80DEEA';
+  } else if(T_acq <= 25){
+    note.textContent = 'Temperatura acqua corretta per DDT '+ddt+'°C';
+    box.style.background='rgba(30,90,38,0.2)';
+    box.style.borderColor='rgba(30,90,38,0.5)';
+    out.style.color='#A5D6A7';
+  } else {
+    note.textContent = 'Acqua calda — controlla T ambiente o T biga';
+    box.style.background='rgba(122,74,0,0.2)';
+    box.style.borderColor='rgba(212,160,62,0.4)';
+    out.style.color='#F0CC5A';
+  }
+}
+
+
+// ══════════════════════════════════════════════
+// TONDA ROMANA CROCCANTE CON BIGA 50%
+// Biga: 50% 0102HP W330 · IDR biga 45%
+// Rinfresco: 50% 5046 Allegra W180
+// Croccantezza: W180 + IDR 58% + cottura
+// ══════════════════════════════════════════════
+function calcTondaBiga50(){
+  const kg   = parseFloat((document.getElementById('tb50Kg')||{value:20}).value)||20;
+  const gr   = parseFloat((document.getElementById('tb50Gr')||{value:200}).value)||200;
+  const idr  = parseFloat((document.getElementById('tb50IDR')||{value:58}).value)||58;
+  const saleP= parseFloat((document.getElementById('tb50Sale')||{value:2.5}).value)||2.5;
+  const strP = parseFloat((document.getElementById('tb50Str')||{value:3}).value)||3;
+  const zucP = parseFloat((document.getElementById('tb50Zuc')||{value:1.5}).value)||1.5;
+  const ldbP = parseFloat((document.getElementById('tb50Ldb')||{value:0.3}).value)||0.3;
+  const ob   = parseFloat((document.getElementById('tb50OB')||{value:20}).value)||20;
+  const orR  = parseFloat((document.getElementById('tb50OR')||{value:9}).value)||9;
+  const f1   = parseFloat((document.getElementById('tb50F1')||{value:65}).value)||65;
+  const out  = document.getElementById('tondaBiga50Out');
+  if(!out) return;
+
+  const Q10 = 2.2;
+
+  // Farine
+  const kgBiga = R(kg * 0.50, 3);  // 50% 0102HP
+  const kgRinf = R(kg - kgBiga, 3); // 50% 5046 Allegra
+
+  // Acqua
+  const acqBiga   = R(kgBiga * 0.45 * 1000, 0);  // IDR biga 45%
+  const acqTot    = R(kg * idr/100 * 1000, 0);
+  const acqRinf   = acqTot - acqBiga;             // acqua rinfresco totale
+  const acqF1     = R(acqRinf * f1/100, 0);
+  const acqBass   = Math.max(0, acqRinf - acqF1);
+  const acqDaAgg  = acqRinf;                       // no licoli → tutto da aggiungere
+
+  // Lievito biga
+  const ldbG = R(kgBiga * ldbP/100 * 1000, 1);
+
+  // Altro
+  const sale  = R(kg * saleP/100 * 1000, 0);
+  const str   = R(kg * strP/100  * 1000, 0);
+  const zuc   = R(kg * zucP/100  * 1000, 0);
+
+  // Panetti
+  const pesoImp = kg*1000 + acqTot + sale + str + zuc;
+  const pan     = Math.floor(pesoImp / gr);
+
+  // T acqua DDT (tonda: DDT 25°C)
+  const Tacq = R(25*4 - 18 - 22 - 6 - 7.8, 1);
+
+  // Semaforo biga (attività gaussiana σ=3h)
+  const oreB = orR >= ob ? orR - ob : 24 - ob + orR;
+  const picco = ldbP<=0.3?21:ldbP<=0.4?18:16;
+  const att   = R(100 * Math.exp(-Math.pow(oreB-picco,2)/18), 1);
+  const semB  = att>=85?'ok':att>=70?'ok':att>=50?'warn':'bad';
+  const emjB  = att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO';
+
+  // IDR reale (no licoli)
+  const idrReale = idr;
+  const semIDR = idrReale<=60?'ok':idrReale<=62?'warn':'bad';
+
+  // Orari
+  const oraStaglio = H(orR + 2.5);  // puntata 2.5h a T amb → staglio a +20-25%
+  const oraForno   = H(orR + 3.0);
+
+  out.innerHTML =
+    sem(emjB+' — Biga '+oreB+'h (G1 '+H(ob)+' → G2 '+H(orR)+') '+att+'%', semB)+
+    sem('IDR reale '+idrReale+'% — '+(semIDR==='ok'?'✅ Croccantezza garantita':semIDR==='warn'?'⚠️ Limite':'🔴 Troppo umida'), semIDR)+
+
+    '<div class="res-section"><div class="res-label">🧱 Biga G1 '+H(ob)+' — 0102HP 50%</div>'+
+    row('Petra 0102HP (50% biga)', R(kgBiga*1000,0)+'g', 'W320-340 · proteasi germogliate · struttura')+
+    row('Acqua biga IDR 45%', acqBiga+'g', 'fredda 4°C')+
+    row('LdB biga '+ldbP+'%', ldbG+'g', 'solo sulla farina biga')+
+    row('TOTALE BIGA', R(kgBiga*1000+acqBiga+ldbG,0)+'g', '→ cella 4°C '+oreB+'h', true)+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">🔄 Rinfresco G2 '+H(orR)+' — 5046 Allegra 50%</div>'+
+    row('Petra 5046 Allegra (50% rinfresco)', R(kgRinf*1000,0)+'g', 'W180-220 · croccantezza · leggerezza')+
+    row('Sale '+saleP+'%', sale+'g', '')+
+    row('Strutto '+strP+'%', str+'g', 'croccantezza secca · fuori frigo 30min prima')+
+    row('Zucchero '+zucP+'%', zuc+'g', 'Maillard → doratura garantita')+
+    row('LdB rinfresco', '0g', 'la biga è sufficiente')+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">💧 Acqua — scorporo completo</div>'+
+    row('Acqua totale IDR '+idr+'%', acqTot+'g', 'su '+kg+'kg farina')+
+    row('− Acqua biga (già dentro)', acqBiga+'g', 'IDR 45% su '+R(kgBiga*1000,0)+'g')+
+    row('= Acqua rinfresco totale', acqRinf+'g', '', true)+
+    row('T acqua autolisi', Tacq+'°C', 'DDT 25°C Esmach K=7.8')+
+    row('① Autolisi '+f1+'%', acqF1+'g', '')+
+    row('② Bassinage 8°C', acqBass+'g', 'a filo lentissimo', true)+
+    '</div>'+
+
+    '<div class="res-section"><div class="res-label">📐 Resa</div>'+
+    row('Pezzi da '+gr+'g', pan+' tondi', '', true)+
+    '</div>'+
+
+    sem('Staglio a +20-25% volume — NON aspettare il raddoppio. La 5046 W180 fermenta veloce. Stendi SUBITO col mattarello dopo lo staglio.', 'warn')+
+
+    tl([
+      [H(ob)+':00', '🧱 BIGA → cella 4°C', R(kgBiga*1000,0)+'g 0102HP + '+acqBiga+'g acqua + '+ldbG+'g LdB'],
+      [H(orR)+':00', '🌾 AUTOLISI 20min', R(kgRinf*1000,0)+'g 5046 + '+acqF1+'g acqua '+Tacq+'°C'],
+      [H(orR)+':20', '⚙️ INCORDATURA', 'biga + sale + strutto + zucchero + bassinage '+acqBass+'g 8°C'],
+      [H(orR)+':50', '💪 S&F × 2 → puntata T ambiente', 'attendi +20-25% volume'],
+      [oraStaglio, '✂️ STAGLIO → '+pan+' pezzi', 'STENDI SUBITO col mattarello — spessore 2mm'],
+      [oraForno, '🔥 FORNO 300-320°C', '4-6 min · croccantezza garantita'],
+    ]);
+}
+
+
 function calcAll(){
   try{calcPalline();}catch(e){}
   try{calcNapoDir();}catch(e){}
@@ -5353,6 +5828,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcScrocch();}catch(e){}
+  try{calcTondaBiga50();}catch(e){}
   try{calcTondaBiga();}catch(e){}
   try{calcTondaCroc();}catch(e){}
   try{calcPalaSuprema();}catch(e){}
@@ -5364,6 +5840,7 @@ function calcAll(){
   try{calcNapoFrigo();}catch(e){}
   try{calcPala48h();}catch(e){}
   try{calcPhBiga();}catch(e){}
+  try{calcDDT();}catch(e){}
 }
 
 // Manuale search
@@ -5375,6 +5852,14 @@ function M_filterCat(cat,btn){
     c.classList.toggle('hidden', cat!=='all' && c.dataset.cat!==cat);
   });
 }
+
+
+// ── DIARY STUBS — funzioni chiamate dall'HTML ──
+function diaryNew(){ var o=document.getElementById('diaryOut'); if(o) o.innerHTML='<div style="color:var(--dim);padding:20px;text-align:center">Funzione diario in sviluppo</div>'; }
+function diaryCopy(id){ }
+function diaryDel(id){ }
+function diaryNext(){ }
+function diaryPrev(){ }
 
 </script>
 </body>
