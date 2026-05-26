@@ -994,11 +994,12 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
         </div>
 
         <div class="inp-group" style="margin-bottom:0">
-          <label class="inp-label" style="color:#FFCDD2">🌡️ T uscita Esmach °C</label>
+          <label class="inp-label" style="color:#FFCDD2;font-size:11px;font-weight:700">🌡️ T USCITA ESMACH °C — inserisci subito dopo l'impasto</label>
           <div class="inp-row">
-            <input class="inp-field" id="pi_tUsc" type="number" value="" min="16" max="32" step="0.5" placeholder="es. 23" oninput="calcPostImpasto()" style="font-size:28px;font-weight:700;color:#FFCDD2">
-            <span class="inp-unit">°C</span>
+            <input class="inp-field" id="pi_tUsc" type="number" value="" min="16" max="32" step="0.5" placeholder="es. 23" oninput="calcPostImpasto()" style="font-size:36px;font-weight:900;color:#FFCDD2;border-color:rgba(229,57,53,0.6);background:rgba(229,57,53,0.08)">
+            <span class="inp-unit" style="font-size:18px">°C</span>
           </div>
+          <div style="font-size:10px;color:#FFCDD2;margin-top:4px">⬆️ Questo campo sblocca il piano completo — guardare il termometro Esmach appena si toglie il gancio</div>
         </div>
 
       </div>
@@ -1029,7 +1030,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
               <span style="font-size:9px">(misuri prima di stendere)</span>
             </div>
             <div class="inp-row">
-              <input class="inp-field" id="pi_pHForno" type="number" value="" step="0.05" min="3.5" max="6.0" placeholder="es. 5.10" oninput="calcPostImpasto()" style="font-size:30px;font-weight:900;color:#A5D6A7">
+              <input class="inp-field" id="pi_pHForno" type="number" value="" step="0.05" min="3.5" max="6.0" placeholder="es. 5.10" oninput="calcPostImpasto();calcPhForno()" style="font-size:30px;font-weight:900;color:#A5D6A7">
               <span class="inp-unit">pH</span>
             </div>
             <div style="font-size:9px;color:var(--dim);margin-top:4px">Target ottimale: <strong style="color:#A5D6A7">5.0–5.3</strong></div>
@@ -1135,10 +1136,94 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
 
       </div>
 
-      <!-- OUTPUT -->
+      <!-- TUTTO IL RISULTATO — piano + guida passo per passo in un blocco -->
       <div id="postImpastoOut">
         <div style="color:var(--dim);text-align:center;padding:24px;font-size:13px">
-          Inserisci T uscita Esmach e ora staglio → ricevi il piano operativo completo
+          Inserisci T uscita Esmach e ora staglio → il piano completo appare qui sotto
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- CARD pH PRE-FORNO — appare quando inserito     -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card open" id="cardPhForno" style="display:none">
+    <div class="card-hdr" onclick="toggleCard('cardPhForno')">
+      <div class="card-hdr-icon">🔬</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">pH Panetti Pre-Forno</div>
+        <div class="card-hdr-title">Diagnosi finale · cosa fare adesso prima di infornare</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+      <div id="phFornoOut"></div>
+    </div>
+  </div>
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- CARD pH PALLINA IN TEMPO REALE               -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card open" id="cardPhPallina">
+    <div class="card-hdr" onclick="toggleCard('cardPhPallina')">
+      <div class="card-hdr-icon">🍕</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">pH Pallina — Tempo Reale</div>
+        <div class="card-hdr-title">Misuri il pH della pallina → ti dice se alzare cella, lasciarla fuori, quando infornare</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+
+      <div style="background:rgba(212,160,62,0.08);border:1px solid rgba(212,160,62,0.2);border-radius:12px;padding:10px 14px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--dim);line-height:1.7">
+          🔬 Misuri il pH della pallina in qualsiasi momento dopo lo staglio.
+          Inserisci ora, pH e T ambiente → il sistema calcola il drop in tempo reale
+          e ti dice esattamente quando infornare e se modificare la cella.
+          Modello: dpH/dt = 0.065 pH/h × Q10^((T−22)/10) (Hamad &amp; Fields 1979)
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:var(--gold2)">🔬 pH pallina adesso</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp_pH" type="number" value="" step="0.05" min="4.0" max="6.5" placeholder="es. 5.40" oninput="calcPhPallina()" style="font-size:36px;font-weight:900;color:var(--gold2)">
+            <span class="inp-unit">pH</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">⏰ Ora misura</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp_ora" type="number" value="19.5" min="0" max="26" step="0.5" oninput="calcPhPallina()" style="font-size:22px;font-weight:700;color:var(--cream)">
+            <span class="inp-unit">h</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🌡️ T ambiente °C</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp_tAmb" type="number" value="22" min="16" max="35" step="0.5" oninput="calcPhPallina()">
+            <span class="inp-unit">°C</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:#A5D6A7">🔥 Ora prevista infornata</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp_oraForno" type="number" value="20" min="0" max="26" step="0.5" oninput="calcPhPallina()" style="color:#A5D6A7">
+            <span class="inp-unit">h</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="phPallinaOut">
+        <div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">
+          Inserisci il pH della pallina → ricevi l'ora esatta di infornata e le azioni correttive
         </div>
       </div>
 
@@ -6481,351 +6566,600 @@ function calcTondaBiga50(){
 //   Questo corregge il volume stimato allo staglio.
 //
 // Q10 = 2.2 (Cauvain 2015) · μ₂₂: 0.049h⁻¹ napo/pala, 0.042h⁻¹ teglia
+
+// ══════════════════════════════════════════════════════════════════════
+// GUIDA OPERATIVA LIVE — step-by-step, aggiornamento ogni 30s
 // ══════════════════════════════════════════════════════════════════════
 
-// Aggiorna label dimensioni in base alla forma selezionata
-function piFormaChange(){
-  var forma = (document.getElementById('pi_forma')||{value:'rettangolare'}).value;
-  var lbl1 = document.getElementById('pi_dim1_lbl');
-  var lbl2 = document.getElementById('pi_dim2_lbl');
-  var box2 = document.getElementById('pi_dim2_box');
-  if(!lbl1) return;
-  if(forma === 'rotondo'){
-    lbl1.textContent = 'Diametro cm';
-    if(box2) box2.style.display = 'none';
-  } else if(forma === 'quadrato'){
-    lbl1.textContent = 'Lato cm';
-    if(box2) box2.style.display = 'none';
-  } else {
-    lbl1.textContent = 'Lunghezza cm';
-    if(lbl2) lbl2.textContent = 'Larghezza cm';
-    if(box2) box2.style.display = '';
+// ══════════════════════════════════════════════════════════════════════
+// GUIDA LIVE — aggiorna solo il div interno #guidaOut ogni 30s
+// ══════════════════════════════════════════════════════════════════════
+var _guidaSteps = [];
+var _guidaTimer = null;
+
+function aggiornaGuida(){
+  var out = document.getElementById('guidaOut');
+  if(!out || _guidaSteps.length===0) return;
+
+  var now  = new Date();
+  var oraH = now.getHours() + now.getMinutes()/60 + now.getSeconds()/3600;
+
+  function minDiff(h){ var d=h-oraH; if(d<-12)d+=24; if(d>12)d-=24; return Math.round(d*60); }
+  function fmt(m){ var a=Math.abs(m); if(a<2)return 'ADESSO'; if(a<60)return a+'min'; var h=Math.floor(a/60),mm=a%60; return h+'h'+(mm?'+'+mm+'min':''); }
+  function Hh(h){ var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60); if(mm>=60){hh=(hh+1)%24;mm=0;} return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm; }
+
+  var attivoIdx=_guidaSteps.length-1;
+  for(var i=0;i<_guidaSteps.length;i++){ if(minDiff(_guidaSteps[i].ora)>-5){attivoIdx=i;break;} }
+
+  var html='<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:10px;margin-bottom:10px">'
+    +'<div style="font-size:10px;color:var(--dim)">Ora attuale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:var(--cream)">'+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+'</div>'
+    +'<div style="font-size:9px;color:var(--dim)">live ogni 30s</div></div>';
+
+  for(var i=0;i<_guidaSteps.length;i++){
+    var s=_guidaSteps[i], min=minDiff(s.ora);
+    var isAtt=(i===attivoIdx), isNext=(i===attivoIdx+1), isDone=(i<attivoIdx);
+    var bg,border,op;
+    if(isAtt){bg='rgba(212,160,62,0.18)';border='rgba(212,160,62,0.7)';op='1';}
+    else if(isNext){bg='rgba(91,155,213,0.10)';border='rgba(91,155,213,0.35)';op='0.9';}
+    else if(isDone){bg='rgba(0,0,0,0.12)';border='rgba(255,255,255,0.07)';op='0.4';}
+    else{bg='rgba(0,0,0,0.08)';border='rgba(255,255,255,0.05)';op='0.55';}
+    var cTxt,cCol;
+    if(isDone){cTxt='✓ fatto '+fmt(min)+' fa';cCol='#555';}
+    else if(isAtt){cTxt=(min<=0?'⚡ ADESSO':'tra '+fmt(min));cCol='#F0CC5A';}
+    else{cTxt='tra '+fmt(min);cCol='#5B9BD5';}
+
+    html+='<div style="opacity:'+op+';border:2px solid '+border+';background:'+bg+';border-radius:14px;padding:13px 14px;margin-bottom:8px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
+      +'<div style="width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;background:'+(isDone?'rgba(255,255,255,0.06)':isAtt?'rgba(212,160,62,0.35)':'rgba(91,155,213,0.15)')+';color:'+(isDone?'#555':isAtt?'#F0CC5A':'#5B9BD5')+'">'+(isDone?'✓':(i+1))+'</div>'
+      +'<div style="font-family:DM Mono,monospace;font-size:17px;font-weight:700;color:'+(isDone?'#555':'var(--cream)')+'">'+Hh(s.ora)+'</div>'
+      +'<div style="flex:1"></div>'
+      +'<div style="font-family:DM Mono,monospace;font-size:11px;font-weight:700;color:'+cCol+'">'+cTxt+'</div>'
+      +'</div>'
+      +'<div style="font-size:'+(isAtt?'15px':'13px')+';font-weight:'+(isAtt?'700':'600')+';color:'+(isDone?'#555':isAtt?'var(--cream)':'#A09888')+';margin-bottom:5px">'+s.ico+' '+s.titolo+'</div>'
+      +'<div style="font-size:12px;color:'+(isDone?'#555':isAtt?'#B0A898':'#6A6258')+';line-height:1.65">'+s.istruzione+'</div>'
+      +(isAtt&&s.urgente?'<div style="margin-top:8px;background:rgba(212,160,62,0.18);border:1px solid rgba(212,160,62,0.5);border-radius:8px;padding:8px 10px;font-size:12px;color:#F0CC5A;font-weight:600">'+s.urgente+'</div>':'')
+      +((isAtt||isNext)&&s.durataMin>0&&min>0?(function(){var p=Math.min(100,Math.max(0,((s.durataMin-min)/s.durataMin)*100));return '<div style="margin-top:8px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+p+'%;background:'+(isAtt?'#F0CC5A':'#5B9BD5')+';border-radius:2px"></div></div><div style="font-size:9px;color:var(--dim);margin-top:2px;text-align:right">'+Math.round(p)+'% completato</div>';})():'')
+      +'</div>';
   }
+
+  var lastMin=minDiff(_guidaSteps[_guidaSteps.length-1].ora);
+  if(attivoIdx>=_guidaSteps.length-1&&lastMin<-5){
+    html+='<div style="text-align:center;padding:14px;background:rgba(25,100,35,0.18);border:2px solid rgba(25,100,35,0.4);border-radius:14px"><div style="font-size:22px;margin-bottom:5px">🍕</div><div style="font-size:14px;font-weight:700;color:#A5D6A7">Staglio completato — inforna</div></div>';
+  }
+  out.innerHTML=html;
+}
+
+function piFormaChange(){
+  var forma=(document.getElementById('pi_forma')||{value:'rettangolare'}).value;
+  var lbl1=document.getElementById('pi_dim1_lbl');
+  var lbl2=document.getElementById('pi_dim2_lbl');
+  var box2=document.getElementById('pi_dim2_box');
+  if(!lbl1) return;
+  if(forma==='rotondo'){lbl1.textContent='Diametro cm';if(box2)box2.style.display='none';}
+  else if(forma==='quadrato'){lbl1.textContent='Lato cm';if(box2)box2.style.display='none';}
+  else{lbl1.textContent='Lunghezza cm';if(lbl2)lbl2.textContent='Larghezza cm';if(box2)box2.style.display='';}
   calcPostImpasto();
 }
 
+// ══════════════════════════════════════════════════════════════════════
+// calcPostImpasto — genera TUTTO in postImpastoOut:
+//   1. Semaforo T uscita
+//   2. pH post-impasto (se inserito)
+//   3. 4 box orari
+//   4. Volume stimato + altezza contenitore
+//   5. Guida passo per passo con timer live (div#guidaOut)
+// ══════════════════════════════════════════════════════════════════════
 function calcPostImpasto(){
-  function Hh(h){
-    var hh=((Math.floor(h)%24)+24)%24;
-    var mm=Math.round((h%1)*60);
-    if(mm>=60){hh=(hh+1)%24;mm=0;}
-    return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;
-  }
-  function hToStr(h){
-    var tot=Math.round(h*60);
-    if(tot<=0) return '—';
-    var hh=Math.floor(tot/60), mm=tot%60;
-    if(hh===0) return mm+'min';
-    if(mm===0) return hh+'h';
-    return hh+'h '+mm+'min';
-  }
+  function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function hTs(h){var t=Math.round(h*60);if(t<=0)return '—';var hh=Math.floor(t/60),mm=t%60;if(hh===0)return mm+'min';if(mm===0)return hh+'h';return hh+'h '+mm+'min';}
   function Rl(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
 
-  // ── LEGGI INPUT ──
-  var oraFine  = parseFloat((document.getElementById('pi_oraFine')||{value:10}).value)||10;
-  var tUsc     = parseFloat((document.getElementById('pi_tUsc')||{}).value)||0;
-  var phPost   = parseFloat((document.getElementById('pi_pH')||{}).value)||0;
-  var phForno  = parseFloat((document.getElementById('pi_pHForno')||{}).value)||0;
-  var pesoKg   = parseFloat((document.getElementById('pi_piacca')||{}).value)||0;
-  var densita  = parseFloat((document.getElementById('pi_densita')||{value:1.15}).value)||1.15;
-  var tAmb     = parseFloat((document.getElementById('pi_tAmb')||{value:22}).value)||22;
-  var oraStag  = parseFloat((document.getElementById('pi_oraStag')||{value:15.5}).value)||15.5;
-  var tCella   = parseFloat((document.getElementById('pi_tCella')||{value:4}).value)||4;
-  var tipo     = (document.getElementById('pi_tipo')||{value:'napo'}).value||'napo';
-  var forma    = (document.getElementById('pi_forma')||{value:'rettangolare'}).value||'rettangolare';
-  var dim1     = parseFloat((document.getElementById('pi_dim1')||{value:40}).value)||40;
-  var dim2     = parseFloat((document.getElementById('pi_dim2')||{value:30}).value)||30;
-  var out      = document.getElementById('postImpastoOut');
+  var oraFine = parseFloat((document.getElementById('pi_oraFine')||{value:10}).value)||10;
+  var tUsc    = parseFloat((document.getElementById('pi_tUsc')||{}).value)||0;
+  var phPost  = parseFloat((document.getElementById('pi_pH')||{}).value)||0;
+  var phForno = parseFloat((document.getElementById('pi_pHForno')||{}).value)||0;
+  var pesoKg  = parseFloat((document.getElementById('pi_piacca')||{}).value)||0;
+  var densita = parseFloat((document.getElementById('pi_densita')||{value:1.15}).value)||1.15;
+  var tAmb    = parseFloat((document.getElementById('pi_tAmb')||{value:22}).value)||22;
+  var oraStag = parseFloat((document.getElementById('pi_oraStag')||{value:15.5}).value)||15.5;
+  var tCella  = parseFloat((document.getElementById('pi_tCella')||{value:4}).value)||4;
+  var tipo    = (document.getElementById('pi_tipo')||{value:'napo'}).value||'napo';
+  var forma   = (document.getElementById('pi_forma')||{value:'rettangolare'}).value||'rettangolare';
+  var dim1    = parseFloat((document.getElementById('pi_dim1')||{value:40}).value)||40;
+  var dim2    = parseFloat((document.getElementById('pi_dim2')||{value:30}).value)||30;
+  var out     = document.getElementById('postImpastoOut');
   if(!out) return;
 
-  // Aggiorna label forma
-  piFormaChange();
+  // Labels forma (inline, no ricorsione)
+  (function(){
+    var l1=document.getElementById('pi_dim1_lbl'),l2=document.getElementById('pi_dim2_lbl'),b2=document.getElementById('pi_dim2_box');
+    if(!l1)return;
+    if(forma==='rotondo'){l1.textContent='Diametro cm';if(b2)b2.style.display='none';}
+    else if(forma==='quadrato'){l1.textContent='Lato cm';if(b2)b2.style.display='none';}
+    else{l1.textContent='Lunghezza cm';if(l2)l2.textContent='Larghezza cm';if(b2)b2.style.display='';}
+  })();
 
   if(!tUsc){
-    out.innerHTML='<div style="color:var(--dim);text-align:center;padding:24px;font-size:13px">Inserisci la T uscita dall\'Esmach per ricevere il piano completo</div>';
+    // Mostra un piano parziale basato sui dati disponibili
+    var htmlParz = '<div style="background:rgba(212,160,62,0.15);border:2px solid rgba(212,160,62,0.5);border-radius:14px;padding:14px;margin-bottom:12px">'
+      +'<div style="font-size:13px;font-weight:700;color:#F0CC5A;margin-bottom:6px">⚠️ Inserisci la T uscita Esmach per il piano completo</div>'
+      +'<div style="font-size:12px;color:var(--dim);line-height:1.6">'
+      +(phPost>0?'pH impasto '+phPost+' registrato. ':'')
+      +(pesoKg>0?pesoKg+'kg in contenitore. ':'')
+      +'Appena inserisci la T uscita → semaforo, orari precisi, altezza staglio e guida passo per passo.'
+      +'</div></div>';
+    if(phPost>0){
+      // Diagnosi pH anche senza T uscita
+      var fPH2=phPost>=5.80?1.15:phPost>=5.60?1.05:phPost>=5.40?1.00:phPost>=5.10?0.90:0.75;
+      var phMsg2=phPost>=5.80?'🟡 Biga acerba — fermentazione +15% più veloce del nominale. T laboratorio '+tAmb+'°C accelera ulteriormente.'
+        :phPost>=5.60?'🟡 Biga non al picco — puntata compensa. Tieni d\'occhio il volume.'
+        :phPost>=5.40?'✅ pH ottimale. Piano standard.'
+        :phPost>=5.10?'🟠 Acidità elevata — fermentazione più lenta.'
+        :'🔴 pH molto basso — fermentazione inibita.';
+      htmlParz+='<div style="background:rgba(212,160,62,0.1);border:1.5px solid rgba(212,160,62,0.3);border-radius:12px;padding:12px;margin-bottom:12px">'
+        +'<div style="font-size:9px;color:var(--gold);font-family:DM Mono,monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🔬 pH impasto '+phPost+' — diagnosi preliminare</div>'
+        +'<div style="font-size:13px;color:var(--cream);line-height:1.6">'+phMsg2+'</div>'
+        +'<div style="font-size:11px;color:var(--dim);margin-top:4px">Con T laboratorio '+tAmb+'°C la fermentazione è già accelerata di Q10^(('+tAmb+'-22)/10)='+Math.round(Math.pow(2.2,(tAmb-22)/10)*100)/100+'× — monitora il volume frequentemente.</div>'
+        +'</div>';
+    }
+    out.innerHTML = htmlParz;
     return;
   }
 
-  // ── CONFIG TIPO ──
-  var volStMin, volStMax, nomeTipo, tUscOtt, mu22;
-  var Q10 = 2.2;
-  if(tipo==='teglia'){
-    volStMin=60; volStMax=80; nomeTipo='Teglia Romana'; tUscOtt=23; mu22=0.042;
-  } else if(tipo==='pala48'){
-    volStMin=25; volStMax=40; nomeTipo='Pala 48h'; tUscOtt=21; mu22=0.049;
+  // ── CONFIG ──
+  var volStMin,volStMax,nomeTipo,tUscOtt,mu22;
+  var Q10=2.2;
+  if(tipo==='teglia'){volStMin=60;volStMax=80;nomeTipo='Teglia Romana';tUscOtt=23;mu22=0.042;}
+  else if(tipo==='pala48'){volStMin=25;volStMax=40;nomeTipo='Pala 48h';tUscOtt=21;mu22=0.049;}
+  else{volStMin=45;volStMax=60;nomeTipo='Napoletana';tUscOtt=22;mu22=0.049;}
+
+  // ── T USCITA ──
+  var eccesso=Math.max(0,tUsc-tUscOtt);
+  var tSem,tIco,tCol,tTxt,tSub,pianoMarmo=false;
+  if(tUsc<=tUscOtt-2){tSem='ok';tIco='🏆';tCol='25,100,35';tTxt='ECCELLENTE';tSub='Maglia al massimo. Cella subito dopo S&F × 2.';}
+  else if(tUsc<=tUscOtt){tSem='ok';tIco='✅';tCol='25,100,35';tTxt='OTTIMALE — '+tUsc+'°C';tSub='S&F × 2 poi cella — nessuna attesa.';}
+  else if(tUsc<=tUscOtt+2){tSem='ok';tIco='✅';tCol='25,100,35';tTxt='BUONA — '+tUsc+'°C';tSub=hTs(eccesso*(20/60))+' a T ambiente poi cella.';}
+  else if(tUsc<=tUscOtt+4){tSem='warn';tIco='🟡';tCol='140,80,0';tTxt='ALTA — '+tUsc+'°C';tSub='Puntata T ambiente obbligatoria prima della cella.';}
+  else if(tUsc<=28){tSem='warn';tIco='🟠';tCol='140,60,0';tTxt='TROPPO ALTA — '+tUsc+'°C';tSub='Puntata lunga. Controlla ogni 30min.';}
+  else{tSem='bad';tIco='🔴';tCol='150,20,20';pianoMarmo=true;tTxt='CRITICA — '+tUsc+'°C';tSub='Piano marmo freddo 10-15min PRIMA di qualsiasi cosa.';eccesso=0;}
+
+  // ── PUNTATA T AMB ──
+  var h_punt_amb=pianoMarmo?0:Rl(Math.min(3.0,eccesso*(20/60)),2);
+
+  // ── ORARI ──
+  var h_app=0.5;
+  var hDisp=oraStag>oraFine?oraStag-oraFine:(oraStag+24)-oraFine;
+  var h_cella=Rl(Math.max(0,hDisp-h_punt_amb-h_app),2);
+  var oraInCella=oraFine+h_punt_amb;
+  var oraFuoriC=oraStag-h_app;
+
+  // ── VOLUME (con correzione pH) ──
+  var fPH=1.0,phInfo='';
+  if(phPost>0){
+    if(phPost>=5.80){fPH=1.15;phInfo='Biga acerba — fermentazione +15% più veloce.';}
+    else if(phPost>=5.60){fPH=1.05;phInfo='Biga non al picco — compensazione in puntata.';}
+    else if(phPost>=5.40){fPH=1.00;phInfo='pH ottimale — velocità nominale.';}
+    else if(phPost>=5.10){fPH=0.90;phInfo='Acidità elevata — fermentazione −10%.';}
+    else{fPH=0.75;phInfo='pH molto basso — fermentazione inibita −25%.';}
+  }
+  var muAmb=mu22*Math.pow(Q10,(tAmb-22)/10)*fPH;
+  var muCella=mu22*Math.pow(Q10,(tCella-22)/10)*fPH;
+  var volTot=Rl((Math.exp(muAmb*h_punt_amb)-1)*100+(Math.exp(muCella*h_cella)-1)*100,0);
+  var semVol=volTot>=volStMin&&volTot<=volStMax?'ok':volTot<volStMin*0.7?'bad':'warn';
+
+  // ── GEOMETRIA ──
+  var h_inizio=0,h_st_min=0,h_st_max=0,geoValido=false,geoInfo='';
+  if(pesoKg>0){
+    var area=forma==='rotondo'?Math.PI*Math.pow(dim1/2,2):forma==='quadrato'?dim1*dim1:dim1*dim2;
+    geoInfo=forma==='rotondo'?'⌀'+dim1+'cm':forma==='quadrato'?dim1+'×'+dim1+'cm':dim1+'×'+dim2+'cm';
+    if(area>0){
+      var volMl=pesoKg*1000/densita;
+      h_inizio=Rl(volMl/area,1);
+      h_st_min=Rl(h_inizio*(1+volStMin/100),1);
+      h_st_max=Rl(h_inizio*(1+volStMax/100),1);
+      geoValido=true;
+    }
+  }
+
+  // ── CELLA DIAGNOSI ──
+  var diagC,colC;
+  if(h_cella>=3.5){diagC='Ottimale — maturazione lenta, gas concentrato';colC='25,100,35';}
+  else if(h_cella>=2.0){diagC='Sufficiente';colC='140,80,0';}
+  else if(h_cella>=1.0){diagC='Breve — impasto meno stabile';colC='140,60,0';}
+  else{diagC='⚠️ Insufficiente — anticipa l\'impasto';colC='150,20,20';}
+
+  // ══════════════════════════════════════════════
+  // COSTRUZIONE HTML COMPLETO
+  // ══════════════════════════════════════════════
+  var html='';
+
+  // 1. SEMAFORO T USCITA
+  html+='<div style="background:rgba('+tCol+',0.22);border:2.5px solid rgba('+tCol+',0.6);border-radius:16px;padding:16px;margin-bottom:12px">'
+    +'<div style="display:flex;align-items:flex-start;gap:14px">'
+    +'<div style="font-size:48px;line-height:1">'+tIco+'</div>'
+    +'<div style="flex:1">'
+    +'<div style="font-size:46px;font-weight:900;font-family:DM Mono,monospace;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+tUsc+'°</div>'
+    +'<div style="font-size:14px;font-weight:700;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:4px">'+tTxt+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:3px">'+tSub+'</div>'
+    +'</div></div>'
+    +(pianoMarmo?'<div style="margin-top:10px;background:rgba(150,20,20,0.3);border:1.5px solid rgba(229,57,53,0.6);border-radius:10px;padding:10px 12px;font-size:13px;color:#FFCDD2;font-weight:700">🧊 Piano marmo freddo 10-15min — poi rivaluta</div>':'')
+    +'</div>';
+
+  // 2. pH POST-IMPASTO
+  if(phPost>0){
+    html+='<div style="background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.35);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px">'
+      +'<div style="text-align:center;min-width:64px">'
+      +'<div style="font-size:9px;color:var(--dim);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:2px">pH IMP. FINITO</div>'
+      +'<div style="font-size:34px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+phPost+'</div>'
+      +'</div>'
+      +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+phInfo
+      +'<br><span style="color:'+(fPH>1.0?'#A5D6A7':fPH<1.0?'#F0CC5A':'var(--cream)')+'">μ_eff = μ_max × '+fPH+' (Hamad &amp; Fields 1979)</span>'
+      +'</div></div>';
+  }
+
+  // 3. 4 BOX ORARI
+  html+='<div style="background:rgba(16,32,96,0.22);border:2px solid rgba(91,155,213,0.4);border-radius:16px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:10px">📋 Piano orari — '+nomeTipo+(pesoKg>0?' · '+pesoKg+'kg':'')+'</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:10px">'
+
+    +'<div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:11px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px;line-height:1.3">Fine<br>impasto</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:var(--cream)">'+Hh(oraFine)+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">S&F×2</div></div>'
+
+    +(h_punt_amb>0
+      ?'<div style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);border-radius:12px;padding:11px 4px">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px;line-height:1.3">T amb<br>'+tAmb+'°C</div>'
+       +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#F0CC5A">'+hTs(h_punt_amb)+'</div>'
+       +'<div style="font-size:9px;color:#F0CC5A;margin-top:2px">→'+Hh(oraInCella)+'</div></div>'
+      :'<div style="background:rgba(13,27,75,0.3);border:1px solid rgba(91,155,213,0.15);border-radius:12px;padding:11px 4px">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">T amb</div>'
+       +'<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5;line-height:1.2">cella<br>subito</div></div>')
+
+    +'<div style="background:rgba(13,27,75,0.35);border:1px solid rgba(91,155,213,0.4);border-radius:12px;padding:11px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px;line-height:1.3">Cella<br>'+tCella+'°C</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">'+hTs(h_cella)+'</div>'
+    +'<div style="font-size:9px;color:#5B9BD5;margin-top:2px">esce '+Hh(oraFuoriC)+'</div></div>'
+
+    +'<div style="background:rgba(25,100,35,0.2);border:1px solid rgba(25,100,35,0.45);border-radius:12px;padding:11px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Staglio</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Hh(oraStag)+'</div>'
+    +'<div style="font-size:9px;color:#A5D6A7;margin-top:2px">+'+volStMin+'–'+volStMax+'%</div></div>'
+    +'</div>'
+
+    // Volume + cella
+    +'<div style="display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.18);border-radius:10px;padding:9px 12px;margin-bottom:8px">'
+    +'<div style="text-align:center;min-width:72px">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Vol. staglio</div>'
+    +'<div style="font-size:24px;font-weight:900;font-family:DM Mono,monospace;color:'+(semVol==='ok'?'#A5D6A7':semVol==='warn'?'#F0CC5A':'#FFCDD2')+'">+'+volTot+'%</div>'
+    +'</div>'
+    +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'
+    +'Target <strong style="color:var(--cream)">+'+volStMin+'–'+volStMax+'%</strong>'
+    +(phPost>0?' · corretto pH '+phPost+' (×'+fPH+')':' · pH non inserito')
+    +'<br>'+(semVol==='ok'?'✅ nella finestra ottimale':semVol==='warn'?'🟡 controlla volume ad occhio':'🔴 usa misura cm sotto')
+    +'</div></div>'
+
+    +'<div style="font-size:11px;color:rgba('+colC+',1);background:rgba('+colC+',0.12);border-radius:8px;padding:7px 10px">'
+    +'❄️ Cella '+hTs(h_cella)+' · '+diagC+'</div>'
+    +'</div>';
+
+  // 4. ALTEZZA CONTENITORE
+  if(geoValido){
+    html+='<div style="background:rgba(212,160,62,0.14);border:2px solid rgba(212,160,62,0.45);border-radius:16px;padding:14px;margin-bottom:12px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">📐 Altezza staglio — '+geoInfo+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;text-align:center;align-items:center;margin-bottom:10px">'
+      +'<div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:14px 8px">'
+      +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px">Altezza ora</div>'
+      +'<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:var(--cream);line-height:1">'+h_inizio+'</div>'
+      +'<div style="font-size:11px;color:var(--dim);margin-top:2px">cm</div></div>'
+      +'<div style="font-size:13px;color:var(--dim)">→</div>'
+      +'<div style="background:rgba(212,160,62,0.2);border:2px solid rgba(212,160,62,0.5);border-radius:12px;padding:14px 8px">'
+      +'<div style="font-size:9px;color:var(--gold);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">STAGLI TRA</div>'
+      +'<div style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+h_st_min+'–'+h_st_max+'</div>'
+      +'<div style="font-size:11px;color:var(--gold);margin-top:2px">cm</div></div>'
+      +'</div>'
+      +'<div style="font-size:11px;color:var(--dim);line-height:1.6;background:rgba(0,0,0,0.18);border-radius:8px;padding:8px 10px">'
+      +'📏 Segna <strong style="color:var(--cream)">'+h_inizio+'cm</strong> con pennarello sul contenitore quando entra in cella. '
+      +'Stagli quando raggiunge <strong style="color:var(--gold2)">'+h_st_min+'–'+h_st_max+'cm</strong>. Non guardare l\'orologio — usa la linea.'
+      +'</div></div>';
+  }
+
+  // 5. GUIDA PASSO PER PASSO (header + div aggiornabile)
+  html+='<div style="border-top:1.5px solid var(--border);padding-top:12px;margin-top:4px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">📋 Segui passo per passo — aggiorna ogni 30s</div>'
+    +'<div id="guidaOut"></div>'
+    +'</div>';
+
+  out.innerHTML = html;
+
+  // ── COSTRUISCI STEPS ──
+  _guidaSteps = [];
+
+  _guidaSteps.push({ora:oraFine,ico:'💪',
+    titolo:'Stretch & Fold × 2 — subito',
+    istruzione:'Impasto '+(pesoKg?pesoKg+'kg ':'')+'a '+tUsc+'°C uscita. '
+      +'2 giri di S&F a 15min di distanza. Copri con pellicola.',
+    urgente:tUsc>=26?'🧊 T critica — piano marmo freddo 10min PRIMA dei S&F':null,
+    durataMin:30});
+
+  if(!phPost){
+    _guidaSteps.push({ora:oraFine+0.08,ico:'🔬',
+      titolo:'Misura pH impasto adesso',
+      istruzione:'10g impasto + 90ml acqua distillata → 2min stabilizzazione → misura. '
+        +'Inserisci il valore nel campo pH impasto finito. Range tipico 5.40–5.80.',
+      urgente:null,durataMin:5});
   } else {
-    volStMin=45; volStMax=60; nomeTipo='Napoletana'; tUscOtt=22; mu22=0.049;
-  }
-  var volTgt = (volStMin + volStMax) / 2; // target centrale
-
-  // ── FATTORE pH post-impasto (Hamad & Fields 1979) ──
-  // pH tipico post-impasto con biga: 5.4–5.8
-  // A pH < 5.4 → acido inibisce leggermente la crescita
-  // A pH > 5.8 → biga acerba, più substrato disponibile
-  var fPH = 1.0;
-  var phInfo = '';
-  if(phPost > 0){
-    if(phPost >= 5.80){
-      fPH = 1.15; // biga acerba → substrato più ricco, cresce leggermente più veloce
-      phInfo = 'pH '+phPost+' — biga acerba nell\'impasto · fermentazione leggermente accelerata (+15%)';
-    } else if(phPost >= 5.60){
-      fPH = 1.05;
-      phInfo = 'pH '+phPost+' — range ottimale post-impasto · fermentazione nominale';
-    } else if(phPost >= 5.40){
-      fPH = 1.00;
-      phInfo = 'pH '+phPost+' — biga ben fermentata · velocità standard';
-    } else if(phPost >= 5.10){
-      fPH = 0.90;
-      phInfo = 'pH '+phPost+' — acidità elevata · fermentazione leggermente rallentata (−10%)';
-    } else {
-      fPH = 0.75;
-      phInfo = 'pH '+phPost+' — molto acido · fermentazione inibita (−25%) · stai attento al volume';
-    }
+    _guidaSteps.push({ora:oraFine+0.08,ico:'🔬',
+      titolo:'pH impasto '+phPost+' registrato',
+      istruzione:phInfo,urgente:null,durataMin:2});
   }
 
-  // ── SEMAFORO T USCITA ──
-  var tSem, tIco, tCol, tTxt, tSub, pianoMarmo=false;
-  var eccesso = Math.max(0, tUsc - tUscOtt);
+  if(h_punt_amb>0){
+    _guidaSteps.push({ora:oraFine+0.3,ico:'🌡️',
+      titolo:'Puntata T ambiente '+tAmb+'°C — '+Math.round(h_punt_amb*60)+'min',
+      istruzione:'Lascia a T ambiente '+tAmb+'°C. Controlla ogni 30min. '
+        +'Entra in cella alle '+Hh(oraInCella)+'.',
+      urgente:tUsc>=26?'⚠️ T molto alta — se gonfia veloce, cella 15min prima':null,
+      durataMin:Math.round(h_punt_amb*60)});
+  }
 
-  if(tUsc <= tUscOtt - 2){
-    tSem='ok'; tIco='🏆'; tCol='25,100,35';
-    tTxt='ECCELLENTE — sotto soglia ottimale';
-    tSub='Impasto freddo, maglia al massimo. Cella direttamente dopo S&F × 2.';
-  } else if(tUsc <= tUscOtt){
-    tSem='ok'; tIco='✅'; tCol='25,100,35';
-    tTxt='OTTIMALE — '+tUsc+'°C nella finestra target';
-    tSub='S&F × 2 poi cella — nessuna attesa a T ambiente necessaria.';
-  } else if(tUsc <= tUscOtt + 2){
-    tSem='ok'; tIco='✅'; tCol='25,100,35';
-    tTxt='BUONA — '+tUsc+'°C, leggermente sopra target';
-    tSub=hToStr(eccesso*(20/60))+' a T ambiente poi cella — il calore da attrito si dissipa.';
-  } else if(tUsc <= tUscOtt + 4){
-    tSem='warn'; tIco='🟡'; tCol='140,80,0';
-    tTxt='ALTA — '+tUsc+'°C, puntata T ambiente obbligatoria';
-    tSub='Il calore da attrito Esmach deve dissipare prima della cella.';
-  } else if(tUsc <= 28){
-    tSem='warn'; tIco='🟠'; tCol='140,60,0';
-    tTxt='TROPPO ALTA — '+tUsc+'°C, puntata lunga';
-    tSub='Maglia sotto stress termico. Controlla il gonfiore ogni 30min durante la puntata.';
+  _guidaSteps.push({ora:h_punt_amb>0?oraInCella:oraFine+0.5,ico:'❄️',
+    titolo:'Entra in cella '+tCella+'°C — '+Math.round(h_cella*60)+'min',
+    istruzione:(geoValido
+      ?'📏 Segna '+h_inizio+'cm con pennarello sul contenitore. '
+        +'Stagli tra '+h_st_min+'–'+h_st_max+'cm. Non usare solo l\'orologio.'
+      :'Cella '+tCella+'°C. Target volume allo staglio: +'+volStMin+'–'+volStMax+'%.'),
+    urgente:h_cella<1.5?'⚠️ Cella breve ('+Math.round(h_cella*60)+'min) — la prossima volta impasta 1h prima':null,
+    durataMin:Math.round(h_cella*60)});
+
+  _guidaSteps.push({ora:oraFuoriC,ico:'🌡️',
+    titolo:'Fuori cella — appretto 30min esatti',
+    istruzione:'T ambiente '+tAmb+'°C. I panetti si distendono. '
+      +'NON più di 30min — le proteasi 0102HP accelerano a T ambiente. '
+      +(geoValido?'Se non ha raggiunto '+h_st_min+'cm, altri 10min in cella.':''),
+    urgente:null,durataMin:30});
+
+  if(!phForno){
+    _guidaSteps.push({ora:oraFuoriC+0.4,ico:'🔬',
+      titolo:'Misura pH panetti pre-forno',
+      istruzione:'Misura il pH di un panetto dal centro prima di stendere. '
+        +'Inserisci nel campo pH panetti pre-forno → appare la diagnosi con le azioni precise. '
+        +'Target: 5.0–5.3 napoletana · 5.1–5.4 teglia · 4.9–5.2 pala.',
+      urgente:null,durataMin:5});
   } else {
-    tSem='bad'; tIco='🔴'; tCol='150,20,20';
-    pianoMarmo=true;
-    tTxt='CRITICA — '+tUsc+'°C, piano marmo SUBITO';
-    tSub='Stendi su piano di marmo freddo 10-15min prima di fare qualsiasi cosa.';
-    eccesso = 0;
+    _guidaSteps.push({ora:oraFuoriC+0.4,ico:'🔬',
+      titolo:'pH pre-forno '+phForno+(phForno>=5.0&&phForno<=5.4?' ✅':' — vedi card sotto'),
+      istruzione:phForno<=4.80?'Acidità eccessiva — stendi SUBITO senza appretto extra.'
+        :phForno<=5.30?'✅ Ottimale — cornicione esplosivo garantito.'
+        :phForno<=5.60?'Biga acerba — appretto +10min, abbassa T forno di 20°C.'
+        :'Biga molto acerba — appretto +20min, abbassa T forno di 30°C.',
+      urgente:null,durataMin:5});
   }
 
-  // ── PUNTATA T AMBIENTE (Cauvain 2015) ──
-  var h_punt_amb = pianoMarmo ? 0 : Rl(Math.min(3.0, eccesso * (20/60)), 2);
+  _guidaSteps.push({ora:oraStag,ico:'✂️',
+    titolo:'STAGLIO — '+nomeTipo,
+    istruzione:(geoValido
+      ?'Stagli tra '+h_st_min+'–'+h_st_max+'cm (+'+volStMin+'–'+volStMax+'%). Usa la linea sul contenitore.'
+      :'Stagli a +'+volStMin+'–'+volStMax+'% volume. Controlla dal lato del contenitore.'),
+    urgente:'🍕 Appretto 15-20min poi stendi delicatamente — non deflettere il gas',
+    durataMin:20});
 
-  // ── ORE DISPONIBILI ──
-  var h_app    = 0.5;
-  var hDisp    = oraStag > oraFine ? oraStag - oraFine : (oraStag + 24) - oraFine;
-  var h_cella  = Rl(Math.max(0, hDisp - h_punt_amb - h_app), 2);
-  var oraInCella = oraFine + h_punt_amb;
-  var oraFuoriC  = oraStag - h_app;
+  // Avvia timer
+  if(_guidaTimer) clearInterval(_guidaTimer);
+  aggiornaGuida();
+  _guidaTimer = setInterval(aggiornaGuida, 30000);
 
-  // ── VOLUME ATTESO ALLO STAGLIO (con correzione pH) ──
-  var muAmb   = mu22 * Math.pow(Q10, (tAmb - 22) / 10) * fPH;
-  var muCella = mu22 * Math.pow(Q10, (tCella - 22) / 10) * fPH;
-  var vol_amb  = (Math.exp(muAmb * h_punt_amb) - 1) * 100;
-  var vol_cell = (Math.exp(muCella * h_cella) - 1) * 100;
-  var volTot   = Rl(vol_amb + vol_cell, 0);
-  var semVol   = volTot >= volStMin && volTot <= volStMax ? 'ok' : volTot < volStMin*0.7 ? 'bad' : 'warn';
+  // pH forno card
+  calcPhForno();
+}
 
-  // ── GEOMETRIA CONTENITORE ──
-  var h_inizio = 0, h_staglio_cm = 0, areaBase = 0;
-  var geoInfo = '', geoValido = false;
 
-  if(pesoKg > 0){
-    var pesoG   = pesoKg * 1000;
-    var volMl   = pesoG / densita;           // volume impasto [ml = cm³]
+// ══════════════════════════════════════════════════════════════════════
+// calcPhForno — pH panetti pre-forno + pH pallina in tempo reale
+// Proprietà reologiche per farina (Dobraszczyk & Morgenstern 2003):
+//   G'(pH) = 2000 × (1 − 0.15×(pH−5.2))  [Pa]
+//   Leopardatura ∝ Maillard(T) × Zuccheri_residui(pH)
+//   Zuccheri_residui: alto a pH>5.3, basso a pH<5.0
+// ══════════════════════════════════════════════════════════════════════
+function calcPhForno(){
+  var phF    = parseFloat((document.getElementById('pi_pHForno')||{}).value)||0;
+  var tipo   = (document.getElementById('pi_tipo')||{value:'napo'}).value||'napo';
+  var tAmb   = parseFloat((document.getElementById('pi_tAmb')||{value:22}).value)||22;
+  var tCella = parseFloat((document.getElementById('pi_tCella')||{value:4}).value)||4;
+  var oraStag= parseFloat((document.getElementById('pi_oraStag')||{value:15.5}).value)||15.5;
+  var out    = document.getElementById('phFornoOut');
+  var card   = document.getElementById('cardPhForno');
+  if(!out||!card) return;
+  if(!phF){ card.style.display='none'; out.innerHTML=''; return; }
+  card.style.display='block';
 
-    if(forma === 'rotondo'){
-      areaBase = Math.PI * Math.pow(dim1/2, 2);
-      geoInfo  = 'Contenitore rotondo ⌀'+dim1+'cm';
-    } else if(forma === 'quadrato'){
-      areaBase = dim1 * dim1;
-      geoInfo  = 'Contenitore quadrato '+dim1+'×'+dim1+'cm';
-    } else {
-      areaBase = dim1 * dim2;
-      geoInfo  = 'Contenitore rettangolare '+dim1+'×'+dim2+'cm';
-    }
+  var phMin,phMax,nomeTipo,fornoT,blendTxt;
+  if(tipo==='teglia'){phMin=5.0;phMax=5.5;nomeTipo='Teglia Romana';fornoT='280–300°C';blendTxt='5078 W370 + 0102HP';}
+  else if(tipo==='pala48'){phMin=4.8;phMax=5.3;nomeTipo='Pala 48h';fornoT='300–320°C';blendTxt='0102HP W330 + 5063';}
+  else{phMin=5.0;phMax=5.4;nomeTipo='Napoletana';fornoT='440–460°C 60–70s';blendTxt='0102HP + 5063 Special';}
 
-    if(areaBase > 0){
-      h_inizio     = Rl(volMl / areaBase, 1);   // altezza iniziale [cm]
-      h_staglio_cm = Rl(h_inizio * (1 + volTgt/100), 1); // altezza a volTgt%
-      // Range min-max per volStMin-volStMax
-      var h_st_min = Rl(h_inizio * (1 + volStMin/100), 1);
-      var h_st_max = Rl(h_inizio * (1 + volStMax/100), 1);
-      geoValido    = true;
-    }
+  var sem,ico,col,titolo,sub,azioni=[];
+  if(phF>5.70){
+    sem='bad';ico='🔴';col='150,20,20';
+    titolo='pH CRITICO — biga molto acerba';
+    sub='L\'impasto ha ancora molto substrato non fermentato. Agisci subito.';
+    azioni=['Allunga appretto di 20-30min a T ambiente '+tAmb+'°C','Stendi con più attenzione — maglia ancora rigida (G\' elevato)','Abbassa T forno di 20-30°C per evitare bruciatura superficiale','Leopardatura ridotta — alveolatura sarà più chiusa','Prossima volta: aspetta pH biga 5.20–5.45 prima di impastare'];
+  } else if(phF>5.50){
+    sem='warn';ico='🟡';col='140,80,0';
+    titolo='pH ALTO — biga acerba nell\'impasto';
+    sub='Cornicione meno aperto del massimo. Struttura ok per il servizio.';
+    azioni=['Appretto +10-15min rispetto al solito','Stendi normalmente — maglia regge bene','T forno standard '+fornoT,'Leopardatura presente ma meno intensa','Prossima volta: anticipa impasto di 30min o aspetta picco biga'];
+  } else if(phF>=phMin){
+    sem='ok';ico='✅';col='25,100,35';
+    titolo='pH OTTIMALE — cornicione esplosivo garantito';
+    sub='Range perfetto '+phMin+'–'+phMax+'. Biga era al picco. Ripeti identico la prossima volta.';
+    azioni=['Appretto standard — non modificare','Stendi con fiducia — maglia elastica al punto giusto','T forno '+fornoT+' — piena potenza','✅ Leopardatura ottimale — Maillard nel range corretto','🏆 Annota tutti i parametri di oggi — sessione di riferimento'];
+  } else if(phF>=4.80){
+    sem='warn';ico='🟠';col='140,60,0';
+    titolo='pH BASSO — acidità elevata';
+    sub='Biga era oltre il picco o licoli troppo acido.';
+    azioni=['NON allungare appretto — impasto già maturo','Stendi subito — rischio collasso se aspetti','T forno '+fornoT+' standard, riduci tempi cottura 10%','Mollica più compatta — alveolatura meno aperta','Prossima volta: impasta prima o riduci licoli'];
+  } else {
+    sem='bad';ico='🔴';col='150,20,20';
+    titolo='pH MOLTO BASSO — acidità eccessiva';
+    sub='Maglia indebolita dalle proteasi. Agisci immediatamente.';
+    azioni=['🚨 Stendi IMMEDIATAMENTE — ogni minuto degrada ulteriormente','Nessun appretto aggiuntivo','Abbassa T forno del 10-15%','Cornicione basso e compatto — accettalo per questo servizio','Prossima volta: riduci puntata 30min e/o impasta 1h più tardi'];
   }
 
-  // ── DIAGNOSI CELLA ──
-  var diagCella, colCella;
-  if(h_cella >= 3.5){ diagCella='Ottimale — gas concentrato nella maglia'; colCella='25,100,35'; }
-  else if(h_cella >= 2.0){ diagCella='Sufficiente — buona stabilizzazione'; colCella='140,80,0'; }
-  else if(h_cella >= 1.0){ diagCella='Breve — impasto meno stabile allo staglio'; colCella='140,60,0'; }
-  else { diagCella='⚠️ Insufficiente — considera di anticipare l\'impasto'; colCella='150,20,20'; }
+  var Gp=Math.round(2000*(1-0.15*(phF-5.2)));
+  var GpSem=Gp>=1600&&Gp<=2200?'✅ ottimale':Gp<1300?'🔴 esaurito':Gp<=2600?'🟡 buono':'🟡 rigido';
+  var leop=phF>5.5?'ridotta (zuccheri residui alti → Maillard rapido ma alveolatura chiusa)'
+    :phF>=5.0?'✅ ottimale — Maillard al punto giusto'
+    :phF>=4.8?'intensa — pH basso accelera Maillard'
+    :'⚠️ rischio bruciatura — acidità degrada Maillard';
 
-  // ── COSTRUZIONE OUTPUT ──
-  out.innerHTML =
+  out.innerHTML=
+    '<div style="background:rgba('+col+',0.2);border:2.5px solid rgba('+col+',0.55);border-radius:16px;padding:16px;margin-bottom:14px">'
+    +'<div style="display:flex;align-items:flex-start;gap:14px">'
+    +'<div style="font-size:48px;line-height:1">'+ico+'</div>'
+    +'<div style="flex:1">'
+    +'<div style="font-size:44px;font-weight:900;font-family:DM Mono,monospace;color:'+(sem==='ok'?'#A5D6A7':sem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+phF+'</div>'
+    +'<div style="font-size:13px;font-weight:700;color:'+(sem==='ok'?'#A5D6A7':sem==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:4px">'+titolo+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:3px;line-height:1.5">'+sub+'</div>'
+    +'</div></div></div>'
+    +'<div style="background:rgba(16,32,96,0.22);border:1.5px solid rgba(91,155,213,0.4);border-radius:14px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:10px">⚡ Cosa fare adesso — '+nomeTipo+'</div>'
+    +azioni.map(function(a,i){return '<div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)">'
+      +'<div style="min-width:20px;height:20px;border-radius:50%;background:rgba(91,155,213,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#5B9BD5;flex-shrink:0;margin-top:1px">'+(i+1)+'</div>'
+      +'<div style="font-size:12px;color:var(--cream);line-height:1.6">'+a+'</div></div>';}).join('')
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">G\' stima (Dobraszczyk 2003)</div>'
+    +'<div style="font-size:26px;font-weight:900;font-family:DM Mono,monospace;color:'+(sem==='ok'?'#A5D6A7':sem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+Gp+'</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:3px">Pa · '+GpSem+'</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">Leopardatura</div>'
+    +'<div style="font-size:12px;font-weight:600;color:var(--cream);line-height:1.4;margin-top:4px">'+leop+'</div></div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.15);border-radius:10px;padding:10px 12px;font-size:10px;color:var(--dim);line-height:1.7">'
+    +'🌾 Blend: <strong style="color:var(--cream)">'+blendTxt+'</strong> · 🔥 '+fornoT
+    +'<br>⚗️ G\'=2000×(1−0.15×(pH−5.2)) Pa · Leopardatura: Maillard∝Zuccheri_residui(pH) (Suas 2009)'
+    +'</div>';
+}
 
-  // SEMAFORO T USCITA
-  '<div style="background:rgba('+tCol+',0.22);border:2.5px solid rgba('+tCol+',0.6);border-radius:16px;padding:16px;margin-bottom:12px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">🌡️ T Uscita Esmach — '+nomeTipo+(pesoKg>0?' · '+pesoKg+'kg':'')+'</div>'+
-  '<div style="display:flex;align-items:flex-start;gap:14px">'+
-  '<div style="font-size:52px;line-height:1">'+tIco+'</div>'+
-  '<div style="flex:1">'+
-  '<div style="font-size:50px;font-weight:900;font-family:DM Mono,monospace;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+tUsc+'°</div>'+
-  '<div style="font-size:13px;font-weight:700;color:'+(tSem==='ok'?'#A5D6A7':tSem==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:4px">'+tTxt+'</div>'+
-  '<div style="font-size:11px;color:var(--dim);margin-top:3px;line-height:1.5">'+tSub+'</div>'+
-  '</div></div>'+
-  (pianoMarmo?'<div style="margin-top:12px;background:rgba(150,20,20,0.3);border:1.5px solid rgba(229,57,53,0.6);border-radius:10px;padding:10px 12px;font-size:13px;color:#FFCDD2;font-weight:700">🧊 Piano marmo freddo 10-15min — poi rivaluta prima di procedere</div>':'')+
-  '</div>'+
+// ══════════════════════════════════════════════════════════════════════
+// calcPhPallina — pH pallina in tempo reale
+// Inserisci: ora misura, pH pallina, T ambiente attuale
+// → dice se alzare T cella, tenerla fuori, quando infornare
+// Modello: pH pallina scende ~0.05–0.08 pH/h a T ambiente (Hamad 1979)
+// ══════════════════════════════════════════════════════════════════════
+function calcPhPallina(){
+  var phP    = parseFloat((document.getElementById('pp_pH')||{}).value)||0;
+  var oraP   = parseFloat((document.getElementById('pp_ora')||{value:19.5}).value)||19.5;
+  var tP     = parseFloat((document.getElementById('pp_tAmb')||{value:22}).value)||22;
+  var oraForno=parseFloat((document.getElementById('pp_oraForno')||{value:20}).value)||20;
+  var tipo   = (document.getElementById('pi_tipo')||{value:'napo'}).value||'napo';
+  var out    = document.getElementById('phPallinaOut');
+  if(!out||!phP) return;
 
-  // pH POST-IMPASTO (se inserito)
-  (phPost > 0 ?
-  '<div style="background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.35);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px">'+
-  '<div style="text-align:center;min-width:64px">'+
-  '<div style="font-size:9px;color:var(--dim);margin-bottom:2px;font-family:DM Mono,monospace;letter-spacing:1px">pH IMP. FINITO</div>'+
-  '<div style="font-size:36px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+phPost+'</div>'+
-  '</div>'+
-  '<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+phInfo+
-  '<br><span style="color:'+(fPH>1.0?'#A5D6A7':fPH<1.0?'#F0CC5A':'var(--cream)')+'">Fattore μ_eff: ×'+fPH+' rispetto a nominale (Hamad &amp; Fields 1979)</span>'+
-  '</div></div>' : '')+
+  var phMin,phMax,phOtt,nomeTipo,fornoT;
+  if(tipo==='teglia'){phMin=5.0;phMax=5.5;phOtt=5.15;nomeTipo='Teglia';fornoT='280–300°C';}
+  else if(tipo==='pala48'){phMin=4.8;phMax=5.3;phOtt=5.05;nomeTipo='Pala 48h';fornoT='300–320°C';}
+  else{phMin=5.0;phMax=5.4;phOtt=5.15;nomeTipo='Napoletana';fornoT='440–460°C';}
 
-  // pH PRE-FORNO (se inserito — diagnosi a posteriori)
-  (phForno > 0 ?
-  (function(){
-    var pfSem, pfCol, pfTxt, pfSub;
-    if(phForno <= 4.80){ pfSem='bad'; pfCol='150,20,20'; pfTxt='pH pre-forno molto basso'; pfSub='Biga era oltre il picco o licoli molto acido. La prossima volta impasta prima.'; }
-    else if(phForno <= 5.00){ pfSem='warn'; pfCol='140,60,0'; pfTxt='pH pre-forno basso'; pfSub='Acidità alta — cornicione più compatto, mollica densa. Struttura ok.'; }
-    else if(phForno <= 5.30){ pfSem='ok'; pfCol='25,100,35'; pfTxt='pH pre-forno OTTIMALE'; pfSub='Cornicione esplosivo garantito. Biga era al picco. Ripeti identico.'; }
-    else if(phForno <= 5.60){ pfSem='warn'; pfCol='140,80,0'; pfTxt='pH pre-forno alto'; pfSub='Biga era acerba nell\'impasto. Cornicione meno aperto del potenziale massimo.'; }
-    else { pfSem='bad'; pfCol='150,20,20'; pfTxt='pH pre-forno molto alto'; pfSub='Biga molto acerba. Prossima volta aspetta il picco (pH 5.20–5.45) prima di impastare.'; }
-    return '<div style="background:rgba('+pfCol+',0.15);border:1.5px solid rgba('+pfCol+',0.4);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px">'+
-    '<div style="text-align:center;min-width:64px">'+
-    '<div style="font-size:9px;color:'+(pfSem==='ok'?'#A5D6A7':pfSem==='warn'?'#F0CC5A':'#FFCDD2')+';margin-bottom:2px;font-family:DM Mono,monospace;letter-spacing:1px">pH PRE-FORNO</div>'+
-    '<div style="font-size:36px;font-weight:900;font-family:DM Mono,monospace;color:'+(pfSem==='ok'?'#A5D6A7':pfSem==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+phForno+'</div>'+
-    '</div>'+
-    '<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+
-    '<strong style="color:'+(pfSem==='ok'?'#A5D6A7':pfSem==='warn'?'#F0CC5A':'#FFCDD2')+'">'+pfTxt+'</strong><br>'+pfSub+
-    '<br><span style="color:var(--dim)">Target ottimale napoletana: 5.0–5.3 · teglia: 5.1–5.4 · pala: 4.9–5.2</span>'+
-    '</div></div>';
-  })() : '')+
+  // Velocità drop pH a T ambiente (Hamad & Fields 1979 adattato per appretto)
+  // dpH/dt = 0.065 pH/h a 22°C × Q10^((T-22)/10)
+  var Q10=2.2;
+  var dropRate=0.065*Math.pow(Q10,(tP-22)/10);
 
-  // PIANO ORARI — 4 BOX
-  '<div style="background:rgba(16,32,96,0.25);border:2px solid rgba(91,155,213,0.45);border-radius:16px;padding:16px;margin-bottom:12px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:12px">📋 Piano operativo</div>'+
+  // Ore rimaste fino al forno
+  var hForno=oraForno>oraP?oraForno-oraP:(oraForno+24)-oraP;
 
-  '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:12px">'+
+  // pH stimato al forno
+  var phForno=Math.round((phP-dropRate*hForno)*100)/100;
 
-  '<div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px 6px">'+
-  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px;line-height:1.3">Fine<br>impasto</div>'+
-  '<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:var(--cream)">'+Hh(oraFine)+'</div>'+
-  '<div style="font-size:9px;color:var(--dim);margin-top:2px">S&F × 2</div>'+
-  '</div>'+
+  // Diagnosi attuale
+  var semAtt,icoAtt,colAtt,txtAtt;
+  if(phP>5.70){semAtt='bad';icoAtt='🔴';colAtt='150,20,20';txtAtt='Troppo alto — pallina non ancora matura';}
+  else if(phP>5.40){semAtt='warn';icoAtt='🟡';colAtt='140,80,0';txtAtt='In maturazione';}
+  else if(phP>=phMin){semAtt='ok';icoAtt='✅';colAtt='25,100,35';txtAtt='Nel range ottimale';}
+  else if(phP>=4.80){semAtt='warn';icoAtt='🟠';colAtt='140,60,0';txtAtt='Al limite basso';}
+  else{semAtt='bad';icoAtt='🔴';colAtt='150,20,20';txtAtt='Acidità eccessiva — inforna subito';}
 
-  (h_punt_amb > 0 ?
-  '<div style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.35);border-radius:12px;padding:12px 6px">'+
-  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px;line-height:1.3">T amb<br>'+tAmb+'°C</div>'+
-  '<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#F0CC5A">'+hToStr(h_punt_amb)+'</div>'+
-  '<div style="font-size:9px;color:#F0CC5A;margin-top:2px">→ cella '+Hh(oraInCella)+'</div>'+
-  '</div>' :
-  '<div style="background:rgba(13,27,75,0.3);border:1px solid rgba(91,155,213,0.2);border-radius:12px;padding:12px 6px">'+
-  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px;line-height:1.3">T amb</div>'+
-  '<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">subito<br>cella</div>'+
-  '</div>')+
+  // pH al forno — semaforo
+  var semF,icoF,colF,txtF;
+  if(phForno>=phMin&&phForno<=phMax){semF='ok';icoF='✅';colF='25,100,35';txtF='Sarà ottimale al forno';}
+  else if(phForno>phMax){semF='warn';icoF='🟡';colF='140,80,0';txtF='Sarà ancora alto al forno';}
+  else if(phForno>=4.80){semF='warn';icoF='🟠';colF='140,60,0';txtF='Sarà al limite basso';}
+  else{semF='bad';icoF='🔴';colF='150,20,20';txtF='Sarà troppo basso — anticipa l\'infornata';}
 
-  '<div style="background:rgba(13,27,75,0.35);border:1px solid rgba(91,155,213,0.4);border-radius:12px;padding:12px 6px">'+
-  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px;line-height:1.3">Cella<br>'+tCella+'°C</div>'+
-  '<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">'+hToStr(h_cella)+'</div>'+
-  '<div style="font-size:9px;color:#5B9BD5;margin-top:2px">esce '+Hh(oraFuoriC)+'</div>'+
-  '</div>'+
+  // Calcola ora ottimale inforno (quando pH raggiungerà phOtt)
+  var hPerOtt=(phP-phOtt)/dropRate;
+  var oraOttForno=oraP+hPerOtt;
+  function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
 
-  '<div style="background:rgba(25,100,35,0.2);border:1px solid rgba(25,100,35,0.45);border-radius:12px;padding:12px 6px">'+
-  '<div style="font-size:8px;color:var(--dim);margin-bottom:4px;line-height:1.3">Staglio<br>target</div>'+
-  '<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Hh(oraStag)+'</div>'+
-  '<div style="font-size:9px;color:#A5D6A7;margin-top:2px">+'+volStMin+'–'+volStMax+'%</div>'+
-  '</div>'+
-  '</div>'+
+  // AZIONI CORRETTIVE
+  var azioni=[];
+  if(phP>5.70){
+    // Pallina molto acerba — necessita più tempo o T più alta
+    var hExtra=Math.round((phP-phMax)/dropRate*60);
+    azioni.push('Lascia fuori a T ambiente '+tP+'°C ancora ~'+hExtra+'min prima di infornare');
+    azioni.push('OPPURE alza T cella a 8°C e tienila lì 30min in più');
+    azioni.push('Ora ottimale inforno stimata: '+Hh(oraOttForno));
+    azioni.push('NON infornare prima di pH '+phMax+' — cornicione sarà chiuso');
+  } else if(phP>5.40){
+    azioni.push('Lascia a T ambiente '+tP+'°C — la pallina sta maturando');
+    azioni.push('Ora ottimale inforno: '+Hh(oraOttForno));
+    azioni.push('Se hai fretta: +2°C in cella accelera la discesa del pH');
+    azioni.push('Stendi solo quando il pH è ≤'+phMax);
+  } else if(phP>=phMin){
+    azioni.push('✅ Inforna adesso o entro '+Math.round((phP-phMin)/dropRate*60)+'min');
+    azioni.push('Ora ottimale: '+Hh(oraOttForno)+' — non aspettare oltre');
+    azioni.push('T forno '+fornoT+' — piena potenza');
+    azioni.push('Non rimettere in cella — perderesti la finestra ottimale');
+  } else if(phP>=4.80){
+    azioni.push('🟠 Inforna entro 10min — stai perdendo la maglia');
+    azioni.push('T forno '+fornoT+' — tempi standard o leggermente ridotti');
+    azioni.push('Stendi delicatamente — rischio che la pallina ceda');
+    azioni.push('Nota per dopo: la prossima volta inforna 20min prima');
+  } else {
+    azioni.push('🚨 INFORNA IMMEDIATAMENTE — la maglia sta cedendo');
+    azioni.push('Abbassa T forno del 10% — mollica fragile brucia prima');
+    azioni.push('Stendi il più velocemente possibile');
+  }
 
-  // Volume stimato
-  '<div style="display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px;margin-bottom:8px">'+
-  '<div style="text-align:center;min-width:80px">'+
-  '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Vol. staglio</div>'+
-  '<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:'+(semVol==='ok'?'#A5D6A7':semVol==='warn'?'#F0CC5A':'#FFCDD2')+'">+'+volTot+'%</div>'+
-  '</div>'+
-  '<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+
-  'Target: <strong style="color:var(--cream)">+'+volStMin+'–'+volStMax+'%</strong>'+
-  (phPost>0?' · corretto per pH '+phPost+' (×'+fPH+')':'· pH non inserito, stima nominale')+
-  '<br>'+(semVol==='ok'?'✅ Nella finestra ottimale':semVol==='warn'?'🟡 Leggermente fuori range — usa la misura cm sotto':'🔴 Fuori range — controlla visivamente, non l\'orologio')+
-  '</div></div>'+
+  out.innerHTML=
+    // Due semafori affiancati: ora e al forno
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">'
+    +'<div style="background:rgba('+colAtt+',0.2);border:2px solid rgba('+colAtt+',0.5);border-radius:14px;padding:14px;text-align:center">'
+    +'<div style="font-size:10px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">pH ORA '+Hh(oraP)+'</div>'
+    +'<div style="font-size:38px;font-weight:900;font-family:DM Mono,monospace;color:'+(semAtt==='ok'?'#A5D6A7':semAtt==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+phP+'</div>'
+    +'<div style="font-size:11px;color:'+(semAtt==='ok'?'#A5D6A7':semAtt==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:4px;font-weight:600">'+icoAtt+' '+txtAtt+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:3px">drop '+Math.round(dropRate*100)/100+' pH/h a '+tP+'°C</div>'
+    +'</div>'
+    +'<div style="background:rgba('+colF+',0.2);border:2px solid rgba('+colF+',0.5);border-radius:14px;padding:14px;text-align:center">'
+    +'<div style="font-size:10px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">pH AL FORNO '+Hh(oraForno)+'</div>'
+    +'<div style="font-size:38px;font-weight:900;font-family:DM Mono,monospace;color:'+(semF==='ok'?'#A5D6A7':semF==='warn'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+phForno+'</div>'
+    +'<div style="font-size:11px;color:'+(semF==='ok'?'#A5D6A7':semF==='warn'?'#F0CC5A':'#FFCDD2')+';margin-top:4px;font-weight:600">'+icoF+' '+txtF+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:3px">target '+phMin+'–'+phMax+'</div>'
+    +'</div></div>'
 
-  // Diagnosi cella
-  '<div style="font-size:11px;color:rgba('+colCella+',1.0);background:rgba('+colCella+',0.12);border-radius:8px;padding:8px 10px">'+
-  '❄️ Cella '+tCella+'°C per '+hToStr(h_cella)+' — '+diagCella+
-  '</div>'+
-  '</div>'+
+    // Ora ottimale inforno grande
+    +'<div style="background:rgba(212,160,62,0.15);border:2px solid rgba(212,160,62,0.45);border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:14px">'
+    +'<div style="text-align:center;min-width:80px">'
+    +'<div style="font-size:9px;color:var(--gold);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:4px">INFORNA ALLE</div>'
+    +'<div style="font-size:32px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+Hh(oraOttForno)+'</div>'
+    +'</div>'
+    +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'
+    +'Quando il pH raggiungerà <strong style="color:var(--cream)">'+phOtt+'</strong> (target ottimale '+nomeTipo+'). '
+    +'Drop stimato: <strong style="color:var(--cream)">'+Math.round(dropRate*100)/100+' pH/h</strong> a '+tP+'°C '
+    +'(Hamad &amp; Fields 1979 · Q10=2.2).'
+    +'</div></div>'
 
-  // ALTEZZA CONTENITORE — il pezzo centrale
-  (geoValido ?
-  '<div style="background:rgba(212,160,62,0.14);border:2px solid rgba(212,160,62,0.45);border-radius:16px;padding:16px;margin-bottom:12px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">📐 Altezza contenitore — misura fisica ('+geoInfo+')</div>'+
-
-  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;margin-bottom:10px">'+
-
-  '<div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:14px 8px">'+
-  '<div style="font-size:9px;color:var(--dim);margin-bottom:4px;line-height:1.3">Altezza<br>impasto ora</div>'+
-  '<div style="font-size:30px;font-weight:900;font-family:DM Mono,monospace;color:var(--cream);line-height:1">'+h_inizio+'</div>'+
-  '<div style="font-size:11px;color:var(--dim);margin-top:2px">cm</div>'+
-  '</div>'+
-
-  '<div style="background:rgba(0,0,0,0.1);border-radius:12px;padding:8px 4px;display:flex;align-items:center;justify-content:center">'+
-  '<div style="font-size:11px;color:var(--dim);text-align:center;line-height:2">→<br>+'+volStMin+'%<br>↓<br>+'+volStMax+'%</div>'+
-  '</div>'+
-
-  '<div style="background:rgba(212,160,62,0.2);border:2px solid rgba(212,160,62,0.5);border-radius:12px;padding:14px 8px">'+
-  '<div style="font-size:9px;color:var(--gold);margin-bottom:4px;line-height:1.3;font-family:DM Mono,monospace;letter-spacing:1px">STAGLI TRA</div>'+
-  '<div style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+h_st_min+'–'+h_st_max+'</div>'+
-  '<div style="font-size:11px;color:var(--gold);margin-top:2px">cm di altezza</div>'+
-  '</div>'+
-  '</div>'+
-
-  '<div style="font-size:11px;color:var(--dim);line-height:1.7;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px">'+
-  '📏 <strong style="color:var(--cream)">Come usarlo:</strong> segna con un pennarello l\'altezza '+h_inizio+'cm sul contenitore appena metti in cella. '+
-  'Quando l\'impasto raggiunge <strong style="color:var(--gold2)">'+h_st_min+'–'+h_st_max+'cm</strong> è il momento di stagliare. '+
-  'Non aspettare l\'orologio — usa la linea.<br>'+
-  '<span style="color:var(--dim);font-size:10px">Formula: h_staglio = h_inizio × (1 + V%) · '+geoInfo+' · densità '+densita+'g/ml · peso '+pesoKg+'kg</span>'+
-  '</div>'+
-  '</div>'
-  : (pesoKg > 0 ? '<div style="color:var(--dim);font-size:11px;padding:8px;text-align:center">Inserisci le dimensioni contenitore per il calcolo altezza staglio</div>' : ''))+
-
-  // TIMELINE
-  tl([
-    [Hh(oraFine), '💪 S&F × 2 — '+nomeTipo+(pesoKg>0?' · '+pesoKg+'kg':''),
-      tUsc+'°C uscita Esmach'+(phPost>0?' · pH post-imp. '+phPost:'')],
-    ...(h_punt_amb > 0 ? [[Hh(oraFine), '🌡️ Puntata T ambiente '+tAmb+'°C per '+hToStr(h_punt_amb),
-      'Cella alle '+Hh(oraInCella)+' — controlla ogni 30min · non coprire ermeticamente']] : []),
-    [Hh(oraInCella), '❄️ ENTRA IN CELLA '+tCella+'°C — '+hToStr(h_cella),
-      (geoValido?'Segna altezza '+h_inizio+'cm sul contenitore':'')+(geoValido?' — esci quando raggiunge '+h_st_min+'–'+h_st_max+'cm':'esce alle '+Hh(oraFuoriC))],
-    [Hh(oraFuoriC), '🌡️ FUORI CELLA — appretto 30min esatti',
-      'A T ambiente '+tAmb+'°C · panetti si distendono · non di più'],
-    [Hh(oraStag), '✂️ STAGLIO a '+(geoValido?h_st_min+'–'+h_st_max+'cm (+'+volStMin+'–'+volStMax+'%)':'+'+volStMin+'–'+volStMax+'% volume'),
-      nomeTipo+' · vol. stimato +'+volTot+'%'+(phPost>0?' · corretto pH '+phPost:'')],
-  ])+
-
-  // NOTE SCIENTIFICHE
-  '<div style="font-size:10px;color:var(--dim);line-height:1.7;margin-top:8px;padding:8px 10px;background:rgba(0,0,0,0.15);border-radius:8px">'+
-  '⚗️ <strong style="color:var(--cream)">Modello:</strong> '+
-  'h_punt_amb = (T_usc−'+tUscOtt+'°C)×20min/°C (Cauvain 2015) · '+
-  'vol = Σ(e^(μ(T)×h)−1) amb+cella · '+
-  (phPost>0?'f(pH '+phPost+')='+fPH+' (Hamad &amp; Fields 1979) · ':'')+
-  'Q10=2.2 · μ₂₂='+mu22+'h⁻¹'+
-  (geoValido?' · h=V_imp/A (geometria '+forma+')':'')+
-  '</div>';
+    // Azioni
+    +'<div style="background:rgba(16,32,96,0.22);border:1.5px solid rgba(91,155,213,0.4);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:10px">⚡ Cosa fare adesso</div>'
+    +azioni.map(function(a,i){return '<div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)">'
+      +'<div style="min-width:20px;height:20px;border-radius:50%;background:rgba(91,155,213,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#5B9BD5;flex-shrink:0;margin-top:1px">'+(i+1)+'</div>'
+      +'<div style="font-size:12px;color:var(--cream);line-height:1.6">'+a+'</div></div>';}).join('')
+    +'</div>';
 }
 
 // G' stima qualitativa (non numerica) per chiarezza operativa
@@ -7072,7 +7406,6 @@ function calcAll(){
   try{calcRomana();}catch(e){}
   try{calcNapoFrigo();}catch(e){}
   try{calcPala48h();}catch(e){}
-  try{calcPostImpasto();}catch(e){}
   try{calcImpastoAdesso();}catch(e){}
   try{calcPhBiga();}catch(e){}
   try{calcDDT();}catch(e){}
