@@ -6129,7 +6129,9 @@ function calcPala48h(){
   var pale    = Math.floor(pesoImp / gr);
 
   // ── MODELLO SCIENTIFICO ──
-  var k20 = 0.018; var Q10 = 2.5;
+  // k20 = tasso proteolisi a 20°C (Weegels & Hamer 1996, JCS)
+  // Q10 proteasi grano = 1.8 (Weegels et al. 1994) — NON 2.5 (quello è batteri lattici)
+  var k20 = 0.018; var Q10 = 1.8;
   var k4  = k20 * Math.pow(Q10, (4-20)/10);
   var k22 = k20 * Math.pow(Q10, (22-20)/10);
 
@@ -7256,22 +7258,63 @@ function calcPiano(){
   else if(tUsc <= 28){ tSem='warn'; tIco='🟠'; tTxt=tUsc+'°C — troppo alta'; }
   else { tSem='bad'; tIco='🔴'; tTxt=tUsc+'°C — critica · piano marmo'; }
 
+  // ── CALCOLO CONTENITORI ──
+  // Piacca totale = farina + acqua (IDR%) + sale (2.8%) + licoli (licPct%)
+  // Il licoli porta già la sua acqua dentro — non la ricalcoliamo separata
+  var kgPiacca    = Rl(kgFar * (1 + cfg.idr/100 + 0.028), 1);
+  var nGN         = Math.floor(kgPiacca / pGN.peso);      // contenitori pieni
+  var avanzo      = Rl(kgPiacca - nGN * pGN.peso, 1);     // kg che avanzano
+  var nGNtot      = avanzo >= (pGN.peso * 0.5) ? nGN + 1 : nGN; // se avanza >50% peso → un GN in meno pieno
+  var kgUltimo    = avanzo >= (pGN.peso * 0.5) ? avanzo : 0;
+  var avanzoNote  = '';
+  if(avanzo > 0 && avanzo < pGN.peso * 0.5){
+    // Avanzo piccolo — da distribuire nei GN esistenti
+    var extraPerGN = Rl(avanzo / nGN, 2);
+    avanzoNote = 'Avanzano '+avanzo+'kg — aggiungi '+extraPerGN+'kg a ogni GN (restano nei limiti reologici)';
+  } else if(avanzo >= pGN.peso * 0.5){
+    avanzoNote = 'Ultimo GN con '+kgUltimo+'kg (puntata identica — h_inizio più bassa)';
+  }
+
   // ══ OUTPUT HTML ══
   var html = '';
 
-  // 1. BOX PESO GN1/1 — GRANDE
+  // 1. BOX PESO GN1/1 + CONTEGGIO CONTENITORI
   html += '<div style="background:rgba(212,160,62,0.18);border:2.5px solid rgba(212,160,62,0.65);border-radius:16px;padding:16px;margin-bottom:12px">'
-    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">📦 Peso per GN1/1 530×325×200</div>'
-    +'<div style="display:flex;align-items:center;gap:16px">'
-    +'<div style="text-align:center">'
-    +'<div style="font-size:64px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+pGN.peso+'</div>'
-    +'<div style="font-size:16px;font-weight:700;color:var(--gold)">kg</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">📦 GN1/1 530×325×200 — peso e contenitori</div>'
+
+    // Riga principale: peso + numero GN affiancati
+    +'<div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-bottom:12px">'
+
+    // Peso per GN
+    +'<div style="text-align:center;padding:12px 16px;background:rgba(0,0,0,0.25);border-radius:12px">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px;font-family:DM Mono,monospace;letter-spacing:1px">PER OGNI GN</div>'
+    +'<div style="font-size:56px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+pGN.peso+'</div>'
+    +'<div style="font-size:14px;font-weight:700;color:var(--gold)">kg</div>'
     +'</div>'
-    +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.9">'
-    +'<div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px">GN1/1 · puntata '+hTs(hDisp)+'</div>'
-    +'📏 h_inizio contenitore: <strong style="color:var(--cream)">'+pGN.hInizio+'cm</strong><br>'
+
+    // Numero GN dalla piacca
+    +'<div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace;letter-spacing:1px">DA '+kgFar+'kg FARINA (piacca ~'+kgPiacca+'kg)</div>'
+    +'<div style="display:flex;align-items:baseline;gap:8px">'
+    +'<div style="font-size:56px;font-weight:900;font-family:DM Mono,monospace;color:#BBDEFB;line-height:1">'+nGN+'</div>'
+    +'<div style="font-size:18px;font-weight:700;color:#5B9BD5">GN pieni</div>'
+    +'</div>'
+    +(avanzo > 0
+      ? '<div style="font-size:12px;color:'+(avanzo >= pGN.peso*0.5 ? '#BBDEFB' : '#F0CC5A')+';margin-top:4px;font-weight:600">'
+        +(avanzo >= pGN.peso*0.5
+          ? '+ 1 GN con '+kgUltimo+'kg'
+          : '+ '+avanzo+'kg avanzo')
+        +'</div>'
+      : '<div style="font-size:12px;color:#A5D6A7;margin-top:4px">✅ Piacca distribuita perfettamente</div>')
+    +'</div>'
+    +'</div>'
+
+    // Riga dettagli
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--dim);line-height:1.7">'
+    +'📏 h_inizio: <strong style="color:var(--cream)">'+pGN.hInizio+'cm</strong> per contenitore pieno · '
     +'<span style="color:var(--dim);font-size:10px">'+pGN.note+'</span>'
-    +'</div></div>'
+    +(avanzoNote ? '<br>⚖️ <strong style="color:#F0CC5A">'+avanzoNote+'</strong>' : '')
+    +'</div>'
     +'</div>';
 
   // 2. LIEVITANTE
@@ -8310,7 +8353,7 @@ function calcPostPiano(){
   var Q10=2.2, mu22, volMin, volMax, nome;
   if(tipo==='teglia'){     mu22=0.042;volMin=60;volMax=80; nome='Teglia';}
   else if(tipo==='pala48'){mu22=0.049;volMin=25;volMax=40; nome='Pala 48h';}
-  else if(tipo==='tonda'){ mu22=0.075;volMin=20;volMax=35; nome='Tonda';}
+  else if(tipo==='tonda'){ mu22=0.058;volMin=20;volMax=35; nome='Tonda';} // W180 farina debole → μ₂₂ ridotto (Gänzle 2012)
   else{                    mu22=0.049;volMin=45;volMax=65; nome='Napoletana';}
   var volTgt = Math.round((volMin+volMax)/2);
 
