@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Pizza Lab · Matteo La Spada</title>
+<style>
+:root{
+  --bg:#0E1A0E; --bg2:#141F14; --card:#1A2A1A;
+  --border:rgba(255,255,255,0.08);
+  --cream:#F0E6D0; --dim:#7A8A7A;
+  --gold:#C8A84B; --gold2:#F0CC5A;
+  --green:#4CAF7D; --red:#E53935; --blue:#5B9BD5;
+  --mono:'DM Mono','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding-bottom:60px;}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0E1A0E,#1A2E1A);border-bottom:1px solid var(--border);padding:14px 16px 10px;position:sticky;top:0;z-index:100;}
+.hdr-title{font-size:22px;font-weight:900;letter-spacing:-0.5px;}
+.hdr-title span{color:var(--gold2);}
+.hdr-sub{font-size:10px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;margin-top:2px;}
+.prog{display:flex;gap:5px;margin-top:12px;}
+.prog-dot{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);cursor:pointer;transition:background .3s;}
+.prog-dot.on{background:var(--gold2);}
+.prog-dot.done{background:var(--green);}
+
+/* CARDS */
+.cards{padding:14px;display:flex;flex-direction:column;gap:12px;}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.card.active{border-color:rgba(200,168,75,0.5);}
+.card-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
+.card-ico{font-size:20px;}
+.card-info{flex:1;}
+.card-lbl{font-size:9px;color:var(--dim);font-family:var(--mono);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+.card-ttl{font-size:15px;font-weight:700;}
+.chev{font-size:16px;color:var(--dim);transition:transform .2s;}
+.card.open .chev{transform:rotate(180deg);}
+.card-body{padding:0 16px 16px;display:none;}
+.card.open .card-body{display:block;}
+
+/* INPUTS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.ig{display:flex;flex-direction:column;gap:4px;}
+.il{font-size:9px;color:var(--dim);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;}
+.iw{display:flex;align-items:center;gap:6px;}
+.inp{flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--cream);font-size:22px;font-weight:700;padding:10px 12px;width:100%;outline:none;-webkit-appearance:none;transition:border-color .2s;}
+.inp:focus{border-color:rgba(200,168,75,0.6);}
+.inp.big{font-size:32px;font-weight:900;}
+.inp.gold{color:var(--gold2);}
+.inp.red{color:#FFCDD2;}
+.inp.grn{color:#A5D6A7;}
+.inp.blu{color:#BBDEFB;}
+.iu{font-size:12px;color:var(--dim);min-width:24px;}
+select.inp{font-size:14px;font-weight:600;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A8A7A' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+
+/* TOGGLE */
+.tg{display:flex;gap:6px;margin-bottom:12px;}
+.tb{flex:1;padding:10px 4px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.2);color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.tb.on{background:rgba(200,168,75,0.2);border-color:rgba(200,168,75,0.6);color:var(--gold2);}
+
+/* BOXES */
+.bx{border-radius:12px;padding:14px;margin-bottom:10px;}
+.bx-g{background:rgba(212,160,62,0.12);border:2px solid rgba(212,160,62,0.45);}
+.bx-gr{background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.40);}
+.bx-b{background:rgba(91,155,213,0.12);border:2px solid rgba(91,155,213,0.35);}
+.bx-d{background:rgba(0,0,0,0.25);border:1px solid var(--border);}
+.bx-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+
+/* NUMBERS */
+.n52{font-family:var(--mono);font-weight:900;font-size:52px;line-height:1;}
+.n32{font-family:var(--mono);font-weight:900;font-size:32px;line-height:1;}
+.n20{font-family:var(--mono);font-weight:900;font-size:20px;line-height:1;}
+
+/* SCORPORO */
+.sr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;}
+.sr:last-child{border:none;}
+.sr.tot{border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);padding:6px 0;margin:2px 0;}
+.sk{color:var(--dim);}
+.sv{font-weight:700;}
+
+/* STEP */
+.step{border-radius:12px;padding:11px 13px;margin-bottom:7px;border:1.5px solid var(--border);background:rgba(0,0,0,0.08);}
+.step.nxt{background:rgba(200,168,75,0.10);border-color:rgba(200,168,75,0.5);}
+.step.dn{opacity:.4;}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.so{font-family:var(--mono);font-size:15px;font-weight:700;}
+.sc{font-size:10px;font-weight:600;margin-left:auto;}
+.st{font-size:13px;font-weight:700;margin-bottom:3px;}
+.sd{font-size:11px;color:var(--dim);line-height:1.55;}
+
+/* SEM BAR */
+.semb{display:flex;gap:4px;margin-top:8px;}
+.segs{flex:1;border-radius:6px;padding:5px 3px;text-align:center;font-size:9px;color:var(--dim);line-height:1.3;white-space:pre-line;}
+
+.ph{color:var(--dim);text-align:center;padding:20px;font-size:13px;}
+.sep{border-top:1px solid var(--border);padding-top:10px;margin-top:4px;}
+.slbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-title">Pizza <span>Lab</span></div>
+  <div class="hdr-sub">Matteo La Spada · Sistema Scientifico</div>
+  <div class="prog">
+    <div class="prog-dot on" id="p1" onclick="go('c1')"></div>
+    <div class="prog-dot"    id="p2" onclick="go('c2')"></div>
+    <div class="prog-dot"    id="p3" onclick="go('c3')"></div>
+  </div>
+</div>
+
+<div class="cards">
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- CARD 1 · PRIMA DI IMPASTARE                     -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="card open active" id="c1">
+  <div class="card-hdr" onclick="tog('c1')">
+    <div class="card-ico">🌾</div>
+    <div class="card-info">
+      <div class="card-lbl">Fase 1 · Prima di impastare</div>
+      <div class="card-ttl">pH biga + licoli → lievitante · acqua · sale</div>
+    </div>
+    <div class="chev">▾</div>
+  </div>
+  <div class="card-body">
+
+    <div class="g2">
+      <div class="ig">
+        <div class="il">⏰ Ora inizio impasto</div>
+        <div class="iw"><input class="inp big gold" id="c1_ora" type="number" value="10" min="0" max="23" step="0.5" oninput="c1calc()"><span class="iu">h</span></div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:#A5D6A7">✂️ Ora staglio</div>
+        <div class="iw"><input class="inp big grn" id="c1_stag" type="number" value="15.5" min="0" max="26" step="0.5" oninput="c1calc()"><span class="iu">h</span></div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:var(--gold2)">🔬 pH biga</div>
+        <div class="iw"><input class="inp big gold" id="c1_phB" type="number" value="" min="4.0" max="6.5" step="0.05" placeholder="5.35" oninput="c1calc()"><span class="iu">pH</span></div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:#A5D6A7">🌿 pH licoli</div>
+        <div class="iw"><input class="inp big grn" id="c1_phL" type="number" value="4.0" min="3.0" max="5.0" step="0.1" oninput="c1calc()"><span class="iu">pH</span></div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="ig">
+        <div class="il">🌾 Kg rinfresco</div>
+        <div class="iw"><input class="inp blu" id="c1_kgR" type="number" value="15" min="1" max="150" step="0.5" oninput="c1calc()"><span class="iu">kg</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">IDR %</div>
+        <div class="iw"><input class="inp" id="c1_idr" type="number" value="70" min="60" max="85" step="1" oninput="c1calc()"><span class="iu">%</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">🌡️ T lab °C</div>
+        <div class="iw"><input class="inp" id="c1_tAmb" type="number" value="22" min="16" max="32" oninput="c1calc()"><span class="iu">°C</span></div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="ig">
+        <div class="il">% biga</div>
+        <div class="iw"><input class="inp" id="c1_bigaPct" type="number" value="50" min="20" max="70" step="5" oninput="c1calc()"><span class="iu">%</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">🧂 Sale %</div>
+        <div class="iw"><input class="inp" id="c1_sale" type="number" value="2.8" min="1.8" max="3.5" step="0.1" oninput="c1calc()"><span class="iu">%</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">💧 Autolisi %</div>
+        <div class="iw"><input class="inp" id="c1_aut" type="number" value="65" min="60" max="70" step="1" oninput="c1calc()"><span class="iu">%</span></div>
+        <div style="font-size:9px;color:var(--dim);margin-top:2px">60–70% · Suas 2009</div>
+      </div>
+      <div class="ig">
+        <div class="il">Tipo</div>
+        <select class="inp" id="c1_tipo" onchange="c1tipo()">
+          <option value="napo">👑 Napoletana</option>
+          <option value="teglia">🫓 Teglia</option>
+          <option value="pala48">🏅 Pala 48h</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="il" style="margin-bottom:6px">Lievitante</div>
+    <div class="tg">
+      <div class="tb on" id="tb_lic" onclick="setLiev('licoli')">🌿 Solo licoli</div>
+      <div class="tb"    id="tb_ldb" onclick="setLiev('ldb')">🍺 Solo LdB</div>
+      <div class="tb"    id="tb_mix" onclick="setLiev('mix')">⚡ Licoli+LdB</div>
+    </div>
+    <input type="hidden" id="c1_liev" value="licoli">
+
+    <div id="out1"><div class="ph">Inserisci pH biga → piano completo</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- CARD 2 · IMPASTO FINITO → GN + CELLA            -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="card" id="c2">
+  <div class="card-hdr" onclick="tog('c2')">
+    <div class="card-ico">✅</div>
+    <div class="card-info">
+      <div class="card-lbl">Fase 2 · Impasto finito</div>
+      <div class="card-ttl">Piacca + T + pH → GN · contenitori · cella</div>
+    </div>
+    <div class="chev">▾</div>
+  </div>
+  <div class="card-body">
+
+    <div class="g2">
+      <div class="ig">
+        <div class="il">⏰ Ora fine impasto</div>
+        <div class="iw"><input class="inp big gold" id="c2_oraF" type="number" value="11" min="0" max="23" step="0.5" oninput="c2calc()"><span class="iu">h</span></div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:#FFCDD2">🌡️ T uscita Esmach</div>
+        <div class="iw"><input class="inp big red" id="c2_tUsc" type="number" value="" min="16" max="32" step="0.5" placeholder="23" oninput="c2calc()"><span class="iu">°C</span></div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:var(--gold2)">🔬 pH impasto finito</div>
+        <div class="iw"><input class="inp big gold" id="c2_phI" type="number" value="" min="4.0" max="6.5" step="0.05" placeholder="5.60" oninput="c2calc()"><span class="iu">pH</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">⚖️ Piacca totale</div>
+        <div class="iw"><input class="inp big blu" id="c2_piacca" type="number" value="" min="1" max="500" step="0.5" placeholder="52" oninput="c2calc()"><span class="iu">kg</span></div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="ig">
+        <div class="il" style="color:#A5D6A7">✂️ Ora staglio</div>
+        <div class="iw"><input class="inp grn" id="c2_stag" type="number" value="15.5" min="0" max="26" step="0.5" oninput="c2calc()"><span class="iu">h</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">🌡️ T laboratorio</div>
+        <div class="iw"><input class="inp" id="c2_tAmb" type="number" value="22" min="16" max="32" oninput="c2calc()"><span class="iu">°C</span></div>
+      </div>
+    </div>
+
+    <!-- Contenitore -->
+    <div class="ig" style="margin-bottom:10px">
+      <div class="il">📦 Contenitore</div>
+      <select class="inp" id="c2_gn" onchange="c2gnChange()">
+        <option value="def">GN1/1 530×325 h200 (default)</option>
+        <option value="custom">Personalizzato</option>
+      </select>
+    </div>
+    <div id="c2_custom" style="display:none" class="g3">
+      <div class="ig"><div class="il">Lung. cm</div><div class="iw"><input class="inp" id="c2_L" type="number" value="53" oninput="c2calc()"><span class="iu">cm</span></div></div>
+      <div class="ig"><div class="il">Larg. cm</div><div class="iw"><input class="inp" id="c2_W" type="number" value="32.5" oninput="c2calc()"><span class="iu">cm</span></div></div>
+      <div class="ig"><div class="il">Alt. cm</div><div class="iw"><input class="inp" id="c2_H" type="number" value="20" oninput="c2calc()"><span class="iu">cm</span></div></div>
+    </div>
+
+    <div id="out2"><div class="ph">Inserisci T uscita → piano completo</div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- CARD 3 · PRIMA DELLO STAGLIO                    -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="card" id="c3">
+  <div class="card-hdr" onclick="tog('c3')">
+    <div class="card-ico">✂️</div>
+    <div class="card-info">
+      <div class="card-lbl">Fase 3 · Prima dello staglio</div>
+      <div class="card-ttl">pH + T impasto → cella · timing · azione</div>
+    </div>
+    <div class="chev">▾</div>
+  </div>
+  <div class="card-body">
+
+    <div class="g2">
+      <div class="ig">
+        <div class="il" style="color:var(--gold2)">🔬 pH impasto</div>
+        <div class="iw"><input class="inp big gold" id="c3_ph" type="number" value="" min="4.0" max="6.5" step="0.05" placeholder="5.15" oninput="c3calc()"><span class="iu">pH</span></div>
+        <div style="font-size:9px;color:var(--dim);margin-top:2px">sul pezzo intero nel GN</div>
+      </div>
+      <div class="ig">
+        <div class="il" style="color:#BBDEFB">🌡️ T impasto</div>
+        <div class="iw"><input class="inp big blu" id="c3_t" type="number" value="" min="2" max="28" step="0.5" placeholder="14" oninput="c3calc()"><span class="iu">°C</span></div>
+        <div style="font-size:9px;color:var(--dim);margin-top:2px">sonda nel cuore</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="ig">
+        <div class="il">⏰ Ora staglio</div>
+        <div class="iw"><input class="inp" id="c3_ora" type="number" value="15.5" min="0" max="26" step="0.5" oninput="c3calc()"><span class="iu">h</span></div>
+      </div>
+      <div class="ig">
+        <div class="il">Tipo</div>
+        <select class="inp" id="c3_tipo" onchange="c3calc()">
+          <option value="napo">👑 Napoletana</option>
+          <option value="teglia">🫓 Teglia</option>
+          <option value="pala48">🏅 Pala 48h</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="out3"><div class="ph">Inserisci pH o T impasto → diagnosi</div></div>
+  </div>
+</div>
+
+</div><!-- .cards -->
+
+<script>
+// ══════════ UTILS ══════════
+var G=function(i){return document.getElementById(i);};
+function Gv(i,d){var e=G(i);return e?(parseFloat(e.value)||d||0):(d||0);}
+function Gs(i,d){var e=G(i);return e?(e.value||d||''):(d||'');}
+function Rl(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
+function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+function hTs(h){var t=Math.round(h*60);if(t<=0)return '—';var hh=Math.floor(t/60),mm=t%60;return hh>0?(hh+'h'+(mm?' '+mm+'min':'')):mm+'min';}
+function nowH(){var n=new Date();return n.getHours()+n.getMinutes()/60;}
+function cntD(ot){
+  var m=Math.round((ot-nowH())*60);
+  if(m<-720)m+=1440;
+  if(m<-5) return{t:'✓',c:'dn'};
+  if(m<=2)  return{t:'⚡ ADESSO',c:'nxt'};
+  if(m<60)  return{t:'tra '+m+'min',c:'nxt'};
+  return{t:'tra '+Math.floor(m/60)+'h'+(m%60?'+'+m%60+'min':''),c:''};
+}
+
+// ══════════ PROGRESS ══════════
+function updProg(){
+  ['1','2','3'].forEach(function(n){
+    var p=G('p'+n),c=G('c'+n);if(!p||!c)return;
+    p.className='prog-dot';
+    if(c.classList.contains('active'))p.classList.add('on');
+  });
+}
+function go(id){var c=G(id);if(!c)return;c.scrollIntoView({behavior:'smooth',block:'start'});if(!c.classList.contains('open'))c.classList.add('open');}
+function tog(id){var c=G(id);if(!c)return;c.classList.toggle('open');}
+
+// ══════════ TIPO CONFIG ══════════
+var CFG={
+  napo:  {idr:70,bigaPct:50,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  teglia:{idr:78,bigaPct:50,idrB:0.45,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
+  pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
+};
+
+function c1tipo(){
+  var cfg=CFG[Gs('c1_tipo','napo')];
+  G('c1_idr').value=cfg.idr;
+  G('c1_bigaPct').value=cfg.bigaPct;
+  G('c1_sale').value=cfg.sale;
+  c1calc();
+}
+
+// ══════════ LIEVITANTE TOGGLE ══════════
+function setLiev(v){
+  G('c1_liev').value=v;
+  ['lic','ldb','mix'].forEach(function(k){G('tb_'+k).classList.remove('on');});
+  var m={licoli:'lic',ldb:'ldb',mix:'mix'};
+  G('tb_'+m[v]).classList.add('on');
+  c1calc();
+}
+
+// ══════════ CONTENITORE CUSTOM ══════════
+function c2gnChange(){
+  G('c2_custom').style.display=G('c2_gn').value==='custom'?'grid':'none';
+  c2calc();
+}
+
+// ══════════════════════════════════════════════════════════
+// MODELLO PESO GN — Dobraszczyk & Morgenstern 2003
+// P = ρ × g × h  [Pa]  stress idrostatico sulla maglia
+// Soglia nominale 450 Pa → h=4.0cm → 8.0kg (T22°C, pH picco, puntata 4.5h)
+//
+// corrT: proteolisi enzimatica accelera con T (Weegels 1994, Q10=1.8)
+//         T alta → maglia più debole → regge meno → P scende → meno peso
+//
+// corrPH: pH impasto → stima durata puntata effettiva (Hamad & Fields 1979)
+//         pH alto (biga acerba) → fermentazione lenta → impasto sotto
+//         stress più a lungo → P scende → meno peso
+//         Ogni 0.1 pH sopra 5.50 ≈ +8% tempo fermentazione
+// ══════════════════════════════════════════════════════════
+function pesoGN(tUsc, phImp, tAmb){
+  var AREA=53*32.5, rho=1150, g=9.81, Pb=450;
+  var tR=tUsc>0?tUsc:(tAmb>0?tAmb:22);
+  var cT=tR>=28?-80:tR>=26?-50:tR>=24?-25:tR<=18?+30:tR<=20?+15:0;
+  var cP=0;
+  if(phImp>0){
+    cP=phImp>=5.80?-80:phImp>=5.70?-60:phImp>=5.60?-40:
+       phImp>=5.45?-15:phImp>=5.20?0:phImp>=5.00?+20:+40;
+  }
+  var Pe=Math.max(250,Math.min(650,Pb+cT+cP));
+  var h=Math.round((Pe/(rho*g))*100*10)/10;
+  var p=Math.round((h*AREA*1.15/1000)*2)/2;
+  p=Math.min(24,Math.max(3,p));
+  var note='P='+Pe+'Pa · h='+h+'cm';
+  if(cT) note+=' · T'+tR+'°C→'+(cT>0?'+':'')+cT+'Pa';
+  if(cP) note+=' · pH'+phImp+'→'+(cP>0?'+':'')+cP+'Pa';
+  return{peso:p,h:h,Pe:Pe,note:note};
+}
+
+// ══════════════════════════════════════════════════════════
+// CARD 1 — LIEVITANTE + ACQUA + SALE
+// ══════════════════════════════════════════════════════════
+function c1calc(){
+  var out=G('out1');if(!out)return;
+  var ora=Gv('c1_ora',10), stag=Gv('c1_stag',15.5);
+  var phB=Gv('c1_phB',0), phL=Gv('c1_phL',4.0);
+  var kgR=Gv('c1_kgR',15), idr=Gv('c1_idr',70);
+  var tAmb=Gv('c1_tAmb',22), bigaPct=Gv('c1_bigaPct',50);
+  var sale=Gv('c1_sale',2.8);
+  var tipo=Gs('c1_tipo','napo'), liev=Gs('c1_liev','licoli');
+  var cfg=CFG[tipo];
+
+  if(!phB){out.innerHTML='<div class="ph">Inserisci il pH biga → piano lievitante completo</div>';return;}
+
+  var hDisp=stag>ora?stag-ora:(stag+24)-ora;
+  var hPunt=Math.max(0.5,hDisp-0.5);
+
+  // ── LICOLI % (Gänzle 2012 + De Vuyst 2005)
+  // Base: ore disponibili (puntata lunga = biga recupera = meno licoli)
+  var licBase=hPunt>=5.5?10:hPunt>=4.5?11:hPunt>=3.5?12:hPunt>=2.5?13:14;
+  // Corr pH biga: acerba → più lenta → +licoli
+  var cPHb=phB>=5.75?+3:phB>=5.65?+2:phB>=5.55?+1:phB>=5.45?0:phB<5.00?-2:0;
+  // Corr pH licoli: acido → lieviti inibiti → +licoli
+  var cPHL=phL<3.6?+2:phL<3.8?+1:phL>4.4?-1:0;
+  var licPct=Math.max(8,Math.min(16,licBase+cPHb+cPHL));
+  // Licoli = farina + acqua al 100% idratazione (50% farina, 50% acqua)
+  var licG   = Math.round(kgR*licPct/100*1000);  // grammi licoli totali
+  var licFar = Math.round(licG*0.5);              // farina nel licoli (da sottrarre al rinfresco)
+  var licAcq = Math.round(licG*0.5);              // acqua nel licoli (da sottrarre all'acqua)
+  // Farina rinfresco NETTA (quella da pesare effettivamente)
+  var kgRnetto = Rl(kgR - licFar/1000, 3);
+
+  // ── LdB FRESCO (Gänzle 2012)
+  var muT=cfg.mu22*Math.pow(cfg.Q10,(tAmb-22)/10);
+  var volTgt=(cfg.vMin+cfg.vMax)/2/100;
+  var phBoost=phB>=5.65?1.35:phB>=5.45?1.15:1.0;
+  var kLic=Math.max(0,1-(licPct/100)*0.6);
+  var ldbRaw=(Math.log(volTgt+1)/(muT*hPunt))*phBoost*kLic;
+  var ldbPct=Rl(Math.min(0.20,Math.max(0.05,ldbRaw)),3);
+  var ldbG=Rl(kgR*ldbPct/100*1000,1);
+
+  // ── SCORPORO ACQUA
+  // % autolisi (default 65%, range 60-70% — Suas 2009, Cauvain 2015)
+  var pctAut = Gv('c1_aut',65)/100;
+  var kgTot  = Rl(kgR*(1+bigaPct/(100-bigaPct)),2);
+  var acqTot = Math.round(kgTot*idr/100*1000);
+  var acqBiga= Math.round(kgR*(bigaPct/(100-bigaPct))*cfg.idrB*1000);
+  var acqLic = (liev==='ldb'?0:licAcq);
+  var acqDisp= acqTot-acqBiga-acqLic;
+  var acqAut = Math.round(acqDisp*pctAut);
+  var acqBass= acqDisp-acqAut;
+  var tAcq   = Rl(cfg.DDT*3-18-tAmb-7.8,1);
+  var saleG  = Math.round(kgTot*sale/100*1000);
+
+  // ── pH IMPASTO STIMATO
+  var phImpEst=Rl(phB*(bigaPct/100)+6.0*((100-bigaPct)/100)-(licPct/100)*(4.5-phL)*0.8,2);
+
+  // ── SEMAFORO pH BIGA
+  var pC,pI,pT,pS;
+  if(phB>=5.65){pC='150,20,20';pI='🔴';pT='Biga molto acerba';pS='Fermentazione lenta · licoli aumentato';}
+  else if(phB>cfg.phOkMax){pC='140,60,0';pI='🟠';pT='Non ancora al picco';pS='Aspetta oppure inizia ora con lievitante compensato';}
+  else if(phB>=cfg.phOkMin){pC='25,100,35';pI='✅';pT='Biga al picco — impasta adesso';pS='Momento ottimale';}
+  else if(phB>=5.00){pC='140,80,0';pI='🟡';pT='Biga al limite — impasta subito';pS='Riduci lievitante — biga quasi matura';}
+  else{pC='150,20,20';pI='🔴';pT='Biga oltre il picco';pS='Impasta immediatamente';}
+
+  var h='';
+
+  // BOX pH BIGA
+  h+='<div class="bx" style="background:rgba('+pC+',0.15);border:2px solid rgba('+pC+',0.5);margin-bottom:10px">'
+    +'<div class="bx-lbl" style="color:var(--dim)">① pH Biga</div>'
+    +'<div style="display:flex;align-items:center;gap:14px">'
+    +'<div><div class="n52" style="color:'+(phB>=cfg.phOkMin&&phB<=cfg.phOkMax?'#A5D6A7':phB>cfg.phOkMax?'#F0CC5A':'#FFCDD2')+'">'+phB+'</div></div>'
+    +'<div style="flex:1"><div style="font-size:14px;font-weight:700;margin-bottom:4px;color:'+(phB>=cfg.phOkMin&&phB<=cfg.phOkMax?'#A5D6A7':phB>cfg.phOkMax?'#F0CC5A':'#FFCDD2')+'">'+pI+' '+pT+'</div>'
+    +'<div style="font-size:11px;color:var(--dim)">'+pS+'</div></div></div>'
+    +'</div>';
+
+  // BOX LIEVITANTE
+  h+='<div class="bx bx-gr"><div class="bx-lbl" style="color:var(--green)">② Lievitante · '+cfg.nome+' · Gänzle 2012</div>';
+  // Riga pH licoli + pH impasto stimato
+  h+='<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:var(--dim)">'
+    +'🌿 Licoli pH <strong style="color:var(--cream)">'+phL+'</strong>'+(cPHL>0?' · acido (+'+cPHL+'%)':cPHL<0?' · giovane (−'+Math.abs(cPHL)+'%)':' · ottimale')
+    +' &nbsp;|&nbsp; pH impasto stimato: <strong style="color:'+(phImpEst>=5.4&&phImpEst<=5.8?'#A5D6A7':'#F0CC5A')+'">'+phImpEst+'</strong>'
+    +'</div>';
+
+  if(liev==='licoli'||liev==='mix'){
+    h+='<div class="g2" style="margin-bottom:10px">'
+      +'<div class="bx-d" style="border-radius:10px;padding:12px;text-align:center">'
+      +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Licoli % <span style="color:#A5D6A7">(su rinfresco)</span></div>'
+      +'<div class="n32" style="color:#A5D6A7">'+licPct+'%</div>'
+      +'<div style="font-size:9px;color:var(--dim);margin-top:2px">di '+Math.round(kgR*1000)+'g farina</div>'
+      +'</div>'
+      +'<div class="bx-d" style="border-radius:10px;padding:12px;text-align:center">'
+      +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Grammi licoli</div>'
+      +'<div class="n32" style="color:#A5D6A7">'+licG+'g</div>'
+      +'<div style="font-size:9px;color:var(--dim);margin-top:2px">→ porta '+licAcq+'g acqua</div>'
+      +'</div></div>';
+  }
+  if(liev==='ldb'||liev==='mix'){
+    h+='<div class="g2" style="margin-bottom:10px">'
+      +'<div class="bx-d" style="border-radius:10px;padding:12px;text-align:center">'
+      +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB fresco % <span style="color:#FFCC80">(su rinfresco)</span></div>'
+      +'<div class="n32" style="color:#FFCC80">'+ldbPct+'%</div>'
+      +'</div>'
+      +'<div class="bx-d" style="border-radius:10px;padding:12px;text-align:center">'
+      +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Grammi LdB fresco</div>'
+      +'<div class="n32" style="color:#FFCC80">'+ldbG+'g</div>'
+      +'<div style="font-size:9px;color:var(--dim);margin-top:2px">sbriciolato in autolisi</div>'
+      +'</div></div>';
+  }
+  var motNote=liev==='licoli'?'👑 Solo licoli · acido lattico → leopardatura e aromi complessi'
+    :liev==='ldb'?'🍺 Solo LdB fresco · CO₂ pura → sviluppo rapido · meno aromi'
+    :'⚡ Licoli per aromi + LdB '+ldbPct+'% per recupero fermentazione (biga acerba)';
+  h+='<div style="font-size:10px;color:var(--dim)">'+motNote+'</div></div>';
+
+  // BOX SALE + ACQUA
+  h+='<div class="bx bx-b"><div class="bx-lbl" style="color:var(--blue)">③ Sale + Acqua · scorporo</div>';
+  h+='<div style="display:flex;align-items:center;gap:12px;background:rgba(212,160,62,0.1);border:1.5px solid rgba(212,160,62,0.3);border-radius:10px;padding:10px 12px;margin-bottom:10px">'
+    +'<div style="text-align:center;min-width:60px"><div style="font-size:9px;color:var(--dim)">SALE '+sale+'%</div>'
+    +'<div class="n32" style="color:var(--gold2)">'+saleG+'g</div></div>'
+    +'<div style="font-size:11px;color:var(--dim);flex:1">Su <strong style="color:var(--cream)">'+Rl(kgTot,1)+'kg farina totale</strong> (biga+rinfresco)<br>Dopo licoli · sciogli nel bassinage 8°C</div>'
+    +'</div>';
+  // Farina netta rinfresco (sottratta la farina del licoli)
+  if(liev!=='ldb'){
+    h+='<div style="background:rgba(76,175,125,0.08);border:1px solid rgba(76,175,125,0.25);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:11px">'
+      +'🌾 Farina rinfresco da pesare: <strong style="color:#A5D6A7">'+Math.round(kgRnetto*1000)+'g</strong>'
+      +' <span style="color:var(--dim)">('+Math.round(kgR*1000)+'g − '+licFar+'g farina del licoli)</span>'
+      +'</div>';
+  }
+  h+='<div style="font-size:12px">'
+    +'<div class="sr"><span class="sk">Acqua totale IDR '+idr+'%</span><span class="sv">'+acqTot+'g</span></div>'
+    +'<div class="sr"><span class="sk">− Acqua biga (IDR '+Math.round(cfg.idrB*100)+'%)</span><span class="sv" style="color:#FFCDD2">−'+acqBiga+'g</span></div>'
+    +(liev!=='ldb'?'<div class="sr"><span class="sk">− Acqua licoli ('+licG+'g × 50%)</span><span class="sv" style="color:#FFCDD2">−'+licAcq+'g</span></div>':'')
+    +'<div class="sr tot"><span style="color:var(--green);font-weight:700">= VERSI NELL\'ESMACH</span><span style="color:var(--green);font-size:15px;font-weight:900">'+acqDisp+'g</span></div>'
+    +'<div class="sr"><span class="sk">① Autolisi '+Math.round(pctAut*100)+'% — T <strong style="color:var(--cream)">'+tAcq+'°C</strong></span><span class="sv">'+acqAut+'g</span></div>'
+    +'<div class="sr"><span class="sk">② Bassinage 8°C + '+saleG+'g sale</span><span class="sv">'+acqBass+'g</span></div>'
+    +'</div>'
+    +'<div style="margin-top:8px;font-size:9px;color:var(--dim);line-height:1.6">'
+    +'Autolisi '+Math.round(pctAut*100)+'% (60–70%): attiva proteasi senza fermentazione · W330+→65–70% · W270→60–65% (Suas 2009)<br>'
+    +'DDT '+cfg.DDT+'°C · K_attrito=7.8°C Esmach SPI-AI'
+    +'</div>'
+    +'</div>';
+
+  G('c1').classList.add('active');
+  out.innerHTML=h;
+  updProg();
+}
+
+// ══════════════════════════════════════════════════════════
+// CARD 2 — GN + CONTENITORI + CELLA
+// ══════════════════════════════════════════════════════════
+function c2calc(){
+  var out=G('out2');if(!out)return;
+  var oraF=Gv('c2_oraF',11), tUsc=Gv('c2_tUsc',0);
+  var phI=Gv('c2_phI',0), piacca=Gv('c2_piacca',0);
+  var oraS=Gv('c2_stag',15.5), tAmb=Gv('c2_tAmb',22);
+  var gnV=Gs('c2_gn','def');
+  var L=gnV==='custom'?Gv('c2_L',53):53;
+  var W=gnV==='custom'?Gv('c2_W',32.5):32.5;
+  var H=gnV==='custom'?Gv('c2_H',20):20;
+  var AREA=L*W;
+
+  if(!tUsc){out.innerHTML='<div class="ph">Inserisci la T uscita Esmach → piano completo</div>';return;}
+
+  // ── PESO GN
+  var pGN=pesoGN(tUsc,phI,tAmb);
+
+  // ── CONTEGGIO
+  var nGN=0,av=0,kgU=0;
+  if(piacca>0){
+    nGN=Math.floor(piacca/pGN.peso);
+    av=Rl(piacca-nGN*pGN.peso,1);
+    kgU=av>=pGN.peso*0.5?av:0;
+  }
+
+  // ── PIANO CELLA
+  var hDisp=oraS>oraF?oraS-oraF:(oraS+24)-oraF;
+  var tOtt=22;
+  var eccesso=Math.max(0,tUsc-tOtt);
+  var hPA=Rl(Math.min(2.5,eccesso*(20/60)),2);
+  var hCell=Rl(Math.max(0,hDisp-hPA-0.5),2);
+  var oraInC=Rl(oraF+hPA,2);
+  var oraFuori=oraS-0.5;
+
+  // T cella consigliata — Cauvain 2015
+  // Se T uscita alta → cella più fredda per rallentare subito
+  var tCella = tUsc>=26?2:tUsc>=24?3:4;
+
+  // ── SEMAFORO T
+  var tI,tC,tT,tS;
+  if(tUsc<=20){tI='🏆';tC='#A5D6A7';tT='ECCELLENTE '+tUsc+'°C';tS='Cella subito dopo S&F × 2';}
+  else if(tUsc<=23){tI='✅';tC='#A5D6A7';tT='OTTIMALE '+tUsc+'°C';tS='S&F × 2 poi cella';}
+  else if(tUsc<=25){tI='✅';tC='#A5D6A7';tT='BUONA '+tUsc+'°C';tS=hTs(hPA)+' T ambiente poi cella';}
+  else if(tUsc<=27){tI='🟡';tC='#F0CC5A';tT='ALTA '+tUsc+'°C';tS='Puntata T ambiente necessaria';}
+  else if(tUsc<=29){tI='🟠';tC='#FFCC80';tT='TROPPO ALTA '+tUsc+'°C';tS='Puntata lunga · ogni 30min';}
+  else{tI='🔴';tC='#FFCDD2';tT='CRITICA '+tUsc+'°C';tS='Piano marmo SUBITO 15min';}
+
+  var h='';
+
+  // BOX T + PESO GN
+  h+='<div class="g2" style="margin-bottom:10px">'
+    // T uscita
+    +'<div class="bx-d" style="border-radius:12px;padding:14px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);font-family:var(--mono);letter-spacing:1px;margin-bottom:4px">T USCITA</div>'
+    +'<div class="n52" style="color:'+tC+'">'+tUsc+'°</div>'
+    +'<div style="font-size:12px;font-weight:700;color:'+tC+';margin-top:4px">'+tI+' '+tT+'</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:3px">'+tS+'</div>'
+    +'</div>'
+    // Peso GN
+    +'<div class="bx bx-g" style="text-align:center">'
+    +'<div class="bx-lbl gold">📦 '+L+'×'+W+' h'+H+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">per ogni contenitore</div>'
+    +'<div class="n52" style="color:var(--gold2)">'+pGN.peso+'</div>'
+    +'<div style="font-size:14px;font-weight:700;color:var(--gold);margin-top:3px">kg</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:5px">'+pGN.note+'</div>'
+    +'</div>'
+    +'</div>';
+
+  // BOX CELLA CONSIGLIATA
+  h+='<div class="bx bx-b" style="margin-bottom:10px">'
+    +'<div class="bx-lbl" style="color:var(--blue)">❄️ Cella consigliata</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="text-align:center;min-width:80px">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px">T cella</div>'
+    +'<div class="n52" style="color:#BBDEFB">'+tCella+'°C</div>'
+    +'</div>'
+    +'<div style="font-size:11px;color:var(--dim);flex:1;line-height:1.7">'
+    +(tUsc>=26?'T uscita alta → cella a '+tCella+'°C per bloccare rapidamente la fermentazione'
+      :tUsc>=24?'T leggermente alta → cella a '+tCella+'°C'
+      :'T ottimale → cella standard 4°C')
+    +'<br>Segna <strong style="color:var(--cream)">'+pGN.h+'cm</strong> sul contenitore con nastro'
+    +'</div></div>'
+    +'</div>';
+
+  // BOX CONTENITORI (se piacca inserita)
+  if(piacca>0){
+    h+='<div class="bx bx-g" style="margin-bottom:10px">'
+      +'<div class="bx-lbl gold">📦 Contenitori da '+piacca+'kg piacca</div>'
+      +'<div style="display:flex;align-items:center;gap:12px">'
+      +'<div><div class="n52" style="color:#BBDEFB">'+nGN+'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:var(--blue);margin-top:2px">GN pieni</div></div>'
+      +'<div style="flex:1;font-size:13px">'
+      +(av>0
+        ?(kgU>0?'<div style="color:#BBDEFB;font-weight:700;margin-bottom:4px">+ 1 GN con '+kgU+'kg</div>'
+          :'<div style="color:#F0CC5A;font-weight:700;margin-bottom:4px">+ '+av+'kg → +'+Rl(av/nGN,2)+'kg a ogni GN</div>')
+        :'<div style="color:#A5D6A7;font-weight:700;margin-bottom:4px">✅ Piacca distribuita perfettamente</div>')
+      +'</div></div>'
+      +'</div>';
+  }
+
+  // BOX 4 ORARI
+  h+='<div class="bx bx-b" style="margin-bottom:10px">'
+    +'<div class="bx-lbl" style="color:var(--blue)">⏱️ Piano orari</div>'
+    +'<div class="g4">'
+    +'<div class="ora-box-i" style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px 4px;text-align:center">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Fine imp.</div>'
+    +'<div class="n20" style="color:var(--cream)">'+Hh(oraF)+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">S&F×2</div>'
+    +'</div>'
+    +(hPA>0
+      ?'<div style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.2);border-radius:10px;padding:10px 4px;text-align:center">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">T amb</div>'
+       +'<div class="n20" style="color:#F0CC5A">'+hTs(hPA)+'</div>'
+       +'<div style="font-size:9px;color:#F0CC5A;margin-top:2px">→'+Hh(oraInC)+'</div></div>'
+      :'<div style="background:rgba(13,27,75,0.3);border:1px solid rgba(91,155,213,0.15);border-radius:10px;padding:10px 4px;text-align:center">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Cella</div>'
+       +'<div class="n20" style="color:#5B9BD5;font-size:14px">subito</div></div>')
+    +'<div style="background:rgba(13,27,75,0.35);border:1px solid rgba(91,155,213,0.3);border-radius:10px;padding:10px 4px;text-align:center">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Cella '+tCella+'°C</div>'
+    +'<div class="n20" style="color:#5B9BD5">'+hTs(hCell)+'</div>'
+    +'<div style="font-size:9px;color:#5B9BD5;margin-top:2px">esce '+Hh(oraFuori)+'</div>'
+    +'</div>'
+    +'<div style="background:rgba(25,100,35,0.2);border:1px solid rgba(25,100,35,0.35);border-radius:10px;padding:10px 4px;text-align:center">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Staglio</div>'
+    +'<div class="n20" style="color:#A5D6A7">'+Hh(oraS)+'</div>'
+    +'<div style="font-size:9px;color:#A5D6A7;margin-top:2px">appretto 30min</div>'
+    +'</div></div></div>';
+
+  // GUIDA
+  h+='<div class="sep"><div class="slbl">📋 Passo per passo</div>';
+  var steps=[
+    {o:oraF,ico:'💪',t:'S&F × 2 subito',d:'2 giri stretch&fold a 15min.'+(tUsc>28?' 🧊 Piano marmo 10min PRIMA.':' Copri, non ermetico.')},
+  ];
+  if(hPA>0) steps.push({o:oraInC,ico:'❄️',t:'Cella '+tCella+'°C',d:pGN.peso+'kg per GN · h='+pGN.h+'cm · dopo '+hTs(hPA)+' T ambiente.'});
+  else steps.push({o:oraF+0.1,ico:'❄️',t:'Cella '+tCella+'°C subito',d:pGN.peso+'kg per GN · segna '+pGN.h+'cm sul contenitore.'});
+  steps.push(
+    {o:oraFuori,ico:'🌡️',t:'Fuori cella — appretto 30min',d:'T ambiente. NON di più.'},
+    {o:oraS,ico:'✂️',t:'STAGLIO',d:'Quando vedi +45–60% volume. Non solo orologio.'}
+  );
+  steps.forEach(function(s){
+    var cd=cntD(s.o);
+    var dn=cd.c==='dn',nx=cd.t==='⚡ ADESSO'||cd.c==='nxt';
+    h+='<div class="step'+(dn?' dn':nx?' nxt':'')+'">'
+      +'<div class="sh"><div class="so" style="color:'+(dn?'#555':nx?'var(--gold2)':'var(--cream)')+'">'+Hh(s.o)+'</div>'
+      +'<div class="sc" style="color:'+(dn?'#555':nx?'#F0CC5A':'var(--blue)')+'">'+cd.t+'</div></div>'
+      +'<div class="st" style="color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+'">'+s.ico+' '+s.t+'</div>'
+      +'<div class="sd" style="color:'+(dn?'#555':'var(--dim)')+'">'+s.d+'</div>'
+      +'</div>';
+  });
+  h+='</div>';
+
+  G('c2').classList.add('active');
+  out.innerHTML=h;
+  updProg();
+}
+
+// ══════════════════════════════════════════════════════════
+// CARD 3 — PRIMA DELLO STAGLIO
+// ══════════════════════════════════════════════════════════
+function c3calc(){
+  var out=G('out3');if(!out)return;
+  var ph=Gv('c3_ph',0), tI=Gv('c3_t',0);
+  var ora=Gv('c3_ora',15.5), tipo=Gs('c3_tipo','napo');
+  var cfg=CFG[tipo];
+
+  if(!ph&&!tI){out.innerHTML='<div class="ph">Inserisci pH o T → diagnosi immediata</div>';return;}
+
+  var h='';
+
+  // ── pH STAGLIO
+  if(ph>0){
+    var pC2,pI2,pT2,pA,pAC;
+    if(ph>cfg.phOkMax+0.15){pC2='150,20,20';pI2='🔴';pT2='NON stagliare — acerba';pA='Rimetti in cella 1h oppure lascia a T ambiente. Controlla ogni 20min.';pAC='#FFCDD2';}
+    else if(ph>cfg.phOkMax){pC2='140,60,0';pI2='🟠';pT2='Quasi pronta — aspetta 20min';pA='Controlla tra 20min. Non stendere ancora.';pAC='#FFCC80';}
+    else if(ph>=cfg.phOkMin){pC2='25,100,35';pI2='✅';pT2='PRONTA — stagli adesso';pA='Finestra ottimale. Appretto 15–20min poi stendi.';pAC='#A5D6A7';}
+    else if(ph>=4.90){pC2='140,80,0';pI2='🟡';pT2='pH basso — stagli veloce';pA='Appretto breve 10min max. Forno al massimo.';pAC='#F0CC5A';}
+    else{pC2='150,20,20';pI2='🔴';pT2='OLTRE IL PICCO — urgente';pA='Stendi SUBITO. Ogni minuto peggiora.';pAC='#FFCDD2';}
+
+    // T cella consigliata se non pronta
+    var tCellaCons='';
+    if(ph>cfg.phOkMax){
+      var minRitardo=Math.round((ph-cfg.phOkMax)/0.11*60); // Hamad & Fields 1979: k=0.11 pH/h
+      tCellaCons='<div style="margin-top:8px;font-size:11px;color:#BBDEFB">❄️ Se rimetti in cella: <strong style="color:var(--cream)">4°C · circa '+minRitardo+'min</strong> · poi ricontrolla pH</div>';
+    }
+
+    h+='<div class="bx" style="background:rgba('+pC2+',0.15);border:2px solid rgba('+pC2+',0.5);margin-bottom:10px">'
+      +'<div class="bx-lbl" style="color:var(--dim)">① pH allo staglio · '+cfg.nome+'</div>'
+      +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">'
+      +'<div><div class="n52" style="color:'+(pI2==='✅'?'#A5D6A7':pI2==='🟡'?'#F0CC5A':'#FFCDD2')+'">'+ph+'</div></div>'
+      +'<div style="flex:1">'
+      +'<div style="font-size:14px;font-weight:700;margin-bottom:5px;color:'+(pI2==='✅'?'#A5D6A7':pI2==='🟡'||pI2==='🟠'?'#F0CC5A':'#FFCDD2')+'">'+pI2+' '+pT2+'</div>'
+      +'<div style="font-size:12px;color:'+pAC+';font-weight:600;line-height:1.5">'+pA+'</div>'
+      +'</div></div>'
+      +tCellaCons
+      // Barra pH
+      +'<div class="semb">'
+      +[['<4.9\nOltre picco','rgba(150,20,20,0.35)','rgba(180,30,30,0.6)'],
+        ['4.9–5.0\nBasso','rgba(140,80,0,0.3)','rgba(180,110,0,0.5)'],
+        ['5.0–5.3\n✅','rgba(25,100,35,0.4)','rgba(30,140,60,0.6)'],
+        ['5.3–5.4\nAspetta','rgba(140,60,0,0.3)','rgba(180,80,0,0.5)'],
+        ['>5.4\nAcerba','rgba(150,20,20,0.3)','rgba(180,30,30,0.5)'],
+       ].map(function(s){return '<div class="segs" style="background:'+s[1]+';border:1px solid '+s[2]+'">'+s[0]+'</div>';}).join('')
+      +'</div>'
+      +'<div style="margin-top:6px;font-size:10px;color:var(--dim)">Range ottimale '+cfg.nome+': <strong style="color:var(--cream)">'+cfg.phOkMin+'–'+cfg.phOkMax+'</strong></div>'
+      +'</div>';
+  }
+
+  // ── T IMPASTO
+  if(tI>0){
+    var tI2,tC2,tT2,tA2,tA2C,fin;
+    if(tI<8){tI2='🥶';tC2='13,27,75';tT2='Troppo fredda';tA2='Aspetta 20–30min. La maglia è tesa e si strapperà.';tA2C='#BBDEFB';fin=null;}
+    else if(tI<12){tI2='❄️';tC2='13,59,100';tT2='Fredda — aspetta 15min';tA2='Ancora 12–15min a T ambiente.';tA2C='#BBDEFB';fin=null;}
+    else if(tI<=16){tI2='✅';tC2='25,100,35';tT2='TEMPERATURA PERFETTA';tA2='Stendi adesso. Maglia estensibile e gestibile.';tA2C='#A5D6A7';fin=Math.round((20-tI)*4);}
+    else if(tI<=19){tI2='🟡';tC2='140,80,0';tT2='Calda — stendi subito';tA2='Stendi SUBITO senza perdere tempo.';tA2C='#F0CC5A';fin=Math.round((20-tI)*4);}
+    else{tI2='🔴';tC2='150,20,20';tT2='TROPPO CALDA — urgente';tA2='Inforna IMMEDIATAMENTE. Hai 2–3min.';tA2C='#FFCDD2';fin=0;}
+
+    h+='<div class="bx" style="background:rgba('+tC2+',0.15);border:2px solid rgba('+tC2+',0.5);margin-bottom:10px">'
+      +'<div class="bx-lbl" style="color:var(--dim)">② T impasto · '+cfg.nome+'</div>'
+      +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">'
+      +'<div><div class="n52" style="color:'+(tI2==='✅'?'#A5D6A7':tI2==='🥶'||tI2==='❄️'?'#BBDEFB':tI2==='🟡'?'#F0CC5A':'#FFCDD2')+'">'+tI+'°</div></div>'
+      +'<div style="flex:1">'
+      +'<div style="font-size:14px;font-weight:700;margin-bottom:5px;color:'+(tI2==='✅'?'#A5D6A7':tI2==='🥶'||tI2==='❄️'?'#BBDEFB':tI2==='🟡'?'#F0CC5A':'#FFCDD2')+'">'+tI2+' '+tT2+'</div>'
+      +'<div style="font-size:12px;color:'+tA2C+';font-weight:600;line-height:1.5">'+tA2+'</div>'
+      +(fin!==null?'<div style="margin-top:6px;font-size:11px;color:var(--dim)">⏱️ Finestra cottura: <strong style="color:'+(fin<5?'#FFCDD2':fin<10?'#F0CC5A':'#A5D6A7')+'">~'+fin+' min</strong> (Dobraszczyk 2003)</div>':'')
+      +'</div></div>'
+      +'<div class="semb">'
+      +[['<8°\n🥶','rgba(13,27,75,0.5)','rgba(91,155,213,0.4)'],
+        ['8–12°\n❄️','rgba(13,59,100,0.4)','rgba(91,155,213,0.3)'],
+        ['12–16°\n✅','rgba(25,100,35,0.5)','rgba(30,150,60,0.6)'],
+        ['16–19°\n⚡','rgba(140,80,0,0.4)','rgba(200,120,0,0.5)'],
+        ['>19°\n🔴','rgba(150,20,20,0.4)','rgba(229,57,53,0.5)'],
+       ].map(function(s){return '<div class="segs" style="background:'+s[1]+';border:1px solid '+s[2]+'">'+s[0]+'</div>';}).join('')
+      +'</div>'
+      +'</div>';
+  }
+
+  // VALUTAZIONE COMBINATA
+  if(ph>0&&tI>0){
+    var okP=ph>=cfg.phOkMin&&ph<=cfg.phOkMax, okT=tI>=12&&tI<=16;
+    h+='<div class="bx '+(okP&&okT?'bx-gr':'bx-d')+'">'
+      +'<div class="bx-lbl" style="color:'+(okP&&okT?'var(--green)':'var(--dim)')+'">📊 Valutazione giornata</div>'
+      +'<div style="font-size:12px;color:var(--cream);line-height:1.7">'
+      +(okP&&okT?'✅ Giornata perfettamente calibrata. Registra questi parametri per domani.'
+        :'⚠️ '
+        +(!okP&&ph>cfg.phOkMax?'Biga acerba: prossima volta +30min impasto o +1% licoli. ':'')
+        +(!okP&&ph<cfg.phOkMin?'Biga matura: posticipa impasto 30min o −1% licoli. ':'')
+        +(!okT&&tI>16?'Pallina calda: −10min appretto o −1°C cella. ':'')
+        +(!okT&&tI<12?'Pallina fredda: +10min appretto o +1°C cella. ':''))
+      +'</div></div>';
+  }
+
+  G('c3').classList.add('active');
+  out.innerHTML=h;
+  updProg();
+}
+
+// ── INIT
+c1calc(); c2calc(); c3calc();
+</script>
+</body>
+</html>
