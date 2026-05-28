@@ -955,6 +955,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
           <div class="inp-row"><input class="inp-field" id="phIDR" type="number" value="70" min="60" max="85" step="1" oninput="calcPhBiga()"><span class="inp-unit">%</span></div>
         </div>
         <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🧂 Sale % (su farina totale)</label>
+          <div class="inp-row"><input class="inp-field" id="phSale" type="number" value="2.8" min="1.8" max="3.2" step="0.1" oninput="calcPhBiga()" style="color:var(--cream)"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
           <label class="inp-label">T laboratorio °C</label>
           <div class="inp-row"><input class="inp-field" id="phTA" type="number" value="22" min="16" max="30" oninput="calcPhBiga()"><span class="inp-unit">°C</span></div>
         </div>
@@ -1105,6 +1109,15 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
             <input class="inp-field" id="pp2_phBiga" type="number" value="" min="4.0" max="6.5" step="0.05" placeholder="es. 5.35" oninput="calcPiano()" style="font-size:28px;font-weight:900;color:var(--gold2)">
             <span class="inp-unit">pH</span>
           </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:#A5D6A7">🔬 pH impasto finito</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp2_phImp" type="number" value="" min="4.0" max="6.5" step="0.05" placeholder="es. 5.60" oninput="calcPiano()" style="font-size:28px;font-weight:900;color:#A5D6A7">
+            <span class="inp-unit">pH</span>
+          </div>
+          <div style="font-size:9px;color:var(--dim);margin-top:3px">misuri subito dopo Esmach</div>
         </div>
 
         <div class="inp-group" style="margin-bottom:0">
@@ -1393,6 +1406,93 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       <div id="postImpastoOut">
         <div style="color:var(--dim);text-align:center;padding:24px;font-size:13px">
           Inserisci T uscita Esmach e ora staglio → il piano completo appare qui sotto
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- CARD HO FINITO L'IMPASTO — 4 campi, output totale  -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="card open" id="cardFinito">
+    <div class="card-hdr" onclick="toggleCard('cardFinito')">
+      <div class="card-hdr-icon">✅</div>
+      <div class="card-hdr-text">
+        <div class="card-hdr-label">Ho Finito l'Impasto</div>
+        <div class="card-hdr-title">4 dati → GN · puntata · cella · staglio · guida completa</div>
+      </div>
+      <div class="card-chevron">▾</div>
+    </div>
+    <div class="card-body">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">⏰ Ora fine impasto</label>
+          <div class="inp-row">
+            <input class="inp-field" id="fi_oraFine" type="number" value="10" min="0" max="23" step="0.5"
+              oninput="calcFinito()" style="font-size:28px;font-weight:900;color:var(--gold2)">
+            <span class="inp-unit">h</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:#FFCDD2">🌡️ T uscita Esmach</label>
+          <div class="inp-row">
+            <input class="inp-field" id="fi_tUsc" type="number" value="" min="16" max="32" step="0.5"
+              placeholder="es. 23" oninput="calcFinito()"
+              style="font-size:32px;font-weight:900;color:#FFCDD2">
+            <span class="inp-unit">°C</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:var(--gold2)">🔬 pH impasto finito</label>
+          <div class="inp-row">
+            <input class="inp-field" id="fi_pH" type="number" value="" min="4.0" max="6.5" step="0.05"
+              placeholder="es. 5.60" oninput="calcFinito()"
+              style="font-size:32px;font-weight:900;color:var(--gold2)">
+            <span class="inp-unit">pH</span>
+          </div>
+        </div>
+
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label" style="color:#A5D6A7">✂️ Ora staglio target</label>
+          <div class="inp-row">
+            <input class="inp-field" id="fi_oraStag" type="number" value="15.5" min="0" max="26" step="0.5"
+              oninput="calcFinito()" style="font-size:28px;font-weight:900;color:#A5D6A7">
+            <span class="inp-unit">h</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tipo impasto + T ambiente in riga compatta -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">Tipo impasto</label>
+          <select class="inp-field" id="fi_tipo" style="font-size:13px;-webkit-appearance:none"
+            onchange="calcFinito()">
+            <option value="napo">👑 Napoletana Suprema</option>
+            <option value="teglia">🫓 Teglia Romana</option>
+            <option value="pala48">🏅 Pala Romana 48h</option>
+          </select>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🌡️ T laboratorio °C</label>
+          <div class="inp-row">
+            <input class="inp-field" id="fi_tAmb" type="number" value="22" min="16" max="32"
+              oninput="calcFinito()">
+            <span class="inp-unit">°C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div id="finitoOut">
+        <div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">
+          Inserisci T uscita e ora staglio → piano completo
         </div>
       </div>
 
@@ -5200,7 +5300,13 @@ function setModo(modo){
 // V_target = volume target staglio (es. 55% → 0.55)
 // k_lic = fattore riduzione per presenza licoli (0.0→1.0 = solo LdB)
 // ══════════════════════════════════════════════════════════════════
-function calcLievitante(hPuntata, T, licP, usaLdb, phBiga, muRef, volTarget){
+function calcLievitante(hPuntata, T, licP, usaLdb, phBiga, muRef, volTarget, licPH){
+  // licPH = pH del licoli (default 4.0)
+  // Influenza: pH licoli < 3.8 → licoli ipersacro, batteri prevalenti, meno lieviti attivi
+  //            pH licoli 3.8-4.2 → ottimale, equilibrio lieviti/batteri
+  //            pH licoli > 4.3 → licoli giovane, più lieviti ma meno aromi
+  // Fonte: De Vuyst & Neysens 2005, Trends Food Sci Technol
+  if(!licPH) licPH = 4.0;
   // Fonti: De Vuyst & Neysens 2005 · Gobbetti & Gänzle 2012 · Suas p.42
   // pH < 5.10 = oltre picco → RIDUCI licoli
   // pH 5.10-5.45 = ottimale → standard
@@ -5211,20 +5317,41 @@ function calcLievitante(hPuntata, T, licP, usaLdb, phBiga, muRef, volTarget){
   var h = Math.max(0.5, hPuntata);
   var result = { ldbPct:0, ldbG_per_kg:0, bigoliPct:0, bigoliG_per_kg:0, licFin:licP };
 
-  // licFin base (solo licoli)
-  var licFin;
-  if(phBiga < 4.80)       licFin = Math.max(4, licP - 6);
-  else if(phBiga < 5.00)  licFin = Math.max(5, licP - 4);
-  else if(phBiga < 5.10)  licFin = Math.max(6, licP - 2);
-  else if(phBiga <= 5.45) licFin = licP;
-  else if(phBiga <= 5.50) licFin = Math.min(22, licP + 1);
-  else if(phBiga <= 5.55) licFin = Math.min(22, licP + 2);
-  else if(phBiga <= 5.60) licFin = Math.min(22, licP + 3);
-  else if(phBiga <= 5.65) licFin = Math.min(22, licP + 4);
-  else if(phBiga <= 5.70) licFin = Math.min(22, licP + 5);
-  else if(phBiga <= 5.75) licFin = Math.min(22, licP + 6);
-  else                    licFin = Math.min(22, licP + 8);
-  result.licFin = Math.round(licFin * 10) / 10;
+  // ── licFin: lookup calibrato ore + pH (Gänzle 2012 + De Vuyst 2005) ──
+  // Principio: puntata lunga = biga recupera da sola = meno licoli
+  //            puntata breve = serve più spinta = più licoli
+  //            biga acerba   = fermentazione lenta = più licoli
+  var hDispLic = hPuntata > 0 ? hPuntata : 4.5;
+
+  // Base in funzione delle ore disponibili
+  var licBase;
+  if(hDispLic >= 5.5)      licBase = licP;       // lunga: nominale
+  else if(hDispLic >= 4.5) licBase = licP + 1;
+  else if(hDispLic >= 3.5) licBase = licP + 2;
+  else if(hDispLic >= 2.5) licBase = licP + 3;
+  else                     licBase = licP + 4;   // urgente
+
+  // Correzione pH biga
+  var corrLicPH = 0;
+  if(phBiga > 0){
+    if(phBiga >= 5.75)      corrLicPH = +3;
+    else if(phBiga >= 5.65) corrLicPH = +2;
+    else if(phBiga >= 5.55) corrLicPH = +1;
+    else if(phBiga >= 5.45) corrLicPH = 0;
+    else if(phBiga < 5.00)  corrLicPH = -2;
+  }
+
+  // Correzione pH licoli (De Vuyst & Neysens 2005)
+  // pH < 3.8 → ipersacro → lieviti inibiti → serve +1-2% per compensare
+  // pH 3.8-4.2 → ottimale → nominale
+  // pH > 4.3 → giovane → lieviti più attivi → -1%
+  var corrLicPHlic = 0;
+  if(licPH < 3.6)       corrLicPHlic = +2;
+  else if(licPH < 3.8)  corrLicPHlic = +1;
+  else if(licPH > 4.4)  corrLicPHlic = -1;
+
+  var licFin = Math.max(licP, Math.min(16, licBase + corrLicPH + corrLicPHlic));
+  result.licFin = licFin;
 
   if(usaLdb === 0) return result;
 
@@ -5326,6 +5453,7 @@ function calcPhBiga(){
   const oraOra    = parseFloat((document.getElementById('phOra')||{value:12}).value)||12;
   const oraSt     = parseFloat((document.getElementById('phStaglio')||{value:15.5}).value)||15.5;
   const kgRinf_inp= parseFloat((document.getElementById('phKg')||{value:7}).value)||7;
+  const saleP     = parseFloat((document.getElementById('phSale')||{value:2.8}).value)||2.8;
   const ta        = parseFloat((document.getElementById('phTA')||{value:22}).value)||22;
   const licP      = parseFloat((document.getElementById('phLic')||{value:10}).value)||10;
   const licPH     = parseFloat((document.getElementById('phLicPH')||{value:4.0}).value)||4.0;
@@ -5520,7 +5648,7 @@ function calcPhBiga(){
   // ── CALCOLO LIEVITANTE (Gänzle 2012) ──
   // V_target = media volStMin/volStMax / 100
   var volTgt = (cfg.volStMin + cfg.volStMax) / 2;
-  var liev   = calcLievitante(hDisp, ta, licP, usaLdb, ph, mu22, volTgt);
+  var liev   = calcLievitante(hDisp, ta, licP, usaLdb, ph, mu22, volTgt, licPH);
 
   // Override manuale se impostato dall'utente
   if(ldbOver > 0 && (usaLdb === 1 || usaLdb === 2)) liev.ldbPct = ldbOver;
@@ -5611,7 +5739,8 @@ function calcPhBiga(){
   // ── CALCOLO PESO GN1/1 h200 ──
   // Usa pH biga, T ambiente e ora staglio già disponibili in questa funzione
   var hDispBiga = oraSt > oraOra ? oraSt - oraOra : (oraSt + 24) - oraOra;
-  var pesoGN = calcPesoGN(tUsc, ph, 0, ta, hDispBiga);
+  // Per il peso GN la puntata non conta — dipende solo da T e pH
+  var pesoGN = calcPesoGN(tUsc, ph, 0, ta, 4.5);
 
   // Note T uscita
   var tUscBlock = '';
@@ -5718,11 +5847,31 @@ function calcPhBiga(){
   '</div>'+
   '</div>'+
   '<div style="font-size:12px;color:#BBDEFB;font-style:italic;margin-bottom:6px">Staglio quando vedi <strong style="color:var(--cream)">+'+cfg.volStMin+'–'+cfg.volStMax+'% volume</strong> — non seguire solo l\'orologio · appretto 30min</div>'+
-  '</div>'+
+  '</div>';
 
   // ── LIEVITANTE — SEZIONE CENTRALE OPERATIVA ──
+  // Stima pH impasto finale (De Vuyst & Neysens 2005 + Hamad & Fields 1979)
+  var phRinfresco = 6.0;
+  var bigaPctNum  = cfg.bigaPct || 50;
+  var phImpastoStimato = Rloc(
+    ph * (bigaPctNum/100) + phRinfresco * ((100-bigaPctNum)/100)
+    - (licFin/100) * (4.5 - licPH) * 0.8, 2
+  );
+  var phImpSem = phImpastoStimato >= 5.40 && phImpastoStimato <= 5.80 ? 'ok' : 'warn';
+  var phImpCol = phImpSem === 'ok' ? '#A5D6A7' : '#F0CC5A';
+  var licPHnote = licPH < 3.6 ? ' · ⚠️ ipersacro (+2% compensato)'
+    : licPH < 3.8 ? ' · ⚠️ acido (+1% compensato)'
+    : licPH > 4.3 ? ' · giovane (−1% compensato)'
+    : ' · pH ottimale';
+
+  var bloccoLiev_header =
   '<div style="background:rgba(30,90,38,0.18);border:2px solid rgba(30,90,38,0.5);border-radius:16px;padding:16px;margin-bottom:12px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#A5D6A7;text-transform:uppercase;margin-bottom:10px">③ Lievitante — grammi esatti (Gänzle 2012 · μ<sub>max</sub>('+ta+'°C)='+Rloc(muT,4)+'h⁻¹)</div>'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#A5D6A7;text-transform:uppercase;margin-bottom:8px">③ Lievitante — grammi esatti (Gänzle 2012 · μ<sub>max</sub>('+ta+'°C)='+Rloc(muT,4)+'h⁻¹)</div>'+
+  '<div style="display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.18);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:var(--dim)">'+
+  '🔬 Licoli pH <strong style="color:var(--cream)">'+licPH+'</strong>'+licPHnote+
+  ' &nbsp;|&nbsp; pH impasto stimato: <strong style="color:'+phImpCol+'">'+phImpastoStimato+'</strong>'+
+  ' <span style="color:var(--dim)">(range ottimale 5.40–5.80)</span>'+
+  '</div>'+
 
   // Griglia valori principali
   '<div style="display:grid;grid-template-columns:repeat('+(
@@ -5779,11 +5928,28 @@ function calcPhBiga(){
     '⚗️ LdB secco calcolato con modello Gänzle 2012: LdB% = ln(V_tgt+1)/(μ(T)×h) × boost_pH × k_licoli. Sciogli in acqua prima dell\'autolisi.' :
     '⚗️ Solo licoli: dose calibrata sul pH biga. Licoli porta acido lattico → non aumentare troppo per non abbassare pH finale sotto 4.8.')+
   '</div>'+
-  '</div>'+
+  '</div>';
 
-  // ── SCORPORO ACQUA ──
+  out.innerHTML += bloccoLiev_header;
+
+  // ── SCORPORO ACQUA + SALE ──
+  var saleG = Rloc(kg * saleP / 100 * 1000, 0);
+
+  var bloccoAcquaSale =
   '<div style="background:rgba(13,59,59,0.2);border:1.5px solid rgba(13,180,130,0.35);border-radius:16px;padding:14px;margin-bottom:12px">'+
-  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">④ Acqua — scorporo completo (net di biga e licoli)</div>'+
+  '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">④ Sale + Acqua — scorporo completo</div>'+
+  '<div style="background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.35);border-radius:10px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:12px">'+
+  '<div style="text-align:center;min-width:70px">'+
+  '<div style="font-size:9px;color:var(--dim);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:2px">SALE '+saleP+'%</div>'+
+  '<div style="font-size:32px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+saleG+'</div>'+
+  '<div style="font-size:10px;color:var(--dim);margin-top:1px">grammi</div>'+
+  '</div>'+
+  '<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+
+  'Su <strong style="color:var(--cream)">'+kg+'kg farina totale</strong> (biga + rinfresco)<br>'+
+  'Aggiungi dopo licoli — mai a contatto con lievito fresco<br>'+
+  'Sciogli in parte del bassinage (acqua fredda 8°C)'+
+  '</div>'+
+  '</div>'+
   '<div style="font-size:12px;color:var(--cream);line-height:2.2">'+
   '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">Acqua totale IDR '+idr+'%</span><strong>'+acqTot+'g</strong></div>'+
   '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">− Acqua biga (IDR '+Math.round(cfg.idrBiga*100)+'% già dentro)</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'+
@@ -5791,29 +5957,29 @@ function calcPhBiga(){
   '<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(78,175,125,0.4);border-bottom:2px solid rgba(78,175,125,0.4)"><span style="color:#4CAF7D;font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:#4CAF7D;font-size:16px">'+acqDaAgg+'g</strong></div>'+
   '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">① Autolisi 65% — T '+T_acq+'°C</span><strong>'+acqAut+'g</strong></div>'+
   (ldbG > 0 ? '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--dim)">② Scioglimento LdB '+ldbG+'g</span><strong>'+Rloc(ldbG*3,0)+'ml (dalla autolisi)</strong></div>' : '')+
-  '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">③ Bassinage 8°C</span><strong>'+acqBass+'g</strong></div>'+
+  '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">③ Bassinage 8°C — sale qui</span><strong>'+acqBass+'g + '+saleG+'g sale</strong></div>'+
   '</div>'+
   '<div style="font-size:10px;color:var(--dim);margin-top:6px;font-style:italic">T acqua autolisi '+T_acq+'°C — DDT '+cfg.DDT+'°C Esmach K=7.8 (Suas 2009)</div>'+
-  '</div>'+
+  '</div>';
 
   // ── TIMELINE ──
-  tl([
+  var bloccoTimeline = tl([
     [oraImpFmt, '🌾 AUTOLISI 20min — '+Rloc(kgRinf_inp*1000,0)+'g rinfresco', blendRinf.split(' —')[0]+' · '+acqAut+'g acqua '+T_acq+'°C'],
     [Hstr(oraImpOtt+0.33), '⚙️ INCORDATURA — biga + lievitante + sale',
-      (usaLicoli?licG+'g licoli':'')+(usaLdbSec?' + '+ldbG+'g LdB sciolto':'')+(usaBigoli?bigoliG+'g bigoli sbriciolati':'')+' → sale → bassinage '+acqBass+'g 8°C'],
+      (usaLicoli?licG+'g licoli':'')+(usaLdbSec?' + '+ldbG+'g LdB sciolto':'')+(usaBigoli?bigoliG+'g bigoli sbriciolati':'')+' → '+saleG+'g sale → bassinage '+acqBass+'g 8°C'],
     [Hstr(oraImpOtt+0.83), '💪 S&F × 2 — poi '+(hPuntAmb>0?'T amb '+hToStr(hPuntAmb)+' poi':'')+'cella', 'controlla volume non l\'orologio'],
     ...(hPuntAmb > 0 ? [[Hstr(oraInCella),'❄️ ENTRA IN CELLA '+tCella+'°C','dopo puntata T amb. Cella: '+hToStr(h_cella_ott)]] : [[Hstr(oraImpOtt+0.83),'❄️ CELLA '+tCella+'°C subito',''+hToStr(h_cella_ott)+' — fermenta lentamente']]),
     [Hstr(oraFuoriC), '🌡️ FUORI CELLA — appretto 30min', 'a T ambiente '+ta+'°C — panetti si distendono'],
     [Hstr(oraSt), '✂️ STAGLIO a +'+cfg.volStMin+'–'+cfg.volStMax+'% volume', cfg.nome+' · G\'≈'+Gp_forn+'Pa · '+Hstr(oraSt)],
-  ])+
+  ]);
 
   // ── FARINA E T USCITA ──
+  var bloccoFinale =
   '<div style="background:rgba(13,59,59,0.15);border:1px solid rgba(13,180,130,0.25);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
   '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:8px">🌾 Rinfresco consigliato per pH '+ph+'</div>'+
   '<div style="font-size:16px;font-weight:700;color:var(--cream);margin-bottom:4px">'+blendRinf+'</div>'+
   '<div style="font-size:11px;color:var(--dim)">'+blendNote+'</div>'+
   '</div>'+
-
   '<div style="background:rgba(136,14,79,0.12);border:1px solid rgba(136,14,79,0.3);border-radius:12px;padding:12px 14px;margin-bottom:10px">'+
   '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#CE93D8;text-transform:uppercase;margin-bottom:8px">🌡️ T uscita impasto ottimale</div>'+
   '<div style="display:flex;align-items:center;gap:12px">'+
@@ -5821,13 +5987,15 @@ function calcPhBiga(){
   '<div style="font-size:11px;color:var(--dim);flex:1">'+tUscitaNota+'<br><span style="color:var(--cream)">Se esci più caldo → abbassa T acqua autolisi · se più freddo → alzala</span></div>'+
   '</div>'+
   '</div>'+
-
   '<div style="font-size:11px;color:var(--dim);line-height:1.7;padding:4px 0">'+
   '• Volume staglio target: <strong style="color:var(--cream)">'+cfg.nomeVol+'</strong><br>'+
   '• Appretto panetti: <strong style="color:var(--cream)">30min esatti</strong> — le proteasi 0102HP accelerano a T ambiente<br>'+
   '• pH pallina pre-forno target: <strong style="color:var(--cream)">5.0–5.4</strong> — se è ≥5.9 la biga era acerba<br>'+
   '• Fonti: Hamad &amp; Fields 1979 · Gänzle 2012 · Dobraszczyk 2003 · Suas 2009 · MQ 2023'+
   '</div>';
+
+  // Assegnazione unica — nessun problema di sovrascrittura
+  out.innerHTML = out.innerHTML + bloccoAcquaSale + bloccoTimeline + bloccoFinale;
 
   return; // fine modo A
   } // end if(modo==='A')
@@ -5850,7 +6018,7 @@ function calcPhBiga(){
 
     // Lievitante potenziato (Gänzle 2012 con phBoost)
     var volTgt_B = (cfg.volStMin + cfg.volStMax) / 2;
-    var lievB = calcLievitante(hDisp_B, ta, licP, usaLdb, ph, mu22, volTgt_B);
+    var lievB = calcLievitante(hDisp_B, ta, licP, usaLdb, ph, mu22, volTgt_B, licPH);
     var licFin_B   = lievB.licFin;
     var licG_B     = Rloc(kgRinf_inp * licFin_B / 100 * 1000, 0);
     var licAcq_B   = Rloc(licG_B * 0.5, 0);
@@ -7044,14 +7212,16 @@ function calcPesoGN(tUsc, phBiga, phImpasto, tAmb, hPuntata){
              : tRif <= 20 ? +15
              : 0;
 
-  // ── Correzione pH biga (proteolisi già avanzata = maglia debole)
+  // ── Correzione pH biga per peso GN (Dobraszczyk 2003)
+  // Biga acerba (pH alto) → puntata lunga → proteolisi prolungata → maglia più debole → MENO peso
+  // Biga matura (pH basso) → fermenta subito → meno tempo sotto stress → PIÙ peso
   var corrPH = 0;
   if(phBiga > 0){
-    corrPH = phBiga >= 5.65 ? +30
-           : phBiga >= 5.45 ? +15
-           : phBiga >= 5.20 ? 0
-           : phBiga >= 5.00 ? -30
-           : -60;
+    corrPH = phBiga >= 5.65 ? -30   // molto acerba → maglia sotto stress lungo → scendi
+           : phBiga >= 5.45 ? -15   // acerba → scendi un po'
+           : phBiga >= 5.20 ? 0     // picco → nominale 8kg
+           : phBiga >= 5.00 ? +15   // matura → fermenta subito → puoi stare più alto
+           : +25;                   // oltre picco → fermentazione quasi completa
   }
 
   // Soglia effettiva
@@ -7146,6 +7316,7 @@ function calcPiano(){
   var oraInizio = parseFloat((document.getElementById('pp2_oraInizio')||{value:10}).value)||10;
   var tUsc      = parseFloat((document.getElementById('pp2_tUsc')||{}).value)||0;
   var phBiga    = parseFloat((document.getElementById('pp2_phBiga')||{}).value)||0;
+  var phImpFin  = parseFloat((document.getElementById('pp2_phImp')||{}).value)||0;
   var oraFine   = parseFloat((document.getElementById('pp2_oraFine')||{value:11}).value)||11;
   var oraStag   = parseFloat((document.getElementById('pp2_oraStag')||{value:15.5}).value)||15.5;
   var tipo      = (document.getElementById('pp2_tipo')||{value:'napo'}).value||'napo';
@@ -7180,7 +7351,7 @@ function calcPiano(){
   var hImpasto = oraFine > oraInizio ? oraFine - oraInizio : (oraFine+24) - oraInizio;
 
   // ── PESO GN1/1 ──
-  var pGN = calcPesoGN(tUsc, phBiga, 0, tAmb, hDisp);
+  var pGN = calcPesoGN(tUsc, phBiga, phImpFin, tAmb, hDisp);
 
   // ── LIEVITANTE (Gänzle 2012) ──
   // Logica per tipo:
@@ -7205,10 +7376,11 @@ function calcPiano(){
     else if(phBiga >= 5.45) licPct = 11;
     else if(phBiga > 0 && phBiga < 5.00) licPct = 8;
     // Lievito fresco sempre per teglia
+    // Lievito fresco — su farina rinfresco (teglia)
     var kLic = Math.max(0, 1 - (licPct/100)*0.6);
     var ldbRaw = (Math.log(volTgt+1) / (muT * hDisp)) * phBoost * kLic;
     lievFrescoPct = Rl(Math.min(0.40, Math.max(0.08, ldbRaw)) , 3);
-    lievFrescoG   = Rl(kgFar * lievFrescoPct / 100 * 1000, 0);
+    lievFrescoG   = Rl(kgFar * (100-cfg.bigaPct)/100 * lievFrescoPct / 100 * 1000, 0);
     consiglioLiev = 'licoli+fresco';
 
   } else if(tipo==='pala48'){
@@ -7230,7 +7402,7 @@ function calcPiano(){
     if(phBiga >= 5.60){
       var kLic2 = Math.max(0, 1-(licPct/100)*0.6);
       lievFrescoPct = Rl(Math.min(0.15, Math.max(0.05, (Math.log(volTgt+1)/(muT*hDisp))*phBoost*kLic2*0.5)), 3);
-      lievFrescoG   = Rl(kgFar * lievFrescoPct / 100 * 1000, 1);
+      lievFrescoG   = Rl(kgFar * (100-cfg.bigaPct)/100 * lievFrescoPct / 100 * 1000, 1);
       consiglioLiev = 'licoli+fresco';
     } else {
       lievFrescoPct = 0;
@@ -7239,7 +7411,10 @@ function calcPiano(){
     }
   }
 
-  var licG    = Rl(kgFar * licPct / 100 * 1000, 0);
+  // ── LIEVITANTE — calcolato SOLO sul rinfresco ──
+  // Licoli va SOLO sulla farina di rinfresco, NON sulla biga (che entra già fermentata)
+  var kgRinfresco = Rl(kgFar * (100 - cfg.bigaPct) / 100, 2);
+  var licG    = Rl(kgRinfresco * licPct / 100 * 1000, 0);
   var licAcq  = Rl(licG * 0.5, 0);
 
   // ── PUNTATA T AMBIENTE ──
@@ -7343,8 +7518,9 @@ function calcPiano(){
 
     // Licoli
     +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Licoli %</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Licoli % <span style="color:#A5D6A7">(su rinfresco)</span></div>'
     +'<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:#A5D6A7;line-height:1">'+licPct+'%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">di '+Rl(kgRinfresco*1000,0)+'g rinfresco</div>'
     +'</div>'
     +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px;text-align:center">'
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Grammi licoli</div>'
@@ -7869,6 +8045,202 @@ function calcPostImpasto(){
 //   Leopardatura ∝ Maillard(T) × Zuccheri_residui(pH)
 //   Zuccheri_residui: alto a pH>5.3, basso a pH<5.0
 // ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════
+// calcFinito — Ho finito l'impasto
+// Input: ora fine, T uscita, pH impasto finito, ora staglio
+// Output: peso GN · puntata · cella · guida passo per passo
+// ══════════════════════════════════════════════════════════════════════
+function calcFinito(){
+  function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function hTs(h){var t=Math.round(h*60);if(t<=0)return '—';var hh=Math.floor(t/60),mm=t%60;return hh>0?(hh+'h'+(mm?' '+mm+'min':'')):mm+'min';}
+  function Rl(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
+
+  var oraFine = parseFloat((document.getElementById('fi_oraFine')||{value:10}).value)||10;
+  var tUsc    = parseFloat((document.getElementById('fi_tUsc')||{}).value)||0;
+  var phImp   = parseFloat((document.getElementById('fi_pH')||{}).value)||0;
+  var oraStag = parseFloat((document.getElementById('fi_oraStag')||{value:15.5}).value)||15.5;
+  var tipo    = (document.getElementById('fi_tipo')||{value:'napo'}).value||'napo';
+  var tAmb    = parseFloat((document.getElementById('fi_tAmb')||{value:22}).value)||22;
+  var out     = document.getElementById('finitoOut');
+  if(!out) return;
+
+  if(!tUsc){
+    out.innerHTML='<div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Inserisci la T uscita Esmach → piano completo</div>';
+    return;
+  }
+
+  // ── CONFIG ──
+  var volStMin,volStMax,nomeTipo,tUscOtt,mu22,idrBiga;
+  var Q10=2.2;
+  if(tipo==='teglia'){volStMin=60;volStMax=80;nomeTipo='Teglia Romana';tUscOtt=23;mu22=0.042;idrBiga=0.45;}
+  else if(tipo==='pala48'){volStMin=25;volStMax=40;nomeTipo='Pala 48h';tUscOtt=21;mu22=0.049;idrBiga=0.48;}
+  else{volStMin=45;volStMax=60;nomeTipo='Napoletana';tUscOtt=22;mu22=0.049;idrBiga=0.45;}
+
+  // ── ORE ──
+  var hDisp    = oraStag>oraFine ? oraStag-oraFine : (oraStag+24)-oraFine;
+  var eccesso  = Math.max(0, tUsc-tUscOtt);
+  var hPuntAmb = Rl(Math.min(2.5, eccesso*(20/60)), 2);
+  var hCella   = Rl(Math.max(0, hDisp-hPuntAmb-0.5), 2);
+  var oraInCella = oraFine + hPuntAmb;
+  var oraFuoriC  = oraStag - 0.5;
+
+  // ── PESO GN — varia con T uscita E pH impasto ──
+  var pGN = calcPesoGN(tUsc, phImp, 0, tAmb, 4.5);
+
+  // ── VOLUME STIMATO (con correzione pH impasto) ──
+  var fPH = 1.0, phNote = '';
+  if(phImp>0){
+    if(phImp>=5.80){fPH=1.15; phNote='biga acerba → +15% velocità';}
+    else if(phImp>=5.60){fPH=1.05; phNote='biga non al picco';}
+    else if(phImp>=5.40){fPH=1.00; phNote='pH ottimale';}
+    else if(phImp>=5.10){fPH=0.90; phNote='acidità elevata → −10%';}
+    else{fPH=0.75; phNote='acidità alta → −25%';}
+  }
+  var muAmb  = mu22*Math.pow(Q10,(tAmb-22)/10)*fPH;
+  var muCell = mu22*Math.pow(Q10,(4-22)/10)*fPH;
+  var volTot = Rl((Math.exp(muAmb*hPuntAmb)-1)*100 + (Math.exp(muCell*hCella)-1)*100, 0);
+  var semVol = volTot>=volStMin&&volTot<=volStMax?'ok':volTot<volStMin*0.7?'bad':'warn';
+
+  // ── T USCITA SEMAFORO ──
+  var tIco,tCol,tTxt,tSub,pianoMarmo=false;
+  if(tUsc<=tUscOtt-2){tIco='🏆';tCol='25,100,35';tTxt='ECCELLENTE';tSub='Cella subito dopo S&F × 2';}
+  else if(tUsc<=tUscOtt){tIco='✅';tCol='25,100,35';tTxt='OTTIMALE '+tUsc+'°C';tSub='S&F × 2 poi cella';}
+  else if(tUsc<=tUscOtt+3){tIco='✅';tCol='25,100,35';tTxt='BUONA '+tUsc+'°C';tSub=hTs(hPuntAmb)+' T ambiente poi cella';}
+  else if(tUsc<=tUscOtt+5){tIco='🟡';tCol='140,80,0';tTxt='ALTA '+tUsc+'°C';tSub='Puntata T ambiente obbligatoria';}
+  else if(tUsc<=28){tIco='🟠';tCol='140,60,0';tTxt='TROPPO ALTA '+tUsc+'°C';tSub='Puntata lunga · controlla ogni 30min';}
+  else{tIco='🔴';tCol='150,20,20';pianoMarmo=true;tTxt='CRITICA '+tUsc+'°C';tSub='Piano marmo SUBITO 10-15min';}
+
+  // ══ OUTPUT ══
+  var html = '';
+
+  // 1 — T USCITA + PESO GN affiancati
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">'
+
+    // T uscita
+    +'<div style="background:rgba('+tCol+',0.20);border:2px solid rgba('+tCol+',0.55);border-radius:14px;padding:14px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:4px">T USCITA</div>'
+    +'<div style="font-size:42px;font-weight:900;font-family:DM Mono,monospace;color:'+(tCol==='25,100,35'?'#A5D6A7':tCol==='140,80,0'?'#F0CC5A':'#FFCDD2')+';line-height:1">'+tUsc+'°</div>'
+    +'<div style="font-size:11px;font-weight:700;color:'+(tCol==='25,100,35'?'#A5D6A7':tCol==='140,80,0'?'#F0CC5A':'#FFCDD2')+';margin-top:4px">'+tIco+' '+tTxt+'</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:3px">'+tSub+'</div>'
+    +'</div>'
+
+    // Peso GN
+    +'<div style="background:rgba(212,160,62,0.18);border:2px solid rgba(212,160,62,0.55);border-radius:14px;padding:14px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--gold);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:4px">PER OGNI GN1/1</div>'
+    +'<div style="font-size:42px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+pGN.peso+'</div>'
+    +'<div style="font-size:14px;font-weight:700;color:var(--gold);margin-top:4px">kg</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:3px">h_inizio '+pGN.hInizio+'cm · '+pGN.P_eff+'Pa</div>'
+    +'</div>'
+    +'</div>'
+    +(pianoMarmo?'<div style="background:rgba(150,20,20,0.25);border:1.5px solid rgba(229,57,53,0.6);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#FFCDD2;font-weight:700">🧊 Piano marmo freddo 10-15min — poi rivaluta prima di procedere</div>':'');
+
+  // 2 — pH impasto (se inserito)
+  if(phImp>0){
+    var phCol2 = fPH>=1.05?'#F0CC5A':fPH<=0.90?'#F0CC5A':'#A5D6A7';
+    html += '<div style="background:rgba(212,160,62,0.10);border:1.5px solid rgba(212,160,62,0.30);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px">'
+      +'<div style="text-align:center;min-width:60px">'
+      +'<div style="font-size:9px;color:var(--dim);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:2px">pH IMP.</div>'
+      +'<div style="font-size:32px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">'+phImp+'</div>'
+      +'</div>'
+      +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.6">'+phNote
+      +'<br><span style="color:'+phCol2+'">μ_eff × '+fPH+' (Hamad &amp; Fields 1979)</span>'
+      +'</div></div>';
+  }
+
+  // 3 — 4 BOX ORARI
+  html += '<div style="background:rgba(16,32,96,0.22);border:2px solid rgba(91,155,213,0.40);border-radius:14px;padding:12px;margin-bottom:12px">'
+    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">'
+
+    +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Fine imp.</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:var(--cream)">'+Hh(oraFine)+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">S&F×2</div>'
+    +'</div>'
+
+    +(hPuntAmb>0
+      ?'<div style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);border-radius:10px;padding:10px 4px">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">T amb '+tAmb+'°C</div>'
+       +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#F0CC5A">'+hTs(hPuntAmb)+'</div>'
+       +'<div style="font-size:9px;color:#F0CC5A;margin-top:2px">→'+Hh(oraInCella)+'</div></div>'
+      :'<div style="background:rgba(13,27,75,0.3);border:1px solid rgba(91,155,213,0.15);border-radius:10px;padding:10px 4px">'
+       +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">T amb</div>'
+       +'<div style="font-size:16px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5;line-height:1.2">cella<br>subito</div></div>')
+
+    +'<div style="background:rgba(13,27,75,0.35);border:1px solid rgba(91,155,213,0.4);border-radius:10px;padding:10px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Cella 4°C</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#5B9BD5">'+hTs(hCella)+'</div>'
+    +'<div style="font-size:9px;color:#5B9BD5;margin-top:2px">esce '+Hh(oraFuoriC)+'</div>'
+    +'</div>'
+
+    +'<div style="background:rgba(25,100,35,0.2);border:1px solid rgba(25,100,35,0.45);border-radius:10px;padding:10px 4px">'
+    +'<div style="font-size:8px;color:var(--dim);margin-bottom:3px">Staglio</div>'
+    +'<div style="font-size:20px;font-weight:700;font-family:DM Mono,monospace;color:#A5D6A7">'+Hh(oraStag)+'</div>'
+    +'<div style="font-size:9px;color:#A5D6A7;margin-top:2px">+'+volStMin+'–'+volStMax+'%</div>'
+    +'</div>'
+    +'</div>'
+
+    // Volume stimato
+    +'<div style="margin-top:8px;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.18);border-radius:8px;padding:8px 10px">'
+    +'<div style="text-align:center;min-width:60px">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Vol. staglio</div>'
+    +'<div style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:'+(semVol==='ok'?'#A5D6A7':semVol==='warn'?'#F0CC5A':'#FFCDD2')+'">+'+volTot+'%</div>'
+    +'</div>'
+    +'<div style="flex:1;font-size:11px;color:var(--dim);line-height:1.5">'
+    +'Target +'+volStMin+'–'+volStMax+'% · '
+    +(semVol==='ok'?'✅ nella finestra':semVol==='warn'?'🟡 controlla volume':'🔴 fuori range')
+    +(phImp>0?' · corretto pH '+phImp:'')
+    +'</div></div>'
+    +'</div>';
+
+  // 4 — GUIDA PASSI
+  var steps = [
+    {ico:'💪', ora:oraFine,   t:'S&F × 2 subito',
+     d:'2 giri a 15min di distanza. '+(tUsc>=26?'🧊 Piano marmo 10min PRIMA.':'Copri, non ermetico.')}
+  ];
+  if(phImp>0) steps.push(
+    {ico:'🔬', ora:oraFine+0.08, t:'pH impasto '+phImp+' registrato',
+     d:phNote+' · μ_eff='+Math.round(mu22*Math.pow(Q10,(tAmb-22)/10)*fPH*1000)/1000+'h⁻¹'}
+  );
+  if(hPuntAmb>0) steps.push(
+    {ico:'🌡️', ora:oraFine+0.3, t:'Puntata T ambiente '+tAmb+'°C — '+hTs(hPuntAmb),
+     d:'Lascia a T ambiente fino alle '+Hh(oraInCella)+'. Controlla ogni 30min.'}
+  );
+  steps.push(
+    {ico:'❄️', ora:oraInCella, t:'Entra in cella 4°C — '+hTs(hCella),
+     d:pGN.peso+'kg per GN1/1 · h_inizio '+pGN.hInizio+'cm · esce '+Hh(oraFuoriC)},
+    {ico:'🌡️', ora:oraFuoriC, t:'Fuori cella — appretto 30min',
+     d:'T ambiente '+tAmb+'°C · NON di più'},
+    {ico:'✂️', ora:oraStag,   t:'STAGLIO — '+nomeTipo+' · +'+volStMin+'–'+volStMax+'%',
+     d:'Volume stimato +'+volTot+'% · non seguire solo l\'orologio'}
+  );
+
+  var now=new Date(), oraH=now.getHours()+now.getMinutes()/60;
+  html += '<div style="border-top:1.5px solid var(--border);padding-top:10px;margin-top:4px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">📋 Passo per passo</div>';
+
+  steps.forEach(function(s){
+    var min=Math.round((s.ora-oraH)*60);
+    if(min<-720)min+=1440;
+    var isDone=min<-5,isNext=!isDone&&min<=15;
+    var bg=isDone?'rgba(0,0,0,0.12)':isNext?'rgba(212,160,62,0.15)':'rgba(0,0,0,0.08)';
+    var bord=isDone?'rgba(255,255,255,0.06)':isNext?'rgba(212,160,62,0.55)':'rgba(255,255,255,0.05)';
+    var cnt=isDone?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':'');
+    html+='<div style="opacity:'+(isDone?'0.4':'1')+';background:'+bg+';border:1.5px solid '+bord
+      +';border-radius:12px;padding:11px 13px;margin-bottom:7px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:16px;font-weight:700;color:'+(isDone?'#555':isNext?'var(--gold2)':'var(--cream)')+'">'+Hh(s.ora)+'</div>'
+      +'<div style="flex:1"></div>'
+      +'<div style="font-size:10px;color:'+(isDone?'#555':isNext?'#F0CC5A':'#5B9BD5')+';font-weight:600">'+cnt+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(isDone?'#555':isNext?'var(--cream)':'#A09888')+';margin-bottom:3px">'+s.ico+' '+s.t+'</div>'
+      +'<div style="font-size:11px;color:'+(isDone?'#555':'var(--dim)')+';line-height:1.55">'+s.d+'</div>'
+      +'</div>';
+  });
+
+  html += '</div>';
+  out.innerHTML = html;
+}
+
 function calcPhForno(){
   var phF    = parseFloat((document.getElementById('pi_pHForno')||{}).value)||0;
   var tipo   = (document.getElementById('pi_tipo')||{value:'napo'}).value||'napo';
