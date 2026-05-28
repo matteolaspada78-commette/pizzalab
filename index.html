@@ -1135,12 +1135,19 @@ body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:non
       </div>
 
       <!-- Kg farina per calcolo lievitante -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
         <div class="inp-group" style="margin-bottom:0">
-          <label class="inp-label">🌾 Kg farina totale (per lievitante)</label>
+          <label class="inp-label">🌾 Kg farina totale</label>
           <div class="inp-row">
             <input class="inp-field" id="pp2_kgFar" type="number" value="30" min="1" max="200" step="1" oninput="calcPiano()" style="font-size:22px;color:#BBDEFB">
             <span class="inp-unit">kg</span>
+          </div>
+        </div>
+        <div class="inp-group" style="margin-bottom:0">
+          <label class="inp-label">🧂 Sale % (su farina totale)</label>
+          <div class="inp-row">
+            <input class="inp-field" id="pp2_sale" type="number" value="2.8" min="1.8" max="3.2" step="0.1" oninput="calcPiano()" style="color:var(--cream)">
+            <span class="inp-unit">%</span>
           </div>
         </div>
         <div class="inp-group" style="margin-bottom:0">
@@ -7143,7 +7150,17 @@ function calcPiano(){
   var oraStag   = parseFloat((document.getElementById('pp2_oraStag')||{value:15.5}).value)||15.5;
   var tipo      = (document.getElementById('pp2_tipo')||{value:'napo'}).value||'napo';
   var kgFar     = parseFloat((document.getElementById('pp2_kgFar')||{value:30}).value)||30;
+  var saleP     = parseFloat((document.getElementById('pp2_sale')||{value:2.8}).value)||2.8;
   var tAmb      = parseFloat((document.getElementById('pp2_tAmb')||{value:22}).value)||22;
+
+  // Aggiorna default sale per tipo se l'utente non ha ancora modificato
+  var saleEl = document.getElementById('pp2_sale');
+  var saleDefault = tipo==='teglia'?2.5:tipo==='pala48'?2.5:tipo==='tonda'?2.2:tipo==='scrocc'?2.5:2.8;
+  // Solo se il valore è ancora al default napoletana e si cambia tipo
+  if(saleEl && Math.abs(saleP - 2.8) < 0.01 && saleDefault !== 2.8){
+    saleEl.value = saleDefault;
+    saleP = saleDefault;
+  }
   var out       = document.getElementById('pianoOut');
   if(!out) return;
 
@@ -7154,9 +7171,9 @@ function calcPiano(){
 
   // ── CONFIG TIPO ──
   var cfg;
-  if(tipo==='teglia')      cfg={nome:'Teglia Romana',bigaPct:50,idr:78,volStMin:60,volStMax:80,mu22:0.042,phOkMin:5.10,phOkMax:5.45,DDT:24,Q10:2.2};
-  else if(tipo==='pala48') cfg={nome:'Pala 48h',bigaPct:30,idr:75,volStMin:25,volStMax:40,mu22:0.049,phOkMin:5.10,phOkMax:5.45,DDT:23,Q10:2.2};
-  else                     cfg={nome:'Napoletana',bigaPct:50,idr:70,volStMin:45,volStMax:60,mu22:0.049,phOkMin:5.20,phOkMax:5.45,DDT:23,Q10:2.2};
+  if(tipo==='teglia')      cfg={nome:'Teglia Romana',bigaPct:50,idrBiga:0.45,idr:78,volStMin:60,volStMax:80,mu22:0.042,phOkMin:5.10,phOkMax:5.45,DDT:24,Q10:2.2};
+  else if(tipo==='pala48') cfg={nome:'Pala 48h',bigaPct:30,idrBiga:0.48,idr:75,volStMin:25,volStMax:40,mu22:0.049,phOkMin:5.10,phOkMax:5.45,DDT:23,Q10:2.2};
+  else                     cfg={nome:'Napoletana',bigaPct:50,idrBiga:0.45,idr:70,volStMin:45,volStMax:60,mu22:0.049,phOkMin:5.20,phOkMax:5.45,DDT:23,Q10:2.2};
 
   // ── PUNTATA DISPONIBILE ──
   var hDisp  = oraStag > oraFine ? oraStag - oraFine : (oraStag+24) - oraFine;
@@ -7259,9 +7276,9 @@ function calcPiano(){
   else { tSem='bad'; tIco='🔴'; tTxt=tUsc+'°C — critica · piano marmo'; }
 
   // ── CALCOLO CONTENITORI ──
-  // Piacca totale = farina + acqua (IDR%) + sale (2.8%) + licoli (licPct%)
-  // Il licoli porta già la sua acqua dentro — non la ricalcoliamo separata
-  var kgPiacca    = Rl(kgFar * (1 + cfg.idr/100 + 0.028), 1);
+  // Piacca totale = farina + acqua (IDR%) + sale (saleP%)
+  var saleG       = Rl(kgFar * saleP / 100 * 1000, 0);  // grammi sale totale
+  var kgPiacca    = Rl(kgFar * (1 + cfg.idr/100 + saleP/100), 1);
   var nGN         = Math.floor(kgPiacca / pGN.peso);      // contenitori pieni
   var avanzo      = Rl(kgPiacca - nGN * pGN.peso, 1);     // kg che avanzano
   var nGNtot      = avanzo >= (pGN.peso * 0.5) ? nGN + 1 : nGN; // se avanza >50% peso → un GN in meno pieno
@@ -7360,7 +7377,56 @@ function calcPiano(){
       : '👑 Napoletana: solo licoli '+licPct+'% — zero lievito fresco (biga+licoli gestiscono tutto)')
     +'</div></div>';
 
-  // 3. SEMAFORI pH E T
+  // 3. SALE + SCORPORO ACQUA
+  var acqTot   = Rl(kgFar * cfg.idr / 100 * 1000, 0);
+  var acqBiga  = Rl(kgFar * (cfg.bigaPct/100) * cfg.idrBiga * 1000, 0);
+  var acqLic   = licAcq;
+  var acqDisp  = acqTot - acqBiga - acqLic;
+  var acqAut   = Rl(acqDisp * 0.65, 0);
+  var acqBass  = Math.max(0, acqDisp - acqAut);
+  // T acqua autolisi (DDT formula — Suas 2009)
+  var tFarina  = 18; // T farina standard laboratorio climatizzato
+  var tAcqAut  = Rl(cfg.DDT * 3 - tFarina - tAmb - 7.8, 1);
+
+  html += '<div style="background:rgba(13,59,100,0.20);border:2px solid rgba(91,155,213,0.40);border-radius:16px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#BBDEFB;text-transform:uppercase;margin-bottom:10px">🧂 Sale + 💧 Acqua — scorporo completo</div>'
+
+    // Sale
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Sale '+saleP+'%</div>'
+    +'<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:var(--cream);line-height:1">'+saleG+'</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:2px">grammi</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua totale IDR '+cfg.idr+'%</div>'
+    +'<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:#BBDEFB;line-height:1">'+acqTot+'</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:2px">grammi</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">T acqua autolisi</div>'
+    +'<div style="font-size:28px;font-weight:900;font-family:DM Mono,monospace;color:#BBDEFB;line-height:1">'+tAcqAut+'°</div>'
+    +'<div style="font-size:10px;color:var(--dim);margin-top:2px">DDT '+cfg.DDT+'°C Esmach</div>'
+    +'</div>'
+    +'</div>'
+
+    // Scorporo
+    +'<div style="font-size:12px;color:var(--cream);line-height:2.3">'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua totale IDR '+cfg.idr+'%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua biga '+cfg.bigaPct+'% (IDR '+Math.round(cfg.idrBiga*100)+'%)</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua licoli '+licG+'g × 50%</span><strong style="color:#FFCDD2">−'+acqLic+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid rgba(91,155,213,0.4);border-bottom:2px solid rgba(91,155,213,0.4)"><span style="color:#BBDEFB;font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:#BBDEFB;font-size:15px">'+acqDisp+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 65% — T '+tAcqAut+'°C</span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--dim)">② Bassinage 8°C</span><strong>'+acqBass+'g</strong></div>'
+    +'</div>'
+
+    // Sale quando metterlo
+    +'<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--dim);line-height:1.6">'
+    +'🧂 <strong style="color:var(--cream)">'+saleG+'g sale</strong> — aggiungi dopo licoli, mai a contatto con lievito fresco. '
+    +'Sciogli in una piccola parte dell\'acqua bassinage (fredda 8°C) prima di aggiungere.'
+    +(saleP === 2.8 ? ' · 2.8% disciplinare AVPN napoletana' : saleP === 2.5 ? ' · 2.5% standard teglia/pala' : saleP === 2.2 ? ' · 2.2% farina debole W180' : '')
+    +'</div>'
+    +'</div>';
   html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
     +'<div style="background:rgba('+phCol+',0.18);border:2px solid rgba('+phCol+',0.5);border-radius:12px;padding:12px;text-align:center">'
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px;font-family:DM Mono,monospace">pH BIGA</div>'
