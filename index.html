@@ -1695,6 +1695,56 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 
 
 <!-- ═══════════════ CALCOLATORE RAPIDO PALLINE ═══════════════ -->
+<div id="pagePaneOrso" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🐻</div>
+    <div class="page-hero-title">Pane dell'Orso</div>
+    <div class="page-hero-sub">Petra 3HP + 0103HP · Semi · Ottimais · Licoli · 45h cella</div>
+  </div>
+
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <!-- PEZZI -->
+  <div style="background:#1A2010;border:1.5px solid rgba(212,160,62,0.4);border-radius:16px;padding:14px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:10px">⚙️ Imposta produzione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div style="font-size:9px;color:#7A8A6A;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Numero pezzi</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;color:#F0CC5A;font-size:32px;font-weight:900;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_pezzi" type="number" value="20" min="1" max="200" step="1" oninput="calcPaneOrso()">
+          <span style="font-size:12px;color:#7A8A6A">pz</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7A8A6A;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Peso pezzo (g)</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;color:#F0E6D0;font-size:32px;font-weight:900;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_peso" type="number" value="700" min="300" max="1500" step="50" oninput="calcPaneOrso()">
+          <span style="font-size:12px;color:#7A8A6A">g</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7A8A6A;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">🌡️ T laboratorio</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;color:#F0E6D0;font-size:22px;font-weight:700;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_tAmb" type="number" value="22" min="16" max="32" oninput="calcPaneOrso()">
+          <span style="font-size:12px;color:#7A8A6A">°C</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7A8A6A;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">⏰ Ora inizio</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;color:#F0E6D0;font-size:22px;font-weight:700;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_ora" type="number" value="8" min="0" max="23" step="0.5" oninput="calcPaneOrso()">
+          <span style="font-size:12px;color:#7A8A6A">h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="paneOrsoOut"><div style="color:#7A8A6A;text-align:center;padding:20px;font-size:13px">Imposta numero pezzi → ricetta completa</div></div>
+
+  </div>
+</div>
+
 <div id="pagePalline" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">🎯</div>
@@ -1926,6 +1976,17 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
       <div class="menu-arrow">›</div>
     </div>
+    <div class="menu-section-label">🐻 Pane</div>
+    <div class="menu-btn" onclick="openPage('paneorso')">
+      <div class="menu-icon" style="background:rgba(139,99,64,0.35)">🐻</div>
+      <div class="menu-text">
+        <div class="menu-name">Pane dell'Orso</div>
+        <div class="menu-sub">Petra 3HP + 0103HP · Semi · Ottimais · Licoli · 45h cella</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(212,160,62,0.2);border-color:var(--gold);color:var(--gold)">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">⚡ Impasto Diretto</div>
     <div class="menu-btn" onclick="openPage('diretto02')">
       <div class="menu-icon" style="background:rgba(136,14,79,0.3)">🔬</div>
@@ -5020,7 +5081,7 @@ function dist(rows){
 // NAVIGATION
 // ══════════════════════════════════════════════
 const pages={
-  home:'pageHome',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
+  home:'pageHome',paneorso:'pagePaneOrso',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
   suprema:'pageSuprema',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
@@ -8172,6 +8233,181 @@ function calcPesoOttimale(dim1, dim2, hmax, formaGeo, densita, volStMin, volStMa
 // ══════════════════════════════════════════════════════════════════════
 // calcStaglioPallina — pH staglio + T pallina → diagnosi + azione
 // ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════
+// PANE DELL'ORSO — Ricetta scalabile per numero pezzi
+// Base ricetta: 20 pezzi da 700g = 14kg impasto totale
+// Farina totale base: 11.000g | IDR reale 88%
+// ══════════════════════════════════════════════════════════════════════
+function calcPaneOrso(){
+  var pezzi = parseFloat((document.getElementById('po_pezzi')||{value:20}).value)||20;
+  var pesoP = parseFloat((document.getElementById('po_peso')||{value:700}).value)||700;
+  var tAmb  = parseFloat((document.getElementById('po_tAmb')||{value:22}).value)||22;
+  var ora   = parseFloat((document.getElementById('po_ora')||{value:8}).value)||8;
+  var out   = document.getElementById('paneOrsoOut');
+  if(!out) return;
+
+  // Fattore di scala dalla base (20 pezzi x 700g)
+  var pesoTotale = pezzi * pesoP;          // g impasto totale
+  var scala      = pesoTotale / 14000;     // 14000g = base 20×700g
+
+  // Ingredienti scalati (arrotondati a 5g)
+  function sc(base){ return Math.round(base * scala / 5) * 5; }
+  function scR(base){ return Math.round(base * scala); }
+
+  var far3hp  = sc(5500);
+  var far0103 = sc(5500);
+  var farTot  = far3hp + far0103;
+  var semi    = sc(1100);
+  var malto   = sc(140);
+  var acqPrinc= sc(7700);
+  var licoli  = sc(2200);
+  var licFar  = Math.round(licoli * 0.5);
+  var licAcq  = Math.round(licoli * 0.5);
+  var sale    = sc(300);
+  var ottimais= sc(1100);
+  var ottAcq  = sc(880);
+  var farNetta= farTot - licFar;
+
+  // Acqua totale reale
+  var acqTot  = acqPrinc + licAcq + ottAcq;
+
+  // T acqua autolisi (DDT 24°C · Suas 2009)
+  var DDT    = 24;
+  var tAcq   = Math.round((DDT*3 - 18 - tAmb - 7.8) * 10) / 10;
+
+  // Scorporo
+  var acqDisp = acqPrinc - licAcq;
+  var acqAut  = Math.round(acqDisp * 0.65);
+  var acqBass = acqDisp - acqAut;
+
+  // Orari
+  function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  var oraLicoli   = ora + 0.67;
+  var oraSale     = oraLicoli + 0.25;
+  var oraOttimais = oraSale + 0.17;
+  var oraFine     = ora + 1.25;
+  var hPuntAmb    = tAmb >= 24 ? 1.0 : tAmb >= 22 ? 0.5 : 0;
+  var oraCella    = oraFine + hPuntAmb;
+  var oraFuoriC   = ora + 45;
+  var oraForno    = oraFuoriC + 1.5;
+
+  var h = '';
+
+  // BOX PEZZI + SCALA
+  h += '<div style="background:rgba(212,160,62,0.15);border:2px solid rgba(212,160,62,0.5);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:10px">📦 Produzione</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="text-align:center">'
+    +'<div style="font-size:9px;color:#7A8A6A;margin-bottom:2px">pezzi</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:52px;line-height:1;color:#F0CC5A">'+pezzi+'</div>'
+    +'</div>'
+    +'<div style="flex:1;font-size:12px;color:#7A8A6A;line-height:1.8">'
+    +'da <strong style="color:#F0E6D0">'+pesoP+'g</strong> cad.<br>'
+    +'Piacca totale: <strong style="color:#F0E6D0">'+Math.round(pesoTotale/1000*10)/10+'kg</strong><br>'
+    +'Scala: <strong style="color:#F0CC5A">×'+Math.round(scala*100)/100+'</strong> rispetto alla base (20 pz)'
+    +'</div></div>'
+    +'</div>';
+
+  // TABELLA INGREDIENTI
+  h += '<div style="background:#1A2010;border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:10px">🌾 Ingredienti · '+pezzi+' pezzi da '+pesoP+'g</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:13px">'
+    +'<tr style="border-bottom:1px solid rgba(255,255,255,0.08)">'
+    +'<th style="text-align:left;padding:5px 6px;font-size:9px;color:#7A8A6A;font-family:DM Mono,monospace;font-weight:400">Ingrediente</th>'
+    +'<th style="text-align:right;padding:5px 6px;font-size:9px;color:#7A8A6A;font-family:DM Mono,monospace;font-weight:400">Grammi</th>'
+    +'<th style="text-align:right;padding:5px 6px;font-size:9px;color:#7A8A6A;font-family:DM Mono,monospace;font-weight:400">Kg</th>'
+    +'</tr>'
+    +[
+      ['Petra 3HP (W330)',     far3hp,   '#D4956A'],
+      ['0103HP (W380)',        far0103,  '#D4956A'],
+      ['Buon Semi',            semi,     '#A5D6A7'],
+      ['Malto tostato',        malto,    '#A5D6A7'],
+      ['Acqua principale',     acqPrinc, '#BBDEFB'],
+      ['Licoli pH 4.10',       licoli,   '#A5D6A7'],
+      ['Sale',                 sale,     '#F0CC5A'],
+      ['Ottimais',             ottimais, '#F0E6D0'],
+      ['+ Acqua ottimais',     ottAcq,   '#BBDEFB'],
+    ].map(function(r){
+      return '<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">'
+        +'<td style="padding:7px 6px;color:#F0E6D0">'+r[0]+'</td>'
+        +'<td style="padding:7px 6px;text-align:right;font-family:DM Mono,monospace;font-weight:700;color:'+r[2]+'">'+r[1]+'g</td>'
+        +'<td style="padding:7px 6px;text-align:right;font-size:11px;color:#7A8A6A">'+Math.round(r[1]/100)/10+'kg</td>'
+        +'</tr>';
+    }).join('')
+    +'<tr style="background:rgba(212,160,62,0.08);border-top:2px solid rgba(212,160,62,0.3)">'
+    +'<td style="padding:8px 6px;font-weight:700;color:#F0CC5A">Farina totale</td>'
+    +'<td style="padding:8px 6px;text-align:right;font-family:DM Mono,monospace;font-weight:900;color:#F0CC5A">'+farTot+'g</td>'
+    +'<td style="padding:8px 6px;text-align:right;font-size:11px;color:#7A8A6A">'+Math.round(farTot/100)/10+'kg</td>'
+    +'</tr>'
+    +'<tr style="background:rgba(91,155,213,0.08);border-top:1px solid rgba(91,155,213,0.2)">'
+    +'<td style="padding:8px 6px;font-weight:700;color:#BBDEFB">Acqua totale reale</td>'
+    +'<td style="padding:8px 6px;text-align:right;font-family:DM Mono,monospace;font-weight:900;color:#BBDEFB">'+acqTot+'g</td>'
+    +'<td style="padding:8px 6px;text-align:right;font-size:11px;color:#7A8A6A">'+Math.round(acqTot/100)/10+'kg</td>'
+    +'</tr>'
+    +'</table>'
+    +'<div style="margin-top:10px;font-size:10px;color:#7A8A6A">🌾 Farina da pesare: <strong style="color:#A5D6A7">'+farNetta+'g</strong> ('+farTot+'g − '+licFar+'g farina del licoli)</div>'
+    +'</div>';
+
+  // SCORPORO ACQUA
+  var tAcqCol = tAcq<5?'#FFCDD2':tAcq<10?'#BBDEFB':tAcq<20?'#A5D6A7':'#F0CC5A';
+  h += '<div style="background:rgba(91,155,213,0.10);border:2px solid rgba(91,155,213,0.30);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:10px">💧 Scorporo Acqua</div>'
+    +'<div style="display:flex;align-items:center;gap:12px;background:rgba(91,155,213,0.1);border:1px solid rgba(91,155,213,0.25);border-radius:10px;padding:10px;margin-bottom:10px">'
+    +'<div style="text-align:center;min-width:70px"><div style="font-size:9px;color:#7A8A6A">T acqua autolisi</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:'+tAcqCol+'">'+tAcq+'°</div></div>'
+    +'<div style="font-size:11px;color:#7A8A6A;flex:1">DDT '+DDT+'°C · T amb '+tAmb+'°C · Esmach K=7.8<br>'
+    +'<span style="color:#F0E6D0">DDT×3 − 18 − T_amb − 7.8 (Suas 2009)</span></div>'
+    +'</div>'
+    +'<div style="font-size:12px">'
+    +[
+      ['Acqua principale', acqPrinc+'g', '#F0E6D0', false],
+      ['− Acqua licoli (50%)', '−'+licAcq+'g', '#FFCDD2', false],
+      ['= VERSI NELL\'ESMACH', acqDisp+'g', '#4CAF7D', true],
+      ['① Autolisi 65% — T '+tAcq+'°C', acqAut+'g', '#F0E6D0', false],
+      ['② Bassinage 8°C + '+sale+'g sale', acqBass+'g', '#F0E6D0', false],
+      ['③ Ottimais (già assorbita)', ottAcq+'g', '#7A8A6A', false],
+    ].map(function(r){
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:'+(r[3]?'7px':'5px')+' 0;'
+        +(r[3]?'border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0':'border-bottom:1px solid rgba(255,255,255,0.04)')+'">'
+        +'<span style="color:#7A8A6A">'+r[0]+'</span>'
+        +'<strong style="color:'+r[2]+';font-size:'+(r[3]?'15':'13')+'px">'+r[1]+'</strong>'
+        +'</div>';
+    }).join('')
+    +'</div></div>';
+
+  // PIANO ORARI
+  h += '<div style="background:rgba(91,155,213,0.08);border:1.5px solid rgba(91,155,213,0.25);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:10px">⏱️ Piano orari</div>';
+
+  var now = new Date();
+  var nowH = now.getHours()+now.getMinutes()/60;
+  [
+    [ora,        '💧', 'Autolisi 40min', farNetta+'g farina + '+acqAut+'g acqua '+tAcq+'°C · nessuna lavorazione'],
+    [oraLicoli,  '🌿', 'Licoli '+licoli+'g', 'pH 4.10 · incorpora lentamente vel.1'],
+    [oraSale,    '🧂', 'Sale '+sale+'g', 'sciolto in parte del bassinage 8°C'],
+    [oraOttimais,'🌽', 'Ottimais '+ottimais+'g + Semi '+semi+'g', 'a filo · già pregelatinizzato con '+ottAcq+'g acqua'],
+    [oraFine,    '✅', 'Fine impasto · '+pezzi+' pezzi da '+pesoP+'g', 'T uscita target 24°C · velo trasparente'],
+    [oraCella,   '❄️', 'Cella 4°C · 45h', 'puntata fredda lunga · proteolisi controllata'],
+    [oraFuoriC,  '🌡️', 'Camera appretto 8–10°C · 90min', 'maglia si distende · non di più'],
+    [oraForno,   '🔥', 'FORNO', 'lama diagonale · vapore iniziale'],
+  ].forEach(function(s){
+    var min = Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5, nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(212,160,62,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(212,160,62,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#F0CC5A':'#F0E6D0')+'">'+Hh(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#F0CC5A':'#5B9BD5')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'#F0E6D0':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'#7A8A6A')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '</div>';
+
+  out.innerHTML = h;
+}
+
 function calcStaglioPallina(){
   function Rl(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
 
