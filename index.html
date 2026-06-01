@@ -532,7 +532,7 @@ select.inp{font-size:14px;font-weight:600;-webkit-appearance:none;background-ima
     <div class="g3">
       <div class="ig">
         <div class="il">% biga</div>
-        <div class="iw"><input class="inp" id="pv_c1_bigaPct" type="number" value="50" min="20" max="70" step="5" oninput="pv_c1calc()"><span class="iu">%</span></div>
+        <div class="iw"><input class="inp" id="pv_c1_bigaPct" type="number" value="30" min="20" max="70" step="5" oninput="pv_c1calc()"><span class="iu">%</span></div>
       </div>
       <div class="ig">
         <div class="il">🧂 Sale %</div>
@@ -710,7 +710,7 @@ function pv_tog(id){var c=pvG(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pv_CFG={
-  napo:  {idr:70,bigaPct:50,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  napo:  {idr:70,bigaPct:30,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
   teglia:{idr:78,bigaPct:50,idrB:0.45,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
@@ -778,7 +778,7 @@ function pv_c1calc(){
   var ora=pv_Gv('pv_c1_ora',10), stag=pv_Gv('pv_c1_stag',15.5);
   var phB=pv_Gv('pv_c1_phB',0), phL=pv_Gv('pv_c1_phL',4.0);
   var kgR=pv_Gv('pv_c1_kgR',15), idr=pv_Gv('pv_c1_idr',70);
-  var tAmb=pv_Gv('pv_c1_tAmb',22), bigaPct=pv_Gv('pv_c1_bigaPct',50);
+  var tAmb=pv_Gv('pv_c1_tAmb',22), bigaPct=pv_Gv('pv_c1_bigaPct',30);
   var sale=pv_Gv('pv_c1_sale',2.8);
   var tipo=pv_Gs('pv_c1_tipo','napo'), liev=pv_Gs('pv_c1_liev','licoli');
   var cfg=pv_CFG[tipo];
@@ -1472,12 +1472,42 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     </div>
 
     <div class="menu-section-label">🍕 Napoletana</div>
+    <div class="menu-btn" onclick="openPage('guidaScientifica')">
+      <div class="menu-icon" style="background:rgba(156,39,176,0.25)">🔬</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#CE93D8">Guida Scientifica Napoletana</div>
+        <div class="menu-sub">Biga · GN1/1 · T impasto · Appretto · Segni visivi · NASA level</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(156,39,176,0.2);color:#CE93D8;border-color:#9C27B0">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-btn" onclick="openPage('suprema')">
       <div class="menu-icon" style="background:rgba(136,14,79,0.3)">👑</div>
       <div class="menu-text">
         <div class="menu-name">Napoletana Suprema</div>
-        <div class="menu-sub">Biga 50% 0102HP + Licoli · 70% 5063 + 30% 5078</div>
+        <div class="menu-sub">Biga 30% 0102HP + Licoli · 70% 5063 + 30% 5078</div>
       </div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-btn" onclick="openPage('direttolicoli')">
+      <div class="menu-icon" style="background:rgba(76,175,125,0.25)">🌿</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#A5D6A7">Napoletana Diretta · Licoli</div>
+        <div class="menu-sub">Ore 9→19 · 5063+5078 · Licoli 9% · IDR 67% · zero biga</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(76,175,125,0.2);color:#A5D6A7;border-color:#4CAF7D">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-btn" onclick="openPage('direttoldb')">
+      <div class="menu-icon" style="background:rgba(91,155,213,0.25)">⚡</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#BBDEFB">Napoletana Diretta · LdB Puro</div>
+        <div class="menu-sub">Ore 9→19 · 5063+0102HP · LdB 0.25% · IDR 65% · zero biga</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(91,155,213,0.2);color:#BBDEFB;border-color:#5B9BD5">nuovo</div>
       <div class="menu-arrow">›</div>
     </div>
 
@@ -1785,8 +1815,8 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group">
         <label class="inp-label">Tipo impasto</label>
         <select class="inp-field" id="iaTipo" style="font-size:14px;-webkit-appearance:none" onchange="calcImpastoAdesso()">
-          <option value="napo">👑 Napoletana Suprema — Biga 50% 0102HP</option>
-          <option value="teglia">🫓 Teglia Romana — Biga 50% 5078+0102HP</option>
+          <option value="napo">👑 Napoletana Suprema — Biga 30% 0102HP</option>
+          <option value="teglia">🫓 Teglia Romana — Biga 30% 0102HP</option>
           <option value="pala48">🏅 Pala Romana 48h — Biga 30% 0102HP</option>
         </select>
       </div>
@@ -1922,7 +1952,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group">
         <label class="inp-label">Tipo impasto</label>
         <select class="inp-field" id="phImpasto" style="font-size:14px;-webkit-appearance:none" onchange="calcPhBiga()">
-          <option value="napo">👑 Napoletana Suprema — Biga 50% 0102HP</option>
+          <option value="napo">👑 Napoletana Suprema — Biga 30% 0102HP</option>
           <option value="teglia">🫓 Teglia Romana Super Alveolata — Biga 50% 5078+0102HP</option>
           <option value="pala48">🏅 Pala Romana 48h — Biga 30% 0102HP IDR 48%</option>
         </select>
@@ -2209,7 +2239,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
         <!-- NAPOLETANA -->
         <div style="background:rgba(136,14,79,0.1);border:1px solid rgba(136,14,79,0.3);border-radius:10px;padding:10px 12px">
-          <div style="font-size:11px;font-weight:700;color:#CE93D8;margin-bottom:4px">👑 Napoletana Suprema — biga 50% 0102HP</div>
+          <div style="font-size:11px;font-weight:700;color:#CE93D8;margin-bottom:4px">👑 Napoletana Suprema — biga 30% 0102HP</div>
           <div style="font-size:12px;color:var(--cream);font-family:'DM Mono',monospace;font-weight:700">70% 5063 Special + 30% 5078</div>
           <div style="font-size:10px;color:var(--dim);margin-top:3px">5063 → struttura + leopardatura · 5078 → estensibilità + regge puntata · <span style="color:#FFCDD2">NO 0102HP</span> (proteasi si sommano)</div>
         </div>
@@ -2651,12 +2681,556 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 </div>
 
 <!-- NAPOLETANA SUPREMA -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- GUIDA SCIENTIFICA NAPOLETANA SUPREMA          -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="pageGuidaScientifica" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔬</div>
+    <div class="page-hero-title">Guida Scientifica</div>
+    <div class="page-hero-sub">Biga · GN1/1 · T impasto · Appretto · Segni visivi · Senza compromessi</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <!-- BIGA MATURAZIONE -->
+  <div style="background:rgba(139,99,64,0.15);border:2px solid rgba(212,149,106,0.5);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:12px">🌾 Biga — Maturazione perfetta · Cauvain 2015 + Gobbetti 2014</div>
+
+    <div style="font-size:10px;color:#7A8A6A;margin-bottom:8px">Tabella LdB → ora picco a 18°C · finestra utilizzo</div>
+
+    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:45px 40px 70px 1fr;gap:8px;align-items:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:#A5D6A7">0.15%</div>
+        <div style="font-family:DM Mono,monospace;font-size:13px;color:var(--cream)">24h</div>
+        <div style="font-size:10px;color:#5B9BD5">22–26h</div>
+        <div style="font-size:10px;color:#7A8A6A">biga lentissima · aromi acetatici massimi</div>
+      </div>
+      <div style="display:grid;grid-template-columns:45px 40px 70px 1fr;gap:8px;align-items:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:#A5D6A7">0.20%</div>
+        <div style="font-family:DM Mono,monospace;font-size:13px;color:var(--cream)">22h</div>
+        <div style="font-size:10px;color:#5B9BD5">20–24h</div>
+        <div style="font-size:10px;color:#7A8A6A">ideale per orari 18:00 → 16:00</div>
+      </div>
+      <div style="display:grid;grid-template-columns:45px 40px 70px 1fr;gap:8px;align-items:center;background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.4);border-radius:8px;padding:8px 10px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:#F0CC5A">0.30%</div>
+        <div style="font-family:DM Mono,monospace;font-size:13px;color:var(--cream)">21h</div>
+        <div style="font-size:10px;color:#5B9BD5">19–23h</div>
+        <div style="font-size:10px;color:#F0CC5A">✅ DEFAULT SUPREMA · picco mattino se fatta la sera</div>
+      </div>
+      <div style="display:grid;grid-template-columns:45px 40px 70px 1fr;gap:8px;align-items:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:#F0CC5A">0.40%</div>
+        <div style="font-family:DM Mono,monospace;font-size:13px;color:var(--cream)">17h</div>
+        <div style="font-size:10px;color:#5B9BD5">15–19h</div>
+        <div style="font-size:10px;color:#7A8A6A">se fatta a mezzogiorno per la mattina dopo</div>
+      </div>
+      <div style="display:grid;grid-template-columns:45px 40px 70px 1fr;gap:8px;align-items:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 10px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:#FFCDD2">0.50%</div>
+        <div style="font-family:DM Mono,monospace;font-size:13px;color:var(--cream)">14h</div>
+        <div style="font-size:10px;color:#5B9BD5">12–16h</div>
+        <div style="font-size:10px;color:#7A8A6A">solo emergenza · aromi ridotti</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;color:#7A8A6A;margin-bottom:8px">Semaforo pH biga — quando impastare (Hamelman 2012)</div>
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.4);border-radius:8px;padding:8px 12px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:12px;color:#FFCDD2;min-width:75px">pH > 5.45</div>
+        <div style="font-size:11px;font-weight:700;color:#FFCDD2;min-width:80px">❌ Acerba</div>
+        <div style="font-size:10px;color:#7A8A6A">aspetta ancora 1-2h · non impastare</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.12);border:1px solid rgba(255,193,7,0.3);border-radius:8px;padding:8px 12px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:12px;color:#FFE082;min-width:75px">pH 5.35–5.45</div>
+        <div style="font-size:11px;font-weight:700;color:#FFE082;min-width:80px">⚠️ Limite</div>
+        <div style="font-size:10px;color:#7A8A6A">usa subito · puntata +30min</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:8px;padding:8px 12px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:12px;color:#A5D6A7;min-width:75px">pH 5.20–5.35</div>
+        <div style="font-size:11px;font-weight:700;color:#A5D6A7;min-width:80px">✅ ECCELLENZA</div>
+        <div style="font-size:10px;color:var(--cream)">impasta adesso · zona perfetta</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.12);border:1px solid rgba(255,193,7,0.3);border-radius:8px;padding:8px 12px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:12px;color:#FFE082;min-width:75px">pH 5.10–5.20</div>
+        <div style="font-size:11px;font-weight:700;color:#FFE082;min-width:80px">⚠️ Limite</div>
+        <div style="font-size:10px;color:#7A8A6A">usa subito · puntata −20min</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.4);border-radius:8px;padding:8px 12px">
+        <div style="font-family:DM Mono,monospace;font-weight:700;font-size:12px;color:#FFCDD2;min-width:75px">pH < 5.10</div>
+        <div style="font-size:11px;font-weight:700;color:#FFCDD2;min-width:80px">❌ Stanca</div>
+        <div style="font-size:10px;color:#7A8A6A">refrigera 30min o scarta</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.7">
+      🔬 pH 5.20–5.35: concentrazione acetica ottimale → aromi complessi + maglia ancora integra (Gobbetti & Gänzle 2012)<br>
+      🔬 Sotto pH 5.10: proteolisi eccessiva → glutine degradato → cornicione piatto anche con impasto perfetto<br>
+      🔬 T biga: <strong style="color:var(--cream)">18°C ± 1°C</strong> · ogni grado in più anticipa il picco di ~1.5h
+    </div>
+
+    <!-- CONFRONTO 4°C vs 17°C -->
+    <div style="margin-top:12px;background:rgba(0,0,0,0.25);border:1.5px solid rgba(212,160,62,0.3);border-radius:12px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#F0CC5A;text-transform:uppercase;margin-bottom:12px">⚗️ Biga 4°C vs 17°C — Verdetto scientifico · Cauvain 2015</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:rgba(229,57,53,0.12);border:1.5px solid rgba(229,57,53,0.35);border-radius:10px;padding:12px">
+          <div style="font-size:12px;font-weight:700;color:#FFCDD2;margin-bottom:8px">❌ Biga a 4°C</div>
+          <div style="font-size:10px;color:#7A8A6A;line-height:1.9">
+            μ = 0.012 h⁻¹ (4x più lento)<br>
+            In 21h sviluppa solo <strong style="color:#FFCDD2">+28% volume</strong><br>
+            pH raggiunto in 21h: <strong style="color:#FFCDD2">~5.70</strong><br>
+            Aromi: <strong style="color:#FFCDD2">piatti · poco acetico</strong><br>
+            Per avere pH 5.30 servono <strong style="color:#FFCDD2">59h</strong><br>
+            = 2.5 giorni → impraticabile
+          </div>
+        </div>
+        <div style="background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.45);border-radius:10px;padding:12px">
+          <div style="font-size:12px;font-weight:700;color:#A5D6A7;margin-bottom:8px">✅ Biga a 17-18°C</div>
+          <div style="font-size:10px;color:#7A8A6A;line-height:1.9">
+            μ = 0.033 h⁻¹ · controllato<br>
+            In 21h sviluppa <strong style="color:#A5D6A7">+100% volume</strong><br>
+            pH raggiunto in 21h: <strong style="color:#A5D6A7">5.20–5.35</strong><br>
+            Aromi: <strong style="color:#A5D6A7">complessi · acetico massimo</strong><br>
+            Ripetibile ogni giorno <strong style="color:#A5D6A7">uguale</strong><br>
+            = Standard industria ✅
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+        <div style="font-size:10px;color:#7A8A6A;margin-bottom:4px">Volume sviluppato nelle prime 24h · LdB 0.30%</div>
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:6px;font-size:10px">
+          <div style="color:#7A8A6A;font-family:DM Mono,monospace">Ore</div>
+          <div style="color:#FFCDD2;text-align:center">4°C</div>
+          <div style="color:#A5D6A7;text-align:center">17°C</div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:2px 0"></div>
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:6px;font-size:11px;padding:3px 0">
+          <div style="color:#7A8A6A;font-family:DM Mono,monospace">6h</div>
+          <div style="text-align:center;color:#FFCDD2;font-family:DM Mono,monospace">+7%</div>
+          <div style="text-align:center;color:#A5D6A7;font-family:DM Mono,monospace">+22%</div>
+        </div>
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:6px;font-size:11px;padding:3px 0">
+          <div style="color:#7A8A6A;font-family:DM Mono,monospace">12h</div>
+          <div style="text-align:center;color:#FFCDD2;font-family:DM Mono,monospace">+15%</div>
+          <div style="text-align:center;color:#A5D6A7;font-family:DM Mono,monospace">+49%</div>
+        </div>
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:6px;font-size:11px;padding:3px 0;background:rgba(212,160,62,0.08);border-radius:6px">
+          <div style="color:#F0CC5A;font-family:DM Mono,monospace;font-weight:700">21h</div>
+          <div style="text-align:center;color:#FFCDD2;font-family:DM Mono,monospace;font-weight:700">+28% ❌</div>
+          <div style="text-align:center;color:#A5D6A7;font-family:DM Mono,monospace;font-weight:700">+100% ✅</div>
+        </div>
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:6px;font-size:11px;padding:3px 0">
+          <div style="color:#7A8A6A;font-family:DM Mono,monospace">24h</div>
+          <div style="text-align:center;color:#FFCDD2;font-family:DM Mono,monospace">+33%</div>
+          <div style="text-align:center;color:#FFCDD2;font-family:DM Mono,monospace">+121% ⚠️</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(212,160,62,0.08);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.7">
+        🔬 <strong style="color:#F0CC5A">La biga a 4°C si usa SOLO per conservare</strong> una biga già matura (24-48h max)<br>
+        🔬 Per la maturazione primaria: <strong style="color:var(--cream)">17-18°C obbligatorio</strong> — non esistono alternative<br>
+        🔬 Biga a 4°C = aromi piatti, pH non corretto, cornicione che non va dentro<br>
+        🔬 Fonte: Cauvain 2015 p.178 · Hamelman 2012 p.47 · Gobbetti & Gänzle 2012
+      </div>
+
+      <!-- PROTOCOLLO SE NON HAI CELLA 17°C -->
+      <div style="margin-top:12px;background:rgba(76,175,125,0.10);border:2px solid rgba(76,175,125,0.45);border-radius:10px;padding:14px">
+        <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">✅ Non hai la cella a 17°C? Fai così</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">
+            <div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#F0CC5A;min-width:28px">1</div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--cream);margin-bottom:2px">Impasta la biga con LdB 0.30%</div>
+              <div style="font-size:10px;color:#7A8A6A">0102HP · IDR 45% · come sempre</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.35);border-radius:8px;padding:10px">
+            <div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#F0CC5A;min-width:28px">2</div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#F0CC5A;margin-bottom:2px">Lascia FUORI 3h a T ambiente</div>
+              <div style="font-size:10px;color:#7A8A6A">22°C → pH scende a ~5.55 · fermentazione avviata correttamente</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(91,155,213,0.12);border-radius:8px;padding:10px">
+            <div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#BBDEFB;min-width:28px">3</div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#BBDEFB;margin-bottom:2px">Entra in frigo 4°C per 15h</div>
+              <div style="font-size:10px;color:#7A8A6A">pH finale mattino: ~5.30–5.35 ✅ · zona eccellenza</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">
+            <div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#A5D6A7;min-width:28px">4</div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#A5D6A7;margin-bottom:2px">Tira fuori 30min prima di impastare</div>
+              <div style="font-size:10px;color:#7A8A6A">lascia temperare · poi controlla pH · se 5.20–5.35 impasta</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.7">
+          🔬 Perché funziona: le 3h a T ambiente avviano la produzione acetica · il freddo la rallenta ma non la ferma · pH continua a scendere lentamente durante la notte<br>
+          🔬 Risultato identico alla cella 17°C — verificato scientificamente (Gobbetti & Gänzle 2012)<br>
+          ⚠️ Se T ambiente > 25°C: riduci a <strong style="color:var(--cream)">2h fuori</strong> poi frigo
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GN 1/1 PUNTATA -->
+  <div style="background:rgba(91,155,213,0.10);border:2px solid rgba(91,155,213,0.40);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">📦 Puntata in GN 1/1 · Dobraszczyk 2003 + Hamelman 2012</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px">
+        <div style="font-size:9px;color:#7A8A6A;margin-bottom:6px">GN 1/1 dimensioni</div>
+        <div style="font-size:12px;color:var(--cream);line-height:2">
+          530 × 325 × 200mm<br>
+          Volume: <strong>34.4L</strong><br>
+          Max riempimento: <strong>60%</strong><br>
+          Volume utile: <strong>20.6L</strong><br>
+          Max impasto: <strong style="color:#F0CC5A">23.7kg</strong>
+        </div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px">
+        <div style="font-size:9px;color:#7A8A6A;margin-bottom:6px">Lettura altezza impasto</div>
+        <div style="font-size:12px;color:var(--cream);line-height:2">
+          Inizio puntata: <strong style="color:#F0CC5A">~80mm</strong><br>
+          Target staglio: <strong style="color:#A5D6A7">~120mm (+50%)</strong><br>
+          Limite max: <strong style="color:#FFCDD2">~140mm (+80%)</strong><br>
+          <span style="font-size:10px;color:#7A8A6A">Misura con righello se non sicuro</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;color:#7A8A6A;margin-bottom:8px">Durata puntata per T laboratorio · biga 30% + licoli 10%</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+      <div style="background:rgba(91,155,213,0.12);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:#BBDEFB;margin-bottom:4px">20°C</div>
+        <div style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream)">5.5–6h</div>
+      </div>
+      <div style="background:rgba(76,175,125,0.12);border:1.5px solid rgba(76,175,125,0.4);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:#A5D6A7;margin-bottom:4px">22°C ✅</div>
+        <div style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream)">4.0–4.5h</div>
+      </div>
+      <div style="background:rgba(255,193,7,0.10);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:#FFE082;margin-bottom:4px">24°C</div>
+        <div style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream)">3.0–3.5h</div>
+      </div>
+      <div style="background:rgba(229,57,53,0.10);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:#FFCDD2;margin-bottom:4px">26°C ⚠️</div>
+        <div style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream)">2.5–3.0h</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- T IMPASTO USCITA -->
+  <div style="background:rgba(212,160,62,0.10);border:2px solid rgba(212,160,62,0.40);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:12px">🌡️ Temperatura impasto uscita · DDT 23°C · Suas 2009</div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(91,155,213,0.12);border-radius:8px;padding:8px 12px">
+        <div style="font-size:18px">❄️</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#BBDEFB;min-width:65px">sotto 21°C</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo freddo → aggiungi 45min puntata per ogni grado sotto il target</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
+        <div style="font-size:18px">⚠️</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:65px">21–22°C</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite basso → aggiungi 20min puntata</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:8px;padding:8px 12px">
+        <div style="font-size:18px">✅</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#A5D6A7;min-width:65px">22–24°C</div>
+        <div style="font-size:10px;color:var(--cream);flex:1">PERFETTO → procedi normalmente con i tempi calcolati</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
+        <div style="font-size:18px">⚠️</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:65px">24–25°C</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite alto → togli 20min puntata · staglio prima</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.12);border-radius:8px;padding:8px 12px">
+        <div style="font-size:18px">🔴</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFCDD2;min-width:65px">sopra 25°C</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo caldo → metti GN in frigo 15-20min poi riprendi puntata</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px">
+      <div style="font-size:10px;color:#7A8A6A;margin-bottom:8px">T acqua autolisi per T ambiente · DDT 23°C · K=7.8 Esmach (Suas 2009)</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 20°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#A5D6A7">25.2°C</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 22°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#A5D6A7">21.2°C</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 24°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#FFE082">17.2°C</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 26°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#FFE082">13.2°C</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 28°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#FFCDD2">9.2°C</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:9px;color:#7A8A6A">T amb 30°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#FFCDD2">5.2°C</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPRETTO PERFETTO -->
+  <div style="background:rgba(76,175,125,0.10);border:2px solid rgba(76,175,125,0.40);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:12px">⏳ Appretto perfetto · Suas 2009 + Hamelman 2012</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="background:rgba(91,155,213,0.10);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:#BBDEFB;margin-bottom:4px">20°C → 3.5–4h</div>
+        <div style="font-size:10px;color:#7A8A6A">Appretto lungo · scioglievolezza massima</div>
+      </div>
+      <div style="background:rgba(76,175,125,0.12);border:1.5px solid rgba(76,175,125,0.4);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:#A5D6A7;margin-bottom:4px">22°C → 2.5–3h ✅</div>
+        <div style="font-size:10px;color:#7A8A6A">DEFAULT · equilibrio perfetto</div>
+      </div>
+      <div style="background:rgba(255,193,7,0.10);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:#FFE082;margin-bottom:4px">24°C → 2–2.5h</div>
+        <div style="font-size:10px;color:#7A8A6A">Appretto breve · ok con biga 30%</div>
+      </div>
+      <div style="background:rgba(229,57,53,0.10);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:#FFCDD2;margin-bottom:4px">26°C → 1.5–2h ⚠️</div>
+        <div style="font-size:10px;color:#7A8A6A">Rischio · controlla ogni 20min</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--cream);margin-bottom:10px">👆 TEST DEL DITO — il più preciso (Hamelman 2012)</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px;background:rgba(91,155,213,0.10);border-radius:8px;border-left:3px solid #BBDEFB">
+          <div style="font-family:DM Mono,monospace;font-size:11px;color:#BBDEFB;min-width:100px">Risale subito</div>
+          <div style="font-size:10px;color:#7A8A6A">❄️ Acerba — aspetta altri 30-45min</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px;background:rgba(255,193,7,0.10);border-radius:8px;border-left:3px solid #FFE082">
+          <div style="font-family:DM Mono,monospace;font-size:11px;color:#FFE082;min-width:100px">Risale a metà</div>
+          <div style="font-size:10px;color:#7A8A6A">⚠️ Quasi pronta — aspetta altri 15-20min</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px;background:rgba(76,175,125,0.12);border:1.5px solid rgba(76,175,125,0.4);border-radius:8px;border-left:3px solid #A5D6A7">
+          <div style="font-family:DM Mono,monospace;font-size:11px;color:#A5D6A7;min-width:100px">Risale lento</div>
+          <div style="font-size:10px;color:var(--cream)">✅ PRONTA — inforna adesso · massima leggerezza</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px;background:rgba(229,57,53,0.12);border-radius:8px;border-left:3px solid #FFCDD2">
+          <div style="font-family:DM Mono,monospace;font-size:11px;color:#FFCDD2;min-width:100px">Non risale</div>
+          <div style="font-size:10px;color:#7A8A6A">❌ Sovrafermentata — inforna SUBITO o è persa</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.8">
+      🔬 Non coprire ermeticamente — la CO₂ deve poter uscire leggermente<br>
+      🔬 Non spostare le palline dopo le prime 2h — le vibrazioni rompono la struttura alveolare<br>
+      🔬 Pallina pronta: sembra quasi galleggiante · stesura senza resistenza né strappi
+    </div>
+  </div>
+
+  <!-- SEGNI VISIVI -->
+  <div style="background:rgba(156,39,176,0.08);border:2px solid rgba(156,39,176,0.35);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#CE93D8;text-transform:uppercase;margin-bottom:12px">👁️ Segni visivi — quando tutto è perfetto</div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#D4956A;margin-bottom:6px">🌾 Biga pronta</div>
+        <div style="font-size:11px;color:#7A8A6A;line-height:2;padding-left:8px">
+          → Colore crema-giallo uniforme<br>
+          → Odore acetico-alcolico pronunciato (non pungente)<br>
+          → Crepe in superficie — segno di maturazione corretta<br>
+          → Temperatura interna 17–19°C<br>
+          → Si appiattisce lentamente se inclinata
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#F0CC5A;margin-bottom:6px">🥣 Impasto finito</div>
+        <div style="font-size:11px;color:#7A8A6A;line-height:2;padding-left:8px">
+          → Temperatura 22–24°C al cuore<br>
+          → Velo trasparente — si stende senza strapparsi<br>
+          → Si stacca dal piano senza attaccarsi<br>
+          → Superficie liscia e lucida<br>
+          → Non si appiccica alle mani umide
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#A5D6A7;margin-bottom:6px">📦 Puntata pronta</div>
+        <div style="font-size:11px;color:#7A8A6A;line-height:2;padding-left:8px">
+          → Volume +50% rispetto all'inizio (da 80mm a 120mm nel GN)<br>
+          → Bolle visibili in superficie e sui bordi<br>
+          → Toccando rimbalza lentamente (2–3 secondi)<br>
+          → Odore lievemente acetico-lattico<br>
+          → Non appiattisce se muovi il GN
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#BBDEFB;margin-bottom:6px">🍕 Pallina pronta</div>
+        <div style="font-size:11px;color:#7A8A6A;line-height:2;padding-left:8px">
+          → Test dito: impronta risale lentamente<br>
+          → Superficie leggermente secca al tatto<br>
+          → Sembra gonfia ma leggera · quasi galleggiante<br>
+          → In stesura: si allarga senza resistenza<br>
+          → Il cornicione si forma da solo al bordo
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FONTI -->
+  <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;font-size:9px;color:#7A8A6A;line-height:2">
+    <div style="font-family:DM Mono,monospace;font-size:9px;color:#CE93D8;margin-bottom:6px">📚 Fonti scientifiche</div>
+    Suas M. (2009) — Advanced Bread and Pastry<br>
+    Hamelman J. (2012) — Bread: A Baker's Book of Techniques<br>
+    Cauvain S. (2015) — Technology of Breadmaking<br>
+    Gobbetti M. & Gänzle M. (2012) — Handbook on Sourdough Biotechnology<br>
+    De Vuyst L. & Neysens P. (2005) — The sourdough microflora<br>
+    Dobraszczyk B.J. (2003) — Breadmaking: Improving Quality<br>
+    AVPN (2008) — Disciplinare Vera Pizza Napoletana
+  </div>
+
+  </div>
+</div>
+
+<div id="pageDirettoLicoli" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🌿</div>
+    <div class="page-hero-title">Napoletana Diretta · Licoli</div>
+    <div class="page-hero-sub">Ore 9→19 · 5063+5078 · Zero biga · Licoli 9% · Cornicione mondiale</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <div style="background:#1A2A1A;border:2px solid rgba(76,175,125,0.45);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:12px">⚙️ Imposta produzione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div class="inp-label">🌾 Kg farina totale</div>
+        <div class="inp-row"><input class="inp-field" id="dl_kg" type="number" value="20" min="1" max="200" step="0.5" oninput="calcDirettoLicoli()" style="font-size:32px;font-weight:900;color:#A5D6A7"><span class="inp-unit">kg</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🍕 Grammatura pallina</div>
+        <div class="inp-row"><input class="inp-field" id="dl_gr" type="number" value="270" min="200" max="350" step="5" oninput="calcDirettoLicoli()" style="color:var(--gold2)"><span class="inp-unit">g</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⏰ Ora inizio impasto</div>
+        <div class="inp-row"><input class="inp-field" id="dl_oraI" type="number" value="9" min="4" max="14" step="0.5" oninput="calcDirettoLicoli()" style="color:var(--gold2)"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🔥 Ora servizio</div>
+        <div class="inp-row"><input class="inp-field" id="dl_oraS" type="number" value="19" min="12" max="24" step="0.5" oninput="calcDirettoLicoli()" style="color:#FFCDD2"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌿 Licoli % (su farina)</div>
+        <div class="inp-row"><input class="inp-field" id="dl_licP" type="number" value="9" min="5" max="20" step="1" oninput="calcDirettoLicoli()"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌡️ T laboratorio</div>
+        <div class="inp-row"><input class="inp-field" id="dl_tAmb" type="number" value="22" min="16" max="32" oninput="calcDirettoLicoli()"><span class="inp-unit">°C</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="dlOut"><div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Imposta kg farina → ricetta completa</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- NAPOLETANA DIRETTA LDB PURO                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="pageDirettoLdb" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">⚡</div>
+    <div class="page-hero-title">Napoletana Diretta · LdB Puro</div>
+    <div class="page-hero-sub">Ore 9→19 · 5063+0102HP · LdB 0.25% · Zero biga · Zero licoli</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <div style="background:#1A1A2A;border:2px solid rgba(91,155,213,0.45);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">⚙️ Imposta produzione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div class="inp-label">🌾 Kg farina totale</div>
+        <div class="inp-row"><input class="inp-field" id="ld_kg" type="number" value="20" min="1" max="200" step="0.5" oninput="calcDirettoLdb()" style="font-size:32px;font-weight:900;color:#BBDEFB"><span class="inp-unit">kg</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🍕 Grammatura pallina</div>
+        <div class="inp-row"><input class="inp-field" id="ld_gr" type="number" value="270" min="200" max="350" step="5" oninput="calcDirettoLdb()" style="color:var(--gold2)"><span class="inp-unit">g</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⏰ Ora inizio impasto</div>
+        <div class="inp-row"><input class="inp-field" id="ld_oraI" type="number" value="9" min="4" max="14" step="0.5" oninput="calcDirettoLdb()" style="color:var(--gold2)"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🔥 Ora servizio</div>
+        <div class="inp-row"><input class="inp-field" id="ld_oraS" type="number" value="19" min="12" max="24" step="0.5" oninput="calcDirettoLdb()"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🍺 LdB % (su farina)</div>
+        <div class="inp-row"><input class="inp-field" id="ld_ldbP" type="number" value="0.25" min="0.05" max="1.0" step="0.05" oninput="calcDirettoLdb()"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌡️ T laboratorio</div>
+        <div class="inp-row"><input class="inp-field" id="ld_tAmb" type="number" value="22" min="16" max="32" oninput="calcDirettoLdb()"><span class="inp-unit">°C</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="ldOut"><div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Imposta kg farina → ricetta completa</div></div>
+  </div>
+</div>
+
 <div id="pageSuprema" class="scroll" style="display:none">
   <div class="page-hero">
     <div class="page-hero-icon">👑</div>
     <div class="page-hero-title">Napoletana Suprema</div>
-    <div class="page-hero-sub">Biga 50% 0102HP · 70% 5063 + 30% 5078 · Licoli · Cornicione assoluto</div>
+    <div class="page-hero-sub">Biga 30% 0102HP · 70% 5063 + 30% 5078 · Licoli · Cornicione assoluto</div>
   </div>
+
+  <!-- BOX RAPIDO: kg biga → palline -->
+  <div style="background:#1A2A1A;border:2px solid rgba(212,160,62,0.5);border-radius:16px;padding:16px;margin:0 14px 12px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:12px">⚡ Calcolo rapido — inserisci la farina biga</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div>
+        <div class="inp-label" style="color:#D4956A">🌾 Kg farina biga (0102HP)</div>
+        <div class="inp-row">
+          <input class="inp-field" id="sKgBiga" type="number" value="6" min="0.5" max="100" step="0.5" oninput="calcSupremaRapido()" style="font-size:32px;font-weight:900;color:#D4956A">
+          <span class="inp-unit">kg</span>
+        </div>
+      </div>
+      <div>
+        <div class="inp-label" style="color:var(--gold2)">% biga su totale</div>
+        <div class="inp-row">
+          <input class="inp-field" id="sBigaPct" type="number" value="30" min="10" max="60" step="5" oninput="calcSupremaRapido()" style="font-size:32px;font-weight:900;color:var(--gold2)">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+    </div>
+    <div id="supremaRapidoOut" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0CC5A">—</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#D4956A">—</div>
+      </div>
+      <div style="background:rgba(76,175,125,0.15);border:1.5px solid rgba(76,175,125,0.4);border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline 270g</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#A5D6A7">—</div>
+      </div>
+    </div>
+  </div>
+
   <div class="card open" id="cardSupremaInp">
     <div class="card-hdr" onclick="toggleCard('cardSupremaInp')">
       <div class="card-hdr-icon">✏️</div>
@@ -2664,7 +3238,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">KG Farina Biga (0102HP)</label><div class="inp-row"><input class="inp-field" id="sKg" type="number" value="9" min="1" max="100" step="0.5" oninput="calcSuprema()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">KG Farina TOTALE</label><div class="inp-row"><input class="inp-field" id="sKg" type="number" value="20" min="1" max="200" step="0.5" oninput="calcSuprema()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="sGr" type="number" value="260" min="200" max="320" step="5" oninput="calcSuprema()"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="sIDR" type="number" value="70" min="55" max="85" step="0.5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="sSale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
@@ -2831,7 +3405,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     <div class="card-body">
       <div class="inp-group"><label class="inp-label">Kg farina totale</label><div class="inp-row"><input class="inp-field" id="nfKgTot" type="number" value="20" min="5" max="150" step="0.5" oninput="syncNfKg()"><span class="inp-unit">kg</span></div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Biga 50% — calcolato</label><div class="inp-row"><input class="inp-field" id="nfKgB" type="number" value="10" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Biga 30% — calcolato</label><div class="inp-row"><input class="inp-field" id="nfKgB" type="number" value="10" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
         <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Rinfresco 50%</label><div class="inp-row"><input class="inp-field" id="nfKgR" type="number" value="10" step="0.5" style="color:var(--gold)"><span class="inp-unit">kg</span></div></div>
       </div>
       <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="nfGr" type="number" value="270" min="220" max="320" step="10"><span class="inp-unit">g</span></div></div>
@@ -4703,7 +5277,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',scrocch:'pageScrocch',
+  suprema:'pageSuprema',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -5057,22 +5631,362 @@ function renderUltimoRinfresco() {
 // ══════════════════════════════════════════════
 // NAPOLETANA SUPREMA
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════
+// NAPOLETANA DIRETTA LICOLI — 9h→19h · 5063 60% + 5078 40%
+// Licoli 9% · IDR 67% · zero biga · Gänzle 2012 + Suas 2009
+// μ_eff = μ22 × Q10^((T-22)/10) × 1.30 (boost licoli)
+// ══════════════════════════════════════════════════════════════════════
+function calcDirettoLicoli(){
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function r5(n){return Math.round(n/5)*5;}
+
+  var kg    = parseFloat((document.getElementById('dl_kg')||{value:20}).value)||20;
+  var gr    = parseFloat((document.getElementById('dl_gr')||{value:270}).value)||270;
+  var oraI  = parseFloat((document.getElementById('dl_oraI')||{value:9}).value)||9;
+  var oraS  = parseFloat((document.getElementById('dl_oraS')||{value:19}).value)||19;
+  var licP  = parseFloat((document.getElementById('dl_licP')||{value:9}).value)||9;
+  var tAmb  = parseFloat((document.getElementById('dl_tAmb')||{value:22}).value)||22;
+  var out   = document.getElementById('dlOut');
+  if(!out) return;
+
+  // BLEND FARINE — Suas 2009: equilibrio P/L per scioglievolezza massima
+  var kg5063 = r5(kg * 0.60 * 1000);  // 60% · W260-280 · estensibilità + scioglievolezza
+  var kg5078 = r5(kg * 0.40 * 1000);  // 40% · W350-380 · struttura alveolare
+
+  // LICOLI
+  var licG   = r5(kg * licP/100 * 1000);
+  var licFar = Math.round(licG * 0.5);
+  var licAcq = Math.round(licG * 0.5);
+
+  // ACQUA IDR 67%
+  var acqTot  = r5(kg * 0.67 * 1000);
+  var acqNetta= acqTot - licAcq;
+  var acqAut  = r5(acqNetta * 0.65);
+  var acqBass = acqNetta - acqAut;
+
+  // SALE 2.8%
+  var sale = r5(kg * 0.028 * 1000);
+
+  // PIACCA E PALLINE
+  var piacca = kg*1000 + acqTot + sale;
+  var pan    = Math.floor(piacca / gr);
+
+  // T ACQUA AUTOLISI
+  var tAcq  = Math.round((23*3 - 18 - tAmb - 7.8)*10)/10;
+  var tAcqC = tAcq<5?'#FFCDD2':tAcq<10?'#BBDEFB':tAcq<=22?'#A5D6A7':'#F0CC5A';
+
+  // FERMENTAZIONE — μ_eff con boost licoli (Gänzle 2012)
+  var mu22   = 0.049;
+  var Q10    = 2.2;
+  var fLic   = 1.30;  // boost licoli su S.cerevisiae (De Vuyst 2005)
+  var muEff  = mu22 * Math.pow(Q10,(tAmb-22)/10) * fLic;
+  var hTot   = oraS > oraI ? oraS-oraI : (oraS+24)-oraI;
+  var hPunt  = hTot - 3.5;  // 3.5h appretto
+  var volPunt= Math.round((Math.exp(muEff*hPunt)-1)*100);
+
+  // ORARI
+  var oraFine  = oraI + 1.0;
+  var oraSF1   = oraFine + 0.5;
+  var oraSF2   = oraSF1 + 0.33;
+  var oraStag  = oraS - 3.5;
+  var oraAppretto = oraStag;
+  var oraForno = oraS;
+
+  var h = '';
+
+  // BOX PRODUZIONE
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Farina totale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+kg+'kg</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.12);border:2px solid rgba(212,160,62,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#F0CC5A">'+pan+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">da '+gr+'g</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">📈 Vol. puntata</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:'+(volPunt>=45&&volPunt<=60?'#A5D6A7':volPunt<45?'#F0CC5A':'#FFCDD2')+'">+'+volPunt+'%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">target 45-60%</div>'
+    +'</div>'
+    +'</div>';
+
+  // BOX BLEND FARINE
+  h += '<div style="background:rgba(76,175,125,0.08);border:2px solid rgba(76,175,125,0.35);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🌾 Blend farine · '+kg+'kg totale</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5063 Special (60%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg5063+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W260-280 · estensibilità · scioglievolezza</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5078 (40%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg5078+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W350-380 · struttura · alveoli alti</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:10px;color:var(--dim);line-height:1.6">'
+    +'🔬 Blend 60/40: equilibrio P/L ottimale per cornicione pronunciato + scioglievolezza (Suas 2009)<br>'
+    +'🔬 5063 dominante → maglia estensibile → gas si espande facilmente → cornicione vuoto dentro'
+    +'</div>'
+    +'</div>';
+
+  // BOX LICOLI + ACQUA
+  h += '<div style="background:rgba(0,0,0,0.2);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:10px">🌿 Licoli + Sale + Acqua</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.1);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Licoli pH 4.0-4.1 ('+licP+'%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+licG+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">→ '+licFar+'g farina + '+licAcq+'g acqua</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.1);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Sale (2.8%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#F0CC5A">'+sale+'g</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:12px;display:flex;flex-direction:column;gap:4px">'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua totale IDR 67%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua licoli (50%)</span><strong style="color:#FFCDD2">−'+licAcq+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:#4CAF7D;font-size:15px">'+acqNetta+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 65% — <strong style="color:var(--cream)">'+tAcq+'°C</strong></span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">② Bassinage 8°C + '+sale+'g sale</span><strong>'+acqBass+'g</strong></div>'
+    +'</div></div>';
+
+  // TIMELINE
+  h += '<div style="background:rgba(76,175,125,0.06);border:1.5px solid rgba(76,175,125,0.25);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
+
+  var nowH = (new Date()).getHours()+(new Date()).getMinutes()/60;
+  [
+    [oraI,       '💧', 'Autolisi 20min',              kg5063+'g 5063 + '+kg5078+'g 5078 · '+acqAut+'g H₂O '+tAcq+'°C · mescola grosso · copri'],
+    [oraI+0.33,  '🌿', 'Inserimento licoli '+licG+'g','pH 4.0-4.1 · incorpora lentamente vel.1'],
+    [oraI+0.58,  '🧂', 'Sale '+sale+'g + bassinage',  acqBass+'g H₂O 8°C · a filo · aspetta incordatura'],
+    [oraFine,    '✅', 'Fine impasto · T 23°C',        'velo trasparente · maglia elastica'],
+    [oraSF1,     '💪', 'S&F × 1',                     'stretch & fold · copri'],
+    [oraSF2,     '💪', 'S&F × 2',                     'stretch & fold · poi lascia in puntata'],
+    [oraStag,    '✂️', 'STAGLIO · '+pan+' palline',   gr+'g cad. · puntata +'+volPunt+'% ✅'],
+    [oraAppretto,'⏳', 'Appretto 3.5h T ambiente',    'copri · non toccare · lascia rilassare'],
+    [oraForno,   '🔥', 'SERVIZIO · forno 450°C+',     '60-90 sec · cornicione che va dentro · scioglievolezza assoluta'],
+  ].forEach(function(s){
+    var min=Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5,nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(76,175,125,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(76,175,125,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#A5D6A7':'var(--cream)')+'">'+Hv(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#A5D6A7':'var(--blue)')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'var(--dim)')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '</div>';
+  out.innerHTML = h;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// NAPOLETANA DIRETTA LDB PURO — 9h→19h · 5063 70% + 0102HP 30%
+// LdB 0.25% · IDR 65% · zero biga · zero licoli
+// Cauvain 2015: LdB 0.25% → picco ~10h → puntata 6h + appretto 3h
+// ══════════════════════════════════════════════════════════════════════
+function calcDirettoLdb(){
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function r5(n){return Math.round(n/5)*5;}
+
+  var kg    = parseFloat((document.getElementById('ld_kg')||{value:20}).value)||20;
+  var gr    = parseFloat((document.getElementById('ld_gr')||{value:270}).value)||270;
+  var oraI  = parseFloat((document.getElementById('ld_oraI')||{value:9}).value)||9;
+  var oraS  = parseFloat((document.getElementById('ld_oraS')||{value:19}).value)||19;
+  var ldbP  = parseFloat((document.getElementById('ld_ldbP')||{value:0.25}).value)||0.25;
+  var tAmb  = parseFloat((document.getElementById('ld_tAmb')||{value:22}).value)||22;
+  var out   = document.getElementById('ldOut');
+  if(!out) return;
+
+  // BLEND — 5063 dominante per scioglievolezza + 0102HP per struttura
+  var kg5063  = r5(kg * 0.70 * 1000);
+  var kg0102  = r5(kg * 0.30 * 1000);
+  var ldbG    = Math.max(1, Math.round(kg * ldbP/100 * 1000 * 10)/10);
+
+  // ACQUA IDR 65%
+  var acqTot  = r5(kg * 0.65 * 1000);
+  var acqAut  = r5(acqTot * 0.65);
+  var acqBass = acqTot - acqAut;
+
+  // SALE 2.8%
+  var sale = r5(kg * 0.028 * 1000);
+
+  // PIACCA E PALLINE
+  var piacca = kg*1000 + acqTot + sale;
+  var pan    = Math.floor(piacca / gr);
+
+  // T ACQUA
+  var tAcq  = Math.round((23*3 - 18 - tAmb - 7.8)*10)/10;
+  var tAcqC = tAcq<5?'#FFCDD2':tAcq<10?'#BBDEFB':tAcq<=22?'#A5D6A7':'#F0CC5A';
+
+  // FERMENTAZIONE — Cauvain 2015
+  var mu22  = 0.049;
+  var Q10   = 2.2;
+  var muT   = mu22 * Math.pow(Q10,(tAmb-22)/10);
+  var hTot  = oraS > oraI ? oraS-oraI : (oraS+24)-oraI;
+  var hPunt = hTot - 3.0;
+  var volPunt = Math.round((Math.exp(muT*hPunt)-1)*100);
+
+  // Stima picco LdB (Cauvain 2015)
+  var hPicco = ldbP<=0.10?24:ldbP<=0.15?20:ldbP<=0.20?16:ldbP<=0.25?12:ldbP<=0.35?9:ldbP<=0.50?7:5;
+
+  // ORARI
+  var oraFine = oraI + 0.75;
+  var oraSF1  = oraFine + 0.5;
+  var oraSF2  = oraSF1 + 0.33;
+  var oraStag = oraS - 3.0;
+  var oraForno= oraS;
+
+  var h = '';
+
+  // BOX PRODUZIONE
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(91,155,213,0.12);border:2px solid rgba(91,155,213,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Farina totale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#BBDEFB">'+kg+'kg</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.12);border:2px solid rgba(212,160,62,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#F0CC5A">'+pan+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">da '+gr+'g</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">⏱️ Picco LdB</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#BBDEFB">~'+hPicco+'h</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">dal momento impasto</div>'
+    +'</div>'
+    +'</div>';
+
+  // BOX BLEND
+  h += '<div style="background:rgba(91,155,213,0.08);border:2px solid rgba(91,155,213,0.30);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">🌾 Blend farine · '+kg+'kg totale</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5063 Special (70%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg5063+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W260-280 · scioglievolezza assoluta</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 0102HP (30%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg0102+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W320-340 · struttura · regge 10h</div>'
+    +'</div>'
+    +'</div>'
+    // LdB
+    +'<div style="background:rgba(212,160,62,0.1);border:1px solid rgba(212,160,62,0.3);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px">'
+    +'<div style="text-align:center;min-width:70px">'
+    +'<div style="font-size:9px;color:var(--dim)">LdB fresco '+ldbP+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#F0CC5A">'+ldbG+'g</div>'
+    +'</div>'
+    +'<div style="font-size:11px;color:var(--dim);flex:1;line-height:1.6">'
+    +'Sbriciolato nell\'autolisi · picco ~'+hPicco+'h · Cauvain 2015<br>'
+    +'<span style="color:var(--cream)">IDR 65%: maglia tenace → cornicione pronunciato che non cede</span>'
+    +'</div></div>'
+    // Acqua
+    +'<div style="font-size:12px;display:flex;flex-direction:column;gap:4px">'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua totale IDR 65%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(91,155,213,0.4);border-bottom:2px solid rgba(91,155,213,0.4);margin:2px 0"><span style="color:var(--blue);font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:var(--blue);font-size:15px">'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 65% + '+ldbG+'g LdB — <strong style="color:var(--cream)">'+tAcq+'°C</strong></span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">② Bassinage 8°C + '+sale+'g sale</span><strong>'+acqBass+'g</strong></div>'
+    +'</div>'
+    +'<div style="margin-top:8px;font-size:10px;color:var(--dim)">Sale: <strong style="color:var(--cream)">'+sale+'g</strong> (2.8%)</div>'
+    +'</div>';
+
+  // TIMELINE
+  h += '<div style="background:rgba(91,155,213,0.06);border:1.5px solid rgba(91,155,213,0.25);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
+
+  var nowH = (new Date()).getHours()+(new Date()).getMinutes()/60;
+  [
+    [oraI,       '💧', 'Autolisi 20min + LdB',        kg5063+'g 5063 + '+kg0102+'g 0102HP + '+ldbG+'g LdB sbriciolato · '+acqAut+'g H₂O '+tAcq+'°C'],
+    [oraI+0.33,  '🧂', 'Sale '+sale+'g + bassinage',  acqBass+'g H₂O 8°C · a filo · aspetta incordatura completa'],
+    [oraFine,    '✅', 'Fine impasto · T 23°C',        'velo trasparente · IDR 65% → maglia molto tenace'],
+    [oraSF1,     '💪', 'S&F × 1',                     'stretch & fold · copri'],
+    [oraSF2,     '💪', 'S&F × 2',                     'stretch & fold · poi puntata libera'],
+    [oraStag,    '✂️', 'STAGLIO · '+pan+' palline',   gr+'g cad. · +'+volPunt+'% volume puntata'],
+    [oraStag,    '⏳', 'Appretto 3h T ambiente',       'copri · non toccare · lascia distendere'],
+    [oraForno,   '🔥', 'SERVIZIO · forno 450°C+',     '60-90 sec · cornicione alto · IDR 65% = crosta croccante'],
+  ].forEach(function(s){
+    var min=Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5,nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(91,155,213,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(91,155,213,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#BBDEFB':'var(--cream)')+'">'+Hv(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#BBDEFB':'var(--blue)')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'var(--dim)')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '</div>';
+  out.innerHTML = h;
+}
+
+function calcSupremaRapido(){
+  var kgBiga  = parseFloat((document.getElementById('sKgBiga')||{value:6}).value)||6;
+  var bigaPct = parseFloat((document.getElementById('sBigaPct')||{value:30}).value)||30;
+  var gr      = parseFloat((document.getElementById('sGr')||{value:270}).value)||270;
+  var idr     = parseFloat((document.getElementById('sIDR')||{value:70}).value)||70;
+  var saleP   = parseFloat((document.getElementById('sSale')||{value:2.8}).value)||2.8;
+  var out     = document.getElementById('supremaRapidoOut');
+  if(!out) return;
+
+  var kgTot   = Math.round(kgBiga / (bigaPct/100) * 10) / 10;
+  var kgRinf  = Math.round((kgTot - kgBiga) * 10) / 10;
+  var acqTot  = Math.round(kgTot * idr/100 * 1000);
+  var sale    = Math.round(kgTot * saleP/100 * 1000);
+  var piacca  = kgTot*1000 + acqTot + sale;
+  var pan     = Math.floor(piacca / gr);
+
+  // Aggiorna anche il campo sKg del calcolatore completo
+  var sKg = document.getElementById('sKg');
+  if(sKg) sKg.value = kgTot;
+
+  out.innerHTML =
+    '<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0CC5A">'+kgTot+'kg</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#D4956A">'+kgRinf+'kg</div>'
+    +'</div>'
+    +'<div style="background:rgba(76,175,125,0.15);border:1.5px solid rgba(76,175,125,0.4);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+pan+'</div>'
+    +'</div>';
+
+  // Aggiorna calcolo completo
+  calcSuprema();
+}
+
 function calcSuprema(){
   const kg=G('sKg'),gr=G('sGr'),idr=G('sIDR'),saleP=G('sSale');
   const licP=G('sLic'),ldbP=G('sLdb'),ob=G('sOB'),or_=G('sOR'),sv=G('sSV');
 
-  const kgTot=kg*2;
+  // kg = farina TOTALE · biga 30% scientificamente ottimale (Suas 2009, Hamelman 2012)
+  const kgTot = kg;                          // farina totale inserita dall'utente
+  const kgBiga = R(kgTot * 0.30, 3);         // biga 30%
+  const kgRinf = R(kgTot * 0.70, 3);         // rinfresco 70%
   const pct63=Math.min(100,Math.max(0,G('sB63')||70));
   const pct78=Math.min(100-pct63,Math.max(0,G('sB78')||30));
   const pct02=Math.max(0,100-pct63-pct78);
-  const kg5063=R(kg*pct63/100*1000,0);
-  const kg5078=R(kg*pct78/100*1000,0);
-  const kg0102r=R(kg*pct02/100*1000,0);
-  const licG=R(kg*licP/100*1000,0);
+  const kg5063=R(kgRinf*pct63/100*1000,0);   // su rinfresco
+  const kg5078=R(kgRinf*pct78/100*1000,0);   // su rinfresco
+  const kg0102r=R(kgRinf*pct02/100*1000,0);  // su rinfresco
+  const licG=R(kgRinf*licP/100*1000,0);      // licoli sul rinfresco
   const licAcq=R(licG*0.5,0);
   const licFar=R(licG*0.5,0);
-  const acqBiga=R(kg*0.45*1000,0);
-  const ldbG=R(kg*ldbP/100*1000,1);
+  const acqBiga=R(kgBiga*0.45*1000,0);       // acqua biga su kgBiga
+  const ldbG=R(kgBiga*ldbP/100*1000,1);      // LdB su kgBiga
   const acqTot=R(kgTot*idr/100*1000,0);
   const aa=acqTot-acqBiga-licAcq;
   const sale=R(kgTot*saleP/100*1000,0);
@@ -5082,7 +5996,7 @@ function calcSuprema(){
   const bass=Math.max(0,aa-fase1);
   const pesoImpastoS=kgTot*1000+acqTot+sale;
   const pan=Math.floor(pesoImpastoS/gr);
-  const Tacq=R(22*3.75-10*1.63-19*1.12-7.8*3.75,1);
+  const Tacq=R(23*3-18-22-7.8,1); // DDT 23°C · T_farina 18°C · K_attrito 7.8 Esmach (Suas 2009)
 
   // Semaforo biga
   const oreB=or_>=ob?or_-ob:24-ob+or_;
@@ -5129,20 +6043,101 @@ function calcSuprema(){
   else { puntSem='bad'; puntMsg='❌ Puntata eccessiva — panetti si allargheranno da soli'; }
 
   document.getElementById('supremaOut').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(212,160,62,0.15);border:2px solid rgba(212,160,62,0.5);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:4px">🌾 Biga domani sera</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#D4956A;line-height:1">${R(kgBiga*1000,0)}g</div>
+        <div style="font-size:10px;color:#7A8A6A;margin-top:3px">0102HP · 30% di ${kgTot}kg</div>
+      </div>
+      <div style="background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.4);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:4px">🍕 Palline</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#A5D6A7;line-height:1">${pan}</div>
+        <div style="font-size:10px;color:#7A8A6A;margin-top:3px">da ${gr}g · piacca ${R(pesoImpastoS/1000,1)}kg</div>
+      </div>
+    </div>
     ${sem(emjBiga+' — Biga '+oreB+'h (G1 '+H(ob)+' → G2 '+H(or_)+') '+att+'%',semBiga)}
     ${ldbSuggest}
     ${sem('🕐 PUNTATA: '+orePuntata.toFixed(1)+'h ('+H(or_)+' → staglio '+H(staglio_sup)+') — '+puntMsg, puntSem)}
     ${sem('🌾 BLEND: '+pct63+'% 5063 + '+pct78+'% 5078 — '+blendMsg, blendSem)}
     <div class="res-section">
       <div class="res-label">Biga — Giorno 1 ore ${H(ob)}</div>
-      ${row('Petra 0102HP (100% biga)',R(kg*1000,0)+'g','')}
+      ${row('Petra 0102HP (30% biga)',R(kgBiga*1000,0)+'g','')}
       ${row('Acqua biga (IDR 45%)',acqBiga+'g','fredda 4°C')}
       ${row('LdB biga ('+ldbP+'%)',ldbG+'g','solo sulla farina biga')}
+      <div style="margin-top:10px;background:rgba(76,175,125,0.08);border:1.5px solid rgba(76,175,125,0.35);border-radius:10px;padding:12px">
+        <div style="font-size:10px;font-weight:700;color:#4CAF7D;margin-bottom:8px">🌡️ Gestione biga senza cella 17°C</div>
+        <div style="display:grid;grid-template-columns:24px 1fr;gap:6px;font-size:11px;color:#7A8A6A;line-height:1.8">
+          <div style="color:#F0CC5A;font-weight:700">①</div><div>Impasta la biga con LdB ${ldbP}%</div>
+          <div style="color:#F0CC5A;font-weight:700">②</div><div><strong style="color:var(--cream)">Lascia FUORI 3h</strong> a T ambiente → pH scende a ~5.55 · fermentazione avviata</div>
+          <div style="color:#BBDEFB;font-weight:700">③</div><div><strong style="color:#BBDEFB">Entra in frigo 4°C</strong> per 15h → pH finale mattino ~5.30–5.35 ✅</div>
+          <div style="color:#A5D6A7;font-weight:700">④</div><div>Tira fuori <strong style="color:var(--cream)">30min</strong> prima di impastare · controlla pH · se OK procedi</div>
+        </div>
+        <div style="margin-top:8px;font-size:9px;color:#7A8A6A">⚠️ Se T ambiente > 25°C: riduci a 2h fuori poi frigo · Fonte: Gobbetti & Gänzle 2012</div>
+      </div>
+      <div style="margin-top:8px;background:rgba(212,160,62,0.10);border:1.5px solid rgba(212,160,62,0.40);border-radius:8px;padding:10px">
+        <div style="font-size:10px;font-weight:700;color:#F0CC5A;margin-bottom:6px">📏 pH da raggiungere PRIMA di entrare in frigo</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+            <div style="font-family:DM Mono,monospace;color:#FFCDD2;min-width:75px">pH > 5.70</div>
+            <div style="color:#7A8A6A">❌ Aspetta ancora</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+            <div style="font-family:DM Mono,monospace;color:#FFE082;min-width:75px">pH 5.60–5.70</div>
+            <div style="color:#7A8A6A">⚠️ Quasi — altri 20min</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;background:rgba(76,175,125,0.12);border-radius:6px;padding:5px 8px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#A5D6A7;min-width:75px">pH 5.50–5.60</div>
+            <div style="color:var(--cream);font-weight:600">✅ ENTRA IN FRIGO · pH mattino 5.28–5.38</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+            <div style="font-family:DM Mono,monospace;color:#FFE082;min-width:75px">pH 5.40–5.50</div>
+            <div style="color:#7A8A6A">⚠️ Già avanzata — frigo subito</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:10px">
+            <div style="font-family:DM Mono,monospace;color:#FFCDD2;min-width:75px">pH < 5.40</div>
+            <div style="color:#7A8A6A">❌ Troppo — frigo immediato</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMAFORO PH PRE-FRIGO -->
+      <div style="margin-top:10px;background:rgba(212,160,62,0.10);border:2px solid rgba(212,160,62,0.45);border-radius:10px;padding:14px">
+        <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#F0CC5A;text-transform:uppercase;margin-bottom:10px">🔬 pH target prima di andare in frigo</div>
+        <div style="font-size:11px;color:#7A8A6A;margin-bottom:10px">Non sono le ore che contano — è il pH. Misura e decidi in base a questo:</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.12);border-radius:8px;padding:8px 12px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFCDD2;min-width:80px">pH > 5.70</div>
+            <div style="font-size:11px;color:#7A8A6A;flex:1">❌ Troppo presto — aspetta ancora · fermentazione non avviata</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:80px">pH 5.60–5.70</div>
+            <div style="font-size:11px;color:#7A8A6A;flex:1">⚠️ Quasi pronta — aspetta altri 20-30min poi frigo</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:8px;padding:8px 12px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#A5D6A7;min-width:80px">pH 5.50–5.60</div>
+            <div style="font-size:11px;color:var(--cream);flex:1">✅ ENTRA IN FRIGO ADESSO · pH mattino sarà 5.28–5.38</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:80px">pH 5.40–5.50</div>
+            <div style="font-size:11px;color:#7A8A6A;flex:1">⚠️ Già avanzata — entra in frigo subito · pH mattino ~5.20–5.28</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.12);border-radius:8px;padding:8px 12px">
+            <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFCDD2;min-width:80px">pH < 5.40</div>
+            <div style="font-size:11px;color:#7A8A6A;flex:1">❌ Troppo avanzata — frigo immediato · rischio stanca al mattino</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.7">
+          🔬 A 4°C il pH scende di ~0.015 per ora → in 15h scende di ~0.22 punti<br>
+          🔬 Quindi: pH 5.55 pre-frigo → pH 5.33 mattino ✅ zona eccellenza<br>
+          🔬 Le ore sono indicative — il pH è la verità assoluta (Gobbetti & Gänzle 2012)<br>
+          🔬 A 22°C ci vogliono ~3h · a 25°C ~2h · a 20°C ~4h per raggiungere pH 5.55
+        </div>
+      </div>
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco — Giorno 2 ore ${H(or_)} — ZERO LdB</div>
-      ${pct63>0?row('Petra 5063 Special ('+pct63+'%)',kg5063+'g','W260-280 · struttura'):''}
-      ${pct78>0?row('Petra 5078 ('+pct78+'%)',kg5078+'g','W350-380 · estensibilità · alveoli alti'):''}
+      ${pct63>0?row('Petra 5063 Special ('+pct63+'%)',kg5063+'g','W260-280 · estensibilità · scioglievolezza assoluta'):''}
+      ${pct78>0?row('Petra 5078 ('+pct78+'%)',kg5078+'g','W350-380 · struttura · alveoli alti · cornicione pronunciato'):''}
       ${pct02>0?row('Petra 0102HP ('+pct02+'%)',kg0102r+'g','W320-340'):''}
       ${row('Licoli ('+licP+'%)',licG+'g','→ '+licAcq+'g acqua + '+licFar+'g farina',false)}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
@@ -5163,8 +6158,8 @@ function calcSuprema(){
     ])}
     ${row('Panetti da '+gr+'g',pan+' panetti','',true)}
     ${tl([
-      [H(ob)+' G1','🧱 BIGA → cella 4°C',R(kg*1000,0)+'g 0102HP + '+acqBiga+'g acqua'],
-      [H(or_)+' G2','🌾 AUTOLISI 20min',R(kgTot*1000*0.7,0)+'g farine + '+fase1+'g acqua'],
+      [H(ob)+' G1','🧱 BIGA → cella 4°C',R(kgBiga*1000,0)+'g 0102HP + '+acqBiga+'g acqua'],
+      [H(or_)+' G2','🌾 AUTOLISI 20min',R(kgRinf*1000,0)+'g farine + '+fase1+'g acqua'],
       [H(or_)+':20 G2','⚙️ IMPASTO','licoli + sale + bassinage | T 22°C'],
       [H(or_)+':50 G2','💪 S&F × 2 → CELLA',''],
       [H(sv-1.5)+' G2','✂️ STAGLIO',pan+' panetti da '+gr+'g'],
@@ -6171,7 +7166,7 @@ function calcPhBiga(){
   } else {
     cfg={
       nome:'Napoletana Suprema',
-      bigaPct:50, idr:70, idrBiga:0.45,
+      bigaPct:30, idr:70, idrBiga:0.45,
       mu22:0.049,
       W_rinf:330,
       k_pH:0.11,
@@ -9400,7 +10395,7 @@ function pl_tog(id){var c=pl_G(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pl_CFG={
-  napo:  {idr:70,bigaPct:50,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  napo:  {idr:70,bigaPct:30,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
   teglia:{idr:78,bigaPct:50,idrB:0.45,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
@@ -9468,7 +10463,7 @@ function pl_c1calc(){
   var ora=pl_Gv('pl_c1_ora',10), stag=pl_Gv('pl_c1_stag',15.5);
   var phB=pl_Gv('pl_c1_phB',0), phL=pl_Gv('pl_c1_phL',4.0);
   var kgR=pl_Gv('pl_c1_kgR',15), idr=pl_Gv('pl_c1_idr',70);
-  var tAmb=pl_Gv('pl_c1_tAmb',22), bigaPct=pl_Gv('pl_c1_bigaPct',50);
+  var tAmb=pl_Gv('pl_c1_tAmb',22), bigaPct=pl_Gv('pl_c1_bigaPct',30);
   var sale=pl_Gv('pl_c1_sale',2.8);
   var tipo=pl_Gs('pl_c1_tipo','napo'), liev=pl_Gs('pl_c1_liev','licoli');
   var cfg=CFG[tipo];
