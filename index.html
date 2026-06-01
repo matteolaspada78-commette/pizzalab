@@ -1778,6 +1778,14 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
         <div class="inp-label">🌡️ T laboratorio</div>
         <div class="inp-row"><input class="inp-field" id="pv2_tAmb" type="number" value="22" min="16" max="32" oninput="calcPaneV2()"><span class="inp-unit">°C</span></div>
       </div>
+      <div style="grid-column:1/-1">
+        <div class="inp-label" style="color:#D4956A">🌾 Kg farina biga (5037 Unica) — default 53%</div>
+        <div class="inp-row">
+          <input class="inp-field" id="pv2_farBiga" type="number" value="" min="100" max="30000" step="50" placeholder="auto 53%" oninput="calcPaneV2()" style="font-size:24px;font-weight:700;color:#D4956A">
+          <span class="inp-unit">g</span>
+        </div>
+        <div style="font-size:9px;color:#7A8A6A;margin-top:3px">lascia vuoto → calcolo automatico · oppure inserisci i grammi che vuoi</div>
+      </div>
     </div>
   </div>
 
@@ -8544,15 +8552,35 @@ function calcPaneV2(){
   var pesoTot = pezzi * pesoPz;
   var scala   = pesoTot / 5980;
 
-  // Ingredienti scalati
-  var farBiga  = sc(2000, scala);   // 5037 Unica
-  var far0103  = sc(990,  scala);   // 0103HP
-  var far3hp   = sc(810,  scala);   // Petra 3HP
-  var farTot   = farBiga + far0103 + far3hp;
+  // Farina biga: usa valore manuale se inserito, altrimenti scala automatica
+  var farBigaInput = parseFloat((document.getElementById('pv2_farBiga')||{}).value)||0;
+  var farBigaAuto  = sc(2000, scala);   // 53% — valore ricetta base
+  var farBiga      = farBigaInput > 0 ? Math.round(farBigaInput/5)*5 : farBigaAuto;
 
-  var acqBiga  = sc(900,  scala);   // a 4°C
-  var acqAut   = sc(1292, scala);   // autolisi 22°C
-  var acqSemi  = sc(696,  scala);   // semi a bagno (= bassinage)
+  // Se farina biga è manuale, scala le altre farine proporzionalmente
+  // mantenendo il rapporto 0103HP/Petra 3HP = 990:810 = 55:45
+  var far0103, far3hp, farTot;
+  if(farBigaInput > 0){
+    // Scala le farine rinfresco in base alla piacca target
+    var far0103Auto = sc(990, scala);
+    var far3hpAuto  = sc(810, scala);
+    far0103 = far0103Auto;
+    far3hp  = far3hpAuto;
+    farTot  = farBiga + far0103 + far3hp;
+  } else {
+    far0103  = sc(990,  scala);
+    far3hp   = sc(810,  scala);
+    farTot   = farBiga + far0103 + far3hp;
+  }
+  var bigaPctReale = Math.round(farBiga/farTot*100);
+
+  // Acqua: scala sulla piacca, aggiusta acqua biga se farBiga è manuale
+  var acqBigaAuto = sc(900, scala);
+  var acqBiga     = farBigaInput > 0
+    ? Math.round(farBiga * 0.45 / 5)*5  // ricalcola IDR 45% sulla biga manuale
+    : acqBigaAuto;
+  var acqAut   = sc(1292, scala);
+  var acqSemi  = sc(696,  scala);
   var acqTot   = acqBiga + acqAut + acqSemi;
 
   var ottimais = sc(100,  scala);
@@ -8593,6 +8621,7 @@ function calcPaneV2(){
     +'<div style="flex:1;font-size:12px;color:#7A8A6A;line-height:2">'
     +'Da <strong style="color:#F0E6D0">'+pesoPz+'g</strong> cad.<br>'
     +'Farina totale: <strong style="color:#F0E6D0">'+farTot+'g</strong><br>'
+    +'Biga 5037: <strong style="color:#D4956A">'+farBiga+'g ('+bigaPctReale+'%)</strong><br>'
     +'IDR reale: <strong style="color:'+(Math.abs(idrReale-76)<1?'#A5D6A7':'#F0CC5A')+'">'+idrReale+'%</strong>'
     +(Math.abs(idrReale-76)<1?' ✅':'')
     +'</div></div>'
