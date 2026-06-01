@@ -1254,12 +1254,12 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
   <div class="page-hero">
     <div class="page-hero-icon">🍞</div>
     <div class="page-hero-title">Biga Pane V.2</div>
-    <div class="page-hero-sub">5037 Unica · 0103HP · Petra 3HP · IDR 76% · Cestini · Forno diretto</div>
+    <div class="page-hero-sub">5037 Unica · 0103HP · Petra 3HP · IDR 76% · Semi · Malto · Cestini</div>
   </div>
   <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
 
   <div style="background:#1A2010;border:2px solid rgba(212,160,62,0.5);border-radius:16px;padding:16px">
-    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:12px">⚙️ Inserisci kg farina biga → ricetta completa</div>
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:12px">⚙️ Imposta produzione</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 
       <div style="grid-column:1/-1">
@@ -1268,9 +1268,17 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
           <input class="inp-field" id="pv2_farBiga" type="number" value="2000" min="100" max="50000" step="100" oninput="calcPaneV2()" style="font-size:40px;font-weight:900;color:#D4956A">
           <span class="inp-unit">g</span>
         </div>
-        <div style="font-size:10px;color:#7A8A6A;margin-top:4px">es. 2000 = 2kg · tutto il resto si calcola automaticamente</div>
+        <div style="font-size:10px;color:#7A8A6A;margin-top:4px">biga 25% → farina totale = farBiga ÷ 0.25</div>
       </div>
 
+      <div>
+        <div class="inp-label">🧂 Sale %</div>
+        <div class="inp-row"><input class="inp-field" id="pv2_sale" type="number" value="2.2" min="1.5" max="3.0" step="0.1" oninput="calcPaneV2()" style="color:var(--gold2)"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌾 Semi (g)</div>
+        <div class="inp-row"><input class="inp-field" id="pv2_semi" type="number" value="1200" min="0" max="10000" step="50" oninput="calcPaneV2()" style="color:#A5D6A7"><span class="inp-unit">g</span></div>
+      </div>
       <div>
         <div class="inp-label">⏰ Ora impasto</div>
         <div class="inp-row"><input class="inp-field" id="pv2_oraImp" type="number" value="10" min="4" max="20" step="0.5" oninput="calcPaneV2()" style="color:#F0CC5A"><span class="inp-unit">h</span></div>
@@ -8033,48 +8041,42 @@ function calcPaneOrso(){
 // ══════════════════════════════════════════════════════════════════════
 
 function calcPaneV2(){
-  // ════════════════════════════════════════════════════
-  // BIGA PANE V.2 — parte dalla farina biga
-  // Biga 5037 Unica → farina totale = farBiga / 0.20
-  // Rinfresco: 50% 0103HP + 50% Petra 3HP
-  // Semi + Ottimais: 10% ciascuno su farina rinfresco
-  // IDR 73% su farina totale · biga 25% · alveolatura aperta
-  // Sale: 2.2% su farina totale
-  // ════════════════════════════════════════════════════
   function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
   function r5(n){return Math.round(n/5)*5;}
 
   var farBiga = parseFloat((document.getElementById('pv2_farBiga')||{value:2000}).value)||2000;
+  var salePct = parseFloat((document.getElementById('pv2_sale')||{value:2.2}).value)||2.2;
+  var semi    = parseFloat((document.getElementById('pv2_semi')||{value:1200}).value)||1200;
   var oraImp  = parseFloat((document.getElementById('pv2_oraImp')||{value:10}).value)||10;
   var tAmb    = parseFloat((document.getElementById('pv2_tAmb')||{value:22}).value)||22;
   var out     = document.getElementById('pv2Out');
   if(!out) return;
 
-  // Biga 20% → farina totale
+  // Biga 25% → farina totale
   var farTot  = Math.round(farBiga / 0.25 / 10) * 10;
   var acqBiga = r5(farBiga * 0.45);
 
-  // Rinfresco farine (50/50)
-  var farRinf  = farTot - farBiga;
-  var far0103  = r5(farRinf * 0.50);
-  var far3hp   = farRinf - far0103;
+  // Rinfresco 50/50
+  var farRinf = farTot - farBiga;
+  var far0103 = r5(farRinf * 0.50);
+  var far3hp  = farRinf - far0103;
 
-  // Acqua IDR 76%
-  var acqTot  = r5(farTot * 0.73);
+  // Malto 1% su farina totale
+  var malto = r5(farTot * 0.01);
+
+  // Sale
+  var sale = r5(farTot * salePct / 100);
+
+  // Acqua IDR 76% su (farina totale + semi)
+  // Semi assorbono acqua come la farina → inclusi nella base IDR
+  var baseIdr = farTot + semi;
+  var acqTot  = r5(baseIdr * 0.76);
   var acqRinf = acqTot - acqBiga;
   var acqAut  = r5(acqRinf * 0.65);
   var acqBass = acqRinf - acqAut;
 
-  // Semi e ottimais: 10% su rinfresco
-  var semi     = r5(farRinf * 0.10);
-  var ottimais = r5(farRinf * 0.10);
-  var acqSemi  = r5((semi + ottimais) * 0.80);
-
-  // Sale 2.2%
-  var sale = r5(farTot * 0.022);
-
   // Piacca e pezzi
-  var piacca = farTot + acqTot + sale + semi + ottimais;
+  var piacca = farTot + acqTot + sale + semi + malto;
   var pezzi  = Math.round(piacca / 700);
 
   // T acqua autolisi DDT 24°C
@@ -8090,71 +8092,68 @@ function calcPaneV2(){
 
   var h = '';
 
-  // ── PRODUZIONE
+  // PRODUZIONE
   h += '<div style="background:rgba(212,160,62,0.15);border:2px solid rgba(212,160,62,0.5);border-radius:14px;padding:14px;margin-bottom:10px">'
     + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:10px">📦 Produzione</div>'
     + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'
-    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Farina totale</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#F0CC5A">' + farTot + 'g</div></div>'
-    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Piacca ~</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#F0E6D0">' + Math.round(piacca/100)/10 + 'kg</div></div>'
-    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Pezzi ~700g</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#A5D6A7">' + pezzi + '</div></div>'
+    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Farina totale</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0CC5A">' + farTot + 'g</div></div>'
+    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Piacca ~</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0E6D0">' + Math.round(piacca/100)/10 + 'kg</div></div>'
+    + '<div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Pezzi ~700g</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#A5D6A7">' + pezzi + '</div></div>'
     + '</div></div>';
 
-  // ── BIGA
+  // BIGA
   h += '<div style="background:rgba(139,99,64,0.15);border:2px solid rgba(212,149,106,0.5);border-radius:14px;padding:14px;margin-bottom:10px">'
-    + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:10px">🌾 Biga · 20% · già pronta in cella</div>'
+    + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:10px">🌾 Biga · 25% · già pronta in cella</div>'
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
     + '<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:14px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:4px">5037 Unica</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#D4956A">' + farBiga + 'g</div></div>'
     + '<div style="background:rgba(13,27,100,0.3);border-radius:10px;padding:14px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:4px">Acqua 4°C (IDR 45%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#BBDEFB">' + acqBiga + 'g</div></div>'
     + '</div>'
-    + '<div style="font-size:10px;color:#7A8A6A;line-height:1.6">Biga totale: <strong style="color:#F0E6D0">' + (farBiga+acqBiga) + 'g</strong> · pH target 5.20–5.35 · se > 5.40 aspetta 30min<br>'
-    + '🔬 Biga 25% + IDR 73%: combinazione per alveolatura aperta e irregolare · 16-18h cella (Hamelman 2012)</div>'
+    + '<div style="font-size:10px;color:#7A8A6A">Totale biga: <strong style="color:#F0E6D0">' + (farBiga+acqBiga) + 'g</strong> · pH target 5.20–5.35 · se > 5.40 aspetta 30min</div>'
     + '</div>';
 
-  // ── RINFRESCO COMPLETO
+  // RINFRESCO
   h += '<div style="background:rgba(76,175,125,0.10);border:2px solid rgba(76,175,125,0.40);border-radius:14px;padding:14px;margin-bottom:10px">'
-    + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🥣 Rinfresco · ' + farRinf + 'g farina (50% 0103HP + 50% Petra)</div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
-    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">0103HP W380</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#D4956A">' + far0103 + 'g</div></div>'
-    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Petra 3HP W330</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#D4956A">' + far3hp + 'g</div></div>'
-    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Buon Semi (10%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">' + semi + 'g</div></div>'
-    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Ottimais (10%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">' + ottimais + 'g</div></div>'
+    + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🥣 Rinfresco · ' + farRinf + 'g farina</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">0103HP W380 (50%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#D4956A">' + far0103 + 'g</div></div>'
+    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Petra 3HP W330 (50%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#D4956A">' + far3hp + 'g</div></div>'
+    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Semi</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">' + semi + 'g</div></div>'
+    + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:3px">Malto tostato (1%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">' + malto + 'g</div></div>'
     + '</div>'
-    // Sale
     + '<div style="background:rgba(212,160,62,0.1);border:1px solid rgba(212,160,62,0.3);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px">'
-    + '🧂 Sale: <strong style="color:#F0CC5A">' + sale + 'g</strong> (2.2% su ' + farTot + 'g farina) · sciogli nel bassinage 8°C'
+    + '🧂 Sale <strong style="color:#F0CC5A">' + sale + 'g</strong> (' + salePct + '% su ' + farTot + 'g) · sciogli nel bassinage 8°C'
     + '</div>'
-    // Scorporo acqua
+    // Scorporo
     + '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px">'
     + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
     + '<div style="text-align:center;min-width:65px"><div style="font-size:9px;color:#7A8A6A">T autolisi</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:' + tAcqC + '">' + tAcq + '°</div></div>'
-    + '<div style="font-size:11px;color:#7A8A6A;flex:1">DDT 24°C · K=7.8 Esmach (Suas 2009)<br><span style="color:#F0E6D0">72 − 18 − ' + tAmb + ' − 7.8 = ' + tAcq + '°C</span></div>'
+    + '<div style="font-size:11px;color:#7A8A6A;flex:1">DDT 24°C · K=7.8 Esmach<br><span style="color:#F0E6D0">IDR 76% su ' + farTot + '+' + semi + '=' + baseIdr + 'g → ' + acqTot + 'g</span></div>'
     + '</div>'
     + '<div style="font-size:12px;display:flex;flex-direction:column;gap:4px">'
-    + '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">Acqua tot IDR 76%</span><strong>' + acqTot + 'g</strong></div>'
+    + '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">Acqua totale IDR 76% su ' + baseIdr + 'g</span><strong>' + acqTot + 'g</strong></div>'
     + '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">− Acqua biga (45%)</span><strong style="color:#FFCDD2">−' + acqBiga + 'g</strong></div>'
     + '<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:#4CAF7D;font-size:15px">' + acqRinf + 'g</strong></div>'
     + '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">① Autolisi 65% — ' + tAcq + '°C</span><strong>' + acqAut + 'g</strong></div>'
-    + '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">② Bassinage 8°C + ' + sale + 'g sale</span><strong>' + acqBass + 'g</strong></div>'
-    + '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:#7A8A6A">③ Semi a bagno (' + acqSemi + 'g H₂O)</span><strong style="color:#A5D6A7">in parallelo</strong></div>'
+    + '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:#7A8A6A">② Bassinage 8°C + ' + sale + 'g sale</span><strong>' + acqBass + 'g</strong></div>'
     + '</div></div></div>';
 
-  // ── TIMELINE
+  // TIMELINE
   h += '<div style="background:rgba(91,155,213,0.08);border:1.5px solid rgba(91,155,213,0.25);border-radius:14px;padding:14px">'
     + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
 
-  var nowH = (new Date()).getHours() + (new Date()).getMinutes() / 60;
+  var nowH = (new Date()).getHours() + (new Date()).getMinutes()/60;
   [
-    [oraAut,      '💧', 'Autolisi + Semi a bagno',     far0103+'g 0103HP + '+far3hp+'g Petra · '+acqAut+'g H₂O '+tAcq+'°C · in parallelo: '+semi+'g semi + '+ottimais+'g ottimais + '+acqSemi+'g H₂O'],
-    [oraImp,      '🥣', 'IMPASTO · biga + autolisi',   'Biga '+(farBiga+acqBiga)+'g + autolisi + '+sale+'g sale · 5min vel.1 → 5min vel.2'],
-    [oraImp+0.5,  '💧', 'Bassinage '+acqBass+'g a 8°C','a filo lentissimo con semi · aspetta incordatura'],
-    [oraSF1,      '💪', 'S&F 1',                        'stretch & fold · copri'],
-    [oraSF2,      '💪', 'S&F 2',                        'stretch & fold · copri'],
-    [oraSF3,      '💪', 'S&F 3',                        'stretch & fold · copri'],
-    [oraStag,     '✂️', 'Staglio · '+pezzi+' pezzi',   'bilancia · taglia netto · pezzi da 700g'],
-    [oraPre,      '🫳', 'Preforma · riposo 15min',      'forma delicata · copri'],
-    [oraForma,    '🧺', 'Forma · cestino + semola',     'forma tesa · in frigo 4°C · 18-20h'],
-    [oraFuoriC,   '🌡️', 'Fuori cella · tempera 45min', 'NON aprire cestino · lascia a T ambiente'],
-    [oraForno,    '🔥', 'FORNO · 250°C con vapore',     'ribalta · lama 45° profonda · nebulizza · 15min 250°C → 30min 220°C'],
+    [oraAut,     '💧', 'Autolisi + Semi a bagno',    far0103+'g 0103HP + '+far3hp+'g Petra + '+malto+'g malto · '+acqAut+'g H₂O '+tAcq+'°C · semi a bagno in parallelo'],
+    [oraImp,     '🥣', 'IMPASTO · biga + autolisi',  'Biga '+(farBiga+acqBiga)+'g + autolisi + '+sale+'g sale · 5min vel.1 → 5min vel.2'],
+    [oraImp+0.5, '💧', 'Bassinage '+acqBass+'g 8°C', 'a filo lentissimo · aspetta incordatura completa'],
+    [oraSF1,     '💪', 'S&F 1',                       'stretch & fold · copri'],
+    [oraSF2,     '💪', 'S&F 2',                       'stretch & fold · copri'],
+    [oraSF3,     '💪', 'S&F 3',                       'stretch & fold · copri'],
+    [oraStag,    '✂️', 'Staglio · '+pezzi+' pezzi',  'bilancia · taglia netto · ~700g cad.'],
+    [oraPre,     '🫳', 'Preforma · 15min',            'forma delicata · copri · lascia rilassare'],
+    [oraForma,   '🧺', 'Forma · cestino + semola',    'forma tesa · in frigo 4°C · 16-18h'],
+    [oraFuoriC,  '🌡️', 'Fuori cella · tempera 45min','NON aprire cestino · lascia a T ambiente'],
+    [oraForno,   '🔥', 'FORNO · 250°C + vapore',     'ribalta · lama 45° profonda · 15min 250°C → 30min 220°C'],
   ].forEach(function(s){
     var min = Math.round((s[0]-nowH)*60);
     if(min < -720) min += 1440;
