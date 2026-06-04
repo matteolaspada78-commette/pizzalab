@@ -6119,7 +6119,7 @@ function calcSupremaRapidoDaBiga(){
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:52px;line-height:1;color:'+tCol+'">'+tAcq+'°</div></div>'
     +'<div style="flex:1"><div style="font-size:12px;font-weight:700;color:'+tCol+';margin-bottom:6px">'+tMsg+'</div>'
     +'<div style="font-size:10px;color:#7A8A6A;line-height:1.7">DDT 23°C × 4 − T_biga('+tBiga+'°) − T_far('+tFar+'°) − T_amb('+tAmb+'°) − K_IP_Bake(9°)<br>'
-    +'<span style="color:var(--cream)">IP Bake · Suas 2009 · 4 variabili con biga</span></div></div></div>';
+    +'<span style="color:var(--cream)">Esmach SPI-AI 60kg · K=9°C calibrato · Suas 2009</span></div></div></div>';
 
   calcSuprema();
 }
@@ -6160,8 +6160,8 @@ function calcSupremaRapido(){
   // K_attrito IP Bake (a spirale professionale) = 8-10°C
   // DDT target napoletana: 23°C
   var DDT   = 23;
-  var K_att = 13; // IP Bake ciclo completo: 10min vel.1(~6°C) + 8min vel.2(~7°C) = 13°C
-  // Formula corretta per autolisi separata + biga (Suas 2009 adattato):
+  var K_att = 9.0; // Esmach SPI-AI 60kg · calibrato sul processo reale (Suas 2009: 7.8°C base + autolisi 20min)
+  // Formula corretta: autolisi separata + biga · Esmach SPI-AI
   // T_acqua = ((DDT - K - T_biga×0.30) / 0.70) × 2 - T_farina
   var tAcq  = Math.round((((DDT - K_att - tBiga*0.30) / 0.70) * 2 - tFar)*10)/10;
 
@@ -6225,7 +6225,7 @@ function calcSupremaRapido(){
     +'<div style="font-size:12px;font-weight:700;color:'+tCol+';margin-bottom:6px">'+tMsg+'</div>'
     +'<div style="font-size:10px;color:#7A8A6A;line-height:1.7">'
     +'((DDT '+DDT+'°C − K('+K_att+'°) − T_biga('+tBiga+'°)×0.30) / 0.70) × 2 − T_far('+tFar+'°)<br>'
-    +'<span style="color:var(--cream)">Formula IP Bake · Suas 2009 · 4 variabili con biga</span>'
+    +'<span style="color:var(--cream)">Formula Esmach SPI-AI 60kg · K=9°C calibrato · Suas 2009</span>'
     +'</div>'
     +'</div>'
     +'</div>';
