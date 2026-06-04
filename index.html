@@ -3296,7 +3296,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div>
         <div class="inp-label" style="color:#F0CC5A">🍕 Numero palline</div>
         <div class="inp-row">
-          <input class="inp-field" id="sRapPan" type="number" value="50" min="1" max="500" step="1" oninput="calcSupremaRapido()" style="font-size:36px;font-weight:900;color:#F0CC5A">
+          <input class="inp-field" id="sRapPan" type="number" value="50" min="1" max="500" step="1" oninput="this.removeAttribute('data-fartot');calcSupremaRapido()" style="font-size:36px;font-weight:900;color:#F0CC5A">
           <span class="inp-unit">pz</span>
         </div>
       </div>
@@ -6140,17 +6140,34 @@ function calcSupremaRapido(){
   var outT    = document.getElementById('supremaTAcquaOut');
   if(!out) return;
 
-  // ── FARINE
-  var piacca   = pan * gr;
-  var farTot   = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
+  // ── LOGICA CORRETTA
+  // Fonte di verità: SEMPRE la farina totale
+  // Se esiste farTotSaved → usa quella (cambio gr/idr/biga%)
+  // Se cambia pan → ricalcola farTot dalle palline
+  var farTotSaved = parseFloat(document.getElementById('sRapPan').getAttribute('data-fartot')||0)||0;
+  var farTot, piaccaR, panReali;
+
+  if(farTotSaved > 0){
+    // Utente ha cambiato gr/idr/biga% — mantieni farina totale e ricalcola palline
+    farTot = farTotSaved;
+  } else {
+    // Prima volta o cambio palline — calcola farina dalle palline
+    var piacca = pan * gr;
+    farTot = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
+  }
+
   var farBiga  = r5(farTot * bigaPct / 100);
   var farRinf  = farTot - farBiga;
   var acqBiga  = r5(farBiga * 0.45);
   var acqTot   = r5(farTot * idr / 100);
   var sale     = r5(farTot * saleP / 100);
   var ldbG     = Math.max(1, Math.round(farBiga * 0.30 / 100));
-  var piaccaR  = farTot + acqTot + sale;
-  var panReali = Math.floor(piaccaR / gr);
+  piaccaR  = farTot + acqTot + sale;
+  panReali = Math.floor(piaccaR / gr);
+
+  // Salva farTot come attributo sul campo palline
+  var pEl2 = document.getElementById('sRapPan');
+  if(pEl2){ pEl2.setAttribute('data-fartot', farTot); pEl2.value = panReali; }
 
   // ── T ACQUA con IP Bake (Suas 2009)
   // IP Bake: attrito variabile in base al tipo di impastatrice
