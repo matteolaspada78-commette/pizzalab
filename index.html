@@ -5908,19 +5908,22 @@ function calcScrocchiarella(){
   var out        = document.getElementById('scOut');
   if(!out) return;
 
-  // Farine
+  // CALCOLO CORRETTO: piacca → farTot → tutto il resto
+  // Piacca = farTot × (1 + idr/100 + saleP/100 + struttoPct/100 + mielePct/100 + licP/100)
+  // licoli 50/50 → contribuisce licP/100 di acqua + licP/100 di farina (già in farTot)
+  // Quindi in piacca aggiunge solo la quota acqua del licoli: licP/2/100
   var piacca  = pan * gr;
-  var farTot  = Math.round(piacca / (1 + idr/100 + saleP/100 + struttoPct/100 + mielePct/100) / 10) * 10;
+  var farTot  = Math.round(piacca / (1 + idr/100 + saleP/100 + struttoPct/100 + mielePct/100 + licP/2/100) / 10) * 10;
   var far5046 = r5(farTot * 0.80);
   var far0102 = farTot - far5046;
 
-  // Licoli
-  var licG    = r5(farTot * licP / 100);
+  // Licoli (50/50)
+  var licG    = licP > 0 ? r5(farTot * licP / 100) : 0;
   var licFar  = Math.round(licG * 0.5);
   var licAcq  = Math.round(licG * 0.5);
 
   // Miele
-  var miele   = r5(farTot * mielePct / 100);
+  var miele   = mielePct > 0 ? r5(farTot * mielePct / 100) : 0;
 
   // Acqua
   var acqTot  = r5(farTot * idr / 100);
@@ -5932,8 +5935,8 @@ function calcScrocchiarella(){
   var sale    = r5(farTot * saleP / 100);
   var strutto = r5(farTot * struttoPct / 100);
 
-  // Piacca e palline
-  var piaccaR = farTot + acqTot + sale + strutto + miele;
+  // Piacca reale e palline — SEMPRE ricalcolate
+  var piaccaR = farTot + acqTot + licAcq + sale + strutto + miele;
   var panReali= Math.floor(piaccaR / gr);
 
   // Fermentazione con licoli (Gänzle 2012)
@@ -6052,7 +6055,7 @@ function calcRomana450(){
   var out      = document.getElementById('r4Out');
   if(!out) return;
 
-  // Farine
+  // CALCOLO CORRETTO: piacca → farTot → tutto il resto
   var piacca   = pan * gr;
   var farTot   = Math.round(piacca / (1 + idr/100 + saleP/100 + olioPct/100) / 10) * 10;
   var far5046  = r5(farTot * 0.70);
@@ -6072,6 +6075,7 @@ function calcRomana450(){
   var olio     = r5(farTot * olioPct / 100);
   var ldbG     = Math.max(1, Math.round(farBiga * 0.20 / 100));
 
+  // Piacca reale e palline — SEMPRE ricalcolate
   var piaccaR  = farTot + acqTot + sale + olio;
   var panReali = Math.floor(piaccaR / gr);
 
