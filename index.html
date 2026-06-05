@@ -1511,6 +1511,38 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-btn" onclick="openPage('direttoldb')">
+      <div class="menu-icon" style="background:rgba(91,155,213,0.25)">⚡</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#BBDEFB">Napoletana Diretta · LdB Puro</div>
+        <div class="menu-sub">Ore 9→19 · 5063+0102HP · LdB 0.25% · IDR 65% · zero biga</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(91,155,213,0.2);color:#BBDEFB;border-color:#5B9BD5">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-section-label">🍕 Romana</div>
+
+    <div class="menu-btn" onclick="openPage('scrocchiarella')">
+      <div class="menu-icon" style="background:rgba(255,152,0,0.25)">🥐</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#FFB74D">Scrocchiarella · Pre-cotta</div>
+        <div class="menu-sub">5046 80%+0102HP 20% · Strutto · IDR 56% · 300°+270°</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(255,152,0,0.2);color:#FFB74D;border-color:#FF9800">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-btn" onclick="openPage('romana450')">
+      <div class="menu-icon" style="background:rgba(229,57,53,0.25)">🔥</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#EF9A9A">Romana Croccante · 450°C</div>
+        <div class="menu-sub">5046 70%+0102HP 30% · IDR 60% · fina · diretto</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(229,57,53,0.2);color:#EF9A9A;border-color:#E53935">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-btn" onclick="openPage('napofrigo')">
       <div class="menu-icon" style="background:rgba(136,14,79,0.2)">❄️</div>
       <div class="menu-text">
@@ -3194,6 +3226,98 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     AVPN (2008) — Disciplinare Vera Pizza Napoletana
   </div>
 
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SCROCCHIARELLA PRE-COTTA                       -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="pageScrocchiarella" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🥐</div>
+    <div class="page-hero-title">Scrocchiarella · Pre-cotta</div>
+    <div class="page-hero-sub">5046 Allegra 80% · 0102HP 20% · Strutto · IDR 56% · 300°+270°C</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <div style="background:#1A1A10;border:2px solid rgba(255,152,0,0.45);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#FFB74D;text-transform:uppercase;margin-bottom:12px">⚙️ Imposta produzione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div class="inp-label">🥐 Numero palline</div>
+        <div class="inp-row"><input class="inp-field" id="sc_pan" type="number" value="20" min="1" max="300" step="1" oninput="calcScrocchiarella()" style="font-size:32px;font-weight:900;color:#FFB74D"><span class="inp-unit">pz</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⚖️ Grammatura (g)</div>
+        <div class="inp-row"><input class="inp-field" id="sc_gr" type="number" value="190" min="150" max="250" step="5" oninput="calcScrocchiarella()" style="color:var(--gold2)"><span class="inp-unit">g</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌿 % Licoli</div>
+        <div class="inp-row"><input class="inp-field" id="sc_bigaPct" type="number" value="8" min="30" max="70" step="5" oninput="calcScrocchiarella()" style="color:#D4956A"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🧈 Strutto %</div>
+        <div class="inp-row"><input class="inp-field" id="sc_strutto" type="number" value="2.5" min="0" max="5" step="0.5" oninput="calcScrocchiarella()" style="color:#FFCDD2"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🍯 Miele % (colorazione rigenero)</div>
+        <div class="inp-row"><input class="inp-field" id="sc_miele" type="number" value="1.2" min="0" max="3" step="0.1" oninput="calcScrocchiarella()" style="color:#FFE082"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⏰ Ora impasto</div>
+        <div class="inp-row"><input class="inp-field" id="sc_oraI" type="number" value="17" min="4" max="23" step="0.5" oninput="calcScrocchiarella()" style="color:var(--gold2)"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌡️ T laboratorio</div>
+        <div class="inp-row"><input class="inp-field" id="sc_tAmb" type="number" value="22" min="16" max="32" oninput="calcScrocchiarella()"><span class="inp-unit">°C</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="scOut"><div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Inserisci palline → ricetta completa</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ROMANA CROCCANTE 450°C                         -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="pageRomana450" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔥</div>
+    <div class="page-hero-title">Romana Croccante · 450°C</div>
+    <div class="page-hero-sub">5046 70% · 0102HP 30% · IDR 60% · fina · diretto al forno</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+  <div style="background:#1A0A0A;border:2px solid rgba(229,57,53,0.45);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#EF9A9A;text-transform:uppercase;margin-bottom:12px">⚙️ Imposta produzione</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div class="inp-label">🔥 Numero palline</div>
+        <div class="inp-row"><input class="inp-field" id="r4_pan" type="number" value="20" min="1" max="300" step="1" oninput="calcRomana450()" style="font-size:32px;font-weight:900;color:#EF9A9A"><span class="inp-unit">pz</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⚖️ Grammatura (g)</div>
+        <div class="inp-row"><input class="inp-field" id="r4_gr" type="number" value="170" min="130" max="220" step="5" oninput="calcRomana450()" style="color:var(--gold2)"><span class="inp-unit">g</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌾 % biga</div>
+        <div class="inp-row"><input class="inp-field" id="r4_bigaPct" type="number" value="50" min="30" max="70" step="5" oninput="calcRomana450()" style="color:#D4956A"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🫒 Olio EVO %</div>
+        <div class="inp-row"><input class="inp-field" id="r4_olio" type="number" value="2" min="0" max="4" step="0.5" oninput="calcRomana450()" style="color:#A5D6A7"><span class="inp-unit">%</span></div>
+      </div>
+      <div>
+        <div class="inp-label">⏰ Ora impasto</div>
+        <div class="inp-row"><input class="inp-field" id="r4_oraI" type="number" value="9" min="4" max="20" step="0.5" oninput="calcRomana450()" style="color:var(--gold2)"><span class="inp-unit">h</span></div>
+      </div>
+      <div>
+        <div class="inp-label">🌡️ T laboratorio</div>
+        <div class="inp-row"><input class="inp-field" id="r4_tAmb" type="number" value="22" min="16" max="32" oninput="calcRomana450()"><span class="inp-unit">°C</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="r4Out"><div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Inserisci palline → ricetta completa</div></div>
   </div>
 </div>
 
@@ -5403,7 +5527,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocch:'pageScrocch',
+  suprema:'pageSuprema',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -5762,6 +5886,276 @@ function renderUltimoRinfresco() {
 // Licoli 9% · IDR 67% · zero biga · Gänzle 2012 + Suas 2009
 // μ_eff = μ22 × Q10^((T-22)/10) × 1.30 (boost licoli)
 // ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════
+// SCROCCHIARELLA PRE-COTTA
+// 5046 Allegra 80% + 0102HP 20% · Strutto 2.5% · IDR 56% · Biga 50%
+// Pre-cottura 300°C 4-5min · Seconda cottura 270°C 3-4min
+// ══════════════════════════════════════════════════════════════════════
+function calcScrocchiarella(){
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function r5(n){return Math.round(n/5)*5;}
+  function rv(id,def){return parseFloat((document.getElementById(id)||{value:def}).value)||def;}
+
+  var pan        = rv('sc_pan',    20);
+  var gr         = rv('sc_gr',    190);
+  var licP       = rv('sc_bigaPct', 8);
+  var struttoPct = rv('sc_strutto',2.5);
+  var mielePct   = rv('sc_miele',  1.2);
+  var oraI       = rv('sc_oraI',   17);
+  var tAmb       = rv('sc_tAmb',   22);
+  var idr        = 55;
+  var saleP      = 2.2;
+  var out        = document.getElementById('scOut');
+  if(!out) return;
+
+  // Farine
+  var piacca  = pan * gr;
+  var farTot  = Math.round(piacca / (1 + idr/100 + saleP/100 + struttoPct/100 + mielePct/100) / 10) * 10;
+  var far5046 = r5(farTot * 0.80);
+  var far0102 = farTot - far5046;
+
+  // Licoli
+  var licG    = r5(farTot * licP / 100);
+  var licFar  = Math.round(licG * 0.5);
+  var licAcq  = Math.round(licG * 0.5);
+
+  // Miele
+  var miele   = r5(farTot * mielePct / 100);
+
+  // Acqua
+  var acqTot  = r5(farTot * idr / 100);
+  var acqNetta= acqTot - licAcq;
+  var acqAut  = r5(acqNetta * 0.75);
+  var acqBass = acqNetta - acqAut;
+
+  // Altri
+  var sale    = r5(farTot * saleP / 100);
+  var strutto = r5(farTot * struttoPct / 100);
+
+  // Piacca e palline
+  var piaccaR = farTot + acqTot + sale + strutto + miele;
+  var panReali= Math.floor(piaccaR / gr);
+
+  // Fermentazione con licoli (Gänzle 2012)
+  var mu22 = 0.049;
+  var Q10  = 2.2;
+  var fLic = 1.30;
+  var muEff= mu22 * Math.pow(Q10,(tAmb-22)/10) * fLic;
+  // Target: +35-40% in puntata
+  var hPunt= Math.log(1.38) / muEff;
+  var oraPuntFine = oraI + 0.75 + hPunt;
+  var oraFrigo = oraPuntFine;
+  var oraPreCotta = oraI + 19;
+  var oraStag = oraPreCotta - 0.75;
+  var oraForno= oraPreCotta;
+
+  var h = '';
+
+  // PRODUZIONE
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(255,152,0,0.12);border:2px solid rgba(255,152,0,0.4);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#FFB74D">'+farTot+'g</div></div>'
+    +'<div style="background:rgba(255,152,0,0.15);border:2px solid rgba(255,152,0,0.5);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">🥐 Palline da '+gr+'g</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#FFB74D">'+panReali+'</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">IDR · Puntata</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#A5D6A7">'+idr+'% · '+Math.round(hPunt*10)/10+'h</div></div>'
+    +'</div>';
+
+  // BLEND FARINE
+  h += '<div style="background:rgba(255,152,0,0.08);border:2px solid rgba(255,152,0,0.35);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#FFB74D;text-transform:uppercase;margin-bottom:10px">🌾 Blend farine · croccantezza fotonica</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5046 Allegra (80%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#FFB74D">'+far5046+'g</div><div style="font-size:9px;color:var(--dim);margin-top:2px">W180-200 · amido gelatinizza totalmente · croccantezza assoluta</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">0102HP W320 (20%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:#D4956A">'+far0102+'g</div><div style="font-size:9px;color:var(--dim);margin-top:2px">struttura minima · reggere la stesura</div></div>'
+    +'</div>'
+    // Licoli + Strutto + Sale
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.12);border:1.5px solid rgba(76,175,125,0.35);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌿 Licoli '+licP+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#A5D6A7">'+licG+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">'+licFar+'g far + '+licAcq+'g acq</div>'
+    +'</div>'
+    +'<div style="background:rgba(255,205,210,0.12);border:1.5px solid rgba(255,205,210,0.3);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🧈 Strutto '+struttoPct+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#FFCDD2">'+strutto+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">croccantezza 2-3h</div>'
+    +'</div>'
+    +'<div style="background:rgba(255,235,59,0.12);border:1.5px solid rgba(255,235,59,0.3);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍯 Miele '+mielePct+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#FFE082">'+miele+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">Maillard rigenero</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.10);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Sale '+saleP+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#F0CC5A">'+sale+'g</div>'
+    +'</div>'
+    +'</div>'
+    // Scorporo acqua
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;font-size:12px;display:flex;flex-direction:column;gap:4px">'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua totale IDR 55%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua licoli (50%)</span><strong style="color:#FFCDD2">−'+licAcq+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= ESMACH</span><strong style="color:#4CAF7D;font-size:14px">'+acqNetta+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 75%</span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--dim)">② Bassinage 8°C + sale + strutto + miele</span><strong>'+acqBass+'g</strong></div>'
+    +'</div>'
+    +'</div>';
+
+  // TIMELINE
+  h += '<div style="background:rgba(255,152,0,0.06);border:1.5px solid rgba(255,152,0,0.25);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#FFB74D;text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
+
+  var nowH=(new Date()).getHours()+(new Date()).getMinutes()/60;
+  [
+    [oraI,            '💧','Autolisi 20min',             far5046+'g 5046 + '+far0102+'g 0102HP + '+acqAut+'g H₂O fredda · mescola grosso · copri'],
+    [oraI+0.33,       '🌿','Licoli '+licG+'g',           'pH 4.0-4.1 · vel.1 5min · incorpora bene'],
+    [oraI+0.58,       '🧈','Sale + Strutto + Miele + Bassinage', sale+'g sale + '+strutto+'g strutto + '+miele+'g miele + '+acqBass+'g H₂O 8°C a filo · vel.1 5min → vel.2 5min'],
+    [oraI+0.75,       '✅','Fine impasto · T 23°C',       'impasto sodo · IDR 55% · segna livello nel GN'],
+    [oraI+1.25,       '💪','Piega 1 · portafoglio ×2',   '+35min · ruota 90° · STOP · copri'],
+    [oraI+1.75,       '💪','Piega 2 · portafoglio ×2',   '+75min · poi lascia riposare fino a +35-40%'],
+    [oraPuntFine,     '❄️','FRIGO 4°C · overnight',      '+'+Math.round(hPunt*10)/10+'h puntata · volume +35-40% · in frigo'],
+    [oraStag,         '✂️','Staglio · '+panReali+' pz da '+gr+'g','stendi a 2.5-3mm · uniforme'],
+    [oraStag+0.08,    '⏳','Appretto 30min · T ambiente', 'poi condisci · NON coprire'],
+    [oraForno,        '🔥','PRE-COTTURA · 300°C · 4-5min','NO doratura · pallida · 80% cottura · raffredda · farcisci · 270°C 3-4min'],
+  ].forEach(function(s){
+    var min=Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5,nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(255,152,0,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(255,152,0,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#FFB74D':'var(--cream)')+'">'+Hv(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#FFB74D':'#5B9BD5')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'var(--dim)')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '<div style="margin-top:8px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:var(--dim);line-height:1.7">'
+    +'🔬 IDR 55%: sotto 58% = croccantezza garantita (Dobraszczyk 2003)<br>'
+    +'🔬 Strutto '+struttoPct+'%: grassi saturi inibiscono reidratazione → croccante 2-3h post riscaldo (Cauvain 2015)<br>'
+    +'🔬 Miele '+mielePct+'%: fruttosio + glucosio liberi → Maillard a 150°C → colorazione perfetta nel rigenero 270°C (Cauvain 2015)<br>'
+    +'🔬 5046 Allegra W180-200: amido gelatinizza completamente → croccantezza fotonica ✅'
+    +'</div>';
+  h += '</div>';
+  out.innerHTML = h;
+}
+
+function calcRomana450(){
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function r5(n){return Math.round(n/5)*5;}
+  function rv(id,def){return parseFloat((document.getElementById(id)||{value:def}).value)||def;}
+
+  var pan      = rv('r4_pan',    20);
+  var gr       = rv('r4_gr',    170);
+  var bigaPct  = rv('r4_bigaPct',50);
+  var olioPct  = rv('r4_olio',    2);
+  var oraI     = rv('r4_oraI',    9);
+  var tAmb     = rv('r4_tAmb',   22);
+  var idr      = 60;
+  var saleP    = 2.2;
+  var out      = document.getElementById('r4Out');
+  if(!out) return;
+
+  // Farine
+  var piacca   = pan * gr;
+  var farTot   = Math.round(piacca / (1 + idr/100 + saleP/100 + olioPct/100) / 10) * 10;
+  var far5046  = r5(farTot * 0.70);
+  var far0102  = farTot - far5046;
+  var farBiga  = r5(farTot * bigaPct / 100);
+  var farRinf  = farTot - farBiga;
+
+  // Acqua
+  var acqBiga  = r5(farBiga * 0.45);
+  var acqTot   = r5(farTot * idr / 100);
+  var acqRinf  = acqTot - acqBiga;
+  var acqAut   = r5(acqRinf * 0.75);
+  var acqBass  = acqRinf - acqAut;
+
+  // Altri
+  var sale     = r5(farTot * saleP / 100);
+  var olio     = r5(farTot * olioPct / 100);
+  var ldbG     = Math.max(1, Math.round(farBiga * 0.20 / 100));
+
+  var piaccaR  = farTot + acqTot + sale + olio;
+  var panReali = Math.floor(piaccaR / gr);
+
+  // Orari
+  var oraFine   = oraI + 0.75;
+  var oraPiega1 = oraFine + 0.58;
+  var oraPiega2 = oraFine + 1.25;
+  var oraPunt   = oraFine + 1.5;
+  var oraFrigo  = oraPunt;
+  var oraServ   = oraI + 19;
+  var oraStag   = oraServ - 1.5;
+  var oraApp    = oraStag;
+  var oraForno  = oraServ;
+
+  var h = '';
+
+  // PRODUZIONE
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(229,57,53,0.12);border:2px solid rgba(229,57,53,0.4);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#EF9A9A">'+farTot+'g</div></div>'
+    +'<div style="background:rgba(229,57,53,0.12);border:2px solid rgba(229,57,53,0.4);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">🔥 Palline da '+gr+'g</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#EF9A9A">'+panReali+'</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">IDR</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#A5D6A7">'+idr+'%</div></div>'
+    +'</div>';
+
+  // BIGA
+  h += '<div style="background:rgba(139,99,64,0.15);border:2px solid rgba(212,149,106,0.4);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:10px">🌾 Biga · '+bigaPct+'% · LdB 0.20%</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">'
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">0102HP (biga)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#D4956A">'+farBiga+'g</div></div>'
+    +'<div style="background:rgba(13,27,100,0.3);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua 45%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#BBDEFB">'+acqBiga+'g</div></div>'
+    +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB 0.20%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:#F0CC5A">'+ldbG+'g</div></div>'
+    +'</div></div>';
+
+  // RINFRESCO
+  h += '<div style="background:rgba(229,57,53,0.08);border:2px solid rgba(229,57,53,0.30);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#EF9A9A;text-transform:uppercase;margin-bottom:10px">🔥 Rinfresco · blend croccante fina</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5046 Allegra (70%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:26px;color:#EF9A9A">'+far5046+'g</div><div style="font-size:9px;color:var(--dim);margin-top:2px">W180-200 · croccantezza</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">0102HP W320 (30%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:26px;color:#D4956A">'+far0102+'g</div><div style="font-size:9px;color:var(--dim);margin-top:2px">struttura · regge 450°C</div></div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.10);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">🫒 Olio EVO '+olioPct+'%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#A5D6A7">'+olio+'g</div></div>'
+    +'<div style="background:rgba(212,160,62,0.10);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Sale '+saleP+'%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0CC5A">'+sale+'g</div></div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;font-size:12px;display:flex;flex-direction:column;gap:4px">'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua tot IDR 60%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua biga 45%</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= ESMACH</span><strong style="color:#4CAF7D;font-size:14px">'+acqRinf+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 75%</span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--dim)">② Bassinage 8°C + sale + olio</span><strong>'+acqBass+'g</strong></div>'
+    +'</div></div>';
+
+  // TIMELINE
+  h += '<div style="background:rgba(229,57,53,0.06);border:1.5px solid rgba(229,57,53,0.25);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#EF9A9A;text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
+
+  var nowH=(new Date()).getHours()+(new Date()).getMinutes()/60;
+  [
+    [oraI,       '💧','Autolisi 20min',               far5046+'g 5046 + '+far0102+'g 0102HP + '+acqAut+'g H₂O fredda'],
+    [oraI+0.33,  '🌾','Inserisci biga '+farBiga+'g',  'vel.1 · incorpora lentamente'],
+    [oraI+0.55,  '🫒','Sale + Olio + Bassinage',       sale+'g sale + '+olio+'g olio EVO + '+acqBass+'g H₂O 8°C a filo'],
+    [oraFine,    '✅','Fine impasto · T 23°C',          'maglia compatta · IDR 60% · sodo ma elastico'],
+    [oraPiega1,  '💪','Piega 1 · portafoglio ×2',      '+35min · ruota 90° · STOP'],
+    [oraPiega2,  '💪','Piega 2 · portafoglio ×2',      '+75min · poi lascia riposare'],
+    [oraPunt,    '❄️','FRIGO 4°C · tutta la notte',    'puntata 1.5h · in frigo overnight'],
+    [oraStag,    '✂️','Staglio · '+panReali+'pz da '+gr+'g','stendi fino a 2-2.5mm · molto fina'],
+    [oraApp,     '⏳','Appretto 45min T ambiente',      'a T ambiente · poi condisci'],
+    [oraForno,   '🔥','FORNO 450°C · 90-120 secondi',  'diretto · leopardatura uniforme · croccantezza immediata'],
+  ].forEach(function(s){
+    var min=Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5,nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(229,57,53,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(229,57,53,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#EF9A9A':'var(--cream)')+'">'+Hv(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#EF9A9A':'#5B9BD5')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'var(--dim)')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '</div>';
+  out.innerHTML = h;
+}
+
 function calcDirettoLicoli(){
   function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
   function r5(n){return Math.round(n/5)*5;}
