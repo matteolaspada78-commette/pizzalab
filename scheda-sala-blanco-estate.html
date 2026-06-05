@@ -300,7 +300,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
         <div class="ingr-row"><span class="ingr-n">Rosmarino</span><span class="badge b-in">forno</span></div>
         <div class="ingr-row"><span class="ingr-n">Granella di pistacchio</span><span class="badge b-out">uscita</span></div>
         <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('lardo-patanegra')">Lardo di patanegra ↗</span><span class="badge b-out">uscita</span></div>
-        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('sponzali')">Sponzali ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('sponzali')">Sponzali ↗</span><span class="badge b-in">forno</span></div>
       </div>
       <div class="card-desc">Il gambero marinato con aglio e agrumi entra in forno cotto con il rosmarino, mentre il lardo di patanegra arriva in uscita sciogliendosi lentamente sul calore — mare e terra in collisione. Gli sponzali freschi in uscita portano una nota dolce e delicata, la granella di pistacchio chiude con crunch verde.</div>
       <div class="card-alert"><div class="alert-dot"></div>Sponzali in uscita — cipolline fresche siciliane, dolci, non cipolla matura. All. 2 (crostacei), 8 (pistacchio).</div>
@@ -500,6 +500,36 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
       <div class="card-alert"><div class="alert-dot"></div>Il soffio di zagara si sente ma non si vede — "il profumo della Sicilia spruzzato in uscita". Pesto di zucchine: all. 7 (latte), 8 (mandorle, pinoli). Crumble: all. 1 (glutine).</div>
     </div>
 
+
+    <!-- 79 MESSINESE -->
+    <div class="card" data-cat="mare terra">
+      <div class="card-head"><span class="card-num">79</span><span class="card-name">"Messinese"</span></div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Scarola</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('tuma')">Tuma ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pepe nero</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('alici')">Alici del Mediterraneo ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Una pizza bianca che racconta Messina con ingredienti del territorio: la scarola amara e la tuma fresca si fondono in forno con il datterino rosso e il pepe nero creando una base avvolgente e sapida. Le alici del Mediterraneo arrivano in uscita portando la nota iodica del mare — crudi, diretti, essenziali. Semplice, identitaria, precisa.</div>
+      <div class="card-alert"><div class="alert-dot"></div>Le alici sono sempre in uscita — crude, a crudo sul calore della pizza. All. 4 (pesce). La tuma è il primo sale siciliano — formaggio fresco locale.</div>
+    </div>
+
+    <!-- 179 CARONTE -->
+    <div class="card" data-cat="terra piccante">
+      <div class="card-head"><span class="card-num">179</span><span class="card-name">"Caronte"</span></div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Salame piccante</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino giallo schiacciato a mano</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Provola affumicata</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('sponzali')">Sponzali ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('peperone-crusco')">Polvere di peperone crusco ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olio al peperoncino</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="card-desc">Il traghettatore infernale — una pizza che porta il fuoco da un lato all'altro. Il salame piccante entra in forno con la provola affumicata e il datterino giallo burroso, costruendo una base intensa e avvolgente. La polvere di peperone crusco e l'olio al peperoncino arrivano in uscita moltiplicando il calore — piccante stratificato, non violento, che sale gradualmente.</div>
+      <div class="card-alert warn"><div class="alert-dot alert-dot-r"></div>⚠ Piccante doppio — salame piccante in forno + olio al peperoncino in uscita. Avvisare sempre prima dell'ordine. Due livelli di piccante che si sommano.</div>
+    </div>
+
   </div>
 </div>
 
@@ -662,6 +692,18 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <div class="prod-card" id="prep-gel-soia">
       <div class="prod-na
     </div>
+    <div class="prod-card" id="prod-tuma">
+      <div class="prod-name">Tuma</div>
+      <span class="prod-produttore">Primo sale siciliano · Formaggio fresco · Sicilia</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">La tuma è il primo sale siciliano — il formaggio fresco di pecora o vacca nelle primissime fasi di stagionatura, prima ancora che venga salato (da cui "primo sale"). Ha una pasta morbida, umida, dal sapore delicato e lattico, quasi neutro. È il formaggio più giovane della tradizione siciliana — quello che i pastori mangiavano subito dopo la caseificazione. In cottura si ammorbidisce ulteriormente diventando quasi cremosa, senza fondere completamente come il fior di latte.</div>
+      <span class="prod-lbl">In pizza</span>
+      <div class="prod-text">Entra in forno sulla Messinese dove la sua morbidezza lattica si abbina alla scarola amara e al datterino rosso. Non va mai in uscita a crudo — la cottura ne esalta la dolcezza delicata.</div>
+      <div class="prod-runner"><span class="prod-runner-l">⚡ Runner</span><div class="prod-runner-t">Primo sale siciliano — formaggio fresco, morbido, sapore lattico delicato. Si ammorbidisce in forno. Il formaggio più giovane della tradizione siciliana. All. 7 (latte).</div></div>
+      <div class="prod-allergen"><span class="allg">7 · latte</span></div>
+    </div>
+
+
   </div>
 </div>
 
@@ -690,7 +732,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 <script>
 function showSez(id,btn){document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));document.getElementById('sez-'+id).classList.add('active');btn.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function fil(cat,btn){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.card[data-cat]').forEach(c=>{c.style.display=(cat==='all'||(c.dataset.cat||'').includes(cat))?'':'none';});}
-const prepMap={'alici':'prod-alici','scarola-osmosi':'prep-scarola-osmosi','capperi-fritti':'prep-capperi-fritti','olio-finocchietto':'prep-olio-finocchietto','acqua-mare':'prep-acqua-mare','croccante-grana':'prep-croccante-grana','burrata':'prod-burrata','stracciatella':'prod-stracciatella','gambero-mazara':'prod-gambero-mazara','peperone-crusco':'prod-peperone-crusco','terraliva':'prod-terraliva','crema-friarielli':'prep-crema-friarielli','terra-olive':'prep-terra-olive','chips-melanzane':'prep-chips-melanzane','crema-grana':'prep-crema-grana','pesto-zucchine':'prep-pesto-zucchine','polvere-cappero':'prep-polvere-cappero','sponzali':'prod-sponzali','lardo-patanegra':'prod-lardo-patanegra','cipolla-caramellata':'prep-cipolla-caramellata','gel-soia':'prep-gel-soia','provola-cesaro':'prod-provola-cesaro','elisir-tartufo':'prod-elisir-tartufo','bufala':'prod-bufala','salame-santangelo':'prod-salame-santangelo','pomodoro-confit':'prep-pomodoro-confit','maiorchino':'prod-maiorchino','parmigiano-vacche-rosse':'prod-parmigiano-vacche-rosse','pesto-pistacchio':'prep-pesto-pistacchio','mortadella-levoni':'prod-mortadella-levoni','siccagno':'prod-siccagno','capperi-salina':'prod-capperi-salina','crema-melanzane-brace':'prep-crema-melanzane-brace','crema-melanzane':'prep-crema-melanzane','habamix':'prep-habamix','polvere-olive':'prep-polvere-olive','carciofi-brace':'prep-carciofi-brace','datterino-giallo-succo':'prod-datterino-giallo-succo','ricotta-limone':'prep-ricotta-limone','zagara':'prep-zagara','crumble-grani':'prep-crumble-grani','mugnuli':'prod-mugnuli','shiitake':'prod-shiitake'};
+const prepMap={'alici':'prod-alici','scarola-osmosi':'prep-scarola-osmosi','capperi-fritti':'prep-capperi-fritti','olio-finocchietto':'prep-olio-finocchietto','acqua-mare':'prep-acqua-mare','croccante-grana':'prep-croccante-grana','burrata':'prod-burrata','stracciatella':'prod-stracciatella','gambero-mazara':'prod-gambero-mazara','peperone-crusco':'prod-peperone-crusco','terraliva':'prod-terraliva','crema-friarielli':'prep-crema-friarielli','terra-olive':'prep-terra-olive','chips-melanzane':'prep-chips-melanzane','crema-grana':'prep-crema-grana','pesto-zucchine':'prep-pesto-zucchine','polvere-cappero':'prep-polvere-cappero','sponzali':'prod-sponzali','lardo-patanegra':'prod-lardo-patanegra','cipolla-caramellata':'prep-cipolla-caramellata','gel-soia':'prep-gel-soia','provola-cesaro':'prod-provola-cesaro','elisir-tartufo':'prod-elisir-tartufo','bufala':'prod-bufala','salame-santangelo':'prod-salame-santangelo','pomodoro-confit':'prep-pomodoro-confit','maiorchino':'prod-maiorchino','parmigiano-vacche-rosse':'prod-parmigiano-vacche-rosse','pesto-pistacchio':'prep-pesto-pistacchio','mortadella-levoni':'prod-mortadella-levoni','siccagno':'prod-siccagno','capperi-salina':'prod-capperi-salina','crema-melanzane-brace':'prep-crema-melanzane-brace','crema-melanzane':'prep-crema-melanzane','habamix':'prep-habamix','polvere-olive':'prep-polvere-olive','carciofi-brace':'prep-carciofi-brace','datterino-giallo-succo':'prod-datterino-giallo-succo','ricotta-limone':'prep-ricotta-limone','zagara':'prep-zagara','crumble-grani':'prep-crumble-grani','mugnuli':'prod-mugnuli','shiitake':'prod-shiitake','tuma':'prod-tuma'};
 function openPrep(key){var id=prepMap[key];if(!id)return;var src=document.getElementById(id);if(!src)return;document.getElementById('ov-body').innerHTML=src.innerHTML;document.getElementById('overlay').classList.add('open');}
 function closeOv(e){if(e.target===document.getElementById('overlay'))document.getElementById('overlay').classList.remove('open');}
 </script>
