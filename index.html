@@ -3255,6 +3255,64 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 
   </div>
 
+  <!-- CALCOLATORE KG PER GN -->
+  <div style="background:rgba(91,155,213,0.10);border:2px solid rgba(91,155,213,0.40);border-radius:16px;padding:16px">
+    <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#5B9BD5;text-transform:uppercase;margin-bottom:12px">📦 Calcolatore kg per GN 1/1 · Cauvain 2015 · termodinamica impasto</div>
+
+    <div style="margin-bottom:12px">
+      <div class="inp-label" style="color:#5B9BD5">🌡️ T uscita impasto °C</div>
+      <div class="inp-row">
+        <input class="inp-field" id="gs_tUsc" type="number" value="24" min="18" max="32" step="0.1" oninput="calcGnKg()" style="font-size:36px;font-weight:900;color:#5B9BD5">
+        <span class="inp-unit">°C</span>
+      </div>
+    </div>
+
+    <div id="gsGnOut"><div style="color:var(--dim);text-align:center;padding:10px">Inserisci T uscita → calcolo immediato</div></div>
+
+    <!-- Tabella fissa -->
+    <div style="margin-top:12px">
+      <div style="font-size:9px;color:var(--dim);margin-bottom:6px;font-family:DM Mono,monospace;letter-spacing:1px;text-transform:uppercase">Tabella di riferimento · GN 1/1 · frigo ventilato 4°C</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="display:grid;grid-template-columns:100px 1fr 1fr 1fr;gap:6px;padding:5px 8px">
+          <div style="font-size:9px;color:var(--dim)">T uscita</div>
+          <div style="font-size:9px;color:var(--dim);text-align:center">Max kg</div>
+          <div style="font-size:9px;color:var(--dim);text-align:center">T cuore 2h</div>
+          <div style="font-size:9px;color:var(--dim);text-align:center">Ferm. extra</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr 1fr 1fr;gap:6px;background:rgba(91,155,213,0.10);border-radius:8px;padding:7px 8px;align-items:center">
+          <div style="font-size:11px;color:#BBDEFB">sotto 22°C</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:14px;color:#A5D6A7;text-align:center">8kg</div>
+          <div style="font-size:10px;color:var(--dim);text-align:center">10°C</div>
+          <div style="font-size:10px;color:#A5D6A7;text-align:center">+14%</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr 1fr 1fr;gap:6px;background:rgba(76,175,125,0.10);border:1.5px solid rgba(76,175,125,0.3);border-radius:8px;padding:7px 8px;align-items:center">
+          <div style="font-size:11px;color:#A5D6A7">22–24°C ✅</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:14px;color:#A5D6A7;text-align:center">6kg</div>
+          <div style="font-size:10px;color:var(--dim);text-align:center">16°C</div>
+          <div style="font-size:10px;color:#A5D6A7;text-align:center">+21%</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr 1fr 1fr;gap:6px;background:rgba(255,193,7,0.10);border-radius:8px;padding:7px 8px;align-items:center">
+          <div style="font-size:11px;color:#FFE082">24–26°C ⚠️</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:14px;color:#FFE082;text-align:center">5kg</div>
+          <div style="font-size:10px;color:var(--dim);text-align:center">15°C</div>
+          <div style="font-size:10px;color:#FFE082;text-align:center">+20%</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr 1fr 1fr;gap:6px;background:rgba(229,57,53,0.10);border-radius:8px;padding:7px 8px;align-items:center">
+          <div style="font-size:11px;color:#FFCDD2">sopra 26°C 🔴</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:14px;color:#FFCDD2;text-align:center">4kg</div>
+          <div style="font-size:10px;color:var(--dim);text-align:center">13°C</div>
+          <div style="font-size:10px;color:#FFCDD2;text-align:center">+18%</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:var(--dim);line-height:1.7">
+      🔬 Più kg metti → più lentamente raffredda al cuore → fermentazione continua → pH scende → rischio disastro<br>
+      🔬 Con 8kg a 25°C il cuore rimane a 18°C per 2h → stessa situazione di ieri · superficie a specchio<br>
+      🔬 Formula: Max kg = h_conv × A / (k × c) dove A=0.1723m² GN1/1 · h=10W/m²K · c=3500J/kgK (Cauvain 2015)
+    </div>
+  </div>
+
   <!-- FONTI -->
   <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;font-size:9px;color:#7A8A6A;line-height:2">
     <div style="font-family:DM Mono,monospace;font-size:9px;color:#CE93D8;margin-bottom:6px">📚 Fonti scientifiche</div>
@@ -5932,6 +5990,72 @@ function renderUltimoRinfresco() {
 // 5046 Allegra 80% + 0102HP 20% · Strutto 2.5% · IDR 56% · Biga 50%
 // Pre-cottura 300°C 4-5min · Seconda cottura 270°C 3-4min
 // ══════════════════════════════════════════════════════════════════════
+function calcGnKg(){
+  var tUsc = parseFloat((document.getElementById('gs_tUsc')||{value:24}).value)||24;
+  var out  = document.getElementById('gsGnOut');
+  if(!out) return;
+
+  // Parametri GN 1/1 (Cauvain 2015)
+  var T_frigo = 4;
+  var h_conv  = 10;      // W/(m²·K) frigo ventilato
+  var A       = 0.1723;  // m² superficie base GN 1/1
+  var c       = 3500;    // J/(kg·K) calore specifico impasto
+  var mu_eff  = 0.049 * 1.40 * 1.30 * 0.85;  // biga+licoli a 22°C
+  var Q10     = 2.2;
+
+  // Calcola max kg in base a T uscita
+  // Criterio: MASSIMO kg con T cuore dopo 2h ≤ 15°C
+  var maxKg = 3;
+  for(var kg=3; kg<=12; kg++){
+    var k   = h_conv * A / (kg * c);
+    var T2h = T_frigo + (tUsc - T_frigo) * Math.exp(-k * 7200);
+    if(T2h <= 15){ maxKg = kg; } else { break; }
+  }
+
+  // Calcola T cuore e fermentazione extra per il maxKg trovato
+  var k_opt  = h_conv * A / (maxKg * c);
+  var T_2h   = Math.round((T_frigo + (tUsc - T_frigo) * Math.exp(-k_opt * 7200))*10)/10;
+  var T_4h   = Math.round((T_frigo + (tUsc - T_frigo) * Math.exp(-k_opt * 14400))*10)/10;
+  var spess  = Math.round((maxKg / 1150) / A * 100 * 10)/10;
+
+  // Fermentazione extra durante raffreddamento
+  var vol_extra = 0;
+  for(var dt=1; dt<=240; dt++){
+    var T_t = T_frigo + (tUsc - T_frigo) * Math.exp(-k_opt * dt * 60);
+    var mu_t = mu_eff * Math.pow(Q10,(T_t-22)/10);
+    vol_extra += mu_t * (1/60) * 100;
+  }
+  vol_extra = Math.round(vol_extra);
+
+  // Colore in base a T uscita
+  var col  = tUsc < 22 ? '#A5D6A7' : tUsc < 24 ? '#A5D6A7' : tUsc < 26 ? '#FFE082' : '#FFCDD2';
+  var msg  = tUsc < 22 ? '✅ Temperatura ottimale' : tUsc < 24 ? '✅ Buona' : tUsc < 26 ? '⚠️ Alta — rispetta il limite kg' : '🔴 Molto alta — massima attenzione';
+
+  out.innerHTML =
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.25);border:2px solid '+col+'50;border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px">T uscita</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:32px;color:'+col+'">'+tUsc+'°</div>'
+    +'<div style="font-size:9px;color:'+col+';margin-top:3px">'+msg+'</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.25);border:3px solid '+col+';border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px">MAX kg per GN 1/1</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:48px;line-height:1;color:'+col+'">'+maxKg+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:3px">kg · spessore '+spess+'cm</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:4px">T cuore dopo 2h</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:'+(T_2h<=15?'#A5D6A7':T_2h<=18?'#FFE082':'#FFCDD2')+'">'+T_2h+'°C</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:3px">dopo 4h: '+T_4h+'°C</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;font-size:11px;color:var(--dim);line-height:1.8">'
+    +'Con <strong style="color:var(--cream)">'+maxKg+'kg</strong> per GN: T cuore scende a <strong style="color:'+(T_2h<=15?'#A5D6A7':'#FFE082')+'">'+T_2h+'°C</strong> dopo 2h '
+    +'· fermentazione extra durante raffreddamento: <strong style="color:var(--cream)">+'+vol_extra+'%</strong><br>'
+    +'Se metti di più il cuore rimane caldo → fermentazione continua → pH scende → rischio superficie a specchio'
+    +'</div>';
+}
+
 function calcScrocchiarella(){
   function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
   function r5(n){return Math.round(n/5)*5;}
