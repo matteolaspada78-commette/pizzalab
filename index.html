@@ -2792,10 +2792,38 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
     </div>
 
-    <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.7">
-      🔬 pH 5.20–5.35: concentrazione acetica ottimale → aromi complessi + maglia ancora integra (Gobbetti & Gänzle 2012)<br>
-      🔬 Sotto pH 5.10: proteolisi eccessiva → glutine degradato → cornicione piatto anche con impasto perfetto<br>
-      🔬 T biga: <strong style="color:var(--cream)">18°C ± 1°C</strong> · ogni grado in più anticipa il picco di ~1.5h
+    <!-- FENOMENO BIGA ACERBA - ESPLOSIONE IN PUNTATA -->
+    <div style="background:rgba(229,57,53,0.12);border:2px solid rgba(229,57,53,0.5);border-radius:10px;padding:14px;margin-top:12px">
+      <div style="font-size:11px;font-weight:700;color:#FFCDD2;margin-bottom:10px">💥 FENOMENO BIGA ACERBA pH 5.40-5.50 — Gobbetti & Gänzle 2012</div>
+      <div style="font-size:10px;color:#7A8A6A;line-height:1.9;margin-bottom:10px">
+        La biga acerba ha un comportamento a <strong style="color:#FFCDD2">due fasi</strong> che inganna:<br>
+        <strong style="color:#FFE082">FASE 1</strong> — prime 2h: fermentazione lenta · volume cresce poco · sembra tutto ok<br>
+        <strong style="color:#FFCDD2">FASE 2</strong> — ore 2-4: pH impasto scende a 5.20-5.35 durante puntata → <strong style="color:#FFCDD2">ESPLOSIONE</strong><br>
+        Il volume raddoppia improvvisamente · pH finale impasto scende sotto 5.00<br>
+        → proteolisi totale → glutine liquefatto → <strong style="color:#FFCDD2">superficie a specchio</strong> → stesura impossibile
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.15);border-radius:8px;padding:8px 12px">
+          <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFCDD2;min-width:85px">pH biga > 5.45</div>
+          <div style="font-size:10px;color:#7A8A6A;flex:1">❌ NON impastare — aspetta fuori dal frigo 20-30min finché scende a 5.35</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
+          <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:85px">pH biga 5.35-5.45</div>
+          <div style="font-size:10px;color:#7A8A6A;flex:1">⚠️ Limite — puoi impastare ma puntata MAX 3h · misura pH impasto ogni ora</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.4);border-radius:8px;padding:8px 12px">
+          <div style="font-family:DM Mono,monospace;font-weight:700;color:#A5D6A7;min-width:85px">pH biga 5.20-5.35</div>
+          <div style="font-size:10px;color:var(--cream);flex:1">✅ ZONA PERFETTA — impasta adesso · puntata 3.5-4h · nessun rischio esplosione</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;font-size:10px;color:#7A8A6A;line-height:1.8">
+        🔬 <strong style="color:#FFCDD2">Superficie a specchio</strong> = pH impasto sceso sotto 5.00 = proteolisi totale = glutine liquefatto<br>
+        🔬 Con biga pH 5.45 e 5h puntata: pH finale ~4.90 → impasto irrecuperabile (Gobbetti & Gänzle 2012)<br>
+        🔬 <strong style="color:var(--cream)">La soluzione non è cambiare la puntata — è aspettare che la biga arrivi a pH 5.20-5.35</strong><br>
+        🔬 Misura sempre il pH biga PRIMA di impastare — non dopo
+      </div>
     </div>
 
     <!-- CONFRONTO 4°C vs 17°C -->
@@ -2960,28 +2988,41 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
       <div style="display:flex;align-items:center;gap:10px;background:rgba(91,155,213,0.12);border-radius:8px;padding:8px 12px">
         <div style="font-size:18px">❄️</div>
-        <div style="font-family:DM Mono,monospace;font-weight:700;color:#BBDEFB;min-width:65px">sotto 21°C</div>
-        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo freddo → aggiungi 45min puntata per ogni grado sotto il target</div>
+        <div style="font-family:DM Mono,monospace;font-weight:700;color:#BBDEFB;min-width:65px">sotto 20°C</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo freddo → <strong style="color:#FFCDD2">FRIGO SUBITO</strong> dopo max 20min · glutine si rilassa in frigo in 8-12h · stesura perfetta domani</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
         <div style="font-size:18px">⚠️</div>
         <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:65px">21–22°C</div>
-        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite basso → aggiungi 20min puntata</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite basso → max <strong style="color:#FFE082">30min</strong> a T ambiente poi frigo · non fare puntata lunga</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:8px;padding:8px 12px">
         <div style="font-size:18px">✅</div>
         <div style="font-family:DM Mono,monospace;font-weight:700;color:#A5D6A7;min-width:65px">22–24°C</div>
-        <div style="font-size:10px;color:var(--cream);flex:1">PERFETTO → procedi normalmente con i tempi calcolati</div>
+        <div style="font-size:var(--cream);flex:1"><strong style="color:var(--cream)">PERFETTO</strong> → puntata normale 3.5-4h a T ambiente → staglio → appretto → forno</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;background:rgba(255,193,7,0.10);border-radius:8px;padding:8px 12px">
         <div style="font-size:18px">⚠️</div>
         <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFE082;min-width:65px">24–25°C</div>
-        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite alto → togli 20min puntata · staglio prima</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Limite alto → togli 20-30min puntata · staglio prima</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;background:rgba(229,57,53,0.12);border-radius:8px;padding:8px 12px">
         <div style="font-size:18px">🔴</div>
         <div style="font-family:DM Mono,monospace;font-weight:700;color:#FFCDD2;min-width:65px">sopra 25°C</div>
-        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo caldo → metti GN in frigo 15-20min poi riprendi puntata</div>
+        <div style="font-size:10px;color:#7A8A6A;flex:1">Troppo caldo → metti GN in frigo 15-20min subito · poi puntata breve 2-2.5h</div>
+      </div>
+    </div>
+
+    <!-- REGOLA CRITICA T BASSA -->
+    <div style="background:rgba(229,57,53,0.12);border:2px solid rgba(229,57,53,0.4);border-radius:10px;padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:#FFCDD2;margin-bottom:8px">⚠️ REGOLA CRITICA — T uscita sotto 22°C · Dobraszczyk 2003</div>
+      <div style="font-size:10px;color:#7A8A6A;line-height:1.9">
+        Con T uscita sotto 22°C il glutine è <strong style="color:#FFCDD2">fisicamente più rigido</strong> — viscosità più alta, catene proteiche contratte.<br>
+        Nessuna puntata lunga o corta risolve questo — la pallina strappa in stesura <strong style="color:#FFCDD2">qualsiasi cosa tu faccia</strong>.<br><br>
+        <strong style="color:var(--cream)">La causa è sempre la T acqua sbagliata al momento dell'impasto.</strong><br><br>
+        La puntata a T ambiente è corretta scientificamente — il problema non è lì.<br>
+        Staglio sempre quando il volume è <strong style="color:#A5D6A7">+50%</strong> — indipendentemente da ore e temperature.<br><br>
+        <strong style="color:#F0CC5A">Se strappi in stesura → la prossima volta correggi la T acqua, non la puntata.</strong>
       </div>
     </div>
 
