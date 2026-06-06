@@ -681,6 +681,26 @@ var BASE_RECIPES = [
   },
 
   // ── SHIITAKE CONFIT ──
+  { id:144, emoji:'🍆', title:'Crema di Melanzane Bruciata e Affumicata', tag:'Creme & Salse',
+    ingredienti:[
+      {nome:'Melanzane intere',qty:1000,unit:'g'},
+      {nome:'Pomodori secchi tradizionali',qty:80,unit:'g'},
+      {nome:'Olio EVO',qty:80,unit:'g'},
+      {nome:'Basilico fresco',qty:40,unit:'g'},
+      {nome:'Miele di agrumi',qty:20,unit:'g'},
+      {nome:'Aceto di vino rosso',qty:15,unit:'g'},
+      {nome:'Capperi di Salina dissalati (o Colatura di Alici)',qty:15,unit:'g'},
+      {nome:'Aglio (privato dell\'anima)',qty:0.5,unit:'spicchi'},
+      {nome:'Sale fino',qty:10,unit:'g'}
+    ],
+    istruzioni:'DOSI BASE: per 1 kg di melanzane. Premi x10 nell\'app per la produzione lab.\nAlternativa capperi: sostituibili con 10g di Colatura di Alici per umami più intenso.\n\n1. IMPOSTAZIONE RATIONAL — Aria Calda Secca\nModalità: Aria Calda (Statico/Secco) — 240°C.\nUmidità: 0% — Valvola di scarico completamente aperta per eliminare tutta l\'umidità.\nTeglie forate Rational.\n\n2. COTTURA E CONCENTRAZIONE\nForare profondamente le melanzane intere con un coltellino. Disporle sulle teglie forate e infornare a 240°C per 35-45 minuti. Devono uscire completamente sgonfie, flaccide, con la buccia bruciata e accartocciata.\nTagliare a metà a caldo e lasciar scolare 10 minuti in colapasta forato — perdono l\'acqua amara rimanente e concentrano il sapore. Estrarre la polpa con un cucchiaio.\n\n3. CUTTER / MIXER\nInserire nel cutter: polpa di melanzana tiepida, pomodori secchi, capperi dissalati (o colatura), aglio, miele, aceto e sale. Frullare alla massima velocità fino a pasta liscia e omogenea.\n\n4. EMULSIONE E CHIUSURA\nCon il cutter in azione, versare l\'olio EVO a filo per far montare e lucidare la crema. Solo negli ultimi 5 secondi aggiungere il basilico fresco e dare pochi impulsi a scatti — evita di scaldarlo e farlo annerire.'
+  },
+  { id:143, emoji:'🌿', title:'Polvere di Cappero (Microonde)', tag:'Altro',
+    ingredienti:[
+      {nome:'Capperi sotto sale',qty:100,unit:'g'}
+    ],
+    istruzioni:'METODO: Disidratazione rapida al microonde — nessun essiccatore necessario.\n\n1. DISSALAZIONE E ASCIUGATURA (fondamentale): Sciacquare i capperi sotto acqua corrente e lasciarli in ammollo in acqua tiepida per 10-15 minuti. Scolare e tamponare benissimo con carta assorbente. Più sono asciutti superficialmente, più velocemente si disidrateranno.\n\n2. DISIDRATAZIONE AL MICROONDE: Rivestire un piatto adatto al microonde con carta forno o carta assorbente. Distribuire i capperi in un unico strato, ben distanziati tra loro. Impostare a potenza medio-alta (650-700W). Avviare a intervalli di 1-1,5 minuti alla volta. Tra un intervallo e l\'altro aprire lo sportello per far uscire il vapore e controllare la consistenza toccando i capperi.\nTempo totale: 3-5 minuti a seconda della pezzatura e quantità. Sono pronti quando risultano completamente secchi, leggeri e si sfaldano facilmente sotto pressione delle dita.\n\n3. POLVERIZZAZIONE: Lasciare raffreddare 1 minuto (diventeranno ancora più fragili). Trasferire in un mixer, macinacaffè o mortaio. Frullare alla massima velocità fino a ottenere una polvere fine e omogenea.'
+  },
   { id:142, emoji:'🫙', title:'Gel di Soia allo Xantano', tag:'Creme & Salse',
     ingredienti:[
       {nome:'Salsa di soia',qty:200,unit:'g'},
@@ -746,6 +766,11 @@ BASE_RECIPES.forEach(function(r){
   if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
   if(!multipliers[r.id]) multipliers[r.id] = 1;
 });
+// Fix forzato: se la ricetta 144 ha ancora 10000g nel localStorage, la resetta al valore corretto
+if(editedRecipes[144] && editedRecipes[144].ingredienti && editedRecipes[144].ingredienti[0] && editedRecipes[144].ingredienti[0].qty === 10000){
+  editedRecipes[144] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===144;})));
+  saveToStorage();
+}
 // Assicura le custom in editedRecipes
 customRecipes.forEach(function(r){
   if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
