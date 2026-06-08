@@ -6706,6 +6706,7 @@ function calcSupremaRapido(){
   var bigaPct = rv('sBigaPct', 30);
   var idr     = rv('sRapIdr',  70);
   var saleP   = rv('sSale',   2.8);
+  var licP    = rv('sLic',    10);   // % licoli sul rinfresco
   var tBiga   = rv('sRapTBiga', 12);
   var tFar    = rv('sRapTFar',  18);
   var tAmb    = rv('sRapTAmb',  22);
@@ -6733,6 +6734,10 @@ function calcSupremaRapido(){
   var farRinf  = farTot - farBiga;
   var acqBiga  = r5(farBiga * 0.45);
   var acqTot   = r5(farTot * idr / 100);
+  // Licoli — acqua licoli va sottratta dall'acqua da versare nell'Esmach
+  var licGRap   = licP > 0 ? r5(farRinf * licP / 100) : 0;
+  var licAcqRap = Math.round(licGRap * 0.5);
+  var acqEsmach = acqTot - acqBiga - licAcqRap;  // acqua reale da versare
   var sale     = r5(farTot * saleP / 100);
   var ldbG     = Math.max(1, Math.round(farBiga * 0.30 / 100));
   piaccaR  = farTot + acqTot + sale;
@@ -6794,13 +6799,28 @@ function calcSupremaRapido(){
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 45%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div>'
     +'</div>'
-    +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.30%</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+ldbG+'g</div>'
+    +'<div style="background:rgba(76,175,125,0.12);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌿 Licoli '+licP+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#A5D6A7">'+(licGRap||0)+'g</div>'
+    +'<div style="font-size:8px;color:var(--dim);margin-top:1px">acq '+(licAcqRap||0)+'g già dentro</div>'
     +'</div>'
     +'<div style="background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:10px;padding:10px;text-align:center">'
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+panReali+'</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:8px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Acqua tot IDR '+idr+'%</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#BBDEFB">'+acqTot+'g</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:8px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:2px">− biga − licoli</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:700;font-size:14px;color:#FFCDD2">−'+(acqBiga+licAcqRap)+'g</div>'
+    +'</div>'
+    +'<div style="background:rgba(76,175,125,0.15);border:1.5px solid rgba(76,175,125,0.5);border-radius:10px;padding:8px;text-align:center">'
+    +'<div style="font-size:9px;color:#4CAF7D;margin-bottom:2px;font-weight:700">= ESMACH</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#4CAF7D">'+acqEsmach+'g</div>'
     +'</div>'
     +'</div>';
 
