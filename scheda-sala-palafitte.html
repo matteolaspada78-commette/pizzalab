@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Scheda Sala — Le Palafitte · Cocktail Bar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark only;}
+html{background:#0b0908!important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;min-height:100vh;}
+
+/* COVER */
+.cover{background:#080605!important;text-align:center;padding:3.5rem 1.5rem 3rem;border-bottom:1px solid #c9a84c;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 45% at 50% 105%,rgba(201,168,76,.12) 0%,transparent 70%),radial-gradient(ellipse 35% 22% at 12% 0%,rgba(201,168,76,.06) 0%,transparent 60%);pointer-events:none;}
+.ci{position:relative;z-index:1;}
+.c-eye{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:1.2rem;display:block;}
+.c-logo{font-family:'Cormorant Garamond',serif;font-size:4.5rem;font-weight:300;color:#f0ebe0!important;line-height:.88;margin-bottom:.15rem;display:block;}
+.c-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#c9a84c!important;margin-bottom:.6rem;letter-spacing:.09em;display:block;}
+.c-tagline{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;font-weight:300;color:rgba(240,235,224,.55)!important;margin-bottom:2rem;line-height:1.65;display:block;}
+.c-div{width:48px;height:1px;background:#c9a84c;margin:0 auto 2rem;display:block;}
+.c-info{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:#7a6a58!important;line-height:2.4;display:block;}
+.c-firma{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(201,168,76,.22);}
+.c-fl{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:#7a6a58!important;margin-bottom:.25rem;display:block;}
+.c-fn{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:#f0ebe0!important;display:block;}
+
+/* INTRO IMPASTO */
+.intro-block{background:#0d0b09!important;padding:1.8rem 1.2rem;border-bottom:1px solid rgba(201,168,76,.15);}
+.intro-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#e8d08a!important;margin-bottom:.6rem;}
+.intro-text{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#b0a090!important;line-height:1.75;}
+.intro-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem;}
+.ichip{font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1)!important;color:#c9a84c!important;border:1px solid rgba(201,168,76,.25);}
+
+/* SEZ HEAD */
+.sez-head{text-align:center;padding:1.8rem 1.5rem 1rem;background:#0b0908!important;}
+.sez-eye{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.4rem;display:block;}
+.sez-ttl{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f0ebe0!important;}
+
+/* PIZZA CARD */
+.lista{padding:0 0 3rem;background:#0b0908!important;}
+.card{border-bottom:1px solid rgba(201,168,76,.13);padding:1.6rem 1.2rem;background:#0b0908!important;}
+.card:first-child{border-top:1px solid rgba(201,168,76,.13);}
+
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:.7rem;margin-bottom:.5rem;flex-wrap:wrap;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e8d08a!important;line-height:1.2;flex:1;}
+.card-sharing{font-size:.46rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8ec97a!important;border:1px solid rgba(142,201,122,.3);padding:.22em .65em;border-radius:2px;flex-shrink:0;align-self:flex-start;margin-top:.2rem;}
+
+.card-ingr{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#7a6a58!important;line-height:1.8;margin-bottom:.75rem;}
+
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:1.06rem;font-style:italic;color:#d8d0bc!important;line-height:1.75;}
+
+.card-alert{display:flex;align-items:flex-start;gap:.5rem;background:rgba(201,168,76,.06)!important;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:.55rem .7rem;margin-top:.75rem;font-size:.62rem;color:#e8d08a!important;line-height:1.55;}
+.alert-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;margin-top:.32rem;}
+
+/* FIRMA */
+.firma-block{background:#080605!important;border-top:1px solid rgba(192,57,43,.25);padding:2rem 1.5rem 3rem;text-align:center;}
+.firma-inner{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;}
+.firma-lbl{font-size:.44rem;letter-spacing:.4em;text-transform:uppercase;color:#6a5545;font-family:'Montserrat',sans-serif;}
+.firma-nome{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;font-weight:300;color:#f0ebe0;letter-spacing:.02em;}
+.firma-ruolo{font-size:.44rem;letter-spacing:.35em;text-transform:uppercase;color:#c9a84c;font-family:'Montserrat',sans-serif;}
+.firma-line{width:36px;height:1px;background:rgba(201,168,76,.4);margin:.5rem 0;}
+.firma-tag{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:#4a3a2a;font-family:'Montserrat',sans-serif;}
+
+/* NOTE SERVIZIO */
+.note-block{background:#0d0b09!important;padding:1.5rem 1.2rem;border-top:1px solid rgba(201,168,76,.15);}
+.note-title{font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.8rem;display:block;}
+.note-item{display:flex;gap:.65rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:flex-start;}
+.note-item:last-child{border-bottom:none;}
+.note-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;margin-top:.45rem;}
+.note-txt{font-size:.72rem;color:#a09080!important;line-height:1.6;}
+.note-txt strong{color:#d8d0bc!important;font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="ci">
+    <span class="c-eye">Cocktail Bar · Estate 2026 · Messina</span>
+    <span class="c-logo">Le Palafitte</span>
+    <span class="c-sub">L'esclusiva pizza in pala</span>
+    <span class="c-tagline">In collaborazione con l'Executive Pizza Chef<br>Matteo La Spada</span>
+    <span class="c-div"></span>
+    <span class="c-info">Scheda Sala · Uso interno · Personale di sala<br>8 pizze in pala · Sharing in riva al mare</span>
+    <div class="c-firma">
+      <span class="c-fl">a cura di</span>
+      <span class="c-fn">Matteo La Spada</span>
+      <span class="c-fl" style="margin-top:.2rem">Executive Pizza Chef · Gruppo Orso Messina</span>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO IMPASTO -->
+<div class="intro-block">
+  <div class="intro-title">L'impasto in pala</div>
+  <div class="intro-text">Impasto ad alta idratazione, leggero e incredibilmente croccante. Pensato appositamente per lo sharing in riva al mare — servito caldo al centro del tavolo, già tagliato a quadrotti su assi di legno grezzo. Ideale da spilluzzicare e abbinare ai cocktail estivi.</div>
+  <div class="intro-chips">
+    <span class="ichip">Alta idratazione</span>
+    <span class="ichip">Croccante</span>
+    <span class="ichip">Sharing</span>
+    <span class="ichip">Tagliata a quadrotti</span>
+    <span class="ichip">Asse di legno grezzo</span>
+  </div>
+</div>
+
+<!-- PIZZE -->
+<div class="sez-head">
+  <span class="sez-eye">Descrizioni · Ingredienti · Note di servizio</span>
+  <div class="sez-ttl">Le Pizze in Pala</div>
+</div>
+
+<div class="lista">
+
+  <!-- LA CLASSICA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">La Classica</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Passata pomodoro siccagno · Fior di latte · Basilico fresco</div>
+    <div class="card-desc">L'intramontabile Margherita dove l'intensa dolcezza del pomodoro locale fa tutta la differenza. Il siccagno di Valledolmo — coltivato senz'acqua sulle Madonie, tre volte più ricco di licopene — trasforma una pizza semplice in una dichiarazione di territorio. La più onesta e la più difficile da fare bene.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Il basilico arriva sempre fresco in uscita — mai cotto. Spiegare il siccagno al cliente: pomodoro siciliano coltivato senz'acqua.</div>
+  </div>
+
+  <!-- L'EVERGREEN -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">L'Evergreen</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Passata pomodoro siccagno · Fior di latte · Funghi champignon freschi · Olive taggiasche · Prosciutto cotto Branchi</div>
+    <div class="card-desc">La reinterpretazione d'autore della capricciosa con ingredienti rigorosamente selezionati. Il prosciutto cotto Branchi — tra i migliori in commercio, linea premium Levoni — si fonde con i funghi freschi e le olive taggiasche su una base di siccagno. Un grande classico senza compromessi.</div>
+  </div>
+
+  <!-- NORMA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">Norma</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Passata pomodoro siccagno · Fior di latte · Melanzane fritte · Ricotta infornata grattugiata</div>
+    <div class="card-desc">L'autentica tradizione siciliana che sposa perfettamente la straordinaria croccantezza della pala. La ricotta infornata — salata, stagionata e grattugiata sopra — porta quella nota sapida e secca che distingue la Norma vera da tutte le imitazioni. Il siccagno e le melanzane fritte fanno il resto.</div>
+    <div class="card-alert"><div class="alert-dot"></div>La ricotta infornata viene grattugiata sulla pizza — non è ricotta fresca. Spiegarlo al cliente se chiede: è il tocco identitario della Norma siciliana.</div>
+  </div>
+
+  <!-- LA PALAFITTA D'ESTATE -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">La Palafitta d'Estate</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Vellutata di zucchine · Fior di latte · Chips di zucchine fritte · Ricotta infornata · Speck croccante · Olio al limone</div>
+    <div class="card-desc">Un perfetto equilibrio di consistenze e contrasti: la vellutata di zucchine fa da base morbida e profumata, le chips di zucchine fritte portano croccantezza in uscita, lo speck croccante aggiunge sapidità affumicata. L'olio al limone chiude ogni morso con una nota agrumata fresca e necessaria. La pizza estiva per eccellenza.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Due consistenze di zucchina: vellutata in base + chips croccanti in uscita. L'olio al limone è l'ultimo gesto. Spiegare il contrasto al cliente.</div>
+  </div>
+
+  <!-- L'ABBRACCIO DI SCILLA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">L'Abbraccio di Scilla</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Crema di scarola · Datterino giallo · Datterino rosso semi secco · Primo sale · Alici · Pepe nero · Olio al limone</div>
+    <div class="card-desc">L'identità messinese in una pizza: la crema di scarola fa da base amara e avvolgente, i datterini gialli e rossi semi secchi portano dolcezza e concentrazione, le alici la sapidità marina del Mediterraneo. Il pepe nero e l'olio al limone completano un quadro fresco, intenso, splendidamente aromatico. È lo Stretto in un morso.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Alici fresche o conservate — contenuto pesce (all. 4). Due datterini diversi: il giallo burroso, il rosso semi secco concentrato. La pizza più identitaria della carta.</div>
+  </div>
+
+  <!-- SOLE D'AGOSTO -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">Sole d'Agosto</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Fior di latte · Datterino giallo · Datterino rosso semi secco · Basilico fresco</div>
+    <div class="card-desc">Una focaccia bianca essenziale e pulita — nessuna salsa, solo il fior di latte come base. I datterini gialli e rossi semi secchi celebrano la massima espressione e dolcezza del pomodoro estivo: due varietà diverse, due dolcezze diverse, un campo cromatico che fa già sorridere prima del primo morso.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Pizza bianca — nessuna base rossa. I datterini sono l'ingrediente principale. Il giallo è burroso, il rosso semi secco è concentrato — spiegarlo al cliente come una "verticale" di pomodoro.</div>
+  </div>
+
+  <!-- LA TRAMONTO -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">La Tramonto</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Fior di latte · Datterino rosso semi secco · Songino fresco · Prosciutto crudo stagionato</div>
+    <div class="card-desc">Fresca, leggera e splendidamente bilanciata — nata per essere l'anima dell'ora dell'aperitivo. Il songino fresco e il prosciutto crudo arrivano in uscita sul fior di latte caldo creando il contrasto freddo-caldo che rende questa pizza perfetta con un calice di bollicine. I datterini semi secchi portano il solo tocco di dolcezza concentrata.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Songino e prosciutto in uscita — freschi sul calore della pizza. La pizza da abbinare a bollicine o a un cocktail leggero.</div>
+  </div>
+
+  <!-- EOLIANA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-name">Eoliana</div>
+      <span class="card-sharing">Sharing</span>
+    </div>
+    <div class="card-ingr">Fior di latte · Datterino rosso semi secco · Tonno · Cipolla caramellata · Capperi di Salina</div>
+    <div class="card-desc">Un'esplosione di gusto marittimo, sapida e dolce, che racchiude i sapori più veraci del nostro mare. I capperi di Salina IGP — Presidio Slow Food, a 50km da Messina — portano la nota iodica delle Eolie, la cipolla caramellata la dolcezza profonda, il tonno il mare diretto. Una pizza che racconta le isole.</div>
+    <div class="card-alert"><div class="alert-dot"></div>Capperi di Salina IGP — Presidio Slow Food. Vale la pena raccontarlo al tavolo. All. 4 (pesce — tonno). Abbinamento consigliato: cocktail agrumati o vino bianco siciliano.</div>
+  </div>
+
+</div><!-- /lista -->
+
+
+
+<!-- IMPASTO -->
+<div style="background:#0d0b09;border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:1.8rem 1.2rem;">
+  <div style="text-align:center;margin-bottom:1.5rem;">
+    <span style="font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c9a84c;margin-bottom:.4rem;display:block;">Tecnica · Farine · Fermentazione</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f0ebe0;">L'Impasto in Pala</div>
+  </div>
+
+  <!-- INTRO -->
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:#cec6b2;line-height:1.75;margin-bottom:1.4rem;">
+    Un impasto ad alta idratazione che nasce da 36 ore di lavoro. Due farine Petra di Mulino Quaglia in parti uguali, un prefermento Biga e il lievito madre vivo che coltiviamo quotidianamente. Il risultato è una pala leggera, croccante, profumata — con una struttura interna alveolata che regge il condimento senza mai appesantire.
+  </div>
+
+  <!-- FARINE -->
+  <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.8rem;display:block;">Le Due Farine — 50% + 50%</span>
+
+  <div style="background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:1rem 1rem .8rem;margin-bottom:.7rem;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:#e8d08a;margin-bottom:.15rem;">Petra 0102 HP — Mulino Quaglia</div>
+    <span style="font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:#c9a84c;margin-bottom:.55rem;display:block;">Farina di grano tenero Tipo 1 · da grano germogliato · 50% del blend</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#b8b0a0;line-height:1.7;">La 0102 HP è una farina di tipo 1 ottenuta da grano tenero parzialmente germogliato — un processo che Mulino Quaglia ha sviluppato in anni di ricerca. La germogliazione trasforma le proteine del chicco rendendole più digeribili e aromatiche, e attiva enzimi naturali che migliorano la fermentazione. È una farina integrale "intelligente": porta la fibra e i profumi del grano intero, ma lavora con la stabilità di una tipo 0. Dà all'impasto struttura, fragranza e quella nota di grano tostato che si sente al naso quando la pala esce dal forno.</div>
+    <div style="margin-top:.7rem;font-size:.62rem;color:#8a7a6a;font-weight:500;">Per il personale: farina di grano tenero semintegrale germogliato. Dà struttura, profumo di grano e alta digeribilità all'impasto.</div>
+  </div>
+
+  <div style="background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:1rem 1rem .8rem;margin-bottom:1.4rem;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:#e8d08a;margin-bottom:.15rem;">Petra 5078 — Mulino Quaglia</div>
+    <span style="font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:#c9a84c;margin-bottom:.55rem;display:block;">Miscela Tipo 0 · farro integrale + soia + crusca tostata · 50% del blend</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#b8b0a0;line-height:1.7;">La 5078 è una miscela di grano tenero tipo 0 arricchita con farro integrale, soia e crusca tostata. Tre ingredienti che lavorano in sinergia: il farro porta fragranza e una leggera nota dolce-nocciola, la soia aggiunge proteine che rafforzano la maglia glutinica, la crusca tostata è la firma visiva e aromatica — è lei che dà quel colore ambrato scuro al cornicione e quella nota tostata profonda che si sente al primo morso. Ideale per lunghe fermentazioni, mantiene stabilità eccellente anche a 48 ore in cella.</div>
+    <div style="margin-top:.7rem;font-size:.62rem;color:#8a7a6a;font-weight:500;">Per il personale: miscela con farro e crusca tostata. Dà il colore ambrato della pala e quella nota tostata caratteristica che si sente al naso.</div>
+  </div>
+
+  <!-- PREFERMENTO BIGA -->
+  <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.6rem;display:block;">Il Prefermento — La Biga</span>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#cec6b2;line-height:1.75;margin-bottom:1.2rem;">
+    La Biga è un prefermento indiretto — si prepara il giorno prima con una percentuale delle farine, pochissima acqua (circa 45%) e una piccola quantità di lievito. Si impasta grossolanamente — non liscio, non incordato — e si lascia fermentare 18–24 ore a temperatura controllata. È grezzo e appiccicoso intenzionalmente: durante la fermentazione sviluppa acidi organici, composti aromatici complessi e una struttura glutinica resistente che poi si trasferisce all'impasto finale. La Biga è la firma del pizzaiolo — è lei che costruisce gli aromi profondi e l'alveolatura della pala. Nessun impasto diretto può replicare quello che fa la Biga in 24 ore.
+  </div>
+
+  <!-- LIEVITO MADRE -->
+  <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.6rem;display:block;">Il Lievito Madre Vivo</span>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#cec6b2;line-height:1.75;margin-bottom:1.2rem;">
+    Il nostro lievito madre vivo è un ecosistema di batteri lattici e lieviti selvatici che coltiviamo e rinfreschiamo ogni giorno. A differenza del lievito di birra — che produce solo anidride carbonica — il lievito madre produce anche acidi organici che abbassano l'indice glicemico dell'impasto, aumentano la digeribilità e sviluppano aromi complessi impossibili da ottenere artificialmente. Viene aggiunto in piccola percentuale accanto alla Biga per modulare e supportare la fermentazione finale, portando la sua acidità delicata e il profumo caratteristico del pane di qualità.
+  </div>
+
+  <!-- IDRATAZIONE E LIEVITAZIONE -->
+  <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.6rem;display:block;">Idratazione e Lievitazione Totale</span>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#cec6b2;line-height:1.75;margin-bottom:1.2rem;">
+    L'impasto finito raggiunge il 77% di idratazione — ogni 100g di farina ci sono 77g di acqua. È un'idratazione alta per una pala, che rende l'impasto aperto e leggero internamente, ma richiede tecnica e padronanza per essere lavorato. La lievitazione complessiva — sommando Biga e lievitazione finale — arriva a 36 ore totali. Questo tempo lungo è la ragione per cui la pala è così digeribile: gli enzimi naturali hanno tempo di scomporre le proteine del glutine rendendole assimilabili, gli amidi si degradano e l'acidità si stabilizza. Non si mangia la stessa cosa di una pizza lievitata in 4 ore.
+  </div>
+
+  <!-- CHIPS RIASSUNTIVE -->
+  <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;">
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">50% Petra 0102 HP</span>
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">50% Petra 5078</span>
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">Biga 24h</span>
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">Lievito madre vivo</span>
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">77% idratazione</span>
+    <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.25);">36 ore totali</span>
+  </div>
+
+  <!-- RUNNER -->
+  <div style="background:rgba(139,58,30,.09);border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;">
+    <span style="font-size:.45rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a;margin-bottom:.28rem;display:block;">⚡ Runner — cosa ricordare</span>
+    <div style="font-size:.67rem;color:#d8d0bc;line-height:1.65;font-weight:500;">Due farine Petra Mulino Quaglia al 50/50. Prefermento Biga fatto il giorno prima. Lievito madre vivo che coltiviamo ogni giorno. 77% di acqua — impasto molto idratato. 36 ore di lievitazione totale. Per questo è leggera, croccante e digeribile.</div>
+  </div>
+
+</div>
+
+<!-- INGREDIENTI CHIAVE -->
+<div style="text-align:center;padding:1.8rem 1.5rem 1rem;background:#0b0908;">
+  <span style="font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c9a84c;margin-bottom:.4rem;display:block;">Produttori · Preparazioni · Materie prime</span>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f0ebe0;">I Nostri Ingredienti</div>
+</div>
+
+<div style="padding:0 0 1rem;background:#0b0908;">
+
+  <!-- SICCAGNO -->
+  <div style="border-bottom:1px solid rgba(201,168,76,.13);padding:1.5rem 1.2rem;background:#0b0908;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e8d08a;margin-bottom:.18rem;">Passata di Pomodoro Siccagno</div>
+    <span style="font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;margin-bottom:1rem;display:block;">Cooperativa Rinascita · Valledolmo (PA) · Madonie · dal 1977</span>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.5rem;">La storia</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">La cooperativa Rinascita nasce nel 1977 a Valledolmo, sulle basse Madonie. "Siccagno" deriva dal termine siciliano che indica la coltivazione senza acqua — le piante crescono sfruttando solo le piogge invernali e l'umidità del terreno argilloso. Sotto il sole di agosto, con escursioni termiche forti tra giorno e notte, il pomodoro concentra gli zuccheri in modo straordinario producendo frutti piccoli, dalla buccia spessa e dalla polpa densa. La resa è bassissima — ogni pianta produce pochissimi chili — ma la qualità è eccezionale.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Perché è diverso</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Il pomodoro siccagno ha una concentrazione di licopene tre volte superiore ai pomodori irrigati — è il suo antiossidante naturale, sviluppato per difendersi dallo stress idrico. La passata è densa, profumata, con una dolcezza naturale intensa e un'acidità bilanciata che non richiede correzioni di zucchero. Premio della Stampa Estera al Salone del Gusto 2005. Nessun additivo, nessun conservante — solo pomodoro siciliano.</div>
+    <div style="background:rgba(139,58,30,.09);border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;">
+      <span style="font-size:.45rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a;margin-bottom:.28rem;display:block;">⚡ Runner</span>
+      <div style="font-size:.67rem;color:#d8d0bc;line-height:1.62;font-weight:500;">Pomodoro siciliano coltivato senz'acqua sulle Madonie. 3x licopene rispetto al normale. Dal 1977. Premio internazionale. Il pomodoro più identitario di Sicilia — usarlo come storia da raccontare al tavolo.</div>
+    </div>
+  </div>
+
+  <!-- DATTERINO GRAN GUSTO -->
+  <div style="border-bottom:1px solid rgba(201,168,76,.13);padding:1.5rem 1.2rem;background:#0b0908;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e8d08a;margin-bottom:.18rem;">Datterino Rosso e Giallo Semi Secco in Olio</div>
+    <span style="font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;margin-bottom:1rem;display:block;">Gran Gusto · Finagricola · Battipaglia (SA) · Linea professionale</span>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.5rem;">Chi è Finagricola</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Finagricola è una cooperativa campana con oltre 300 ettari propri nella Piana del Sele. La linea Gran Gusto nasce per i professionisti della ristorazione: filiera controllata al 100%, coltivazione integrata, raccolta a mano. I datterini vengono tagliati a metà, essiccati parzialmente — non completamente disidratati, ma "semi secchi" — e conservati in olio con aglio e erbe aromatiche mediterranee.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Rosso vs Giallo — due varietà diverse</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Il datterino rosso semi secco ha una concentrazione zuccherina elevata — circa 8–10 gradi Brix — con una dolcezza intensa e una nota sapida data dall'essiccazione parziale. Il datterino giallo semi secco non è un rosso non maturo: è una varietà geneticamente diversa, con meno licopene e più carotene. Ha una dolcezza quasi burrosa e vellutata, acidità bassissima, circa 9–11 gradi Brix. In entrambi i casi la semi-essiccazione concentra gli zuccheri mantenendo la morbidezza della polpa — qualcosa che né il fresco né il secco riescono a fare insieme.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Come li usiamo</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Entrano in cottura sulla pala — il calore ulteriore caramellizza leggermente i bordi esaltando ancora la dolcezza. Dove sono presenti insieme (Sole d'Agosto, Abbraccio di Scilla) creano una verticale cromatica e gustativa: giallo burroso + rosso concentrato = complementarità perfetta.</div>
+    <div style="background:rgba(139,58,30,.09);border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;">
+      <span style="font-size:.45rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a;margin-bottom:.28rem;display:block;">⚡ Runner</span>
+      <div style="font-size:.67rem;color:#d8d0bc;line-height:1.62;font-weight:500;">Gran Gusto Finagricola — linea professionale campana. Rosso: 8–10 gradi Brix, dolce e sapido. Giallo: 9–11 gradi Brix, burroso e vellutato. Semi secchi = concentrati ma ancora morbidi. Non sono la stessa varietà.</div>
+    </div>
+  </div>
+
+  <!-- TERRALIVA -->
+  <div style="border-bottom:1px solid rgba(201,168,76,.13);padding:1.5rem 1.2rem;background:#0b0908;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e8d08a;margin-bottom:.18rem;">Olio EVO Terraliva — Tonda Iblea</div>
+    <span style="font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;margin-bottom:1rem;display:block;">Terraliva · Buccheri (SR) · Monti Iblei · 700m s.l.m. · Biologico</span>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.5rem;">L'azienda e l'olivo</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Famiglia Cavarra — azienda biologica a Buccheri, sull'altopiano ibleo in provincia di Siracusa, a 700 metri di quota. Il nome commerciale è Terraliva, ma l'azienda si chiama Cavarra-Buccheri. 1700 ulivi centenari di cultivar Tonda Iblea su terreno vulcanico. Le olive vengono raccolte verdi, all'inizio della maturazione — non a completa maturazione come si fa industrialmente — e portate al frantoio entro poche ore. Estrazione a freddo, filtrazione immediata.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Profilo sensoriale — la Tonda Iblea</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Colore verde brillante con riflessi dorati. Al naso sentori intensi di pomodoro fresco, mandorla verde e note di carciofo — quest'ultima è la caratteristica distintiva della cultivar Tonda Iblea tra tutte le cultivar italiane. In bocca amaro e piccante equilibrati, mai aggressivi, con una nota fruttata finale che pulisce il palato. È un olio da finissaggio — usarlo sempre a crudo in uscita o a fine cottura: il calore del forno ne distruggerebbe i composti volatili aromatici che lo rendono unico.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Come lo usiamo</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">Sempre a crudo in uscita — l'ultimo gesto prima di portare la pala al tavolo. Una pizza con il Terraliva cambia profilo aromatico: il profumo di pomodoro e mandorla si aggiunge agli ingredienti già presenti creando un livello ulteriore di complessità. Sulle palafitte lo usiamo dove la ricetta prevede olio EVO.</div>
+    <div style="background:rgba(139,58,30,.09);border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;">
+      <span style="font-size:.45rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a;margin-bottom:.28rem;display:block;">⚡ Runner</span>
+      <div style="font-size:.67rem;color:#d8d0bc;line-height:1.62;font-weight:500;">Olio biologico siciliano, Monti Iblei, 700m. Cultivar Tonda Iblea — profumo di pomodoro, mandorla e carciofo. Solo in uscita — mai in cottura. Famiglia Cavarra, Buccheri.</div>
+    </div>
+  </div>
+
+  <!-- CREMA DI SCAROLA -->
+  <div style="border-bottom:1px solid rgba(201,168,76,.13);padding:1.5rem 1.2rem;background:#0b0908;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e8d08a;margin-bottom:.18rem;">Crema di Scarola</div>
+    <span style="font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;margin-bottom:1rem;display:block;">Preparazione della casa · Base dell'Abbraccio di Scilla</span>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.5rem;">Come si fa — la tecnica</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">La scarola viene pulita e passata per un brevissimo tempo in acqua bollente — pochi secondi, non di più — per ammorbidirla senza cuocerla davvero. Immediatamente dopo viene tuffata in acqua e ghiaccio per bloccare la cottura con uno shock termico: questo passaggio è fondamentale perché fissa la clorofilla, mantenendo il colore verde brillante e vivace che altrimenti si ossidarsi diventando grigio-marrone. La tecnica si chiama sbianchitura e shock termico — usata nella cucina professionale per preservare colore e vitalità delle verdure.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">L'emulsione</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">La scarola sbollentata e raffreddata viene frullata nel mixer con olio extravergine d'oliva Terraliva, una parte di cipolla caramellata — per bilanciare e contrastare l'amaro naturale della scarola — e filetti di alici del Mediterraneo, che portano sapidità profonda e una nota marina senza dichiarare la loro presenza. Il risultato è una crema verde brillante, liscia, con un sapore avvolgente e leggermente amarognolo, dove l'amaro è nobilitato dalla dolcezza della cipolla e dalla sapidità marina delle alici.</div>
+    <span style="font-size:.47rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.28rem;display:block;margin-top:.9rem;">Cosa dire al cliente</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-style:italic;color:#cec6b2;line-height:1.72;">È una crema verde fatta con scarola fresca sbollentata e raffreddata in acqua e ghiaccio per mantenere il colore, poi frullata con olio, cipolla caramellata e alici. Leggermente amara, profumata, con una nota marina sottile. Contiene alici — avvisare per allergie al pesce.</div>
+    <div style="background:rgba(139,58,30,.09);border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;">
+      <span style="font-size:.45rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a;margin-bottom:.28rem;display:block;">⚡ Runner</span>
+      <div style="font-size:.67rem;color:#d8d0bc;line-height:1.62;font-weight:500;">Scarola sbollentata + shock in ghiaccio (fissa il verde) + frullata con olio Terraliva + cipolla caramellata + alici. Verde brillante, leggermente amara, nota marina. ⚠ Contiene alici — all. 4 (pesce).</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.7rem;">
+      <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.25em .65em;border-radius:2px;background:rgba(180,60,60,.15);color:#e08080;border:1px solid rgba(180,60,60,.3);">4 · pesce (alici)</span>
+      <span style="font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.25em .65em;border-radius:2px;background:rgba(180,60,60,.15);color:#e08080;border:1px solid rgba(180,60,60,.3);">7 · latte (cipolla caramellata no · olio no)</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- NOTE DI SERVIZIO -->
+<div class="note-block">
+  <span class="note-title">Note per il personale</span>
+  <div class="note-item"><div class="note-dot"></div><div class="note-txt"><strong>Servizio</strong> — servite calde, già tagliate a quadrotti su asse di legno grezzo. Portare al centro del tavolo per lo sharing.</div></div>
+  <div class="note-item"><div class="note-dot"></div><div class="note-txt"><strong>Il siccagno</strong> — il pomodoro della Classica, Evergreen e Norma è siccagno di Valledolmo, coltivato senz'acqua. Spiegarlo se il cliente è curioso: è il pomodoro più identitario della Sicilia.</div></div>
+  <div class="note-item"><div class="note-dot"></div><div class="note-txt"><strong>Sole d'Agosto</strong> — pizza bianca senza base rossa. I datterini sono il protagonista. Spiegare il contrasto giallo/rosso semi secco.</div></div>
+  <div class="note-item"><div class="note-dot"></div><div class="note-txt"><strong>Allergeni principali</strong> — all. 4 (pesce): Abbraccio di Scilla (alici), Eoliana (tonno). All. 7 (latte): tutte. All. 1 (glutine): tutte.</div></div>
+  <div class="note-item"><div class="note-dot"></div><div class="note-txt"><strong>Abbinamenti cocktail</strong> — La Tramonto con bollicine, Eoliana con cocktail agrumati o bianco siciliano, Sole d'Agosto con gin tonic o Spritz, Abbraccio di Scilla con Aperol o Campari.</div></div>
+</div>
+
+<!-- FIRMA -->
+<div class="firma-block">
+  <div class="firma-inner">
+    <span class="firma-lbl">Ideato e realizzato da</span>
+    <span class="firma-nome">Matteo La Spada</span>
+    <span class="firma-ruolo">Executive Pizza Chef · Gruppo Orso Messina</span>
+    <div class="firma-line"></div>
+    <span class="firma-tag">#SEGUILORSO · blancopizzalab.it</span>
+  </div>
+</div>
+
+</body>
+</html>
