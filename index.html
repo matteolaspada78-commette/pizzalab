@@ -3519,35 +3519,35 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div>
         <div class="inp-label" style="color:#F0CC5A">🍕 Numero palline</div>
         <div class="inp-row">
-          <input class="inp-field" id="sRapPan" type="number" value="50" min="1" max="500" step="1" oninput="this.removeAttribute('data-fartot');calcSupremaRapido()" style="font-size:36px;font-weight:900;color:#F0CC5A">
+          <input class="inp-field" id="sRapPan" type="number" value="50" min="1" max="500" step="1" oninput="this.removeAttribute('data-fartot');calcSupremaRapido();calcSuprema();" style="font-size:36px;font-weight:900;color:#F0CC5A">
           <span class="inp-unit">pz</span>
         </div>
       </div>
       <div>
         <div class="inp-label" style="color:var(--gold2)">⚖️ Grammatura (g)</div>
         <div class="inp-row">
-          <input class="inp-field" id="sRapGr" type="number" value="270" min="200" max="350" step="5" oninput="calcSupremaRapido()" style="font-size:36px;font-weight:900;color:var(--gold2)">
+          <input class="inp-field" id="sRapGr" type="number" value="270" min="200" max="350" step="5" oninput="document.getElementById('sRapPan').removeAttribute('data-fartot');calcSupremaRapido();calcSuprema();" style="font-size:36px;font-weight:900;color:var(--gold2)">
           <span class="inp-unit">g</span>
         </div>
       </div>
       <div>
         <div class="inp-label" style="color:#D4956A">🌾 % biga (tu decidi)</div>
         <div class="inp-row">
-          <input class="inp-field" id="sBigaPct" type="number" value="30" min="10" max="80" step="5" oninput="calcSupremaRapido()" style="font-size:36px;font-weight:900;color:#D4956A">
+          <input class="inp-field" id="sBigaPct" type="number" value="30" min="10" max="80" step="5" oninput="document.getElementById('sRapPan').removeAttribute('data-fartot');calcSupremaRapido();calcSuprema();" style="font-size:36px;font-weight:900;color:#D4956A">
           <span class="inp-unit">%</span>
         </div>
       </div>
       <div>
         <div class="inp-label">💧 IDR %</div>
         <div class="inp-row">
-          <input class="inp-field" id="sRapIdr" type="number" value="70" min="55" max="85" step="1" oninput="calcSupremaRapido()">
+          <input class="inp-field" id="sRapIdr" type="number" value="70" min="55" max="85" step="1" oninput="document.getElementById('sRapPan').removeAttribute('data-fartot');calcSupremaRapido();calcSuprema();">
           <span class="inp-unit">%</span>
         </div>
       </div>
       <div style="grid-column:1/-1">
         <div class="inp-label" style="color:#CE93D8">🌾 Oppure inserisci kg farina biga → calcola tutto</div>
         <div class="inp-row">
-          <input class="inp-field" id="sRapKgBiga" type="number" value="" min="0.5" max="200" step="0.5" placeholder="es. 6" oninput="calcSupremaRapidoDaBiga()" style="font-size:28px;font-weight:700;color:#CE93D8">
+          <input class="inp-field" id="sRapKgBiga" type="number" value="" min="0.5" max="200" step="0.5" placeholder="es. 6" oninput="calcSupremaRapidoDaBiga();calcSuprema();" style="font-size:28px;font-weight:700;color:#CE93D8">
           <span class="inp-unit">kg</span>
         </div>
         <div style="font-size:9px;color:#7A8A6A;margin-top:3px">lascia vuoto per usare il numero palline · inserisci i kg biga per calcolo inverso</div>
@@ -3560,15 +3560,15 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
         <div>
           <div class="inp-label">T biga °C</div>
-          <div class="inp-row"><input class="inp-field" id="sRapTBiga" type="number" value="12" min="4" max="25" step="0.5" oninput="calcSupremaRapido()" style="color:#BBDEFB"><span class="inp-unit">°C</span></div>
+          <div class="inp-row"><input class="inp-field" id="sRapTBiga" type="number" value="12" min="4" max="25" step="0.5" oninput="calcSupremaRapido();calcSuprema();" style="color:#BBDEFB"><span class="inp-unit">°C</span></div>
         </div>
         <div>
           <div class="inp-label">T farina °C</div>
-          <div class="inp-row"><input class="inp-field" id="sRapTFar" type="number" value="18" min="10" max="30" step="0.5" oninput="calcSupremaRapido()" style="color:#D4956A"><span class="inp-unit">°C</span></div>
+          <div class="inp-row"><input class="inp-field" id="sRapTFar" type="number" value="18" min="10" max="30" step="0.5" oninput="calcSupremaRapido();calcSuprema();" style="color:#D4956A"><span class="inp-unit">°C</span></div>
         </div>
         <div>
           <div class="inp-label">T ambiente °C</div>
-          <div class="inp-row"><input class="inp-field" id="sRapTAmb" type="number" value="22" min="16" max="36" step="0.5" oninput="calcSupremaRapido()"><span class="inp-unit">°C</span></div>
+          <div class="inp-row"><input class="inp-field" id="sRapTAmb" type="number" value="22" min="16" max="36" step="0.5" oninput="calcSupremaRapido();calcSuprema();"><span class="inp-unit">°C</span></div>
         </div>
       </div>
       <div id="supremaTAcquaOut" style="background:rgba(91,155,213,0.10);border:2px solid rgba(91,155,213,0.35);border-radius:12px;padding:12px;text-align:center">
@@ -6912,8 +6912,9 @@ function calcSuprema(){
 
   // kg = farina TOTALE · biga 30% scientificamente ottimale (Suas 2009, Hamelman 2012)
   const kgTot = kg;                          // farina totale inserita dall'utente
-  const kgBiga = R(kgTot * 0.30, 3);         // biga 30%
-  const kgRinf = R(kgTot * 0.70, 3);         // rinfresco 70%
+  const bigaPctVal = Math.min(80, Math.max(10, parseFloat((document.getElementById('sBigaPct')||{value:30}).value)||30));
+  const kgBiga = R(kgTot * bigaPctVal/100, 3);         // biga % variabile
+  const kgRinf = R(kgTot * (1 - bigaPctVal/100), 3);  // rinfresco = totale - biga
   const pct63=Math.min(100,Math.max(0,G('sB63')||70));
   const pct78=Math.min(100-pct63,Math.max(0,G('sB78')||30));
   const pct02=Math.max(0,100-pct63-pct78);
