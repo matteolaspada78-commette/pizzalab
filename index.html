@@ -1365,7 +1365,12 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     <div class="card-body">
       <div class="inp-group">
         <label class="inp-label">Tipo impasto</label>
-        <select class="inp-field" id="pallTipo" style="font-size:14px;-webkit-appearance:none" onchange="calcPalline()">
+        <select class="inp-field" id="pallTipo" style="font-size:14px;-webkit-appearance:none" onchange="
+          var cfg2={napo:{b:30,i:70},tondabiga:{b:30,i:58},tondacroc:{b:0,i:58},pala48:{b:30,i:75},palabiga:{b:50,i:78},scrocch:{b:0,i:55},romana:{b:0,i:59},diretto:{b:0,i:68}};
+          var t=this.value; var d=cfg2[t]||cfg2.napo;
+          var pb=document.getElementById('pallBiga'); var pi=document.getElementById('pallIdr');
+          if(pb)pb.value=d.b; if(pi)pi.value=d.i;
+          calcPalline()">
           <option value="napo">Napoletana Suprema — Biga 30% 0102HP + Licoli</option>
           <option value="tondabiga">Tonda Romana Biga — Biga 30% 0102HP</option>
           <option value="tondacroc">Tonda Romana Croccante — 5046 Allegra</option>
@@ -1394,6 +1399,20 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
         <label class="inp-label">LdB % biga</label>
         <div class="inp-row">
           <input class="inp-field" id="pallLdb" type="number" value="0.3" min="0.1" max="1" step="0.05" oninput="calcPalline()">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">🌾 % Biga (tu decidi)</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallBiga" type="number" value="30" min="10" max="80" step="5" oninput="calcPalline()" style="font-weight:700;color:#D4956A">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">💧 IDR %</label>
+        <div class="inp-row">
+          <input class="inp-field" id="pallIdr" type="number" value="70" min="55" max="85" step="0.5" oninput="calcPalline()" style="font-weight:700;color:#5B9BD5">
           <span class="inp-unit">%</span>
         </div>
       </div>
@@ -3587,7 +3606,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">KG Farina TOTALE</label><div class="inp-row"><input class="inp-field" id="sKg" type="number" value="20" min="1" max="200" step="0.5" oninput="calcSuprema()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Kg farina BIGA</label><div class="inp-row"><input class="inp-field" id="sKg" type="number" value="6" min="0.5" max="100" step="0.5" oninput="calcSuprema()" style="color:#D4956A"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="sGr" type="number" value="260" min="200" max="320" step="5" oninput="calcSuprema()"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="sIDR" type="number" value="70" min="55" max="85" step="0.5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="sSale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
@@ -6663,7 +6682,7 @@ function calcSupremaRapidoDaBiga(){
   var pEl = document.getElementById('sRapPan');
   if(pEl) pEl.value = panReali;
   var sKg = document.getElementById('sKg');
-  if(sKg) sKg.value = Math.round(farTot/1000*10)/10;
+  if(sKg) sKg.value = Math.round(farBiga/1000*100)/100;
 
   // T acqua IP Bake
   var DDT=23, K=9;
@@ -6714,21 +6733,13 @@ function calcSupremaRapido(){
   var outT    = document.getElementById('supremaTAcquaOut');
   if(!out) return;
 
-  // ── LOGICA CORRETTA
-  // Fonte di verità: SEMPRE la farina totale
-  // Se esiste farTotSaved → usa quella (cambio gr/idr/biga%)
-  // Se cambia pan → ricalcola farTot dalle palline
-  var farTotSaved = parseFloat(document.getElementById('sRapPan').getAttribute('data-fartot')||0)||0;
-  var farTot, piaccaR, panReali;
-
-  if(farTotSaved > 0){
-    // Utente ha cambiato gr/idr/biga% — mantieni farina totale e ricalcola palline
-    farTot = farTotSaved;
-  } else {
-    // Prima volta o cambio palline — calcola farina dalle palline
-    var piacca = pan * gr;
-    farTot = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
-  }
+  // ── LOGICA SEMPLICE E CORRETTA
+  // Fonte di verità: pan × gr = piacca target
+  // La farina totale si ricava dalla piacca
+  // Le palline si ricalcolano sempre dalla piacca reale
+  var piacca   = pan * gr;
+  var farTot   = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
+  var farTot2, piaccaR, panReali;
 
   var farBiga  = r5(farTot * bigaPct / 100);
   var farRinf  = farTot - farBiga;
@@ -6737,15 +6748,16 @@ function calcSupremaRapido(){
   // Licoli — acqua licoli va sottratta dall'acqua da versare nell'Esmach
   var licGRap   = licP > 0 ? r5(farRinf * licP / 100) : 0;
   var licAcqRap = Math.round(licGRap * 0.5);
-  var acqEsmach = acqTot - acqBiga - licAcqRap;  // acqua reale da versare
+  var acqEsmach = acqTot - acqBiga - licAcqRap;
   var sale     = r5(farTot * saleP / 100);
   var ldbG     = Math.max(1, Math.round(farBiga * 0.30 / 100));
+  // Piacca reale include acqua biga (già nella biga) + acqua rinfresco + farina + sale
   piaccaR  = farTot + acqTot + sale;
   panReali = Math.floor(piaccaR / gr);
 
-  // Salva farTot come attributo sul campo palline
+  // Aggiorna campo palline con valore reale
   var pEl2 = document.getElementById('sRapPan');
-  if(pEl2){ pEl2.setAttribute('data-fartot', farTot); pEl2.value = panReali; }
+  if(pEl2){ pEl2.value = panReali; }
 
   // ── T ACQUA con IP Bake (Suas 2009)
   // IP Bake: attrito variabile in base al tipo di impastatrice
@@ -6771,7 +6783,7 @@ function calcSupremaRapido(){
 
   // Aggiorna sKg
   var sKg = document.getElementById('sKg');
-  if(sKg) sKg.value = Math.round(farTot/1000*10)/10;
+  if(sKg) sKg.value = Math.round(farBiga/1000*100)/100;
 
   // Colore % biga
   var bigaCol = bigaPct <= 30 ? '#A5D6A7' : bigaPct <= 50 ? '#F0CC5A' : '#FFCDD2';
@@ -6784,10 +6796,11 @@ function calcSupremaRapido(){
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+farTot+'g</div>'
     +'</div>'
-    +'<div style="background:rgba(139,99,64,0.2);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Biga '+bigaPct+'%</div>'
+    +'<div style="background:rgba(139,99,64,0.25);border:2px solid rgba(212,149,106,0.5);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:#D4956A;font-weight:700;margin-bottom:3px">🌾 BIGA '+bigaPct+'%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:'+bigaCol+'">'+farBiga+'g</div>'
-    +'<div style="font-size:8px;color:'+bigaCol+';margin-top:2px">'+bigaMsg+'</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:'+bigaCol+';margin-top:1px">= '+(farBiga/1000).toFixed(2)+'kg</div>'
+    +'<div style="font-size:8px;color:'+bigaCol+';margin-top:1px">'+bigaMsg+'</div>'
     +'</div>'
     +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div>'
@@ -6863,7 +6876,7 @@ function calcSuprema(){
 
   // Aggiorna anche sKg nel calcolatore completo
   var sKg = document.getElementById('sKg');
-  if(sKg) sKg.value = Math.round(farTot/1000*10)/10;
+  if(sKg) sKg.value = Math.round(farBiga/1000*100)/100;
 
   // Colore % biga
   var bigaCol = bigaPct <= 30 ? '#A5D6A7' : bigaPct <= 50 ? '#F0CC5A' : '#FFCDD2';
@@ -6876,10 +6889,11 @@ function calcSuprema(){
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+farTot+'g</div>'
     +'</div>'
-    +'<div style="background:rgba(139,99,64,0.2);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Biga '+bigaPct+'%</div>'
+    +'<div style="background:rgba(139,99,64,0.25);border:2px solid rgba(212,149,106,0.5);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:#D4956A;font-weight:700;margin-bottom:3px">🌾 BIGA '+bigaPct+'%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:'+bigaCol+'">'+farBiga+'g</div>'
-    +'<div style="font-size:8px;color:'+bigaCol+';margin-top:2px">'+bigaMsg+'</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:'+bigaCol+';margin-top:1px">= '+(farBiga/1000).toFixed(2)+'kg</div>'
+    +'<div style="font-size:8px;color:'+bigaCol+';margin-top:1px">'+bigaMsg+'</div>'
     +'</div>'
     +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
     +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div>'
@@ -6910,30 +6924,37 @@ function calcSuprema(){
   const kg=G('sKg'),gr=G('sGr'),idr=G('sIDR'),saleP=G('sSale');
   const licP=G('sLic'),ldbP=G('sLdb'),ob=G('sOB'),or_=G('sOR'),sv=G('sSV');
 
-  // kg = farina TOTALE · biga 30% scientificamente ottimale (Suas 2009, Hamelman 2012)
-  const kgTot = kg;                          // farina totale inserita dall'utente
+  // kg = farina BIGA inserita dall'utente → calcola totale da quella
   const bigaPctVal = Math.min(80, Math.max(10, parseFloat((document.getElementById('sBigaPct')||{value:30}).value)||30));
-  const kgBiga = R(kgTot * bigaPctVal/100, 3);         // biga % variabile
-  const kgRinf = R(kgTot * (1 - bigaPctVal/100), 3);  // rinfresco = totale - biga
+  const kgBiga = Math.round(kg * 1000) / 1000;                          // biga esatta inserita
+  const kgTot  = Math.round(kgBiga / (bigaPctVal/100) * 1000) / 1000;   // totale = biga / %
+  const kgRinf = Math.round((kgTot - kgBiga) * 1000) / 1000;
   const pct63=Math.min(100,Math.max(0,G('sB63')||70));
   const pct78=Math.min(100-pct63,Math.max(0,G('sB78')||30));
   const pct02=Math.max(0,100-pct63-pct78);
-  const kg5063=R(kgRinf*pct63/100*1000,0);   // su rinfresco
-  const kg5078=R(kgRinf*pct78/100*1000,0);   // su rinfresco
-  const kg0102r=R(kgRinf*pct02/100*1000,0);  // su rinfresco
-  const licG=R(kgRinf*licP/100*1000,0);      // licoli sul rinfresco
-  const licAcq=R(licG*0.5,0);
-  const licFar=R(licG*0.5,0);
-  const acqBiga=R(kgBiga*0.45*1000,0);       // acqua biga su kgBiga
-  const ldbG=R(kgBiga*ldbP/100*1000,1);      // LdB su kgBiga
-  const acqTot=R(kgTot*idr/100*1000,0);
-  const aa=acqTot-acqBiga-licAcq;
-  const sale=R(kgTot*saleP/100*1000,0);
+  const kgRinfEx = kgTot * (1 - bigaPctVal/100);
+
+  // BLEND farine rinfresco — calcolato sul rinfresco TOTALE (non sottratto licoli)
+  const kg5063 = R(kgRinfEx * pct63/100 * 1000, 0);
+  const kg5078 = R(kgRinfEx * pct78/100 * 1000, 0);
+  const kg0102r = Math.round(kgRinfEx * 1000 - kg5063 - kg5078);
+
+  // LICOLI — calcolato sul rinfresco, mostrato come voce separata
+  const licG   = R(kgRinfEx * licP/100 * 1000, 0);
+  const licAcq = R(licG * 0.5, 0);
+  const licFar = R(licG * 0.5, 0);
+
+  // ACQUA
+  const acqBiga = R(kgBiga * 0.45 * 1000, 0);
+  const acqTot  = R(kgTot * idr/100 * 1000, 0);
+  const aa      = acqTot - acqBiga - licAcq;  // acqua da versare nell'Esmach
+  const ldbG = R(kgBiga * ldbP/100 * 1000, 1);
+  const sale = R(kgTot * saleP/100 * 1000, 0);
   const acsSale=R(sale*3,0);
   const f1Pct=G('sF1');
   const fase1=R(aa*f1Pct/100,0);
   const bass=Math.max(0,aa-fase1);
-  const pesoImpastoS=kgTot*1000+acqTot+sale;
+  const pesoImpastoS = kgTot*1000 + acqTot + sale + licG;
   const pan=Math.floor(pesoImpastoS/gr);
   const Tacq=R(23*3-18-22-7.8,1); // DDT 23°C · T_farina 18°C · K_attrito 7.8 Esmach (Suas 2009)
 
@@ -9037,12 +9058,12 @@ function calcPala48h(){
 // CALCOLATORE RAPIDO PALLINE — INVERSO
 // ══════════════════════════════════════════════
 function calcPalline(){
-  const tipo = (document.getElementById('pallTipo')||{}).value || 'napo';
-  const n    = parseFloat((document.getElementById('pallN')||{value:100}).value)||100;
-  const gr   = parseFloat((document.getElementById('pallGr')||{value:260}).value)||260;
-  const ldbP = parseFloat((document.getElementById('pallLdb')||{value:0.3}).value)||0.3;
-  const scP  = parseFloat((document.getElementById('pallScarto')||{value:3}).value)||0;
-  const out  = document.getElementById('pallineOut');
+  const tipo  = (document.getElementById('pallTipo')||{}).value || 'napo';
+  const n     = parseFloat((document.getElementById('pallN')||{value:100}).value)||100;
+  const gr    = parseFloat((document.getElementById('pallGr')||{value:260}).value)||260;
+  const ldbP  = parseFloat((document.getElementById('pallLdb')||{value:0.3}).value)||0.3;
+  const scP   = parseFloat((document.getElementById('pallScarto')||{value:3}).value)||0;
+  const out   = document.getElementById('pallineOut');
   if(!out) return;
 
   // Configurazioni impasto
@@ -9056,7 +9077,13 @@ function calcPalline(){
     romana:    { nome:'Romana Croccante',      idr:59,  sale:2.5, bigaPct:0,   idrB:0,  licP:0,  lievito:'diretto',     fBiga:'',              fRinf:'5046 Allegra W200',   str:3,   zuc:0   },
     diretto:   { nome:'Impasto Diretto 6-12h', idr:68,  sale:2.5, bigaPct:0,   idrB:0,  licP:0,  lievito:'diretto',     fBiga:'',              fRinf:'5063 W270',           str:0,   zuc:0   },
   };
-  const c = cfg[tipo] || cfg.napo;
+  var c = Object.assign({}, cfg[tipo] || cfg.napo);
+
+  // I campi % biga e IDR sovrascrivono sempre il default del tipo
+  var bigaField = document.getElementById('pallBiga');
+  var idrField  = document.getElementById('pallIdr');
+  if(bigaField && bigaField.value !== '') c.bigaPct = parseFloat(bigaField.value) || c.bigaPct;
+  if(idrField  && idrField.value  !== '') c.idr     = parseFloat(idrField.value)  || c.idr;
 
   // ── CALCOLO INVERSO ──
   // Peso impasto lordo con scarto
@@ -9097,7 +9124,8 @@ function calcPalline(){
     '<div style="font-size:13px;color:var(--dim);margin-bottom:6px">Impasto calcolato per</div>' +
     '<div style="font-size:52px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold2);line-height:1">' + n + '</div>' +
     '<div style="font-size:14px;color:var(--gold);margin-top:4px">' + c.nome + ' · ' + gr + 'g/pezzo</div>' +
-    (scP>0 ? '<div style="font-size:11px;color:var(--dim);margin-top:6px">+ ' + scP + '% scarto → calcolo su ' + nLordo + ' pezzi</div>' : '') +
+    '<div style="font-size:11px;color:#D4956A;margin-top:6px;font-family:DM Mono,monospace">Biga <strong>' + c.bigaPct + '%</strong> · IDR <strong>' + c.idr + '%</strong></div>' +
+    (scP>0 ? '<div style="font-size:11px;color:var(--dim);margin-top:4px">+ ' + scP + '% scarto → calcolo su ' + nLordo + ' pezzi</div>' : '') +
     '</div>' +
 
     // Farina
