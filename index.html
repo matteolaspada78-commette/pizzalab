@@ -4018,6 +4018,8 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Ora Biga G1</label><div class="inp-row"><input class="inp-field" id="psOB" type="number" value="20" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2</label><div class="inp-row"><input class="inp-field" id="psOR" type="number" value="9" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="psF1" type="number" value="60" min="30" max="90" step="5" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#F0CC5A">🌾 Rinfresco — % Petra 5037</label><div class="inp-row"><input class="inp-field" id="psR5037" type="number" value="70" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#F0CC5A"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Rinfresco — % 0102HP</label><div class="inp-row"><input class="inp-field" id="psR0102" type="number" value="30" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
   <div class="card open" id="cardPSuOut">
@@ -4026,7 +4028,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="card-hdr-text"><div class="card-hdr-label">Ricetta</div><div class="card-hdr-title">Grammi e distribuzione</div></div>
       <div class="card-chevron">▾</div>
     </div>
-    <div class="card-body"><div id="palaSupremaOut"></div></div>
+    <div class="card-body"><div id="palaSupremaOut"><script>try{calcPalaSuprema();}catch(e){document.getElementById('palaSupremaOut').innerHTML='<div style="color:#FFCDD2;padding:12px">Errore: '+e.message+'</div>';}</script></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
   <button class="btn-pdf" onclick="stampaPDF('pagePalaSuprema','Pala Romana Suprema')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
@@ -4053,6 +4055,8 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pscSale" type="number" value="2" min="1.5" max="2.8" step="0.1" oninput="calcPalaScient()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Ore maturazione totale</label><div class="inp-row"><input class="inp-field" id="pscOre" type="number" value="28" min="12" max="72" oninput="calcPalaScient()"><span class="inp-unit">h</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="pscF1" type="number" value="60" min="30" max="90" step="5" oninput="calcPalaScient()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#F0CC5A">🌾 Rinfresco — % Petra 5037</label><div class="inp-row"><input class="inp-field" id="pscR5037" type="number" value="70" min="0" max="100" step="5" oninput="calcPalaScient()" style="color:#F0CC5A"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Rinfresco — % 0102HP (resto)</label><div class="inp-row"><input class="inp-field" id="pscR0102" type="number" value="30" min="0" max="100" step="5" oninput="calcPalaScient()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
   <div class="card open" id="cardPScOut">
@@ -4061,7 +4065,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="card-hdr-text"><div class="card-hdr-label">Ricetta</div><div class="card-hdr-title">Grammi e distribuzione</div></div>
       <div class="card-chevron">▾</div>
     </div>
-    <div class="card-body"><div id="palaScientOut"></div></div>
+    <div class="card-body"><div id="palaScientOut"><script>try{calcPalaScient();}catch(e){document.getElementById('palaScientOut').innerHTML='<div style="color:#FFCDD2;padding:12px">Errore: '+e.message+'</div>';}</script></div></div>
   </div>
   <button class="btn-share" onclick="shareRicetta('pagePalaScient','Pala Romana Scientifica')"><span class="btn-share-icon">📸</span> Salva immagine ricetta</button>
   <button class="btn-pdf" onclick="stampaPDF('pagePalaScient','Pala Romana Scientifica')"><span class="btn-pdf-icon">📄</span> Salva come PDF</button>
@@ -7317,6 +7321,11 @@ function calcPalaSuprema(){
   const malto  = R(kgTot*0.003*1000,0);
   const ldbR   = R(kgTot*0.004*1000,1);
   const f1Pct  = G('psF1');
+  const pctR5037 = Math.min(100,Math.max(0,parseFloat((document.getElementById('psR5037')||{value:70}).value)||70));
+  const pctR0102 = Math.min(100,Math.max(0,parseFloat((document.getElementById('psR0102')||{value:30}).value)||30));
+  const totRpct  = pctR5037+pctR0102;
+  const r5037    = totRpct>0 ? pctR5037/totRpct : 0.7;
+  const r0102    = totRpct>0 ? pctR0102/totRpct : 0.3;
   const f1     = Math.max(0,R(acqTot*f1Pct/100,0)-acqBiga);
   const bass   = Math.max(0,aa-f1);
   const pan    = Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
@@ -7389,8 +7398,8 @@ function calcPalaSuprema(){
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco ${100-bigaPct}% — G2 ${H(or_)}</div>
-      ${row('Petra 5037 (70% rinfresco)',R(kgRinf*0.7*1000,0)+'g','')}
-      ${row('Petra 0102HP (30% rinfresco)',R(kgRinf*0.3*1000,0)+'g','')}
+      ${pctR5037>0?row('Petra 5037 ('+Math.round(r5037*100)+'% rinfresco)',R(kgRinf*r5037*1000,0)+'g',''):''}
+      ${pctR0102>0?row('Petra 0102HP ('+Math.round(r0102*100)+'% rinfresco)',R(kgRinf*r0102*1000,0)+'g',''):''}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
       ${row('LdB rinfresco (0.4%)',ldbR+'g','')}
       ${row('Malto (0.3%)',malto+'g','obbligatorio')}
@@ -7413,6 +7422,12 @@ function calcPalaScient(){
   const bigaPct = Math.min(80,Math.max(10,parseFloat((document.getElementById('pscBigaPct')||{value:40}).value)||40));
   const gr    = G('pscGr'), idr=G('pscIDR'), saleP=G('pscSale'), ore=G('pscOre');
   const f1Pct = G('pscF1');
+  const pctR5037 = Math.min(100,Math.max(0,parseFloat((document.getElementById('pscR5037')||{value:70}).value)||70));
+  const pctR0102 = Math.min(100,Math.max(0,parseFloat((document.getElementById('pscR0102')||{value:30}).value)||30));
+  // Normalizza se somma > 100
+  const totRpct = pctR5037 + pctR0102;
+  const r5037 = totRpct > 0 ? pctR5037/totRpct : 0.7;
+  const r0102 = totRpct > 0 ? pctR0102/totRpct : 0.3;
 
   const kgTot  = Math.round(kgB / (bigaPct/100) * 1000)/1000;
   const kgRinf = Math.round((kgTot - kgB) * 1000)/1000;
@@ -7461,8 +7476,8 @@ function calcPalaScient(){
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco ${100-bigaPct}% — IDR ${idr}%</div>
-      ${row('Petra 5037 (70% rinfresco)',R(kgRinf*0.7*1000,0)+'g','')}
-      ${row('Petra 0102HP (30% rinfresco)',R(kgRinf*0.3*1000,0)+'g','')}
+      ${pctR5037>0?row('Petra 5037 ('+Math.round(r5037*100)+'% rinfresco)',R(kgRinf*r5037*1000,0)+'g',''):''}
+      ${pctR0102>0?row('Petra 0102HP ('+Math.round(r0102*100)+'% rinfresco)',R(kgRinf*r0102*1000,0)+'g',''):''}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
       ${row('Malto (0.3%)',malto+'g','')}
       ${row('ACQUA DA AGGIUNGERE',aa+'g','IDR '+idr+'% su '+kgTot+'kg',true)}
