@@ -4008,9 +4008,13 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     </div>
     <div class="card-body">
       <div class="inp-group"><label class="inp-label">KG Farina Biga</label><div class="inp-row"><input class="inp-field" id="psKg" type="number" value="5" min="1" max="50" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">🌾 % Biga (tu decidi)</label><div class="inp-row"><input class="inp-field" id="psBigaPct" type="number" value="40" min="10" max="80" step="5" oninput="calcPalaSuprema()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura pala (g)</label><div class="inp-row"><input class="inp-field" id="psGr" type="number" value="800" min="300" max="1200" step="50" oninput="calcPalaSuprema()"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR % (78-82%)</label><div class="inp-row"><input class="inp-field" id="psIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">💧 IDR % (tu decidi)</label><div class="inp-row"><input class="inp-field" id="psIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaSuprema()" style="color:#5B9BD5"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="psSale" type="number" value="2" min="1.5" max="2.8" step="0.1" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">⏰ Ora impasto</label><div class="inp-row"><input class="inp-field" id="psOI" type="number" value="9" min="0" max="23" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
+      <div class="inp-group"><label class="inp-label">✂️ Ora staglio</label><div class="inp-row"><input class="inp-field" id="psOS" type="number" value="15" min="0" max="23" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">:30</span></div></div>
+      <div class="inp-group"><label class="inp-label">🔥 Ora inforno</label><div class="inp-row"><input class="inp-field" id="psOF" type="number" value="19" min="0" max="23" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Biga G1</label><div class="inp-row"><input class="inp-field" id="psOB" type="number" value="20" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2</label><div class="inp-row"><input class="inp-field" id="psOR" type="number" value="9" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="psF1" type="number" value="60" min="30" max="90" step="5" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
@@ -4043,6 +4047,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     </div>
     <div class="card-body">
       <div class="inp-group"><label class="inp-label">KG Farina Biga</label><div class="inp-row"><input class="inp-field" id="pscKg" type="number" value="5" min="1" max="50" step="0.5" oninput="calcPalaScient()"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 % Biga (tu decidi)</label><div class="inp-row"><input class="inp-field" id="pscBigaPct" type="number" value="40" min="10" max="80" step="5" oninput="calcPalaScient()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura pala (g)</label><div class="inp-row"><input class="inp-field" id="pscGr" type="number" value="330" min="200" max="1000" step="10" oninput="calcPalaScient()"><span class="inp-unit">g</span></div></div>
       <div class="inp-group"><label class="inp-label">IDR % (78-82%)</label><div class="inp-row"><input class="inp-field" id="pscIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaScient()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pscSale" type="number" value="2" min="1.5" max="2.8" step="0.1" oninput="calcPalaScient()"><span class="inp-unit">%</span></div></div>
@@ -7293,39 +7298,97 @@ function calcTondaCroc(){
 // PALA SUPREMA
 // ══════════════════════════════════════════════
 function calcPalaSuprema(){
-  const kgB=G('psKg'),gr=G('psGr'),idr=G('psIDR'),saleP=G('psSale');
-  const ob=G('psOB'),or_=G('psOR');
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  const kgB    = G('psKg');
+  const bigaPct= Math.min(80,Math.max(10,parseFloat((document.getElementById('psBigaPct')||{value:40}).value)||40));
+  const gr     = G('psGr'), idr=G('psIDR'), saleP=G('psSale');
+  const ob=G('psOB'), or_=G('psOR');
+  const oraI   = parseFloat((document.getElementById('psOI')||{value:9}).value)||9;
+  const oraS   = parseFloat((document.getElementById('psOS')||{value:15.5}).value)||15.5;
+  const oraF   = parseFloat((document.getElementById('psOF')||{value:19}).value)||19;
 
-  const kgTot=R(kgB/0.4,2);
-  const kgRinf=R(kgTot-kgB,2);
-  const acqBiga=R(kgB*0.48*1000,0);
-  const ldbBiga=R(kgB*0.007*1000,1);
-  const acqTot=R(kgTot*idr/100*1000,0);
-  const aa=acqTot-acqBiga;
-  const sale=R(kgTot*saleP/100*1000,0);
-  const malto=R(kgTot*0.003*1000,0);
-  const ldbR=R(kgTot*0.004*1000,1);
-  const f1Pct=G('psF1');
-  const f1=Math.max(0,R(acqTot*f1Pct/100,0)-acqBiga);
-  const bass=Math.max(0,aa-f1);
-  const pan=Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
+  const kgTot  = Math.round(kgB / (bigaPct/100) * 1000)/1000;
+  const kgRinf = Math.round((kgTot - kgB) * 1000)/1000;
+  const acqBiga= R(kgB*0.48*1000,0);
+  const ldbBiga= R(kgB*0.007*1000,1);
+  const acqTot = R(kgTot*idr/100*1000,0);
+  const aa     = acqTot-acqBiga;
+  const sale   = R(kgTot*saleP/100*1000,0);
+  const malto  = R(kgTot*0.003*1000,0);
+  const ldbR   = R(kgTot*0.004*1000,1);
+  const f1Pct  = G('psF1');
+  const f1     = Math.max(0,R(acqTot*f1Pct/100,0)-acqBiga);
+  const bass   = Math.max(0,aa-f1);
+  const pan    = Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
 
-  const oreB=or_>=ob?or_-ob:24-ob+or_;
-  // FIX #6c — σ≈3h pala suprema
-  const att=R(100*Math.exp(-Math.pow(oreB-22,2)/18),1);
-  const semB=att>=70?'ok':att>=50?'warn':'bad';
+  // Semaforo biga
+  const oreB   = or_>=ob?or_-ob:24-ob+or_;
+  const att    = R(100*Math.exp(-Math.pow(oreB-22,2)/18),1);
+  const semB   = att>=70?'ok':att>=50?'warn':'bad';
 
-  document.getElementById('palaSupremaOut').innerHTML=`
+  // Semaforo timeline puntata
+  const nowH   = (new Date()).getHours()+(new Date()).getMinutes()/60;
+  const hPunt  = oraS - oraI;
+  const hApp   = oraF - oraS;
+
+  // Colori semaforo puntata
+  var puntCol = hPunt >= 4 && hPunt <= 6 ? '#A5D6A7' : hPunt >= 3 && hPunt < 4 ? '#FFE082' : '#FFCDD2';
+  var puntMsg = hPunt >= 4 && hPunt <= 6 ? '✅ Perfetta' : hPunt >= 3 ? '⚠️ Corta — rischio sotto-lievitazione' : '❌ Troppo corta';
+  var appCol  = hApp >= 2.5 && hApp <= 3.5 ? '#A5D6A7' : '#FFE082';
+  var appMsg  = hApp >= 2.5 && hApp <= 3.5 ? '✅ Perfetto' : '⚠️ Controlla volume';
+
+  const out = document.getElementById('palaSupremaOut');
+  if(!out) return;
+
+  out.innerHTML = `
     ${sem((att>=85?'🏆 ECCELLENZA':att>=70?'✅ OTTIMALE':att>=50?'🟡 BUONO':'🔴 SCARSO')+' — Biga '+oreB+'h (G1 '+H(ob)+' → G2 '+H(or_)+') '+att+'%',semB)}
+
+    <!-- SEMAFORO TIMELINE -->
+    <div style="background:rgba(0,0,0,0.2);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#C8A84B;text-transform:uppercase;margin-bottom:10px">⏱️ Semaforo timeline · live</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Impasto</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:var(--cream)">${Hv(oraI)}</div>
+          <div style="font-size:9px;color:var(--dim);margin-top:2px">ora inizio</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border:1.5px solid ${puntCol}40">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Puntata</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:${puntCol}">${hPunt}h</div>
+          <div style="font-size:9px;color:${puntCol};margin-top:2px">${puntMsg}</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Staglio</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:var(--cream)">${Hv(oraS)}</div>
+          <div style="font-size:9px;color:var(--dim);margin-top:2px">staglio</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border:1.5px solid ${appCol}40">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Appretto</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:${appCol}">${hApp}h</div>
+          <div style="font-size:9px;color:${appCol};margin-top:2px">${appMsg}</div>
+        </div>
+        <div style="background:rgba(229,57,53,0.12);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Inforno</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#EF9A9A">${Hv(oraF)}</div>
+          <div style="font-size:9px;color:#EF9A9A;margin-top:2px">🔥 forno</div>
+        </div>
+        <div style="background:rgba(76,175,125,0.12);border:1.5px solid rgba(76,175,125,0.3);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--dim);margin-bottom:4px">Biga ${bigaPct}%</div>
+          <div style="font-family:DM Mono,monospace;font-weight:700;font-size:16px;color:#A5D6A7">${kgTot}kg</div>
+          <div style="font-size:9px;color:#A5D6A7;margin-top:2px">farina totale</div>
+        </div>
+      </div>
+    </div>
+
     <div class="res-section">
-      <div class="res-label">Biga 40% — G1 ${H(ob)}</div>
-      ${row('Petra 5078 (60% biga)',R(kgB*0.6*1000,0)+'g','farro+soia+crusca tostata')}
-      ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','proteasi germogliate')}
+      <div class="res-label">Biga ${bigaPct}% — G1 ${H(ob)}</div>
+      ${row('Petra 5078 (60% biga)',R(kgB*0.6*1000,0)+'g','W350-380 · struttura alveolare')}
+      ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','W320 · forza')}
       ${row('Acqua biga (IDR 48%)',acqBiga+'g','fredda 4°C')}
       ${row('LdB biga (0.7%)',ldbBiga+'g','')}
     </div>
     <div class="res-section">
-      <div class="res-label">Rinfresco 60% — G2 ${H(or_)}</div>
+      <div class="res-label">Rinfresco ${100-bigaPct}% — G2 ${H(or_)}</div>
       ${row('Petra 5037 (70% rinfresco)',R(kgRinf*0.7*1000,0)+'g','')}
       ${row('Petra 0102HP (30% rinfresco)',R(kgRinf*0.3*1000,0)+'g','')}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
@@ -7345,29 +7408,59 @@ function calcPalaSuprema(){
 // PALA SCIENTIFICA
 // ══════════════════════════════════════════════
 function calcPalaScient(){
-  const kgB=G('pscKg'),gr=G('pscGr'),idr=G('pscIDR'),saleP=G('pscSale'),ore=G('pscOre');
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  const kgB   = G('pscKg');
+  const bigaPct = Math.min(80,Math.max(10,parseFloat((document.getElementById('pscBigaPct')||{value:40}).value)||40));
+  const gr    = G('pscGr'), idr=G('pscIDR'), saleP=G('pscSale'), ore=G('pscOre');
+  const f1Pct = G('pscF1');
 
-  const kgTot=R(kgB/0.4,2);
-  const kgRinf=R(kgTot-kgB,2);
-  const acqBiga=R(kgB*0.48*1000,0);
-  const acqTot=R(kgTot*idr/100*1000,0);
-  const aa=acqTot-acqBiga;
-  const sale=R(kgTot*saleP/100*1000,0);
-  const malto=R(kgTot*0.003*1000,0);
-  const pan=Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
+  const kgTot  = Math.round(kgB / (bigaPct/100) * 1000)/1000;
+  const kgRinf = Math.round((kgTot - kgB) * 1000)/1000;
+  const acqBiga= R(kgB*0.48*1000,0);
+  const acqTot = R(kgTot*idr/100*1000,0);
+  const aa     = acqTot-acqBiga;
+  const sale   = R(kgTot*saleP/100*1000,0);
+  const malto  = R(kgTot*0.003*1000,0);
+  const pan    = Math.floor(kgTot*(1+idr/100+saleP/100)*1000/gr);
+  const f1     = Math.max(0,R(acqTot*f1Pct/100,0)-acqBiga);
+  const bass   = Math.max(0,aa-f1);
+
   // G-prime stimato
-  const Gp=R(5100*Math.exp(-0.0164*ore),0);
-  const semGp=Gp>=3000&&Gp<=4200?'ok':Gp<2500?'bad':'warn';
+  const Gp   = R(5100*Math.exp(-0.0164*ore),0);
+  const semGp= Gp>=3000&&Gp<=4200?'ok':Gp<2500?'bad':'warn';
+
+  // Semaforo % biga
+  var bigaCol = bigaPct<=35?'#A5D6A7':bigaPct<=55?'#F0CC5A':'#FFE082';
+  var bigaMsg = bigaPct<=35?'✅ Napoletana':bigaPct<=55?'✅ Pala standard':bigaPct<=70?'⚠️ Alta':'⚠️ Molto alta';
 
   document.getElementById('palaScientOut').innerHTML=`
+    <!-- SEMAFORO BIGA -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:rgba(139,99,64,0.2);border:2px solid ${bigaCol}50;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Biga ${bigaPct}%</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:${bigaCol}">${kgB}kg</div>
+        <div style="font-size:9px;color:${bigaCol};margin-top:2px">${bigaMsg}</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:#F0CC5A">${kgTot}kg</div>
+        <div style="font-size:9px;color:var(--dim);margin-top:2px">rinfresco ${kgRinf}kg</div>
+      </div>
+      <div style="background:rgba(76,175,125,0.12);border:1.5px solid ${semGp==='ok'?'rgba(76,175,125,0.4)':semGp==='warn'?'rgba(255,193,7,0.4)':'rgba(229,57,53,0.4)'};border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:9px;color:var(--dim);margin-bottom:3px">G-prime ${ore}h</div>
+        <div style="font-family:DM Mono,monospace;font-weight:900;font-size:22px;color:${semGp==='ok'?'#A5D6A7':semGp==='warn'?'#FFE082':'#FFCDD2'}">${Gp}Pa</div>
+        <div style="font-size:9px;color:${semGp==='ok'?'#A5D6A7':semGp==='warn'?'#FFE082':'#FFCDD2'};margin-top:2px">${semGp==='ok'?'✅ Ottimale':semGp==='warn'?'⚠️ Controlla':'❌ Scarso'}</div>
+      </div>
+    </div>
+
     <div class="res-section">
-      <div class="res-label">Farina Totale: ${kgTot}kg (Biga 40%: ${R(kgB*1000,0)}g | Rinfresco 60%: ${R(kgRinf*1000,0)}g)</div>
+      <div class="res-label">Biga ${bigaPct}%</div>
       ${row('Petra 5078 (60% biga)',R(kgB*0.6*1000,0)+'g','')}
       ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','')}
       ${row('Acqua biga (IDR 48%)',acqBiga+'g','fredda')}
     </div>
     <div class="res-section">
-      <div class="res-label">Rinfresco — ACQUA DA AGGIUNGERE</div>
+      <div class="res-label">Rinfresco ${100-bigaPct}% — IDR ${idr}%</div>
       ${row('Petra 5037 (70% rinfresco)',R(kgRinf*0.7*1000,0)+'g','')}
       ${row('Petra 0102HP (30% rinfresco)',R(kgRinf*0.3*1000,0)+'g','')}
       ${row('Sale ('+saleP+'%)',sale+'g','')}
@@ -7375,7 +7468,12 @@ function calcPalaScient(){
       ${row('ACQUA DA AGGIUNGERE',aa+'g','IDR '+idr+'% su '+kgTot+'kg',true)}
       ${row('Pezzi da '+gr+'g',pan+' pale','',true)}
     </div>
-    ${sem('G-prime stimato a '+ore+'h maturazione: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso — struttura a rischio':'Ancora rigido — aspetta'),semGp)}`;
+    ${dist([
+      ['① Fase 1 ('+f1Pct+'%)',f1+'g'],
+      ['② Bassinage',bass+'g a 8°C'],
+      ['③ Sale',sale+'g']
+    ])}
+    ${sem('G-prime a '+ore+'h: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso':'Ancora rigido — aspetta'),semGp)}`;
 }
 
 // ══════════════════════════════════════════════
