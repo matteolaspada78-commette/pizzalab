@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Impasto Custom — Matteo La Spada</title>
+  <style>
+    :root{
+      --bg:#0A0A0A;--cream:#F5F0E8;--gold:#D4A03E;--gold2:#F0CC5A;
+      --dim:#6B6560;--border:rgba(255,255,255,0.08);
+      --green:rgba(30,90,38,0.9);--blue:rgba(13,27,75,0.9);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--cream);font-family:-apple-system,'Helvetica Neue',sans-serif;min-height:100vh;}
+    .wrap{max-width:480px;margin:0 auto;padding:0 0 60px;}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,rgba(13,27,75,0.8),rgba(0,0,20,0.95));padding:28px 20px 20px;text-align:center;}
+    .hero-icon{font-size:42px;margin-bottom:6px;}
+    .hero-title{font-size:26px;font-weight:700;color:var(--cream);margin-bottom:4px;}
+    .hero-title span{color:var(--gold2);}
+    .hero-sub{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;}
+
+    /* SEZIONI INPUT */
+    .sez{margin:12px 14px 0;border-radius:12px;overflow:hidden;}
+    .sez-hdr{padding:10px 14px 8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;}
+    .sez-body{padding:0 14px 14px;}
+    .sez-biga{background:rgba(212,160,62,0.1);border:1px solid rgba(212,160,62,0.3);}
+    .sez-biga .sez-hdr{color:var(--gold);}
+    .sez-rinf{background:rgba(30,90,38,0.1);border:1px solid rgba(30,90,38,0.3);}
+    .sez-rinf .sez-hdr{color:#A5D6A7;}
+    .sez-liev{background:rgba(13,27,75,0.2);border:1px solid rgba(91,155,213,0.3);}
+    .sez-liev .sez-hdr{color:#BBDEFB;}
+    .sez-altro{background:rgba(255,255,255,0.04);border:1px solid var(--border);}
+    .sez-altro .sez-hdr{color:var(--dim);}
+
+    /* GRID INPUT */
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+    /* INPUT FIELDS */
+    .inp-grp{display:flex;flex-direction:column;gap:4px;}
+    .inp-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
+    .inp-row{display:flex;align-items:center;gap:6px;}
+    .inp-field{
+      flex:1;background:rgba(0,0,0,0.4);border:1px solid var(--border);
+      border-radius:8px;padding:10px 12px;color:var(--cream);
+      font-size:22px;font-weight:700;font-family:monospace;
+      -webkit-appearance:none;width:100%;
+    }
+    .inp-field:focus{outline:none;border-color:rgba(212,160,62,0.5);}
+    .inp-unit{font-size:13px;color:var(--dim);min-width:20px;}
+
+    /* OUTPUT */
+    .out-box{margin:12px 14px 0;border-radius:12px;padding:14px;}
+    .out-biga{background:rgba(212,160,62,0.08);border:1.5px solid rgba(212,160,62,0.4);}
+    .out-acqua{background:rgba(13,27,75,0.25);border:1.5px solid rgba(91,155,213,0.4);}
+    .out-sale{background:rgba(30,90,38,0.1);border:1px solid rgba(30,90,38,0.35);}
+    .out-palline{background:rgba(229,57,53,0.1);border:2px solid rgba(229,57,53,0.5);}
+
+    .out-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin-bottom:10px;}
+    .out-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;}
+    .out-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center;}
+    .out-cell{background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 6px;}
+    .out-cell-lbl{font-size:8px;color:var(--dim);margin-bottom:3px;}
+    .out-cell-val{font-size:20px;font-weight:700;font-family:monospace;}
+    .out-cell-sub{font-size:9px;color:var(--dim);margin-top:2px;}
+
+    .riga{font-size:13px;color:var(--cream);line-height:2.3;}
+    .riga strong{color:#BBDEFB;}
+    .riga .verde{color:#A5D6A7;}
+    .riga .oro{color:var(--gold2);}
+
+    /* PALLINA BIG */
+    .palline-big{font-size:56px;font-weight:900;font-family:monospace;color:#FFCDD2;line-height:1;text-align:center;margin:6px 0;}
+    .palline-sub{text-align:center;font-size:11px;color:var(--dim);}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-icon">🎛️</div>
+    <div class="hero-title">Impasto <span>Custom</span></div>
+    <div class="hero-sub">Matteo La Spada · Sistema Scientifico</div>
+  </div>
+
+  <!-- BIGA -->
+  <div class="sez sez-biga">
+    <div class="sez-hdr">🧱 Biga</div>
+    <div class="sez-body">
+      <div class="grid2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Kg farina biga</div>
+          <div class="inp-row"><input class="inp-field" id="kgBiga" type="number" inputmode="decimal" value="" placeholder="es. 7" oninput="calc()"><span class="inp-unit">kg</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">IDR biga %</div>
+          <div class="inp-row"><input class="inp-field" id="idrBiga" type="number" inputmode="decimal" value="45" oninput="calc()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RINFRESCO -->
+  <div class="sez sez-rinf">
+    <div class="sez-hdr">🌾 Rinfresco</div>
+    <div class="sez-body">
+      <div class="grid2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Kg farina rinfresco</div>
+          <div class="inp-row"><input class="inp-field" id="kgRinf" type="number" inputmode="decimal" value="" placeholder="es. 7" oninput="calc()"><span class="inp-unit">kg</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">IDR totale %</div>
+          <div class="inp-row"><input class="inp-field" id="idr" type="number" inputmode="decimal" value="70" oninput="calc()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIEVITANTE -->
+  <div class="sez sez-liev">
+    <div class="sez-hdr">🌿 Lievitante</div>
+    <div class="sez-body">
+      <div class="grid2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Licoli % (su rinfresco)</div>
+          <div class="inp-row"><input class="inp-field" id="licP" type="number" inputmode="decimal" value="10" oninput="calc()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">LdB % (su farina tot)</div>
+          <div class="inp-row"><input class="inp-field" id="ldbP" type="number" inputmode="decimal" value="0" step="0.05" oninput="calc()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALTRO -->
+  <div class="sez sez-altro">
+    <div class="sez-hdr">⚙️ Parametri</div>
+    <div class="sez-body">
+      <div class="grid2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Sale %</div>
+          <div class="inp-row"><input class="inp-field" id="saleP" type="number" inputmode="decimal" value="2.8" step="0.1" oninput="calc()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Grammatura pallina g</div>
+          <div class="inp-row"><input class="inp-field" id="gr" type="number" inputmode="decimal" value="260" step="10" oninput="calc()"><span class="inp-unit">g</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Acqua inizio % (su acqua da versare)</div>
+          <div class="inp-row"><input class="inp-field" id="f1" type="number" inputmode="decimal" value="65" min="0" max="100" step="5" oninput="calc()"><span class="inp-unit">%</span></div>
+          <div id="f1_live" style="font-size:10px;color:var(--gold2);margin-top:3px;font-family:monospace;text-align:right;padding-right:28px">—</div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">T laboratorio °C</div>
+          <div class="inp-row"><input class="inp-field" id="tAmb" type="number" inputmode="decimal" value="22" oninput="calc()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT PALLINE — grande e subito visibile -->
+  <div class="out-box out-palline" id="boxPalline" style="display:none">
+    <div class="out-label" style="color:#FFCDD2">🎯 Palline</div>
+    <div class="palline-big" id="nPalline">—</div>
+    <div class="palline-sub" id="subPalline"></div>
+  </div>
+
+  <!-- OUTPUT BIGA -->
+  <div class="out-box out-biga" id="boxBiga" style="display:none">
+    <div class="out-label" style="color:var(--gold)">🧱 Biga</div>
+    <div class="out-grid3" id="gridBiga"></div>
+    <div id="rigaBiga" class="riga" style="margin-top:10px"></div>
+  </div>
+
+  <!-- OUTPUT ACQUA -->
+  <div class="out-box out-acqua" id="boxAcqua" style="display:none">
+    <div class="out-label" style="color:#BBDEFB">💧 Scorporo acqua</div>
+    <div id="rigaAcqua" class="riga"></div>
+  </div>
+
+  <!-- OUTPUT SALE + LIEVITANTE -->
+  <div class="out-box out-sale" id="boxSale" style="display:none">
+    <div class="out-label" style="color:#A5D6A7">🌿 Lievitante · Sale</div>
+    <div class="out-grid3" id="gridSale"></div>
+  </div>
+
+</div>
+
+<script>
+function v(id,def){ var el=document.getElementById(id); return el?parseFloat(el.value)||def:def; }
+function R(n,d){ return Math.round(n*Math.pow(10,d))/Math.pow(10,d); }
+function show(id){ document.getElementById(id).style.display='block'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+
+function calc(){
+  var kgB  = v('kgBiga',0);
+  var idrB = v('idrBiga',45);
+  var kgR  = v('kgRinf',0);
+  var idr  = v('idr',70);
+  var lic  = v('licP',10);
+  var ldb  = v('ldbP',0);
+  var sal  = v('saleP',2.8);
+  var gr   = v('gr',260);
+  var f1   = v('f1',65);
+  var tAmb = v('tAmb',22);
+
+  if(!kgB && !kgR){ hide('boxPalline');hide('boxBiga');hide('boxAcqua');hide('boxSale'); return; }
+
+  var kgTot  = kgB + kgR;
+  var bigaPct= kgTot>0 ? Math.round(kgB/kgTot*100) : 0;
+
+  // Acqua
+  var acqB   = Math.round(kgB * idrB/100 * 1000);
+  var acqTot = Math.round(kgTot * idr/100 * 1000);
+  var acqR   = acqTot - acqB;
+  var licG   = Math.round(kgR * lic/100 * 1000);
+  var licAcq = Math.round(licG * 0.5);
+  var acqAdd = acqR - licAcq;
+  var acqF1  = Math.round(acqAdd * f1/100);
+  var acqBss = Math.max(0, acqAdd - acqF1);
+
+  // Sale, LdB
+  var saleG = Math.round(kgTot * sal/100 * 1000);
+  var ldbG  = ldb>0 ? R(kgTot * ldb/100 * 1000, 1) : 0;
+
+  // Palline
+  var pesoImp = kgTot*1000 + acqTot + saleG;
+  var nPan    = Math.floor(pesoImp / gr);
+  var resto   = Math.round(pesoImp - nPan*gr);
+
+  // T acqua (Suas p.42 — 3 variabili autolisi)
+  var Tacq = R(23*3 - 18 - tAmb - 7.8, 1);
+
+  // ── PALLINE ──
+  show('boxPalline');
+  document.getElementById('nPalline').textContent = nPan;
+  document.getElementById('subPalline').textContent =
+    'da '+gr+'g · peso impasto '+Math.round(pesoImp)+'g'+(resto>30?' · resto '+resto+'g':'');
+
+  // ── BIGA ──
+  show('boxBiga');
+  document.getElementById('gridBiga').innerHTML =
+    '<div class="out-cell"><div class="out-cell-lbl">Farina biga</div><div class="out-cell-val" style="color:var(--gold2)">'+Math.round(kgB*1000)+'g</div></div>'+
+    '<div class="out-cell"><div class="out-cell-lbl">Acqua IDR '+idrB+'%</div><div class="out-cell-val" style="color:#BBDEFB">'+acqB+'g</div></div>'+
+    (ldbG>0?'<div class="out-cell"><div class="out-cell-lbl">LdB '+ldb+'%</div><div class="out-cell-val" style="color:var(--gold)">'+ldbG+'g</div></div>':'<div class="out-cell"><div class="out-cell-lbl">Biga %</div><div class="out-cell-val" style="color:var(--dim)">'+bigaPct+'%</div></div>');
+
+  // ── ACQUA ──
+  show('boxAcqua');
+  document.getElementById('rigaAcqua').innerHTML =
+    'Acqua totale IDR '+idr+'%: <strong>'+acqTot+'g</strong><br>'+
+    '− Acqua biga: <strong>'+acqB+'g</strong><br>'+
+    '= Acqua rinfresco: <strong>'+acqR+'g</strong><br>'+
+    (licG>0?'&nbsp;&nbsp;• licoli '+licG+'g × 50% = <strong>'+licAcq+'g acqua</strong><br>':'')+
+    '&nbsp;&nbsp;• <span class="verde">VERSI SUBITO: '+acqAdd+'g</span><br>'+
+    '&nbsp;&nbsp;&nbsp;&nbsp;① Inizio '+f1+'%: <span class="oro"><strong>'+acqF1+'g</strong> a '+Tacq+'°C</span><br>'+
+    '&nbsp;&nbsp;&nbsp;&nbsp;② A filo (bassinage): <span class="oro"><strong>'+acqBss+'g</strong></span>';
+
+  // ── SALE + LIEVITANTE ──
+  show('boxSale');
+  var cellsSale =
+    '<div class="out-cell"><div class="out-cell-lbl">Sale '+sal+'%</div><div class="out-cell-val" style="color:var(--cream)">'+saleG+'g</div></div>';
+  if(licG>0) cellsSale +=
+    '<div class="out-cell"><div class="out-cell-lbl">Licoli '+lic+'%</div><div class="out-cell-val" style="color:#A5D6A7">'+licG+'g</div><div class="out-cell-sub">acqua: '+licAcq+'g</div></div>';
+  if(ldbG>0) cellsSale +=
+    '<div class="out-cell"><div class="out-cell-lbl">LdB '+ldb+'%</div><div class="out-cell-val" style="color:var(--gold2)">'+ldbG+'g</div></div>';
+  document.getElementById('gridSale').innerHTML = cellsSale;
+}
+
+window.addEventListener('load', calc);
+</script>
+</body>
+</html>
