@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>MLS · Impasto Scientifico</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;600;700&display=swap');
+
+    :root{
+      --bg:#0D0F0A;
+      --surface:#131510;
+      --border:rgba(255,255,255,0.07);
+      --cream:#F2EDE4;
+      --dim:#6B6860;
+      --gold:#C8A84B;
+      --gold2:#F0CC5A;
+      --green:#2D5A3D;
+      --green-light:#A8C5A0;
+      --blue:#1A3A6B;
+      --blue-light:#8BB4E0;
+      --red-light:#F0A0A0;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html{font-size:16px;}
+    body{
+      background:var(--bg);
+      color:var(--cream);
+      font-family:'DM Sans',sans-serif;
+      min-height:100vh;
+      max-width:480px;
+      margin:0 auto;
+      padding-bottom:80px;
+    }
+
+    /* ── HERO ── */
+    .hero{
+      padding:env(safe-area-inset-top,20px) 20px 0;
+      padding-top:calc(env(safe-area-inset-top,0px) + 20px);
+      background:linear-gradient(170deg,#0D1F10 0%,#0A0C08 100%);
+      border-bottom:1px solid var(--border);
+    }
+    .hero-inner{
+      display:flex;align-items:center;gap:16px;
+      padding-bottom:20px;
+    }
+    .logo{
+      width:64px;height:64px;border-radius:14px;flex-shrink:0;
+      background:linear-gradient(135deg,#1B4D2A 0%,#0D2A14 100%);
+      border:1.5px solid rgba(200,168,75,0.6);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .logo-text{
+      font-family:'DM Mono',monospace;
+      font-weight:500;
+      font-size:18px;
+      letter-spacing:3px;
+      color:var(--gold2);
+    }
+    .hero-copy{}
+    .hero-eyebrow{
+      font-family:'DM Mono',monospace;
+      font-size:9px;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--dim);
+      margin-bottom:5px;
+    }
+    .hero-title{
+      font-size:22px;font-weight:700;
+      color:var(--cream);line-height:1.1;
+    }
+    .hero-title em{color:var(--gold2);font-style:normal;}
+    .hero-sub{
+      font-size:11px;color:var(--dim);margin-top:4px;
+    }
+
+    /* ── TABS ── */
+    .tabs{
+      display:flex;
+      padding:0 14px;
+      gap:6px;
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+      position:sticky;top:0;z-index:10;
+    }
+    .tab{
+      flex:1;padding:13px 4px;
+      font-family:'DM Mono',monospace;
+      font-size:10px;letter-spacing:1px;
+      text-transform:uppercase;
+      color:var(--dim);
+      border:none;background:none;
+      cursor:pointer;
+      border-bottom:2px solid transparent;
+      transition:color .2s,border-color .2s;
+    }
+    .tab.active{
+      color:var(--gold2);
+      border-bottom-color:var(--gold2);
+    }
+
+    /* ── PANELS ── */
+    .panel{display:none;}
+    .panel.active{display:block;}
+
+    /* ── SEZIONI ── */
+    .sez{
+      margin:12px 14px 0;
+      border-radius:14px;overflow:hidden;
+    }
+    .sez-hdr{
+      padding:11px 14px 9px;
+      font-family:'DM Mono',monospace;
+      font-size:9px;letter-spacing:2px;text-transform:uppercase;
+      display:flex;align-items:center;gap:8px;
+    }
+    .sez-hdr-dot{
+      width:6px;height:6px;border-radius:50%;flex-shrink:0;
+    }
+    .sez-body{padding:0 14px 14px;}
+
+    .sez--biga{
+      background:rgba(200,168,75,0.08);
+      border:1px solid rgba(200,168,75,0.25);
+    }
+    .sez--biga .sez-hdr{color:var(--gold);}
+    .sez--biga .sez-hdr-dot{background:var(--gold);}
+
+    .sez--rinf{
+      background:rgba(45,90,61,0.12);
+      border:1px solid rgba(45,90,61,0.4);
+    }
+    .sez--rinf .sez-hdr{color:var(--green-light);}
+    .sez--rinf .sez-hdr-dot{background:var(--green-light);}
+
+    .sez--liev{
+      background:rgba(26,58,107,0.2);
+      border:1px solid rgba(139,180,224,0.25);
+    }
+    .sez--liev .sez-hdr{color:var(--blue-light);}
+    .sez--liev .sez-hdr-dot{background:var(--blue-light);}
+
+    .sez--param{
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--border);
+    }
+    .sez--param .sez-hdr{color:var(--dim);}
+    .sez--param .sez-hdr-dot{background:var(--dim);}
+
+    /* ── GRID ── */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+
+    /* ── INPUT ── */
+    .inp-grp{display:flex;flex-direction:column;gap:5px;}
+    .inp-lbl{
+      font-family:'DM Mono',monospace;
+      font-size:9px;color:var(--dim);
+      text-transform:uppercase;letter-spacing:1.5px;
+    }
+    .inp-row{display:flex;align-items:center;gap:6px;}
+    .inp{
+      flex:1;
+      background:rgba(0,0,0,0.45);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      color:var(--cream);
+      font-size:22px;font-weight:700;
+      font-family:'DM Mono',monospace;
+      -webkit-appearance:none;
+      width:100%;
+      transition:border-color .15s;
+    }
+    .inp:focus{outline:none;border-color:rgba(200,168,75,0.5);}
+    .inp-unit{font-size:12px;color:var(--dim);min-width:22px;font-family:'DM Mono',monospace;}
+
+    /* ── BIGA % PILLS ── */
+    .pills{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;}
+    .pill{
+      padding:9px 4px;
+      border-radius:8px;
+      font-family:'DM Mono',monospace;
+      font-size:12px;font-weight:500;
+      text-align:center;
+      cursor:pointer;border:none;
+      background:rgba(255,255,255,0.05);
+      color:var(--dim);
+      transition:background .15s,color .15s,border .15s;
+      border:1px solid transparent;
+    }
+    .pill.on{
+      background:rgba(200,168,75,0.2);
+      border-color:rgba(200,168,75,0.5);
+      color:var(--gold2);
+    }
+    .pill-info{
+      font-family:'DM Mono',monospace;font-size:10px;
+      color:var(--gold);margin-top:8px;text-align:center;
+      min-height:16px;
+    }
+
+    /* ── OUTPUT ── */
+    .out-section{margin:12px 14px 0;}
+
+    /* pallina numero grande */
+    .pan-card{
+      background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));
+      border:2px solid rgba(240,160,160,0.45);
+      border-radius:16px;padding:18px 14px;
+      text-align:center;
+    }
+    .pan-eyebrow{
+      font-family:'DM Mono',monospace;font-size:9px;
+      letter-spacing:2px;text-transform:uppercase;
+      color:rgba(240,160,160,0.6);margin-bottom:8px;
+    }
+    .pan-num{
+      font-family:'DM Mono',monospace;
+      font-size:72px;font-weight:500;
+      color:var(--red-light);line-height:1;
+      letter-spacing:-2px;
+    }
+    .pan-sub{font-size:11px;color:var(--dim);margin-top:6px;}
+
+    /* box dati */
+    .data-card{
+      border-radius:14px;padding:14px;
+    }
+    .data-card--gold{
+      background:rgba(200,168,75,0.08);
+      border:1px solid rgba(200,168,75,0.3);
+    }
+    .data-card--blue{
+      background:rgba(26,58,107,0.25);
+      border:1px solid rgba(139,180,224,0.3);
+    }
+    .data-card--green{
+      background:rgba(45,90,61,0.12);
+      border:1px solid rgba(168,197,160,0.3);
+    }
+    .data-card--t{
+      background:rgba(91,155,213,0.08);
+      border:1px solid rgba(91,155,213,0.35);
+    }
+
+    .data-eyebrow{
+      font-family:'DM Mono',monospace;font-size:9px;
+      letter-spacing:2px;text-transform:uppercase;
+      color:var(--dim);margin-bottom:10px;
+    }
+    .data-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .data-cell{
+      background:rgba(0,0,0,0.25);border-radius:10px;
+      padding:10px 6px;text-align:center;
+    }
+    .data-cell-lbl{font-size:8px;color:var(--dim);margin-bottom:3px;font-family:'DM Mono',monospace;}
+    .data-cell-val{
+      font-family:'DM Mono',monospace;
+      font-size:20px;font-weight:500;
+    }
+    .data-cell-sub{font-size:9px;color:var(--dim);margin-top:2px;}
+
+    /* scorporo acqua — lista leggibile */
+    .acq-list{font-size:13px;color:var(--cream);line-height:2.4;}
+    .acq-list .lbl{color:var(--dim);font-size:11px;}
+    .acq-list .val{font-family:'DM Mono',monospace;font-weight:500;}
+    .acq-list .v-green{color:var(--green-light);}
+    .acq-list .v-gold{color:var(--gold2);}
+    .acq-list .v-blue{color:var(--blue-light);}
+    .acq-list .indent{padding-left:16px;}
+
+    /* T acqua badge grande */
+    .t-acqua-big{
+      display:flex;align-items:center;gap:16px;
+    }
+    .t-num{
+      font-family:'DM Mono',monospace;
+      font-size:56px;font-weight:500;line-height:1;
+    }
+    .t-detail{flex:1;}
+    .t-msg{font-size:12px;font-weight:600;margin-bottom:4px;}
+    .t-formula{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);line-height:1.6;}
+
+    /* ── DIVIDER ── */
+    .divider{height:1px;background:var(--border);margin:12px 14px 0;}
+
+    /* ── DIRETTO INFO BOX ── */
+    .info-box{
+      margin:12px 14px 0;
+      background:rgba(45,90,61,0.10);
+      border:1px solid rgba(168,197,160,0.2);
+      border-radius:12px;padding:12px 14px;
+      font-size:11px;color:var(--dim);line-height:1.7;
+    }
+    .info-box strong{color:var(--green-light);}
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="logo"><span class="logo-text">MLS</span></div>
+    <div class="hero-copy">
+      <div class="hero-eyebrow">Matteo La Spada · Orso · Scirocco</div>
+      <div class="hero-title">Impasto <em>Scientifico</em></div>
+      <div class="hero-sub">Biga + Rinfresco · Diretto · Calcolo in tempo reale</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('biga',this)">🧱 Biga</button>
+  <button class="tab" onclick="switchTab('diretto',this)">⚡ Diretto</button>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL BIGA -->
+<!-- ══════════════════════════════════════════ -->
+<div class="panel active" id="panel-biga">
+
+  <!-- BIGA -->
+  <div class="sez sez--biga">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Biga</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Kg farina biga</div>
+          <div class="inp-row"><input class="inp" id="kgBiga" type="number" inputmode="decimal" placeholder="es. 7" oninput="calcBiga()"><span class="inp-unit">kg</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">IDR biga %</div>
+          <div class="inp-row"><input class="inp" id="idrBiga" type="number" inputmode="decimal" value="45" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RINFRESCO -->
+  <div class="sez sez--rinf">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Rinfresco</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Kg farina rinfresco</div>
+          <div class="inp-row"><input class="inp" id="kgRinf" type="number" inputmode="decimal" placeholder="es. 14" oninput="calcBiga()"><span class="inp-unit">kg</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">IDR totale %</div>
+          <div class="inp-row"><input class="inp" id="idr" type="number" inputmode="decimal" value="70" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+      <!-- PILLS % BIGA -->
+      <div class="inp-lbl" style="margin-top:14px;margin-bottom:0">% Biga su totale — imposta automaticamente</div>
+      <div class="pills" id="bigaPills">
+        <button class="pill" onclick="setBiga(20)" data-v="20">20%</button>
+        <button class="pill" onclick="setBiga(30)" data-v="30">30%</button>
+        <button class="pill on" onclick="setBiga(40)" data-v="40">40%</button>
+        <button class="pill" onclick="setBiga(50)" data-v="50">50%</button>
+        <button class="pill" onclick="setBiga(60)" data-v="60">60%</button>
+        <button class="pill" onclick="setBiga(70)" data-v="70">70%</button>
+        <button class="pill" onclick="setBiga(80)" data-v="80">80%</button>
+        <button class="pill" onclick="setBiga(100)" data-v="100">100%</button>
+      </div>
+      <div class="pill-info" id="pillInfo">Seleziona % biga dopo aver inserito i kg</div>
+    </div>
+  </div>
+
+  <!-- LIEVITANTE -->
+  <div class="sez sez--liev">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Lievitante</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Licoli % (su rinfresco)</div>
+          <div class="inp-row"><input class="inp" id="licP" type="number" inputmode="decimal" value="7" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">LdB % (su tot)</div>
+          <div class="inp-row"><input class="inp" id="ldbP" type="number" inputmode="decimal" value="0" step="0.05" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARAMETRI -->
+  <div class="sez sez--param">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Parametri</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Sale %</div>
+          <div class="inp-row"><input class="inp" id="saleP" type="number" inputmode="decimal" value="2.8" step="0.1" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Grammatura g</div>
+          <div class="inp-row"><input class="inp" id="gr" type="number" inputmode="decimal" value="260" step="10" oninput="calcBiga()"><span class="inp-unit">g</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Acqua inizio %</div>
+          <div class="inp-row"><input class="inp" id="f1" type="number" inputmode="decimal" value="75" min="0" max="100" step="5" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">T laboratorio</div>
+          <div class="inp-row"><input class="inp" id="tAmb" type="number" inputmode="decimal" value="22" oninput="calcBiga()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT BIGA -->
+  <div id="outBiga" style="display:none">
+
+    <div class="out-section">
+      <div class="pan-card">
+        <div class="pan-eyebrow">Palline · Pezzi calcolati</div>
+        <div class="pan-num" id="bPan">—</div>
+        <div class="pan-sub" id="bPanSub"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--gold">
+        <div class="data-eyebrow" style="color:var(--gold)">🧱 Biga</div>
+        <div class="data-grid" id="bGridBiga"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--blue">
+        <div class="data-eyebrow" style="color:var(--blue-light)">💧 Scorporo acqua</div>
+        <div class="acq-list" id="bAcqList"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--t">
+        <div class="data-eyebrow" style="color:#8BB4E0">🌡️ T acqua · Esmach SPI-AI · K=9°C</div>
+        <div class="t-acqua-big">
+          <div class="t-num" id="bTacq">—</div>
+          <div class="t-detail">
+            <div class="t-msg" id="bTmsg"></div>
+            <div class="t-formula" id="bTform"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--green">
+        <div class="data-eyebrow" style="color:var(--green-light)">🌿 Lievitante · Sale</div>
+        <div class="data-grid" id="bGridSale"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL DIRETTO -->
+<!-- ══════════════════════════════════════════ -->
+<div class="panel" id="panel-diretto">
+
+  <div class="info-box">
+    <strong>Impasto diretto</strong> — nessuna biga. Inserisci le palline desiderate e la grammatura: il calcolatore ricava farina, acqua, sale e lievitante esatti.
+  </div>
+
+  <!-- PALLINE INPUT -->
+  <div class="sez sez--param" style="margin-top:12px">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Produzione</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">Numero palline</div>
+          <div class="inp-row"><input class="inp" id="dPan" type="number" inputmode="decimal" value="50" step="1" oninput="calcDiretto()" style="color:var(--red-light)"></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Grammatura g</div>
+          <div class="inp-row"><input class="inp" id="dGr" type="number" inputmode="decimal" value="260" step="10" oninput="calcDiretto()"><span class="inp-unit">g</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDR + SALE + LIEV -->
+  <div class="sez sez--liev">
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>Ricetta</div>
+    <div class="sez-body">
+      <div class="g2">
+        <div class="inp-grp">
+          <div class="inp-lbl">IDR %</div>
+          <div class="inp-row"><input class="inp" id="dIdr" type="number" inputmode="decimal" value="65" oninput="calcDiretto()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Sale %</div>
+          <div class="inp-row"><input class="inp" id="dSale" type="number" inputmode="decimal" value="2.8" step="0.1" oninput="calcDiretto()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Licoli %</div>
+          <div class="inp-row"><input class="inp" id="dLic" type="number" inputmode="decimal" value="0" oninput="calcDiretto()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">LdB %</div>
+          <div class="inp-row"><input class="inp" id="dLdb" type="number" inputmode="decimal" value="0.3" step="0.05" oninput="calcDiretto()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Acqua inizio %</div>
+          <div class="inp-row"><input class="inp" id="dF1" type="number" inputmode="decimal" value="75" step="5" oninput="calcDiretto()"><span class="inp-unit">%</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">T laboratorio</div>
+          <div class="inp-row"><input class="inp" id="dTamb" type="number" inputmode="decimal" value="22" oninput="calcDiretto()"><span class="inp-unit">°C</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT DIRETTO -->
+  <div id="outDiretto" style="display:none">
+
+    <div class="out-section">
+      <div class="pan-card">
+        <div class="pan-eyebrow">Palline · Peso impasto verificato</div>
+        <div class="pan-num" id="dPanOut">—</div>
+        <div class="pan-sub" id="dPanSub"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--gold">
+        <div class="data-eyebrow" style="color:var(--gold)">🌾 Farina · Acqua · Sale</div>
+        <div class="data-grid" id="dGridMain"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--blue">
+        <div class="data-eyebrow" style="color:var(--blue-light)">💧 Scorporo acqua</div>
+        <div class="acq-list" id="dAcqList"></div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--t">
+        <div class="data-eyebrow" style="color:#8BB4E0">🌡️ T acqua · DDT 23°C</div>
+        <div class="t-acqua-big">
+          <div class="t-num" id="dTacq">—</div>
+          <div class="t-detail">
+            <div class="t-msg" id="dTmsg"></div>
+            <div class="t-formula" id="dTform"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="out-section">
+      <div class="data-card data-card--green">
+        <div class="data-eyebrow" style="color:var(--green-light)">🌿 Lievitante</div>
+        <div class="data-grid" id="dGridLiev"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── UTILITIES ──
+function v(id,def){var e=document.getElementById(id);return e?parseFloat(e.value)||def:def;}
+function R(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
+function cell(lbl,val,col,sub){
+  return '<div class="data-cell">'
+    +'<div class="data-cell-lbl">'+lbl+'</div>'
+    +'<div class="data-cell-val" style="color:'+col+'">'+val+'</div>'
+    +(sub?'<div class="data-cell-sub">'+sub+'</div>':'')
+    +'</div>';
+}
+function tAcqColor(t){return t<2?'#BBDEFB':t<=18?'#A5D6A7':t<=24?'#F0CC5A':'#F0A0A0';}
+function tAcqMsg(t){return t<2?'🧊 Ghiacciata':t<=8?'❄️ Molto fredda':t<=18?'✅ Fredda · perfetta':t<=24?'✅ Ok':'⚠️ Tiepida';}
+
+// ── TABS ──
+function switchTab(id,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── BIGA % PILLS ──
+var _bigaPct = 40;
+function setBiga(pct){
+  _bigaPct = pct;
+  document.querySelectorAll('.pill').forEach(function(b){
+    b.classList.toggle('on', parseInt(b.getAttribute('data-v'))===pct);
+  });
+  var kgB = parseFloat(document.getElementById('kgBiga').value)||0;
+  var info = document.getElementById('pillInfo');
+  if(kgB>0 && pct>0 && pct<100){
+    var kgTot  = Math.round(kgB*100/pct*100)/100;
+    var kgRinf = Math.round((kgTot-kgB)*100)/100;
+    document.getElementById('kgRinf').value = kgRinf;
+    if(info) info.textContent = 'Biga '+pct+'% · Totale '+kgTot+'kg · Rinfresco '+kgRinf+'kg';
+  } else if(pct===100){
+    document.getElementById('kgRinf').value = 0;
+    if(info) info.textContent = 'Biga 100% — impasto biga pura';
+  } else {
+    if(info) info.textContent = 'Inserisci prima i kg di farina biga';
+  }
+  calcBiga();
+}
+
+// ── CALC BIGA ──
+function calcBiga(){
+  var kgB  = parseFloat(document.getElementById('kgBiga').value)||0;
+  var idrB = v('idrBiga',45);
+  var kgR  = parseFloat(document.getElementById('kgRinf').value)||0;
+  var idr  = v('idr',70);
+  var lic  = v('licP',7);
+  var ldb  = v('ldbP',0);
+  var sal  = v('saleP',2.8);
+  var gr   = v('gr',260);
+  var f1   = v('f1',75);
+  var tAmb = v('tAmb',22);
+
+  if(!kgB && !kgR){document.getElementById('outBiga').style.display='none';return;}
+  document.getElementById('outBiga').style.display='block';
+
+  var kgTot  = kgB + kgR;
+  var bigaPct = kgTot>0 ? Math.round(kgB/kgTot*100) : 0;
+  var acqB   = Math.round(kgB*idrB/100*1000);
+  var acqTot = Math.round(kgTot*idr/100*1000);
+  var acqR   = acqTot - acqB;
+  var licG   = Math.round(kgR*lic/100*1000);
+  var licAcq = Math.round(licG*0.5);
+  var ldbG   = ldb>0 ? R(kgTot*ldb/100*1000,1) : 0;
+  var acqAdd = acqR - licAcq;
+  var acqF1  = Math.round(acqAdd*f1/100);
+  var acqBss = Math.max(0,acqAdd-acqF1);
+  var saleG  = Math.round(kgTot*sal/100*1000);
+  var pesoImp= kgTot*1000+acqTot+saleG;
+  var nPan   = Math.floor(pesoImp/gr);
+  var resto  = Math.round(pesoImp-nPan*gr);
+
+  // T acqua — Esmach SPI-AI formula biga (K=9°C)
+  var DDT=23, K=9;
+  var Tacq = R(((DDT-K-12*0.30)/0.70)*2-18,1);  // T_biga default 12°C
+  var tc = tAcqColor(Tacq);
+
+  // OUTPUT
+  document.getElementById('bPan').textContent = nPan;
+  document.getElementById('bPanSub').textContent =
+    'da '+gr+'g · piacca '+Math.round(pesoImp)+'g'+(resto>20?' · resto '+resto+'g':'');
+
+  // Biga grid
+  document.getElementById('bGridBiga').innerHTML =
+    cell('Farina biga',Math.round(kgB*1000)+'g','var(--gold2)')+
+    cell('Acqua IDR '+idrB+'%',acqB+'g','var(--blue-light)')+
+    (ldbG>0?cell('LdB '+ldb+'%',ldbG+'g','var(--gold)'):'<div></div>');
+
+  // Acqua list
+  document.getElementById('bAcqList').innerHTML =
+    '<span class="lbl">Acqua totale IDR '+idr+'%</span> <span class="val">'+acqTot+'g</span><br>'+
+    '<span class="lbl">− Acqua biga ('+idrB+'%)</span> <span class="val">'+acqB+'g</span><br>'+
+    '<span class="lbl">= Acqua rinfresco</span> <span class="val v-green">'+acqR+'g</span><br>'+
+    (licG>0?'<span class="indent lbl">• Licoli '+licG+'g → acqua</span> <span class="val">'+licAcq+'g</span><br>':'')+
+    '<span class="lbl">→ ESMACH versi</span> <span class="val v-gold">'+acqAdd+'g</span><br>'+
+    '<span class="indent lbl">① Autolisi '+f1+'%</span> <span class="val v-gold">'+acqF1+'g</span><br>'+
+    '<span class="indent lbl">② Bassinage</span> <span class="val v-gold">'+acqBss+'g</span>';
+
+  // T acqua
+  document.getElementById('bTacq').textContent = Tacq+'°';
+  document.getElementById('bTacq').style.color = tc;
+  document.getElementById('bTmsg').textContent  = tAcqMsg(Tacq);
+  document.getElementById('bTmsg').style.color  = tc;
+  document.getElementById('bTform').textContent = '((23−9−T_biga×0.30)/0.70)×2−T_farina';
+
+  // Liev + sale
+  var sc = '';
+  sc += cell('Sale '+sal+'%',saleG+'g','var(--cream)');
+  if(licG>0) sc += cell('Licoli '+lic+'%',licG+'g','var(--green-light)','acq: '+licAcq+'g');
+  if(ldbG>0) sc += cell('LdB '+ldb+'%',ldbG+'g','var(--gold2)');
+  document.getElementById('bGridSale').innerHTML = sc;
+}
+
+// ── CALC DIRETTO ──
+function calcDiretto(){
+  var pan  = v('dPan',50);
+  var gr   = v('dGr',260);
+  var idr  = v('dIdr',65);
+  var sal  = v('dSale',2.8);
+  var lic  = v('dLic',0);
+  var ldb  = v('dLdb',0.3);
+  var f1   = v('dF1',75);
+  var tAmb = v('dTamb',22);
+
+  document.getElementById('outDiretto').style.display='block';
+
+  // Calcolo farina totale dalla piacca target
+  var piacca  = pan * gr;
+  var licFact = lic>0 ? lic/2/100 : 0;
+  var farTot  = Math.round(piacca/(1+idr/100+sal/100+licFact)/10)*10;
+  var acqTot  = Math.round(farTot*idr/100);
+  var saleG   = Math.round(farTot*sal/100);
+  var licG    = lic>0 ? Math.round(farTot*lic/100) : 0;
+  var licAcq  = Math.round(licG*0.5);
+  var ldbG    = ldb>0 ? R(farTot*ldb/100,1) : 0;
+  var acqNetta= acqTot - licAcq;
+  var acqF1   = Math.round(acqNetta*f1/100);
+  var acqBss  = Math.max(0,acqNetta-acqF1);
+  var pesoImp = farTot+acqTot+saleG;
+  var nPan    = Math.floor(pesoImp/gr);
+
+  // T acqua diretto — formula 3 variabili (Suas 2009)
+  var Tacq = R(23*3 - 18 - tAmb - 7.8, 1);
+  var tc   = tAcqColor(Tacq);
+
+  // OUTPUT
+  document.getElementById('dPanOut').textContent = nPan;
+  document.getElementById('dPanSub').textContent =
+    'da '+gr+'g · farina '+farTot+'g · piacca '+pesoImp+'g';
+
+  document.getElementById('dGridMain').innerHTML =
+    cell('Farina totale',farTot+'g','var(--gold2)')+
+    cell('Acqua IDR '+idr+'%',acqTot+'g','var(--blue-light)')+
+    cell('Sale '+sal+'%',saleG+'g','var(--cream)');
+
+  document.getElementById('dAcqList').innerHTML =
+    '<span class="lbl">Acqua totale</span> <span class="val v-green">'+acqTot+'g</span><br>'+
+    (licG>0?'<span class="lbl">− Acqua licoli</span> <span class="val">'+licAcq+'g</span><br>':'')+
+    '<span class="lbl">→ ESMACH versi</span> <span class="val v-gold">'+acqNetta+'g</span><br>'+
+    '<span class="indent lbl">① Autolisi '+f1+'%</span> <span class="val v-gold">'+acqF1+'g</span><br>'+
+    '<span class="indent lbl">② Bassinage</span> <span class="val v-gold">'+acqBss+'g</span>';
+
+  document.getElementById('dTacq').textContent = Tacq+'°';
+  document.getElementById('dTacq').style.color = tc;
+  document.getElementById('dTmsg').textContent  = tAcqMsg(Tacq);
+  document.getElementById('dTmsg').style.color  = tc;
+  document.getElementById('dTform').textContent = '23×3 − T_farina(18°) − T_amb('+tAmb+'°) − K(7.8°)';
+
+  var sc = '';
+  if(ldbG>0) sc += cell('LdB '+ldb+'%',ldbG+'g','var(--gold2)');
+  if(licG>0) sc += cell('Licoli '+lic+'%',licG+'g','var(--green-light)','acq: '+licAcq+'g');
+  if(!ldbG&&!licG) sc += cell('Nessun lievitante','—','var(--dim)');
+  document.getElementById('dGridLiev').innerHTML = sc;
+}
+
+window.addEventListener('load',function(){calcBiga();calcDiretto();});
+</script>
+</body>
+</html>
