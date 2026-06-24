@@ -74,19 +74,40 @@
     /* PALLINA BIG */
     .palline-big{font-size:56px;font-weight:900;font-family:monospace;color:#FFCDD2;line-height:1;text-align:center;margin:6px 0;}
     .palline-sub{text-align:center;font-size:11px;color:var(--dim);}
+    .biga-btn{
+      background:rgba(30,90,38,0.15);border:1px solid rgba(30,90,38,0.3);
+      color:var(--dim);border-radius:8px;padding:10px 4px;font-size:13px;
+      font-weight:600;cursor:pointer;font-family:monospace;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .biga-btn.active{
+      background:rgba(212,160,62,0.25);border-color:rgba(212,160,62,0.6);
+      color:var(--gold2);
+    }
   </style>
 </head>
 <body>
 <div class="wrap">
 
   <!-- HERO -->
-  <div class="hero">
-    <div class="hero-icon">🎛️</div>
-    <div class="hero-title">Impasto <span>Custom</span></div>
-    <div class="hero-sub">Matteo La Spada · Sistema Scientifico</div>
+  <div class="hero" style="padding:18px 20px 16px;text-align:center">
+    <div style="display:inline-flex;align-items:center;justify-content:center;
+                width:72px;height:72px;border-radius:14px;
+                background:linear-gradient(135deg,#1B4D2E,#0D2A1A);
+                border:1.5px solid rgba(212,160,62,0.5);
+                margin-bottom:10px">
+      <span style="font-size:22px;font-weight:900;color:var(--gold2);
+                   letter-spacing:2px;font-family:Georgia,serif">MLS</span>
+    </div>
+    <div style="font-size:18px;font-weight:700;color:var(--cream);margin-bottom:3px">
+      Impasto <span style="color:var(--gold2)">Scientifico</span>
+    </div>
+    <div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;font-family:monospace">
+      a cura di Matteo La Spada
+    </div>
   </div>
 
-  <!-- BIGA -->
+    <!-- BIGA -->
   <div class="sez sez-biga">
     <div class="sez-hdr">🧱 Biga</div>
     <div class="sez-body">
@@ -116,6 +137,21 @@
           <div class="inp-lbl">IDR totale %</div>
           <div class="inp-row"><input class="inp-field" id="idr" type="number" inputmode="decimal" value="70" oninput="calc()"><span class="inp-unit">%</span></div>
         </div>
+      </div>
+      <!-- PRESET % BIGA -->
+      <div style="margin-top:12px">
+        <div class="inp-lbl" style="margin-bottom:8px">% Biga su farina totale — tocca per impostare</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="bigaBtns">
+          <button onclick="setBiga(20)" class="biga-btn" data-val="20">20%</button>
+          <button onclick="setBiga(30)" class="biga-btn" data-val="30">30%</button>
+          <button onclick="setBiga(40)" class="biga-btn" data-val="40">40%</button>
+          <button onclick="setBiga(50)" class="biga-btn active" data-val="50">50%</button>
+          <button onclick="setBiga(60)" class="biga-btn" data-val="60">60%</button>
+          <button onclick="setBiga(70)" class="biga-btn" data-val="70">70%</button>
+          <button onclick="setBiga(80)" class="biga-btn" data-val="80">80%</button>
+          <button onclick="setBiga(100)" class="biga-btn" data-val="100">100%</button>
+        </div>
+        <div id="bigaPctInfo" style="font-size:10px;color:var(--gold2);margin-top:6px;font-family:monospace;text-align:center">Biga 50% — inserisci kg farina totale sopra</div>
       </div>
     </div>
   </div>
@@ -192,6 +228,35 @@
 </div>
 
 <script>
+// % biga attiva
+var _bigaPct = 50;
+
+function setBiga(pct){
+  _bigaPct = pct;
+  // Aggiorna bottoni attivi
+  document.querySelectorAll('.biga-btn').forEach(function(b){
+    b.classList.toggle('active', parseInt(b.getAttribute('data-val'))===pct);
+  });
+  // Logica: kgBiga è fisso — calcola kgRinf da % biga
+  var kgB = parseFloat((document.getElementById('kgBiga')||{}).value)||0;
+  if(kgB > 0 && pct > 0 && pct < 100){
+    // kgBiga/kgTot = pct/100 → kgTot = kgBiga*100/pct → kgRinf = kgTot - kgBiga
+    var kgTot  = Math.round(kgB * 100/pct * 10)/10;
+    var kgRinf = Math.round((kgTot - kgB) * 10)/10;
+    document.getElementById('kgRinf').value = kgRinf;
+    var info = document.getElementById('bigaPctInfo');
+    if(info) info.textContent = 'Biga '+pct+'% · Farina tot: '+kgTot+'kg · Rinfresco: '+kgRinf+'kg';
+  } else if(pct === 100){
+    document.getElementById('kgRinf').value = 0;
+    var info = document.getElementById('bigaPctInfo');
+    if(info) info.textContent = 'Biga 100% — solo biga, nessun rinfresco';
+  } else {
+    var info = document.getElementById('bigaPctInfo');
+    if(info) info.textContent = 'Inserisci prima i kg di farina biga';
+  }
+  calc();
+}
+
 function v(id,def){ var el=document.getElementById(id); return el?parseFloat(el.value)||def:def; }
 function R(n,d){ return Math.round(n*Math.pow(10,d))/Math.pow(10,d); }
 function show(id){ document.getElementById(id).style.display='block'; }
