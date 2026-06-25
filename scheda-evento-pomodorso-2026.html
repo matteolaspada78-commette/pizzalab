@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>PomodOrso 2026 — Scheda Evento</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark only;}
+html{background:#0e0a06!important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;min-height:100vh;}
+
+/* COVER */
+.cover{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem 5rem;position:relative;overflow:hidden;background:#0a0603!important;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% 110%,rgba(192,57,43,.22) 0%,transparent 68%),radial-gradient(ellipse 50% 30% at 80% 0%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none;}
+.cover-waves{position:absolute;bottom:-1px;left:-5%;width:110%;pointer-events:none;}
+.cover-inner{position:relative;z-index:2;}
+.c-brand{font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(192,57,43,.8)!important;margin-bottom:.6rem;display:block;}
+.c-data{font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:2rem;display:block;}
+.c-tomato{font-size:3.5rem;display:block;margin-bottom:.5rem;line-height:1;}
+.c-num{font-family:'Cormorant Garamond',serif;font-size:7.5rem;font-weight:300;color:#c0392b!important;line-height:.85;display:block;letter-spacing:-.03em;}
+.c-titolo-wrap{margin-bottom:.5rem;}
+.c-sfumature{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;font-weight:300;color:rgba(242,235,224,.6)!important;display:block;letter-spacing:.05em;}
+.c-main{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:#f2ebe0!important;display:block;line-height:1.05;letter-spacing:.01em;}
+.c-div{width:52px;height:1px;background:#c0392b;margin:1.8rem auto;}
+.c-location{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:rgba(242,235,224,.6)!important;line-height:1.7;display:block;}
+.c-badge{margin-top:2rem;padding:.9rem 1.4rem;border:1px solid rgba(201,168,76,.35);border-radius:3px;background:rgba(201,168,76,.07)!important;display:inline-block;}
+.c-badge-lbl{font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.3rem;display:block;}
+.c-badge-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#f2ebe0!important;display:block;}
+.c-info{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:#6a5545!important;line-height:2.4;margin-top:2rem;display:block;}
+.c-firma{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(201,168,76,.2);}
+.c-fl{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:#6a5545!important;margin-bottom:.25rem;display:block;}
+.c-fn{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:#f2ebe0!important;display:block;}
+
+/* NAV TABS */
+.nav{background:#0a0603!important;display:flex;border-bottom:1px solid rgba(201,168,76,.2);position:sticky;top:0;z-index:300;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;font-family:'Montserrat',sans-serif;font-size:.46rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:.85rem .9rem;border:none;background:transparent!important;color:#6a5545!important;cursor:pointer;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;white-space:nowrap;}
+.ntab.active{color:#c9a84c!important;border-bottom-color:#c9a84c;}
+
+/* SEZIONI */
+.sez{display:none;}
+.sez.active{display:block;}
+
+/* BLOCCHI COMUNI */
+.blk{padding:2.5rem 1.4rem;border-bottom:1px solid rgba(201,168,76,.1);}
+.blk:last-child{border-bottom:none;}
+.blk-dark{background:#0a0603!important;}
+.blk-mid{background:#120d08!important;}
+
+.s-eye{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c0392b!important;margin-bottom:.5rem;display:block;}
+.s-eye-gold{color:#c9a84c!important;}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:#f2ebe0!important;line-height:1.15;margin-bottom:.8rem;}
+.s-title em{font-style:italic;color:#c9a84c;}
+.s-body{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#c0b8a8!important;line-height:1.78;}
+.s-body strong{font-style:normal;color:#e8d08a!important;font-weight:600;}
+
+/* CASETTA CARD */
+.casetta{margin-bottom:2.5rem;padding:1.5rem 1.2rem;background:rgba(201,168,76,.04)!important;border:1px solid rgba(201,168,76,.15);border-radius:4px;position:relative;}
+.casetta:last-child{margin-bottom:0;}
+.casetta-num{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c0392b!important;margin-bottom:.3rem;display:block;}
+.casetta-nome{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#f2ebe0!important;line-height:1.15;margin-bottom:.15rem;}
+.casetta-chef{font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:1rem;display:block;}
+.casetta-divider{width:36px;height:1px;background:rgba(192,57,43,.4);margin:.8rem 0;}
+
+.casetta-lbl{font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5545!important;margin-bottom:.3rem;display:block;margin-top:.9rem;}
+.casetta-ingr{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#8a7a68!important;line-height:1.9;margin-bottom:.6rem;}
+.casetta-desc{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#c8c0b0!important;line-height:1.76;}
+
+/* TECNICA STEPS */
+.steps{display:flex;flex-direction:column;gap:0;margin-top:.8rem;}
+.step{display:grid;grid-template-columns:28px 1fr;gap:.7rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:start;}
+.step:last-child{border-bottom:none;}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:rgba(192,57,43,.4)!important;line-height:1;}
+.step-txt{font-size:.72rem;color:#a89880!important;line-height:1.62;}
+.step-txt strong{color:#d8d0bc!important;font-weight:600;}
+
+/* INGREDIENTI BADGES */
+.ingr-list{margin:.6rem 0 .8rem;}
+.ingr-row{display:flex;align-items:center;justify-content:space-between;padding:.24rem 0;border-bottom:1px solid rgba(255,255,255,.04);gap:.5rem;}
+.ingr-row:last-child{border-bottom:none;}
+.ingr-n{font-size:.64rem;color:#a89880!important;flex:1;}
+.badge{font-size:.41rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:.2em .55em;border-radius:2px;flex-shrink:0;}
+.b-in{background:rgba(192,57,43,.14)!important;color:#e07060!important;border:1px solid rgba(192,57,43,.3);}
+.b-out{background:rgba(120,190,100,.1)!important;color:#8ec97a!important;border:1px solid rgba(120,190,100,.28);}
+.b-imp{background:rgba(201,168,76,.13)!important;color:#c9a84c!important;border:1px solid rgba(201,168,76,.3);}
+
+/* ALERT */
+.alert{display:flex;align-items:flex-start;gap:.5rem;background:rgba(201,168,76,.06)!important;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:.55rem .7rem;margin-top:.8rem;font-size:.62rem;color:#e8d08a!important;line-height:1.55;}
+.alert-dot{width:5px;height:5px;border-radius:50%;background:#c9a84c;flex-shrink:0;margin-top:.32rem;}
+.alert-r{border-color:rgba(192,57,43,.3);background:rgba(192,57,43,.07)!important;color:#f0b0a0!important;}
+.alert-dot-r{background:#c0392b;}
+
+/* RUNNER */
+.runner{background:rgba(139,58,30,.09)!important;border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;}
+.runner-l{font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a!important;margin-bottom:.28rem;display:block;}
+.runner-t{font-size:.66rem;color:#d8d0bc!important;line-height:1.62;font-weight:500;}
+
+/* PRODOTTI */
+.prod-card{padding:1.4rem 1.2rem;border-bottom:1px solid rgba(201,168,76,.1);}
+.prod-card:last-child{border-bottom:none;}
+.prod-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#e8d08a!important;margin-bottom:.15rem;}
+.prod-sub{font-size:.48rem;letter-spacing:.24em;text-transform:uppercase;color:#c0392b!important;margin-bottom:.9rem;display:block;}
+.prod-lbl{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5545!important;margin-bottom:.28rem;display:block;margin-top:.85rem;}
+.prod-text{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#c8c0b0!important;line-height:1.72;}
+
+/* FOOTER + FIRMA */
+.footer{text-align:center;padding:2rem 1.5rem 1.5rem;border-top:1px solid rgba(201,168,76,.15);background:#0a0603!important;}
+.footer p{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:#6a5545!important;line-height:1.9;margin-bottom:.6rem;}
+.footer-sign{font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:#c9a84c!important;}
+.firma-block{background:#080503!important;border-top:1px solid rgba(192,57,43,.25);padding:2rem 1.5rem 3rem;text-align:center;}
+.firma-inner{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;}
+.firma-lbl{font-size:.44rem;letter-spacing:.4em;text-transform:uppercase;color:#6a5545;font-family:'Montserrat',sans-serif;}
+.firma-nome{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;font-weight:300;color:#f2ebe0;letter-spacing:.02em;}
+.firma-ruolo{font-size:.44rem;letter-spacing:.35em;text-transform:uppercase;color:#c9a84c;font-family:'Montserrat',sans-serif;}
+.firma-line{width:36px;height:1px;background:rgba(201,168,76,.4);margin:.5rem 0;}
+.firma-tag{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:#4a3a2a;font-family:'Montserrat',sans-serif;}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <svg class="cover-waves" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 Q80,0 160,30 Q240,60 320,30 Q400,0 480,30 L480,60 L0,60 Z" fill="#0e0a06"/>
+    <path d="M0,44 Q100,18 200,44 Q300,70 400,44 Q450,30 480,40 L480,60 L0,60 Z" fill="#0e0a06" opacity=".5"/>
+  </svg>
+  <div class="cover-inner">
+    <span class="c-brand">Blanco Beach Club · Messina · Stretto di Messina</span>
+    <span class="c-data">1 Luglio 2026</span>
+    <span class="c-tomato">🍅</span>
+    <span class="c-num">Pomod</span>
+    <div class="c-titolo-wrap">
+      <span class="c-main">Orso</span>
+      <span class="c-sfumature">Seconda Edizione</span>
+    </div>
+    <div class="c-div"></div>
+    <span class="c-location">Il Festival del Pomodoro dell'Orso<br>arriva sul mare · Blanco Beach Club</span>
+    <div class="c-badge">
+      <span class="c-badge-lbl">In collaborazione con</span>
+      <span class="c-badge-val">Gran Gusto · Finagricola · Battipaglia</span>
+    </div>
+    <span class="c-info">Scheda Interna · Uso Staff · Evento Stampa + Serata</span>
+    <div class="c-firma">
+      <span class="c-fl">Un evento del</span>
+      <span class="c-fn">Gruppo Orso Messina</span>
+      <span class="c-fl" style="margin-top:.4rem">Executive Pizza Chef · Brand Ambassador Gran Gusto</span>
+      <span class="c-fn" style="font-size:1.2rem;">Matteo La Spada</span>
+    </div>
+  </div>
+</section>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="ntab active" onclick="S('programma',this)">Programma</button>
+  <button class="ntab" onclick="S('casette',this)">Le Casette</button>
+  <button class="ntab" onclick="S('workshop',this)">Workshop</button>
+  <button class="ntab" onclick="S('prodotti',this)">Gran Gusto</button>
+</div>
+
+
+<!-- ═══════════════════════════
+     PROGRAMMA
+═══════════════════════════ -->
+<div class="sez active" id="sez-programma">
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Il Concept</span>
+    <div class="s-title">Il Pomodoro<br>come <em>manifesto</em></div>
+    <p class="s-body">
+      Il PomodOrso è l'appuntamento annuale con cui l'Orso celebra il principe della dieta mediterranea. Nella sua seconda edizione, l'evento approda per la prima volta sul mare — al Blanco Beach Club — e si arricchisce di una collaborazione d'eccezione con <strong>Gran Gusto Finagricola</strong>, azienda campana di riferimento per la produzione professionale di pomodoro di qualità.<br><br>
+      Matteo La Spada, in qualità di <strong>Brand Ambassador Gran Gusto</strong>, costruisce una serata interamente dedicata alla versatilità del pomodoro: dall'impasto alla crema, dal gazpacho alla marinara eclettica. Ogni casetta è un capitolo di questa storia.
+    </p>
+  </div>
+
+  <div class="blk blk-mid">
+    <span class="s-eye s-eye-gold">Struttura della Serata</span>
+    <div class="s-title">Programma<br><em>1 Luglio 2026</em></div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">18:00</span>
+        <div class="step-txt"><strong>Workshop Stampa — Solo Press</strong><br>Matteo La Spada presenta la Marinara Eclettica Gran Gusto davanti a giornalisti e fotografi. Degustazione guidata con storytelling sul prodotto.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">19:30</span>
+        <div class="step-txt"><strong>Apertura Casette al Pubblico</strong><br>Le sei postazioni aprono simultaneamente. Ogni casetta è presidiata da un membro dello staff con scheda tecnica e descrizione del piatto.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">21:00</span>
+        <div class="step-txt"><strong>Serata a Regime</strong><br>Servizio continuo di tutte le casette. Musica, cocktail e il Blanco come cornice sullo Stretto.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">23:30</span>
+        <div class="step-txt"><strong>Chiusura</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Mappa Logistica</span>
+    <div class="s-title">Le Sei <em>Casette</em></div>
+    <div class="steps">
+      <div class="step"><span class="step-n">A</span><div class="step-txt"><strong>Workshop Stampa</strong> — Marinara Eclettica Gran Gusto · Matteo La Spada</div></div>
+      <div class="step"><span class="step-n">1</span><div class="step-txt"><strong>Margherita a Portafoglio</strong> — Pomodoro Pizzutello Gran Gusto + Fior di latte</div></div>
+      <div class="step"><span class="step-n">2</span><div class="step-txt"><strong>Pizza in Teglia</strong> — Datterino rosso e giallo nell'impasto + Stracciatella + Mortadella</div></div>
+      <div class="step"><span class="step-n">3</span><div class="step-txt"><strong>L'Orso in Duomo</strong> — Vellutata di datterino giallo + Ricotta al limone + Prosciutto crudo</div></div>
+      <div class="step"><span class="step-n">4</span><div class="step-txt"><strong>La Carrettiera</strong> — Chef Lilla Petito · Pasta alla carrettiera con pomodori Gran Gusto Finagricola</div></div>
+      <div class="step"><span class="step-n">5</span><div class="step-txt"><strong>Gazpacho + Crostini</strong> — Pomodori Gran Gusto · Pane ai grani antichi di Matteo La Spada</div></div>
+    </div>
+  </div>
+
+</div><!-- /programma -->
+
+
+<!-- ═══════════════════════════
+     LE CASETTE
+═══════════════════════════ -->
+<div class="sez" id="sez-casette">
+  <div style="text-align:center;padding:1.8rem 1.5rem 1rem;background:#0e0a06;">
+    <span style="font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c0392b;margin-bottom:.4rem;display:block;">Casette 1 → 5</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f2ebe0;">Le Postazioni</div>
+  </div>
+
+  <div style="padding:1.2rem 1.2rem 3rem;background:#0e0a06;">
+
+    <!-- CASETTA 1 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 01</span>
+      <div class="casetta-nome">Margherita a Portafoglio</div>
+      <span class="casetta-chef">Matteo La Spada · Impasto Napoletano · Gran Gusto</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Ingredienti</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodoro Pizzutello Gran Gusto</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fior di latte</span><span class="badge b-in">forno</span></div>
+      </div>
+
+      <span class="casetta-lbl">Il piatto</span>
+      <div class="casetta-desc">La forma più antica e popolare della pizza napoletana — la margherita piegata a portafoglio, da mangiare in piedi con le mani. Il Pizzutello Gran Gusto è la scelta precisa: pomodoro dalla forma appuntita a goccia, buccia sottile che resiste al calore mantenendosi integra, sapore vivo e mai stanco con una punta acida decisa. Il fior di latte fonde uniformemente. Semplicità e tecnica — la pizza che dimostra quanto sia difficile fare bene le cose semplici.</div>
+
+      <span class="casetta-lbl">Il Pizzutello Gran Gusto — perché</span>
+      <div class="casetta-desc">Il pizzutello è riconoscibile dalla forma appuntita — "pizzuto" in dialetto campano significa appuntito. La Piana del Sele gli regala una mineralità e una vivacità di sapore che lo rendono ideale per la margherita classica: non copre, non si perde, rimane protagonista. È il pomodoro della reattività — quello che "risponde".</div>
+
+      <span class="casetta-lbl">Servizio</span>
+      <div class="casetta-desc">Pizza piegata a portafoglio, servita in carta oleata. Monoporzione. Da mangiare in piedi passeggiando tra le casette.</div>
+
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Margherita napoletana a portafoglio. Solo Pizzutello Gran Gusto e fior di latte. Pomodoro dalla forma a goccia, sapore vivo e acido. Il più semplice — il più difficile.</div></div>
+    </div>
+
+    <!-- CASETTA 2 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 02</span>
+      <div class="casetta-nome">Pizza in Teglia</div>
+      <span class="casetta-chef">Matteo La Spada · Datterino nell'impasto · Gran Gusto</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Ingredienti</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco Gran Gusto</span><span class="badge b-imp">nell'impasto</span></div>
+        <div class="ingr-row"><span class="ingr-n">Datterino giallo semi secco Gran Gusto</span><span class="badge b-imp">nell'impasto</span></div>
+        <div class="ingr-row"><span class="ingr-n">Stracciatella</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Mortadella Levoni Linea Oro</span><span class="badge b-out">uscita</span></div>
+      </div>
+
+      <span class="casetta-lbl">La tecnica — il datterino nell'impasto</span>
+      <div class="casetta-desc">I datterini rossi e gialli semi secchi vengono incorporati direttamente nell'impasto della teglia prima della lievitazione finale — non sopra come condimento, ma dentro come ingrediente strutturale. Durante la lievitazione e la cottura i datterini rilasciano i loro zuccheri concentrati nell'impasto, colorandolo di rosso-arancio e aromatizzandolo dall'interno. Il risultato è una teglia che sa di pomodoro anche nel morso più interno, dove nessun condimento arriva. La base è già completa senza nulla sopra.</div>
+
+      <span class="casetta-lbl">La rigenerazione e il servizio</span>
+      <div class="casetta-desc">La base teglia viene pre-cotta, poi rigenerata al momento del servizio per ritrovare la croccantezza esterna. Una volta uscita calda, viene completata con stracciatella fresca e cremosa e mortadella Levoni Linea Oro — morbida, profumata, con i pistacchi interi. Tutto in uscita a crudo sul calore della teglia.</div>
+
+      <div class="alert"><div class="alert-dot"></div>I datterini sono nell'impasto — l'impasto stesso è "al pomodoro". Spiegarlo al pubblico: è una tecnica insolita che dimostra la versatilità del prodotto Gran Gusto. All. 8 (pistacchio — mortadella).</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Datterino rosso + giallo Gran Gusto nell'impasto — non sopra. La base è già pomodoro. Stracciatella e mortadella Levoni in uscita. Rigenerata al momento.</div></div>
+    </div>
+
+    <!-- CASETTA 3 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 03</span>
+      <div class="casetta-nome">L'Orso in Duomo</div>
+      <span class="casetta-chef">Matteo La Spada · Base croccante · Gran Gusto</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Ingredienti</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Base pizza croccante (pre-cotta)</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Vellutata di datterino giallo Gran Gusto</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Ricotta al limone</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Prosciutto crudo stagionato</span><span class="badge b-out">uscita</span></div>
+      </div>
+
+      <span class="casetta-lbl">La base — croccante fuori, morbida dentro</span>
+      <div class="casetta-desc">La base è già cotta — una pizza rotonda con cornicione pronunciato, croccante all'esterno e morbida e alveolata all'interno. Viene rigenerata al momento prima del servizio per ritrovare la sua temperatura e croccantezza ottimale. È la tecnica della "precottura" usata per gestire il servizio a volume senza sacrificare la qualità.</div>
+
+      <span class="casetta-lbl">La vellutata di datterino giallo</span>
+      <div class="casetta-desc">Il datterino giallo Gran Gusto semi secco viene frullato fino a vellutata liscia e cremosa — la sua dolcezza quasi burrosa (9–11 gradi Brix) e l'acidità bassissima lo rendono perfetto come crema da spalmare sulla base calda. Entra in forno sulla base già precotta per pochi minuti — solo il tempo di amalgamarsi e scaldarsi senza perdere la sua freschezza.</div>
+
+      <span class="casetta-lbl">Il completamento in uscita</span>
+      <div class="casetta-desc">Fuori dal forno: ricotta fresca lavorata con zeste di limone di Sicilia, sale e olio — ciuffi freschi e agrumati che contrastano la dolcezza del datterino giallo. Il prosciutto crudo stagionato completa con sapidità e profumo. Freddo sul caldo, agrume sul dolce, crudo sul cotto — un piatto costruito sui contrasti.</div>
+
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Base precotta rigenerata. Vellutata di datterino giallo Gran Gusto in forno. Ricotta al limone + prosciutto crudo in uscita. Contrasto dolce/agrume, caldo/freddo.</div></div>
+    </div>
+
+    <!-- CASETTA 4 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 04</span>
+      <div class="casetta-nome">La Carrettiera</div>
+      <span class="casetta-chef">Chef Lilla Petito · Pasta alla carrettiera · Gran Gusto Finagricola</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Il piatto</span>
+      <div class="casetta-desc">La pasta alla carrettiera è uno dei piatti più antichi della tradizione siciliana e meridionale — nata sulle carrozze dei carrettieri che attraversavano la Sicilia, fatta con quello che si aveva a bordo: pomodoro, aglio, olio, peperoncino e pecorino. Nessuna cottura elaborata, nessuna salsa complessa — solo ingredienti di qualità, calore e tempo.</div>
+
+      <span class="casetta-lbl">La versione con Gran Gusto Finagricola</span>
+      <div class="casetta-desc">La Chef Lilla Petito interpreta la carrettiera con i pomodori freschi pervenuti direttamente dall'azienda Finagricola Gran Gusto. Pomodori di campo, raccolti a maturazione ottimale — la qualità della materia prima è tutto in questo piatto: l'aglio, il peperoncino, l'olio extravergine e il pecorino siciliano sono il contesto, il pomodoro Gran Gusto è il protagonista. La salsa viene preparata a crudo o con cottura brevissima per preservare la vitalità aromatica del pomodoro fresco.</div>
+
+      <span class="casetta-lbl">Ingredienti classici della carrettiera</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodori freschi Gran Gusto Finagricola</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Aglio</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Peperoncino</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olio EVO</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pecorino siciliano grattugiato</span><span class="badge b-out">finitura</span></div>
+        <div class="ingr-row"><span class="ingr-n">Basilico fresco</span><span class="badge b-out">finitura</span></div>
+      </div>
+
+      <div class="alert alert-r"><div class="alert-dot alert-dot-r"></div>⚠ Peperoncino — avvisare per il piccante. Il livello di piccante dipende dalla versione della chef. Chiedere allo staff della casetta.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Pasta alla carrettiera siciliana con pomodori freschi Finagricola Gran Gusto. Chef Lilla Petito. Tradizione siciliana — pomodoro fresco protagonista. ⚠ Piccante.</div></div>
+    </div>
+
+    <!-- CASETTA 5 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 05</span>
+      <div class="casetta-nome">Gazpacho di Pomodoro</div>
+      <span class="casetta-chef">Matteo La Spada · Crostini ai grani antichi · Gran Gusto Finagricola</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Il piatto</span>
+      <div class="casetta-desc">Il gazpacho è la zuppa fredda per eccellenza della tradizione mediterranea — nata in Andalusia, adottata dall'intera cultura del Mediterraneo. Nella sua versione al PomodOrso, viene preparato con i pomodori freschi pervenuti direttamente dall'azienda Finagricola Gran Gusto: pomodori di campo, raccolti a maturazione piena, frullati a crudo con cetriolo, peperone, aglio, olio EVO, aceto e sale. Nessuna cottura — il pomodoro fresco nella sua forma più viva e integra.</div>
+
+      <span class="casetta-lbl">Ingredienti del gazpacho</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodori freschi Gran Gusto Finagricola</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Cetriolo</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Peperone rosso</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Aglio</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Olio EVO</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Aceto di vino bianco</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Sale</span><span class="badge b-in">base</span></div>
+      </div>
+
+      <span class="casetta-lbl">I crostini — il pane ai grani antichi di Matteo La Spada</span>
+      <div class="casetta-desc">Il pane ai grani antichi siciliani di Matteo La Spada viene tagliato e tostato fino a diventare crostini croccanti e profumati. I grani antichi siciliani — Timilia, Perciasacchi, Maiorca — hanno un profilo aromatico completamente diverso dal frumento moderno: note floreali, nocciola tostata, retrogusto dolce e persistente. Il pane di Matteo è fatto con lievito madre vivo e lunga lievitazione — la stessa filosofia dell'impasto pizza applicata al pane. I crostini vengono serviti nel gazpacho o a parte per intingere.</div>
+
+      <span class="casetta-lbl">Servizio</span>
+      <div class="casetta-desc">Gazpacho servito freddo in bicchiere o ciotola, con crostini a parte su piccolo vassoio. È il piatto più rinfrescante della serata — perfetto nelle ore più calde.</div>
+
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Gazpacho freddo con pomodori freschi Finagricola — nessuna cottura. Crostini di pane ai grani antichi siciliani di Matteo La Spada. Il piatto più fresco della serata. Servire freddo.</div></div>
+    </div>
+
+  </div>
+</div><!-- /casette -->
+
+
+<!-- ═══════════════════════════
+     WORKSHOP STAMPA
+═══════════════════════════ -->
+<div class="sez" id="sez-workshop">
+  <div class="blk blk-dark">
+    <span class="s-eye">Workshop Press · 18:00 · Solo Stampa</span>
+    <div class="s-title">La Marinara<br><em>Eclettica</em></div>
+    <p class="s-body">Il piatto simbolo del workshop dedicato alla stampa. Matteo La Spada presenta davanti a giornalisti e fotografi la sua reinterpretazione contemporanea della Marinara — la pizza più antica del repertorio napoletano, qui decostruita e ricostruita con gli ingredienti Gran Gusto e la tecnica del pizzaiolo messinese.<br><br>La marinara tradizionale è pomodoro, aglio, origano, olio. Quella eclettica di Matteo la Spada è un'altra cosa — ma mantiene la stessa filosofia: <strong>nessun formaggio, solo pomodoro e mare</strong>.</p>
+  </div>
+
+  <div class="blk blk-mid">
+    <span class="s-eye s-eye-gold">La Ricetta</span>
+    <div class="s-title">Marinara Eclettica<br><em>Gran Gusto</em></div>
+
+    <span style="font-size:.47rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5545;margin:.8rem 0 .5rem;display:block;">Ingredienti</span>
+    <div class="ingr-list">
+      <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco Gran Gusto</span><span class="badge b-in">forno</span></div>
+      <div class="ingr-row"><span class="ingr-n">Cipolla caramellata</span><span class="badge b-in">forno</span></div>
+      <div class="ingr-row"><span class="ingr-n">Alici affumicate</span><span class="badge b-in">forno</span></div>
+      <div class="ingr-row"><span class="ingr-n">Crema d'aglio fermentata</span><span class="badge b-in">forno</span></div>
+      <div class="ingr-row"><span class="ingr-n">Gel d'arancia</span><span class="badge b-out">uscita</span></div>
+      <div class="ingr-row"><span class="ingr-n">Prezzemolo fresco</span><span class="badge b-out">uscita</span></div>
+      <div class="ingr-row"><span class="ingr-n">Origano</span><span class="badge b-out">uscita</span></div>
+    </div>
+
+    <span style="font-size:.47rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5545;margin:.8rem 0 .5rem;display:block;">La logica della ricetta</span>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">01</span>
+        <div class="step-txt"><strong>Il datterino rosso semi secco Gran Gusto</strong> — prende il posto del pomodoro fresco o della passata. La semi-essiccazione concentra gli zuccheri (8–10 gradi Brix) portando una dolcezza e una persistenza che il pomodoro fresco non ha. Entra in forno come base.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">02</span>
+        <div class="step-txt"><strong>La cipolla caramellata</strong> — contrasta l'acidità residua del datterino con la sua dolcezza profonda sviluppata in 40–60 minuti di cottura lenta. Nella marinara classica questa funzione la fa lo zucchero degli aglio arrostiti. Qui è più elegante.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">03</span>
+        <div class="step-txt"><strong>Le alici affumicate</strong> — nell'originale le acciughe entrano in forno sciogliendosi e diventando fondo di sapore marino. Qui le alici sono affumicate — la nota fumé aggiunge un livello aromatico ulteriore che le acciughe classiche non hanno.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">04</span>
+        <div class="step-txt"><strong>La crema d'aglio fermentata</strong> — l'aglio nero fermentato viene frullato fino a crema liscia e scura. La fermentazione trasforma l'aglio: sparisce la pungenza, restano la dolcezza e l'umami. È l'aglio della marinara, ma in versione contemporanea e digeribile.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">05</span>
+        <div class="step-txt"><strong>Il gel d'arancia</strong> — succo di arancia siciliana gelificato con agar-agar fino a gel gocciolabile. In uscita porta una nota agrumata fresca e inaspettata che taglia la sapidità delle alici e apre il palato. È il tocco eclettico che dà il nome alla pizza.</div>
+      </div>
+      <div class="step">
+        <span class="step-n">06</span>
+        <div class="step-txt"><strong>Prezzemolo e origano</strong> — in uscita. Il prezzemolo fresco porta verde e vitalità, l'origano porta il Mediterraneo. Sempre in uscita per non perdere i composti aromatici volatili con il calore del forno.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem;font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#c8c0b0;line-height:1.75;">
+      Il risultato è una pizza senza formaggio — fedele all'anima della marinara — ma con una complessità aromatica stratificata: dolce (datterino + cipolla), marino (alici affumicate), umami (aglio fermentato), agrumato (gel d'arancia), verde (prezzemolo). Cinque dimensioni del gusto in un disco.
+    </div>
+
+    <div class="alert alert-r" style="margin-top:1rem;"><div class="alert-dot alert-dot-r"></div>⚠ Workshop solo stampa — accesso riservato. Comunicare agli ospiti non stampa che la marinara eclettica non è disponibile alle casette ma solo nel contesto del workshop.</div>
+    <div class="runner"><span class="runner-l">⚡ Staff Workshop</span><div class="runner-t">Marinara senza formaggio. Datterino rosso Gran Gusto + cipolla caramellata + alici affumicate + crema aglio fermentata in forno. Gel d'arancia + prezzemolo + origano in uscita. Cinque dimensioni di gusto.</div></div>
+  </div>
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Storytelling per la Stampa</span>
+    <div class="s-title">Cosa comunicare<br><em>ai giornalisti</em></div>
+    <div class="steps">
+      <div class="step"><span class="step-n">→</span><div class="step-txt"><strong>Gran Gusto Finagricola</strong> — cooperativa campana, oltre 300 ettari nella Piana del Sele, filiera controllata al 100%. Il datterino semi secco è il prodotto di punta della linea professionale.</div></div>
+      <div class="step"><span class="step-n">→</span><div class="step-txt"><strong>Matteo La Spada come Brand Ambassador</strong> — la scelta di Matteo come testimonial nasce dalla sua meticolosità nella selezione delle materie prime e dalla sua capacità di valorizzare il prodotto in modo tecnico e narrativo.</div></div>
+      <div class="step"><span class="step-n">→</span><div class="step-txt"><strong>Il PomodOrso</strong> — evento annuale dell'Orso dedicato al pomodoro. Seconda edizione. Quest'anno per la prima volta al Blanco Beach Club sul mare di Messina.</div></div>
+      <div class="step"><span class="step-n">→</span><div class="step-txt"><strong>La marinara eclettica</strong> — non è una pizza fusion. È una marinara contemporanea che rispetta l'assenza di formaggio dell'originale e aggiunge complessità con tecnica e ingredienti di qualità.</div></div>
+    </div>
+  </div>
+</div><!-- /workshop -->
+
+
+<!-- ═══════════════════════════
+     GRAN GUSTO
+═══════════════════════════ -->
+<div class="sez" id="sez-prodotti">
+  <div style="text-align:center;padding:1.8rem 1.5rem 1rem;background:#0e0a06;">
+    <span style="font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c0392b;margin-bottom:.4rem;display:block;">Partner ufficiale · PomodOrso 2026</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f2ebe0;">Gran Gusto<br><span style="font-size:1.2rem;font-style:italic;color:#c9a84c;">Finagricola · Battipaglia</span></div>
+  </div>
+  <div style="background:#0e0a06;">
+
+    <div class="prod-card">
+      <div class="prod-name">Chi è Finagricola</div>
+      <span class="prod-sub">Cooperativa · Battipaglia (SA) · Piana del Sele · Campania</span>
+      <div class="prod-text">Finagricola è una cooperativa agricola fondata a Battipaglia, nella Piana del Sele in provincia di Salerno. Con oltre 300 ettari di terreni propri e una filiera completamente controllata — dalla semina alla lavorazione — produce pomodoro per la ristorazione professionale italiana di riferimento. La linea Gran Gusto nasce specificamente per i professionisti della cucina: coltivazione integrata, raccolta a mano, lavorazione artigianale in stabilimento proprio. Nessun intermediario tra il campo e il vasetto.</div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-name">Datterino Rosso Semi Secco in Olio</div>
+      <span class="prod-sub">Gran Gusto · Linea professionale · 8–10 gradi Brix</span>
+      <span class="prod-lbl">Come viene prodotto</span>
+      <div class="prod-text">Il datterino rosso viene raccolto a piena maturazione, tagliato a metà e sottoposto a semi-essiccazione controllata — non completamente disidratato, ma "a metà strada" tra il fresco e il secco. Questa fase concentra gli zuccheri naturali portando la dolcezza a 8–10 gradi Brix (il fresco è circa 4–5). Viene poi conservato in olio con aglio, peperoncino e erbe aromatiche mediterranee. La polpa rimane morbida e succosa nonostante la concentrazione.</div>
+      <span class="prod-lbl">In cucina</span>
+      <div class="prod-text">Versatile: entra in forno (il calore caramellizza i bordi), va a crudo in uscita, oppure — nella teglia del PomodOrso — entra direttamente nell'impasto. Porta sapidità, dolcezza concentrata e colore rosso-ambrato intenso.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Datterino rosso Gran Gusto. 8–10 gradi Brix — più dolce del fresco (4–5). Semi secco = concentrato ma morbido. Tre utilizzi: in forno, a crudo, nell'impasto.</div></div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-name">Datterino Giallo Semi Secco in Olio</div>
+      <span class="prod-sub">Gran Gusto · Linea professionale · 9–11 gradi Brix</span>
+      <span class="prod-lbl">Differenza dal rosso</span>
+      <div class="prod-text">Il datterino giallo non è un rosso non maturo — è una varietà geneticamente diversa. Ha meno licopene e più carotene, il che gli conferisce una dolcezza quasi burrosa e vellutata con acidità bassissima. A 9–11 gradi Brix è il più dolce dei due. In cottura il colore ambrato si intensifica diventando dorato. Usato nella vellutata dell'Orso in Duomo e nell'impasto della teglia insieme al rosso.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Non è un rosso non maturo — varietà diversa. 9–11 gradi Brix. Burroso e vellutato. Colore dorato in cottura. Il più dolce della serata.</div></div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-name">Pizzutello della Piana del Sele</div>
+      <span class="prod-sub">Gran Gusto · Pomodoro intero · Per la Margherita a Portafoglio</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Pomodoro dalla forma appuntita a goccia — "pizzuto" in dialetto campano. Buccia sottile che resiste al calore mantenendosi integra in cottura. Polpa soda e scattante, sapore vivo con punta acida decisa. Non è un pomodoro rotondo che si ammorbidisce in cottura — è reattivo, strutturato, con carattere. Ideale per la margherita napoletana dove il pomodoro è l'unico protagonista.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Pomodoro a forma di goccia. Buccia sottile che regge il forno. Sapore acido e vivo. Il pomodoro della Margherita a Portafoglio — il più reattivo della serata.</div></div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-name">Pomodori Freschi di Campo</div>
+      <span class="prod-sub">Gran Gusto · Finagricola · Per Gazpacho e Carrettiera</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Per il gazpacho e la carrettiera Finagricola ha fornito pomodori freschi di campo — raccolti a maturazione ottimale direttamente dagli ettari della Piana del Sele e consegnati per l'evento. Non è prodotto lavorato: è il pomodoro fresco nel momento migliore della sua stagione, con tutta la vitalità aromatica che la lavorazione inevitabilmente riduce. È la materia prima nella sua forma più integra e potente.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Pomodori freschi di campo Finagricola — non lavorati, consegnati per l'evento. La materia prima nella sua forma più pura. Per gazpacho e carrettiera.</div></div>
+    </div>
+
+  </div>
+</div><!-- /prodotti -->
+
+
+<div class="footer">
+  <p>PomodOrso · Seconda Edizione · 1 Luglio 2026<br>Blanco Beach Club · Messina · Stretto di Messina</p>
+  <div class="footer-sign">In collaborazione con Gran Gusto · Finagricola · Battipaglia</div>
+</div>
+
+<div class="firma-block">
+  <div class="firma-inner">
+    <span class="firma-lbl">Un evento ideato da</span>
+    <span class="firma-nome">Gruppo Orso Messina</span>
+    <div class="firma-line"></div>
+    <span class="firma-lbl" style="margin-top:.2rem">Executive Pizza Chef · Brand Ambassador Gran Gusto</span>
+    <span class="firma-nome">Matteo La Spada</span>
+    <div class="firma-line"></div>
+    <span class="firma-tag">#SEGUILORSO · blancopizzalab.it · #POMODORSO</span>
+  </div>
+</div>
+
+<script>
+function S(id,btn){
+  document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sez-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
