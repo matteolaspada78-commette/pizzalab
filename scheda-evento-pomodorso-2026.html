@@ -13,7 +13,7 @@ html{background:#0e0a06!important;}
 body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;min-height:100vh;}
 
 /* COVER */
-.cover{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem 5rem;position:relative;overflow:hidden;background:#0a0603!important;}
+.cover{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem 5rem;position:relative;overflow:hidden;background:#0f0b0a!important;}
 .cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% 110%,rgba(192,57,43,.22) 0%,transparent 68%),radial-gradient(ellipse 50% 30% at 80% 0%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none;}
 .cover-waves{position:absolute;bottom:-1px;left:-5%;width:110%;pointer-events:none;}
 .cover-inner{position:relative;z-index:2;}
@@ -129,19 +129,94 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
   </svg>
   <div class="cover-inner">
     <span class="c-brand">Blanco Beach Club · Messina · Stretto di Messina</span>
-    <span class="c-data">1 Luglio 2026</span>
-    <span class="c-tomato">🍅</span>
-    <span class="c-num">Pomod</span>
-    <div class="c-titolo-wrap">
-      <span class="c-main">Orso</span>
-      <span class="c-sfumature">Seconda Edizione</span>
+    <span class="c-data">1 Luglio 2026 · dalle 17:30</span>
+
+    <!-- LOGO POMODORSO SVG -->
+    <div style="margin:1.8rem auto 1rem;width:100%;max-width:360px;">
+      <svg viewBox="0 0 360 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+        <defs>
+          <!-- font arrotondato simulato con stroke spesso -->
+        </defs>
+
+        <!-- ══ RIGA 1: POMO ══ -->
+
+        <!-- P -->
+        <text x="6" y="88"
+          font-family="'Arial Rounded MT Bold','Nunito','Varela Round',Arial,sans-serif"
+          font-size="90" font-weight="900" fill="#3d1f0a"
+          style="paint-order:stroke fill; stroke:#3d1f0a; stroke-width:3px; stroke-linejoin:round;">P</text>
+
+        <!-- O = POMODORO -->
+        <g transform="translate(70, 5)">
+          <!-- ombra morbida -->
+          <ellipse cx="38" cy="72" rx="36" ry="12" fill="rgba(0,0,0,0.12)"/>
+          <!-- corpo -->
+          <circle cx="38" cy="52" r="38" fill="#c0392b"/>
+          <circle cx="38" cy="49" r="38" fill="#d63a2a"/>
+          <!-- zona chiara sinistra -->
+          <ellipse cx="24" cy="36" rx="13" ry="10" fill="rgba(255,255,255,0.22)" transform="rotate(-20 24 36)"/>
+          <!-- zona chiara piccola -->
+          <ellipse cx="22" cy="34" rx="6" ry="5" fill="rgba(255,255,255,0.28)" transform="rotate(-20 22 34)"/>
+          <!-- gambo -->
+          <path d="M38 14 Q38 4 38 0" stroke="#2d6b1a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <!-- foglia sx -->
+          <path d="M38 14 Q28 2 16 8 Q28 12 38 14Z" fill="#3a8020"/>
+          <!-- foglia dx -->
+          <path d="M38 14 Q48 2 60 7 Q48 11 38 14Z" fill="#4a9a28"/>
+          <!-- puntino bianco -->
+          <circle cx="25" cy="38" r="4" fill="rgba(255,255,255,0.5)"/>
+        </g>
+
+        <!-- MO -->
+        <text x="152" y="88"
+          font-family="'Arial Rounded MT Bold','Nunito','Varela Round',Arial,sans-serif"
+          font-size="90" font-weight="900" fill="#3d1f0a">MO</text>
+
+        <!-- ══ RIGA 2: D'ORSO ══ -->
+
+        <!-- D'ORS -->
+        <text x="6" y="178"
+          font-family="'Arial Rounded MT Bold','Nunito','Varela Round',Arial,sans-serif"
+          font-size="90" font-weight="900" fill="#3d1f0a">D'ORS</text>
+
+        <!-- O finale — cerchio della lettera -->
+        <circle cx="308" cy="138" r="38" fill="none" stroke="#3d1f0a" stroke-width="18"/>
+        <!-- riempi interno O con sfondo cover per effetto lettera -->
+        <circle cx="308" cy="138" r="20" fill="#0a0603"/>
+
+        <!-- Artigli che sporgono IN ALTO a destra dalla O -->
+        <g transform="translate(290, 95)">
+          <!-- 4 artigli spessi, incurvati verso destra, come nella foto -->
+          <path d="M10,10 Q12,0 8,-12" stroke="#3d1f0a" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M20,8 Q23,-3 21,-16" stroke="#3d1f0a" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M31,6 Q36,-5 36,-19" stroke="#3d1f0a" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M42,7 Q49,-2 52,-15" stroke="#3d1f0a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        </g>
+
+      </svg>
     </div>
+
+
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(242,235,224,.55);margin-bottom:1.8rem;letter-spacing:.08em;">tutte le declinazioni del <span style="color:#c0392b;font-style:normal;font-weight:600;">pomodoro</span>!</div>
+
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:rgba(192,57,43,.7);margin-bottom:1.8rem;letter-spacing:.05em;">Seconda edizione</div>
+
     <div class="c-div"></div>
-    <span class="c-location">Il Festival del Pomodoro dell'Orso<br>arriva sul mare · Blanco Beach Club</span>
-    <div class="c-badge">
-      <span class="c-badge-lbl">In collaborazione con</span>
-      <span class="c-badge-val">Gran Gusto · Finagricola · Battipaglia</span>
+
+    <!-- PARTNER -->
+    <div style="font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;color:#6a5545;margin-bottom:.7rem;">In collaborazione con</div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:1.5rem;">
+      <span style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c0392b;border:1px solid rgba(192,57,43,.4);padding:.3em .8em;border-radius:2px;">FINAGRICOLA</span>
+      <span style="font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;border:1px solid rgba(201,168,76,.35);padding:.3em .8em;border-radius:2px;">Gran Gusto</span>
+      <span style="font-size:.58rem;font-weight:600;letter-spacing:.08em;color:#8a7a68;border:1px solid rgba(138,122,104,.3);padding:.3em .8em;border-radius:2px;">Così Com'è</span>
     </div>
+    <div style="font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;color:#6a5545;margin-bottom:.5rem;">Con il patrocinio di</div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:1.8rem;">
+      <span style="font-size:.52rem;color:#8a7a68;padding:.25em .7em;border:1px solid rgba(138,122,104,.2);border-radius:2px;">Città di Messina</span>
+      <span style="font-size:.52rem;color:#8a7a68;padding:.25em .7em;border:1px solid rgba(138,122,104,.2);border-radius:2px;">Università degli Studi di Messina</span>
+      <span style="font-size:.52rem;color:#8a7a68;padding:.25em .7em;border:1px solid rgba(138,122,104,.2);border-radius:2px;">Slow Food Messina</span>
+    </div>
+
     <span class="c-info">Scheda Interna · Uso Staff · Evento Stampa + Serata</span>
     <div class="c-firma">
       <span class="c-fl">Un evento del</span>
@@ -206,8 +281,9 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
       <div class="step"><span class="step-n">1</span><div class="step-txt"><strong>Margherita a Portafoglio</strong> — Pomodoro Pizzutello Gran Gusto + Fior di latte</div></div>
       <div class="step"><span class="step-n">2</span><div class="step-txt"><strong>Pizza in Teglia</strong> — Datterino rosso e giallo nell'impasto + Stracciatella + Mortadella</div></div>
       <div class="step"><span class="step-n">3</span><div class="step-txt"><strong>L'Orso in Duomo</strong> — Vellutata di datterino giallo + Ricotta al limone + Prosciutto crudo</div></div>
-      <div class="step"><span class="step-n">4</span><div class="step-txt"><strong>La Carrettiera</strong> — Chef Lilla Petito · Pasta alla carrettiera con pomodori Gran Gusto Finagricola</div></div>
+      <div class="step"><span class="step-n">4</span><div class="step-txt"><strong>La Carrettiera</strong> — Chef Lilla Petitto · Pasta alla carrettiera con pomodori Gran Gusto Finagricola</div></div>
       <div class="step"><span class="step-n">5</span><div class="step-txt"><strong>Gazpacho + Crostini</strong> — Pomodori Gran Gusto · Pane ai grani antichi di Matteo La Spada</div></div>
+      <div class="step"><span class="step-n">6</span><div class="step-txt"><strong>Sorbetto Assoluto al Pomodoro</strong> — Datterino rosso Gran Gusto · Crema di basilico a crudo</div></div>
     </div>
   </div>
 
@@ -306,14 +382,14 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
     <div class="casetta">
       <span class="casetta-num">Casetta 04</span>
       <div class="casetta-nome">La Carrettiera</div>
-      <span class="casetta-chef">Chef Lilla Petito · Pasta alla carrettiera · Gran Gusto Finagricola</span>
+      <span class="casetta-chef">Chef Lilla Petitto · Pasta alla carrettiera · Gran Gusto Finagricola</span>
       <div class="casetta-divider"></div>
 
       <span class="casetta-lbl">Il piatto</span>
       <div class="casetta-desc">La pasta alla carrettiera è uno dei piatti più antichi della tradizione siciliana e meridionale — nata sulle carrozze dei carrettieri che attraversavano la Sicilia, fatta con quello che si aveva a bordo: pomodoro, aglio, olio, peperoncino e pecorino. Nessuna cottura elaborata, nessuna salsa complessa — solo ingredienti di qualità, calore e tempo.</div>
 
       <span class="casetta-lbl">La versione con Gran Gusto Finagricola</span>
-      <div class="casetta-desc">La Chef Lilla Petito interpreta la carrettiera con i pomodori freschi pervenuti direttamente dall'azienda Finagricola Gran Gusto. Pomodori di campo, raccolti a maturazione ottimale — la qualità della materia prima è tutto in questo piatto: l'aglio, il peperoncino, l'olio extravergine e il pecorino siciliano sono il contesto, il pomodoro Gran Gusto è il protagonista. La salsa viene preparata a crudo o con cottura brevissima per preservare la vitalità aromatica del pomodoro fresco.</div>
+      <div class="casetta-desc">La Chef Lilla Petitto interpreta la carrettiera con i pomodori freschi pervenuti direttamente dall'azienda Finagricola Gran Gusto. Pomodori di campo, raccolti a maturazione ottimale — la qualità della materia prima è tutto in questo piatto: l'aglio, il peperoncino, l'olio extravergine e il pecorino siciliano sono il contesto, il pomodoro Gran Gusto è il protagonista. La salsa viene preparata a crudo o con cottura brevissima per preservare la vitalità aromatica del pomodoro fresco.</div>
 
       <span class="casetta-lbl">Ingredienti classici della carrettiera</span>
       <div class="ingr-list">
@@ -326,7 +402,7 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
       </div>
 
       <div class="alert alert-r"><div class="alert-dot alert-dot-r"></div>⚠ Peperoncino — avvisare per il piccante. Il livello di piccante dipende dalla versione della chef. Chiedere allo staff della casetta.</div>
-      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Pasta alla carrettiera siciliana con pomodori freschi Finagricola Gran Gusto. Chef Lilla Petito. Tradizione siciliana — pomodoro fresco protagonista. ⚠ Piccante.</div></div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Pasta alla carrettiera siciliana con pomodori freschi Finagricola Gran Gusto. Chef Lilla Petitto. Tradizione siciliana — pomodoro fresco protagonista. ⚠ Piccante.</div></div>
     </div>
 
     <!-- CASETTA 5 -->
@@ -359,6 +435,41 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
       <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Gazpacho freddo con pomodori freschi Finagricola — nessuna cottura. Crostini di pane ai grani antichi siciliani di Matteo La Spada. Il piatto più fresco della serata. Servire freddo.</div></div>
     </div>
 
+
+    <!-- CASETTA 6 -->
+    <div class="casetta">
+      <span class="casetta-num">Casetta 06</span>
+      <div class="casetta-nome">Sorbetto Assoluto al Pomodoro</div>
+      <span class="casetta-chef">Matteo La Spada · Gran Gusto Finagricola · Servito a cucchiaio</span>
+      <div class="casetta-divider"></div>
+
+      <span class="casetta-lbl">Ingredienti</span>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Passata di datterino rosso Gran Gusto</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Succo di limone di Sicilia</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Zucchero</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Profumo di aceto</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Origano</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Sale e pepe</span><span class="badge b-in">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Crema di basilico fresco</span><span class="badge b-out">guarnizione</span></div>
+      </div>
+
+      <span class="casetta-lbl">La tecnica</span>
+      <div class="casetta-desc">Tutti gli ingredienti — passata di datterino rosso Gran Gusto, succo di limone, zucchero, un profumo di aceto, origano, sale e pepe — vengono frullati insieme fino a ottenere una base liscia, perfettamente bilanciata tra dolce, acido e sapido. La miscela viene poi lavorata nella macchina del gelato fino a consistenza di sorbetto: freddo, liscio, cremoso ma senza lattosio — è un sorbetto puro, senza latte né panna. Il risultato è il pomodoro nella sua forma più sorprendente: freddo, concentrato, con una profondità di sapore amplificata dal freddo che apre i recettori del gusto.</div>
+
+      <span class="casetta-lbl">Il bilanciamento</span>
+      <div class="casetta-desc">Il succo di limone porta l'acidità che esalta la dolcezza del datterino (8–10 gradi Brix). Il profumo di aceto — non l'aceto in quantità, ma il suo aroma — aggiunge una nota fermentata e complessa che ricorda il gazpacho e la tradizione mediterranea delle preparazioni fredde al pomodoro. L'origano porta il Mediterraneo in chiave aromatica. Lo zucchero bilancia senza dolcificare in modo evidente — serve tecnicamente per abbassare il punto di congelamento e dare morbidezza al sorbetto.</div>
+
+      <span class="casetta-lbl">La guarnizione — crema di basilico a crudo</span>
+      <div class="casetta-desc">Un cucchiaino di crema di basilico fresco a crudo viene posizionato sul sorbetto al momento del servizio. Il basilico non viene mai cotto — frullato a crudo con olio EVO e un pizzico di sale, verde brillante e profumatissimo. Il contrasto tra il freddo del sorbetto e la cremosità erbosa del basilico è il punto: due temperature, due consistenze, due colori — rosso e verde, pomodoro e basilico, l'abbinamento più antico del Mediterraneo in forma contemporanea.</div>
+
+      <span class="casetta-lbl">Servizio</span>
+      <div class="casetta-desc">Servito in coppetta o bicchiere di vetro trasparente — il colore rosso del sorbetto e il verde della crema di basilico devono essere visibili. Cucchiaino in legno o ceramica. Temperatura di servizio: -12°C / -14°C. La casetta più scenografica della serata — quella che stupisce chi non se lo aspetta.</div>
+
+      <div class="alert"><div class="alert-dot"></div>Sorbetto senza lattosio — nessun prodotto animale nella base. La crema di basilico contiene olio EVO. Verificare allergie all'aceto (solfiti — all. 12) con i clienti sensibili.</div>
+      <div class="runner"><span class="runner-l">⚡ Staff</span><div class="runner-t">Sorbetto puro di datterino rosso Gran Gusto — niente latte né panna. Frullato e passato in gelatiera. Guarnito con crema di basilico fresco a crudo. Il pomodoro in forma di gelato — la casetta più sorprendente. Senza lattosio.</div></div>
+    </div>
+
   </div>
 </div><!-- /casette -->
 
@@ -381,8 +492,8 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
     <div class="ingr-list">
       <div class="ingr-row"><span class="ingr-n">Datterino rosso semi secco Gran Gusto</span><span class="badge b-in">forno</span></div>
       <div class="ingr-row"><span class="ingr-n">Cipolla caramellata</span><span class="badge b-in">forno</span></div>
-      <div class="ingr-row"><span class="ingr-n">Alici affumicate</span><span class="badge b-in">forno</span></div>
-      <div class="ingr-row"><span class="ingr-n">Crema d'aglio fermentata</span><span class="badge b-in">forno</span></div>
+      <div class="ingr-row"><span class="ingr-n">Alici affumicate</span><span class="badge b-out">uscita</span></div>
+      <div class="ingr-row"><span class="ingr-n">Crema d'aglio rosso di Nubia in latte</span><span class="badge b-out">uscita</span></div>
       <div class="ingr-row"><span class="ingr-n">Gel d'arancia</span><span class="badge b-out">uscita</span></div>
       <div class="ingr-row"><span class="ingr-n">Prezzemolo fresco</span><span class="badge b-out">uscita</span></div>
       <div class="ingr-row"><span class="ingr-n">Origano</span><span class="badge b-out">uscita</span></div>
@@ -400,11 +511,11 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
       </div>
       <div class="step">
         <span class="step-n">03</span>
-        <div class="step-txt"><strong>Le alici affumicate</strong> — nell'originale le acciughe entrano in forno sciogliendosi e diventando fondo di sapore marino. Qui le alici sono affumicate — la nota fumé aggiunge un livello aromatico ulteriore che le acciughe classiche non hanno.</div>
+        <div class="step-txt"><strong>Le alici affumicate</strong> — arrivano in uscita, a crudo sul calore della pizza. La nota fumé è intensa e delicata insieme — si sente al naso prima ancora di mordere. A differenza delle acciughe classiche che entrano in forno sciogliendosi, qui le alici affumicate rimangono integre in uscita e si vedono: sono parte visiva e gustativa della pizza. Il mare dello Stretto che arriva sul datterino rosso.</div>
       </div>
       <div class="step">
         <span class="step-n">04</span>
-        <div class="step-txt"><strong>La crema d'aglio fermentata</strong> — l'aglio nero fermentato viene frullato fino a crema liscia e scura. La fermentazione trasforma l'aglio: sparisce la pungenza, restano la dolcezza e l'umami. È l'aglio della marinara, ma in versione contemporanea e digeribile.</div>
+        <div class="step-txt"><strong>La crema d'aglio rosso di Nubia in latte</strong> — tecnica artigianale di Matteo La Spada. L'aglio rosso di Nubia — presidio Slow Food di Paceco (TP), uno dei più pregiati di Sicilia — viene lasciato in infusione in una soluzione salina dentro un vaso di vetro chiuso per un periodo di fermentazione naturale. Questo primo passaggio attenua la pungenza e sviluppa note più rotonde e complesse. L'aglio fermentato viene poi lasciato in infusione nel latte per una giornata intera — il latte assorbe i profumi dell'aglio ammorbidendone ulteriormente il carattere. Infine, aglio e latte vengono frullati insieme fino a crema bianca, liscia e vellutata: il colore è candido, il sapore è quello dell'aglio ma trasformato — morbido, profumato, senza la pungenza che brucia, completamente digeribile. Una crema che sa di aglio senza dichiararlo.</div>
       </div>
       <div class="step">
         <span class="step-n">05</span>
@@ -421,7 +532,7 @@ body{background:#0e0a06!important;color:#f2ebe0!important;font-family:'Montserra
     </div>
 
     <div class="alert alert-r" style="margin-top:1rem;"><div class="alert-dot alert-dot-r"></div>⚠ Workshop solo stampa — accesso riservato. Comunicare agli ospiti non stampa che la marinara eclettica non è disponibile alle casette ma solo nel contesto del workshop.</div>
-    <div class="runner"><span class="runner-l">⚡ Staff Workshop</span><div class="runner-t">Marinara senza formaggio. Datterino rosso Gran Gusto + cipolla caramellata + alici affumicate + crema aglio fermentata in forno. Gel d'arancia + prezzemolo + origano in uscita. Cinque dimensioni di gusto.</div></div>
+    <div class="runner"><span class="runner-l">⚡ Staff Workshop</span><div class="runner-t">Marinara senza formaggio. Datterino rosso Gran Gusto + cipolla caramellata + crema aglio rosso di Nubia in latte in forno. Alici affumicate + gel d'arancia + prezzemolo + origano tutti in uscita. La crema aglio è bianca, liscia, digeribile — aglio fermentato in latte.</div></div>
   </div>
 
   <div class="blk blk-dark">
