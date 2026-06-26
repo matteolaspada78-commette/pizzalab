@@ -4010,7 +4010,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">KG Farina Biga</label><div class="inp-row"><input class="inp-field" id="psKg" type="number" value="5" min="1" max="50" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">🌾 % Biga (tu decidi)</label><div class="inp-row"><input class="inp-field" id="psBigaPct" type="number" value="40" min="10" max="80" step="5" oninput="calcPalaSuprema()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura pala (g)</label><div class="inp-row"><input class="inp-field" id="psGr" type="number" value="800" min="300" max="1200" step="50" oninput="calcPalaSuprema()"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">💧 IDR % (tu decidi)</label><div class="inp-row"><input class="inp-field" id="psIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaSuprema()" style="color:#5B9BD5"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">💧 IDR % (tu decidi)</label><div class="inp-row"><input class="inp-field" id="psIDR" type="number" value="73" min="75" max="85" step="1" oninput="calcPalaSuprema()" style="color:#5B9BD5"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="psSale" type="number" value="2" min="1.5" max="2.8" step="0.1" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">⏰ Ora impasto</label><div class="inp-row"><input class="inp-field" id="psOI" type="number" value="9" min="0" max="23" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">✂️ Ora staglio</label><div class="inp-row"><input class="inp-field" id="psOS" type="number" value="15" min="0" max="23" step="0.5" oninput="calcPalaSuprema()"><span class="inp-unit">:30</span></div></div>
@@ -4018,8 +4018,8 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Ora Biga G1</label><div class="inp-row"><input class="inp-field" id="psOB" type="number" value="20" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2</label><div class="inp-row"><input class="inp-field" id="psOR" type="number" value="9" min="0" max="23" oninput="calcPalaSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="psF1" type="number" value="60" min="30" max="90" step="5" oninput="calcPalaSuprema()"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label" style="color:#F0CC5A">🌾 Rinfresco — % Petra 5078</label><div class="inp-row"><input class="inp-field" id="psR5037" type="number" value="80" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#F0CC5A"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Rinfresco — % 0102HP</label><div class="inp-row"><input class="inp-field" id="psR0102" type="number" value="20" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#F0CC5A">🌾 Rinfresco — % Petra 5078</label><div class="inp-row"><input class="inp-field" id="psR5037" type="number" value="70" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#F0CC5A"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Rinfresco — % 0102HP</label><div class="inp-row"><input class="inp-field" id="psR0102" type="number" value="30" min="0" max="100" step="5" oninput="calcPalaSuprema()" style="color:#D4956A"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
   <div class="card open" id="cardPSuOut">
@@ -7427,12 +7427,13 @@ function calcPalaSuprema(){
 
     // RICETTA BIGA
     +'<div class="res-section"><div class="res-label">🌾 Biga '+bigaPct+'% — G1 '+H(ob)+'</div>'
-    +row('Petra 0102HP W320 (100%)', Math.round(kgB*1000)+'g', 'W320 · regge proteolisi 18-22h')
+    +row('Petra 5078 W350-380 (100%)', Math.round(kgB*1000)+'g', '🏆 W365 · alveoli enormi · struttura massima')
     +row('Acqua biga (IDR 47%)', acqBiga+'g', 'fredda 4°C · Cauvain 2015')
     +row('LdB biga (0.70%)', ldbBiga+'g', 'su farina biga')
     +'<div style="margin-top:8px;background:rgba(212,160,62,0.08);border-radius:8px;padding:8px;font-size:10px;color:var(--dim)">'
-    +'🔬 IDR 47%: ottimale per W320 · proteolisi controllata · pH target 5.20-5.35 (Cauvain 2015)<br>'
-    +'🔬 0102HP in biga: non 5078 — la proteolisi lunga degrada il glutine extra forte inutilmente</div>'
+    +'🔬 IDR 47%: ottimale per W365 · proteolisi lenta · glutine forte ma estensibile al mattino<br>'
+    +'🔬 5078 in biga: proteolisi 18-20h → glutine W365 si degrada al punto giusto → alveoli enormi ✅<br>'
+    +'🔬 NON blend in biga — 0102HP si degrada più veloce → maglia più debole (Cauvain 2015)</div>'
     +'</div>'
 
     // RICETTA RINFRESCO
@@ -7455,7 +7456,7 @@ function calcPalaSuprema(){
 
     // NOTE SCIENTIFICHE
     +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-top:8px;font-size:10px;color:var(--dim);line-height:1.8">'
-    +'🔬 W blend '+W_eff+' (5078 '+Math.round(r5078*100)+'% + 0102HP '+Math.round(r0102r*100)+'%) — '+wMsg+' (Dobraszczyk 2003)<br>'
+    +'🔬 Biga 100% 5078 W365 → rinfresco blend W'+W_eff+' — '+wMsg+' (Dobraszczyk 2003)<br>'
     +'🔬 DDT 24°C pala vs 23°C napoletana — fermentazione più controllata a IDR alta<br>'
     +'🔬 Puntata target: +40% volume — più napoletana per struttura alveolare<br>'
     +'🔬 Cottura: 280-320°C · 6-8min · NO vapore · base dorata → pronta (Cauvain 2015)'
