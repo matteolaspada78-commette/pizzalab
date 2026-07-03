@@ -29,35 +29,525 @@ body{font-family:"DM Sans",sans-serif;color:#F0E8D8}
 #wrapManuale{position:fixed;inset:0;display:none;z-index:900;overflow:hidden;background:#0A0A0A;flex-direction:column;color:#F5F0E8}
 
 :root {
-  /* Sfondi — verde L'Orso */
-  --bg: #0A1A12;
-  --surface: #0D2018;
-  --card: #122B1E;
-  --border: #1E3D2A;
+  /* ── PALETTE ORSO SCIENTIFICO ── */
+  --bg:      #07120D;   /* nero-verde profondo */
+  --surface: #0B1A12;
+  --card:    #0F2318;
+  --border:  #1C3828;
 
-  /* Oro — più saturo e luminoso */
-  --gold: #D4A03E;
-  --gold2: #F0CC5A;
+  /* Oro — più caldo e luminoso */
+  --gold:    #C8973A;
+  --gold2:   #EEC84A;
+  --gold3:   #F7DFA0;   /* oro chiaro per dettagli */
 
-  /* Testo — massimo contrasto */
-  --cream: #F8F2E6;
-  --dim: #8A7C6A;
+  /* Testo */
+  --cream:   #F5EFE3;
+  --cream2:  #D8CEBC;   /* testo secondario leggibile */
+  --dim:     #6A7060;   /* testo dimmed */
+  --dim2:    #4A5248;   /* bordi sottili */
 
-  /* Accenti sezione — più vividi */
-  --red: #A02828;
-  --green: #1E5A26;
-  --teal: #0E4545;
-  --blue: #102060;
-  --purple: #320F5A;
+  /* Accenti semantici */
+  --green-hi: #2A7A38;
+  --green-lo: #1A4A24;
+  --teal-hi:  #14676A;
+  --blue-hi:  #1A3A8A;
+  --red-hi:   #8A2020;
+  --purple-hi:#4A1A7A;
 
-  --safe-top: env(safe-area-inset-top, 44px);
-  --safe-bot: env(safe-area-inset-bottom, 34px);
+  /* Dati e semafori */
+  --ok:    #5DBFA0;
+  --warn:  #E8B84A;
+  --bad:   #D45050;
+
+  /* Sistemi */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --safe-top:  env(safe-area-inset-top, 44px);
+  --safe-bot:  env(safe-area-inset-bottom, 34px);
+
+  /* Tipografia */
+  --mono: 'DM Mono', 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
 }
+
+/* ── RESET E BASE ── */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--bg)}
-body{font-family:'DM Sans',sans-serif;color:var(--cream);overscroll-behavior:none}
+body{font-family:var(--sans);color:var(--cream);overscroll-behavior:none;-webkit-font-smoothing:antialiased}
 
-/* ── BOTTONE CONDIVIDI ── */
+/* ── HEADER ── */
+.hdr{
+  display:flex;align-items:center;
+  padding:calc(var(--safe-top) + 6px) 16px 10px;
+  background:linear-gradient(180deg,rgba(7,18,13,0.98) 0%,rgba(11,26,18,0.92) 100%);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+.hdr-back{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;flex-shrink:0;
+  transition:background .15s;
+}
+.hdr-back:active{background:rgba(255,255,255,0.1);}
+.hdr-title{
+  font-family:var(--sans);font-size:17px;font-weight:700;
+  color:var(--cream);letter-spacing:-0.3px;
+  flex:1;text-align:center;
+}
+.hdr-title span{color:var(--gold2);}
+.hdr-sub{
+  font-family:var(--mono);font-size:9px;color:var(--dim);
+  letter-spacing:2.5px;text-transform:uppercase;margin-top:1px;
+  text-align:center;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.card-hdr{
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.card-hdr-icon{font-size:20px;flex-shrink:0;}
+.card-hdr-title{
+  font-size:15px;font-weight:700;
+  color:var(--cream);letter-spacing:-0.2px;flex:1;
+}
+.card-hdr-sub{
+  font-family:var(--mono);font-size:9px;
+  color:var(--dim);letter-spacing:2px;text-transform:uppercase;
+  margin-top:2px;
+}
+.card-body{padding:16px;}
+
+/* ── RISULTATI — box dati ── */
+.res-section{
+  margin-bottom:14px;
+  background:rgba(0,0,0,0.2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+}
+.res-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);padding:9px 12px 7px;
+  border-bottom:1px solid var(--border);
+  background:rgba(200,151,58,0.06);
+}
+.res-row{
+  display:flex;align-items:center;
+  padding:9px 12px;
+  border-bottom:1px solid rgba(28,56,40,0.5);
+  font-size:13px;gap:8px;
+}
+.res-row:last-child{border-bottom:none;}
+.res-row-key{color:var(--cream2);flex:1;line-height:1.3;}
+.res-row-val{
+  font-family:var(--mono);font-weight:700;
+  color:var(--cream);font-size:14px;text-align:right;
+}
+.res-row-note{
+  font-size:10px;color:var(--dim);
+  margin-top:1px;font-family:var(--mono);
+}
+.res-row--hero{
+  background:rgba(200,151,58,0.08);
+  border-bottom:1px solid var(--border) !important;
+}
+.res-row--hero .res-row-key{color:var(--gold2);font-weight:600;}
+.res-row--hero .res-row-val{color:var(--gold2);font-size:16px;}
+
+/* ── SEMAFORI ── */
+.sem{
+  border-radius:var(--radius-sm);
+  padding:11px 14px;
+  margin-bottom:12px;
+  font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+  line-height:1.4;
+}
+.sem-ok  {background:rgba(93,191,160,0.12);border:1.5px solid rgba(93,191,160,0.4);color:var(--ok);}
+.sem-warn{background:rgba(232,184,74,0.12);border:1.5px solid rgba(232,184,74,0.4);color:var(--warn);}
+.sem-bad {background:rgba(212,80,80,0.12); border:1.5px solid rgba(212,80,80,0.4); color:var(--bad);}
+
+/* ── NUMERI GRANDI ── */
+.big-num{
+  font-family:var(--mono);
+  font-size:clamp(48px,14vw,72px);
+  font-weight:500;
+  letter-spacing:-2px;
+  line-height:1;
+  color:var(--gold2);
+}
+.big-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:6px;
+}
+
+/* ── INPUT FIELDS ── */
+.inp-group{display:flex;flex-direction:column;gap:5px;}
+.inp-label{
+  font-family:var(--mono);font-size:9px;
+  color:var(--dim);letter-spacing:2px;
+  text-transform:uppercase;
+}
+.inp-field{
+  background:rgba(0,0,0,0.35);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--cream);
+  font-family:var(--mono);
+  font-size:28px;font-weight:700;
+  padding:10px 14px;
+  width:100%;
+  -webkit-appearance:none;
+  transition:border-color .15s,background .15s;
+}
+.inp-field:focus{
+  outline:none;
+  border-color:var(--gold);
+  background:rgba(200,151,58,0.06);
+}
+.inp-unit{
+  font-family:var(--mono);font-size:12px;
+  color:var(--dim);padding:0 4px;
+}
+
+/* ── PAGINA HERO ── */
+.page-hero{
+  padding:20px 16px 16px;
+  background:linear-gradient(180deg,rgba(15,35,24,1) 0%,rgba(11,26,18,0) 100%);
+  border-bottom:1px solid var(--border);
+}
+.page-hero-icon{font-size:36px;margin-bottom:10px;}
+.page-hero-title{
+  font-family:var(--serif);
+  font-size:clamp(24px,7vw,32px);
+  font-weight:900;color:var(--cream);
+  letter-spacing:-0.5px;line-height:1.1;
+  margin-bottom:4px;
+}
+.page-hero-sub{
+  font-family:var(--mono);font-size:10px;
+  color:var(--dim);letter-spacing:2px;
+  text-transform:uppercase;line-height:1.5;
+}
+
+/* ── SCROLL AREA ── */
+.scroll{
+  overflow-y:auto;
+  height:100%;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding-bottom:calc(var(--safe-bot) + 40px);
+}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ── DISTRIBUZIONE ── */
+.dist-section{
+  background:rgba(200,151,58,0.06);
+  border:1px solid rgba(200,151,58,0.2);
+  border-radius:var(--radius-sm);
+  overflow:hidden;margin-bottom:12px;
+}
+.dist-row{
+  display:flex;align-items:center;
+  padding:10px 14px;
+  border-bottom:1px solid rgba(200,151,58,0.1);
+  font-size:13px;gap:12px;
+}
+.dist-row:last-child{border-bottom:none;}
+.dist-key{color:var(--gold3);flex:1;}
+.dist-val{
+  font-family:var(--mono);font-weight:700;
+  color:var(--cream);font-size:14px;
+}
+
+/* ── SPLASH SCREEN ── */
+.sp-logo{
+  font-family:var(--serif);
+  font-size:clamp(48px,16vw,64px);
+  font-weight:900;color:var(--cream);
+  line-height:1;text-align:center;
+  letter-spacing:-1.5px;
+  text-shadow:0 0 80px rgba(200,151,58,0.25);
+}
+.sp-logo em{color:var(--gold2);font-style:italic;}
+.sp-sub{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:5px;color:var(--dim);
+  text-transform:uppercase;text-align:center;margin-top:4px;
+}
+.sp-btns{
+  display:flex;flex-direction:column;gap:10px;
+  width:100%;max-width:360px;margin-top:28px;
+}
+.sp-btn{
+  width:100%;padding:18px 20px;
+  border-radius:var(--radius-md);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  transition:transform .15s,opacity .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.sp-btn:active{opacity:0.82;transform:scale(0.97);}
+.sp-icon{font-size:32px;flex-shrink:0;}
+.sp-title{font-size:17px;font-weight:700;display:block;text-align:left;letter-spacing:-0.3px;}
+.sp-desc{font-size:11px;margin-top:3px;opacity:0.6;display:block;text-align:left;line-height:1.4;}
+.sp-calc{
+  background:linear-gradient(135deg,#1E1A10,#161209);
+  border:1.5px solid var(--gold);color:var(--cream);
+  box-shadow:0 4px 32px rgba(200,151,58,0.18),inset 0 1px 0 rgba(200,151,58,0.12);
+}
+.sp-man{
+  background:linear-gradient(135deg,#121210,#0E0E0C);
+  border:1px solid #2A2820;color:var(--cream);
+  box-shadow:0 2px 16px rgba(0,0,0,0.5);
+}
+
+/* ── MENU HOME ── */
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:14px;
+}
+.menu-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:14px 12px;
+  cursor:pointer;
+  transition:border-color .15s,background .15s;
+  -webkit-tap-highlight-color:transparent;
+  min-height:88px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.menu-item:active{background:rgba(200,151,58,0.08);border-color:var(--gold);}
+.menu-icon{font-size:26px;margin-bottom:6px;}
+.menu-name{font-size:13px;font-weight:700;color:var(--cream);letter-spacing:-0.2px;line-height:1.3;}
+.menu-sub{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-top:3px;line-height:1.4;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;
+  background:rgba(7,18,13,0.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:8px 0 calc(var(--safe-bot) + 2px);
+  z-index:200;
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;gap:3px;
+  font-family:var(--mono);font-size:9px;
+  color:var(--dim);letter-spacing:1px;
+  text-transform:uppercase;cursor:pointer;
+  border:none;background:none;
+  padding:6px 4px;
+  transition:color .15s;
+}
+.nav-btn.active{color:var(--gold2);}
+.nav-btn-icon{font-size:22px;}
+
+/* ── TAG / BADGE ── */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:100px;
+  font-family:var(--mono);font-size:9px;
+  font-weight:500;letter-spacing:1px;
+  text-transform:uppercase;
+}
+.badge-gold{background:rgba(200,151,58,0.15);color:var(--gold2);border:1px solid rgba(200,151,58,0.3);}
+.badge-green{background:rgba(93,191,160,0.12);color:var(--ok);border:1px solid rgba(93,191,160,0.3);}
+.badge-red{background:rgba(212,80,80,0.12);color:var(--bad);border:1px solid rgba(212,80,80,0.3);}
+
+/* ── T ACQUA BIG ── */
+.t-acqua-card{
+  background:rgba(26,58,138,0.12);
+  border:1.5px solid rgba(26,58,138,0.35);
+  border-radius:var(--radius-md);
+  padding:16px;
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:12px;
+}
+.t-acqua-deg{
+  font-family:var(--mono);
+  font-size:clamp(52px,16vw,72px);
+  font-weight:500;line-height:1;
+  letter-spacing:-2px;
+}
+.t-acqua-info{flex:1;}
+.t-acqua-msg{font-size:13px;font-weight:700;margin-bottom:4px;}
+.t-acqua-formula{
+  font-family:var(--mono);font-size:10px;
+  color:var(--dim);line-height:1.6;
+}
+
+/* ── PILL TABS ── */
+.pill-tabs{
+  display:flex;gap:6px;padding:12px 14px 0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.pill-tabs::-webkit-scrollbar{display:none;}
+.pill-tab{
+  padding:7px 16px;border-radius:100px;
+  font-family:var(--mono);font-size:10px;
+  font-weight:500;letter-spacing:1.5px;
+  text-transform:uppercase;cursor:pointer;
+  border:1.5px solid var(--border);
+  background:transparent;color:var(--dim);
+  white-space:nowrap;flex-shrink:0;
+  transition:all .15s;
+}
+.pill-tab.active{
+  background:var(--gold);color:#0A1A10;
+  border-color:var(--gold);font-weight:700;
+}
+
+/* ── SEZIONE ORARI ── */
+.timeline{
+  display:flex;flex-direction:column;gap:0;
+  margin-bottom:12px;
+}
+.timeline-row{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.timeline-row:last-child{border-bottom:none;}
+.timeline-time{
+  font-family:var(--mono);font-size:13px;
+  font-weight:700;color:var(--gold2);
+  min-width:48px;flex-shrink:0;
+  padding-top:1px;
+}
+.timeline-text{font-size:13px;color:var(--cream2);line-height:1.4;}
+.timeline-note{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:2px;}
+
+/* ══════════════════════════════════════════════
+   FIRMA MATTEO LA SPADA — GLOBAL SIGNATURE CSS
+   Un solo punto → si propaga su tutte le 462 card
+   ══════════════════════════════════════════════ */
+
+/* Firma su ogni page-hero */
+.page-hero::after{
+  content:'Matteo La Spada';
+  display:block;
+  font-family:var(--serif);
+  font-size:10px;font-style:italic;
+  color:var(--dim);letter-spacing:0.5px;
+  margin-top:10px;opacity:0.55;
+}
+
+/* Firma MLS discreta su ogni card-hdr */
+.card-hdr::after{
+  content:'MLS';
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:3px;
+  color:var(--dim2);flex-shrink:0;opacity:0.45;
+}
+
+/* Linea oro in cima ad ogni card */
+.card{border-top:2px solid rgba(200,151,58,0.28);}
+
+/* Separatore oro a sinistra dei label sezione */
+.res-label{border-left:3px solid var(--gold);padding-left:10px;}
+
+/* Linea decorativa gold in cima a ogni page */
+.page-hero::before{
+  content:'';
+  display:block;
+  height:2px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 40%,var(--gold2) 60%,transparent 100%);
+  opacity:0.35;
+  margin-bottom:16px;
+  border-radius:2px;
+}
+
+/* Firma splash screen in fondo */
+#splash::after{
+  content:'Orso · Scirocco · Crocco — Messina';
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim);text-align:center;
+  position:absolute;bottom:calc(var(--safe-bot) + 20px);
+  left:0;right:0;
+}
+#splash{position:relative;}
+
+/* Dot timeline */
+.timeline-row::before{
+  content:'';width:6px;height:6px;
+  border-radius:50%;background:var(--gold);
+  flex-shrink:0;margin-top:5px;
+  box-shadow:0 0 0 3px rgba(200,151,58,0.15);
+}
+
+/* Glow su input focus */
+.inp-field:focus{box-shadow:0 0 0 3px rgba(200,151,58,0.14);}
+
+/* Pan hero con firma */
+.pan-hero{
+  background:linear-gradient(135deg,rgba(200,151,58,0.1),rgba(200,151,58,0.03));
+  border:2px solid rgba(200,151,58,0.3);
+  border-radius:var(--radius-lg);
+  padding:20px 16px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.pan-hero::after{
+  content:'Matteo La Spada';
+  position:absolute;bottom:8px;right:12px;
+  font-family:var(--serif);font-size:9px;font-style:italic;
+  color:var(--dim);opacity:0.4;
+}
+.pan-hero-n{
+  font-family:var(--mono);
+  font-size:clamp(64px,20vw,88px);
+  font-weight:500;line-height:1;letter-spacing:-3px;
+  color:var(--gold2);
+}
+.pan-hero-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:8px;
+}
+.pan-hero-sub{font-size:12px;color:var(--cream2);margin-top:6px;}
+
+/* Badge scientifico */
+.badge-sci{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:100px;
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;
+  background:rgba(200,151,58,0.08);color:var(--gold);
+  border:1px solid rgba(200,151,58,0.2);
+}
+
+/* Active dot bottom nav */
+.nav-btn.active::before{
+  content:'';display:block;
+  width:20px;height:2px;
+  background:var(--gold2);border-radius:2px;
+  margin:0 auto 2px;
+}
+
+
 .btn-share{
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:calc(100% - 32px);margin:0 16px 20px;
@@ -1348,6 +1838,13 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
         <div style="font-size:9px;color:#8BB4E0;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">💧 IDR %</div>
         <div style="display:flex;align-items:center;gap:6px">
           <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(139,180,224,0.3);border-radius:10px;color:#8BB4E0;font-size:22px;font-weight:700;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_idr" type="number" value="74" min="65" max="85" step="0.5" oninput="calcPaneOrso()">
+          <span style="font-size:12px;color:#7A8A6A">%</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#8BB4E0;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">🫧 Autolisi %</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input style="flex:1;background:rgba(0,0,0,0.4);border:1.5px solid rgba(139,180,224,0.3);border-radius:10px;color:#8BB4E0;font-size:22px;font-weight:700;padding:10px 12px;outline:none;-webkit-appearance:none;width:100%" id="po_aut" type="number" value="65" min="50" max="90" step="5" oninput="calcPaneOrso()">
           <span style="font-size:12px;color:#7A8A6A">%</span>
         </div>
       </div>
@@ -10075,6 +10572,7 @@ function calcPaneOrso(){
   var oraI   = parseFloat((document.getElementById('po_ora')||{value:9}).value)||9;
   var saleP  = parseFloat((document.getElementById('po_sale')||{value:2.5}).value)||2.5;
   var idrP   = parseFloat((document.getElementById('po_idr')||{value:74}).value)||74;
+  var autP   = parseFloat((document.getElementById('po_aut')||{value:65}).value)||65;
   var semiP  = Math.min(15,Math.max(0,parseFloat((document.getElementById('po_semi')||{value:5}).value)||5));
   var maisP  = Math.min(15,Math.max(0,parseFloat((document.getElementById('po_mais')||{value:5}).value)||5));
   var out    = document.getElementById('paneOrsoOut');
@@ -10108,7 +10606,7 @@ function calcPaneOrso(){
   var licAcq  = R0(licoli * 0.5);
   var acqTot  = R5(farTot * idrP/100);
   var acqEsmach = acqTot - licAcq;
-  var acqAut  = R0(acqEsmach * 0.65);
+  var acqAut  = R0(acqEsmach * autP/100);
   var acqBass = acqEsmach - acqAut;
   var sale    = R5(farTot * saleP/100);
   var pesoImp = farTot + acqTot + sale;
@@ -10208,7 +10706,7 @@ function calcPaneOrso(){
     +'</div>'
     +'<div style="font-size:11px;color:#7A8A6A;line-height:2.2">'
     +'<span style="color:#8BB4E0">→ ESMACH versi totale</span>: <strong style="color:#F0E6D0">'+(acqEsmach/1000).toFixed(3)+'kg</strong><br>'
-    +'<span style="padding-left:12px">① Autolisi 65%: <strong style="color:#F0CC5A">'+(acqAut/1000).toFixed(3)+'kg</strong> · 30min senza licoli</span><br>'
+    +'<span style="padding-left:12px">① Autolisi '+autP+'%: <strong style="color:#F0CC5A">'+(acqAut/1000).toFixed(3)+'kg</strong> · 30min senza licoli</span><br>'
     +'<span style="padding-left:12px">② Bassinage: <strong style="color:#F0CC5A">'+(acqBass/1000).toFixed(3)+'kg</strong> a 4°C a filo</span>'
     +'</div></div>';
 
@@ -10230,7 +10728,7 @@ function calcPaneOrso(){
   h += '<div style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:10px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#7A8A6A;text-transform:uppercase;margin-bottom:10px">📋 Procedimento · pieghe · cottura</div>'
     +'<div style="font-size:11px;color:#7A8A6A;line-height:2.4">'
-    +'<span style="color:#F0CC5A">'+Hh(oraI)+'</span> Autolisi: farine + '+(acqAut/1000).toFixed(3)+'kg acqua · <strong style="color:#F0E6D0">30min SENZA licoli</strong><br>'
+    +'<span style="color:#F0CC5A">'+Hh(oraI)+'</span> Autolisi: farine + <strong style="color:#F0E6D0">'+(acqAut/1000).toFixed(3)+'kg</strong> acqua ('+autP+'%) · <strong style="color:#F0E6D0">30min SENZA licoli</strong><br>'
     +'<span style="color:#F0CC5A">'+Hh(oraI+0.5)+'</span> Aggiungi licoli '+(licoli/1000).toFixed(3)+'kg · vel.1 · 5min<br>'
     +'<span style="color:#F0CC5A">'+Hh(oraI+0.67)+'</span> Bassinage '+(acqBass/1000).toFixed(3)+'kg H₂O <strong style="color:#BBDEFB">4°C</strong> a filo lentissimo<br>'
     +'<span style="color:#F0CC5A">'+Hh(oraI+0.92)+'</span> Sale '+sale+'g · vel.2 fino a incordatura · T uscita <strong style="color:#F0E6D0">25°C</strong><br>'
