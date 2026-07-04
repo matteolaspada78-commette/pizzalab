@@ -10747,13 +10747,86 @@ function calcPaneOrso(){
     +'</div></div>';
 
   // CHIAVE ALVEOLI
-  h += '<div style="background:rgba(229,57,53,0.08);border:1.5px solid rgba(229,57,53,0.3);border-radius:10px;padding:12px">'
+  h += '<div style="background:rgba(229,57,53,0.08);border:1.5px solid rgba(229,57,53,0.3);border-radius:10px;padding:12px;margin-bottom:10px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#FFCDD2;text-transform:uppercase;margin-bottom:8px">🔑 Le 3 regole degli alveoli</div>'
     +'<div style="font-size:11px;color:#7A8A6A;line-height:2">'
     +'<strong style="color:#FFCDD2">1. Non sgasare mai</strong> — la spatola in formatura è obbligatoria<br>'
     +'<strong style="color:#FFCDD2">2. Freddo diretto al forno</strong> — dalla cella al forno senza attendere · lo shock termico apre gli alveoli<br>'
     +'<strong style="color:#FFCDD2">3. Vapore violento</strong> — i primi 15 minuti determinano l\'apertura · senza vapore la crosta si chiude prima'
     +'</div></div>';
+
+  // COTTURA FORNO DAVIDE
+  h += '<div style="background:rgba(229,57,53,0.06);border:2px solid rgba(229,57,53,0.35);border-radius:14px;overflow:hidden">'
+
+    // Header
+    +'<div style="background:rgba(229,57,53,0.12);padding:12px 14px;border-bottom:1px solid rgba(229,57,53,0.2)">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2.5px;color:#FFCDD2;text-transform:uppercase">🔥 Cottura · Forno David · 35 min totali</div>'
+    +'</div>'
+
+    // PRERISCALDAMENTO
+    +'<div style="padding:12px 14px;border-bottom:1px solid rgba(229,57,53,0.15)">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#7A8A6A;text-transform:uppercase;margin-bottom:10px">① Preriscaldamento</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;text-align:center">'
+    +'<div style="font-size:8px;color:#7A8A6A;margin-bottom:3px;font-family:DM Mono,monospace">Cielo</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:#FFCDD2">2</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;text-align:center">'
+    +'<div style="font-size:8px;color:#7A8A6A;margin-bottom:3px;font-family:DM Mono,monospace">Front</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:#FFCDD2">6</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;text-align:center">'
+    +'<div style="font-size:8px;color:#7A8A6A;margin-bottom:3px;font-family:DM Mono,monospace">Suolo</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:#FFCDD2">1</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:10px;color:#7A8A6A;background:rgba(0,0,0,0.15);border-radius:6px;padding:6px 10px">'
+    +'Ultimo forno: Cielo 2 · Front <strong style="color:#FFCDD2">7</strong> · Suolo 1'
+    +'</div>'
+    +'</div>'
+
+    // FASE 1 — 20 MIN
+    +'<div style="padding:12px 14px;border-bottom:1px solid rgba(229,57,53,0.15)">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#7A8A6A;text-transform:uppercase">② Inforna + vapore</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#FFCDD2">20 min</div>'
+    +'</div>'
+    +'<div style="font-size:12px;color:#D8CEBC;line-height:2.2">'
+    +'Inforna il pane <strong style="color:#F5EFE3">direttamente dalla cella</strong><br>'
+    +'Spruzza acqua sulla <strong style="color:#F5EFE3">parete lontana dalla sonda</strong> → vapore<br>'
+    +'Impostazione preriscaldamento · <strong style="color:#FFCDD2">Forni 1+2: 200°C · Forno 3: 205°C</strong><br>'
+    +'Cuoci per <strong style="color:#FFCDD2">20 minuti</strong>'
+    +'</div>'
+    +'</div>'
+
+    // FASE 2 — APERTURA + 15 MIN
+    +'<div style="padding:12px 14px">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#7A8A6A;text-transform:uppercase">③ Apertura + finale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#FFCDD2">15 min</div>'
+    +'</div>'
+    +'<div style="font-size:12px;color:#D8CEBC;line-height:2.4">'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace;font-weight:700">1.</span> Apri le <strong style="color:#F5EFE3">3 camere</strong> → esce il vapore<br>'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace;font-weight:700">2.</span> Chiudi le <strong style="color:#F5EFE3">3 camere</strong><br>'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace;font-weight:700">3.</span> Apri le <strong style="color:#F5EFE3">3 valvole</strong><br>'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace;font-weight:700">4.</span> Cuoci altri <strong style="color:#FFCDD2">15 minuti</strong>'
+    +'</div>'
+    +'<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+    +'<div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.2);border-radius:8px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:#7A8A6A;margin-bottom:2px;font-family:DM Mono,monospace">Totale cottura</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:#F0CC5A">35 min</div>'
+    +'</div>'
+    +'<div style="background:rgba(229,57,53,0.08);border:1px solid rgba(229,57,53,0.2);border-radius:8px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:#7A8A6A;margin-bottom:2px;font-family:DM Mono,monospace">T cuore</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:#FFCDD2">96-98°C</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="margin-top:10px;background:rgba(200,151,58,0.06);border:1px solid rgba(200,151,58,0.2);border-radius:8px;padding:8px;font-family:DM Mono,monospace;font-size:9px;color:var(--dim);text-align:center;letter-spacing:1px">'
+    +'Matteo La Spada · Protocollo Forno David'
+    +'</div>'
+    +'</div>'
+
+    +'</div>';
 
   out.innerHTML = h;
 }
