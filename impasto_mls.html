@@ -501,7 +501,7 @@
           <div class="inp-row"><input class="inp" id="licP" type="number" inputmode="decimal" value="7" oninput="calcBiga()"><span class="inp-unit">%</span></div>
         </div>
         <div class="inp-grp">
-          <div class="inp-lbl">LdB % (su tot)</div>
+          <div class="inp-lbl">LdB % (su rinfresco)</div>
           <div class="inp-row"><input class="inp" id="ldbP" type="number" inputmode="decimal" value="0" step="0.05" oninput="calcBiga()"><span class="inp-unit">%</span></div>
         </div>
       </div>
@@ -535,8 +535,16 @@
 
   <!-- GN 1/1 PARAMETRI -->
   <div class="sez sez--gn">
-    <div class="sez-hdr"><span class="sez-hdr-dot"></span>📦 Vasconi GN 1/1</div>
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>📦 Vasconi GN</div>
     <div class="sez-body">
+      <div class="inp-lbl" style="margin-bottom:8px">📐 Formato vascone</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+        <button class="pill on" onclick="setGnFormat('B','11',this)" data-gn="11">GN 1/1</button>
+        <button class="pill" onclick="setGnFormat('B','12',this)" data-gn="12">GN 1/2</button>
+        <button class="pill" onclick="setGnFormat('B','13',this)" data-gn="13">GN 1/3</button>
+        <button class="pill" onclick="setGnFormat('B','14',this)" data-gn="14">GN 1/4</button>
+      </div>
+      <div id="gnInfoB" style="font-family:DM Mono,monospace;font-size:9px;color:var(--blue-light);margin-bottom:12px;text-align:center">530×325mm · A=0.1723m²</div>
       <div class="g2">
         <div class="inp-grp">
           <div class="inp-lbl">T uscita impasto</div>
@@ -547,7 +555,22 @@
           <div class="inp-row"><input class="inp" id="tFrigoB" type="number" inputmode="decimal" value="4" step="1" oninput="calcBiga()"><span class="inp-unit">°C</span></div>
         </div>
       </div>
-      <div class="inp-lbl" style="margin-top:14px;margin-bottom:6px">⚖️ Kg per vascone — decidi tu (lascia vuoto per calcolo automatico)</div>
+      <div class="inp-lbl" style="margin-top:14px;margin-bottom:6px">⏰ Orari — per calcolo scientifico GN</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+        <div class="inp-grp">
+          <div class="inp-lbl">Fine impasto</div>
+          <div class="inp-row"><input class="inp" id="oraFineB" type="number" inputmode="decimal" value="9" min="0" max="23" step="0.5" oninput="calcBiga()" style="font-size:18px"><span class="inp-unit">h</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Staglio</div>
+          <div class="inp-row"><input class="inp" id="oraStaglioB" type="number" inputmode="decimal" value="15.5" min="0" max="23" step="0.5" oninput="calcBiga()" style="font-size:18px"><span class="inp-unit">h</span></div>
+        </div>
+        <div class="inp-grp">
+          <div class="inp-lbl">Inforno</div>
+          <div class="inp-row"><input class="inp" id="oraFornoB" type="number" inputmode="decimal" value="19.5" min="0" max="23" step="0.5" oninput="calcBiga()" style="font-size:18px"><span class="inp-unit">h</span></div>
+        </div>
+      </div>
+      <div class="inp-lbl" style="margin-bottom:6px">⚖️ Kg per vascone — lascia vuoto per calcolo automatico</div>
       <div class="inp-row">
         <input class="inp" id="kgVasconeB" type="number" inputmode="decimal" placeholder="es. 7" step="0.5" oninput="calcBiga()" style="color:var(--gold2)">
         <span class="inp-unit">kg</span>
@@ -687,8 +710,16 @@
 
   <!-- GN 1/1 PARAMETRI DIRETTO -->
   <div class="sez sez--gn">
-    <div class="sez-hdr"><span class="sez-hdr-dot"></span>📦 Vasconi GN 1/1</div>
+    <div class="sez-hdr"><span class="sez-hdr-dot"></span>📦 Vasconi GN</div>
     <div class="sez-body">
+      <div class="inp-lbl" style="margin-bottom:8px">📐 Formato vascone</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+        <button class="pill on" onclick="setGnFormat('D','11',this)" data-gn="11">GN 1/1</button>
+        <button class="pill" onclick="setGnFormat('D','12',this)" data-gn="12">GN 1/2</button>
+        <button class="pill" onclick="setGnFormat('D','13',this)" data-gn="13">GN 1/3</button>
+        <button class="pill" onclick="setGnFormat('D','14',this)" data-gn="14">GN 1/4</button>
+      </div>
+      <div id="gnInfoD" style="font-family:DM Mono,monospace;font-size:9px;color:var(--blue-light);margin-bottom:12px;text-align:center">530×325mm · A=0.1723m²</div>
       <div class="g2">
         <div class="inp-grp">
           <div class="inp-lbl">T uscita impasto</div>
@@ -792,64 +823,89 @@ function cell(lbl,val,col,sub){
 function tAcqColor(t){return t<2?'#BBDEFB':t<=18?'#A5D6A7':t<=24?'#F0CC5A':'#F0A0A0';}
 function tAcqMsg(t){return t<2?'🧊 Ghiacciata':t<=8?'❄️ Molto fredda':t<=18?'✅ Fredda · perfetta':t<=24?'✅ Ok':'⚠️ Tiepida';}
 
-// ── CALCOLO GN 1/1 — Newton's law of cooling (Cauvain 2015) ──
-function calcMaxKgGN(tUscita, tFrigo){
-  var h_conv=10, A=0.1723, c=3500;
-  var maxKg = 3;
-  for(var kg=3; kg<=14; kg++){
-    var k = h_conv*A/(kg*c);
-    var T2h = tFrigo + (tUscita-tFrigo)*Math.exp(-k*7200);
-    if(T2h <= 15){ maxKg = kg; } else { break; }
-  }
-  var k_opt = h_conv*A/(maxKg*c);
-  var T2h_opt = Math.round((tFrigo + (tUscita-tFrigo)*Math.exp(-k_opt*7200))*10)/10;
-  return {maxKg:maxKg, T2h:T2h_opt};
+// ── FORMATI GN — superfici base mm² → m² ──
+var GN_FORMATS = {
+  '11': {label:'GN 1/1', dim:'530×325mm', A:0.530*0.325},
+  '12': {label:'GN 1/2', dim:'325×265mm', A:0.325*0.265},
+  '13': {label:'GN 1/3', dim:'325×176mm', A:0.325*0.176},
+  '14': {label:'GN 1/4', dim:'265×162mm', A:0.265*0.162},
+};
+var _gnFormatB = '11';
+var _gnFormatD = '11';
+
+function setGnFormat(prefix, fmt, btn){
+  if(prefix==='B') _gnFormatB=fmt; else _gnFormatD=fmt;
+  var container = btn.closest('.sez-body');
+  if(container) container.querySelectorAll('.pill[data-gn]').forEach(function(p){
+    p.classList.toggle('on', p.getAttribute('data-gn')===fmt);
+  });
+  var info = document.getElementById('gnInfo'+prefix);
+  var f = GN_FORMATS[fmt];
+  if(info && f) info.textContent = f.dim+' · A='+f.A.toFixed(4)+'m²';
+  if(prefix==='B') calcBiga(); else calcDiretto();
 }
 
-function renderGN(pesoImpastoG, tUscita, tFrigo, prefix){
-  var pesoKg = pesoImpastoG/1000;
-  var r = calcMaxKgGN(tUscita, tFrigo);
-  var maxKgScientifico = r.maxKg;
-
-  // Legge il kg manuale scelto dall'utente, se presente
-  var kgManualeField = document.getElementById('kgVascone'+(prefix==='b'?'B':'D'));
-  var kgManuale = kgManualeField ? parseFloat(kgManualeField.value) : NaN;
-  var usaManuale = !isNaN(kgManuale) && kgManuale > 0;
-
-  var kgScelto = usaManuale ? kgManuale : maxKgScientifico;
-  var nVasconi = Math.ceil(pesoKg / kgScelto);
-  var kgPerVascone = Math.round((pesoKg / nVasconi) * 100) / 100;
-
-  // T cuore dopo 2h con il kg effettivamente scelto (per il vascone pieno)
-  var h_conv=10, A=0.1723, c=3500;
-  var k_scelto = h_conv*A/(kgPerVascone*c);
-  var T2h_scelto = Math.round((tFrigo + (tUscita-tFrigo)*Math.exp(-k_scelto*7200))*10)/10;
-
-  document.getElementById(prefix+'GnKg').textContent = nVasconi;
-  document.getElementById(prefix+'GnMsg').textContent = nVasconi+' vasconi GN 1/1';
-  document.getElementById(prefix+'GnSub').innerHTML =
-    (usaManuale ? 'Tu hai scelto '+kgManuale+'kg/GN' : 'Calcolo automatico: max '+maxKgScientifico+'kg/GN')
-    +' con T uscita '+tUscita+'°C · T cuore dopo 2h: '+T2h_scelto+'°C';
-
-  var listHtml = '';
-  var rimanente = pesoKg;
-  for(var i=1; i<=nVasconi; i++){
-    var kgQuesto = i===nVasconi ? Math.round(rimanente*100)/100 : kgPerVascone;
-    rimanente -= kgQuesto;
-    listHtml += '<div class="gn-row">'
-      +'<div><div class="gn-row-lbl">Vascone GN '+i+'</div>'
-      +'<div class="gn-row-sub">distribuisci uniformemente</div></div>'
-      +'<div class="gn-row-val">'+kgQuesto+'kg</div>'
-      +'</div>';
+// ── CALCOLO GN — Newton's law of cooling (Cauvain 2015) ──
+function calcMaxKgGN(tUscita, tFrigo, A){
+  var h_conv=10,c=3500,maxKg=1;
+  var Aeff = A || 0.1723;
+  for(var kg=1;kg<=20;kg++){
+    var k=h_conv*Aeff/(kg*c);
+    if(tFrigo+(tUscita-tFrigo)*Math.exp(-k*7200)<=15){maxKg=kg;}else{break;}
   }
-  document.getElementById(prefix+'GnList').innerHTML = listHtml;
+  var k=h_conv*Aeff/(maxKg*c);
+  return {maxKg:maxKg, T2h:Math.round((tFrigo+(tUscita-tFrigo)*Math.exp(-k*7200))*10)/10};
+}
 
-  var noteEl = document.getElementById(prefix+'GnNote');
-  if(T2h_scelto > 15.5){
-    noteEl.innerHTML = '<div class="gn-warn">⚠️ Con '+kgPerVascone+'kg per vascone il cuore dell\'impasto rimane a '+T2h_scelto+'°C dopo 2h in frigo (limite scientifico consigliato: 15°C). Con T uscita '+tUscita+'°C il massimo raccomandato è '+maxKgScientifico+'kg/GN. La fermentazione al cuore potrebbe non essere abbastanza rallentata → rischio sovrafermentazione localizzata.</div>';
-  } else {
-    noteEl.innerHTML = '<div class="gn-ok">✅ Distribuzione corretta — il cuore dell\'impasto raggiunge '+T2h_scelto+'°C dopo 2h in frigo, fermentazione sotto controllo per tutta la puntata.</div>';
-  }
+function tCuoreAt(kg, tUsc, tFrigo, hh, A){
+  var Aeff = A || 0.1723;
+  var k=10*Aeff/(kg*3500);
+  return Math.round((tFrigo+(tUsc-tFrigo)*Math.exp(-k*hh*3600))*10)/10;
+}
+
+function renderGN(pesoImpastoG, tUscita, tFrigo, prefix, oraFine, oraStaglio, oraForno){
+  var fmt  = prefix==='b' ? _gnFormatB : _gnFormatD;
+  var fmtData = GN_FORMATS[fmt] || GN_FORMATS['11'];
+  var A    = fmtData.A;
+  var pesoKg=pesoImpastoG/1000;
+  var r=calcMaxKgGN(tUscita,tFrigo,A);
+  var maxKgSci=r.maxKg;
+  var hFine=oraFine||10; var hStaglio=oraStaglio||15.5; var hForno=oraForno||19.5;
+  var hPuntata=hStaglio>hFine?hStaglio-hFine:24-hFine+hStaglio;
+  var hAppretto=hForno>hStaglio?hForno-hStaglio:24-hStaglio+hForno;
+  var kgMF=document.getElementById('kgVascone'+(prefix==='b'?'B':'D'));
+  var kgMan=kgMF?parseFloat(kgMF.value):NaN;
+  var usaMan=!isNaN(kgMan)&&kgMan>0;
+  var kgScelto=usaMan?kgMan:maxKgSci;
+  var nVas=Math.ceil(pesoKg/kgScelto);
+  var kgPV=Math.round((pesoKg/nVas)*100)/100;
+  var T1h=tCuoreAt(kgPV,tUscita,tFrigo,1,A);
+  var T2h=tCuoreAt(kgPV,tUscita,tFrigo,2,A);
+  var Tpunt=tCuoreAt(kgPV,tUscita,tFrigo,hPuntata,A);
+  var gnOk=T2h<=15; var gnWarn=T2h>15&&T2h<=17;
+  var gnCol=gnOk?'#A5D6A7':gnWarn?'#FFE082':'#FFCDD2';
+  var gnMsg=gnOk?'✅ Fermentazione controllata':gnWarn?'⚠️ Borderline — aggiungi un vascone':'❌ Troppo caldo — fermentazione accelera';
+  var puntCol=hPuntata>=4&&hPuntata<=7?'#A5D6A7':'#FFE082';
+  var puntMsg=hPuntata>=4&&hPuntata<=7?'✅ Ottimale':hPuntata<4?'⚠️ Corta':'⚠️ Lunga';
+  document.getElementById(prefix+'GnKg').textContent=nVas;
+  document.getElementById(prefix+'GnMsg').textContent=nVas+' vasconi '+fmtData.label;
+  document.getElementById(prefix+'GnSub').innerHTML=(usaMan?'Tu: '+kgMan+'kg/'+fmtData.label:'Auto: max '+maxKgSci+'kg/'+fmtData.label)+' · T cuore 2h: <strong style="color:'+gnCol+'">'+T2h+'°C</strong>';
+  var lh='';var rim=pesoKg;
+  for(var i=1;i<=nVas;i++){var kgQ=i===nVas?Math.round(rim*100)/100:kgPV;rim-=kgQ;
+    lh+='<div class="gn-row"><div><div class="gn-row-lbl">GN '+i+'</div><div class="gn-row-sub">distribuisci uniformemente</div></div><div class="gn-row-val">'+kgQ+'kg</div></div>';}
+  document.getElementById(prefix+'GnList').innerHTML=lh;
+  document.getElementById(prefix+'GnNote').innerHTML=
+    '<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-top:8px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B6860;margin-bottom:8px">🌡️ T cuore · Cauvain 2015</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;text-align:center"><div style="font-size:8px;color:#6B6860;margin-bottom:2px;font-family:DM Mono,monospace">1h</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#F2EDE4">'+T1h+'°</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border:1.5px solid '+gnCol+'50;border-radius:8px;padding:8px;text-align:center"><div style="font-size:8px;color:#6B6860;margin-bottom:2px;font-family:DM Mono,monospace">2h</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:'+gnCol+'">'+T2h+'°</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;text-align:center"><div style="font-size:8px;color:#6B6860;margin-bottom:2px;font-family:DM Mono,monospace">Staglio</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#F2EDE4">'+Tpunt+'°</div></div>'
+    +'</div><div style="font-size:10px;color:'+gnCol+';font-weight:600;margin-bottom:8px">'+gnMsg+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'
+    +'<div style="background:rgba(0,0,0,0.15);border:1px solid '+puntCol+'40;border-radius:8px;padding:8px;text-align:center"><div style="font-size:8px;color:#6B6860;margin-bottom:2px;font-family:DM Mono,monospace">Puntata</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:'+puntCol+'">'+hPuntata.toFixed(1)+'h</div><div style="font-size:9px;color:'+puntCol+'">'+puntMsg+'</div></div>'
+    +'<div style="background:rgba(0,0,0,0.15);border-radius:8px;padding:8px;text-align:center"><div style="font-size:8px;color:#6B6860;margin-bottom:2px;font-family:DM Mono,monospace">Appretto</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#F2EDE4">'+hAppretto.toFixed(1)+'h</div><div style="font-size:9px;color:#6B6860">staglio → forno</div></div>'
+    +'</div></div>';
 }
 
 // ── TABS ──
@@ -908,7 +964,7 @@ function calcBiga(){
   var acqR   = acqTot - acqB;
   var licG   = Math.round(kgR*lic/100*1000);
   var licAcq = Math.round(licG*0.5);
-  var ldbG   = ldb>0 ? R(kgTot*ldb/100*1000,1) : 0;
+  var ldbG   = ldb>0 ? R(kgR*ldb/100*1000,1) : 0;  // LdB sul rinfresco
   var acqAdd = acqR - licAcq;
   var acqF1  = Math.round(acqAdd*f1/100);
   var acqBss = Math.max(0,acqAdd-acqF1);
@@ -963,7 +1019,10 @@ function calcBiga(){
   document.getElementById('bGridSale').innerHTML = sc;
 
   // GN 1/1
-  renderGN(pesoImp, tUsc, tFrigo, 'b');
+  var oraFineB   = v('oraFineB',10);
+  var oraStaglioB= v('oraStaglioB',15.5);
+  var oraFornoB  = v('oraFornoB',19.5);
+  renderGN(pesoImp, tUsc, tFrigo, 'b', oraFineB, oraStaglioB, oraFornoB);
 }
 
 // ── CALC DIRETTO ──
