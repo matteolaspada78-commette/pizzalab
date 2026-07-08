@@ -1200,8 +1200,8 @@ function pv_tog(id){var c=pvG(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pv_CFG={
-  napo:  {idr:70,bigaPct:30,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
-  teglia:{idr:78,bigaPct:50,idrB:0.45,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
+  napo:  {idr:70,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  teglia:{idr:78,bigaPct:50,idrB:0.47,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
 
@@ -3570,6 +3570,24 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
     </div>
 
+    <!-- RIPOSO 35 MINUTI — PROTOCOLLO CELLA DIRETTA -->
+    <div style="background:rgba(200,151,58,0.08);border:2px solid rgba(200,151,58,0.35);border-radius:10px;padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:#F0CC5A;margin-bottom:8px">🕐 PROTOCOLLO CELLA DIRETTA — Riposo 35 min obbligatorio · Gänzle 2012</div>
+      <div style="font-size:10px;color:#7A8A6A;line-height:1.9">
+        Con puntata e appretto entrambi a 4°C, la fermentazione reale avviene quasi esclusivamente<br>
+        nelle prime ore prima che il cuore dell'impasto raggiunga i 4°C.<br><br>
+        <strong style="color:var(--cream)">Lascia riposare l'impasto nei GN 1/1 per 35 minuti a T ambiente prima di entrare in cella.</strong><br><br>
+        Quei 35 minuti a 23°C valgono scientificamente più di 3h a 4°C per lo sviluppo degli alveoli.<br>
+        In questo tempo i lieviti e i LAB si attivano nella fase più calda formando la struttura gassosa<br>
+        che poi il freddo conserva intatta per tutto il resto della fermentazione.<br><br>
+        <strong style="color:#F0CC5A">Processo corretto:</strong><br>
+        09:00 Fine impasto → <strong style="color:#FFCDD2">35 min T ambiente</strong> → 09:35 Cella 4°C → 15:30 Staglio → Cella 4°C diretta → 19:30 Forno<br><br>
+        <strong style="color:#A5D6A7">Dopo lo staglio: cella 4°C immediata ✅</strong><br>
+        La pallina è già strutturata dalla puntata. L'appretto freddo la mantiene integra<br>
+        e facilita la stesura — pallina fredda non strappa.
+      </div>
+    </div>
+
     <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px">
       <div style="font-size:10px;color:#7A8A6A;margin-bottom:8px">T acqua autolisi per T ambiente · DDT 23°C · K=7.8 Esmach (Suas 2009)</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
@@ -4197,7 +4215,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="sIDR" type="number" value="67" min="55" max="85" step="0.5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="sSale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Licoli % (sul rinfresco)</label><div class="inp-row"><input class="inp-field" id="sLic" type="number" value="7" min="0" max="30" step="1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.3" min="0.05" max="1" step="0.05" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.25" min="0.05" max="1" step="0.05" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5063 Special nel rinfresco</label><div class="inp-row"><input class="inp-field" id="sB63" type="number" value="100" min="0" max="100" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">% 5078 nel rinfresco (resto = 0102HP)</label><div class="inp-row"><input class="inp-field" id="sB78" type="number" value="0" min="0" max="100" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Biga G1 (es. 20)</label><div class="inp-row"><input class="inp-field" id="sOB" type="number" value="20" min="0" max="23" step="1" oninput="calcSuprema()"><span class="inp-unit">:00</span></div></div>
@@ -5199,7 +5217,7 @@ Enzimi attivi: proteasi + amilasi + lipasi (germogliazione)</div>
     <div style="margin-top:12px">
       <span class="pill pill-gold">Biga 100%</span>
       <span class="pill pill-gold">50% sulla farina totale</span>
-      <span class="pill pill-green">IDR biga 45%</span>
+      <span class="pill pill-green">IDR biga 47%</span>
       <span class="pill pill-gold">T cella 4°C 20-24h</span>
     </div>
   </div>
@@ -7540,7 +7558,7 @@ function calcSuprema(){
   const licFar = R(licG * 0.5, 0);
 
   // ACQUA
-  const acqBiga = R(kgBiga * 0.45 * 1000, 0);
+  const acqBiga = R(kgBiga * 0.47 * 1000, 0);  // IDR biga 47% — ottimale con cella diretta 4°C
   const acqTot  = R(kgTot * idr/100 * 1000, 0);
   const aa      = acqTot - acqBiga - licAcq;  // acqua da versare nell'Esmach
   const ldbG = R(kgBiga * ldbP/100 * 1000, 1);
@@ -8136,7 +8154,7 @@ function calcPalaBiga(){
   const kgBiga = kgB;
   const kg5078biga = R(kgBiga * 0.70, 3);
   const kg0102biga = R(kgBiga * 0.30, 3);
-  const acqBiga = R(kgBiga * 0.45 * 1000, 0);
+  const acqBiga = R(kgBiga * 0.47 * 1000, 0);  // IDR biga 47% — ottimale con cella diretta 4°C
   const ldbBiga = R(kgBiga * ldbP/100 * 1000, 1);
 
   // ── RINFRESCO (kg liberi) ──
@@ -8246,7 +8264,7 @@ function calcTegliaPF(){
 
   // BIGA: 100% HP 0102 (scientificamente ottimale)
   const kg0102b=R(kgB,3);
-  const acqBiga=R(kgB*0.45*1000,0); // IDR biga 45%
+  const acqBiga=R(kgB*0.45*1000,0); // IDR biga 47%
   const ldbBiga=R(kgB*ldbP/100*1000,2);
 
   // RINFRESCO: 70% 5078 + 30% 0102HP
@@ -8298,7 +8316,7 @@ function calcTegliaPF(){
     // ── G1: BIGA ──
     '<div class="res-section">'+
     '<div class="res-label">🧱 G1 — Biga '+kgB+'kg · ore '+H(oi)+'</div>'+
-    row('Petra HP 0102 (100% biga)',R(kgB*1000,0)+'g','W320-340 · proteasi germogliate · IDR biga 45%')+
+    row('Petra HP 0102 (100% biga)',R(kgB*1000,0)+'g','W320-340 · proteasi germogliate · IDR biga 47%')+
     row('Acqua biga',acqBiga+'g','fredda 4°C — max 6°C')+
     row('LdB biga ('+ldbP+'%)',ldbBiga+'g','sciogliere in acqua fredda')+
     row('TOTALE BIGA',R(kgB*1000+acqBiga+ldbBiga,0)+'g','→ cella 4°C per 18-24h',true)+
@@ -8336,7 +8354,7 @@ function calcTegliaPF(){
 
     // ── TIMELINE G1→G2→G3 ──
     tl([
-      [H(oi)+' G1','BIGA IN CELLA 4°C',R(kgB*1000,0)+'g 0102HP | LdB '+ldbBiga+'g | IDR biga 45%'],
+      [H(oi)+' G1','BIGA IN CELLA 4°C',R(kgB*1000,0)+'g 0102HP | LdB '+ldbBiga+'g | IDR biga 47%'],
       ['18-24h','MATURAZIONE BIGA','pH target 5.2-5.6 · G-prime scende da 4800 a ~3900 Pa'],
       [H(or_)+' G2','RINFRESCO + IMPASTO','5078 '+R(kg5078r*1000,0)+'g + 0102HP '+R(kg0102r*1000,0)+'g · T uscita 22-24°C'],
       [H(or_+0.3)+' G2','BASSINAGE '+bass+'g','a filo · IDR finale '+idr+'%'],
@@ -8792,7 +8810,7 @@ function calcLdbPct(hPuntata, T, licP, usaLdb, phBiga){
 //
 // MODELLO pH BIGA (Hamad & Fields 1979 adattato):
 //   dpH/dt = −k_pH × Q10^((T−22)/10)
-//   k_pH = 0.11 pH/h per IDR biga 45% a 22°C (calibrato su Petra 0102HP)
+//   k_pH = 0.11 pH/h per IDR biga 47% a 22°C (calibrato su Petra 0102HP)
 //   k_pH = 0.095 pH/h per teglia (IDR 45%, blend con 5078 — fermenta + lento)
 //
 // MODELLO LIEVITANTE (Gänzle 2012 Gompertz semplificato):
@@ -10271,7 +10289,7 @@ function calcDDT(){
 
 // ══════════════════════════════════════════════
 // TONDA ROMANA CROCCANTE CON BIGA 50%
-// Biga: 50% 0102HP W330 · IDR biga 45%
+// Biga: 50% 0102HP W330 · IDR biga 47%
 // Rinfresco: 50% 5046 Allegra W180
 // Croccantezza: W180 + IDR 58% + cottura
 // ══════════════════════════════════════════════
@@ -10296,7 +10314,7 @@ function calcTondaBiga50(){
   const kgRinf = R(kg - kgBiga, 3); // 50% 5046 Allegra
 
   // Acqua
-  const acqBiga   = R(kgBiga * 0.45 * 1000, 0);  // IDR biga 45%
+  const acqBiga   = R(kgBiga * 0.45 * 1000, 0);  // IDR biga 47%
   const acqTot    = R(kg * idr/100 * 1000, 0);
   const acqRinf   = acqTot - acqBiga;             // acqua rinfresco totale
   const acqF1     = R(acqRinf * f1/100, 0);
@@ -12191,8 +12209,8 @@ function pl_tog(id){var c=pl_G(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pl_CFG={
-  napo:  {idr:70,bigaPct:30,idrB:0.45,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
-  teglia:{idr:78,bigaPct:50,idrB:0.45,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
+  napo:  {idr:70,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  teglia:{idr:78,bigaPct:50,idrB:0.47,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
 
