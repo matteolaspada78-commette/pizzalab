@@ -4692,10 +4692,10 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Kg farina biga</label><div class="inp-row"><input class="inp-field" id="pbKgB" type="number" value="10" min="1" max="80" step="0.5" oninput="calcPalaBiga()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Kg farina rinfresco</label><div class="inp-row"><input class="inp-field" id="pbKgR" type="number" value="10" min="1" max="80" step="0.5" oninput="calcPalaBiga()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura teglia (g)</label><div class="inp-row"><input class="inp-field" id="pbGr" type="number" value="1800" min="600" max="3000" step="100" oninput="calcPalaBiga()"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="78" min="75" max="82" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pbSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="pbLdb" type="number" value="0.8" min="0.1" max="2" step="0.1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="pbLic" type="number" value="5" min="0" max="20" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="pbLdb" type="number" value="0.6" min="0.1" max="2" step="0.1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="pbLic" type="number" value="0" min="0" max="20" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora biga G1</label><div class="inp-row"><input class="inp-field" id="pbOI" type="number" value="10" min="0" max="23" oninput="calcPalaBiga()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora rinfresco G2</label><div class="inp-row"><input class="inp-field" id="pbOR" type="number" value="7" min="0" max="23" oninput="calcPalaBiga()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale</label><div class="inp-row"><input class="inp-field" id="pbF1" type="number" value="65" min="50" max="85" step="5" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
@@ -6871,7 +6871,7 @@ function calcRomana450(){
   var farRinf  = farTot - farBiga;
 
   // Acqua
-  var acqBiga  = r5(farBiga * 0.45);
+  var acqBiga  = r5(farBiga * 0.47);
   var acqTot   = r5(farTot * idr / 100);
   var acqRinf  = acqTot - acqBiga;
   var acqAut   = r5(acqRinf * 0.75);
@@ -6928,7 +6928,7 @@ function calcRomana450(){
     +'</div>'
     +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;font-size:12px;display:flex;flex-direction:column;gap:4px">'
     +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua tot IDR 60%</span><strong>'+acqTot+'g</strong></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua biga 45%</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua biga 47%</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= ESMACH</span><strong style="color:#4CAF7D;font-size:14px">'+acqRinf+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 75%</span><strong>'+acqAut+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--dim)">② Bassinage 8°C + sale + olio</span><strong>'+acqBass+'g</strong></div>'
@@ -6999,7 +6999,7 @@ function calcDirettoLicoli(){
   var sale = r5(kg * 0.028 * 1000);
 
   // PIACCA E PALLINE
-  var piacca = kg*1000 + acqTot + sale;
+  var piacca = kg*1000 + acqTot + sale + (licG||0);  // include licoli
   var pan    = Math.floor(piacca / gr);
 
   // T ACQUA AUTOLISI
@@ -7150,7 +7150,7 @@ function calcDirettoLdb(){
   var sale = r5(kg * 0.028 * 1000);
 
   // PIACCA E PALLINE
-  var piacca = kg*1000 + acqTot + sale;
+  var piacca = kg*1000 + acqTot + sale + (licG||0);  // include licoli
   var pan    = Math.floor(piacca / gr);
 
   // T ACQUA
@@ -7284,10 +7284,10 @@ function calcSupremaRapidoDaBiga(){
   var farBiga  = Math.round(kgBigaInp * 1000 / 5) * 5;
   var farTot   = Math.round(farBiga / (bigaPct/100) / 10) * 10;
   var farRinf  = farTot - farBiga;
-  var acqBiga  = r5(farBiga * 0.45);
+  var acqBiga  = r5(farBiga * 0.47);
   var acqTot   = r5(farTot * idr / 100);
   var sale     = r5(farTot * saleP / 100);
-  var ldbG     = Math.max(1, Math.round(farBiga * 0.30 / 100));
+  var ldbG     = Math.max(1, Math.round(farBiga * 0.25 / 100));
   var piacca   = farTot + acqTot + sale;
   var panReali = Math.floor(piacca / gr);
 
@@ -7313,8 +7313,8 @@ function calcSupremaRapidoDaBiga(){
     +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#D4956A">'+farRinf+'g</div></div>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">'
-    +'<div style="background:rgba(13,27,100,0.25);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 45%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div></div>'
-    +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.30%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+ldbG+'g</div></div>'
+    +'<div style="background:rgba(13,27,100,0.25);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 47%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div></div>'
+    +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.25%</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+ldbG+'g</div></div>'
     +'<div style="background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline da '+gr+'g</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+panReali+'</div></div>'
     +'</div>';
 
@@ -7356,16 +7356,16 @@ function calcSupremaRapido(){
 
   var farBiga  = r5(farTot * bigaPct / 100);
   var farRinf  = farTot - farBiga;
-  var acqBiga  = r5(farBiga * 0.45);
+  var acqBiga  = r5(farBiga * 0.47);
   var acqTot   = r5(farTot * idr / 100);
   // Licoli — acqua licoli va sottratta dall'acqua da versare nell'Esmach
   var licGRap   = licP > 0 ? r5(farRinf * licP / 100) : 0;
   var licAcqRap = Math.round(licGRap * 0.5);
   var acqEsmach = acqTot - acqBiga - licAcqRap;
   var sale     = r5(farTot * saleP / 100);
-  var ldbG     = Math.max(1, Math.round(farBiga * 0.30 / 100));
+  var ldbG     = Math.max(1, Math.round(farBiga * 0.25 / 100));
   // Piacca reale include acqua biga (già nella biga) + acqua rinfresco + farina + sale
-  piaccaR  = farTot + acqTot + sale;
+  piaccaR  = farTot + acqTot + sale + licGRap;  // include licoli nella piacca
   panReali = Math.floor(piaccaR / gr);
 
   // Aggiorna campo palline con valore reale
@@ -7422,7 +7422,7 @@ function calcSupremaRapido(){
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">'
     +'<div style="background:rgba(13,27,100,0.25);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 45%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 47%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div>'
     +'</div>'
     +'<div style="background:rgba(76,175,125,0.12);border-radius:10px;padding:10px;text-align:center">'
@@ -7478,13 +7478,13 @@ function calcSuprema(){
   var farTot  = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
   var farBiga = r5(farTot * bigaPct / 100);
   var farRinf = farTot - farBiga;
-  var acqBiga = r5(farBiga * 0.45);
+  var acqBiga = r5(farBiga * 0.47);
   var acqTot  = r5(farTot * idr / 100);
   var sale    = r5(farTot * saleP / 100);
-  var ldbG    = Math.max(1, Math.round(farBiga * 0.30 / 100));
+  var ldbG    = Math.max(1, Math.round(farBiga * 0.25 / 100));
 
   // Verifica palline reali
-  var piaccaReale = farTot + acqTot + sale;
+  var piaccaReale = farTot + acqTot + sale + licG;  // include licoli nella piacca
   var panReali    = Math.floor(piaccaReale / gr);
 
   // Aggiorna anche sKg nel calcolatore completo
@@ -7516,11 +7516,11 @@ function calcSuprema(){
     // Riga 2: acqua biga · LdB · palline
     +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">'
     +'<div style="background:rgba(13,27,100,0.25);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 45%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 47%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div>'
     +'</div>'
     +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.30%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.25%</div>'
     +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+ldbG+'g</div>'
     +'</div>'
     +'<div style="background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:10px;padding:10px;text-align:center">'
@@ -8080,7 +8080,7 @@ function calcPalaScient(){
 
   const kgTot  = Math.round(kgB / (bigaPct/100) * 1000)/1000;
   const kgRinf = Math.round((kgTot - kgB) * 1000)/1000;
-  const acqBiga= R(kgB*0.48*1000,0);
+  const acqBiga= R(kgB*0.47*1000,0);  // IDR biga 47% — scientificamente ottimale
   const acqTot = R(kgTot*idr/100*1000,0);
   const aa     = acqTot-acqBiga;
   const sale   = R(kgTot*saleP/100*1000,0);
@@ -8121,7 +8121,7 @@ function calcPalaScient(){
       <div class="res-label">Biga ${bigaPct}%</div>
       ${row('Petra 5078 (60% biga)',R(kgB*0.6*1000,0)+'g','')}
       ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','')}
-      ${row('Acqua biga (IDR 48%)',acqBiga+'g','fredda')}
+      ${row('Acqua biga (IDR 47%)',acqBiga+'g','fredda 4°C · Cauvain 2015')}
     </div>
     <div class="res-section">
       <div class="res-label">Rinfresco ${100-bigaPct}% — IDR ${idr}%</div>
@@ -8150,18 +8150,19 @@ function calcPalaBiga(){
   const ldbP=G('pbLdb')||0.8, licP=G('pbLic')||0;
   const oi=G('pbOI'),or_=G('pbOR'),f1Pct=G('pbF1');
 
-  // ── BIGA (kg liberi) ──
+  // ── BIGA (kg liberi) — 100% 5078 W365 ──
   const kgBiga = kgB;
-  const kg5078biga = R(kgBiga * 0.70, 3);
-  const kg0102biga = R(kgBiga * 0.30, 3);
-  const acqBiga = R(kgBiga * 0.47 * 1000, 0);  // IDR biga 47% — ottimale con cella diretta 4°C
-  const ldbBiga = R(kgBiga * ldbP/100 * 1000, 1);
+  const kg5078biga = kgBiga;   // 100% 5078 in biga
+  const kg0102biga = 0;        // no 0102HP in biga teglia
+  const acqBiga = R(kgBiga * 0.47 * 1000, 0);  // IDR 47% — ottimale W365
+  const ldbBiga = R(kgBiga * ldbP/100 * 1000, 1);  // 0.6% default
 
-  // ── RINFRESCO (kg liberi) ──
+  // ── RINFRESCO (kg liberi) — 70% 5078 + 30% 0102HP ──
   const kgRinf = kgR;
   const kg5078rinf = R(kgRinf * 0.70, 3);
   const kg0102rinf = R(kgRinf * 0.30, 3);
-  const licoli = R(kgRinf * licP/100 * 1000, 0);
+  const malto = R(kg * 0.003 * 1000, 0);  // 0.3% malto diastasico — obbligatorio abbattimento
+  const licoli = R(kgRinf * licP/100 * 1000, 0);  // default 0% — teglia no licoli con abbattimento
 
   // ── ACQUA TOTALE ──
   const acqTot = R(kg * idr/100 * 1000, 0);
@@ -8198,25 +8199,25 @@ function calcPalaBiga(){
   document.getElementById('palaBigaOut').innerHTML =
     sem(semBigaTxt + ' — ' + oreB + 'h biga · attività ' + attB + '%', semBigaCls) +
     '<div class="res-section">' +
-    '<div class="res-label">🧱 Biga ' + kgB + 'kg — G1 ore ' + H(oi) + '</div>' +
-    row('Petra 5078 (70% biga)', kg5078biga*1000+'g', 'W350-380 · forza struttura') +
-    row('Petra 0102HP (30% biga)', kg0102biga*1000+'g', 'W320-340 · proteasi germogliate') +
-    row('Acqua biga (IDR 45%)', acqBiga+'g', 'fredda 4°C') +
-    row('LdB biga (' + ldbP + '%)', ldbBiga+'g', 'biga attiva in ~21h') +
-    row('TOTALE BIGA', R(kgBiga*1000+acqBiga+ldbBiga,0)+'g', '', true) +
+    '<div class="res-label">🧱 Biga ' + kgB + 'kg — G1 ore ' + H(oi) + ' · 100% 5078 W365</div>' +
+    row('Petra 5078 W365 (100% biga)', Math.round(kg5078biga*1000)+'g', '🏆 forza massima · alveoli enormi · regge IDR 82%') +
+    row('Acqua biga (IDR 47%)', acqBiga+'g', 'fredda 4°C · Cauvain 2015') +
+    row('LdB biga (' + ldbP + '%)', ldbBiga+'g', 'sul rinfresco — calibrato per biga 40%') +
+    row('TOTALE BIGA', R(kgBiga*1000+acqBiga,0)+'g', '', true) +
     '</div>' +
     '<div class="res-section">' +
-    '<div class="res-label">🔄 Rinfresco ' + kgR + 'kg — G2 ore ' + H(or_) + '</div>' +
-    row('Petra 5078 (70% rinfresco)', kg5078rinf*1000+'g', 'W350-380') +
-    row('Petra 0102HP (30% rinfresco)', kg0102rinf*1000+'g', 'W320-340') +
-    (licP>0 ? row('Licoli (' + licP + '%)', licoli+'g', 'accelera puntata — riduce attesa') : '') +
+    '<div class="res-label">🔄 Rinfresco ' + kgR + 'kg — G2 ore ' + H(or_) + ' · W351</div>' +
+    row('Petra 5078 W365 (70%)', Math.round(kg5078rinf*1000)+'g', 'struttura · alveoli') +
+    row('Petra 0102HP W320 (30%)', Math.round(kg0102rinf*1000)+'g', 'estensibilità · stesura facile') +
+    row('Malto diastasico 0.3%', malto+'g', '⚠️ obbligatorio per abbattimento') +
+    (licP>0 ? row('Licoli (' + licP + '%)', licoli+'g', '') : '') +
     row('Sale (' + saleP + '%)', sale+'g', 'sciolto in ' + acqSale + 'g acqua') +
     '</div>' +
     '<div class="res-section">' +
     '<div class="res-label">💧 Distribuzione acqua — totale ' + acqRinf + 'g</div>' +
     row('Fase 1 (' + f1Pct + '%) — con biga+farine', fase1+'g', 'T 18-20°C · incordatura base') +
     row('Bassinage (restante)', bass+'g', 'a filo dopo incordatura', true) +
-    row('IDR finale', idr+'%', '', true) +
+    row('IDR finale', idr+'%', 'W351 rinfresco · Dobraszczyk 2003', true) +
     '</div>' +
     '<div class="res-section">' +
     '<div class="res-label">📐 Resa teglie</div>' +
@@ -8224,10 +8225,9 @@ function calcPalaBiga(){
     row('Grammatura teglia', gr+'g', '') +
     row('TEGLIE PRODOTTE', nTeglie+' teglie', '', true) +
     '</div>' +
-    sem('UNICA = acqua fase1 già inclusa nella biga. NON aggiungere separatamente.', 'info') +
     tl([
-      [H(oi)+' G1', '🧱 BIGA → cella 4°C', kg5078biga*1000+'g 5078 + '+kg0102biga*1000+'g 0102HP | LdB '+ldbBiga+'g'],
-      [H(or_)+' G2', '⚙️ RINFRESCO + IMPASTO', 'IDR '+idr+'% · T uscita 24°C · sale dopo incordatura'],
+      [H(oi)+' G1', '🧱 BIGA 100% 5078 → cella 4°C', Math.round(kg5078biga*1000)+'g 5078 | IDR 47% | LdB '+ldbBiga+'g'],
+      [H(or_)+' G2', '⚙️ RINFRESCO + IMPASTO', 'IDR '+idr+'% · T uscita 24°C · malto '+malto+'g'],
       [H(or_+0.3)+' G2', '💧 BASSINAGE '+bass+'g', 'a filo lentamente · non rompere maglia'],
       [H(oraPuntataFine-1)+' G2', '📦 PUNTATA IN MASSA', '+30-40% volume · T 24°C · coperto'],
       [H(oraPuntataFine)+' G2', '✂️ STAGLIO → BOCCE', nTeglie+' teglie da '+gr+'g'],
@@ -9630,7 +9630,7 @@ function calcNapoFrigo(){
   var oraOut=((oraFrigo+freH)%24);
   out.innerHTML='<div class="res-section"><div class="res-label">Biga — G1 ore '+H(oi)+'</div>'+
     row('Petra 0102HP',kgB*1000+'g','')+
-    row('Acqua biga 45%',acqBiga+'g','fredda')+
+    row('Acqua biga 47%',acqBiga+'g','fredda')+
     row('LdB biga '+ldbP+'%',ldbG+'g','')+
     '</div><div class="res-section"><div class="res-label">Rinfresco — G2 ore '+H(orR)+'</div>'+
     row('Farina rinfresco',kgR*1000+'g','70% 5063 + 30% 5078')+
@@ -10863,7 +10863,7 @@ function calcPaneV2(){
 
   // Biga 25% → farina totale
   var farTot  = Math.round(farBiga / 0.25 / 10) * 10;
-  var acqBiga = r5(farBiga * 0.45);
+  var acqBiga = r5(farBiga * 0.47);
 
   // Rinfresco 50/50
   var farRinf = farTot - farBiga;
@@ -11133,7 +11133,7 @@ function calcPaneOrsoBiga(){
     +'</div>'
     +'<div style="font-size:12px">'
     +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">Acqua tot IDR 70%</span><strong>'+acqTot+'g</strong></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">− Acqua biga 45%</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">− Acqua biga 47%</span><strong style="color:#FFCDD2">−'+acqBiga+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= ESMACH</span><strong style="color:#4CAF7D;font-size:15px">'+acqRinf+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#7A8A6A">① Autolisi 75%</span><strong>'+acqAut+'g</strong></div>'
     +'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:#7A8A6A">② Bassinage 8°C</span><strong>'+acqBass+'g</strong></div>'
