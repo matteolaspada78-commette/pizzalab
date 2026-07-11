@@ -148,15 +148,235 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 
 <!-- NAV -->
 <div class="nav">
-  <button class="ntab active" onclick="S('impasti',this)">Gli Impasti</button>
+  <button class="ntab" onclick="S('gestione',this)">⚙ Gestione</button>
+  <button class="ntab active" onclick="S('tutti',this)">Tutti gli Impasti</button>
+  <button class="ntab" onclick="S('impasti',this)">Nero · Padellino</button>
   <button class="ntab" onclick="S('farine',this)">Le Farine</button>
   <button class="ntab" onclick="S('filosofia',this)">Filosofia</button>
   <button class="ntab" onclick="S('cotture',this)">Le Cotture</button>
+  <button class="ntab" onclick="S('altri',this)">Pala · Napoletano · Pane</button>
 </div>
 
 
+<!-- ═══ TUTTI GLI IMPASTI ═══ -->
+<div class="sez active" id="sez-tutti">
+  <div class="blk blk-dark">
+    <span class="s-eye">L'Orso · Messina · Tutti i lievitati</span>
+    <div class="s-title">Sei Impasti.<br><em>Una filosofia.</em></div>
+    <p class="s-body">Ogni impasto dell'Orso ha una ragione precisa — farine scelte, prefermento calibrato, cottura dedicata. <strong>Cinque impasti senza grasso, uno con olio EVO.</strong> Tutti senza lievito di birra come ingrediente principale — tranne il 100H che è nato da un errore.</p>
+  </div>
+
+  <div style="padding:1rem 1.2rem 3rem;background:#0b0908;display:flex;flex-direction:column;gap:1.2rem;">
+
+    <!-- 01 -->
+    <div id="card-01" data-impasto="01" style="border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.2rem;background:rgba(201,168,76,.03);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.18rem;">Impasto 01</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">Nero di Seppia</div>
+        </div>
+        <span style="font-size:1.5rem;">⚫</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">0102 HP + 5078 + 5% Margherito · Biga + Licoli · Zero grassi</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(100,160,200,.1);color:#8ab8d8;border:1px solid rgba(100,160,200,.2);">💨 Vapore 7'</span>
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 2'–4'</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Pizza Fata Morgana. Disco nero lucido. Interno morbido, esterno leggermente croccante.</div>
+    </div>
+
+    <!-- 02 -->
+    <div id="card-02" data-impasto="02" style="border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.2rem;background:rgba(201,168,76,.03);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.18rem;">Impasto 02</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">Padellino</div>
+        </div>
+        <span style="font-size:1.5rem;">🔲</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">0102 HP + 5078 + 5% Margherito · Biga + Licoli · Zero grassi</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(100,160,200,.1);color:#8ab8d8;border:1px solid rgba(100,160,200,.2);">💨 Vapore 7'</span>
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(180,120,60,.1);color:#d4956a;border:1px solid rgba(180,120,60,.2);">🌀 Ventilato 12'–13'</span>
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 2'–4'</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Pizza Disgraziata. 3 cotture. Fuori croccante come un biscotto, dentro morbido.</div>
+    </div>
+
+    <!-- 03 -->
+    <div id="card-03" data-impasto="03" style="border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.2rem;background:rgba(201,168,76,.03);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.18rem;">Impasto 03</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">Pizza in Pala</div>
+        </div>
+        <span style="font-size:1.5rem;">🟫</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">0102 HP + 5078 al 50/50 · Solo Biga · Zero grassi</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 260° — 5'</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Sharing. Alta idratazione. Croccante. Tagliata a quadrotti su asse di legno.</div>
+    </div>
+
+    <!-- 04 -->
+    <div id="card-04" data-impasto="04" style="border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.2rem;background:rgba(201,168,76,.03);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.18rem;">Impasto 04</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">Napoletano</div>
+        </div>
+        <span style="font-size:1.5rem;">🪵</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">0102 HP + 5063 al 50/50 · Biga + Licoli · Pallina 250g · Zero grassi</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(192,57,43,.12);color:#e07060;border:1px solid rgba(192,57,43,.25);">🪵 Legna 450° — 60"–90"</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Cornicione pronunciato. Macchie di leopardo. Stesa a mano. La pizza dell'Orso.</div>
+    </div>
+
+    <!-- 05 -->
+    <div id="card-05" data-impasto="05" style="border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.2rem;background:rgba(201,168,76,.03);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.18rem;">Impasto 05</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">Pane dell'Orso</div>
+        </div>
+        <span style="font-size:1.5rem;">🍞</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">3 HP + 0103 HP + 3220 Brick + 3400 Ottimassi · Solo Licoli · Formato 600g</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico — 40'</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Quattro farine Petra. Solo Licoli. Crosta spessa. Mollica aperta. Leggermente acidulo.</div>
+    </div>
+
+    <!-- 06 -->
+    <div id="card-06" data-impasto="06" style="border:1px solid rgba(192,57,43,.3);border-radius:4px;padding:1.2rem;background:rgba(192,57,43,.04);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+        <div>
+          <span style="font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:#e07060;display:block;margin-bottom:.18rem;">Impasto 06 · L'eccezione</span>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#f0ebe0;">100H</div>
+        </div>
+        <span style="font-size:1.5rem;">🫒</span>
+      </div>
+      <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">5046 Allegra · Lievito birra + Licoli · Olio EVO · Idratazione 60% · Pallina 200g</div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 320° — 8'–10'</span>
+      </div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.5rem;">
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(192,57,43,.12);color:#e07060;border:1px solid rgba(192,57,43,.25);">🫒 Unico con olio EVO</span>
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(192,57,43,.12);color:#e07060;border:1px solid rgba(192,57,43,.25);">⚡ Nato da un errore</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#a09080;">Sottile e croccante. L'opposto del napoletano. Un errore diventato identità.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ GESTIONE VISIBILITÀ ═══ -->
+<div class="sez" id="sez-gestione">
+  <div class="blk blk-dark">
+    <span class="s-eye">Pannello di controllo</span>
+    <div class="s-title">Scegli cosa<br><em>far vedere</em></div>
+    <p class="s-body">Attiva o disattiva ogni impasto prima di inviare il link. Gli impasti disattivati vengono nascosti nella scheda — chi riceve il link vede solo quelli che hai lasciato accesi.</p>
+  </div>
+
+  <div style="padding:1.2rem 1.2rem 3rem;background:#0b0908;display:flex;flex-direction:column;gap:.8rem;">
+
+    <div style="font-size:.46rem;letter-spacing:.3em;text-transform:uppercase;color:#6a5545;margin-bottom:.3rem;">Tocca per attivare / disattivare</div>
+
+    <!-- TOGGLE 01 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);border-radius:4px;background:rgba(201,168,76,.03);" id="tog-row-01">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#c9a84c;margin-bottom:.15rem;">Impasto 01</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">⚫ Nero di Seppia</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">Fata Morgana</div>
+      </div>
+      <div onclick="toggleImp('01')" id="tog-01"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-01" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- TOGGLE 02 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);border-radius:4px;background:rgba(201,168,76,.03);" id="tog-row-02">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#c9a84c;margin-bottom:.15rem;">Impasto 02</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">🔲 Padellino</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">Disgraziata</div>
+      </div>
+      <div onclick="toggleImp('02')" id="tog-02"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-02" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- TOGGLE 03 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);border-radius:4px;background:rgba(201,168,76,.03);" id="tog-row-03">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#c9a84c;margin-bottom:.15rem;">Impasto 03</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">🟫 Pizza in Pala</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">Sharing · Le Palafitte</div>
+      </div>
+      <div onclick="toggleImp('03')" id="tog-03"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-03" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- TOGGLE 04 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);border-radius:4px;background:rgba(201,168,76,.03);" id="tog-row-04">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#c9a84c;margin-bottom:.15rem;">Impasto 04</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">🪵 Napoletano</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">Forno a legna 450°</div>
+      </div>
+      <div onclick="toggleImp('04')" id="tog-04"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-04" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- TOGGLE 05 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);border-radius:4px;background:rgba(201,168,76,.03);" id="tog-row-05">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#c9a84c;margin-bottom:.15rem;">Impasto 05</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">🍞 Pane dell'Orso</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">600g · Solo Licoli</div>
+      </div>
+      <div onclick="toggleImp('05')" id="tog-05"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-05" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- TOGGLE 06 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;border:1px solid rgba(192,57,43,.3);border-radius:4px;background:rgba(192,57,43,.04);" id="tog-row-06">
+      <div>
+        <div style="font-size:.44rem;letter-spacing:.22em;text-transform:uppercase;color:#e07060;margin-bottom:.15rem;">Impasto 06 · Eccezione</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#f0ebe0;">🫒 100H</div>
+        <div style="font-size:.58rem;color:#7a6a58;margin-top:.1rem;">Sottile · Croccante · Olio EVO</div>
+      </div>
+      <div onclick="toggleImp('06')" id="tog-06"
+        style="width:50px;height:28px;border-radius:14px;background:#c9a84c;position:relative;cursor:pointer;flex-shrink:0;transition:background .25s;">
+        <div id="tog-dot-06" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;left:25px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </div>
+
+    <!-- AZIONI RAPIDE -->
+    <div style="display:flex;gap:.6rem;margin-top:.5rem;">
+      <button onclick="tuttiOn()" style="flex:1;font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(201,168,76,.35);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">Tutti visibili</button>
+      <button onclick="tuttiOff()" style="flex:1;font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(255,255,255,.12);background:transparent;color:#6a5f50;border-radius:3px;cursor:pointer;">Tutti nascosti</button>
+    </div>
+
+    <div style="margin-top:.5rem;font-size:.6rem;color:#4a3a2a;text-align:center;line-height:1.6;">Le preferenze vengono salvate sul dispositivo.<br>Chi apre il link vedrà solo gli impasti attivi.</div>
+
+  </div>
+</div>
+
 <!-- ═══ GLI IMPASTI ═══ -->
-<div class="sez active" id="sez-impasti">
+<div class="sez" id="sez-impasti">
 
   <div class="blk blk-dark">
     <span class="s-eye">Due impasti speciali · Stessa filosofia</span>
@@ -456,7 +676,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
       <span class="cot-detail-lbl">Fase 2 — Statico · 2–4 minuti</span>
       <div class="cot-detail-row">
         <span class="cot-detail-n">03</span>
-        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il calore secco del forno statico asciuga la superficie esterna e crea la crosta. Sul nero di seppia la crosta diventa lucida e leggermente scura — il colore nero si intensifica con il calore secco.</div>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il calore secco del forno statico asciuga la superficie esterna e crea la crosta. Sul nero di seppia la superficie diventa lucida e leggermente croccante — non croccante come il padellino, ma con una consistenza esterna definita che regge il condimento in uscita. Il colore nero si intensifica con il calore secco.</div>
       </div>
       <div class="cot-detail-row">
         <span class="cot-detail-n">04</span>
@@ -466,7 +686,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 
     <div class="runner" style="margin-top:.9rem;">
       <span class="runner-l">⚡ Runner</span>
-      <div class="runner-t">Nero di seppia: vapore 7' → statico 2'–4'. Interno morbido e alveolato, esterno lucido e croccante. Lo statico preserva la lucentezza del nero.</div>
+      <div class="runner-t">Nero di seppia: vapore 7' → statico 2'–4'. Interno morbido e alveolato, esterno lucido e leggermente croccante. Lo statico preserva la lucentezza del nero.</div>
     </div>
   </div>
 
@@ -537,6 +757,369 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 </div><!-- /cotture -->
 
 
+<!-- ═══ PALA · NAPOLETANO · PANE ═══ -->
+<div class="sez" id="sez-altri">
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Tre impasti · Tre filosofie · Una firma</span>
+    <div class="s-title">Pizza in Pala,<br><em>Napoletano & Pane</em></div>
+    <p class="s-body">Oltre al nero di seppia e al padellino, l'Orso produce altri tre impasti distinti — ognuno con blend di farine specifico, prefermento calibrato e cottura dedicata. <strong>La stessa ossessione per la qualità, applicata a tre formati completamente diversi.</strong></p>
+  </div>
+
+  <!-- PIZZA IN PALA -->
+  <div class="blk blk-mid">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 03 · Pizza in Pala</span>
+      <div class="imp-nome">Pizza in Pala</div>
+      <div class="imp-sottotitolo">Alta idratazione · Croccante · Sharing</div>
+      <div class="imp-divider"></div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">50%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 0102 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 1 da grano germogliato · leggerezza, digeribilità, fragranza</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">50%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 5078 — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 0 · farro integrale + soia + crusca tostata · colore ambrato e nota tostata</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Prefermento</span>
+        <div class="pref-text">Solo Biga — prefermento indiretto fatto il giorno prima. Fermentazione 18–24 ore a temperatura controllata. La Biga costruisce la struttura e gli aromi profondi della pala senza necessità del lievito madre — il formato in pala richiede una fermentazione più diretta e controllata.</div>
+      </div>
+
+      <div class="nograss">
+        <span class="nograss-ico">✦</span>
+        <div class="nograss-text"><strong>Farina · acqua · sale · Biga.</strong> Nessun grasso, nessun additivo. La croccantezza viene dalla cottura, non dall'olio nell'impasto.</div>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Cottura — 1 fase · Forno statico</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(201,168,76,.06);flex:1;">
+            <span class="cot-ico">🔥</span>
+            <span class="cot-min">5'</span>
+            <span class="cot-tipo">Statico · 260°</span>
+            <span class="cot-note">Temperatura alta · cottura rapida · crosta immediata</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cot-detail" style="margin-top:.7rem;">
+        <span class="cot-detail-lbl">Perché 260° e 5 minuti</span>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Temperatura alta, tempo breve:</strong> a 260° la superficie della pala si cristallizza rapidamente creando una crosta sottile e croccante mentre l'interno rimane morbido e alveolato. È la fisica della pala — l'alta idratazione dell'impasto genera vapore interno che apre l'alveolatura, mentre il calore intenso sigilla la superficie.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Forno statico:</strong> il calore uniforme dall'alto e dal basso cuoce la pala in modo omogeneo — non c'è aria forzata che asciugherebbe troppo la superficie perdendo la morbidezza interna caratteristica.</div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner</span>
+        <div class="runner-t">Pizza in pala. Petra 0102 HP + 5078 al 50/50. Solo Biga. Zero grassi. Forno statico 260° per 5 minuti. Croccante fuori, morbida e alveolata dentro. Servita tagliata a quadrotti su asse di legno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPASTO NAPOLETANO -->
+  <div class="blk blk-dark">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 04 · Napoletano Contemporaneo</span>
+      <div class="imp-nome">Impasto Napoletano</div>
+      <div class="imp-sottotitolo">250g pallina · Forno a legna 450° · Cornicione pronunciato</div>
+      <div class="imp-divider"></div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">50%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 0102 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 1 da grano germogliato · leggerezza, digeribilità, fragranza</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">50%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 5063 — Mulino Quaglia</div>
+            <div class="farina-desc">Farina macinata a pietra · profilo aromatico intenso · alveolatura aperta</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Prefermento + Lievito</span>
+        <div class="pref-text">Biga + Licoli — la combinazione più complessa. La Biga porta struttura e aromi di fermentazione lunga. Il Licoli — lievito madre in coltura liquida — porta acidità lattica delicata, digeribilità superiore e i profumi caratteristici del lievito madre senza la pesantezza di quello solido. Insieme costruiscono un cornicione alto, alveolato e profumato che è la firma dell'impasto napoletano contemporaneo dell'Orso.</div>
+      </div>
+
+      <div class="nograss">
+        <span class="nograss-ico">✦</span>
+        <div class="nograss-text"><strong>Farina · acqua · sale · Biga · Licoli.</strong> Zero grassi, zero lievito di birra aggiuntivo. La pallina pesa 250g — il cornicione pronunciato nasce dall'impasto e dalla stesura a mano, non da ingredienti aggiunti.</div>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Cottura — Forno a legna</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(192,57,43,.1);flex:1;">
+            <span class="cot-ico">🪵</span>
+            <span class="cot-min">60"–90"</span>
+            <span class="cot-tipo">Forno a legna · 450°</span>
+            <span class="cot-note">Cottura rapidissima · macchie di leopardo · cornicione soffiato</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cot-detail" style="margin-top:.7rem;">
+        <span class="cot-detail-lbl">Perché 450° e il forno a legna</span>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Il calore del legno:</strong> il forno a legna non produce solo calore — produce irraggiamento e convezione insieme, con una massa termica che nessun forno elettrico può replicare. A 450° la pizza cuoce in 60–90 secondi: troppo veloce per seccarsi, abbastanza veloce per creare le "macchie di leopardo" sul cornicione.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Le macchie di leopardo:</strong> sono i punti neri sul cornicione — bruciature controllate che avvengono dove i gas della fermentazione si concentrano. Non sono difetti: sono la prova che l'impasto è vivo e ben fermentato. Un impasto industriale a bassa fermentazione non le produce.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Pallina da 250g:</strong> la pallina viene stesa a mano — mai col matterello. Il bordo non viene toccato durante la stesura per preservare i gas di fermentazione nel cornicione, che in cottura si gonfia e si apre in alveolatura pronunciata.</div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner</span>
+        <div class="runner-t">Napoletano contemporaneo. Petra 0102 HP + 5063 al 50/50. Biga + Licoli. Pallina 250g, stesa a mano. Forno a legna 450°, 60–90 secondi. Macchie di leopardo = impasto vivo. Zero grassi.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANE DELL'ORSO -->
+  <div class="blk blk-mid">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 05 · Panificazione</span>
+      <div class="imp-nome">Pane dell'Orso</div>
+      <div class="imp-sottotitolo">Formato 600g · Solo Licoli · Forno statico 40 minuti</div>
+      <div class="imp-divider"></div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine — quattro farine Petra</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">Petra</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 3 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Farina integrale da grano germogliato · fibra integra, profumo intenso, grande digeribilità</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">Petra</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 0103 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 1 da grano germogliato · struttura e leggerezza · sorella della 0102 HP</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">Petra</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 3220 Brick — Mulino Quaglia</div>
+            <div class="farina-desc">Farina di forza speciale · stabilità strutturale per formati di grandi dimensioni</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">Petra</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 3400 Ottimassi — Mulino Quaglia</div>
+            <div class="farina-desc">Miscela premium bilanciata · equilibrio tra forza e estensibilità</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Lievito — Solo Licoli</span>
+        <div class="pref-text">Il pane dell'Orso lievita esclusivamente con Licoli — lievito madre in coltura liquida — senza Biga. La scelta del solo Licoli per il pane non è casuale: la panificazione con lievito madre solamente richiede tempi più lunghi ma produce un pane con una crosta più spessa e croccante, una mollica più aperta e irregolare, e una conservabilità superiore rispetto al pane con lievito di birra. Il Licoli porta acidità lattica delicata — il pane dell'Orso è leggermente acidulo, caratteristica dei grandi pani a lievitazione naturale del Mediterraneo.</div>
+      </div>
+
+      <div class="nograss">
+        <span class="nograss-ico">✦</span>
+        <div class="nograss-text"><strong>Quattro farine Petra · acqua · sale · Licoli.</strong> Nessuna Biga, nessun lievito di birra, nessun grasso. Formato 600g — un pane che si porta a tavola e si condivide.</div>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Cottura — Forno statico</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(201,168,76,.06);flex:1;">
+            <span class="cot-ico">🔥</span>
+            <span class="cot-min">40'</span>
+            <span class="cot-tipo">Statico</span>
+            <span class="cot-note">Cottura lunga · crosta spessa · mollica aperta</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cot-detail" style="margin-top:.7rem;">
+        <span class="cot-detail-lbl">Perché 40 minuti e forno statico</span>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Formato da 600g:</strong> un pane grande richiede cottura lunga — il calore deve penetrare fino al cuore senza bruciare la superficie. 40 minuti è il tempo minimo per garantire che il centro sia completamente cotto e la crosta abbia sviluppato il suo spessore e colore caratteristico.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Forno statico:</strong> il calore uniforme dall'alto e dal basso permette una cottura omogenea senza asciugare troppo velocemente. Il vapore iniziale prodotto dall'acqua nell'impasto apre la mollica, il calore secco finale costruisce la crosta.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Quattro farine insieme:</strong> il blend complesso richiede una cottura stabile e omogenea — lo statico è l'unica modalità che permette a ciascuna farina di esprimere le sue caratteristiche senza che una prevalga sulle altre.</div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner</span>
+        <div class="runner-t">Pane dell'Orso. Quattro farine Petra (3 HP + 0103 HP + 3220 Brick + 3400 Ottimassi). Solo Licoli — niente Biga, niente lievito di birra. Formato 600g. Forno statico 40 minuti. Crosta spessa, mollica aperta, leggermente acidulo. Il pane del territorio.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 100H -->
+  <div class="blk blk-dark">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 06 · La pizza dell'errore</span>
+      <div class="imp-nome">100H</div>
+      <div class="imp-sottotitolo">Sottile · Croccante · 200g pallina · L'opposto del napoletano</div>
+      <div class="imp-divider"></div>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#c0b8a8;line-height:1.75;margin-bottom:1rem;padding:.8rem 1rem;background:rgba(201,168,76,.05);border-left:2px solid rgba(201,168,76,.4);">
+        "100H non è la lievitazione — è il nome nato da un errore. Un impasto lasciato troppo tempo ha generato una pizza completamente diversa da quella prevista: sottile, croccante, quasi biscottata. Da quell'errore è nata una pizza che oggi è in carta."
+      </div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">100%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 5046 Allegra — Mulino Quaglia</div>
+            <div class="farina-desc">Farina speciale per bassa idratazione · struttura compatta · ideale per pizza sottile e croccante</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Lieviti — Lievito di birra + Licoli</span>
+        <div class="pref-text">L'unico impasto dell'Orso che usa lievito di birra — in piccola quantità, affiancato da una piccola percentuale di Licoli. Il lievito di birra garantisce una fermentazione più controllata e prevedibile per un impasto a bassa idratazione come questo. Il Licoli aggiunge una nota aromatica e una digeribilità superiore che il solo lievito di birra non darebbe. La combinazione è calibrata per ottenere un impasto che si stende sottilissimo senza strapparsi.</div>
+      </div>
+
+      <!-- UNICO CON OLIO -->
+      <div style="display:flex;align-items:flex-start;gap:.7rem;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.25);border-radius:3px;padding:.8rem .9rem;margin:.9rem 0;">
+        <span style="font-size:1.2rem;flex-shrink:0;margin-top:.1rem;">🫒</span>
+        <div style="font-size:.7rem;color:#f0b8a0;line-height:1.62;"><strong style="color:#f2ebe0;font-weight:700;">L'unico impasto con olio EVO.</strong> In tutti gli altri impasti dell'Orso non aggiungiamo nessun grasso. Il 100H è l'eccezione: una piccola quantità di olio extravergine d'oliva viene incorporata nell'impasto per dare estensibilità e quella consistenza quasi biscottata che lo distingue. L'olio è parte della ricetta, non una scorciatoia.</div>
+      </div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.35rem;display:block;">Caratteristiche tecniche</span>
+      <div class="chips">
+        <span class="chip">Idratazione 60%</span>
+        <span class="chip">Pallina 200g</span>
+        <span class="chip">Stesa sottilissima</span>
+        <span class="chip">Olio EVO nell'impasto</span>
+        <span class="chip">Lievito di birra + Licoli</span>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Cottura — Forno statico</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(201,168,76,.06);flex:1;">
+            <span class="cot-ico">🔥</span>
+            <span class="cot-min">~8'–10'</span>
+            <span class="cot-tipo">Statico · 320°</span>
+            <span class="cot-note">Temperatura media-alta · cottura lenta della pasta sottile</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cot-detail" style="margin-top:.7rem;">
+        <span class="cot-detail-lbl">Perché 320° e non 450°</span>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Temperatura media-alta:</strong> a 450° una pizza sottile brucerebbe prima di cuocersi uniformemente. A 320° il calore penetra gradualmente attraverso tutto lo spessore ridotto della pizza, asciugando l'impasto in modo omogeneo fino a renderlo croccante e biscottato senza bruciare la superficie.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>L'opposto del napoletano:</strong> il napoletano cuoce in 60–90 secondi a 450° mantenendo l'umidità interna. Il 100H cuoce lentamente a 320° eliminando l'umidità progressivamente — il risultato è il contrario: croccante da parte a parte, quasi un cracker di lusso.</div>
+        </div>
+        <div class="cot-detail-row">
+          <span class="cot-detail-n">→</span>
+          <div class="cot-detail-txt"><strong>Idratazione 60%:</strong> molto più bassa degli altri impasti (il napoletano supera il 65–70%). Meno acqua significa impasto più compatto, più facile da stendere sottile e più rapido da asciugare in cottura.</div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner</span>
+        <div class="runner-t">100H — nato da un errore diventato pizza. Petra 5046 Allegra. Lievito di birra + Licoli. L'unico con olio EVO. Idratazione 60%. Pallina 200g, stesa sottilissima. Forno statico 320°. Croccante da parte a parte — l'opposto del napoletano.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELLA CONFRONTO -->
+  <div class="blk blk-dark">
+    <span class="s-eye">Vista d'insieme</span>
+    <div class="s-title">Tutti e cinque<br><em>a confronto</em></div>
+    <div style="margin-top:1rem;overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:.62rem;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(201,168,76,.3);">
+            <th style="text-align:left;padding:.5rem .4rem;color:#c9a84c;font-size:.46rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;">Impasto</th>
+            <th style="text-align:center;padding:.5rem .3rem;color:#c9a84c;font-size:.46rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;">Prefermento</th>
+            <th style="text-align:center;padding:.5rem .3rem;color:#c9a84c;font-size:.46rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;">Cottura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Nero di Seppia</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Vapore 7' → Statico 2'–4'</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Padellino</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Vapore 7' → Vent. 12'–13' → Statico 2'–4'</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Pizza in Pala</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 260° — 5'</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Napoletano</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Legna 450° — 60"–90"</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Pane dell'Orso</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Solo Licoli</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico — 40'</td>
+          </tr>
+          <tr>
+            <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">100H 🫒</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Lievito birra + Licoli</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 320° — ~8'–10'</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /altri -->
+
+
 <div class="firma-block">
   <div class="firma-inner">
     <span class="firma-lbl">Ideato e realizzato da</span>
@@ -548,6 +1131,17 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 </div>
 
 <script>
+// Stato visibilità — tutti attivi di default
+var stato = {
+  '01':true,'02':true,'03':true,'04':true,'05':true,'06':true
+};
+
+// Carica da localStorage se disponibile
+try {
+  var saved = localStorage.getItem('impasti-stato');
+  if(saved) stato = JSON.parse(saved);
+} catch(e){}
+
 function S(id,btn){
   document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
@@ -555,6 +1149,43 @@ function S(id,btn){
   btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+function toggleImp(id){
+  stato[id] = !stato[id];
+  applicaStato(id);
+  try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
+}
+
+function applicaStato(id){
+  var card = document.getElementById('card-0'+id.replace('0',''));
+  // cerca per id card-XX
+  var el = document.getElementById('card-'+id);
+  var tog = document.getElementById('tog-'+id);
+  var dot = document.getElementById('tog-dot-'+id);
+  var on = stato[id];
+  if(el){ el.style.display = on ? '' : 'none'; }
+  if(tog){ tog.style.background = on ? '#c9a84c' : '#3a3228'; }
+  if(dot){ dot.style.left = on ? '25px' : '3px'; }
+}
+
+function tuttiOn(){
+  Object.keys(stato).forEach(function(id){
+    stato[id]=true; applicaStato(id);
+  });
+  try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
+}
+
+function tuttiOff(){
+  Object.keys(stato).forEach(function(id){
+    stato[id]=false; applicaStato(id);
+  });
+  try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
+}
+
+// Applica stato al caricamento
+window.addEventListener('DOMContentLoaded', function(){
+  Object.keys(stato).forEach(function(id){ applicaStato(id); });
+});
 </script>
 </body>
 </html>
