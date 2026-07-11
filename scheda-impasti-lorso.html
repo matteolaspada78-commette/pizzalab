@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Scheda Impasti — L'Orso · Nero di Seppia & Padellino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark only;}
+html{background:#0b0908!important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;min-height:100vh;}
+
+/* COVER */
+.cover{background:#080605!important;text-align:center;padding:3.5rem 1.5rem 3rem;border-bottom:1px solid #c9a84c;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 45% at 50% 105%,rgba(201,168,76,.12) 0%,transparent 70%);pointer-events:none;}
+.ci{position:relative;z-index:1;}
+.c-eye{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:1.2rem;display:block;}
+.c-logo{font-family:'Cormorant Garamond',serif;font-size:4.8rem;font-weight:300;color:#f0ebe0!important;line-height:.88;margin-bottom:.15rem;display:block;}
+.c-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#c9a84c!important;margin-bottom:2rem;letter-spacing:.09em;display:block;}
+.c-div{width:48px;height:1px;background:#c9a84c;margin:0 auto 2rem;display:block;}
+.c-info{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:#7a6a58!important;line-height:2.4;display:block;}
+.c-firma{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(201,168,76,.22);}
+.c-fl{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:#7a6a58!important;margin-bottom:.25rem;display:block;}
+.c-fn{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:#f0ebe0!important;display:block;}
+
+/* NAV */
+.nav{background:#0d0b09!important;display:flex;border-bottom:1px solid rgba(201,168,76,.2);position:sticky;top:0;z-index:300;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;font-family:'Montserrat',sans-serif;font-size:.48rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:.85rem .9rem;border:none;background:transparent!important;color:#6a5f50!important;cursor:pointer;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;white-space:nowrap;}
+.ntab.active{color:#c9a84c!important;border-bottom-color:#c9a84c;}
+
+/* SEZIONI */
+.sez{display:none;}
+.sez.active{display:block;}
+
+/* BLOCCHI */
+.blk{padding:2rem 1.3rem;border-bottom:1px solid rgba(201,168,76,.1);}
+.blk-dark{background:#0b0908!important;}
+.blk-mid{background:#0e0c09!important;}
+
+.s-eye{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.4rem;display:block;}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:#f0ebe0!important;line-height:1.15;margin-bottom:.9rem;}
+.s-title em{font-style:italic;color:#c9a84c;}
+.s-body{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#c0b8a8!important;line-height:1.78;}
+.s-body strong{font-style:normal;color:#e8d08a!important;font-weight:600;}
+
+/* IMPASTO CARD */
+.imp-card{background:rgba(201,168,76,.04)!important;border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1.5rem 1.2rem;margin-bottom:1.5rem;}
+.imp-card:last-child{margin-bottom:0;}
+.imp-tag{font-size:.46rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.35rem;display:block;}
+.imp-nome{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#f0ebe0!important;line-height:1.15;margin-bottom:.2rem;}
+.imp-sottotitolo{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-style:italic;color:#8a7a68!important;margin-bottom:1rem;}
+.imp-divider{width:32px;height:1px;background:rgba(201,168,76,.3);margin:.8rem 0;}
+
+/* FARINE */
+.farina-row{display:flex;align-items:center;gap:.8rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.farina-row:last-child{border-bottom:none;}
+.farina-pct{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:rgba(201,168,76,.5)!important;line-height:1;flex-shrink:0;width:48px;text-align:right;}
+.farina-body{flex:1;}
+.farina-nome{font-size:.72rem;font-weight:600;color:#d8d0bc!important;}
+.farina-desc{font-size:.6rem;color:#7a6a58!important;line-height:1.5;margin-top:.1rem;}
+
+/* PREFERMENTO + LIEVITO */
+.pref-block{background:rgba(255,255,255,.03)!important;border:1px solid rgba(201,168,76,.12);border-radius:3px;padding:1rem 1rem .8rem;margin:.9rem 0;}
+.pref-lbl{font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.4rem;display:block;}
+.pref-text{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:#b8b0a0!important;line-height:1.72;}
+
+/* FILOSOFIA — nessun grasso */
+.nograss{display:flex;align-items:flex-start;gap:.7rem;background:rgba(201,168,76,.06)!important;border:1px solid rgba(201,168,76,.22);border-radius:3px;padding:.8rem .9rem;margin:.9rem 0;}
+.nograss-ico{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+.nograss-text{font-size:.7rem;color:#e8d08a!important;line-height:1.62;}
+.nograss-text strong{font-weight:700;color:#f0ebe0!important;}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.8rem 0;}
+.chip{font-size:.48rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.28em .75em;border-radius:2px;background:rgba(201,168,76,.1)!important;color:#c9a84c!important;border:1px solid rgba(201,168,76,.25);}
+
+/* COTTURA STEPS */
+.cottura-block{margin-top:1rem;}
+.cottura-lbl{font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50!important;margin-bottom:.6rem;display:block;}
+.cottura-steps{display:flex;gap:0;border-radius:3px;overflow:hidden;border:1px solid rgba(201,168,76,.18);}
+.cot-step{flex:1;text-align:center;padding:.75rem .3rem;border-right:1px solid rgba(201,168,76,.15);}
+.cot-step:last-child{border-right:none;}
+.cot-ico{font-size:1.2rem;display:block;margin-bottom:.3rem;}
+.cot-min{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#c9a84c!important;display:block;line-height:1;}
+.cot-tipo{font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7a6a58!important;margin-top:.2rem;display:block;}
+.cot-note{font-size:.56rem;color:#b0a090!important;margin-top:.15rem;display:block;line-height:1.4;}
+
+/* DETTAGLIO COTTURA */
+.cot-detail{background:#0b0908!important;border-radius:3px;padding:.8rem .9rem;margin-top:.7rem;}
+.cot-detail-lbl{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5f50!important;margin-bottom:.5rem;display:block;}
+.cot-detail-row{display:flex;gap:.6rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:flex-start;}
+.cot-detail-row:last-child{border-bottom:none;}
+.cot-detail-n{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(201,168,76,.35)!important;flex-shrink:0;line-height:1;margin-top:.1rem;}
+.cot-detail-txt{font-size:.68rem;color:#a09080!important;line-height:1.6;}
+.cot-detail-txt strong{color:#d8d0bc!important;font-weight:600;}
+
+/* DIFFERENZE */
+.diff-row{display:flex;gap:.8rem;padding:.8rem 0;border-bottom:1px solid rgba(201,168,76,.1);}
+.diff-row:last-child{border-bottom:none;}
+.diff-ico{font-size:1.1rem;flex-shrink:0;}
+.diff-body{flex:1;}
+.diff-title{font-size:.72rem;font-weight:600;color:#d8d0bc!important;margin-bottom:.15rem;}
+.diff-text{font-size:.65rem;color:#8a7a68!important;line-height:1.58;}
+
+/* RUNNER */
+.runner{background:rgba(139,58,30,.09)!important;border:1px solid rgba(139,58,30,.3);border-radius:3px;padding:.7rem .9rem;margin-top:.9rem;}
+.runner-l{font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a!important;margin-bottom:.28rem;display:block;}
+.runner-t{font-size:.66rem;color:#d8d0bc!important;line-height:1.62;font-weight:500;}
+
+/* FARINE SCHEDE */
+.farina-card{border-bottom:1px solid rgba(201,168,76,.1);padding:1.5rem 1.2rem;background:#0b0908!important;}
+.farina-card:last-child{border-bottom:none;}
+.farina-card-nome{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#e8d08a!important;margin-bottom:.15rem;}
+.farina-card-sub{font-size:.48rem;letter-spacing:.24em;text-transform:uppercase;color:#c9a84c!important;margin-bottom:.9rem;display:block;}
+.farina-card-lbl{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5f50!important;margin-bottom:.28rem;display:block;margin-top:.85rem;}
+.farina-card-text{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:#c0b8a8!important;line-height:1.72;}
+
+/* FIRMA */
+.firma-block{background:#080605!important;border-top:1px solid rgba(192,57,43,.25);padding:2rem 1.5rem 3rem;text-align:center;}
+.firma-inner{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;}
+.firma-lbl{font-size:.44rem;letter-spacing:.4em;text-transform:uppercase;color:#6a5545;font-family:'Montserrat',sans-serif;}
+.firma-nome{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;font-weight:300;color:#f0ebe0;}
+.firma-ruolo{font-size:.44rem;letter-spacing:.35em;text-transform:uppercase;color:#c9a84c;font-family:'Montserrat',sans-serif;}
+.firma-line{width:36px;height:1px;background:rgba(201,168,76,.4);margin:.5rem 0;}
+.firma-tag{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:#4a3a2a;font-family:'Montserrat',sans-serif;}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="ci">
+    <span class="c-eye">L'Orso · Messina · Scheda Tecnica Interna</span>
+    <span class="c-logo">L'Orso</span>
+    <span class="c-sub">Impasti Speciali — Nero di Seppia & Padellino</span>
+    <span class="c-div"></span>
+    <span class="c-info">Uso interno · Personale di sala e cucina<br>Tecnica · Farine · Filosofia · Cotture</span>
+    <div class="c-firma">
+      <span class="c-fl">a cura di</span>
+      <span class="c-fn">Matteo La Spada</span>
+      <span class="c-fl" style="margin-top:.2rem">Pizzaiolo · L'Orso · Blanco · Messina</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="ntab active" onclick="S('impasti',this)">Gli Impasti</button>
+  <button class="ntab" onclick="S('farine',this)">Le Farine</button>
+  <button class="ntab" onclick="S('filosofia',this)">Filosofia</button>
+  <button class="ntab" onclick="S('cotture',this)">Le Cotture</button>
+</div>
+
+
+<!-- ═══ GLI IMPASTI ═══ -->
+<div class="sez active" id="sez-impasti">
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Due impasti speciali · Stessa filosofia</span>
+    <div class="s-title">Nero di Seppia<br>& <em>Padellino</em></div>
+    <p class="s-body">Due impasti speciali dell'Orso — visivamente agli antipodi, tecnicamente fratelli. Stesso blend di farine, stesso prefermento Biga, stesso lievito madre vivo. Cambiano le percentuali, il colore, il formato e la sequenza di cottura. <strong>Nessun grasso, nessun additivo — solo farina, acqua, sale e fermentazione.</strong></p>
+  </div>
+
+  <!-- NERO DI SEPPIA -->
+  <div class="blk blk-mid">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 01 · Fata Morgana</span>
+      <div class="imp-nome">Impasto al Nero di Seppia</div>
+      <div class="imp-sottotitolo">Il disco nero che porta la Fata Morgana</div>
+      <div class="imp-divider"></div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">~48%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 0102 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 1 da grano germogliato · leggerezza, digeribilità, fragranza</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">~47%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 5078 — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 0 · farro integrale + soia + crusca tostata · colore e nota tostata</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">5%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Margherito — Grano Antico Siciliano</div>
+            <div class="farina-desc">Cultivar antica di Sicilia · profumo floreale, dolcezza naturale, storia</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">+</div>
+          <div class="farina-body">
+            <div class="farina-nome">Nero di seppia</div>
+            <div class="farina-desc">Aggiunto in impasto · colore nero, nota marina delicata, identità visiva</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Prefermento + Lievito</span>
+        <div class="pref-text">Biga 24h + lievito madre vivo. La Biga si prepara il giorno prima con una percentuale delle farine, pochissima acqua e pochissimo lievito. Fermentazione 18–24 ore. Il lievito madre vivo viene aggiunto in percentuale al rinfresco finale — porta acidità delicata e aromi impossibili da ottenere artificialmente.</div>
+      </div>
+
+      <div class="nograss">
+        <span class="nograss-ico">✦</span>
+        <div class="nograss-text"><strong>Ingredienti: farina · acqua · sale · Biga · lievito madre.</strong> Nessun grasso — né animale né vegetale. Nessun lievito di birra aggiuntivo. Nessun additivo. Solo fermentazione.</div>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Sequenza di cottura — 2 fasi</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(100,160,200,.08);">
+            <span class="cot-ico">💨</span>
+            <span class="cot-min">7'</span>
+            <span class="cot-tipo">Vapore</span>
+            <span class="cot-note">Struttura interna · alveolatura · morbidezza</span>
+          </div>
+          <div class="cot-step" style="background:rgba(201,168,76,.06);">
+            <span class="cot-ico">🔥</span>
+            <span class="cot-min">2'–4'</span>
+            <span class="cot-tipo">Statico</span>
+            <span class="cot-note">Crosta · colore · doratura finale</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner — cosa ricordare</span>
+        <div class="runner-t">Disco nero al nero di seppia. Stesso blend Petra 0102 HP + 5078 + 5% Margherito. Biga 24h + lievito madre. Zero grassi. 2 cotture: vapore 7' → statico 2'–4'. Usato per la Fata Morgana.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PADELLINO -->
+  <div class="blk blk-dark">
+    <div class="imp-card">
+      <span class="imp-tag">Impasto 02 · Disgraziata</span>
+      <div class="imp-nome">Impasto Padellino</div>
+      <div class="imp-sottotitolo">Le tre cotture della Disgraziata</div>
+      <div class="imp-divider"></div>
+
+      <span style="font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;color:#6a5f50;margin-bottom:.5rem;display:block;">Blend farine</span>
+      <div>
+        <div class="farina-row">
+          <div class="farina-pct">~48%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 0102 HP — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 1 da grano germogliato · leggerezza, digeribilità, fragranza</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">~47%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Petra 5078 — Mulino Quaglia</div>
+            <div class="farina-desc">Tipo 0 · farro integrale + soia + crusca tostata · colore ambrato e nota tostata</div>
+          </div>
+        </div>
+        <div class="farina-row">
+          <div class="farina-pct">5%</div>
+          <div class="farina-body">
+            <div class="farina-nome">Margherito — Grano Antico Siciliano</div>
+            <div class="farina-desc">Cultivar antica di Sicilia · profumo floreale, dolcezza naturale, storia</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-block">
+        <span class="pref-lbl">Prefermento + Lievito</span>
+        <div class="pref-text">Identico al nero di seppia — Biga 24h + lievito madre vivo. La complessità aromatica del padellino deriva interamente dalla fermentazione, non da additivi o grassi. La Biga costruisce la struttura, il lievito madre costruisce il carattere.</div>
+      </div>
+
+      <div class="nograss">
+        <span class="nograss-ico">✦</span>
+        <div class="nograss-text"><strong>Ingredienti: farina · acqua · sale · Biga · lievito madre.</strong> Nessun grasso — né animale né vegetale. Nessun lievito di birra aggiuntivo. Nessun additivo. Solo fermentazione.</div>
+      </div>
+
+      <div class="cottura-block">
+        <span class="cottura-lbl">Sequenza di cottura — 3 fasi</span>
+        <div class="cottura-steps">
+          <div class="cot-step" style="background:rgba(100,160,200,.08);">
+            <span class="cot-ico">💨</span>
+            <span class="cot-min">7'</span>
+            <span class="cot-tipo">Vapore</span>
+            <span class="cot-note">Struttura · alveolatura · interno morbido</span>
+          </div>
+          <div class="cot-step" style="background:rgba(180,120,60,.08);">
+            <span class="cot-ico">🌀</span>
+            <span class="cot-min">12'–13'</span>
+            <span class="cot-tipo">Ventilato</span>
+            <span class="cot-note">Crosta · asciugatura · colore ambrato</span>
+          </div>
+          <div class="cot-step" style="background:rgba(201,168,76,.06);">
+            <span class="cot-ico">🔥</span>
+            <span class="cot-min">2'–4'</span>
+            <span class="cot-tipo">Statico</span>
+            <span class="cot-note">Doratura finale · croccantezza</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="runner">
+        <span class="runner-l">⚡ Runner — cosa ricordare</span>
+        <div class="runner-t">Padellino della Disgraziata. Stesso blend Petra 0102 HP + 5078 + 5% Margherito. Biga 24h + lievito madre. Zero grassi. 3 cotture: vapore 7' → ventilato 12'–13' → statico 2'–4'. La pizza più tecnica per cottura.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /impasti -->
+
+
+<!-- ═══ LE FARINE ═══ -->
+<div class="sez" id="sez-farine">
+  <div style="text-align:center;padding:1.8rem 1.5rem 1rem;background:#0b0908;">
+    <span style="font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:#c9a84c;margin-bottom:.4rem;display:block;">Mulino Quaglia · Farine Petra</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:#f0ebe0;">Le Tre Farine</div>
+  </div>
+  <div>
+
+    <div class="farina-card">
+      <div class="farina-card-nome">Petra 0102 HP</div>
+      <span class="farina-card-sub">Mulino Quaglia · Tipo 1 · Grano tenero germogliato · ~48% del blend</span>
+      <span class="farina-card-lbl">Il processo di germogliazione</span>
+      <div class="farina-card-text">La 0102 HP nasce da un processo brevettato di Mulino Quaglia: il grano tenero viene fatto germogliare in modo controllato prima della macinazione. La germogliazione attiva enzimi naturali che trasformano le proteine del chicco rendendole più digeribili e aromatiche. Il risultato è una farina di tipo 1 che lavora con la stabilità di una 0 — porta la fibra e i profumi del grano semintegrale senza la pesantezza. Dà all'impasto struttura, fragranza intensa e quella nota di grano tostato che si sente al naso quando la pizza esce dal forno.</div>
+      <span class="farina-card-lbl">Perché la usiamo</span>
+      <div class="farina-card-text">È la spina dorsale dell'impasto — porta digeribilità e struttura. La germogliazione abbassa l'indice glicemico naturalmente, senza additivi. Per chi ha sensibilità al glutine non celiaca, è significativamente più tollerata rispetto alle farine convenzionali.</div>
+      <div class="runner" style="margin-top:.9rem;"><span class="runner-l">⚡ Runner</span><div class="runner-t">Grano tenero tipo 1 germogliato — più digeribile, più aromatica. Dà struttura e profumo di grano tostato. La spina dorsale dell'impasto.</div></div>
+    </div>
+
+    <div class="farina-card">
+      <div class="farina-card-nome">Petra 5078</div>
+      <span class="farina-card-sub">Mulino Quaglia · Tipo 0 · Farro + Soia + Crusca tostata · ~47% del blend</span>
+      <span class="farina-card-lbl">La miscela</span>
+      <div class="farina-card-text">La 5078 è una miscela studiata per la lunga fermentazione: grano tenero tipo 0 arricchito con farro integrale, soia e crusca tostata. Tre ingredienti che lavorano in sinergia. Il farro porta fragranza e una nota dolce-nocciola. La soia aggiunge proteine che rafforzano la maglia glutinica e la rendono più elastica durante la lavorazione. La crusca tostata è la firma visiva e aromatica dell'impasto — è lei che dà il colore ambrato scuro al cornicione e quella nota tostata profonda e persistente che si sente al primo morso.</div>
+      <span class="farina-card-lbl">Perché la usiamo</span>
+      <div class="farina-card-text">Stabilità eccellente in lunga fermentazione anche a 48h in cella a 4°C. La crusca tostata è visivamente identificabile — il cliente vede le piccole striature scure nell'impasto e nel cornicione. Ogni punto scuro è crusca tostata, non bruciatura.</div>
+      <div class="runner" style="margin-top:.9rem;"><span class="runner-l">⚡ Runner</span><div class="runner-t">Farro + soia + crusca tostata. Dà il colore ambrato e la nota tostata al cornicione. Le striature scure nell'impasto sono crusca — non bruciatura. Ottima stabilità in lunga fermentazione.</div></div>
+    </div>
+
+    <div class="farina-card">
+      <div class="farina-card-nome">Margherito</div>
+      <span class="farina-card-sub">Grano antico siciliano · Cultivar storica · 5% del blend</span>
+      <span class="farina-card-lbl">Cos'è il Margherito</span>
+      <div class="farina-card-text">Il Margherito è una cultivar di grano tenero antico tipica della Sicilia — coltivata nell'isola da secoli, quasi scomparsa con la modernizzazione agricola del Novecento e ora recuperata da piccoli produttori e consorzi di salvaguardia. Ha una spiga alta, delicata, con bassissime rese per ettaro — il contrario del grano moderno selezionato per la produzione industriale. La farina che ne deriva ha un profilo aromatico completamente diverso: note floreali, dolcezza naturale, un retrogusto delicato e persistente. Non è il grano di oggi — è la memoria del pane siciliano di una volta.</div>
+      <span class="farina-card-lbl">Perché il 5%</span>
+      <div class="farina-card-text">Cinque percento è la percentuale giusta per contribuire al profumo e al carattere senza alterare la struttura tecnica dell'impasto, che dipende dalla forza della 0102 HP e dalla stabilità della 5078. È una firma aromatica, non una modifica strutturale — basta sentire l'impasto a crudo per percepire la differenza rispetto a un blend senza grani antichi.</div>
+      <div class="runner" style="margin-top:.9rem;"><span class="runner-l">⚡ Runner</span><div class="runner-t">Grano antico siciliano, quasi scomparso, ora recuperato. 5% — firma aromatica floreale e dolce. Non modifica la struttura ma cambia il profumo. La memoria del pane siciliano nell'impasto.</div></div>
+    </div>
+
+  </div>
+</div><!-- /farine -->
+
+
+<!-- ═══ FILOSOFIA ═══ -->
+<div class="sez" id="sez-filosofia">
+
+  <div class="blk blk-dark">
+    <span class="s-eye">La nostra posizione</span>
+    <div class="s-title">Nessun grasso.<br><em>Mai.</em></div>
+    <p class="s-body">
+      In entrambi gli impasti speciali — nero di seppia e padellino — come in tutti gli impasti dell'Orso, non aggiungiamo <strong>nessun tipo di grasso</strong>. Né animale (strutto, burro) né vegetale (olio, margarina). È una scelta tecnica e filosofica insieme.
+    </p>
+  </div>
+
+  <div class="blk blk-mid">
+    <span class="s-eye">Gli unici 5 ingredienti</span>
+    <div class="s-title">Quello che c'è<br><em>nell'impasto</em></div>
+    <div style="margin-top:.5rem;">
+      <div class="diff-row">
+        <span class="diff-ico">🌾</span>
+        <div class="diff-body">
+          <div class="diff-title">Farina</div>
+          <div class="diff-text">Blend Petra 0102 HP + 5078 + 5% Margherito. Tre farine scelte per struttura, aroma e identità. Mulino Quaglia.</div>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-ico">💧</span>
+        <div class="diff-body">
+          <div class="diff-title">Acqua</div>
+          <div class="diff-text">Acqua di qualità a temperatura controllata. L'idratazione viene calibrata sul blend specifico e sulla stagione.</div>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-ico">🧂</span>
+        <div class="diff-body">
+          <div class="diff-title">Sale</div>
+          <div class="diff-text">Sale marino. Aggiunto in fase finale per non inibire la fermentazione della Biga.</div>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-ico">🔄</span>
+        <div class="diff-body">
+          <div class="diff-title">Biga — il prefermento</div>
+          <div class="diff-text">Fatta il giorno prima con una percentuale delle farine, pochissima acqua e pochissimo lievito. Fermentazione 18–24 ore. Costruisce aromi complessi e struttura glutinica. Non si può accelerare — è il tempo che la rende quello che è.</div>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-ico">🌱</span>
+        <div class="diff-body">
+          <div class="diff-title">Lievito madre vivo</div>
+          <div class="diff-text">Colturato e rinfrescato ogni giorno. Ecosistema vivo di batteri lattici e lieviti selvatici. Porta acidità delicata, digeribilità superiore e aromi che nessun lievito di birra può produrre. Non viene sostituito con lievito di birra — mai.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Perché nessun grasso</span>
+    <div class="s-title">La leggerezza<br>è <em>tecnica</em></div>
+    <p class="s-body">I grassi nell'impasto — olio, strutto, margarina — impermeabilizzano la maglia glutinica rendendola più morbida e estensibile. Sembrano un vantaggio tecnico ma hanno un costo: <strong>rallentano la digeribilità, coprono i profumi del grano, appesantiscono il morso.</strong><br><br>
+    La leggerezza che si sente nei nostri impasti non viene da nessun ingrediente aggiunto — viene dalla fermentazione lunga, dalla qualità delle farine e dalla cottura precisa. È più difficile da ottenere così. Ed è per questo che vale la pena farlo.</p>
+
+    <div class="nograss" style="margin-top:1.2rem;">
+      <span class="nograss-ico">✦</span>
+      <div class="nograss-text"><strong>Cosa diciamo al cliente:</strong> "Il nostro impasto è fatto con farina, acqua, sale e lievito madre vivo — nessun grasso. La leggerezza che senti è tutta nella fermentazione."</div>
+    </div>
+  </div>
+
+</div><!-- /filosofia -->
+
+
+<!-- ═══ LE COTTURE ═══ -->
+<div class="sez" id="sez-cotture">
+
+  <div class="blk blk-dark">
+    <span class="s-eye">Perché più cotture</span>
+    <div class="s-title">La cottura<br>come <em>costruzione</em></div>
+    <p class="s-body">Una sola cottura produce un risultato mediocre — crosta e interno cuociono allo stesso ritmo senza distinzione. Le cotture multiple costruiscono <strong>strati di consistenza</strong>: prima si costruisce l'interno, poi si costruisce l'esterno. Il vapore e il forno non si sostituiscono — si completano.</p>
+  </div>
+
+  <!-- COTTURA NERO DI SEPPIA -->
+  <div class="blk blk-mid">
+    <span class="s-eye">Nero di Seppia · 2 cotture</span>
+    <div class="s-title">Vapore → <em>Statico</em></div>
+
+    <div class="cot-detail">
+      <span class="cot-detail-lbl">Fase 1 — Vapore · 7 minuti</span>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">01</span>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il vapore penetra nell'impasto uniformemente senza seccare la superficie. L'interno cuoce per convezione umida — l'alveolatura si apre, la struttura si consolida, il disco nero rimane idratato internamente.</div>
+      </div>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">02</span>
+        <div class="cot-detail-txt"><strong>Perché 7 minuti:</strong> è il tempo esatto per strutturare l'interno senza iniziare a seccare la superficie. Meno non basta — più è troppo.</div>
+      </div>
+    </div>
+
+    <div class="cot-detail" style="margin-top:.7rem;">
+      <span class="cot-detail-lbl">Fase 2 — Statico · 2–4 minuti</span>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">03</span>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il calore secco del forno statico asciuga la superficie esterna e crea la crosta. Sul nero di seppia la crosta diventa lucida e leggermente scura — il colore nero si intensifica con il calore secco.</div>
+      </div>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">04</span>
+        <div class="cot-detail-txt"><strong>Perché statico e non ventilato:</strong> lo statico distribuisce il calore uniformemente senza asciugare troppo velocemente. Il ventilato sul nero di seppia rischierebbe di seccare eccessivamente la superficie perdendo la lucentezza caratteristica del disco.</div>
+      </div>
+    </div>
+
+    <div class="runner" style="margin-top:.9rem;">
+      <span class="runner-l">⚡ Runner</span>
+      <div class="runner-t">Nero di seppia: vapore 7' → statico 2'–4'. Interno morbido e alveolato, esterno lucido e croccante. Lo statico preserva la lucentezza del nero.</div>
+    </div>
+  </div>
+
+  <!-- COTTURA PADELLINO -->
+  <div class="blk blk-dark">
+    <span class="s-eye">Padellino · 3 cotture</span>
+    <div class="s-title">Vapore → Ventilato<br>→ <em>Statico</em></div>
+
+    <div class="cot-detail">
+      <span class="cot-detail-lbl">Fase 1 — Vapore · 7 minuti</span>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">01</span>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il vapore penetra nel padellino alto e spesso costruendo l'interno. L'alveolatura si apre completamente — il padellino a questa fase è morbido dentro e fuori, non ha ancora crosta. È la base su cui le due cotture successive costruiranno la consistenza.</div>
+      </div>
+    </div>
+
+    <div class="cot-detail" style="margin-top:.7rem;">
+      <span class="cot-detail-lbl">Fase 2 — Ventilato · 12–13 minuti</span>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">02</span>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> l'aria forzata asciuga uniformemente tutta la superficie esterna. Si forma la crosta su tutti i lati del padellino — sopra, sotto e lateralmente. Il colore passa da bianco a ambrato scuro. La nota tostata della crusca Petra 5078 diventa pienamente leggibile.</div>
+      </div>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">03</span>
+        <div class="cot-detail-txt"><strong>Perché 12–13 minuti:</strong> il padellino è spesso — l'aria deve avere il tempo di asciugare in profondità. Meno tempo lascia l'interno troppo umido, più tempo brucia la superficie.</div>
+      </div>
+    </div>
+
+    <div class="cot-detail" style="margin-top:.7rem;">
+      <span class="cot-detail-lbl">Fase 3 — Statico · 2–4 minuti</span>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">04</span>
+        <div class="cot-detail-txt"><strong>Cosa succede:</strong> il calore secco e uniforme dello statico porta la crosta al suo stadio finale — scura, croccante, quasi caramellata all'esterno. È la fase che produce quella crosta che fa rumore quando si tocca e che nessuna singola cottura può produrre da sola.</div>
+      </div>
+      <div class="cot-detail-row">
+        <span class="cot-detail-n">05</span>
+        <div class="cot-detail-txt"><strong>Il risultato:</strong> fuori croccante e scuro come un biscotto, dentro morbido e alveolato come un panino di qualità. Il contrasto massimo tra esterno e interno — quello che rende il padellino irripetibile.</div>
+      </div>
+    </div>
+
+    <div class="runner" style="margin-top:.9rem;">
+      <span class="runner-l">⚡ Runner</span>
+      <div class="runner-t">Padellino: vapore 7' (interno) → ventilato 12'–13' (crosta su tutti i lati) → statico 2'–4' (doratura finale). Tre fasi, tre risultati sovrapposti. La crosta che fa rumore viene da qui.</div>
+    </div>
+  </div>
+
+  <div class="blk blk-mid">
+    <span class="s-eye">Per il personale di sala</span>
+    <div class="s-title">Come spiegarlo<br><em>al cliente</em></div>
+    <div style="margin-top:.5rem;">
+      <div class="diff-row">
+        <span class="diff-ico">⚫</span>
+        <div class="diff-body">
+          <div class="diff-title">Fata Morgana — disco nero</div>
+          <div class="diff-text">"Il disco è al nero di seppia — colore e una nota marina delicata nell'impasto. Due cotture: prima vapore, poi statico. L'interno è morbido e alveolato, la superficie lucida."</div>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-ico">🔲</span>
+        <div class="diff-body">
+          <div class="diff-title">Disgraziata — padellino</div>
+          <div class="diff-text">"Il padellino fa tre cotture sequenziali — vapore, ventilato e statico. La crosta scura che vedi è il risultato di questo processo, non di bruciatura. Fuori croccante come un biscotto, dentro morbido."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /cotture -->
+
+
+<div class="firma-block">
+  <div class="firma-inner">
+    <span class="firma-lbl">Ideato e realizzato da</span>
+    <span class="firma-nome">Matteo La Spada</span>
+    <span class="firma-ruolo">Pizzaiolo · L'Orso · Blanco · Messina</span>
+    <div class="firma-line"></div>
+    <span class="firma-tag">#SEGUILORSO · blancopizzalab.it</span>
+  </div>
+</div>
+
+<script>
+function S(id,btn){
+  document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sez-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
