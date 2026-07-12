@@ -370,7 +370,10 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
       <button onclick="tuttiOff()" style="flex:1;font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(255,255,255,.12);background:transparent;color:#6a5f50;border-radius:3px;cursor:pointer;">Tutti nascosti</button>
     </div>
 
-    <div style="margin-top:.5rem;font-size:.6rem;color:#4a3a2a;text-align:center;line-height:1.6;">Le preferenze vengono salvate sul dispositivo.<br>Chi apre il link vedrà solo gli impasti attivi.</div>
+    <div style="margin-top:.5rem;font-size:.6rem;color:#4a3a2a;text-align:center;line-height:1.6;">Le preferenze qui sopra valgono solo su <strong style="color:#7a6a58;">questo dispositivo</strong> — servono a te per lavorare sulla scheda.<br>Per mandare la scheda a qualcuno mostrando solo gli impasti scelti, usa il pulsante sotto: genera un file nuovo, pulito, senza gli impasti nascosti e senza il tab Gestione.</div>
+
+    <button onclick="esportaVersione()" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:1rem;border:1px solid #c9a84c;background:rgba(201,168,76,.12);color:#f0ebe0;border-radius:3px;cursor:pointer;">⬇ Genera file da inviare</button>
+    <div id="esporta-esito" style="margin-top:.6rem;font-size:.58rem;color:#c9a84c;text-align:center;display:none;"></div>
 
   </div>
 </div>
@@ -385,7 +388,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- NERO DI SEPPIA -->
-  <div class="blk blk-mid">
+  <div class="blk blk-mid" data-impasto="01">
     <div class="imp-card">
       <span class="imp-tag">Impasto 01 · Fata Morgana</span>
       <div class="imp-nome">Impasto al Nero di Seppia</div>
@@ -460,7 +463,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- PADELLINO -->
-  <div class="blk blk-dark">
+  <div class="blk blk-dark" data-impasto="02">
     <div class="imp-card">
       <span class="imp-tag">Impasto 02 · Disgraziata</span>
       <div class="imp-nome">Impasto Padellino</div>
@@ -656,7 +659,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- COTTURA NERO DI SEPPIA -->
-  <div class="blk blk-mid">
+  <div class="blk blk-mid" data-impasto="01">
     <span class="s-eye">Nero di Seppia · 2 cotture</span>
     <div class="s-title">Vapore → <em>Statico</em></div>
 
@@ -691,7 +694,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- COTTURA PADELLINO -->
-  <div class="blk blk-dark">
+  <div class="blk blk-dark" data-impasto="02">
     <span class="s-eye">Padellino · 3 cotture</span>
     <div class="s-title">Vapore → Ventilato<br>→ <em>Statico</em></div>
 
@@ -737,14 +740,14 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-eye">Per il personale di sala</span>
     <div class="s-title">Come spiegarlo<br><em>al cliente</em></div>
     <div style="margin-top:.5rem;">
-      <div class="diff-row">
+      <div class="diff-row" data-impasto="01">
         <span class="diff-ico">⚫</span>
         <div class="diff-body">
           <div class="diff-title">Fata Morgana — disco nero</div>
           <div class="diff-text">"Il disco è al nero di seppia — colore e una nota marina delicata nell'impasto. Due cotture: prima vapore, poi statico. L'interno è morbido e alveolato, la superficie lucida."</div>
         </div>
       </div>
-      <div class="diff-row">
+      <div class="diff-row" data-impasto="02">
         <span class="diff-ico">🔲</span>
         <div class="diff-body">
           <div class="diff-title">Disgraziata — padellino</div>
@@ -767,7 +770,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- PIZZA IN PALA -->
-  <div class="blk blk-mid">
+  <div class="blk blk-mid" data-impasto="03">
     <div class="imp-card">
       <span class="imp-tag">Impasto 03 · Pizza in Pala</span>
       <div class="imp-nome">Pizza in Pala</div>
@@ -834,7 +837,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- IMPASTO NAPOLETANO -->
-  <div class="blk blk-dark">
+  <div class="blk blk-dark" data-impasto="04">
     <div class="imp-card">
       <span class="imp-tag">Impasto 04 · Napoletano Contemporaneo</span>
       <div class="imp-nome">Impasto Napoletano</div>
@@ -905,7 +908,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
   </div>
 
   <!-- PANE DELL'ORSO -->
-  <div class="blk blk-mid">
+  <div class="blk blk-mid" data-impasto="05">
     <div class="imp-card">
       <span class="imp-tag">Impasto 05 · Panificazione</span>
       <div class="imp-nome">Pane dell'Orso</div>
@@ -991,7 +994,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 
 
   <!-- 100H -->
-  <div class="blk blk-dark">
+  <div class="blk blk-dark" data-impasto="06">
     <div class="imp-card">
       <span class="imp-tag">Impasto 06 · La pizza dell'errore</span>
       <div class="imp-nome">100H</div>
@@ -1082,32 +1085,32 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <tr data-impasto="01" style="border-bottom:1px solid rgba(255,255,255,.05);">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Nero di Seppia</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Vapore 7' → Statico 2'–4'</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <tr data-impasto="02" style="border-bottom:1px solid rgba(255,255,255,.05);">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Padellino</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Vapore 7' → Vent. 12'–13' → Statico 2'–4'</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <tr data-impasto="03" style="border-bottom:1px solid rgba(255,255,255,.05);">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Pizza in Pala</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 260° — 5'</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <tr data-impasto="04" style="border-bottom:1px solid rgba(255,255,255,.05);">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Napoletano</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Biga + Licoli</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Legna 450° — 60"–90"</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <tr data-impasto="05" style="border-bottom:1px solid rgba(255,255,255,.05);">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">Pane dell'Orso</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Solo Licoli</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico — 40'</td>
           </tr>
-          <tr>
+          <tr data-impasto="06">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">100H 🫒</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Lievito birra + Licoli</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 320° — ~8'–10'</td>
@@ -1131,12 +1134,11 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 </div>
 
 <script>
-// Stato visibilità — tutti attivi di default
+// Stato visibilità — tutti attivi di default (vale solo su QUESTO dispositivo/browser)
 var stato = {
   '01':true,'02':true,'03':true,'04':true,'05':true,'06':true
 };
 
-// Carica da localStorage se disponibile
 try {
   var saved = localStorage.getItem('impasti-stato');
   if(saved) stato = JSON.parse(saved);
@@ -1150,42 +1152,104 @@ function S(id,btn){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+// Applica la visibilità a TUTTI gli elementi collegati a un impasto,
+// in ogni sezione della scheda (card riepilogo, scheda tecnica, cotture, tabella confronto)
+function applicaStato(id){
+  document.querySelectorAll('[data-impasto="'+id+'"]').forEach(function(el){
+    var on = stato[id];
+    if(el.tagName === 'TR'){
+      el.style.display = on ? '' : 'none';
+    } else {
+      el.style.display = on ? '' : 'none';
+    }
+  });
+  var tog = document.getElementById('tog-'+id);
+  var dot = document.getElementById('tog-dot-'+id);
+  if(tog){ tog.style.background = stato[id] ? '#c9a84c' : '#3a3228'; }
+  if(dot){ dot.style.left = stato[id] ? '25px' : '3px'; }
+}
+
 function toggleImp(id){
   stato[id] = !stato[id];
   applicaStato(id);
   try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
 }
 
-function applicaStato(id){
-  var card = document.getElementById('card-0'+id.replace('0',''));
-  // cerca per id card-XX
-  var el = document.getElementById('card-'+id);
-  var tog = document.getElementById('tog-'+id);
-  var dot = document.getElementById('tog-dot-'+id);
-  var on = stato[id];
-  if(el){ el.style.display = on ? '' : 'none'; }
-  if(tog){ tog.style.background = on ? '#c9a84c' : '#3a3228'; }
-  if(dot){ dot.style.left = on ? '25px' : '3px'; }
-}
-
 function tuttiOn(){
-  Object.keys(stato).forEach(function(id){
-    stato[id]=true; applicaStato(id);
-  });
+  Object.keys(stato).forEach(function(id){ stato[id]=true; applicaStato(id); });
   try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
 }
 
 function tuttiOff(){
-  Object.keys(stato).forEach(function(id){
-    stato[id]=false; applicaStato(id);
-  });
+  Object.keys(stato).forEach(function(id){ stato[id]=false; applicaStato(id); });
   try{ localStorage.setItem('impasti-stato', JSON.stringify(stato)); }catch(e){}
 }
 
-// Applica stato al caricamento
 window.addEventListener('DOMContentLoaded', function(){
   Object.keys(stato).forEach(function(id){ applicaStato(id); });
 });
+
+// ═══ ESPORTA VERSIONE DA INVIARE ═══
+// Genera un file HTML nuovo e indipendente: gli impasti nascosti vengono
+// RIMOSSI dal codice (non solo nascosti via CSS), e il tab "Gestione"
+// sparisce del tutto. Chi riceve il file non può in nessun modo vedere
+// ciò che è stato tolto, perché non esiste più nel documento.
+function esportaVersione(){
+  var clone = document.documentElement.cloneNode(true);
+
+  // 1. Rimuove fisicamente gli elementi degli impasti disattivati
+  Object.keys(stato).forEach(function(id){
+    if(!stato[id]){
+      clone.querySelectorAll('[data-impasto="'+id+'"]').forEach(function(el){
+        el.parentNode.removeChild(el);
+      });
+    }
+  });
+
+  // 2. Rimuove il tab "Gestione" e la sua sezione dal file esportato
+  clone.querySelectorAll('.nav .ntab').forEach(function(btn){
+    if(btn.getAttribute('onclick') === "S('gestione',this)"){ btn.parentNode.removeChild(btn); }
+  });
+  var sezGestione = clone.querySelector('#sez-gestione');
+  if(sezGestione){ sezGestione.parentNode.removeChild(sezGestione); }
+
+  // 3. La sezione "Tutti gli Impasti" diventa il tab attivo di apertura
+  clone.querySelectorAll('.nav .ntab').forEach(function(b){ b.classList.remove('active'); });
+  clone.querySelectorAll('.sez').forEach(function(s){ s.classList.remove('active'); });
+  var firstTab = clone.querySelector(".nav .ntab[onclick=\"S('tutti',this)\"]");
+  var firstSez = clone.querySelector('#sez-tutti');
+  if(firstTab) firstTab.classList.add('active');
+  if(firstSez) firstSez.classList.add('active');
+
+  // 4. Pulisce lo script: nel file esportato non serve più gestire
+  //    lo stato di toggle, quindi resettiamo lo stato di default a "tutti visibili"
+  //    dato che i nascosti sono già stati rimossi dal markup.
+  var scriptTag = clone.querySelector('script');
+  if(scriptTag){
+    scriptTag.textContent = scriptTag.textContent.replace(
+      /var stato = \{[^}]*\};/,
+      "var stato = {'01':true,'02':true,'03':true,'04':true,'05':true,'06':true};"
+    );
+  }
+
+  var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  var blob = new Blob([html], {type:'text/html'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'scheda-impasti-lorso-condivisa.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  var esito = document.getElementById('esporta-esito');
+  if(esito){
+    var attivi = Object.keys(stato).filter(function(id){return stato[id];}).length;
+    esito.style.display = 'block';
+    esito.textContent = '✓ File generato — ' + attivi + ' impasti su 6 inclusi. Pronto per essere inviato.';
+  }
+}
 </script>
 </body>
 </html>
