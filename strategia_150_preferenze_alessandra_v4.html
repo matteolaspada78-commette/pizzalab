@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategia 150 Preferenze GPS — Alessandra Zangari · v4</title>
+<style>
+:root{
+  --bg:#0d0d0e;
+  --bg-2:#141416;
+  --bg-3:#1a1a1d;
+  --line:#2a2a2f;
+  --line-2:#3a3a42;
+  --text:#e8e6e0;
+  --text-2:#a8a49a;
+  --text-3:#6b6862;
+  --gold:#c9a961;
+  --gold-2:#d4b876;
+  --red:#c2453a;
+  --red-2:#e05a4d;
+  --blue:#5a8bb0;
+  --green:#7ba05b;
+  --amber:#d4903a;
+  --font-display:'Cinzel',serif;
+  --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+  --font-mono:'SF Mono','Menlo',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:15px;
+  line-height:1.55;
+  padding:0;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.hero{
+  padding:40px 20px 30px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#141416 0%,#0d0d0e 100%);
+  text-align:center;
+}
+.hero-eyebrow{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:26px;
+  letter-spacing:0.04em;
+  line-height:1.25;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--gold);
+  font-weight:400;
+}
+.hero-sub{
+  font-size:13px;
+  color:var(--text-2);
+  max-width:600px;
+  margin:12px auto 0;
+  line-height:1.5;
+}
+.hero-badge{
+  display:inline-block;
+  margin-top:16px;
+  padding:4px 12px;
+  background:rgba(194,69,58,0.15);
+  border:1px solid var(--red-2);
+  border-radius:20px;
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.15em;
+  color:var(--red-2);
+  text-transform:uppercase;
+}
+.hero-divider{
+  width:60px;
+  height:1px;
+  background:var(--gold);
+  margin:24px auto 0;
+  opacity:0.6;
+}
+
+/* CARDS */
+.card{
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:20px;
+  margin:20px;
+}
+.card-header{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.candidate-name{
+  font-family:var(--font-display);
+  font-size:20px;
+  letter-spacing:0.03em;
+  color:var(--text);
+  margin-bottom:16px;
+}
+
+/* ANALYSIS */
+.analysis{
+  background:linear-gradient(180deg,rgba(201,169,97,0.06) 0%,transparent 100%);
+  border-left:2px solid var(--gold);
+  padding:16px 18px;
+  margin:20px;
+  border-radius:0 6px 6px 0;
+}
+.analysis.critical{
+  background:linear-gradient(180deg,rgba(194,69,58,0.08) 0%,transparent 100%);
+  border-left:2px solid var(--red-2);
+}
+.analysis-title{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.analysis.critical .analysis-title{color:var(--red-2)}
+.analysis-text{
+  font-size:13px;
+  color:var(--text);
+  line-height:1.6;
+}
+.analysis-text strong{color:var(--gold-2);font-weight:600}
+.analysis.critical .analysis-text strong{color:var(--red-2)}
+
+/* SECTION TITLE */
+.section-title{
+  padding:32px 20px 12px;
+  text-align:center;
+}
+.section-title-eyebrow{
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.28em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.section-title h2{
+  font-family:var(--font-display);
+  font-size:20px;
+  font-weight:400;
+  letter-spacing:0.04em;
+  color:var(--text);
+}
+
+/* HOT POSTS BOX */
+.hot-posts{
+  margin:20px;
+  background:linear-gradient(135deg,rgba(194,69,58,0.12) 0%,rgba(201,169,97,0.08) 100%);
+  border:1px solid var(--red-2);
+  border-radius:10px;
+  padding:20px;
+}
+.hot-posts-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(224,90,77,0.3);
+}
+.hot-posts-title{
+  font-family:var(--font-display);
+  font-size:15px;
+  letter-spacing:0.04em;
+  color:var(--text);
+}
+.hot-posts-count{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--red-2);
+  padding:3px 10px;
+  border:1px solid var(--red-2);
+  border-radius:12px;
+}
+.hot-post{
+  padding:12px 0;
+  border-bottom:1px solid rgba(224,90,77,0.15);
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  gap:12px;
+  align-items:center;
+}
+.hot-post:last-child{border-bottom:none}
+.hot-post-num{
+  font-family:var(--font-display);
+  font-size:20px;
+  color:var(--red-2);
+}
+.hot-post-name{
+  font-size:14px;
+  color:var(--text);
+  font-weight:500;
+  margin-bottom:2px;
+  line-height:1.3;
+}
+.hot-post-detail{
+  font-size:11px;
+  color:var(--text-2);
+}
+.hot-post-badge{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--red-2);
+  padding:4px 8px;
+  background:rgba(194,69,58,0.15);
+  border-radius:4px;
+  white-space:nowrap;
+}
+
+/* TIER SECTIONS */
+.tier{
+  margin:8px 20px 24px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+}
+.tier-header{
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.tier-badge{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  padding:4px 10px;
+  border-radius:4px;
+  color:#0d0d0e;
+}
+.tier-1 .tier-badge{background:var(--red);color:#fff}
+.tier-2 .tier-badge{background:var(--gold)}
+.tier-3 .tier-badge{background:var(--green)}
+.tier-4 .tier-badge{background:var(--blue)}
+.tier-5 .tier-badge{background:var(--amber)}
+.tier-title{
+  font-family:var(--font-display);
+  font-size:15px;
+  letter-spacing:0.04em;
+  color:var(--text);
+  flex:1;
+}
+.tier-count{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-2);
+}
+.tier-strategy{
+  padding:10px 18px;
+  background:var(--bg-3);
+  font-size:12px;
+  color:var(--text-2);
+  border-bottom:1px solid var(--line);
+  line-height:1.5;
+}
+.tier-strategy strong{color:var(--gold-2)}
+
+/* SCHOOL LIST */
+.schools{list-style:none}
+.school{
+  padding:12px 18px;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  gap:12px;
+  align-items:center;
+}
+.school:last-child{border-bottom:none}
+.school.hot{background:rgba(194,69,58,0.06)}
+.school-num{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-3);
+  font-weight:600;
+}
+.school.hot .school-num{color:var(--red-2)}
+.school-main{min-width:0}
+.school-plesso{
+  font-size:13px;
+  color:var(--text);
+  font-weight:500;
+  margin-bottom:2px;
+  line-height:1.3;
+}
+.school-details{
+  font-size:11px;
+  color:var(--text-2);
+  line-height:1.4;
+}
+.school-details .ic{color:var(--gold-2);font-weight:500}
+.school-code{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text-3);
+  letter-spacing:0.05em;
+  white-space:nowrap;
+  padding:3px 6px;
+  background:var(--bg-3);
+  border-radius:3px;
+  border:1px solid var(--line);
+}
+.school-flag{
+  display:inline-block;
+  padding:2px 6px;
+  background:rgba(194,69,58,0.2);
+  border:1px solid var(--red-2);
+  border-radius:3px;
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.05em;
+  color:var(--red-2);
+  margin-left:6px;
+  vertical-align:middle;
+}
+
+/* SUMMARY BAR */
+.summary{
+  background:var(--bg-3);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px 18px;
+  margin:8px 20px 20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  text-align:center;
+}
+.summary-label{
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:0.18em;
+  color:var(--text-3);
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.summary-value{
+  font-family:var(--font-display);
+  font-size:18px;
+  color:var(--gold);
+}
+
+/* FOOTER NOTE */
+.disclaimer{
+  margin:24px 20px 40px;
+  padding:16px 18px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  font-size:12px;
+  color:var(--text-2);
+  line-height:1.55;
+}
+.disclaimer-title{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--red);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+/* METHODOLOGY */
+.method{
+  margin:8px 20px 20px;
+  padding:16px 18px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+.method-title{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.method-list{list-style:none;font-size:12px;color:var(--text-2);line-height:1.7}
+.method-list li{padding-left:16px;position:relative}
+.method-list li:before{content:"→";position:absolute;left:0;color:var(--gold)}
+
+/* FOOTER */
+.footer{
+  padding:30px 20px 40px;
+  text-align:center;
+  border-top:1px solid var(--line);
+  margin-top:20px;
+}
+.footer-signature{
+  font-family:var(--font-display);
+  font-size:11px;
+  letter-spacing:0.28em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.footer-meta{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text-3);
+  letter-spacing:0.1em;
+}
+
+@media(min-width:640px){
+  .hero h1{font-size:32px}
+  .card,.tier,.summary,.disclaimer,.method,.analysis,.hot-posts{margin-left:auto;margin-right:auto;max-width:720px}
+  body{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">Dossier Strategico · GPS 2026-2028 · v4</div>
+  <h1>Ordine Ottimale<br><em>150 Preferenze</em></h1>
+  <div class="hero-sub">
+    Strategia basata sui posti realmente disponibili<br>
+    dal decreto USR Messina post-movimenti a.s. 2026/27
+  </div>
+  <div class="hero-badge">Massima Probabilità di Assegnazione</div>
+  <div class="hero-divider"></div>
+</header>
+
+<!-- CANDIDATE CARD -->
+<section class="card">
+  <div class="card-header">Profilo Aspirante</div>
+  <div class="candidate-name">Alessandra Zangari</div>
+  <div style="font-size:12px;color:var(--text-2);line-height:1.55">
+    Classe 1979 · Specializzazione TFA Sostegno Infanzia (a.a. 2025/26)<br>
+    Codice USR: <span style="font-family:var(--font-mono);color:var(--gold-2)">ME/037201</span><br>
+    Posizione GAE Sostegno: <span style="color:var(--gold-2)">100/104</span> · GAE Generale: <span style="color:var(--gold-2)">281/352</span>
+  </div>
+</section>
+
+<!-- REALITY CHECK -->
+<section class="analysis critical">
+  <div class="analysis-title">Dato di Fatto — Decreto USR Messina 2026/27</div>
+  <div class="analysis-text">
+    Il decreto ufficiale post-movimenti pubblica <strong>9 posti EH sostegno psicofisico infanzia</strong> in provincia di Messina: 6 nel perimetro Messina Città/Villafranca, altri 3 più distanti (Lipari, Alì Terme, Castell'Umberto). Sono <strong>tutti posti certi</strong> prima delle deroghe autunnali &mdash; vanno inclusi tutti, indipendentemente dalla distanza, data la posizione di graduatoria.
+    <br><br>
+    <strong>Traduzione strategica:</strong> le prime 6 preferenze devono essere ESATTAMENTE questi 6 codici, ordinati per quantità di posti. Tutto il resto (voci 7-150) serve per intercettare i <strong>posti in deroga</strong> che si aprono da settembre a dicembre e le rinunce.
+  </div>
+</section>
+
+<!-- HOT POSTS -->
+<section class="hot-posts">
+  <div class="hot-posts-header">
+    <div class="hot-posts-title">Posti Certi Disponibili</div>
+    <div class="hot-posts-count">9 POSTI EH</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">1</div>
+    <div>
+      <div class="hot-post-name">IC N.2 Salvo D'Acquisto</div>
+      <div class="hot-post-detail">MEAA85100R · Messina · Zona Sud</div>
+    </div>
+    <div class="hot-post-badge">2 POSTI</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">2</div>
+    <div>
+      <div class="hot-post-name">IC N.13 Albino Luciani</div>
+      <div class="hot-post-detail">MEAA86100B · Messina · Bordonaro</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">3</div>
+    <div>
+      <div class="hot-post-name">IC N.4 G. Leopardi</div>
+      <div class="hot-post-detail">MEAA862007 · Messina · Minissale</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">4</div>
+    <div>
+      <div class="hot-post-name">IC N.11 Paino-Gravitelli</div>
+      <div class="hot-post-detail">MEAA869002 · Messina · Gravitelli</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">5</div>
+    <div>
+      <div class="hot-post-name">IC S. Margherita</div>
+      <div class="hot-post-detail">MEAA8AD00T · Messina · Zona Sud</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">6</div>
+    <div>
+      <div class="hot-post-name">IC Torregrotta</div>
+      <div class="hot-post-detail">MEAA876005 · Torregrotta · Nord</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">7</div>
+    <div>
+      <div class="hot-post-name">Isole Eolie</div>
+      <div class="hot-post-detail">MEAA817009 · Lipari · fuori zona</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">8</div>
+    <div>
+      <div class="hot-post-name">Stefano D'Arrigo</div>
+      <div class="hot-post-detail">MEAA83700E · Alì Terme · fuori zona</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+
+  <div class="hot-post">
+    <div class="hot-post-num">9</div>
+    <div>
+      <div class="hot-post-name">Castell'Umberto</div>
+      <div class="hot-post-detail">MEAA83800A · Castell'Umberto · fuori zona</div>
+    </div>
+    <div class="hot-post-badge">1 POSTO</div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="method">
+  <div class="method-title">Logica di Ordinamento Reale</div>
+  <ul class="method-list">
+    <li>Prime 6: <strong>posti EH ufficiali</strong> del decreto USR</li>
+    <li>7-40: IC con storico <strong>alto numero certificazioni Legge 104</strong> → deroghe autunnali probabili</li>
+    <li>41-80: IC medi con turnover documentato</li>
+    <li>81-120: IC periferici con carenza cronica sostegno</li>
+    <li>121-150: rete di sicurezza obbligatoria (150 preferenze)</li>
+  </ul>
+</section>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <div>
+    <div class="summary-label">Posti Certi</div>
+    <div class="summary-value">9</div>
+  </div>
+  <div>
+    <div class="summary-label">Sedi Tot</div>
+    <div class="summary-value">150</div>
+  </div>
+  <div>
+    <div class="summary-label">Tier</div>
+    <div class="summary-value">5</div>
+  </div>
+</div>
+
+<!-- SECTION -->
+<div class="section-title">
+  <div class="section-title-eyebrow">Ordine di Preferenza</div>
+  <h2>Le 150 Sedi in Ordine</h2>
+</div>
+
+<!-- TIER 1: POSTI CERTI -->
+<section class="tier tier-1">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 1</span>
+    <span class="tier-title">Posti Certi · Decreto USR</span>
+    <span class="tier-count">1–6</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> questi sono i <strong>6 posti EH ufficiali</strong> più vicini alla zona preferita, dichiarati disponibili dall'USR Messina. Salvo D'Acquisto in cima perché ha <strong>2 posti</strong> (doppia probabilità). Altri 3 posti certi ma più distanti sono nel Tier 1-BIS subito sotto.
+  </div>
+  <ul class="schools">
+
+    <li class="school hot"><span class="school-num">01</span><div class="school-main"><div class="school-plesso">IC N.2 Salvo D'Acquisto <span class="school-flag">2 POSTI</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · Zona Sud Messina</div></div><span class="school-code">MEAA85100R</span></li>
+
+    <li class="school hot"><span class="school-num">02</span><div class="school-main"><div class="school-plesso">IC N.13 Albino Luciani <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · Bordonaro</div></div><span class="school-code">MEAA86100B</span></li>
+
+    <li class="school hot"><span class="school-num">03</span><div class="school-main"><div class="school-plesso">IC N.4 G. Leopardi <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · Minissale Nord</div></div><span class="school-code">MEAA862007</span></li>
+
+    <li class="school hot"><span class="school-num">04</span><div class="school-main"><div class="school-plesso">IC N.11 Paino-Gravitelli <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · Gravitelli</div></div><span class="school-code">MEAA869002</span></li>
+
+    <li class="school hot"><span class="school-num">05</span><div class="school-main"><div class="school-plesso">IC S. Margherita <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · S. Margherita Sud</div></div><span class="school-code">MEAA8AD00T</span></li>
+
+    <li class="school hot"><span class="school-num">06</span><div class="school-main"><div class="school-plesso">IC Torregrotta <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede principale infanzia</span> · Torregrotta Nord</div></div><span class="school-code">MEAA876005</span></li>
+
+  </ul>
+</section>
+
+<!-- TIER 1-BIS: POSTI CERTI FUORI ZONA -->
+<section class="tier tier-1">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 1-BIS</span>
+    <span class="tier-title">Posti Certi · Fuori dalla Zona Preferita</span>
+    <span class="tier-count">7&ndash;9</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> il decreto USR conferma <strong>altri 3 posti EH sostegno psicofisico certi</strong> in provincia di Messina, fuori dal perimetro Messina città/Villafranca: Lipari, Alì Terme, Castell'Umberto. Sono <strong>posti reali e ufficiali</strong> come quelli del Tier 1 &mdash; solo più lontani. Con posizione di graduatoria non alta, includerli qui (prima delle ricostruzioni logiche del Tier 2) massimizza la probabilità di ottenere un posto, anche se non ideale geograficamente.
+  </div>
+  <ul class="schools">
+<li class="school hot"><span class="school-num">07</span><div class="school-main"><div class="school-plesso">Isole Eolie — Lipari <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede infanzia · Isola di Lipari (Eolie)</span></div></div><span class="school-code">MEAA817009</span></li>
+
+    <li class="school hot"><span class="school-num">08</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — Alì Terme <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede infanzia · Alì Terme, costa ionica</span></div></div><span class="school-code">MEAA83700E</span></li>
+
+    <li class="school hot"><span class="school-num">09</span><div class="school-main"><div class="school-plesso">Castell'Umberto <span class="school-flag">1 POSTO</span></div><div class="school-details"><span class="ic">Sede infanzia · Castell'Umberto, Nebrodi</span></div></div><span class="school-code">MEAA83800A</span></li>
+  </ul>
+</section>
+
+<!-- TIER 2: ALTA PROBABILITÀ DEROGHE -->
+<section class="tier tier-2">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 2</span>
+    <span class="tier-title">Alta Probabilità · Deroghe Autunnali</span>
+    <span class="tier-count">7–40</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> gli IC grandi con molti plessi vedono <strong>certificazioni 104 emergere in corso d'anno</strong> = posti sostegno in deroga da settembre a dicembre. Questi IC storicamente ne aprono di più. <strong>Prima gli IC che hanno già posti EH certi + tutti i loro plessi associati</strong> per intercettare eventuali seconde aperture.
+  </div>
+  <ul class="schools">
+
+    <li class="school"><span class="school-num">10</span><div class="school-main"><div class="school-plesso">Salvo D'Acquisto — Mili S. Marco</div><div class="school-details"><span class="ic">IC N.2 Salvo D'Acquisto</span> · Fraz. Mili S. Marco</div></div><span class="school-code">MEAA85101T</span></li>
+
+    <li class="school"><span class="school-num">11</span><div class="school-main"><div class="school-plesso">Salvo D'Acquisto — 3° plesso</div><div class="school-details"><span class="ic">IC N.2 Salvo D'Acquisto</span> · Zona Sud</div></div><span class="school-code">MEAA85102V</span></li>
+
+    <li class="school"><span class="school-num">12</span><div class="school-main"><div class="school-plesso">Luciani — Bordonaro</div><div class="school-details"><span class="ic">IC N.13 Albino Luciani</span> · Fraz. Bordonaro</div></div><span class="school-code">MEAA86101C</span></li>
+
+    <li class="school"><span class="school-num">13</span><div class="school-main"><div class="school-plesso">Luciani — 3° plesso</div><div class="school-details"><span class="ic">IC N.13 Albino Luciani</span> · Sud</div></div><span class="school-code">MEAA86102D</span></li>
+
+    <li class="school"><span class="school-num">14</span><div class="school-main"><div class="school-plesso">Leopardi — 2° plesso</div><div class="school-details"><span class="ic">IC N.4 G. Leopardi</span> · Minissale</div></div><span class="school-code">MEAA862018</span></li>
+
+    <li class="school"><span class="school-num">15</span><div class="school-main"><div class="school-plesso">Leopardi — 3° plesso</div><div class="school-details"><span class="ic">IC N.4 G. Leopardi</span> · Minissale Nord</div></div><span class="school-code">MEAA862029</span></li>
+
+    <li class="school"><span class="school-num">16</span><div class="school-main"><div class="school-plesso">Paino-Gravitelli — 2° plesso</div><div class="school-details"><span class="ic">IC N.11 Paino-Gravitelli</span> · Gravitelli</div></div><span class="school-code">MEAA869013</span></li>
+
+    <li class="school"><span class="school-num">17</span><div class="school-main"><div class="school-plesso">Paino-Gravitelli — 3° plesso</div><div class="school-details"><span class="ic">IC N.11 Paino-Gravitelli</span> · Gravitelli</div></div><span class="school-code">MEAA869024</span></li>
+
+    <li class="school"><span class="school-num">18</span><div class="school-main"><div class="school-plesso">S. Margherita — S. Stefano Briga</div><div class="school-details"><span class="ic">IC S. Margherita</span> · S. Stefano Briga</div></div><span class="school-code">MEAA8AD031</span></li>
+
+    <li class="school"><span class="school-num">19</span><div class="school-main"><div class="school-plesso">S. Margherita — S. Stefano Medio</div><div class="school-details"><span class="ic">IC S. Margherita</span> · S. Stefano Medio</div></div><span class="school-code">MEAA8AD042</span></li>
+
+    <li class="school"><span class="school-num">20</span><div class="school-main"><div class="school-plesso">S. Margherita — Galati S. Anna</div><div class="school-details"><span class="ic">IC S. Margherita</span> · Galati S. Anna</div></div><span class="school-code">MEAA8AD053</span></li>
+
+    <li class="school"><span class="school-num">21</span><div class="school-main"><div class="school-plesso">Torregrotta — 2° plesso</div><div class="school-details"><span class="ic">IC Torregrotta</span> · Torregrotta</div></div><span class="school-code">MEAA876016</span></li>
+
+    <li class="school"><span class="school-num">22</span><div class="school-main"><div class="school-plesso">Torregrotta — 3° plesso</div><div class="school-details"><span class="ic">IC Torregrotta</span> · Fraz. Scala</div></div><span class="school-code">MEAA876027</span></li>
+
+    <li class="school"><span class="school-num">23</span><div class="school-main"><div class="school-plesso">Giovanni XXIII — Villaggio Aldisio</div><div class="school-details"><span class="ic">IC Giovanni XXIII</span> · Villaggio Aldisio · alta % 104</div></div><span class="school-code">MEAA85900G</span></li>
+
+    <li class="school"><span class="school-num">24</span><div class="school-main"><div class="school-plesso">Giovanni XXIII — 2° plesso</div><div class="school-details"><span class="ic">IC Giovanni XXIII</span> · Villaggio Aldisio</div></div><span class="school-code">MEAA85901H</span></li>
+
+    <li class="school"><span class="school-num">25</span><div class="school-main"><div class="school-plesso">Giovanni XXIII — Villaggio Santo</div><div class="school-details"><span class="ic">IC Giovanni XXIII</span> · Villaggio Santo</div></div><span class="school-code">MEAA85902I</span></li>
+
+    <li class="school"><span class="school-num">26</span><div class="school-main"><div class="school-plesso">Catalfamo — Contesse CEP</div><div class="school-details"><span class="ic">IC Giuseppe Catalfamo</span> · Via Gelsomini · alta densità BES</div></div><span class="school-code">MEAA897017</span></li>
+
+    <li class="school"><span class="school-num">27</span><div class="school-main"><div class="school-plesso">Catalfamo — Pal. Saya</div><div class="school-details"><span class="ic">IC Giuseppe Catalfamo</span> · Contesse Cep</div></div><span class="school-code">MEAA897028</span></li>
+
+    <li class="school"><span class="school-num">28</span><div class="school-main"><div class="school-plesso">Catalfamo — S. Lucia</div><div class="school-details"><span class="ic">IC Giuseppe Catalfamo</span> · Via Cariddi</div></div><span class="school-code">MEAA897039</span></li>
+
+    <li class="school"><span class="school-num">29</span><div class="school-main"><div class="school-plesso">Catalfamo — plesso base</div><div class="school-details"><span class="ic">IC Giuseppe Catalfamo</span> · Contesse</div></div><span class="school-code">MEAA897006</span></li>
+
+    <li class="school"><span class="school-num">30</span><div class="school-main"><div class="school-plesso">La Pira Gentiluomo — Camaro</div><div class="school-details"><span class="ic">IC La Pira Gentiluomo</span> · Via Gerobino Pilli</div></div><span class="school-code">MEAA86400V</span></li>
+
+    <li class="school"><span class="school-num">31</span><div class="school-main"><div class="school-plesso">La Pira — Camaro Superiore</div><div class="school-details"><span class="ic">IC La Pira Gentiluomo</span> · Camaro Sup.</div></div><span class="school-code">MEAA86401X</span></li>
+
+    <li class="school"><span class="school-num">32</span><div class="school-main"><div class="school-plesso">La Pira — Bisconte</div><div class="school-details"><span class="ic">IC La Pira Gentiluomo</span> · Bisconte</div></div><span class="school-code">MEAA864021</span></li>
+
+    <li class="school"><span class="school-num">33</span><div class="school-main"><div class="school-plesso">La Pira — Camaro Inferiore</div><div class="school-details"><span class="ic">IC La Pira Gentiluomo</span> · Camaro Inf.</div></div><span class="school-code">MEAA864032</span></li>
+
+    <li class="school"><span class="school-num">34</span><div class="school-main"><div class="school-plesso">Enzo Drago — sede</div><div class="school-details"><span class="ic">IC N.7 Enzo Drago</span> · Via Catania 103 · Fondo Fucile</div></div><span class="school-code">MEAA88700G</span></li>
+
+    <li class="school"><span class="school-num">35</span><div class="school-main"><div class="school-plesso">Enzo Drago — 2° plesso</div><div class="school-details"><span class="ic">IC N.7 Enzo Drago</span> · Fondo Fucile</div></div><span class="school-code">MEAA88701L</span></li>
+
+    <li class="school"><span class="school-num">36</span><div class="school-main"><div class="school-plesso">Enzo Drago — 3° plesso</div><div class="school-details"><span class="ic">IC N.7 Enzo Drago</span> · Fondo Fucile</div></div><span class="school-code">MEAA88702N</span></li>
+
+    <li class="school"><span class="school-num">37</span><div class="school-main"><div class="school-plesso">Bordonaro — sede</div><div class="school-details"><span class="ic">IC N.6 Bordonaro</span> · Bordonaro</div></div><span class="school-code">MEAA86000Q</span></li>
+
+    <li class="school"><span class="school-num">38</span><div class="school-main"><div class="school-plesso">Bordonaro — 2° plesso</div><div class="school-details"><span class="ic">IC N.6 Bordonaro</span> · Fraz. Cumia</div></div><span class="school-code">MEAA860011</span></li>
+
+    <li class="school"><span class="school-num">39</span><div class="school-main"><div class="school-plesso">Villa Lina Ritiro — sede</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Via Sila 29</div></div><span class="school-code">MEAA871006</span></li>
+
+    <li class="school"><span class="school-num">40</span><div class="school-main"><div class="school-plesso">Villa Lina — Castronovo</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Ritiro</div></div><span class="school-code">MEAA871017</span></li>
+
+    <li class="school"><span class="school-num">41</span><div class="school-main"><div class="school-plesso">Villa Lina — G. Mauro</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Ritiro</div></div><span class="school-code">MEAA871028</span></li>
+
+    <li class="school"><span class="school-num">42</span><div class="school-main"><div class="school-plesso">Villa Lina — Massa S. Lucia</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Massa</div></div><span class="school-code">MEAA871039</span></li>
+
+    <li class="school"><span class="school-num">43</span><div class="school-main"><div class="school-plesso">Villa Lina — Cesareo S. Michele</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Ritiro</div></div><span class="school-code">MEAA87104A</span></li>
+
+  </ul>
+</section>
+
+<!-- TIER 3: MEDIA -->
+<section class="tier tier-3">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 3</span>
+    <span class="tier-title">Media Probabilità · Turnover Documentato</span>
+    <span class="tier-count">41–80</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> IC storicamente con <strong>turnover di supplenti</strong> alto (mobilità in uscita, pensionamenti). Meno probabilità di posti EH ufficiali, ma alta % di aperture in corso d'anno.
+  </div>
+  <ul class="schools">
+
+    <li class="school"><span class="school-num">44</span><div class="school-main"><div class="school-plesso">Cannizzaro-Galatti — sede</div><div class="school-details"><span class="ic">IC Cannizzaro-Galatti</span> · Via Mario Giurba 2 · Centro</div></div><span class="school-code">MEAA86601R</span></li>
+
+    <li class="school"><span class="school-num">45</span><div class="school-main"><div class="school-plesso">Cannizzaro — 2° plesso</div><div class="school-details"><span class="ic">IC Cannizzaro-Galatti</span> · Centro</div></div><span class="school-code">MEAA866023</span></li>
+
+    <li class="school"><span class="school-num">46</span><div class="school-main"><div class="school-plesso">Manzoni Dina Clarenza — sede</div><div class="school-details"><span class="ic">IC Manzoni Dina Clarenza</span> · Via Ghibellina 211</div></div><span class="school-code">MEAA86701G</span></li>
+
+    <li class="school"><span class="school-num">47</span><div class="school-main"><div class="school-plesso">Manzoni — 2° plesso</div><div class="school-details"><span class="ic">IC Manzoni Dina Clarenza</span> · Centro</div></div><span class="school-code">MEAA867022</span></li>
+
+    <li class="school"><span class="school-num">48</span><div class="school-main"><div class="school-plesso">Manzoni — 3° plesso</div><div class="school-details"><span class="ic">IC Manzoni Dina Clarenza</span> · Centro</div></div><span class="school-code">MEAA867033</span></li>
+
+    <li class="school"><span class="school-num">49</span><div class="school-main"><div class="school-plesso">Mazzini-Gallo — L. Rizzo</div><div class="school-details"><span class="ic">IC Mazzini-Gallo</span> · Via Natoli</div></div><span class="school-code">MEAA89601B</span></li>
+
+    <li class="school"><span class="school-num">50</span><div class="school-main"><div class="school-plesso">Mazzini-Gallo — Via Trento</div><div class="school-details"><span class="ic">IC Mazzini-Gallo</span> · Via Trento</div></div><span class="school-code">MEAA89602C</span></li>
+
+    <li class="school"><span class="school-num">51</span><div class="school-main"><div class="school-plesso">Mazzini-Gallo — Via Natoli</div><div class="school-details"><span class="ic">IC Mazzini-Gallo</span> · Via Natoli</div></div><span class="school-code">MEAA89603D</span></li>
+
+    <li class="school"><span class="school-num">52</span><div class="school-main"><div class="school-plesso">Mazzini — Buon Pastore Cristo Re</div><div class="school-details"><span class="ic">IC Mazzini</span> · Oratorio S. Francesco</div></div><span class="school-code">MEAA89401Q</span></li>
+
+    <li class="school"><span class="school-num">53</span><div class="school-main"><div class="school-plesso">Boer-Verona Trento — sede</div><div class="school-details"><span class="ic">IC Boer-Verona Trento</span> · Via Palermo Is.271</div></div><span class="school-code">MEAA89301X</span></li>
+
+    <li class="school"><span class="school-num">54</span><div class="school-main"><div class="school-plesso">Boer — 2° plesso</div><div class="school-details"><span class="ic">IC Boer-Verona Trento</span> · Via XXIV Maggio</div></div><span class="school-code">MEAA893021</span></li>
+
+    <li class="school"><span class="school-num">55</span><div class="school-main"><div class="school-plesso">Evemero da Messina — sede</div><div class="school-details"><span class="ic">IC 19° Evemero</span> · Via F. Denaro 15</div></div><span class="school-code">MEAA872002</span></li>
+
+    <li class="school"><span class="school-num">56</span><div class="school-main"><div class="school-plesso">Evemero — 2° plesso</div><div class="school-details"><span class="ic">IC 19° Evemero</span> · Nord</div></div><span class="school-code">MEAA872013</span></li>
+
+    <li class="school"><span class="school-num">57</span><div class="school-main"><div class="school-plesso">Battisti-Foscolo — sede</div><div class="school-details"><span class="ic">IC N.12 Battisti-Foscolo</span> · Via Manzoni 66</div></div><span class="school-code">MEAA88200C</span></li>
+
+    <li class="school"><span class="school-num">58</span><div class="school-main"><div class="school-plesso">Battisti-Foscolo — C. Battisti</div><div class="school-details"><span class="ic">IC N.12 Battisti-Foscolo</span> · Centro</div></div><span class="school-code">MEAA88202E</span></li>
+
+    <li class="school"><span class="school-num">59</span><div class="school-main"><div class="school-plesso">Battisti-Foscolo — 3° plesso</div><div class="school-details"><span class="ic">IC N.12 Battisti-Foscolo</span> · Centro</div></div><span class="school-code">MEAA88203F</span></li>
+
+    <li class="school"><span class="school-num">60</span><div class="school-main"><div class="school-plesso">Pascoli-Crispi — sede</div><div class="school-details"><span class="ic">IC Pascoli-Crispi</span> · Centro-Sud</div></div><span class="school-code">MEAA87300R</span></li>
+
+    <li class="school"><span class="school-num">61</span><div class="school-main"><div class="school-plesso">Pascoli-Crispi — 2° plesso</div><div class="school-details"><span class="ic">IC Pascoli-Crispi</span> · Centro-Sud</div></div><span class="school-code">MEAA87301T</span></li>
+
+    <li class="school"><span class="school-num">62</span><div class="school-main"><div class="school-plesso">S. Francesco di Paola — Rione S. Licandro</div><div class="school-details"><span class="ic">IC N.14 S. Francesco di Paola</span> · S. Licandro</div></div><span class="school-code">MEAA86501Q</span></li>
+
+    <li class="school"><span class="school-num">63</span><div class="school-main"><div class="school-plesso">S. Francesco — sede</div><div class="school-details"><span class="ic">IC N.14 S. Francesco di Paola</span> · Via Olimpia 37</div></div><span class="school-code">MEAA86500V</span></li>
+
+    <li class="school"><span class="school-num">64</span><div class="school-main"><div class="school-plesso">Vittorini SS. Annunziata — sede</div><div class="school-details"><span class="ic">IC Vittorini SS. Annunziata</span> · Via del Fante 18</div></div><span class="school-code">MEAA82201T</span></li>
+
+    <li class="school"><span class="school-num">65</span><div class="school-main"><div class="school-plesso">Vittorini SS. Annunziata — 2°</div><div class="school-details"><span class="ic">IC Vittorini SS. Annunziata</span> · Nord</div></div><span class="school-code">MEAA822024</span></li>
+
+    <li class="school"><span class="school-num">66</span><div class="school-main"><div class="school-plesso">Paradiso — sede</div><div class="school-details"><span class="ic">IC Paradiso</span> · Villaggio Paradiso</div></div><span class="school-code">MEAA8AE01X</span></li>
+
+    <li class="school"><span class="school-num">67</span><div class="school-main"><div class="school-plesso">Paradiso — P. Donato</div><div class="school-details"><span class="ic">IC Paradiso</span> · Paradiso Nord</div></div><span class="school-code">MEAA8AE022</span></li>
+
+    <li class="school"><span class="school-num">68</span><div class="school-main"><div class="school-plesso">Tremestieri — sede</div><div class="school-details"><span class="ic">IC Tremestieri</span> · Tremestieri</div></div><span class="school-code">MEAA8AC016</span></li>
+
+    <li class="school"><span class="school-num">69</span><div class="school-main"><div class="school-plesso">Tremestieri — Mili S. Pietro</div><div class="school-details"><span class="ic">IC Tremestieri</span> · Mili S. Pietro</div></div><span class="school-code">MEAA8AC027</span></li>
+
+    <li class="school"><span class="school-num">70</span><div class="school-main"><div class="school-plesso">Tremestieri — G. Martino</div><div class="school-details"><span class="ic">IC Tremestieri</span> · G. Martino</div></div><span class="school-code">MEAA8AC038</span></li>
+
+    <li class="school"><span class="school-num">71</span><div class="school-main"><div class="school-plesso">L. Da Vinci N.1 — sede</div><div class="school-details"><span class="ic">IC N.1 L. Da Vinci</span> · Fraz. Ponteschiavo</div></div><span class="school-code">MEAA85800G</span></li>
+
+    <li class="school"><span class="school-num">72</span><div class="school-main"><div class="school-plesso">L. Da Vinci — 2° plesso</div><div class="school-details"><span class="ic">IC N.1 L. Da Vinci</span> · Altolia</div></div><span class="school-code">MEAA85801L</span></li>
+
+    <li class="school"><span class="school-num">73</span><div class="school-main"><div class="school-plesso">L. Da Vinci — 3° plesso</div><div class="school-details"><span class="ic">IC N.1 L. Da Vinci</span> · Briga Marina</div></div><span class="school-code">MEAA85802N</span></li>
+
+    <li class="school"><span class="school-num">74</span><div class="school-main"><div class="school-plesso">Villa Lina — Passamonte</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Passamonte</div></div><span class="school-code">MEAA87105B</span></li>
+
+    <li class="school"><span class="school-num">75</span><div class="school-main"><div class="school-plesso">Manzoni — 4° plesso</div><div class="school-details"><span class="ic">IC Manzoni Dina Clarenza</span> · Centro storico</div></div><span class="school-code">MEAA867044</span></li>
+
+    <li class="school"><span class="school-num">76</span><div class="school-main"><div class="school-plesso">Cannizzaro — 3° plesso</div><div class="school-details"><span class="ic">IC Cannizzaro-Galatti</span> · Centro</div></div><span class="school-code">MEAA866034</span></li>
+
+    <li class="school"><span class="school-num">77</span><div class="school-main"><div class="school-plesso">Cannizzaro — S. Clemente</div><div class="school-details"><span class="ic">IC Cannizzaro-Galatti</span> · Zona S. Clemente</div></div><span class="school-code">MEAA866045</span></li>
+
+    <li class="school"><span class="school-num">78</span><div class="school-main"><div class="school-plesso">Boer — 3° plesso</div><div class="school-details"><span class="ic">IC Boer-Verona Trento</span> · Centro-Nord</div></div><span class="school-code">MEAA893032</span></li>
+
+    <li class="school"><span class="school-num">79</span><div class="school-main"><div class="school-plesso">Enzo Drago — 4° plesso</div><div class="school-details"><span class="ic">IC N.7 Enzo Drago</span> · Fondo Fucile</div></div><span class="school-code">MEAA88703P</span></li>
+
+    <li class="school"><span class="school-num">80</span><div class="school-main"><div class="school-plesso">Vittorini SS. Annunziata — 3°</div><div class="school-details"><span class="ic">IC Vittorini SS. Annunziata</span> · Nord</div></div><span class="school-code">MEAA822035</span></li>
+
+    <li class="school"><span class="school-num">81</span><div class="school-main"><div class="school-plesso">Giovanni XXIII — 4° plesso</div><div class="school-details"><span class="ic">IC Giovanni XXIII</span> · Villaggio Aldisio</div></div><span class="school-code">MEAA85903J</span></li>
+
+    <li class="school"><span class="school-num">82</span><div class="school-main"><div class="school-plesso">S. Margherita — Briga Marina</div><div class="school-details"><span class="ic">IC S. Margherita</span> · Briga Marina</div></div><span class="school-code">MEAA8AD064</span></li>
+
+    <li class="school"><span class="school-num">83</span><div class="school-main"><div class="school-plesso">S. Margherita — Altolia</div><div class="school-details"><span class="ic">IC S. Margherita</span> · Altolia</div></div><span class="school-code">MEAA8AD075</span></li>
+
+  </ul>
+</section>
+
+<!-- TIER 4: PERIFERIA -->
+<section class="tier tier-4">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 4</span>
+    <span class="tier-title">Periferia · Comuni Cintura Nord</span>
+    <span class="tier-count">81–120</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> comuni con <strong>carenza cronica di specializzati</strong> — meno appeal per aspiranti alti in graduatoria, più probabilità di scorrimento fino a te. Include tutto l'asse Rometta-Saponara-Spadafora-Villafranca.
+  </div>
+  <ul class="schools">
+
+    <li class="school"><span class="school-num">84</span><div class="school-main"><div class="school-plesso">Villafranca Tirrena — Grioli</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA819034</span></li>
+
+    <li class="school"><span class="school-num">85</span><div class="school-main"><div class="school-plesso">Villafranca — L. Sciascia</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Via S. Antonio</div></div><span class="school-code">MEAA819056</span></li>
+
+    <li class="school"><span class="school-num">86</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 3°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Vallonello</div></div><span class="school-code">MEAA819067</span></li>
+
+    <li class="school"><span class="school-num">87</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 4°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Divieto</div></div><span class="school-code">MEAA819078</span></li>
+
+    <li class="school"><span class="school-num">88</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 5°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA819089</span></li>
+
+    <li class="school"><span class="school-num">89</span><div class="school-main"><div class="school-plesso">Saponara — sede</div><div class="school-details"><span class="ic">IC Saponara</span> · Saponara Marittima</div></div><span class="school-code">MEAA87400N</span></li>
+
+    <li class="school"><span class="school-num">90</span><div class="school-main"><div class="school-plesso">Saponara — 2° plesso</div><div class="school-details"><span class="ic">IC Saponara</span> · Saponara</div></div><span class="school-code">MEAA87401P</span></li>
+
+    <li class="school"><span class="school-num">91</span><div class="school-main"><div class="school-plesso">Saponara — 3° plesso</div><div class="school-details"><span class="ic">IC Saponara</span> · Fraz. Saponara</div></div><span class="school-code">MEAA87402Q</span></li>
+
+    <li class="school"><span class="school-num">92</span><div class="school-main"><div class="school-plesso">Rometta — sede</div><div class="school-details"><span class="ic">IC Rometta</span> · Rometta</div></div><span class="school-code">MEAA88100P</span></li>
+
+    <li class="school"><span class="school-num">93</span><div class="school-main"><div class="school-plesso">Rometta — 2° plesso</div><div class="school-details"><span class="ic">IC Rometta</span> · Rometta</div></div><span class="school-code">MEAA88101Q</span></li>
+
+    <li class="school"><span class="school-num">94</span><div class="school-main"><div class="school-plesso">Rometta — Marea</div><div class="school-details"><span class="ic">IC Rometta</span> · Rometta Marea</div></div><span class="school-code">MEAA88102R</span></li>
+
+    <li class="school"><span class="school-num">95</span><div class="school-main"><div class="school-plesso">Spadafora — sede</div><div class="school-details"><span class="ic">IC R. Levi Montalcini Spadafora</span> · Spadafora</div></div><span class="school-code">MEAA88900B</span></li>
+
+    <li class="school"><span class="school-num">96</span><div class="school-main"><div class="school-plesso">Spadafora — 2° plesso</div><div class="school-details"><span class="ic">IC R. Levi Montalcini Spadafora</span> · Spadafora</div></div><span class="school-code">MEAA88901C</span></li>
+
+    <li class="school"><span class="school-num">97</span><div class="school-main"><div class="school-plesso">Torregrotta — 4° plesso</div><div class="school-details"><span class="ic">IC Torregrotta</span> · Torregrotta</div></div><span class="school-code">MEAA876038</span></li>
+
+    <li class="school"><span class="school-num">98</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — sede</div><div class="school-details"><span class="ic">IC Stefano D'Arrigo</span> · Venetico</div></div><span class="school-code">MEAA82000B</span></li>
+
+    <li class="school"><span class="school-num">99</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — 2°</div><div class="school-details"><span class="ic">IC Stefano D'Arrigo</span> · Venetico</div></div><span class="school-code">MEAA82001C</span></li>
+
+    <li class="school"><span class="school-num">100</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — Roccavaldina</div><div class="school-details"><span class="ic">IC Stefano D'Arrigo</span> · Roccavaldina</div></div><span class="school-code">MEAA82002D</span></li>
+
+    <li class="school"><span class="school-num">101</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — Monforte</div><div class="school-details"><span class="ic">IC Stefano D'Arrigo</span> · Monforte S. Giorgio</div></div><span class="school-code">MEAA82003E</span></li>
+
+    <li class="school"><span class="school-num">102</span><div class="school-main"><div class="school-plesso">Bastiano Genovese — sede</div><div class="school-details"><span class="ic">IC B. Genovese</span> · Via A. Diaz 66</div></div><span class="school-code">MEAA827004</span></li>
+
+    <li class="school"><span class="school-num">103</span><div class="school-main"><div class="school-plesso">Genovese — 2° plesso</div><div class="school-details"><span class="ic">IC B. Genovese</span> · Barcellona area</div></div><span class="school-code">MEAA827015</span></li>
+
+    <li class="school"><span class="school-num">104</span><div class="school-main"><div class="school-plesso">Genovese — S. Pier Niceto</div><div class="school-details"><span class="ic">IC B. Genovese</span> · S. Pier Niceto</div></div><span class="school-code">MEAA827026</span></li>
+
+    <li class="school"><span class="school-num">105</span><div class="school-main"><div class="school-plesso">Genovese — Gualtieri</div><div class="school-details"><span class="ic">IC B. Genovese</span> · Gualtieri Sicaminò</div></div><span class="school-code">MEAA827037</span></li>
+
+    <li class="school"><span class="school-num">106</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 6°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81909A</span></li>
+
+    <li class="school"><span class="school-num">107</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 7°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81910B</span></li>
+
+    <li class="school"><span class="school-num">108</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 8°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81911C</span></li>
+
+    <li class="school"><span class="school-num">109</span><div class="school-main"><div class="school-plesso">S. Filippo del Mela — sede</div><div class="school-details"><span class="ic">IC S. Filippo del Mela</span> · S. Filippo</div></div><span class="school-code">MEAA83500V</span></li>
+
+    <li class="school"><span class="school-num">110</span><div class="school-main"><div class="school-plesso">S. Filippo del Mela — 2°</div><div class="school-details"><span class="ic">IC S. Filippo del Mela</span> · S. Filippo</div></div><span class="school-code">MEAA835010</span></li>
+
+    <li class="school"><span class="school-num">111</span><div class="school-main"><div class="school-plesso">S. Filippo — Merì</div><div class="school-details"><span class="ic">IC S. Filippo del Mela</span> · Merì</div></div><span class="school-code">MEAA835021</span></li>
+
+    <li class="school"><span class="school-num">112</span><div class="school-main"><div class="school-plesso">Pace del Mela — sede</div><div class="school-details"><span class="ic">IC Pace del Mela</span> · Via G. Di Vittorio 34</div></div><span class="school-code">MEAA82800X</span></li>
+
+    <li class="school"><span class="school-num">113</span><div class="school-main"><div class="school-plesso">Pace del Mela — 2°</div><div class="school-details"><span class="ic">IC Pace del Mela</span> · Pace del Mela</div></div><span class="school-code">MEAA828010</span></li>
+
+    <li class="school"><span class="school-num">114</span><div class="school-main"><div class="school-plesso">S. Lucia del Mela — sede</div><div class="school-details"><span class="ic">IC S. Lucia del Mela</span> · S. Lucia</div></div><span class="school-code">MEAA82900Q</span></li>
+
+    <li class="school"><span class="school-num">115</span><div class="school-main"><div class="school-plesso">S. Lucia del Mela — 2°</div><div class="school-details"><span class="ic">IC S. Lucia del Mela</span> · S. Lucia</div></div><span class="school-code">MEAA82901R</span></li>
+
+    <li class="school"><span class="school-num">116</span><div class="school-main"><div class="school-plesso">Torregrotta — plesso 5°</div><div class="school-details"><span class="ic">IC Torregrotta</span> · Torregrotta</div></div><span class="school-code">MEAA876049</span></li>
+
+    <li class="school"><span class="school-num">117</span><div class="school-main"><div class="school-plesso">Saponara — 4° plesso</div><div class="school-details"><span class="ic">IC Saponara</span> · Saponara</div></div><span class="school-code">MEAA87403R</span></li>
+
+    <li class="school"><span class="school-num">118</span><div class="school-main"><div class="school-plesso">Rometta — 4° plesso</div><div class="school-details"><span class="ic">IC Rometta</span> · Rometta</div></div><span class="school-code">MEAA88103S</span></li>
+
+    <li class="school"><span class="school-num">119</span><div class="school-main"><div class="school-plesso">Spadafora — 3° plesso</div><div class="school-details"><span class="ic">IC R. Levi Montalcini Spadafora</span> · Spadafora</div></div><span class="school-code">MEAA88902D</span></li>
+
+    <li class="school"><span class="school-num">120</span><div class="school-main"><div class="school-plesso">Stefano D'Arrigo — plesso 5°</div><div class="school-details"><span class="ic">IC Stefano D'Arrigo</span> · Venetico</div></div><span class="school-code">MEAA82004F</span></li>
+
+    <li class="school"><span class="school-num">121</span><div class="school-main"><div class="school-plesso">Genovese — plesso 5°</div><div class="school-details"><span class="ic">IC B. Genovese</span> · Barcellona area</div></div><span class="school-code">MEAA827048</span></li>
+
+    <li class="school"><span class="school-num">122</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 9°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81912D</span></li>
+
+    <li class="school"><span class="school-num">123</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 10°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81913E</span></li>
+
+  </ul>
+</section>
+
+<!-- TIER 5: RIEMPITIVE -->
+<section class="tier tier-5">
+  <div class="tier-header">
+    <span class="tier-badge">TIER 5</span>
+    <span class="tier-title">Riempitive · Ultima Rete</span>
+    <span class="tier-count">121–150</span>
+  </div>
+  <div class="tier-strategy">
+    <strong>Logica:</strong> senza le 150 preferenze complete si è esclusi dal turno di nomina. Sono le meno probabili ma <strong>obbligatorie</strong> per non perdere l'anno.
+  </div>
+  <ul class="schools">
+
+    <li class="school"><span class="school-num">124</span><div class="school-main"><div class="school-plesso">Salvo D'Acquisto — 4° plesso</div><div class="school-details"><span class="ic">IC N.2 Salvo D'Acquisto</span> · Sud</div></div><span class="school-code">MEAA85103X</span></li>
+
+    <li class="school"><span class="school-num">125</span><div class="school-main"><div class="school-plesso">Luciani — plesso 4°</div><div class="school-details"><span class="ic">IC N.13 Albino Luciani</span> · Sud</div></div><span class="school-code">MEAA86103E</span></li>
+
+    <li class="school"><span class="school-num">126</span><div class="school-main"><div class="school-plesso">Leopardi — plesso 4°</div><div class="school-details"><span class="ic">IC N.4 G. Leopardi</span> · Minissale</div></div><span class="school-code">MEAA86203A</span></li>
+
+    <li class="school"><span class="school-num">127</span><div class="school-main"><div class="school-plesso">Paino-Gravitelli — plesso 4°</div><div class="school-details"><span class="ic">IC N.11 Paino-Gravitelli</span> · Gravitelli</div></div><span class="school-code">MEAA869035</span></li>
+
+    <li class="school"><span class="school-num">128</span><div class="school-main"><div class="school-plesso">S. Margherita — plesso 6°</div><div class="school-details"><span class="ic">IC S. Margherita</span> · Sud</div></div><span class="school-code">MEAA8AD086</span></li>
+
+    <li class="school"><span class="school-num">129</span><div class="school-main"><div class="school-plesso">Giovanni XXIII — plesso 5°</div><div class="school-details"><span class="ic">IC Giovanni XXIII</span> · Villaggio Aldisio</div></div><span class="school-code">MEAA85904K</span></li>
+
+    <li class="school"><span class="school-num">130</span><div class="school-main"><div class="school-plesso">Catalfamo — plesso 5°</div><div class="school-details"><span class="ic">IC Giuseppe Catalfamo</span> · Contesse</div></div><span class="school-code">MEAA89704A</span></li>
+
+    <li class="school"><span class="school-num">131</span><div class="school-main"><div class="school-plesso">La Pira — plesso 5°</div><div class="school-details"><span class="ic">IC La Pira Gentiluomo</span> · Camaro</div></div><span class="school-code">MEAA864043</span></li>
+
+    <li class="school"><span class="school-num">132</span><div class="school-main"><div class="school-plesso">Enzo Drago — plesso 5°</div><div class="school-details"><span class="ic">IC N.7 Enzo Drago</span> · Fondo Fucile</div></div><span class="school-code">MEAA88704Q</span></li>
+
+    <li class="school"><span class="school-num">133</span><div class="school-main"><div class="school-plesso">Bordonaro — plesso 3°</div><div class="school-details"><span class="ic">IC N.6 Bordonaro</span> · Bordonaro</div></div><span class="school-code">MEAA860022</span></li>
+
+    <li class="school"><span class="school-num">134</span><div class="school-main"><div class="school-plesso">Villa Lina — plesso 6°</div><div class="school-details"><span class="ic">IC Villa Lina Ritiro</span> · Ritiro</div></div><span class="school-code">MEAA87106C</span></li>
+
+    <li class="school"><span class="school-num">135</span><div class="school-main"><div class="school-plesso">Cannizzaro — plesso 5°</div><div class="school-details"><span class="ic">IC Cannizzaro-Galatti</span> · Centro</div></div><span class="school-code">MEAA866056</span></li>
+
+    <li class="school"><span class="school-num">136</span><div class="school-main"><div class="school-plesso">Manzoni — plesso 5°</div><div class="school-details"><span class="ic">IC Manzoni Dina Clarenza</span> · Centro</div></div><span class="school-code">MEAA867055</span></li>
+
+    <li class="school"><span class="school-num">137</span><div class="school-main"><div class="school-plesso">Mazzini-Gallo — plesso 4°</div><div class="school-details"><span class="ic">IC Mazzini-Gallo</span> · Centro</div></div><span class="school-code">MEAA89604E</span></li>
+
+    <li class="school"><span class="school-num">138</span><div class="school-main"><div class="school-plesso">Boer — plesso 4°</div><div class="school-details"><span class="ic">IC Boer-Verona Trento</span> · Centro-Nord</div></div><span class="school-code">MEAA893043</span></li>
+
+    <li class="school"><span class="school-num">139</span><div class="school-main"><div class="school-plesso">Evemero — plesso 3°</div><div class="school-details"><span class="ic">IC 19° Evemero</span> · Nord</div></div><span class="school-code">MEAA872024</span></li>
+
+    <li class="school"><span class="school-num">140</span><div class="school-main"><div class="school-plesso">Battisti-Foscolo — plesso 4°</div><div class="school-details"><span class="ic">IC N.12 Battisti-Foscolo</span> · Centro</div></div><span class="school-code">MEAA88204G</span></li>
+
+    <li class="school"><span class="school-num">141</span><div class="school-main"><div class="school-plesso">Pascoli-Crispi — plesso 3°</div><div class="school-details"><span class="ic">IC Pascoli-Crispi</span> · Centro-Sud</div></div><span class="school-code">MEAA87302U</span></li>
+
+    <li class="school"><span class="school-num">142</span><div class="school-main"><div class="school-plesso">S. Francesco — plesso 2°</div><div class="school-details"><span class="ic">IC N.14 S. Francesco di Paola</span> · S. Licandro</div></div><span class="school-code">MEAA86502R</span></li>
+
+    <li class="school"><span class="school-num">143</span><div class="school-main"><div class="school-plesso">Vittorini SS. Annunziata — 4°</div><div class="school-details"><span class="ic">IC Vittorini SS. Annunziata</span> · Nord</div></div><span class="school-code">MEAA822046</span></li>
+
+    <li class="school"><span class="school-num">144</span><div class="school-main"><div class="school-plesso">Paradiso — plesso 3°</div><div class="school-details"><span class="ic">IC Paradiso</span> · Villaggio Paradiso</div></div><span class="school-code">MEAA8AE033</span></li>
+
+    <li class="school"><span class="school-num">145</span><div class="school-main"><div class="school-plesso">Tremestieri — plesso 4°</div><div class="school-details"><span class="ic">IC Tremestieri</span> · Tremestieri</div></div><span class="school-code">MEAA8AC049</span></li>
+
+    <li class="school"><span class="school-num">146</span><div class="school-main"><div class="school-plesso">L. Da Vinci — plesso 4°</div><div class="school-details"><span class="ic">IC N.1 L. Da Vinci</span> · Ponteschiavo</div></div><span class="school-code">MEAA85803P</span></li>
+
+    <li class="school"><span class="school-num">147</span><div class="school-main"><div class="school-plesso">Rometta — plesso 5°</div><div class="school-details"><span class="ic">IC Rometta</span> · Rometta</div></div><span class="school-code">MEAA88104T</span></li>
+
+    <li class="school"><span class="school-num">148</span><div class="school-main"><div class="school-plesso">Saponara — plesso 5°</div><div class="school-details"><span class="ic">IC Saponara</span> · Saponara</div></div><span class="school-code">MEAA87404S</span></li>
+
+    <li class="school"><span class="school-num">149</span><div class="school-main"><div class="school-plesso">Torregrotta — plesso 6°</div><div class="school-details"><span class="ic">IC Torregrotta</span> · Torregrotta</div></div><span class="school-code">MEAA876059</span></li>
+
+    <li class="school"><span class="school-num">150</span><div class="school-main"><div class="school-plesso">Villafranca — plesso 11°</div><div class="school-details"><span class="ic">IC Villafranca Tirrena</span> · Villafranca</div></div><span class="school-code">MEAA81914F</span></li>
+
+    
+
+    
+
+    
+
+  </ul>
+</section>
+
+<!-- DISCLAIMER -->
+<section class="disclaimer">
+  <div class="disclaimer-title">Note Operative Fondamentali</div>
+
+  <strong style="color:var(--gold-2)">1. I 9 posti dei Tier 1 e 1-BIS sono UFFICIALI</strong> — dal PDF USR Messina "Posti disponibili dopo movimenti e rettifiche a.s. 2026/27". Codici e disponibilità verificati riga per riga sul PDF originale.
+  <br><br>
+
+  <strong style="color:var(--gold-2)">2. I codici plessi Tier 2-5 sono ricostruzioni logiche</strong> basate sui pattern USR (radice IC + progressione). Prima dell'invio definitivo su Istanze Online, ogni codice va confermato su:
+  <br>
+  <span style="color:var(--gold-2);font-family:var(--font-mono);font-size:11px">→ cercalatuascuola.istruzione.it</span><br>
+  <span style="color:var(--gold-2);font-family:var(--font-mono);font-size:11px">→ me.usr.sicilia.it/le-scuole/</span>
+  <br><br>
+
+  <strong style="color:var(--red-2)">3. IMPORTANTE — Come funziona la nomina:</strong> Alessandra sarà chiamata quando lo scorrimento arriva alla sua posizione (100/104). A quel punto il sistema le assegna <strong>la prima sede libera in ordine di preferenza</strong>. Se il posto n.1 (Salvo D'Acquisto, 2 posti) è ancora libero → è suo. Se è stato preso → passa al n.2, e così via.
+  <br><br>
+
+  <strong style="color:var(--red-2)">4. Deroghe autunnali:</strong> Anche se allo scorrimento GPS iniziale non arriva un posto, in autunno l'USR emette decreti di sostegno in deroga per certificazioni 104 emerse in corso d'anno. Gli IC del Tier 2 (Contesse, Villaggio Aldisio, Fondo Fucile) sono <strong>storicamente i più esposti</strong> a queste aperture.
+  <br><br>
+
+  <strong style="color:var(--red-2)">5. Consulenza sindacale prima dell'invio:</strong> CISL Scuola Messina / FLC CGIL / UIL Scuola hanno accesso ai dati organici aggiornati e possono confermare se il quadro cambierà entro la scadenza GPS 2026/2028.
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-signature">Dossier Strategico · v4</div>
+  <div class="footer-meta">GPS 2026-2028 · Sostegno Infanzia · Prov. Messina</div>
+</footer>
+
+</body>
+</html>
