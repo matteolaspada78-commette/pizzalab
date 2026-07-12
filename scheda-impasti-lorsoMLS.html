@@ -163,6 +163,18 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 .firma-ruolo{font-size:.44rem;letter-spacing:.35em;text-transform:uppercase;color:#c9a84c;font-family:'Montserrat',sans-serif;}
 .firma-line{width:36px;height:1px;background:rgba(201,168,76,.4);margin:.5rem 0;}
 .firma-tag{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:#4a3a2a;font-family:'Montserrat',sans-serif;}
+/* STAMPA / PDF — genera un PDF con la stessa identica grafica scura */
+@media print{
+  @page{ margin: 12mm; }
+  html,body{background:#0b0908!important;}
+  *{ -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; color-adjust:exact!important; }
+  .nav{display:none!important;}
+  #sez-gestione{display:none!important;}
+  .sez{display:block!important;page-break-before:always;}
+  .sez:first-of-type{page-break-before:auto;}
+  .cover{page-break-after:always;}
+  .toc{page-break-after:always;}
+}
 </style>
 </head>
 <body>
@@ -475,7 +487,9 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 
     <div style="margin-top:.5rem;font-size:.6rem;color:#4a3a2a;text-align:center;line-height:1.6;">Le preferenze qui sopra valgono solo su <strong style="color:#7a6a58;">questo dispositivo</strong> — servono a te per lavorare sulla scheda.<br>Per mandare la scheda a qualcuno mostrando solo gli impasti scelti, usa il pulsante sotto: genera un file nuovo, pulito, senza gli impasti nascosti e senza il tab Gestione.</div>
 
-    <button onclick="esportaVersione()" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:1rem;border:1px solid #c9a84c;background:rgba(201,168,76,.12);color:#f0ebe0;border-radius:3px;cursor:pointer;">⬇ Genera file da inviare</button>
+    <button onclick="esportaVersione()" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:1rem;border:1px solid #c9a84c;background:rgba(201,168,76,.12);color:#f0ebe0;border-radius:3px;cursor:pointer;">⬇ Genera file da inviare (HTML)</button>
+    <button onclick="generaPDF()" style="width:100%;margin-top:.6rem;font-family:'Montserrat',sans-serif;font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:1rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 Genera PDF</button>
+    <div style="margin-top:.5rem;font-size:.56rem;color:#4a3a2a;text-align:center;line-height:1.6;">Il PDF si apre nella finestra di stampa del telefono/pc — scegli "Salva come PDF" invece di stampare. Stessa grafica, solo gli impasti accesi.</div>
     <div id="esporta-esito" style="margin-top:.6rem;font-size:.58rem;color:#c9a84c;text-align:center;display:none;"></div>
 
   </div>
@@ -1428,7 +1442,16 @@ window.addEventListener('DOMContentLoaded', function(){
   Object.keys(stato).forEach(function(id){ applicaStato(id); });
 });
 
-// ═══ ESPORTA VERSIONE DA INVIARE ═══
+// ═══ GENERA PDF ═══
+// Usa la stampa del browser (Salva come PDF) — mantiene esattamente
+// la stessa grafica scura e dorata perché stampa il CSS reale della pagina,
+// non uno screenshot. Gli impasti spenti restano nascosti perché il loro
+// display:none è già impostato inline da applicaStato().
+function generaPDF(){
+  window.print();
+}
+
+// ═══ ESPORTA VERSIONE DA INVIARE (HTML) ═══
 // Genera un file HTML nuovo e indipendente: gli impasti nascosti vengono
 // RIMOSSI dal codice (non solo nascosti via CSS), e il tab "Gestione"
 // sparisce del tutto. Chi riceve il file non può in nessun modo vedere
@@ -1444,6 +1467,31 @@ function esportaVersione(){
       });
     }
   });
+
+  // 1b. Tab dedicati a UN SOLO impasto (Pizza in Pala, Napoletano, Pane, 100H):
+  //     se quell'impasto è disattivato, si rimuove l'intero tab — non deve
+  //     restare un tab vuoto con solo il testo introduttivo.
+  var tabDedicati = { '03':'pala', '04':'napoletano', '05':'pane', '06':'100h' };
+  Object.keys(tabDedicati).forEach(function(id){
+    if(!stato[id]){
+      var sezId = tabDedicati[id];
+      var sez = clone.querySelector('#sez-'+sezId);
+      if(sez){ sez.parentNode.removeChild(sez); }
+      clone.querySelectorAll('.nav .ntab').forEach(function(btn){
+        if(btn.getAttribute('onclick') === "S('"+sezId+"',this)"){ btn.parentNode.removeChild(btn); }
+      });
+    }
+  });
+
+  // 1c. Tab "Nero · Padellino": se ENTRAMBI sono disattivati, si rimuove
+  //     l'intero tab invece di lasciarlo vuoto.
+  if(!stato['01'] && !stato['02']){
+    var sezImpasti = clone.querySelector('#sez-impasti');
+    if(sezImpasti){ sezImpasti.parentNode.removeChild(sezImpasti); }
+    clone.querySelectorAll('.nav .ntab').forEach(function(btn){
+      if(btn.getAttribute('onclick') === "S('impasti',this)"){ btn.parentNode.removeChild(btn); }
+    });
+  }
 
   // 2. Rimuove il tab "Gestione" e la sua sezione dal file esportato
   clone.querySelectorAll('.nav .ntab').forEach(function(btn){
