@@ -6,6 +6,8 @@
 <meta name="color-scheme" content="dark only">
 <title>Scheda Impasti — L'Orso · Sei Impasti, Una Filosofia</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{color-scheme:dark only;}
 html{background:#0b0908!important;}
@@ -503,6 +505,10 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-num">02 / 09</span>
     <div class="s-title">Nero di Seppia<br>& <em>Padellino</em></div>
     <p class="s-body">Due formati dell'Orso — visivamente agli antipodi, tecnicamente fratelli. Stesso blend di farine, stesso prefermento Biga, stesso lievito madre vivo. Cambiano le percentuali, il colore, il formato e la sequenza di cottura. <strong>Nessun grasso, nessun additivo — solo farina, acqua, sale e fermentazione.</strong></p>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;">
+      <button onclick="scaricaSchedaPDF('impasti','01','scheda-nero-di-seppia',this)" style="flex:1;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem .5rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF Nero di Seppia</button>
+      <button onclick="scaricaSchedaPDF('impasti','02','scheda-padellino',this)" style="flex:1;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem .5rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF Padellino</button>
+    </div>
   </div>
 
   <!-- NERO DI SEPPIA -->
@@ -716,6 +722,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-num">03 / 09</span>
     <div class="s-title">Pizza in Pala<br><em>Alta idratazione</em></div>
     <p class="s-body">Solo Biga, nessun lievito madre — un prefermento indiretto pensato per il formato da condivisione. Alta idratazione, cottura rapida ad alta temperatura, croccante fuori e alveolata dentro. <strong>Zero grassi, zero additivi.</strong></p>
+    <button onclick="scaricaSchedaPDF('pala',null,'scheda-pizza-in-pala',this)" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF di questa scheda</button>
   </div>
 
   <!-- PIZZA IN PALA -->
@@ -817,6 +824,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-num">04 / 09</span>
     <div class="s-title">Napoletano<br><em>Forno a legna</em></div>
     <p class="s-body">Biga + Licoli — la combinazione più complessa dell'Orso. Cornicione alto, alveolato, macchie di leopardo. Pallina 250g stesa a mano, cottura rapidissima a 450°. <strong>La pizza dell'Orso, zero grassi.</strong></p>
+    <button onclick="scaricaSchedaPDF('napoletano',null,'scheda-napoletano',this)" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF di questa scheda</button>
   </div>
 
   <!-- IMPASTO NAPOLETANO -->
@@ -923,6 +931,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-num">05 / 09</span>
     <div class="s-title">Pane dell'Orso<br><em>Solo Licoli</em></div>
     <p class="s-body">Quattro farine Petra, nessuna Biga, nessun lievito di birra — solo Licoli. Formato 600g, crosta spessa, mollica aperta, leggermente acidulo. <strong>Il pane del territorio.</strong></p>
+    <button onclick="scaricaSchedaPDF('pane',null,'scheda-pane-dell-orso',this)" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF di questa scheda</button>
   </div>
 
   <!-- PANE DELL'ORSO -->
@@ -1044,6 +1053,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="s-num">06 / 09</span>
     <div class="s-title">100H<br><em>L'opposto del napoletano</em></div>
     <p class="s-body">Nato da un errore diventato pizza in carta. Petra 5046 Allegra, lievito di birra + Licoli, l'unico impasto con olio EVO. Sottile, croccante, quasi biscottato. <strong>Idratazione 60%.</strong></p>
+    <button onclick="scaricaSchedaPDF('100h',null,'scheda-100h',this)" style="width:100%;margin-top:1rem;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.7rem;border:1px solid rgba(201,168,76,.4);background:transparent;color:#c9a84c;border-radius:3px;cursor:pointer;">📄 PDF di questa scheda</button>
   </div>
 
   <!-- 100H -->
@@ -1441,6 +1451,76 @@ function tuttiOff(){
 window.addEventListener('DOMContentLoaded', function(){
   Object.keys(stato).forEach(function(id){ applicaStato(id); });
 });
+
+// ═══ VERO PDF DI UNA SINGOLA SCHEDA (un tap, file .pdf reale) ═══
+// Clona la scheda scelta, la rende fuori schermo con la stessa grafica,
+// la fotografa con html2canvas e la impagina in un vero file .pdf con
+// jsPDF, tagliandola su più pagine se è lunga. Scarica subito il .pdf.
+function scaricaSchedaPDF(sezId, impastoId, nomeFile, bottone){
+  var sezOriginale = document.getElementById('sez-'+sezId);
+  if(!sezOriginale) return;
+
+  var testoOriginale = bottone ? bottone.textContent : null;
+  if(bottone){ bottone.textContent = '⏳ Genero il PDF…'; bottone.disabled = true; }
+
+  var clone = sezOriginale.cloneNode(true);
+  clone.classList.add('active');
+  clone.style.display = 'block';
+
+  if(impastoId){
+    clone.querySelectorAll('[data-impasto]').forEach(function(el){
+      if(el.getAttribute('data-impasto') !== impastoId){ el.parentNode.removeChild(el); }
+    });
+  }
+  // Toglie i bottoni di download/PDF dalla copia da fotografare
+  clone.querySelectorAll('button').forEach(function(b){ b.parentNode.removeChild(b); });
+
+  var stage = document.createElement('div');
+  stage.id = 'pdf-stage';
+  stage.style.position = 'fixed';
+  stage.style.top = '0';
+  stage.style.left = '-99999px';
+  stage.style.width = '800px';
+  stage.style.background = '#0b0908';
+  stage.appendChild(clone);
+  document.body.appendChild(stage);
+
+  function ripristina(){
+    if(stage.parentNode){ stage.parentNode.removeChild(stage); }
+    if(bottone){ bottone.textContent = testoOriginale; bottone.disabled = false; }
+  }
+
+  setTimeout(function(){
+    html2canvas(stage, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:800}).then(function(canvas){
+      var pdf = new jspdf.jsPDF('p','pt','a4');
+      var pageWidth = pdf.internal.pageSize.getWidth();
+      var pageHeight = pdf.internal.pageSize.getHeight();
+      var imgWidth = pageWidth;
+      var pageHeightPx = Math.floor(canvas.width * (pageHeight / pageWidth));
+
+      var pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = pageHeightPx;
+      var pageCtx = pageCanvas.getContext('2d');
+
+      var totalPages = Math.ceil(canvas.height / pageHeightPx);
+      for(var i=0;i<totalPages;i++){
+        pageCtx.fillStyle = '#0b0908';
+        pageCtx.fillRect(0,0,pageCanvas.width,pageCanvas.height);
+        pageCtx.drawImage(canvas, 0, i*pageHeightPx, canvas.width, pageHeightPx, 0, 0, canvas.width, pageHeightPx);
+        var pageImgData = pageCanvas.toDataURL('image/jpeg', 0.92);
+        if(i>0) pdf.addPage();
+        pdf.addImage(pageImgData, 'JPEG', 0, 0, imgWidth, pageHeight);
+      }
+
+      pdf.save(nomeFile + '.pdf');
+      ripristina();
+    }).catch(function(err){
+      alert('Non sono riuscito a generare il PDF. Riprova, o usa il bottone di download normale qui sotto.');
+      ripristina();
+    });
+  }, 150);
+}
 
 // ═══ GENERA PDF ═══
 // Usa la stampa del browser (Salva come PDF) — mantiene esattamente
