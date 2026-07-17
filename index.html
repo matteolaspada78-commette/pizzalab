@@ -1200,7 +1200,7 @@ function pv_tog(id){var c=pvG(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pv_CFG={
-  napo:  {idr:70,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  napo:  {idr:68,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
   teglia:{idr:78,bigaPct:50,idrB:0.47,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
@@ -4212,7 +4212,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
     <div class="card-body">
       <div class="inp-group"><label class="inp-label" style="color:#D4956A">🌾 Kg farina BIGA</label><div class="inp-row"><input class="inp-field" id="sKg" type="number" value="6" min="0.5" max="100" step="0.5" oninput="calcSuprema()" style="color:#D4956A"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura panetto (g)</label><div class="inp-row"><input class="inp-field" id="sGr" type="number" value="260" min="200" max="320" step="5" oninput="calcSuprema()"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="sIDR" type="number" value="67" min="55" max="85" step="0.5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR %</label><div class="inp-row"><input class="inp-field" id="sIDR" type="number" value="68" min="55" max="85" step="0.5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="sSale" type="number" value="2.8" min="1.5" max="3.5" step="0.1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Licoli % (sul rinfresco)</label><div class="inp-row"><input class="inp-field" id="sLic" type="number" value="7" min="0" max="30" step="1" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">LdB Biga %</label><div class="inp-row"><input class="inp-field" id="sLdb" type="number" value="0.25" min="0.05" max="1" step="0.05" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
@@ -4222,7 +4222,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Ora Rinfresco G2 (es. 9)</label><div class="inp-row"><input class="inp-field" id="sOR" type="number" value="9" min="0" max="23" step="1" oninput="calcSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora Servizio G2 (es. 19)</label><div class="inp-row"><input class="inp-field" id="sSV" type="number" value="19" min="0" max="23" step="1" oninput="calcSuprema()"><span class="inp-unit">:00</span></div></div>
       <div class="inp-group"><label class="inp-label">Ora staglio (vincolo fisso)</label><div class="inp-row"><input class="inp-field" id="sStaglio" type="number" value="15" min="0" max="23" step="0.5" oninput="calcSuprema()"><span class="inp-unit">:30</span></div></div>
-      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="sF1" type="number" value="60" min="30" max="90" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Fase 1 — % acqua iniziale (decidi tu)</label><div class="inp-row"><input class="inp-field" id="sF1" type="number" value="100" min="0" max="100" step="5" oninput="calcSuprema()"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
   <div class="card open" id="cardSupremaOut">
@@ -7270,7 +7270,7 @@ function calcSupremaRapidoDaBiga(){
   if(!kgBigaInp || kgBigaInp <= 0){ calcSupremaRapido(); return; }
 
   var bigaPct = rv('sBigaPct', 30);
-  var idr     = rv('sRapIdr',  70);
+  var idr     = rv('sRapIdr',  68);
   var saleP   = rv('sSale',   2.8);
   var gr      = rv('sRapGr',  270);
   var tBiga   = rv('sRapTBiga', 12);
@@ -7336,7 +7336,7 @@ function calcSupremaRapido(){
   var pan     = rv('sRapPan', 50);
   var gr      = rv('sRapGr',  270);
   var bigaPct = rv('sBigaPct', 30);
-  var idr     = rv('sRapIdr',  70);
+  var idr     = rv('sRapIdr',  68);
   var saleP   = rv('sSale',   2.8);
   var licP    = rv('sLic',    10);   // % licoli sul rinfresco
   var tBiga   = rv('sRapTBiga', 12);
@@ -7487,9 +7487,11 @@ function calcSuprema(){
   var piaccaReale = farTot + acqTot + sale + licG;  // include licoli nella piacca
   var panReali    = Math.floor(piaccaReale / gr);
 
-  // Aggiorna anche sKg nel calcolatore completo
+  // Aggiorna campo sKg solo se l'utente ha cambiato palline/grammatura/bigaPct — non IDR
   var sKg = document.getElementById('sKg');
-  if(sKg) sKg.value = Math.round(farBiga/1000*100)/100;
+  if(sKg && document.activeElement && ['sRapPan','sRapGr','sBigaPct'].indexOf(document.activeElement.id)>=0){
+    sKg.value = Math.round(farBiga/1000*100)/100;
+  }
 
   // Colore % biga
   var bigaCol = bigaPct <= 30 ? '#A5D6A7' : bigaPct <= 50 ? '#F0CC5A' : '#FFCDD2';
@@ -12209,7 +12211,7 @@ function pl_tog(id){var c=pl_G(id);if(!c)return;c.classList.toggle('open');}
 
 // ══════════ TIPO CONFIG ══════════
 var pl_CFG={
-  napo:  {idr:70,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
+  napo:  {idr:68,bigaPct:30,idrB:0.47,mu22:0.049,Q10:2.2,DDT:23,vMin:45,vMax:60,phOkMin:5.20,phOkMax:5.45,sale:2.8,tOtt:22,nome:'Napoletana'},
   teglia:{idr:78,bigaPct:50,idrB:0.47,mu22:0.042,Q10:2.2,DDT:24,vMin:60,vMax:80,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:23,nome:'Teglia Romana'},
   pala48:{idr:75,bigaPct:30,idrB:0.48,mu22:0.049,Q10:2.2,DDT:23,vMin:25,vMax:40,phOkMin:5.10,phOkMax:5.45,sale:2.5,tOtt:21,nome:'Pala 48h'},
 };
