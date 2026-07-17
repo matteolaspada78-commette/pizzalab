@@ -3444,7 +3444,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
             <div style="font-family:DM Mono,monospace;font-weight:900;font-size:18px;color:#F0CC5A;min-width:28px">1</div>
             <div>
               <div style="font-size:12px;font-weight:700;color:var(--cream);margin-bottom:2px">Impasta la biga con LdB 0.30%</div>
-              <div style="font-size:10px;color:#7A8A6A">0102HP · IDR 45% · come sempre</div>
+              <div style="font-size:10px;color:#7A8A6A">0102HP · IDR 47% · validato</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(212,160,62,0.12);border:1.5px solid rgba(212,160,62,0.35);border-radius:8px;padding:10px">
@@ -7637,7 +7637,7 @@ function calcSuprema(){
     <div class="res-section">
       <div class="res-label">Biga — Giorno 1 ore ${H(ob)}</div>
       ${row('Petra 0102HP (30% biga)',R(kgBiga*1000,0)+'g','')}
-      ${row('Acqua biga (IDR 45%)',acqBiga+'g','fredda 4°C')}
+      ${row('Acqua biga (IDR 47%)',acqBiga+'g','fredda 4°C')}
       ${row('LdB biga ('+ldbP+'%)',ldbG+'g','solo sulla farina biga')}
       <div style="margin-top:10px;background:rgba(76,175,125,0.08);border:1.5px solid rgba(76,175,125,0.35);border-radius:10px;padding:12px">
         <div style="font-size:10px;font-weight:700;color:#4CAF7D;margin-bottom:8px">🌡️ Gestione biga senza cella 17°C</div>
@@ -7720,7 +7720,7 @@ function calcSuprema(){
     <div class="res-section">
       <div class="res-label">Acqua — Scorporo Licoli</div>
       ${row('Acqua totale IDR '+idr+'%',acqTot+'g','su '+kgTot+'kg totali')}
-      ${row('Acqua biga (IDR 45%)',acqBiga+'g','già dentro')}
+      ${row('Acqua biga (IDR 47%)',acqBiga+'g','già dentro')}
       ${row('Acqua licoli (50%)',licAcq+'g','portata dal licoli')}
       ${row('= Acqua rinfresco totale',R(acqTot-acqBiga,0)+'g','= '+acqTot+'−'+acqBiga,true)}
       ${row('  • nel licoli',licAcq+'g','')}
@@ -7829,7 +7829,7 @@ function calcTondaBiga(){
     <div class="res-section">
       <div class="res-label">Biga — G1 ${H(ob)}</div>
       ${row('Petra 0102HP (biga)',R(kgB*1000,0)+'g',bp+'% di '+R(kgTot*1000,0)+'g totali')}
-      ${row('Acqua biga (IDR 45%)',acqBiga+'g','fredda 4°C')}
+      ${row('Acqua biga (IDR 47%)',acqBiga+'g','fredda 4°C')}
       ${row('LdB biga ('+ldbP+'%)',ldbG+'g','solo sui '+R(kgB*1000,0)+'g biga')}
     </div>
     <div class="res-section">
@@ -9084,7 +9084,7 @@ function calcPhBiga(){
     blendRinf = ph >= 5.50 ? 'Petra 5078 W370 100% — struttura massima per biga acerba'
       : ph >= 5.20 ? 'Petra 5078 W370 70% + Petra 0102HP 30%'
       : 'Petra 5078 W370 60% + Petra 5063 W270 40% — matura veloce';
-    blendNote = 'IDR 45% in autolisi · bassinage fino a '+idr+'% · cottura 280-300°C';
+    blendNote = 'IDR 47% in autolisi · bassinage fino a '+idr+'% · cottura 280-300°C';
   } else if(tipoImp === 'pala48'){
     blendRinf = ph >= 5.50 ? 'Petra 0102HP W330 100% — forza massima per biga acerba'
       : ph >= 5.20 ? 'Petra 0102HP W330 70% + Petra 5063 W270 30%'
@@ -10359,7 +10359,7 @@ function calcTondaBiga50(){
 
     '<div class="res-section"><div class="res-label">🧱 Biga G1 '+H(ob)+' — 0102HP 50%</div>'+
     row('Petra 0102HP (50% biga)', R(kgBiga*1000,0)+'g', 'W320-340 · proteasi germogliate · struttura')+
-    row('Acqua biga IDR 45%', acqBiga+'g', 'fredda 4°C')+
+    row('Acqua biga IDR 47%', acqBiga+'g', 'fredda 4°C')+
     row('LdB biga '+ldbP+'%', ldbG+'g', 'solo sulla farina biga')+
     row('TOTALE BIGA', R(kgBiga*1000+acqBiga+ldbG,0)+'g', '→ cella 4°C '+oreB+'h', true)+
     '</div>'+
@@ -10374,7 +10374,7 @@ function calcTondaBiga50(){
 
     '<div class="res-section"><div class="res-label">💧 Acqua — scorporo completo</div>'+
     row('Acqua totale IDR '+idr+'%', acqTot+'g', 'su '+kg+'kg farina')+
-    row('− Acqua biga (già dentro)', acqBiga+'g', 'IDR 45% su '+R(kgBiga*1000,0)+'g')+
+    row('− Acqua biga (già dentro)', acqBiga+'g', 'IDR 47% su '+R(kgBiga*1000,0)+'g')+
     row('= Acqua rinfresco totale', acqRinf+'g', '', true)+
     row('T acqua autolisi', Tacq+'°C', 'DDT 25°C Esmach K=7.8')+
     row('① Autolisi '+f1+'%', acqF1+'g', '')+
@@ -10917,7 +10917,7 @@ function calcPaneV2(){
     + '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#D4956A;text-transform:uppercase;margin-bottom:10px">🌾 Biga · 25% · già pronta in cella</div>'
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
     + '<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:14px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:4px">5037 Unica</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#D4956A">' + farBiga + 'g</div></div>'
-    + '<div style="background:rgba(13,27,100,0.3);border-radius:10px;padding:14px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:4px">Acqua 4°C (IDR 45%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#BBDEFB">' + acqBiga + 'g</div></div>'
+    + '<div style="background:rgba(13,27,100,0.3);border-radius:10px;padding:14px;text-align:center"><div style="font-size:9px;color:#7A8A6A;margin-bottom:4px">Acqua 4°C (IDR 47%)</div><div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#BBDEFB">' + acqBiga + 'g</div></div>'
     + '</div>'
     + '<div style="font-size:10px;color:#7A8A6A">Totale biga: <strong style="color:#F0E6D0">' + (farBiga+acqBiga) + 'g</strong> · pH target 5.20–5.35 · se > 5.40 aspetta 30min</div>'
     + '</div>';
