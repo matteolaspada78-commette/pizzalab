@@ -1555,11 +1555,11 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
   setTimeout(function(){
     attendiFontEProcedi(function(){
     var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-    iframe.style.height = (alturaReale + 40) + 'px';
+    iframe.style.height = (alturaReale + 150) + 'px';
 
     setTimeout(function(){
       var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale, windowHeight:alturaFinale}).then(function(canvas){
+      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale + 100, windowHeight:alturaFinale + 100}).then(function(canvas){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
@@ -1597,7 +1597,7 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
         alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
         ripristina();
       });
-    }, 250);
+    }, 400);
     });
   }, 400);
 }
@@ -1725,11 +1725,11 @@ function generaPDFSelezionati(){
   setTimeout(function(){
     attendiFontEProcedi(function(){
     var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-    iframe.style.height = (alturaReale + 40) + 'px';
+    iframe.style.height = (alturaReale + 150) + 'px';
 
     setTimeout(function(){
       var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale, windowHeight:alturaFinale}).then(function(canvas){
+      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale + 100, windowHeight:alturaFinale + 100}).then(function(canvas){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
@@ -1775,7 +1775,7 @@ function generaPDFSelezionati(){
         alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
         ripristina();
       });
-    }, 250);
+    }, 400);
     });
   }, 400);
 }
