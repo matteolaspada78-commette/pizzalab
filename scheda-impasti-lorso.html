@@ -331,7 +331,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
       </div>
       <div style="font-size:.62rem;color:#8a7a68;line-height:1.6;margin-bottom:.6rem;">5046 Allegra · Lievito birra + Licoli · Olio EVO · Idratazione 60% · Pallina 200g</div>
       <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.55rem;">
-        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 320° — 8'–10'</span>
+        <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(201,168,76,.08);color:#c9a84c;border:1px solid rgba(201,168,76,.2);">🔥 Statico 320° — 3'</span>
       </div>
       <div style="display:flex;gap:.4rem;margin-bottom:.5rem;">
         <span style="font-size:.44rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2em .6em;border-radius:2px;background:rgba(192,57,43,.12);color:#e07060;border:1px solid rgba(192,57,43,.25);">🫒 Unico con olio EVO</span>
@@ -383,7 +383,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
           <tr data-impasto="06">
             <td style="padding:.55rem .4rem;color:#d8d0bc;font-weight:600;">100H 🫒</td>
             <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Lievito birra + Licoli</td>
-            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 320° — ~8'–10'</td>
+            <td style="padding:.55rem .3rem;color:#a09080;text-align:center;">Statico 320° — ~3'</td>
           </tr>
         </tbody>
       </table>
@@ -1104,7 +1104,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
         <div class="cottura-steps">
           <div class="cot-step" style="background:rgba(201,168,76,.06);flex:1;">
             <span class="cot-ico">🔥</span>
-            <span class="cot-min">~8'–10'</span>
+            <span class="cot-min">~3'</span>
             <span class="cot-tipo">Statico · 320°</span>
             <span class="cot-note">Temperatura media-alta · cottura lenta della pasta sottile</span>
           </div>
@@ -1141,7 +1141,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
 
       <div class="tol-box">
         <span class="tol-lbl">⚖ Tolleranza operativa in cottura</span>
-        <div class="tol-row"><span class="tol-k">Statico 320° · 8'–10'</span><span class="tol-v">Range ampio perché lo spessore della stesura varia — più sottile è la pallina stesa, più ci si avvicina agli 8'; se leggermente più spessa, servono i 10' pieni. Verificare croccantezza a vista, non solo il timer.</span></div>
+        <div class="tol-row"><span class="tol-k">Statico 320° · 3'</span><span class="tol-v">Finestra breve perché lo spessore è ridotto — a 320° la pasta sottile asciuga e cuoce rapidamente. Verificare croccantezza a vista: se a 3' non è ancora dorata, aggiungere pochi secondi alla volta, non minuti interi.</span></div>
       </div>
 
       <div class="trb-box">
@@ -1525,10 +1525,13 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
   var iframe = document.createElement('iframe');
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
-  iframe.style.left = '-99999px';
+  iframe.style.left = '0';
   iframe.style.width = '900px';
   iframe.style.height = '2000px';
   iframe.style.border = 'none';
+  iframe.style.opacity = '0.01';
+  iframe.style.zIndex = '-1';
+  iframe.style.pointerEvents = 'none';
   document.body.appendChild(iframe);
 
   var idoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -1541,12 +1544,22 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
     if(bottone){ bottone.textContent = testoOriginale; bottone.disabled = false; }
   }
 
+  function attendiFontEProcedi(cb){
+    if(idoc.fonts && idoc.fonts.ready){
+      idoc.fonts.ready.then(function(){ setTimeout(cb, 300); }).catch(function(){ setTimeout(cb, 900); });
+    } else {
+      setTimeout(cb, 900);
+    }
+  }
+
   setTimeout(function(){
-    var alturaReale = idoc.body.scrollHeight;
-    iframe.style.height = alturaReale + 'px';
+    attendiFontEProcedi(function(){
+    var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+    iframe.style.height = (alturaReale + 40) + 'px';
 
     setTimeout(function(){
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900}).then(function(canvas){
+      var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale, windowHeight:alturaFinale}).then(function(canvas){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
@@ -1585,6 +1598,7 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
         ripristina();
       });
     }, 250);
+    });
   }, 400);
 }
 
@@ -1680,10 +1694,13 @@ function generaPDFSelezionati(){
   var iframe = document.createElement('iframe');
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
-  iframe.style.left = '-99999px';
+  iframe.style.left = '0';
   iframe.style.width = '900px';
   iframe.style.height = '2000px';
   iframe.style.border = 'none';
+  iframe.style.opacity = '0.01';
+  iframe.style.zIndex = '-1';
+  iframe.style.pointerEvents = 'none';
   document.body.appendChild(iframe);
 
   var idoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -1697,12 +1714,22 @@ function generaPDFSelezionati(){
     bottone.disabled = false;
   }
 
+  function attendiFontEProcedi(cb){
+    if(idoc.fonts && idoc.fonts.ready){
+      idoc.fonts.ready.then(function(){ setTimeout(cb, 300); }).catch(function(){ setTimeout(cb, 900); });
+    } else {
+      setTimeout(cb, 900);
+    }
+  }
+
   setTimeout(function(){
-    var alturaReale = idoc.body.scrollHeight;
-    iframe.style.height = alturaReale + 'px';
+    attendiFontEProcedi(function(){
+    var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+    iframe.style.height = (alturaReale + 40) + 'px';
 
     setTimeout(function(){
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900}).then(function(canvas){
+      var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale, windowHeight:alturaFinale}).then(function(canvas){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
@@ -1749,6 +1776,7 @@ function generaPDFSelezionati(){
         ripristina();
       });
     }, 250);
+    });
   }, 400);
 }
 
