@@ -1636,24 +1636,45 @@ window.addEventListener('DOMContentLoaded', function(){
 });
 
 // ═══ IMPAGINAZIONE A BLOCCHI — MAI TAGLIA UN TITOLO O UN PARAGRAFO A METÀ ═══
-// Invece di fotografare tutta la pagina come un unico rotolo e tagliarlo a
-// intervalli fissi (che spezza titoli e frasi a caso), fotografa OGNI blocco
-// (intestazione, ogni sezione, firma) separatamente. Se un blocco non entra
-// nello spazio rimasto in pagina, passa alla pagina successiva per intero —
-// non viene mai tagliato a metà. Solo un blocco più alto di un'intera pagina
-// viene diviso, e solo lui.
-async function impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight){
+// Prima MISURA (senza fotografare, è istantaneo) ogni sezione con
+// getBoundingClientRect. Se una sezione è più alta di una pagina intera,
+// invece di tagliarla a caso scende dentro i suoi figli (es. un blocco
+// "Preparazione" con 7 voci diventa 7 pezzi più piccoli, ognuno dei quali
+// probabilmente entra in una pagina) e ripete finché non trova pezzi
+// abbastanza piccoli. Solo un elemento "foglia" (senza figli scomponibili)
+// più alto di una pagina intera viene tagliato — e succede quasi mai.
+function scomponiInUnitaGestibili(elementiRadice, pageHeight, scaleFattore){
+  var unita = [];
+  function espandi(lista){
+    lista.forEach(function(el){
+      var altezzaPt = el.getBoundingClientRect().height * scaleFattore;
+      if(altezzaPt > pageHeight && el.children && el.children.length > 0){
+        espandi(Array.from(el.children));
+      } else {
+        unita.push(el);
+      }
+    });
+  }
+  espandi(elementiRadice);
+  return unita;
+}
+
+async function impaginaBlocchiInPDF(pdf, elementiRadice, pageWidth, pageHeight, scaleFattore){
+  var unita = scomponiInUnitaGestibili(elementiRadice, pageHeight, scaleFattore);
+
   var pagine = [[]];
   var paginaCorrente = pagine[0];
   var yCorrente = 0;
 
-  for(var i=0; i<elementi.length; i++){
-    var el = elementi[i];
+  for(var i=0; i<unita.length; i++){
+    var el = unita[i];
     var canvas = await html2canvas(el, {backgroundColor:'#0b0908', scale:2, useCORS:true});
     var imgW = pageWidth;
     var imgH = canvas.height * (imgW / canvas.width);
 
     if(imgH > pageHeight){
+      // Ultima spiaggia: un elemento singolo (senza figli da scomporre
+      // ulteriormente, es. un paragrafo lunghissimo) più alto di una pagina.
       if(paginaCorrente.length > 0){ pagine.push([]); paginaCorrente = pagine[pagine.length-1]; yCorrente = 0; }
       var pxPerPagina = Math.floor(canvas.width * (pageHeight / pageWidth));
       var nSlice = Math.ceil(canvas.height / pxPerPagina);
@@ -1821,9 +1842,10 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
+        var scaleFattore = pageWidth / 900;
         var elementi = Array.from(idoc.body.children);
 
-        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight).then(function(totalPages){
+        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight, scaleFattore).then(function(totalPages){
           timbraPagine(pdf, totalPages, pageWidth, pageHeight);
           pdf.save(nomeFile + '.pdf');
           ripristina();
@@ -1913,9 +1935,10 @@ function generaPDFSelezionati(){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
+        var scaleFattore = pageWidth / 900;
         var elementi = Array.from(idoc.body.children);
 
-        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight).then(function(totalPages){
+        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight, scaleFattore).then(function(totalPages){
           timbraPagine(pdf, totalPages, pageWidth, pageHeight);
 
           var nomeFile = idsAttivi.length === 1
