@@ -1575,7 +1575,7 @@ body{background:#0b0908!important;color:#f0ebe0!important;font-family:'Montserra
     <span class="firma-nome">Matteo La Spada</span>
     <span class="firma-ruolo">Pizzaiolo · Gruppo Orso</span>
     <div class="firma-line"></div>
-    <span class="firma-tag">#SEGUILORSO · blancopizzalab.it</span>
+    <span class="firma-tag">#SEGUILORSO</span>
   </div>
 </div>
 
@@ -1635,41 +1635,88 @@ window.addEventListener('DOMContentLoaded', function(){
   Object.keys(stato).forEach(function(id){ applicaStato(id); });
 });
 
-// ═══ VERO PDF DI UNA SINGOLA SCHEDA — DOCUMENTO IMPAGINATO ═══
-// Non è uno screenshot dell'app: costruisce un vero documento in un iframe
-// isolato, con intestazione brandizzata "L'Orso", font ingranditi per la
-// stampa, firma "Matteo La Spada" in fondo a ogni pagina e numerazione.
-function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, bottone){
-  var sezOriginale = document.getElementById('sez-'+sezId);
-  if(!sezOriginale) return;
+// ═══ IMPAGINAZIONE A BLOCCHI — MAI TAGLIA UN TITOLO O UN PARAGRAFO A METÀ ═══
+// Invece di fotografare tutta la pagina come un unico rotolo e tagliarlo a
+// intervalli fissi (che spezza titoli e frasi a caso), fotografa OGNI blocco
+// (intestazione, ogni sezione, firma) separatamente. Se un blocco non entra
+// nello spazio rimasto in pagina, passa alla pagina successiva per intero —
+// non viene mai tagliato a metà. Solo un blocco più alto di un'intera pagina
+// viene diviso, e solo lui.
+async function impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight){
+  var pagine = [[]];
+  var paginaCorrente = pagine[0];
+  var yCorrente = 0;
 
-  var testoOriginale = bottone ? bottone.textContent : null;
-  if(bottone){ bottone.textContent = '⏳ Genero il PDF…'; bottone.disabled = true; }
+  for(var i=0; i<elementi.length; i++){
+    var el = elementi[i];
+    var canvas = await html2canvas(el, {backgroundColor:'#0b0908', scale:2, useCORS:true});
+    var imgW = pageWidth;
+    var imgH = canvas.height * (imgW / canvas.width);
 
-  var clone = sezOriginale.cloneNode(true);
-  clone.classList.add('active');
-  clone.style.display = 'block';
+    if(imgH > pageHeight){
+      if(paginaCorrente.length > 0){ pagine.push([]); paginaCorrente = pagine[pagine.length-1]; yCorrente = 0; }
+      var pxPerPagina = Math.floor(canvas.width * (pageHeight / pageWidth));
+      var nSlice = Math.ceil(canvas.height / pxPerPagina);
+      for(var s=0; s<nSlice; s++){
+        var sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = canvas.width;
+        sliceCanvas.height = pxPerPagina;
+        var sctx = sliceCanvas.getContext('2d');
+        sctx.fillStyle = '#0b0908';
+        sctx.fillRect(0,0,sliceCanvas.width,sliceCanvas.height);
+        sctx.drawImage(canvas, 0, s*pxPerPagina, canvas.width, pxPerPagina, 0, 0, canvas.width, pxPerPagina);
+        paginaCorrente.push({url:sliceCanvas.toDataURL('image/jpeg',0.94), y:0, h:pageHeight});
+        if(s < nSlice-1){ pagine.push([]); paginaCorrente = pagine[pagine.length-1]; }
+      }
+      yCorrente = pageHeight;
+      continue;
+    }
 
-  if(impastoId){
-    clone.querySelectorAll('[data-impasto]').forEach(function(el){
-      if(el.getAttribute('data-impasto') !== impastoId){ el.parentNode.removeChild(el); }
+    if(paginaCorrente.length > 0 && yCorrente + imgH > pageHeight){
+      pagine.push([]); paginaCorrente = pagine[pagine.length-1]; yCorrente = 0;
+    }
+    paginaCorrente.push({url:canvas.toDataURL('image/jpeg',0.94), y:yCorrente, h:imgH});
+    yCorrente += imgH;
+  }
+
+  if(pagine.length > 1 && pagine[pagine.length-1].length === 0){ pagine.pop(); }
+
+  pagine.forEach(function(pagina, idx){
+    if(idx > 0){ pdf.addPage(); }
+    pagina.forEach(function(img){
+      pdf.addImage(img.url, 'JPEG', 0, img.y, pageWidth, img.h);
     });
-  }
-  clone.querySelectorAll('button').forEach(function(b){ b.parentNode.removeChild(b); });
-  // Nel documento stampato l'intro generica del tab (se ospita più impasti)
-  // viene sostituita dall'intestazione brandizzata qui sotto — la rimuoviamo
-  // solo se non è l'unico contenuto rimasto.
-  var introBlk = clone.querySelector('.blk');
-  if(introBlk && introBlk.querySelector('.s-title') && clone.querySelectorAll('.blk').length > 1){
-    introBlk.parentNode.removeChild(introBlk);
-  }
+  });
 
+  return pagine.length;
+}
+
+function timbraPagine(pdf, totalPages, pageWidth, pageHeight){
+  for(var p=1; p<=totalPages; p++){
+    pdf.setPage(p);
+    pdf.setFont('helvetica','normal');
+    pdf.setFontSize(8);
+    pdf.setTextColor(150,130,100);
+    pdf.text("L'Orso · Scheda Tecnica", 36, pageHeight - 18);
+    pdf.text('Pagina ' + p + ' di ' + totalPages, pageWidth - 100, pageHeight - 18);
+    pdf.setFont('times','italic');
+    pdf.setFontSize(9);
+    pdf.setTextColor(201,168,76);
+    pdf.text('Matteo La Spada', pageWidth / 2, pageHeight - 18, {align:'center'});
+    pdf.setFont('helvetica','normal');
+  }
+}
+
+// Costruisce l'iframe isolato con intestazione + contenuto + firma, pronto
+// per essere impaginato a blocchi. Usato sia dal PDF singolo che da quello multiplo.
+function costruisciIframePDF(corpoHtml, titoloHeader, sottotitoloHeader){
   var styleOriginale = document.querySelector('style').textContent;
 
   var cssExtra = `
     html{font-size:22px;}
     body.pdf-doc{background:#0b0908;margin:0;padding:0 0 0 0;}
     .pdf-header{padding:2.2rem 2rem 1.6rem;border-bottom:1px solid rgba(201,168,76,.35);background:#0b0908;}
+    .pdf-header.non-primo{margin-top:1.5rem;border-top:2px solid rgba(201,168,76,.5);padding-top:2.5rem;}
     .pdf-eyebrow{font-family:'Montserrat',sans-serif;font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.9rem;}
     .pdf-orso{font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:.25em;text-transform:uppercase;color:#8a7a60;display:block;margin-bottom:.4rem;}
     .pdf-titolo{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:2.6rem;color:#f0ebe0;line-height:1.05;}
@@ -1684,26 +1731,18 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
     .blk{border-bottom:1px solid rgba(255,255,255,.06)!important;}
   `;
 
-  var headerHtml = ''
-    + '<div class="pdf-header">'
-    +   '<span class="pdf-orso">' + "L'Orso" + ' · Messina</span>'
-    +   '<span class="pdf-eyebrow">Scheda Tecnica · Uso Interno</span>'
-    +   '<div class="pdf-titolo">'+titolo+'</div>'
-    +   '<span class="pdf-sottotitolo">'+sottotitolo+'</span>'
-    + '</div>';
-
   var footerHtml = ''
     + '<div class="pdf-footer">'
     +   '<span class="pdf-footer-lbl">Ideato e realizzato da</span>'
     +   '<span class="pdf-footer-nome">Matteo La Spada</span>'
     +   '<span class="pdf-footer-ruolo">Pizzaiolo · Gruppo Orso</span>'
-    +   '<span class="pdf-footer-tag">#SEGUILORSO · blancopizzalab.it</span>'
+    +   '<span class="pdf-footer-tag">#SEGUILORSO</span>'
     + '</div>';
 
   var docHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">'
     + '<style>' + styleOriginale + cssExtra + '</style></head>'
-    + '<body class="pdf-doc">' + headerHtml + '<div class="pdf-body-wrap">' + clone.outerHTML + '</div>' + footerHtml + '</body></html>';
+    + '<body class="pdf-doc">' + corpoHtml + footerHtml + '</body></html>';
 
   var iframe = document.createElement('iframe');
   iframe.style.position = 'fixed';
@@ -1722,65 +1761,77 @@ function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, botto
   idoc.write(docHtml);
   idoc.close();
 
+  return {iframe:iframe, idoc:idoc};
+}
+
+function attendiFontEProcedi(idoc, cb){
+  if(idoc.fonts && idoc.fonts.ready){
+    idoc.fonts.ready.then(function(){ setTimeout(cb, 300); }).catch(function(){ setTimeout(cb, 900); });
+  } else {
+    setTimeout(cb, 900);
+  }
+}
+
+// ═══ VERO PDF DI UNA SINGOLA SCHEDA — DOCUMENTO IMPAGINATO A BLOCCHI ═══
+function scaricaSchedaPDF(sezId, impastoId, nomeFile, titolo, sottotitolo, bottone){
+  var sezOriginale = document.getElementById('sez-'+sezId);
+  if(!sezOriginale) return;
+
+  var testoOriginale = bottone ? bottone.textContent : null;
+  if(bottone){ bottone.textContent = '⏳ Genero il PDF…'; bottone.disabled = true; }
+
+  var clone = sezOriginale.cloneNode(true);
+  clone.classList.add('active');
+  clone.style.display = 'block';
+
+  if(impastoId){
+    clone.querySelectorAll('[data-impasto]').forEach(function(el){
+      if(el.getAttribute('data-impasto') !== impastoId){ el.parentNode.removeChild(el); }
+    });
+  }
+  clone.querySelectorAll('button').forEach(function(b){ b.parentNode.removeChild(b); });
+  var introBlk = clone.querySelector('.blk');
+  if(introBlk && introBlk.querySelector('.s-title') && clone.querySelectorAll('.blk').length > 1){
+    introBlk.parentNode.removeChild(introBlk);
+  }
+
+  var headerHtml = ''
+    + '<div class="pdf-header">'
+    +   '<span class="pdf-orso">' + "L'Orso" + ' · Messina</span>'
+    +   '<span class="pdf-eyebrow">Scheda Tecnica · Uso Interno</span>'
+    +   '<div class="pdf-titolo">'+titolo+'</div>'
+    +   '<span class="pdf-sottotitolo">'+sottotitolo+'</span>'
+    + '</div>';
+
+  var corpoHtml = headerHtml + '<div class="pdf-body-wrap">' + clone.outerHTML + '</div>';
+  var rig = costruisciIframePDF(corpoHtml, titolo, sottotitolo);
+  var iframe = rig.iframe, idoc = rig.idoc;
+
   function ripristina(){
     if(iframe.parentNode){ iframe.parentNode.removeChild(iframe); }
     if(bottone){ bottone.textContent = testoOriginale; bottone.disabled = false; }
   }
 
-  function attendiFontEProcedi(cb){
-    if(idoc.fonts && idoc.fonts.ready){
-      idoc.fonts.ready.then(function(){ setTimeout(cb, 300); }).catch(function(){ setTimeout(cb, 900); });
-    } else {
-      setTimeout(cb, 900);
-    }
-  }
-
   setTimeout(function(){
-    attendiFontEProcedi(function(){
-    var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-    iframe.style.height = (alturaReale + 150) + 'px';
+    attendiFontEProcedi(idoc, function(){
+      var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+      iframe.style.height = (alturaReale + 150) + 'px';
 
-    setTimeout(function(){
-      var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale + 100, windowHeight:alturaFinale + 100}).then(function(canvas){
+      setTimeout(function(){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
-        var pageHeightPx = Math.floor(canvas.width * (pageHeight / pageWidth));
+        var elementi = Array.from(idoc.body.children);
 
-        var pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = pageHeightPx;
-        var pageCtx = pageCanvas.getContext('2d');
-
-        var totalPages = Math.max(1, Math.ceil(canvas.height / pageHeightPx));
-        for(var i=0;i<totalPages;i++){
-          pageCtx.fillStyle = '#0b0908';
-          pageCtx.fillRect(0,0,pageCanvas.width,pageCanvas.height);
-          pageCtx.drawImage(canvas, 0, i*pageHeightPx, canvas.width, pageHeightPx, 0, 0, canvas.width, pageHeightPx);
-          var pageImgData = pageCanvas.toDataURL('image/jpeg', 0.94);
-          if(i>0) pdf.addPage();
-          pdf.addImage(pageImgData, 'JPEG', 0, 0, pageWidth, pageHeight);
-
-          // Numerazione pagina + firma sempre presente, su ogni pagina
-          pdf.setFontSize(8);
-          pdf.setTextColor(150,130,100);
-          pdf.text("L'Orso · Scheda Tecnica", 36, pageHeight - 18);
-          pdf.text('Pagina ' + (i+1) + ' di ' + totalPages, pageWidth - 100, pageHeight - 18);
-          pdf.setFont('times', 'italic');
-          pdf.setFontSize(9);
-          pdf.setTextColor(201,168,76);
-          pdf.text('Matteo La Spada', pageWidth / 2, pageHeight - 18, {align:'center'});
-          pdf.setFont('helvetica', 'normal');
-        }
-
-        pdf.save(nomeFile + '.pdf');
-        ripristina();
-      }).catch(function(err){
-        alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
-        ripristina();
-      });
-    }, 400);
+        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight).then(function(totalPages){
+          timbraPagine(pdf, totalPages, pageWidth, pageHeight);
+          pdf.save(nomeFile + '.pdf');
+          ripristina();
+        }).catch(function(err){
+          alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
+          ripristina();
+        });
+      }, 400);
     });
   }, 400);
 }
@@ -1811,28 +1862,8 @@ function generaPDFSelezionati(){
   bottone.textContent = '⏳ Genero il PDF…';
   bottone.disabled = true;
 
-  var styleOriginale = document.querySelector('style').textContent;
-  var cssExtra = `
-    html{font-size:22px;}
-    body.pdf-doc{background:#0b0908;margin:0;padding:0;}
-    .pdf-header{padding:2.2rem 2rem 1.6rem;border-bottom:1px solid rgba(201,168,76,.35);background:#0b0908;}
-    .pdf-header.non-primo{margin-top:1.5rem;border-top:2px solid rgba(201,168,76,.5);padding-top:2.5rem;}
-    .pdf-eyebrow{font-family:'Montserrat',sans-serif;font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;color:#c9a84c;display:block;margin-bottom:.9rem;}
-    .pdf-orso{font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:.25em;text-transform:uppercase;color:#8a7a60;display:block;margin-bottom:.4rem;}
-    .pdf-titolo{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:2.6rem;color:#f0ebe0;line-height:1.05;}
-    .pdf-sottotitolo{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.1em;color:#a09080;margin-top:.6rem;display:block;}
-    .pdf-body-wrap{padding:1.4rem 2rem 2rem;}
-    .pdf-footer{padding:1.8rem 2rem 2.2rem;border-top:1px solid rgba(201,168,76,.35);text-align:center;background:#0b0908;}
-    .pdf-footer-lbl{font-family:'Montserrat',sans-serif;font-size:.46rem;letter-spacing:.3em;text-transform:uppercase;color:#6a5f50;display:block;margin-bottom:.5rem;}
-    .pdf-footer-nome{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;color:#c9a84c;display:block;}
-    .pdf-footer-ruolo{font-family:'Montserrat',sans-serif;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:#8a7a60;display:block;margin-top:.4rem;}
-    .pdf-footer-tag{font-family:'Montserrat',sans-serif;font-size:.48rem;letter-spacing:.15em;color:#4a3a2a;display:block;margin-top:.8rem;}
-    .sez{border-bottom:none!important;}
-    .blk{border-bottom:1px solid rgba(255,255,255,.06)!important;}
-  `;
-
   var corpoHtml = '';
-  idsAttivi.forEach(function(id, indice){
+  idsAttivi.forEach(function(id){
     var info = MAPPA_IMPASTI_PDF[id];
     var sezOriginale = document.getElementById('sez-'+info.sez);
     if(!sezOriginale) return;
@@ -1852,44 +1883,20 @@ function generaPDFSelezionati(){
       introBlk.parentNode.removeChild(introBlk);
     }
 
-    corpoHtml += '<div class="pdf-header' + (indice > 0 ? ' non-primo' : '') + '">'
+    // Intestazione e prima parte del contenuto raggruppate in un unico
+    // blocco, così restano sempre insieme nella stessa pagina — solo i
+    // blocchi successivi di questo impasto possono andare a pagina nuova.
+    corpoHtml += '<div class="pdf-header">'
       + '<span class="pdf-orso">' + "L'Orso" + ' · Messina</span>'
       + '<span class="pdf-eyebrow">Scheda Tecnica · Uso Interno</span>'
       + '<div class="pdf-titolo">'+info.titolo+'</div>'
       + '<span class="pdf-sottotitolo">'+info.sotto+'</span>'
-      + '</div>'
-      + '<div class="pdf-body-wrap">' + clone.outerHTML + '</div>';
+      + '</div>';
+    corpoHtml += '<div class="pdf-body-wrap">' + clone.outerHTML + '</div>';
   });
 
-  var footerHtml = ''
-    + '<div class="pdf-footer">'
-    +   '<span class="pdf-footer-lbl">Ideato e realizzato da</span>'
-    +   '<span class="pdf-footer-nome">Matteo La Spada</span>'
-    +   '<span class="pdf-footer-ruolo">Pizzaiolo · Gruppo Orso</span>'
-    +   '<span class="pdf-footer-tag">#SEGUILORSO · blancopizzalab.it</span>'
-    + '</div>';
-
-  var docHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
-    + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">'
-    + '<style>' + styleOriginale + cssExtra + '</style></head>'
-    + '<body class="pdf-doc">' + corpoHtml + footerHtml + '</body></html>';
-
-  var iframe = document.createElement('iframe');
-  iframe.style.position = 'fixed';
-  iframe.style.top = '0';
-  iframe.style.left = '0';
-  iframe.style.width = '900px';
-  iframe.style.height = '2000px';
-  iframe.style.border = 'none';
-  iframe.style.opacity = '0.01';
-  iframe.style.zIndex = '-1';
-  iframe.style.pointerEvents = 'none';
-  document.body.appendChild(iframe);
-
-  var idoc = iframe.contentDocument || iframe.contentWindow.document;
-  idoc.open();
-  idoc.write(docHtml);
-  idoc.close();
+  var rig = costruisciIframePDF(corpoHtml);
+  var iframe = rig.iframe, idoc = rig.idoc;
 
   function ripristina(){
     if(iframe.parentNode){ iframe.parentNode.removeChild(iframe); }
@@ -1897,68 +1904,36 @@ function generaPDFSelezionati(){
     bottone.disabled = false;
   }
 
-  function attendiFontEProcedi(cb){
-    if(idoc.fonts && idoc.fonts.ready){
-      idoc.fonts.ready.then(function(){ setTimeout(cb, 300); }).catch(function(){ setTimeout(cb, 900); });
-    } else {
-      setTimeout(cb, 900);
-    }
-  }
-
   setTimeout(function(){
-    attendiFontEProcedi(function(){
-    var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-    iframe.style.height = (alturaReale + 150) + 'px';
+    attendiFontEProcedi(idoc, function(){
+      var alturaReale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
+      iframe.style.height = (alturaReale + 150) + 'px';
 
-    setTimeout(function(){
-      var alturaFinale = Math.max(idoc.body.scrollHeight, idoc.documentElement.scrollHeight);
-      html2canvas(idoc.body, {backgroundColor:'#0b0908', scale:2, useCORS:true, windowWidth:900, height:alturaFinale + 100, windowHeight:alturaFinale + 100}).then(function(canvas){
+      setTimeout(function(){
         var pdf = new jspdf.jsPDF('p','pt','a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
-        var pageHeightPx = Math.floor(canvas.width * (pageHeight / pageWidth));
+        var elementi = Array.from(idoc.body.children);
 
-        var pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = pageHeightPx;
-        var pageCtx = pageCanvas.getContext('2d');
+        impaginaBlocchiInPDF(pdf, elementi, pageWidth, pageHeight).then(function(totalPages){
+          timbraPagine(pdf, totalPages, pageWidth, pageHeight);
 
-        var totalPages = Math.max(1, Math.ceil(canvas.height / pageHeightPx));
-        for(var i=0;i<totalPages;i++){
-          pageCtx.fillStyle = '#0b0908';
-          pageCtx.fillRect(0,0,pageCanvas.width,pageCanvas.height);
-          pageCtx.drawImage(canvas, 0, i*pageHeightPx, canvas.width, pageHeightPx, 0, 0, canvas.width, pageHeightPx);
-          var pageImgData = pageCanvas.toDataURL('image/jpeg', 0.94);
-          if(i>0) pdf.addPage();
-          pdf.addImage(pageImgData, 'JPEG', 0, 0, pageWidth, pageHeight);
+          var nomeFile = idsAttivi.length === 1
+            ? 'scheda-' + MAPPA_IMPASTI_PDF[idsAttivi[0]].sez + (MAPPA_IMPASTI_PDF[idsAttivi[0]].impasto ? '-'+MAPPA_IMPASTI_PDF[idsAttivi[0]].impasto : '')
+            : 'scheda-impasti-selezionati';
+          pdf.save(nomeFile + '.pdf');
+          ripristina();
 
-          pdf.setFontSize(8);
-          pdf.setTextColor(150,130,100);
-          pdf.text("L'Orso · Scheda Tecnica", 36, pageHeight - 18);
-          pdf.text('Pagina ' + (i+1) + ' di ' + totalPages, pageWidth - 100, pageHeight - 18);
-          pdf.setFont('times', 'italic');
-          pdf.setFontSize(9);
-          pdf.setTextColor(201,168,76);
-          pdf.text('Matteo La Spada', pageWidth / 2, pageHeight - 18, {align:'center'});
-          pdf.setFont('helvetica', 'normal');
-        }
-
-        var nomeFile = idsAttivi.length === 1
-          ? 'scheda-' + MAPPA_IMPASTI_PDF[idsAttivi[0]].sez + (MAPPA_IMPASTI_PDF[idsAttivi[0]].impasto ? '-'+MAPPA_IMPASTI_PDF[idsAttivi[0]].impasto : '')
-          : 'scheda-impasti-selezionati';
-        pdf.save(nomeFile + '.pdf');
-        ripristina();
-
-        var esito = document.getElementById('esporta-esito');
-        if(esito){
-          esito.style.display = 'block';
-          esito.textContent = '✓ PDF generato — ' + idsAttivi.length + ' impasti su 6 inclusi.';
-        }
-      }).catch(function(err){
-        alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
-        ripristina();
-      });
-    }, 400);
+          var esito = document.getElementById('esporta-esito');
+          if(esito){
+            esito.style.display = 'block';
+            esito.textContent = '✓ PDF generato — ' + idsAttivi.length + ' impasti su 6 inclusi.';
+          }
+        }).catch(function(err){
+          alert('Non sono riuscito a generare il PDF. Riprova tra un istante.');
+          ripristina();
+        });
+      }, 400);
     });
   }, 400);
 }
