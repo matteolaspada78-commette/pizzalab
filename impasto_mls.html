@@ -498,7 +498,7 @@
       <div class="g2">
         <div class="inp-grp">
           <div class="inp-lbl">Licoli % (su rinfresco)</div>
-          <div class="inp-row"><input class="inp" id="licP" type="number" inputmode="decimal" value="7" oninput="calcBiga()"><span class="inp-unit">%</span></div>
+          <div class="inp-row"><input class="inp" id="licP" type="number" inputmode="decimal" value="0" oninput="calcBiga()"><span class="inp-unit">%</span></div>
         </div>
         <div class="inp-grp">
           <div class="inp-lbl">LdB % (su rinfresco)</div>
@@ -599,8 +599,8 @@
 
     <div class="out-section">
       <div class="data-card data-card--gold">
-        <div class="data-eyebrow" style="color:var(--gold)">🧱 Biga</div>
-        <div class="data-grid" id="bGridBiga"></div>
+        <div class="data-eyebrow" style="color:var(--gold)">🧱 Biga · Rinfresco</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="bGridBiga"></div>
       </div>
     </div>
 
@@ -811,7 +811,7 @@
 
 <script>
 // ── UTILITIES ──
-function v(id,def){var e=document.getElementById(id);return e?parseFloat(e.value)||def:def;}
+function v(id,def){var e=document.getElementById(id);if(!e)return def;var n=parseFloat(e.value);return isNaN(n)?def:n;}
 function R(n,d){return Math.round(n*Math.pow(10,d))/Math.pow(10,d);}
 function cell(lbl,val,col,sub){
   return '<div class="data-cell">'
@@ -990,9 +990,10 @@ function calcBiga(){
 
   // Biga grid
   document.getElementById('bGridBiga').innerHTML =
-    cell('Farina biga',Math.round(kgB*1000)+'g','var(--gold2)')+
-    cell('Acqua IDR '+idrB+'%',acqB+'g','var(--blue-light)')+
-    (ldbG>0?cell('LdB '+ldb+'%',ldbG+'g','var(--gold)'):'<div></div>');
+    cell('Farina biga',Math.round(kgB*1000)+'g','var(--gold2)','0102HP W320')+
+    cell('Farina rinf.',Math.round(kgR*1000)+'g','var(--green-light)','5063 W270')+
+    cell('Acqua biga IDR '+idrB+'%',acqB+'g','var(--blue-light)','fredda 4°C')+
+    (ldbG>0?cell('LdB '+ldb+'%',ldbG+'g','var(--gold)','su rinfresco'):'<div></div>');
 
   // Acqua list
   document.getElementById('bAcqList').innerHTML =
