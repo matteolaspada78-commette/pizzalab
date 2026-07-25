@@ -2138,7 +2138,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-icon" style="background:rgba(13,27,75,0.3)">🏆</div>
       <div class="menu-text">
         <div class="menu-name">Pala Romana Suprema</div>
-        <div class="menu-sub">Biga 40% 5078+0102HP · Rinfresco 5037+0102HP · IDR 82%</div>
+        <div class="menu-sub">Biga 40% 5078+0102HP · Rinfresco 5037+0102HP · IDR 77%</div>
       </div>
       <div class="menu-arrow">›</div>
     </div>
@@ -4692,7 +4692,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="inp-group"><label class="inp-label">Kg farina biga</label><div class="inp-row"><input class="inp-field" id="pbKgB" type="number" value="10" min="1" max="80" step="0.5" oninput="calcPalaBiga()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Kg farina rinfresco</label><div class="inp-row"><input class="inp-field" id="pbKgR" type="number" value="10" min="1" max="80" step="0.5" oninput="calcPalaBiga()"><span class="inp-unit">kg</span></div></div>
       <div class="inp-group"><label class="inp-label">Grammatura teglia (g)</label><div class="inp-row"><input class="inp-field" id="pbGr" type="number" value="1800" min="600" max="3000" step="100" oninput="calcPalaBiga()"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="82" min="75" max="85" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR finale %</label><div class="inp-row"><input class="inp-field" id="pbIDR" type="number" value="77" min="70" max="82" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="pbSale" type="number" value="2.2" min="1.8" max="2.6" step="0.1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">LdB % nella biga</label><div class="inp-row"><input class="inp-field" id="pbLdb" type="number" value="0.6" min="0.1" max="2" step="0.1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
       <div class="inp-group"><label class="inp-label">Licoli % nel rinfresco (0 = solo LdB)</label><div class="inp-row"><input class="inp-field" id="pbLic" type="number" value="0" min="0" max="20" step="1" oninput="calcPalaBiga()"><span class="inp-unit">%</span></div></div>
@@ -6277,7 +6277,7 @@ const titles={
   tondabiga50:['🍕 Tonda Romana Croccante Biga','Biga 50% 0102HP · 5046 Allegra · IDR 58%'],
   tondabiga:['🔥 Tonda Romana Biga','Zero LdB · Zucchero · Strutto'],
   tondacroc:['🍕 Tonda Romana Croccante','LdB / Licoli / Pasta Riporto'],
-  palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 82%'],
+  palasuprema:['🏆 Pala Suprema','Biga 40% · IDR 77%'],
   palascient:['🔬 Pala Scientifica','IDR variabile · G-prime target'],
   palabiga:['🫓 Teglia Alveolata','Biga 50% · 5078+0102HP · Alveoli Esplosivi'],
   napofrigo:['❄️ Napoletana Pronta Forno','Biga G1 → Panetti frigo 24-36h → Forno'],
@@ -8044,7 +8044,7 @@ function calcPalaSuprema(){
 
     // RICETTA RINFRESCO
     +'<div class="res-section"><div class="res-label">🔄 Rinfresco '+(100-bigaPct)+'% — G2 '+H(or_)+'</div>'
-    +(pctR5078>0?row('Petra 5078 W350-380 ('+Math.round(r5078*100)+'%)', kg5078r+'g', '🏆 struttura alveolare · regge IDR 82%'):'')
+    +(pctR5078>0?row('Petra 5078 W350-380 ('+Math.round(r5078*100)+'%)', kg5078r+'g', '🏆 struttura alveolare · regge IDR 77%'):'')
     +(pctR0102>0?row('Petra 0102HP W320 ('+Math.round(r0102r*100)+'%)', kg0102r+'g', 'estensibilità · stesura facile'):'')
     +row('Sale ('+saleP+'%)', sale+'g', '')
     +row('Malto (0.3%)', malto+'g', 'Maillard · doratura uniforme')
@@ -8100,7 +8100,7 @@ function calcPalaScient(){
   var bigaMsg = bigaPct<=35?'✅ Napoletana':bigaPct<=55?'✅ Pala standard':bigaPct<=70?'⚠️ Alta':'⚠️ Molto alta';
 
   document.getElementById('palaScientOut').innerHTML=`
-    <!-- SEMAFORO BIGA -->
+    <!-- HEADER -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
       <div style="background:rgba(139,99,64,0.2);border:2px solid ${bigaCol}50;border-radius:10px;padding:10px;text-align:center">
         <div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Biga ${bigaPct}%</div>
@@ -8120,26 +8120,57 @@ function calcPalaScient(){
     </div>
 
     <div class="res-section">
-      <div class="res-label">Biga ${bigaPct}%</div>
-      ${row('Petra 5078 (60% biga)',R(kgB*0.6*1000,0)+'g','')}
-      ${row('Petra 0102HP (40% biga)',R(kgB*0.4*1000,0)+'g','')}
-      ${row('Acqua biga (IDR 47%)',acqBiga+'g','fredda 4°C · Cauvain 2015')}
+      <div class="res-label">🧱 Biga ${bigaPct}% — 100% 5078 W365</div>
+      ${row('Petra 5078 W365 (100% biga)',R(kgB*1000,0)+'g','forza massima · alveoli enormi')}
+      ${row('Acqua biga IDR 47%',acqBiga+'g','fredda 4°C · Cauvain 2015')}
+      ${row('LdB biga 0.60%',R(kgB*0.006*1000,1)+'g','sul totale biga')}
+      ${row('Maturazione','18-20h a 4°C','G1 sera → G2 mattina')}
     </div>
+
     <div class="res-section">
-      <div class="res-label">Rinfresco ${100-bigaPct}% — IDR ${idr}%</div>
-      ${pctR5037>0?row('Petra 5037 ('+Math.round(r5037*100)+'% rinfresco)',R(kgRinf*r5037*1000,0)+'g',''):''}
-      ${pctR0102>0?row('Petra 0102HP ('+Math.round(r0102*100)+'% rinfresco)',R(kgRinf*r0102*1000,0)+'g',''):''}
-      ${row('Sale ('+saleP+'%)',sale+'g','')}
-      ${row('Malto (0.3%)',malto+'g','')}
-      ${row('ACQUA DA AGGIUNGERE',aa+'g','IDR '+idr+'% su '+kgTot+'kg',true)}
-      ${row('Pezzi da '+gr+'g',pan+' pale','',true)}
+      <div class="res-label">🔄 Rinfresco ${100-bigaPct}% — 70% 5078 + 30% 0102HP · IDR ${idr}%</div>
+      ${row('Petra 5078 W365 (70%)',R(kgRinf*0.70*1000,0)+'g','struttura · alveoli')}
+      ${row('Petra 0102HP W320 (30%)',R(kgRinf*0.30*1000,0)+'g','estensibilità · stesura')}
+      ${row('LdB rinfresco 0.4%',R(kgRinf*0.004*1000,1)+'g','sul rinfresco')}
+      ${row('Malto diastasico 0.3%',malto+'g','⚠️ obbligatorio — crosta croccante')}
+      ${row('Sale '+saleP+'%',sale+'g','')}
+      ${row('ACQUA TOTALE DA AGGIUNGERE',aa+'g','IDR '+idr+'% su '+kgTot+'kg — tutto subito',true)}
+      ${row('Pale da '+gr+'g',pan+' pezzi','',true)}
     </div>
-    ${dist([
-      ['① Fase 1 ('+f1Pct+'%)',f1+'g'],
-      ['② Bassinage',bass+'g a 8°C'],
-      ['③ Sale',sale+'g']
-    ])}
-    ${sem('G-prime a '+ore+'h: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso':'Ancora rigido — aspetta'),semGp)}`;
+
+    <div class="res-section">
+      <div class="res-label">📦 GN 1/1 — Peso impasto per vascone · T uscita 24°C</div>
+      ${(function(){
+        var h=10,A=0.1723,c=3500,tU=24,tF=4;
+        var rows='';
+        [4,5,6,7,8].forEach(function(kg){
+          var k=h*A/(kg*c);
+          var T40=Math.round((tF+(tU-tF)*Math.exp(-k*2400))*10)/10;
+          var T100=Math.round((tF+(tU-tF)*Math.exp(-k*6000))*10)/10;
+          var col=kg<=6?'#A5D6A7':kg===7?'#FFE082':'#FFCDD2';
+          var tag=kg===5?'⭐ IDEALE':kg===6?'✅ OK':kg===7?'⚠️ Limite':'❌ Troppo';
+          rows+=row(kg+'kg per GN','puntata '+T40+'°C · appretto 1h40: '+T100+'°C',tag,kg===5);
+        });
+        return rows;
+      })()}
+      ${row('Consiglio','5-6kg per GN 1/1','T uscita 24°C — max 6kg',true)}
+    </div>
+
+    <div class="res-section">
+      <div class="res-label">⏰ Processo infallibile · Matteo La Spada</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2.2;padding:8px 0">
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">G1 sera</span> Biga 100% 5078 → 2h T ambiente → cella 4°C<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">07:40</span> Fine impasto · T uscita <strong style="color:#F0E6D0">24°C</strong> · 5-6kg per GN 1/1<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">07:40-08:20</span> Puntata <strong style="color:#FFCDD2">40 minuti</strong> T ambiente · target +15%<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">08:20</span> Staglio → stesura in teglia → olio abbondante sotto<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">08:20-10:00</span> Appretto <strong style="color:#F0E6D0">1h40 in CELLA 4°C</strong><br>
+        <span style="color:#FFCDD2;font-family:DM Mono,monospace">10:00</span> Forno <strong style="color:#FFCDD2">direttamente dalla cella</strong> · 280°C platea · 250°C cielo · 6-8min<br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">Alternativa</span> Teglie in cella <strong style="color:#F0E6D0">overnight</strong> → inforna mattina dopo
+      </div>
+    </div>
+
+    ${sem('G-prime a '+ore+'h: '+Gp+' Pa — '+(Gp>=3000&&Gp<=4200?'✅ Ottimale per pala':Gp<2500?'⚠️ Troppo basso':'Ancora rigido — aspetta'),semGp)}
+    <div style="text-align:right;font-family:DM Mono,monospace;font-size:9px;color:var(--dim);margin-top:8px;font-style:italic">Matteo La Spada · Pala Suprema · Scirocco</div>`;
 }
 
 // ══════════════════════════════════════════════
@@ -8202,7 +8233,7 @@ function calcPalaBiga(){
     sem(semBigaTxt + ' — ' + oreB + 'h biga · attività ' + attB + '%', semBigaCls) +
     '<div class="res-section">' +
     '<div class="res-label">🧱 Biga ' + kgB + 'kg — G1 ore ' + H(oi) + ' · 100% 5078 W365</div>' +
-    row('Petra 5078 W365 (100% biga)', Math.round(kg5078biga*1000)+'g', '🏆 forza massima · alveoli enormi · regge IDR 82%') +
+    row('Petra 5078 W365 (100% biga)', Math.round(kg5078biga*1000)+'g', '🏆 forza massima · alveoli enormi · regge IDR 77%') +
     row('Acqua biga (IDR 47%)', acqBiga+'g', 'fredda 4°C · Cauvain 2015') +
     row('LdB biga (' + ldbP + '%)', ldbBiga+'g', 'sul rinfresco — calibrato per biga 40%') +
     row('TOTALE BIGA', R(kgBiga*1000+acqBiga,0)+'g', '', true) +
