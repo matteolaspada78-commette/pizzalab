@@ -220,9 +220,9 @@ body{font-family:var(--sans);color:var(--cream);-webkit-font-smoothing:antialias
   *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
   html,body{background:#F3ECDA !important; overflow:visible !important; height:auto !important; width:auto !important}
   .app,.views,.view{position:static !important; overflow:visible !important; max-width:none !important; width:auto !important; height:auto !important; padding:0 !important; margin:0 !important; background:none !important}
-  .app > *:not(#view-stampa),
   .hdr, .tabbar, .overlay{ display:none !important; }
-  #view-stampa.hidden{ display:block !important; }
+  .views > .view:not(#view-stampa){ display:none !important; }
+  #view-stampa{ display:block !important; }
   .print-week{background:none !important;border:none !important;padding:0 !important;box-shadow:none !important;margin:0 !important}
   .foglio{box-shadow:none !important;border-radius:0 !important;background:#F3ECDA !important;width:100% !important}
   .foglio-manifest{font-size:10.5px}
