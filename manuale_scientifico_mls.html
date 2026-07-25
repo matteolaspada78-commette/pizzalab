@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manuale Scientifico · Matteo La Spada</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap');
+:root{
+  --bg:#07120D;--surface:#0B1A12;--card:#0F2318;--border:#1C3828;
+  --gold:#C8973A;--gold2:#EEC84A;--gold3:#F7DFA0;
+  --cream:#F5EFE3;--cream2:#D8CEBC;--dim:#6A7060;
+  --ok:#5DBFA0;--warn:#E8B84A;--bad:#D45050;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--serif:'Playfair Display',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);max-width:720px;margin:0 auto;padding:0 0 60px;-webkit-font-smoothing:antialiased}
+
+/* HERO */
+.hero{
+  padding:48px 24px 36px;
+  background:linear-gradient(170deg,#0D1F10,#07120D);
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),transparent)}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,8vw,52px);font-weight:900;color:var(--cream);line-height:1.05;letter-spacing:-1px;margin-bottom:8px}
+.hero-title em{color:var(--gold2);font-style:italic}
+.hero-sub{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;line-height:1.8;margin-bottom:20px}
+.hero-firma{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--gold);opacity:0.7}
+
+/* NAV STICKY */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,18,13,0.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 16px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav-link{
+  padding:14px 16px;font-family:var(--mono);font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--dim);text-decoration:none;
+  border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;
+}
+.nav-link:hover{color:var(--gold2)}
+.nav-link.active{color:var(--gold2);border-bottom-color:var(--gold2)}
+
+/* SEZIONI */
+.section{padding:32px 24px;border-bottom:1px solid var(--border)}
+.section-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-eyebrow::before{content:'';width:24px;height:2px;background:var(--gold);border-radius:2px}
+.section-title{font-family:var(--serif);font-size:clamp(22px,5vw,32px);font-weight:900;color:var(--cream);margin-bottom:16px;letter-spacing:-0.5px}
+.section-intro{font-size:15px;color:var(--cream2);line-height:1.75;margin-bottom:24px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-top:2px solid rgba(200,151,58,0.3);border-radius:16px;padding:20px;margin-bottom:16px}
+.card-title{font-family:var(--mono);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px}
+
+/* TABELLA */
+.table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.table th{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--border);text-align:left}
+.table td{padding:10px 12px;border-bottom:1px solid rgba(28,56,40,0.4);font-size:13px;color:var(--cream2)}
+.table tr:last-child td{border-bottom:none}
+.table td:first-child{font-family:var(--mono);font-weight:700;color:var(--cream)}
+.table tr.highlight td{background:rgba(200,151,58,0.06);color:var(--cream)}
+.table tr.highlight td:first-child{color:var(--gold2)}
+
+/* CONFRONTO PRODOTTI */
+.prod-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.prod-card{background:rgba(0,0,0,0.2);border-radius:12px;padding:14px;border:1.5px solid var(--border)}
+.prod-name{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:4px}
+.prod-sub{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.prod-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,56,40,0.3);font-size:11px}
+.prod-row:last-child{border-bottom:none}
+.prod-key{color:var(--dim)}
+.prod-val{font-family:var(--mono);font-size:11px;font-weight:700}
+
+/* PROCESSO TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-row{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(28,56,40,0.4)}
+.tl-row:last-child{border-bottom:none}
+.tl-time{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--gold2);min-width:80px;flex-shrink:0;padding-top:1px}
+.tl-content{flex:1}
+.tl-action{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:2px}
+.tl-note{font-size:11px;color:var(--dim);line-height:1.5}
+
+/* ALERT BOXES */
+.alert{border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:12px;line-height:1.7}
+.alert-gold{background:rgba(200,151,58,0.08);border:1.5px solid rgba(200,151,58,0.3);color:var(--cream2)}
+.alert-gold strong{color:var(--gold2)}
+.alert-green{background:rgba(93,191,160,0.08);border:1.5px solid rgba(93,191,160,0.3);color:var(--cream2)}
+.alert-green strong{color:var(--ok)}
+.alert-red{background:rgba(212,80,80,0.08);border:1.5px solid rgba(212,80,80,0.3);color:var(--cream2)}
+.alert-red strong{color:var(--bad)}
+
+/* GN TABLE */
+.gn-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.gn-cell{border-radius:10px;padding:10px 6px;text-align:center}
+.gn-kg{font-family:var(--mono);font-size:18px;font-weight:700;margin-bottom:4px}
+.gn-temp{font-family:var(--mono);font-size:11px;margin-bottom:2px}
+.gn-label{font-size:9px}
+
+/* FONTI */
+.fonti{background:rgba(0,0,0,0.3);border-radius:12px;padding:16px;font-size:10px;color:var(--dim);line-height:2.2}
+.fonti strong{color:var(--cream2)}
+
+/* FIRMA FOOTER */
+.footer{text-align:center;padding:40px 24px;color:var(--dim)}
+.footer-name{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--gold);margin-bottom:4px}
+.footer-sub{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+
+@media(max-width:600px){
+  .prod-grid{grid-template-columns:1fr}
+  .section{padding:24px 16px}
+  .hero{padding:36px 16px 28px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Gruppo Orso · Scirocco · Crocco — Messina</div>
+  <div class="hero-title">Manuale <em>Scientifico</em></div>
+  <div class="hero-sub">
+    Impasto · Biga · Fermentazione · Cottura<br>
+    Napoletana · Pala · Padellino · Pane
+  </div>
+  <div class="hero-firma">Matteo La Spada — Pizzaiolo Scientifico</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-link active" href="#farine">Farine</a>
+  <a class="nav-link" href="#biga">Biga</a>
+  <a class="nav-link" href="#fermentazione">Fermentazione</a>
+  <a class="nav-link" href="#gn">GN 1/1</a>
+  <a class="nav-link" href="#napoletana">Napoletana</a>
+  <a class="nav-link" href="#pala">Pala</a>
+  <a class="nav-link" href="#padellino">Padellino</a>
+  <a class="nav-link" href="#pane">Pane</a>
+  <a class="nav-link" href="#cottura">Cottura</a>
+  <a class="nav-link" href="#fonti">Fonti</a>
+</nav>
+
+<!-- ═══════════════════════ FARINE ═══════════════════════ -->
+<div class="section" id="farine">
+  <div class="section-eyebrow">001</div>
+  <div class="section-title">Farine Petra — Scelta per prodotto</div>
+  <div class="section-intro">La scelta della farina in biga non è estetica — è dettata dalla fisica della cottura. Temperatura e tempo di cottura determinano quale W serve per reggere la struttura senza collassare.</div>
+
+  <div class="prod-grid">
+    <div class="prod-card" style="border-color:rgba(212,160,62,0.4)">
+      <div class="prod-name" style="color:#F0CC5A">Napoletana</div>
+      <div class="prod-sub" style="color:#7A8A6A">440-450°C · 70-90 sec</div>
+      <div class="prod-row"><span class="prod-key">Biga</span><span class="prod-val" style="color:#F0CC5A">0102HP W320</span></div>
+      <div class="prod-row"><span class="prod-key">Rinfresco</span><span class="prod-val">5063 W270</span></div>
+      <div class="prod-row"><span class="prod-key">IDR biga</span><span class="prod-val">47%</span></div>
+      <div class="prod-row"><span class="prod-key">LdB biga</span><span class="prod-val">0.25%</span></div>
+      <div class="prod-row"><span class="prod-key">IDR totale</span><span class="prod-val">68%</span></div>
+    </div>
+    <div class="prod-card" style="border-color:rgba(139,180,224,0.4)">
+      <div class="prod-name" style="color:#8BB4E0">Pala</div>
+      <div class="prod-sub" style="color:#7A8A6A">280-320°C · 6-8 min</div>
+      <div class="prod-row"><span class="prod-key">Biga</span><span class="prod-val" style="color:#8BB4E0">5078 W365</span></div>
+      <div class="prod-row"><span class="prod-key">Rinfresco</span><span class="prod-val">5078 70% + 0102HP 30%</span></div>
+      <div class="prod-row"><span class="prod-key">IDR biga</span><span class="prod-val">47%</span></div>
+      <div class="prod-row"><span class="prod-key">LdB biga</span><span class="prod-val">0.60%</span></div>
+      <div class="prod-row"><span class="prod-key">IDR totale</span><span class="prod-val">77%</span></div>
+    </div>
+    <div class="prod-card" style="border-color:rgba(212,149,106,0.4)">
+      <div class="prod-name" style="color:#D4956A">Padellino</div>
+      <div class="prod-sub" style="color:#7A8A6A">260-300°C · 8-12 min</div>
+      <div class="prod-row"><span class="prod-key">Biga</span><span class="prod-val" style="color:#D4956A">5078 W365</span></div>
+      <div class="prod-row"><span class="prod-key">Rinfresco</span><span class="prod-val">5078 70% + 0102HP 30%</span></div>
+      <div class="prod-row"><span class="prod-key">IDR biga</span><span class="prod-val">47%</span></div>
+      <div class="prod-row"><span class="prod-key">LdB biga</span><span class="prod-val">0.50%</span></div>
+      <div class="prod-row"><span class="prod-key">IDR totale</span><span class="prod-val">78-80%</span></div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold">
+    <strong>Perché 0102HP per la napoletana e 5078 per pala/padellino?</strong><br>
+    Con 0102HP W320 la proteolisi è controllata — dopo 18-20h il glutine è degradato al punto giusto per 70 secondi di cottura. Con 5078 W365 in biga napoletana la maglia diventa troppo estensibile → il cornicione si appiattisce invece di alzarsi.<br>
+    Pala e padellino cuociono 6-12 minuti → la maglia deve reggere tutta la cottura → serve W365 che non collassa prima che la crosta si formi.
+  </div>
+</div>
+
+<!-- ═══════════════════════ BIGA ═══════════════════════ -->
+<div class="section" id="biga">
+  <div class="section-eyebrow">002</div>
+  <div class="section-title">Biga — Parametri e maturazione</div>
+  <div class="section-intro">La biga è il motore del prodotto. IDR, LdB e temperatura di maturazione determinano pH finale, attività enzimatica e struttura gassosa. Ogni parametro ha una motivazione fisica precisa.</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--gold)">Tabella LdB → picco maturazione a 18°C · Cauvain 2015</div>
+    <table class="table">
+      <thead><tr><th>LdB %</th><th>Picco</th><th>Finestra</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td>0.15%</td><td>24h</td><td>22-26h</td><td>Aromi acetatici massimi · biga lentissima</td></tr>
+        <tr><td>0.20%</td><td>22h</td><td>20-24h</td><td>Ideale 18:00 G1 → 16:00 G2</td></tr>
+        <tr class="highlight"><td>0.25%</td><td>21h</td><td>19-23h</td><td>✅ DEFAULT NAPOLETANA · processo cella diretta 4°C</td></tr>
+        <tr class="highlight"><td>0.60%</td><td>18h</td><td>16-20h</td><td>✅ DEFAULT PALA/PADELLINO · biga 5078 W365</td></tr>
+        <tr><td>0.80%</td><td>14h</td><td>12-16h</td><td>Solo emergenza · aromi ridotti</td></tr>
+      </tbody>
+    </table>
+    <div class="alert alert-gold">
+      <strong>IDR biga 47% — perché non 45%?</strong><br>
+      Con 2h a T ambiente prima della cella i LAB hanno più acqua disponibile nella fase calda → più acidi organici → pH finale biga più basso (~5.29 vs ~5.34 con 45%) → più scioglievolezza nel prodotto finale. La differenza tra 45% e 47% è trascurabile in cella diretta, ma reale nelle 2h calde.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--gold)">Processo biga corretto · MLS</div>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-time">Sera G1</div><div class="tl-content"><div class="tl-action">Impasto biga</div><div class="tl-note">Farina + acqua 4°C + LdB · 2 minuti mix · non incordare</div></div></div>
+      <div class="tl-row"><div class="tl-time">+0-2h</div><div class="tl-content"><div class="tl-action">Riposo T ambiente</div><div class="tl-note">Fase critica — LAB e lieviti si attivano nella fase calda · non saltare</div></div></div>
+      <div class="tl-row"><div class="tl-time">+2h</div><div class="tl-content"><div class="tl-action">Cella 4°C</div><div class="tl-note">18-20h · coperta con pellicola · non ermetica</div></div></div>
+      <div class="tl-row"><div class="tl-time">Mattina G2</div><div class="tl-content"><div class="tl-action">Rinfresco</div><div class="tl-note">pH biga ottimale 5.20-5.35 · colore crema uniforme · odore lattico</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ FERMENTAZIONE ═══════════════════════ -->
+<div class="section" id="fermentazione">
+  <div class="section-eyebrow">003</div>
+  <div class="section-title">Fermentazione — Controllo scientifico</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--ok)">IDR massima per W — Formula Dobraszczyk 2003</div>
+    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;margin-bottom:12px;font-family:var(--mono);font-size:14px;text-align:center;color:var(--gold2)">
+      IDR_max = 75 + (W − 280) × 0.035
+    </div>
+    <table class="table">
+      <thead><tr><th>Farina</th><th>W</th><th>IDR max</th><th>Prodotto</th></tr></thead>
+      <tbody>
+        <tr><td>5063 Special</td><td>270</td><td>74.7%</td><td>Napoletana rinfresco</td></tr>
+        <tr class="highlight"><td>0102HP</td><td>320</td><td>76.4%</td><td>Biga napoletana</td></tr>
+        <tr><td>0103HP</td><td>330</td><td>76.7%</td><td>Pane rinfresco</td></tr>
+        <tr class="highlight"><td>5078</td><td>365</td><td>77.9%</td><td>Biga pala/padellino</td></tr>
+        <tr><td>Blend pala</td><td>352</td><td>77.5%</td><td>Rinfresco pala</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-red">
+    <strong>Regola critica — T uscita sotto 22°C</strong><br>
+    Con T uscita sotto 22°C il glutine è fisicamente più rigido — viscosità alta, catene proteiche contratte. Nessuna puntata risolve questo. La pallina strappa in stesura qualsiasi cosa tu faccia.<br>
+    <strong>La causa è sempre la T acqua sbagliata.</strong> Se strappi → correggi la T acqua, non la puntata.
+  </div>
+
+  <div class="alert alert-gold">
+    <strong>Riposo 35-40 minuti obbligatorio prima della cella · Gänzle 2012</strong><br>
+    Con puntata e appretto entrambi a 4°C, la fermentazione reale avviene quasi esclusivamente nelle prime ore prima che il cuore scenda a 4°C. Quei 35-40 minuti a T ambiente valgono più di 3h in cella per lo sviluppo degli alveoli. Il freddo conserva la struttura — non la crea.
+  </div>
+</div>
+
+<!-- ═══════════════════════ GN 1/1 ═══════════════════════ -->
+<div class="section" id="gn">
+  <div class="section-eyebrow">004</div>
+  <div class="section-title">Vasconi GN 1/1 — Peso ottimale per prodotto</div>
+  <div class="section-intro">Newton's law of cooling (Cauvain 2015) · GN 1/1: 530×325mm · A=0.1723 m² · h_conv=10 W/m²K · c=3500 J/kgK</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--ok)">Napoletana Suprema — T uscita 23.5°C · cella 4°C</div>
+    <div class="gn-grid">
+      <div class="gn-cell" style="background:rgba(232,184,74,0.1);border:1px solid rgba(232,184,74,0.3)"><div class="gn-kg" style="color:#FFE082">4kg</div><div class="gn-temp" style="color:#FFE082">18.9°</div><div class="gn-label" style="color:#7A8A6A">dopo 2h</div></div>
+      <div class="gn-cell" style="background:rgba(93,191,160,0.12);border:1.5px solid rgba(93,191,160,0.5)"><div class="gn-kg" style="color:#A5D6A7">5kg</div><div class="gn-temp" style="color:#A5D6A7">13.5°</div><div class="gn-label" style="color:#A5D6A7">⭐ IDEALE</div></div>
+      <div class="gn-cell" style="background:rgba(93,191,160,0.08);border:1px solid rgba(93,191,160,0.3)"><div class="gn-kg" style="color:#A5D6A7">6kg</div><div class="gn-temp" style="color:#A5D6A7">14.8°</div><div class="gn-label" style="color:#A5D6A7">✅ OK</div></div>
+      <div class="gn-cell" style="background:rgba(232,184,74,0.08);border:1px solid rgba(232,184,74,0.2)"><div class="gn-kg" style="color:#FFE082">7kg</div><div class="gn-temp" style="color:#FFE082">15.9°</div><div class="gn-label" style="color:#FFE082">⚠️</div></div>
+      <div class="gn-cell" style="background:rgba(212,80,80,0.08);border:1px solid rgba(212,80,80,0.2)"><div class="gn-kg" style="color:#FFCDD2">8kg</div><div class="gn-temp" style="color:#FFCDD2">16.8°</div><div class="gn-label" style="color:#FFCDD2">❌</div></div>
+    </div>
+    <div style="font-size:10px;color:var(--dim)">T cuore dopo 2h in cella — limite: 15°C · sopra = fermentazione non controllata</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:#8BB4E0">Pala Suprema — T uscita 24°C · puntata 40min</div>
+    <div class="gn-grid">
+      <div class="gn-cell" style="background:rgba(232,184,74,0.08)"><div class="gn-kg" style="color:#FFE082">4kg</div><div class="gn-temp" style="color:#FFE082">18.9°</div><div class="gn-label" style="color:#7A8A6A">puntata</div></div>
+      <div class="gn-cell" style="background:rgba(93,191,160,0.12);border:1.5px solid rgba(93,191,160,0.5)"><div class="gn-kg" style="color:#A5D6A7">5kg</div><div class="gn-temp" style="color:#A5D6A7">19.8°</div><div class="gn-label" style="color:#A5D6A7">⭐ IDEALE</div></div>
+      <div class="gn-cell" style="background:rgba(93,191,160,0.08);border:1px solid rgba(93,191,160,0.3)"><div class="gn-kg" style="color:#A5D6A7">6kg</div><div class="gn-temp" style="color:#A5D6A7">20.4°</div><div class="gn-label" style="color:#A5D6A7">✅ OK</div></div>
+      <div class="gn-cell" style="background:rgba(232,184,74,0.08)"><div class="gn-kg" style="color:#FFE082">7kg</div><div class="gn-temp" style="color:#FFE082">20.9°</div><div class="gn-label" style="color:#FFE082">⚠️</div></div>
+      <div class="gn-cell" style="background:rgba(212,80,80,0.08)"><div class="gn-kg" style="color:#FFCDD2">8kg</div><div class="gn-temp" style="color:#FFCDD2">21.3°</div><div class="gn-label" style="color:#FFCDD2">❌</div></div>
+    </div>
+    <div style="font-size:10px;color:var(--dim)">T cuore durante puntata 40min — deve restare >19°C per attivare i lieviti</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ NAPOLETANA ═══════════════════════ -->
+<div class="section" id="napoletana">
+  <div class="section-eyebrow">005</div>
+  <div class="section-title">Napoletana Suprema — Parametri definitivi</div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--gold)">Ricetta base · validata · non si cambia</div>
+    <table class="table">
+      <thead><tr><th>Parametro</th><th>Valore</th><th>Fonte</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Farina biga</td><td>0102HP W320 · 30%</td><td>proteolisi controllata</td></tr>
+        <tr><td>IDR biga</td><td>47%</td><td>Cauvain 2015</td></tr>
+        <tr><td>LdB biga</td><td>0.25%</td><td>processo 2h+21h</td></tr>
+        <tr class="highlight"><td>Farina rinfresco</td><td>5063 Special W270 · 100%</td><td>IDR ottimale W×0.25=67.5%</td></tr>
+        <tr><td>IDR totale</td><td>68%</td><td>validato in forno</td></tr>
+        <tr><td>Licoli</td><td>7% sul rinfresco</td><td>Gobbetti 2012</td></tr>
+        <tr><td>Sale</td><td>2.8%</td><td>AVPN 2008</td></tr>
+        <tr><td>DDT</td><td>23.5°C</td><td>Suas 2009 · K=9°C Esmach</td></tr>
+        <tr><td>GN 1/1</td><td>5-6kg max</td><td>Newton · T uscita 23.5°C</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--gold)">Processo · timeline · MLS</div>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-time">G1 sera</div><div class="tl-content"><div class="tl-action">Biga 0102HP · IDR 47% · LdB 0.25%</div><div class="tl-note">2h T ambiente → 21h cella 4°C</div></div></div>
+      <div class="tl-row"><div class="tl-time">09:00</div><div class="tl-content"><div class="tl-action">Fine impasto · T uscita 23.5°C</div><div class="tl-note">Tutto l'acqua in una botta — no autolisi</div></div></div>
+      <div class="tl-row"><div class="tl-time">09:00-09:35</div><div class="tl-content"><div class="tl-action">Riposo 35min T ambiente nei GN</div><div class="tl-note">Obbligatorio — attiva lieviti nella fase calda</div></div></div>
+      <div class="tl-row"><div class="tl-time">09:35</div><div class="tl-content"><div class="tl-action">Cella 4°C</div><div class="tl-note">Puntata fino alle 15:30</div></div></div>
+      <div class="tl-row"><div class="tl-time">15:30</div><div class="tl-content"><div class="tl-action">Staglio · palline · cella 4°C immediata</div><div class="tl-note">Appretto freddo fino al servizio</div></div></div>
+      <div class="tl-row"><div class="tl-time">19:30</div><div class="tl-content"><div class="tl-action">Servizio · pallina dalla cella al forno</div><div class="tl-note">440-450°C · 70-90 secondi</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PALA ═══════════════════════ -->
+<div class="section" id="pala">
+  <div class="section-eyebrow">006</div>
+  <div class="section-title">Pala Suprema — Processo infallibile</div>
+
+  <div class="card">
+    <div class="card-title" style="color:#8BB4E0">Parametri definitivi · validati scientificamente</div>
+    <table class="table">
+      <thead><tr><th>Parametro</th><th>Valore</th><th>Motivo</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Farina biga</td><td>5078 W365 · 100% · 40%</td><td>regge 6-8min cottura</td></tr>
+        <tr><td>IDR biga</td><td>47%</td><td>standard</td></tr>
+        <tr><td>LdB biga</td><td>0.60%</td><td>biga 40% matura</td></tr>
+        <tr class="highlight"><td>Rinfresco</td><td>5078 70% + 0102HP 30%</td><td>W352 · estensibilità</td></tr>
+        <tr><td>IDR totale</td><td>77%</td><td>W352 · Dobraszczyk limit</td></tr>
+        <tr><td>LdB rinfresco</td><td>0.4%</td><td>puntata breve</td></tr>
+        <tr><td>Malto diastasico</td><td>0.3%</td><td>⚠️ obbligatorio · crosta</td></tr>
+        <tr><td>Sale</td><td>2.2%</td><td>standard pala</td></tr>
+        <tr><td>DDT</td><td>24°C</td><td>puntata T ambiente</td></tr>
+        <tr><td>GN 1/1</td><td>5-6kg · T uscita 24°C</td><td>Newton · T puntata 20°C</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:#8BB4E0">Processo infallibile · MLS · Scirocco</div>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-time">G1 sera</div><div class="tl-content"><div class="tl-action">Biga 100% 5078 → 2h T ambiente → cella 4°C</div></div></div>
+      <div class="tl-row"><div class="tl-time">07:40</div><div class="tl-content"><div class="tl-action">Fine impasto · T uscita 24°C</div><div class="tl-note">5-6kg per GN 1/1 · non di più</div></div></div>
+      <div class="tl-row"><div class="tl-time">07:40-08:20</div><div class="tl-content"><div class="tl-action">Puntata 40 minuti T ambiente</div><div class="tl-note">NON di più — con biga 40% matura in 3h triplica</div></div></div>
+      <div class="tl-row"><div class="tl-time">08:20</div><div class="tl-content"><div class="tl-action">Staglio → stesura in teglia</div><div class="tl-note">Olio abbondante sotto</div></div></div>
+      <div class="tl-row"><div class="tl-time">08:20-10:00</div><div class="tl-content"><div class="tl-action">Appretto 1h40 in cella 4°C</div><div class="tl-note">Chiave della costanza — estate e inverno uguale</div></div></div>
+      <div class="tl-row"><div class="tl-time">10:00</div><div class="tl-content"><div class="tl-action">Forno direttamente dalla cella</div><div class="tl-note">280°C platea · 250°C cielo · 6-8min · shock termico 276°C = alveoli esplodono</div></div></div>
+    </div>
+    <div class="alert alert-green" style="margin-top:12px">
+      <strong>Alternativa per grandi numeri:</strong> stendi le teglie → cella 4°C overnight → inforna il mattino dopo. Stesso risultato, nessun limite orario, nessuna variabile.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PADELLINO ═══════════════════════ -->
+<div class="section" id="padellino">
+  <div class="section-eyebrow">007</div>
+  <div class="section-title">Padellino — Stessa logica della Pala</div>
+
+  <div class="section-intro">Il padellino cuoce a 260-300°C per 8-12 minuti con vapore confinato lateralmente dalle pareti — gli alveoli crescono in verticale. Fisica identica alla pala, ma richiede maglia ancora più strutturata per reggere la pressione laterale.</div>
+
+  <div class="alert alert-gold">
+    <strong>Perché 5078 W365 è la scelta scientificamente corretta per il padellino?</strong><br><br>
+    Il padellino ha tre forze fisiche che agiscono contemporaneamente durante la cottura:<br><br>
+    <strong style="color:var(--gold2)">1. Pressione laterale delle pareti</strong> — il gas interno spinge verso l'alto ma le pareti del padellino lo costringono a salire verticalmente. La maglia deve resistere a questa pressione per 8-12 minuti senza cedere lateralmente. Con W320 (0102HP) la maglia cede entro 4-5 minuti → gli alveoli collassano a metà cottura → mollica densa.<br><br>
+    <strong style="color:var(--gold2)">2. Tempo di cottura 8-12 minuti</strong> — è il doppio della pala e otto volte la napoletana. Con W320 la proteolisi in biga degrada le proteine fino al punto di rottura entro quel tempo. Con W365 il glutine resta strutturato per tutta la cottura — i ponti disolfuro non si rompono prima che la crosta si formi.<br><br>
+    <strong style="color:var(--gold2)">3. Vapore confinato → pressione più alta</strong> — nel padellino il vapore non può uscire lateralmente come nella pala. Si accumula internamente creando una pressione di espansione superiore. Serve una rete glutinica con G-prime più alto per non scoppiare prima che la struttura si stabilizzi con il calore.<br><br>
+    <strong>Formula Dobraszczyk:</strong> IDR max 5078 W365 = 75+(365-280)×0.035 = 77.9% → regge IDR 78-80% del padellino.<br>
+    Con 0102HP W320 = IDR max 76.4% → già al limite con IDR 78% → rischio collasso.
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:#D4956A">Parametri padellino · differenze vs pala</div>
+    <table class="table">
+      <thead><tr><th>Parametro</th><th>Pala</th><th>Padellino</th></tr></thead>
+      <tbody>
+        <tr><td>Farina biga</td><td>5078 W365</td><td>5078 W365 ✅ uguale</td></tr>
+        <tr><td>IDR biga</td><td>47%</td><td>47% ✅ uguale</td></tr>
+        <tr><td>LdB biga</td><td>0.60%</td><td>0.50% — cottura più lenta</td></tr>
+        <tr><td>IDR totale</td><td>77%</td><td>78-80% — vapore confinato</td></tr>
+        <tr><td>Puntata T ambiente</td><td>40min</td><td>60min — più gas</td></tr>
+        <tr><td>Malto</td><td>0.3%</td><td>0.3% ✅ uguale</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PANE ═══════════════════════ -->
+<div class="section" id="pane">
+  <div class="section-eyebrow">008</div>
+  <div class="section-title">Pane dell'Orso — Licoli</div>
+
+  <div class="card">
+    <div class="card-title" style="color:#A5D6A7">Blend e parametri · validati</div>
+    <table class="table">
+      <thead><tr><th>Parametro</th><th>Valore</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td>Blend farine</td><td>Petra 3HP 45% + 0103HP 45% + 3220 Buon Semi 5% + 3400 Ottimais 5%</td></tr>
+        <tr><td>Licoli</td><td>23% sul totale farina</td></tr>
+        <tr><td>IDR</td><td>74% · W276 · Dobraszczyk limit</td></tr>
+        <tr><td>Sale</td><td>2.5% (variabile 2.2-3%)</td></tr>
+        <tr><td>DDT</td><td>25°C — pane richiede T più alta per licoli</td></tr>
+        <tr><td>Autolisi</td><td>65% acqua · 30min senza licoli</td></tr>
+        <tr><td>Puntata</td><td>5h T ambiente · 3 pieghe S&F ogni ora</td></tr>
+        <tr><td>Forma</td><td>14:00 → cella 4°C overnight</td></tr>
+        <tr><td>Forno</td><td>07:00 · Forno David · 35min totali</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:#A5D6A7">Cottura Forno David · Protocollo MLS</div>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-time">Preriscaldo</div><div class="tl-content"><div class="tl-action">220°C · Cielo 2 · Front 6 · Suolo 1</div><div class="tl-note">Ultimo forno: Front sale a 7</div></div></div>
+      <div class="tl-row"><div class="tl-time">0-20min</div><div class="tl-content"><div class="tl-action">Inforna + vapore</div><div class="tl-note">Spruzza acqua parete lontana dalla sonda · Forni 1+2: 200°C · Forno 3: 205°C</div></div></div>
+      <div class="tl-row"><div class="tl-time">+20min</div><div class="tl-content"><div class="tl-action">Apri 3 camere → chiudi → apri 3 valvole</div><div class="tl-note">Fa uscire vapore · poi cuoci altri 15min</div></div></div>
+      <div class="tl-row"><div class="tl-time">35min</div><div class="tl-content"><div class="tl-action">Fine cottura · T cuore 96-98°C</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ COTTURA ═══════════════════════ -->
+<div class="section" id="cottura">
+  <div class="section-eyebrow">009</div>
+  <div class="section-title">Fisica della cottura — Perché la temperatura conta</div>
+
+  <div class="alert alert-gold">
+    <strong>Il vapore è il protagonista — non la temperatura.</strong><br>
+    A qualsiasi temperatura il vapore interno dell'impasto vuole espandersi. La differenza tra i prodotti sta in quanto tempo ha per farlo prima che la crosta si chiuda e blocchi tutto.
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--gold)">Confronto cotture</div>
+    <table class="table">
+      <thead><tr><th>Prodotto</th><th>T forno</th><th>Tempo</th><th>Vapore</th><th>Risultato</th></tr></thead>
+      <tbody>
+        <tr><td>Napoletana</td><td>440-450°C</td><td>70-90 sec</td><td>intrappolato rapidamente</td><td>Cornicione vuoto · leopardatura</td></tr>
+        <tr><td>Pala</td><td>280-320°C</td><td>6-8 min</td><td>si espande lentamente</td><td>Alveoli enormi · croccante</td></tr>
+        <tr><td>Padellino</td><td>260-300°C</td><td>8-12 min</td><td>confinato lateralmente</td><td>Mollica verticale · crosta sottile</td></tr>
+        <tr><td>Pane</td><td>200-220°C</td><td>35 min</td><td>vapore aggiunto + valvole</td><td>Alveoli irregolari · crosta spessa</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ FONTI ═══════════════════════ -->
+<div class="section" id="fonti">
+  <div class="section-eyebrow">010</div>
+  <div class="section-title">Fonti scientifiche</div>
+  <div class="fonti">
+    <strong>Suas M.</strong> (2009) — Advanced Bread and Pastry · formula T acqua 3 variabili<br>
+    <strong>Hamelman J.</strong> (2012) — Bread: A Baker's Book of Techniques · puntata e pH<br>
+    <strong>Cauvain S.</strong> (2015) — Technology of Breadmaking · Newton cooling · G-prime<br>
+    <strong>Gobbetti M. & Gänzle M.</strong> (2012) — Handbook on Sourdough Biotechnology · LAB · licoli<br>
+    <strong>De Vuyst L. & Neysens P.</strong> (2005) — The sourdough microflora · pH dinamico<br>
+    <strong>Dobraszczyk B.J.</strong> (2003) — Breadmaking: Improving Quality · IDR max formula<br>
+    <strong>Arendt E.K. & Dal Bello F.</strong> (2011) — Gluten-Free Cereal Products · LdB e LAB<br>
+    <strong>AVPN</strong> (2008) — Disciplinare Vera Pizza Napoletana<br>
+    <strong>Hamad A.M. & Fields M.L.</strong> (1979) — pH dinamico fermentazione<br>
+    <br>
+    <strong style="color:var(--gold)">Validazione pratica:</strong> Matteo La Spada · Gruppo Orso · Messina · 2023-2025
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-name">Matteo La Spada</div>
+  <div class="footer-sub" style="margin-bottom:8px">Pizzaiolo Scientifico · Gruppo Orso · Messina</div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dim2)">Orso · Scirocco · Crocco · Via Calypso · Blanco · Duomo · Laboratorio</div>
+</div>
+
+<script>
+// Nav active on scroll
+var sections = document.querySelectorAll('.section');
+var navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 100;
+  sections.forEach(function(sec){
+    if(sec.offsetTop <= pos && sec.offsetTop + sec.offsetHeight > pos){
+      navLinks.forEach(function(l){l.classList.remove('active');});
+      var id = sec.getAttribute('id');
+      var link = document.querySelector('.nav-link[href="#'+id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+});
+// Smooth scroll
+navLinks.forEach(function(l){
+  l.addEventListener('click',function(e){
+    e.preventDefault();
+    var id = l.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
