@@ -489,7 +489,7 @@ body{font-family:var(--sans);color:var(--cream);overscroll-behavior:none;-webkit
   position:absolute;bottom:calc(var(--safe-bot) + 20px);
   left:0;right:0;
 }
-#splash{position:relative;}
+
 
 /* Dot timeline */
 .timeline-row::before{
@@ -571,7 +571,7 @@ body{font-family:var(--sans);color:var(--cream);overscroll-behavior:none;-webkit
 .btn-pdf:active{opacity:0.8;transform:scale(0.98)}
 .btn-pdf-icon{font-size:20px;margin-right:8px}
 @media print{
-  .page-hero,.card-hdr,.btn-share,.btn-pdf,#hdr,.menu-btn,#splash,#pageHome{display:none!important}
+  .page-hero,.card-hdr,.btn-share,.btn-pdf,#hdr,.menu-btn,#pageHome{display:none!important}
   .card-body,.scroll{display:block!important}
   body,html{background:#fff!important;color:#111!important}
   .res-section{border:1px solid #ddd!important;margin:8px 0!important}
@@ -1672,7 +1672,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 pv_c1calc(); pv_c2calc(); pv_c3calc();
   </script>
 </div>
-<div id="wrapCalc"><div id="app">
+<div id="wrapCalc" style="display:none"><div id="app">
 
 <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
 <div class="hdr" id="mainHdr">
@@ -2032,6 +2032,16 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
         <div class="menu-name">Napoletana Suprema</div>
         <div class="menu-sub">Biga 30% 0102HP + Licoli · 70% 5063 + 30% 5078</div>
       </div>
+      <div class="menu-arrow">›</div>
+    </div>
+
+    <div class="menu-btn" onclick="openPage('supremanolic')">
+      <div class="menu-icon" style="background:rgba(200,151,58,0.25)">👑</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#EEC84A">Napoletana Suprema · Senza Licoli</div>
+        <div class="menu-sub">Biga 30% · LdB 0.30% · IDR 69% · Malto 0.1% · max performance</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(200,151,58,0.15);color:#EEC84A;border-color:rgba(200,151,58,0.4)">nuovo</div>
       <div class="menu-arrow">›</div>
     </div>
 
@@ -4326,6 +4336,37 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 
 </div>
 
+<!-- NAPOLETANA SUPREMA SENZA LICOLI -->
+<div id="pageSupremaNolic" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">👑</div>
+    <div class="page-hero-title">Napoletana Suprema · Senza Licoli</div>
+    <div class="page-hero-sub">Biga 30% · LdB 0.30% · IDR 69% · Malto 0.1% · Max performance</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina biga</label>
+            <div class="inp-row"><input class="inp-field" id="snlKgB" type="number" value="10" min="1" max="50" step="0.5" oninput="calcSnl()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">% Biga</label>
+            <div class="inp-row"><input class="inp-field" id="snlBigaPct" type="number" value="30" min="20" max="50" step="5" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="snlIDR" type="number" value="69" min="60" max="75" step="0.5" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="snlSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Grammatura g</label>
+            <div class="inp-row"><input class="inp-field" id="snlGr" type="number" value="260" min="200" max="320" step="10" oninput="calcSnl()"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">T laboratorio</label>
+            <div class="inp-row"><input class="inp-field" id="snlTAmb" type="number" value="22" min="15" max="32" oninput="calcSnl()"><span class="inp-unit">°C</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="snlOut"></div>
+  </div>
+</div>
+
 <!-- NAPOLETANA PRONTA FORNO -->
 <div id="pageNapoFrigo" class="scroll" style="display:none">
   <div class="page-hero">
@@ -5181,7 +5222,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 </div>
 
 </div><!-- end app --></div>
-<div id="wrapManuale">
+<div id="wrapManuale" style="display:none">
   <div class="mhdr"><div class="mbk" onclick="showSplash()">←</div>
     <div style="font-size:22px;font-weight:700;color:#F5F0E8">Pizza <span style="color:#C8973A;font-style:italic">Science</span></div>
     <div style="font-size:11px;color:#A09080;margin-top:2px">Manuale Scientifico</div>
@@ -6258,7 +6299,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -7469,71 +7510,6 @@ function calcSupremaRapido(){
   calcSuprema();
 }
 
-function calcSuprema(){
-
-  // Calcolo farina totale dalla piacca target
-  // Piacca = pan × gr
-  // Piacca = farTot + acqTot + sale = farTot × (1 + idr/100 + saleP/100)
-  var piacca  = pan * gr;
-  var farTot  = Math.round(piacca / (1 + idr/100 + saleP/100) / 10) * 10;
-  var farBiga = r5(farTot * bigaPct / 100);
-  var farRinf = farTot - farBiga;
-  var acqBiga = r5(farBiga * 0.47);
-  var acqTot  = r5(farTot * idr / 100);
-  var sale    = r5(farTot * saleP / 100);
-  var ldbG    = Math.max(1, Math.round(farBiga * 0.25 / 100));
-
-  // Verifica palline reali
-  var piaccaReale = farTot + acqTot + sale + licG;  // include licoli nella piacca
-  var panReali    = Math.floor(piaccaReale / gr);
-
-  // Aggiorna campo sKg solo se l'utente ha cambiato palline/grammatura/bigaPct — non IDR
-  var sKg = document.getElementById('sKg');
-  if(sKg && document.activeElement && ['sRapPan','sRapGr','sBigaPct'].indexOf(document.activeElement.id)>=0){
-    sKg.value = Math.round(farBiga/1000*100)/100;
-  }
-
-  // Colore % biga
-  var bigaCol = bigaPct <= 30 ? '#A5D6A7' : bigaPct <= 50 ? '#F0CC5A' : '#FFCDD2';
-  var bigaMsg = bigaPct <= 30 ? 'Napoletana ✅' : bigaPct <= 50 ? 'Romana ✅' : bigaPct > 50 ? '⚠️ molto alta' : '';
-
-  out.innerHTML =
-    // Riga 1: farina totale · biga · rinfresco
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">'
-    +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Farina totale</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+farTot+'g</div>'
-    +'</div>'
-    +'<div style="background:rgba(139,99,64,0.25);border:2px solid rgba(212,149,106,0.5);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:#D4956A;font-weight:700;margin-bottom:3px">🌾 BIGA '+bigaPct+'%</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:'+bigaCol+'">'+farBiga+'g</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:700;font-size:13px;color:'+bigaCol+';margin-top:1px">= '+(farBiga/1000).toFixed(2)+'kg</div>'
-    +'<div style="font-size:8px;color:'+bigaCol+';margin-top:1px">'+bigaMsg+'</div>'
-    +'</div>'
-    +'<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Rinfresco</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#D4956A">'+farRinf+'g</div>'
-    +'</div>'
-    +'</div>'
-    // Riga 2: acqua biga · LdB · palline
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">'
-    +'<div style="background:rgba(13,27,100,0.25);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Acqua biga 47%</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#BBDEFB">'+acqBiga+'g</div>'
-    +'</div>'
-    +'<div style="background:rgba(212,160,62,0.12);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">LdB biga 0.25%</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:20px;color:#F0CC5A">'+ldbG+'g</div>'
-    +'</div>'
-    +'<div style="background:rgba(76,175,125,0.15);border:2px solid rgba(76,175,125,0.5);border-radius:10px;padding:10px;text-align:center">'
-    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline da '+gr+'g</div>'
-    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+panReali+'</div>'
-    +'</div>'
-    +'</div>';
-
-  // Aggiorna calcolo completo
-  calcSuprema();
-}
 
 function calcSuprema(){
   const kg=G('sKg'),gr=G('sGr'),idr=G('sIDR'),saleP=G('sSale');
@@ -10616,6 +10592,59 @@ function calcPesoOttimale(dim1, dim2, hmax, formaGeo, densita, volStMin, volStMa
 // Base ricetta: 20 pezzi da 700g = 14kg impasto totale
 // Farina totale base: 11.000g | IDR reale 88%
 // ══════════════════════════════════════════════════════════════════════
+function calcSnl(){
+  var kgB  = parseFloat((document.getElementById('snlKgB')||{value:10}).value)||10;
+  var bigP = parseFloat((document.getElementById('snlBigaPct')||{value:30}).value)||30;
+  var idr  = parseFloat((document.getElementById('snlIDR')||{value:69}).value)||69;
+  var salP = parseFloat((document.getElementById('snlSale')||{value:2.8}).value)||2.8;
+  var gr   = parseFloat((document.getElementById('snlGr')||{value:260}).value)||260;
+  var out  = document.getElementById('snlOut');
+  if(!out) return;
+
+  function r5(n){return Math.round(n/5)*5;}
+  var kgTot  = Math.round(kgB/(bigP/100)*1000)/1000;
+  var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
+  var acqBiga= r5(kgB*0.47*1000);
+  var ldbBiga= Math.round(kgB*0.30/100*10)/10;
+  var maltoG = Math.round(kgTot*0.001*1000);
+  var saleG  = r5(kgTot*salP/100*1000);
+  var acqTot = r5(kgTot*idr/100*1000);
+  var acqEsm = acqTot - acqBiga;
+  var pesoImp= kgTot*1000 + acqTot + saleG;
+  var nPan   = Math.floor(pesoImp/gr);
+  var Tacq   = Math.round((23.5*3 - 18 - 22 - 9)*10)/10;
+  var tc     = Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
+
+  out.innerHTML =
+    '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,160,160,0.6);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#F0A0A0;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+(kgTot).toFixed(2)+'kg</div>'
+    +'</div>'
+    +'<div class="res-section"><div class="res-label">🧱 Biga '+bigP+'% · 0102HP W320</div>'
+    +row('Petra 0102HP W320',Math.round(kgB*1000)+'g','biga '+bigP+'%')
+    +row('Acqua biga IDR 47%',acqBiga+'g','fredda 4°C · mai 45%')
+    +row('LdB biga 0.30%',ldbBiga+'g','recupera i LAB del licoli',true)
+    +'</div>'
+    +'<div class="res-section"><div class="res-label">🌾 Rinfresco '+bigP+'% · 5063 W270 · IDR '+idr+'% · NO licoli</div>'
+    +row('Petra 5063 W270',Math.round(kgRinf*1000)+'g','100% rinfresco')
+    +row('Malto diastasico 0.1%',maltoG+'g','solo nel rinfresco · leopardatura 440°C')
+    +row('Sale '+salP+'%',saleG+'g','')
+    +row('ESMACH versi tutto subito',acqEsm+'g','no autolisi · no licoli',true)
+    +'</div>'
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🌡️ T acqua · DDT 23.5°C · Esmach K=9°C</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:52px;font-weight:500;color:'+tc+';line-height:1">'+Tacq+'°</div>'
+    +'</div>'
+    +'<div style="background:rgba(200,151,58,0.06);border:1px solid rgba(200,151,58,0.2);border-radius:10px;padding:12px;font-size:10px;color:var(--dim);line-height:2">'
+    +'<strong style="color:var(--gold2);display:block;margin-bottom:4px">Perché questo impasto è più performante</strong>'
+    +'LdB <strong style="color:var(--cream)">0.30%</strong> invece di 0.25% — recupera i LAB che dava il licoli<br>'
+    +'IDR <strong style="color:var(--cream)">69%</strong> invece di 68% — senza licoli la maglia è più pulita, regge +1%<br>'
+    +'Malto <strong style="color:var(--cream)">'+maltoG+'g solo nel rinfresco</strong> — mai nella biga, rovinerebbe la struttura in 21h<br>'
+    +'ESMACH <strong style="color:var(--cream)">'+acqEsm+'g</strong> tutto in una botta — no autolisi, più semplice e costante'
+    +'</div>';
+}
+
 function calcPaneOrso(){
   var pezzi  = parseFloat((document.getElementById('po_pezzi')||{value:20}).value)||20;
   var pesoP  = parseFloat((document.getElementById('po_peso')||{value:700}).value)||700;
@@ -12173,6 +12202,7 @@ function calcAll(){
   try{calcMotore();}catch(e){}
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
+  try{calcSnl();}catch(e){}
   try{calcScrocch();}catch(e){}
   try{calcTondaBiga50();}catch(e){}
   try{calcTondaBiga();}catch(e){}
