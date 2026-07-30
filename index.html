@@ -10605,7 +10605,7 @@ function calcSnl(){
   var kgTot  = Math.round(kgB/(bigP/100)*1000)/1000;
   var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
   var acqBiga= r5(kgB*0.47*1000);
-  var ldbBiga= Math.round(kgB*0.30/100*10)/10;
+  var ldbBiga= Math.round(kgB*1000*0.30/100*10)/10;
   var maltoG = Math.round(kgTot*0.001*1000);
   var saleG  = r5(kgTot*salP/100*1000);
   var acqTot = r5(kgTot*idr/100*1000);
