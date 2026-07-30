@@ -2143,6 +2143,17 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-section-label">🔵 Romana Tonda</div>
+    <div class="menu-btn" onclick="openPage('romanatonda')">
+      <div class="menu-icon" style="background:rgba(13,75,27,0.3)">🍕</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#A5D6A7">Romana Tonda · Diretta</div>
+        <div class="menu-sub">5046 W200 · IDR 57% · LdB 0.2% · Olio EVO · sottile e fotonica</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(93,191,160,0.15);color:#A5D6A7;border-color:rgba(93,191,160,0.4)">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">🫓 Pala Romana</div>
     <div class="menu-btn" onclick="openPage('palasuprema')">
       <div class="menu-icon" style="background:rgba(13,27,75,0.3)">🏆</div>
@@ -4353,7 +4364,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
           <div class="inp-group"><label class="inp-label">% Biga</label>
             <div class="inp-row"><input class="inp-field" id="snlBigaPct" type="number" value="30" min="20" max="50" step="5" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">IDR %</label>
-            <div class="inp-row"><input class="inp-field" id="snlIDR" type="number" value="69" min="60" max="75" step="0.5" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="snlIDR" type="number" value="68" min="60" max="75" step="0.5" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
             <div class="inp-row"><input class="inp-field" id="snlSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcSnl()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
@@ -4364,6 +4375,37 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
     </div>
     <div id="snlOut"></div>
+  </div>
+</div>
+
+<!-- ROMANA TONDA DIRETTA -->
+<div id="pageRomanaTonda" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🍕</div>
+    <div class="page-hero-title">Romana Tonda · Diretta</div>
+    <div class="page-hero-sub">5046 W200 · IDR 57% · LdB 0.2% · Olio EVO 2% · Sottile e fotonica</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina totale</label>
+            <div class="inp-row"><input class="inp-field" id="rtKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcRomanaTonda()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="rtIDR" type="number" value="57" min="50" max="65" step="0.5" oninput="calcRomanaTonda()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="rtSale" type="number" value="2.5" min="1.5" max="3.5" step="0.1" oninput="calcRomanaTonda()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Olio EVO %</label>
+            <div class="inp-row"><input class="inp-field" id="rtOlio" type="number" value="2" min="0" max="5" step="0.5" oninput="calcRomanaTonda()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Grammatura g</label>
+            <div class="inp-row"><input class="inp-field" id="rtGr" type="number" value="180" min="150" max="280" step="10" oninput="calcRomanaTonda()"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">T laboratorio</label>
+            <div class="inp-row"><input class="inp-field" id="rtTAmb" type="number" value="22" min="15" max="32" oninput="calcRomanaTonda()"><span class="inp-unit">°C</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="rtOut"></div>
   </div>
 </div>
 
@@ -6299,7 +6341,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -10592,10 +10634,75 @@ function calcPesoOttimale(dim1, dim2, hmax, formaGeo, densita, volStMin, volStMa
 // Base ricetta: 20 pezzi da 700g = 14kg impasto totale
 // Farina totale base: 11.000g | IDR reale 88%
 // ══════════════════════════════════════════════════════════════════════
+function calcRomanaTonda(){
+  var kgF  = parseFloat((document.getElementById('rtKgF')||{value:10}).value)||10;
+  var idr  = parseFloat((document.getElementById('rtIDR')||{value:57}).value)||57;
+  var salP = parseFloat((document.getElementById('rtSale')||{value:2.5}).value)||2.5;
+  var olP  = parseFloat((document.getElementById('rtOlio')||{value:2}).value)||2;
+  var gr   = parseFloat((document.getElementById('rtGr')||{value:180}).value)||180;
+  var tAmb = parseFloat((document.getElementById('rtTAmb')||{value:22}).value)||22;
+  var out  = document.getElementById('rtOut');
+  if(!out) return;
+
+  function r5(n){return Math.round(n/5)*5;}
+  var farG   = Math.round(kgF*1000);
+  var acqG   = r5(kgF*idr/100*1000);
+  var saleG  = r5(kgF*salP/100*1000);
+  var olioG  = r5(kgF*olP/100*1000);
+  var ldbG   = Math.round(kgF*0.2/100*1000*10)/10;
+  var pesoImp= farG + acqG + saleG + olioG;
+  var nPan   = Math.floor(pesoImp/gr);
+
+  // T acqua DDT 22°C · 3 variabili (Suas 2009) · K=7°C planetaria
+  var Tacq = Math.round((22*3 - 18 - tAmb - 7)*10)/10;
+  var tc   = Tacq<=4?'#BBDEFB':Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
+  var tm   = Tacq<=4?'🧊 Ghiacciata':Tacq<=18?'✅ Fredda':Tacq<=24?'✅ Ok':'⚠️ Tiepida';
+
+  out.innerHTML =
+    '<div style="background:linear-gradient(135deg,rgba(93,191,160,0.12),rgba(45,90,61,0.06));border:2px solid rgba(93,191,160,0.4);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(93,191,160,0.7);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#A5D6A7;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +'</div>'
+
+    +'<div class="res-section"><div class="res-label">🌾 Impasto diretto · 5046 W200</div>'
+    +row('Petra 5046 W200',farG+'g','100% — alta estensibilità per 1.5mm')
+    +row('Acqua IDR '+idr+'%',acqG+'g','fredda · base asciutta e croccante')
+    +row('Sale '+salP+'%',saleG+'g','')
+    +row('Olio EVO '+olP+'%',olioG+'g','impermeabilizza la base · croccantezza')
+    +row('LdB 0.2%',ldbG+'g','solo LdB · no biga · no licoli',true)
+    +'</div>'
+
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🌡️ T acqua · DDT 22°C</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:52px;font-weight:500;line-height:1;color:'+tc+'">'+Tacq+'°</div>'
+    +'<div style="font-size:12px;color:'+tc+'">'+tm+'</div>'
+    +'</div></div>'
+
+    +'<div class="res-section"><div class="res-label">⏰ Processo · mattina → sera</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:2.2">'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace">09:00</span> Fine impasto · T uscita <strong style="color:#F0E6D0">22°C</strong><br>'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace">09:00-09:30</span> 30min T ambiente nei GN<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">09:30</span> Cella 4°C · puntata fino alle 15:30<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">15:30</span> Staglio · palline · cella 4°C immediata<br>'
+    +'<span style="color:#FFCDD2;font-family:DM Mono,monospace">19:30</span> Stesura <strong style="color:#FFCDD2">1.5mm</strong> mattarello+mani · semola sotto<br>'
+    +'<span style="color:#FFCDD2;font-family:DM Mono,monospace">Forno</span> <strong style="color:#FFCDD2">320-340°C</strong> · platea diretta · 2.5-3min'
+    +'</div></div>'
+
+    +'<div style="background:rgba(200,151,58,0.06);border:1px solid rgba(200,151,58,0.2);border-radius:10px;padding:12px;font-size:10px;color:var(--dim);line-height:1.9">'
+    +'<strong style="color:var(--gold2);display:block;margin-bottom:4px">🔑 Le 4 chiavi della croccantezza fotonica</strong>'
+    +'IDR <strong style="color:var(--cream)">57%</strong> — base asciuga veloce a 320°C · no gomma<br>'
+    +'Olio EVO <strong style="color:var(--cream)">'+olioG+'g</strong> — impermeabilizza dalla mozzarella · crosta regge<br>'
+    +'Stesura <strong style="color:var(--cream)">1.5mm</strong> — spessore critico · oltre 2mm diventa gommosa<br>'
+    +'Forno <strong style="color:var(--cream)">320°C</strong> platea diretta — Maillard in 2.5min · croccantezza naturale'
+    +'</div>';
+}
+
 function calcSnl(){
   var kgB  = parseFloat((document.getElementById('snlKgB')||{value:10}).value)||10;
   var bigP = parseFloat((document.getElementById('snlBigaPct')||{value:30}).value)||30;
-  var idr  = parseFloat((document.getElementById('snlIDR')||{value:69}).value)||69;
+  var idr  = parseFloat((document.getElementById('snlIDR')||{value:68}).value)||68;
   var salP = parseFloat((document.getElementById('snlSale')||{value:2.8}).value)||2.8;
   var gr   = parseFloat((document.getElementById('snlGr')||{value:260}).value)||260;
   var out  = document.getElementById('snlOut');
@@ -12203,6 +12310,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcRomanaTonda();}catch(e){}
   try{calcScrocch();}catch(e){}
   try{calcTondaBiga50();}catch(e){}
   try{calcTondaBiga();}catch(e){}
