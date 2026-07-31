@@ -2143,6 +2143,17 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-section-label">⚡ Diretta</div>
+    <div class="menu-btn" onclick="openPage('direttamls')">
+      <div class="menu-icon" style="background:rgba(200,151,58,0.3)">⚡</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#EEC84A">Diretta MLS</div>
+        <div class="menu-sub">5063 80% + 0102HP 20% · IDR 68% · LdB variabile · blend W280</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(200,151,58,0.15);color:#EEC84A;border-color:rgba(200,151,58,0.4)">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">🔵 Romana Tonda</div>
     <div class="menu-btn" onclick="openPage('romanatonda')">
       <div class="menu-icon" style="background:rgba(13,75,27,0.3)">🍕</div>
@@ -4409,6 +4420,53 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
   </div>
 </div>
 
+<!-- DIRETTA MLS -->
+<div id="pageDirettaMls" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">⚡</div>
+    <div class="page-hero-title">Diretta MLS</div>
+    <div class="page-hero-sub">5063 80% + 0102HP 20% · Blend W280 · IDR 68% · Cornicione esplosivo</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina totale</label>
+            <div class="inp-row"><input class="inp-field" id="dmKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcDirettaMls()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="dmIDR" type="number" value="68" min="60" max="75" step="0.5" oninput="calcDirettaMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">% 5063 W270</label>
+            <div class="inp-row"><input class="inp-field" id="dm63" type="number" value="80" min="50" max="100" step="10" oninput="calcDirettaMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">% 0102HP W320</label>
+            <div class="inp-row"><input class="inp-field" id="dm02" type="number" value="20" min="0" max="50" step="10" oninput="calcDirettaMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="dmSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcDirettaMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Grammatura g</label>
+            <div class="inp-row"><input class="inp-field" id="dmGr" type="number" value="260" min="200" max="320" step="10" oninput="calcDirettaMls()"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">T laboratorio</label>
+            <div class="inp-row"><input class="inp-field" id="dmTAmb" type="number" value="25" min="15" max="35" oninput="calcDirettaMls()"><span class="inp-unit">°C</span></div></div>
+          <div class="inp-group"><label class="inp-label">LdB %</label>
+            <div class="inp-row"><input class="inp-field" id="dmLdb" type="number" value="0.5" min="0.05" max="1.5" step="0.05" oninput="calcDirettaMls()" style="color:var(--gold2)"><span class="inp-unit">%</span></div></div>
+        </div>
+        <!-- GESTIONE TOGGLE -->
+        <div style="margin-top:12px">
+          <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Gestione impasto</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button id="dmBtnFreddo" class="btn-toggle-on" onclick="setGestioneDM('freddo')" style="padding:12px;border-radius:12px;border:2px solid rgba(139,180,224,0.6);background:rgba(26,58,107,0.3);color:#8BB4E0;font-family:DM Mono,monospace;font-size:10px;letter-spacing:1px;cursor:pointer">
+              ❄️ TUTTO FREDDO<br><span style="font-size:9px;opacity:0.7">35min + cella → cella</span><br><span style="font-size:11px;font-weight:700">LdB 0.5%</span>
+            </button>
+            <button id="dmBtnAmbiente" class="btn-toggle-off" onclick="setGestioneDM('ambiente')" style="padding:12px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--dim);font-family:DM Mono,monospace;font-size:10px;letter-spacing:1px;cursor:pointer">
+              🌡️ T AMBIENTE<br><span style="font-size:9px;opacity:0.7">2h fuori + cella → cella</span><br><span style="font-size:11px;font-weight:700">LdB 0.2%</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dmOut"></div>
+  </div>
+</div>
+
 <!-- NAPOLETANA PRONTA FORNO -->
 <div id="pageNapoFrigo" class="scroll" style="display:none">
   <div class="page-hero">
@@ -6341,7 +6399,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -7645,7 +7703,7 @@ function calcSuprema(){
       <div style="background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.4);border-radius:12px;padding:12px;text-align:center">
         <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:4px">🍕 Palline</div>
         <div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#A5D6A7;line-height:1">${pan}</div>
-        <div style="font-size:10px;color:#7A8A6A;margin-top:3px">da ${gr}g · piacca ${R(pesoImpastoS/1000,1)}kg</div>
+        <div style="font-size:10px;color:#7A8A6A;margin-top:3px">da ${gr}g · peso totale ${R(pesoImpastoS/1000,1)}kg</div>
       </div>
     </div>
     ${sem(emjBiga+' — Biga '+oreB+'h (G1 '+H(ob)+' → G2 '+H(or_)+') '+att+'%',semBiga)}
@@ -10634,6 +10692,126 @@ function calcPesoOttimale(dim1, dim2, hmax, formaGeo, densita, volStMin, volStMa
 // Base ricetta: 20 pezzi da 700g = 14kg impasto totale
 // Farina totale base: 11.000g | IDR reale 88%
 // ══════════════════════════════════════════════════════════════════════
+function setGestioneDM(tipo){
+  var ldbEl = document.getElementById('dmLdb');
+  var btnF  = document.getElementById('dmBtnFreddo');
+  var btnA  = document.getElementById('dmBtnAmbiente');
+  if(tipo==='freddo'){
+    if(ldbEl) ldbEl.value='0.5';
+    if(btnF){ btnF.style.borderColor='rgba(139,180,224,0.6)';btnF.style.background='rgba(26,58,107,0.3)';btnF.style.color='#8BB4E0'; }
+    if(btnA){ btnA.style.borderColor='var(--border)';btnA.style.background='transparent';btnA.style.color='var(--dim)'; }
+  } else {
+    if(ldbEl) ldbEl.value='0.2';
+    if(btnA){ btnA.style.borderColor='rgba(232,184,74,0.6)';btnA.style.background='rgba(100,80,20,0.2)';btnA.style.color='#FFE082'; }
+    if(btnF){ btnF.style.borderColor='var(--border)';btnF.style.background='transparent';btnF.style.color='var(--dim)'; }
+  }
+  calcDirettaMls();
+}
+
+function calcDirettaMls(){
+  var kgF  = parseFloat((document.getElementById('dmKgF')||{value:10}).value)||10;
+  var idr  = parseFloat((document.getElementById('dmIDR')||{value:68}).value)||68;
+  var p63  = parseFloat((document.getElementById('dm63')||{value:80}).value)||80;
+  var p02  = parseFloat((document.getElementById('dm02')||{value:20}).value)||20;
+  var salP = parseFloat((document.getElementById('dmSale')||{value:2.8}).value)||2.8;
+  var gr   = parseFloat((document.getElementById('dmGr')||{value:260}).value)||260;
+  var tAmb = parseFloat((document.getElementById('dmTAmb')||{value:25}).value)||25;
+  var ldb  = parseFloat((document.getElementById('dmLdb')||{value:0.5}).value)||0.5;
+  var out  = document.getElementById('dmOut');
+  if(!out) return;
+
+  // Determina gestione
+  var gestione = ldb>=0.4 ? 'freddo' : 'ambiente';
+  var gLabel = gestione==='freddo'
+    ? '❄️ Tutto freddo — 35min T ambiente → cella 4°C → staglio → cella 4°C'
+    : '🌡️ T ambiente — 2h fuori → cella 4°C → staglio → cella 4°C';
+  var gCol = gestione==='freddo' ? '#8BB4E0' : '#FFE082';
+
+  function r5(n){return Math.round(n/5)*5;}
+  function R1(n){return Math.round(n*10)/10;}
+
+  // Blend
+  var W_blend = Math.round(270*(p63/100) + 320*(p02/100));
+  var idr_max = Math.round((75 + (W_blend-280)*0.035)*10)/10;
+  var kg63 = r5(kgF*p63/100*1000);
+  var kg02 = r5(kgF*p02/100*1000);
+  var acqTot = r5(kgF*idr/100*1000);
+  var saleG  = r5(kgF*salP/100*1000);
+  var ldbG   = R1(kgF*ldb/100*1000);
+  var pesoImp= kgF*1000 + acqTot + saleG;
+  var nPan   = Math.floor(pesoImp/gr);
+
+  // T acqua DDT 23°C K=9°C
+  var Tacq = Math.round((23*3 - 18 - tAmb - 9)*10)/10;
+  var tc   = Tacq<=4?'#BBDEFB':Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
+  var tm   = Tacq<=4?'🧊 Ghiacciata':Tacq<=10?'❄️ Molto fredda':Tacq<=18?'✅ Fredda':Tacq<=24?'✅ Ok':'⚠️ Tiepida';
+
+  // Semaforo blend
+  var blendOk = W_blend>=275 && W_blend<=290;
+  var blendCol = blendOk?'#A5D6A7':'#FFE082';
+
+  // LdB per stagione
+  var ldbSug = tAmb<=20?0.3:tAmb<=23?0.25:tAmb<=26?0.2:0.15;
+  var ldbMsg = tAmb<=20?'Inverno · T lab ≤20°C':tAmb<=23?'Primavera · T lab 21-23°C':tAmb<=26?'Estate · T lab 24-26°C':'Estate calda · T lab >26°C';
+
+  out.innerHTML =
+    // PALLINE
+    '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,160,160,0.6);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#F0A0A0;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +'</div>'
+
+    // BLEND
+    +'<div class="res-section"><div class="res-label">🌾 Blend W'+W_blend+' · IDR max '+idr_max+'%</div>'
+    +row('Petra 5063 W270 ('+p63+'%)',kg63+'g','estensibilità · stesura fluida')
+    +row('Petra 0102HP W320 ('+p02+'%)',kg02+'g','struttura · appretto 4h')
+    +row('W blend risultante','W'+W_blend,blendOk?'✅ punto ottimale Dobraszczyk':'⚠️ controlla percentuali',true)
+    +'</div>'
+
+    // RICETTA
+    +'<div class="res-section"><div class="res-label">💧 Ricetta · IDR '+idr+'%</div>'
+    +row('Acqua totale IDR '+idr+'%',acqTot+'g','fredda')
+    +row('LdB '+ldb+'%',ldbG+'g','solo lievito di birra fresco')
+    +row('Sale '+salP+'%',saleG+'g','sciolto nell\'ultima acqua',true)
+    +'</div>'
+
+    // T ACQUA
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:10px">🌡️ T acqua · DDT 23°C · Esmach K=9°C · T lab '+tAmb+'°C</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:56px;font-weight:500;line-height:1;color:'+tc+'">'+Tacq+'°</div>'
+    +'<div><div style="font-size:13px;font-weight:700;color:'+tc+'">'+tm+'</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;color:var(--dim);margin-top:4px">23×3 − 18 − '+tAmb+' − 9 = '+Tacq+'°C</div></div>'
+    +'</div></div>'
+
+    // LdB SEMAFORO STAGIONALE
+    +'<div style="background:rgba(200,151,58,0.08);border:1.5px solid rgba(200,151,58,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">🌡️ LdB suggerito per T lab '+tAmb+'°C</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:40px;font-weight:700;color:var(--gold2)">'+ldbSug+'%</div>'
+    +'<div><div style="font-size:12px;color:var(--cream2)">'+ldbMsg+'</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;color:var(--dim);margin-top:4px">'+(ldb==ldbSug?'✅ stai usando il valore suggerito':'⚠️ stai usando '+ldb+'% — suggerito '+ldbSug+'%')+'</div>'
+    +'</div></div></div>'
+
+    // PROCESSO
+    +'<div class="res-section"><div class="res-label">⏰ Processo · '+gLabel+'</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:2.2">'
+    +(gestione==='freddo'
+      ? '<span style="color:#F0CC5A;font-family:DM Mono,monospace">Fine impasto</span> T uscita <strong style="color:#F0E6D0">23°C</strong><br>'
+        +'<span style="color:#8BB4E0;font-family:DM Mono,monospace">+35min</span> Riposo T ambiente nei GN · 5-6kg per GN 1/1<br>'
+        +'<span style="color:#8BB4E0;font-family:DM Mono,monospace">Cella 4°C</span> Puntata fino allo staglio<br>'
+        +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">Staglio</span> Palline · cella 4°C immediata<br>'
+        +'<span style="color:#FFCDD2;font-family:DM Mono,monospace">Servizio</span> <strong style="color:#FFCDD2">440-450°C · 70-90sec</strong>'
+      : '<span style="color:#F0CC5A;font-family:DM Mono,monospace">Fine impasto</span> T uscita <strong style="color:#F0E6D0">23°C</strong><br>'
+        +'<span style="color:#FFE082;font-family:DM Mono,monospace">2h T ambiente</span> Nei GN · non in cella · 5-6kg per GN<br>'
+        +'<span style="color:#8BB4E0;font-family:DM Mono,monospace">Cella 4°C</span> Puntata fino allo staglio<br>'
+        +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">Staglio</span> Palline · cella 4°C immediata<br>'
+        +'<span style="color:#FFCDD2;font-family:DM Mono,monospace">Servizio</span> <strong style="color:#FFCDD2">440-450°C · 70-90sec</strong>'
+    )
+    +'</div></div>';
+}
+
 function calcRomanaTonda(){
   var kgF  = parseFloat((document.getElementById('rtKgF')||{value:10}).value)||10;
   var idr  = parseFloat((document.getElementById('rtIDR')||{value:57}).value)||57;
@@ -11971,7 +12149,7 @@ function calcGN(){
   if(!out) return;
 
   if(!pesoTot){
-    out.innerHTML='<div style="color:var(--dim);text-align:center;padding:12px;font-size:12px">Inserisci il peso totale impasto → calcolo automatico</div>';
+    out.innerHTML='<div style="color:var(--dim);text-align:center;padding:12px;font-size:12px">Inserisci il piacca impasto → calcolo automatico</div>';
     return;
   }
 
@@ -12310,6 +12488,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcDirettaMls();}catch(e){}
   try{calcRomanaTonda();}catch(e){}
   try{calcScrocch();}catch(e){}
   try{calcTondaBiga50();}catch(e){}
