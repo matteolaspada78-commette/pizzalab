@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Villaggio Orso — Street Food Messinese · Blanco 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark only;
+  --bg:#0b0908;
+  --bg-deep:#070504;
+  --panel:#130f0b;
+  --panel-2:#1a140f;
+  --gold:#c9a84c;
+  --gold-bright:#e8d08a;
+  --gold-dim:#6a5545;
+  --cream:#f0ebe0;
+  --cream-dim:#a09080;
+  --ember:#c0392b;
+  --sage:#8ec97a;
+  --hair:rgba(201,168,76,.18);
+}
+html{background:var(--bg)!important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg)!important;color:var(--cream)!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;min-height:100vh;}
+
+/* ═══ MICRO-TEXTURE DI FONDO ═══ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:3px 3px;
+  mix-blend-mode:overlay;
+}
+
+/* ═══ COVER ═══ */
+.cover{background:var(--bg-deep)!important;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem 5rem;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 110%,rgba(201,168,76,.16) 0%,transparent 68%),
+    radial-gradient(ellipse 40% 25% at 85% 5%,rgba(201,168,76,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 40% at 8% 18%,rgba(192,57,43,.05) 0%,transparent 65%);
+  pointer-events:none;}
+.cover::after{
+  content:'';position:absolute;top:2rem;left:2rem;width:34px;height:34px;
+  border-top:1px solid rgba(201,168,76,.35);border-left:1px solid rgba(201,168,76,.35);
+  pointer-events:none;
+}
+.cover-wave{position:absolute;bottom:-1px;left:-5%;width:110%;pointer-events:none;}
+.ci{position:relative;z-index:2;max-width:520px;}
+.c-eye{font-size:.54rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:1.1rem;display:block;}
+.c-pretitle{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;font-weight:300;color:rgba(240,235,224,.45)!important;letter-spacing:.12em;margin-bottom:.35rem;display:block;}
+.c-logo{font-family:'Cormorant Garamond',serif;font-size:5.2rem;font-weight:300;color:var(--cream)!important;line-height:.88;margin-bottom:.15rem;display:block;text-shadow:0 6px 40px rgba(0,0,0,.5);}
+.c-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--gold)!important;margin-bottom:.6rem;letter-spacing:.08em;display:block;}
+.c-claim{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;font-weight:300;color:rgba(240,235,224,.5)!important;line-height:1.75;margin-bottom:2.2rem;display:block;}
+.c-div{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 2.2rem;display:block;}
+.c-badge{display:inline-flex;flex-direction:column;padding:.95rem 1.6rem;border:1px solid rgba(201,168,76,.4);border-radius:2px;background:linear-gradient(160deg,rgba(201,168,76,.09),rgba(201,168,76,.02))!important;margin-bottom:1.6rem;position:relative;}
+.c-badge::before,.c-badge::after{content:'';position:absolute;width:6px;height:6px;border:1px solid var(--gold);}
+.c-badge::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
+.c-badge::after{bottom:-1px;right:-1px;border-left:none;border-top:none;}
+.c-badge-l{font-size:.46rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:.3rem;display:block;}
+.c-badge-v{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--cream)!important;display:block;}
+.c-info{font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-dim)!important;line-height:2.4;display:block;}
+.c-firma{margin-top:2.2rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,.22);}
+.c-fl{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-dim)!important;margin-bottom:.28rem;display:block;}
+.c-fn{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-style:italic;color:var(--cream)!important;display:block;}
+
+/* ═══ NAV ═══ */
+.nav{background:rgba(10,7,5,.86)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:300;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;font-family:'Montserrat',sans-serif;font-size:.47rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:.95rem .95rem;border:none;background:transparent!important;color:var(--gold-dim)!important;cursor:pointer;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;white-space:nowrap;transition:color .3s;position:relative;}
+.ntab.active{color:var(--gold)!important;border-bottom-color:var(--gold);}
+.ntab:active{opacity:.6;}
+
+/* ═══ SEZIONI ═══ */
+.sez{display:none;}
+.sez.active{display:block;animation:sezIn .45s cubic-bezier(.16,1,.3,1);}
+@keyframes sezIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ SEZ HEAD ═══ */
+.sez-head{text-align:center;padding:2.4rem 1.4rem 1.1rem;background:var(--bg)!important;}
+.sez-eye{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:.6rem;display:flex;align-items:center;justify-content:center;gap:.6rem;}
+.sez-eye::before,.sez-eye::after{content:'';width:16px;height:1px;background:rgba(201,168,76,.4);}
+.sez-ttl{font-family:'Cormorant Garamond',serif;font-size:2.15rem;font-weight:600;color:var(--cream)!important;line-height:1.1;}
+.sez-ttl em{font-style:italic;color:var(--gold);}
+.sez-intro{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic;color:var(--cream-dim)!important;line-height:1.8;padding:0 1.4rem 1.7rem;background:var(--bg)!important;max-width:540px;margin:0 auto;}
+
+/* ═══ PIATTO CARD ═══ */
+.lista{padding:.2rem 0 3.2rem;background:var(--bg)!important;}
+.piatto{
+  border-bottom:1px solid var(--hair);
+  padding:1.8rem 1.3rem 1.9rem;
+  background:linear-gradient(180deg,var(--panel) 0%, var(--bg) 100%)!important;
+  position:relative;
+  transition:background .3s;
+}
+.piatto:first-child{border-top:1px solid var(--hair);}
+.piatto::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;}
+.piatto:has(.pb-firma)::before{background:var(--gold);}
+.piatto:has(.pb-territorio)::before{background:var(--sage);}
+.piatto:has(.pb-stampa)::before{background:var(--ember);}
+
+.piatto-head{display:flex;align-items:center;gap:.85rem;margin-bottom:.7rem;flex-wrap:wrap;}
+.piatto-cod{
+  font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:600;
+  color:var(--gold)!important;flex-shrink:0;line-height:1;
+  width:1.8rem;height:1.8rem;border:1px solid rgba(201,168,76,.35);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(201,168,76,.06);
+}
+.piatto-nome{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold-bright)!important;line-height:1.18;letter-spacing:.01em;}
+.piatto-badge{font-size:.44rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:.28em .7em;border-radius:2px;flex-shrink:0;margin-left:auto;align-self:flex-start;}
+.pb-stampa{background:rgba(192,57,43,.13)!important;color:#e07060!important;border:1px solid rgba(192,57,43,.3);}
+.pb-firma{background:rgba(201,168,76,.15)!important;color:var(--gold)!important;border:1px solid rgba(201,168,76,.34);}
+.pb-territorio{background:rgba(142,201,122,.13)!important;color:var(--sage)!important;border:1px solid rgba(142,201,122,.3);}
+
+/* ═══ INGREDIENTI ═══ */
+.ingr-list{margin:.7rem 0 .95rem;border-top:1px solid rgba(255,255,255,.05);}
+.ingr-row{display:flex;align-items:center;justify-content:space-between;padding:.44rem 0;border-bottom:1px solid rgba(255,255,255,.045);gap:.6rem;}
+.ingr-row:last-child{border-bottom:none;}
+.ingr-n{font-size:.66rem;color:#b0a090!important;flex:1;line-height:1.45;}
+.ingr-n.prep{color:var(--gold)!important;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:rgba(201,168,76,.5);cursor:pointer;transition:color .2s;}
+.ingr-n.prep:active{color:var(--gold-bright)!important;}
+.badge{font-size:.42rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:.24em .6em;border-radius:2px;flex-shrink:0;}
+.b-in{background:rgba(201,168,76,.14)!important;color:var(--gold)!important;border:1px solid rgba(201,168,76,.3);}
+.b-out{background:rgba(120,190,100,.11)!important;color:var(--sage)!important;border:1px solid rgba(120,190,100,.28);}
+.b-imp{background:rgba(180,100,40,.15)!important;color:#d4956a!important;border:1px solid rgba(180,100,40,.32);}
+
+/* ═══ DESCRIZIONE ═══ */
+.piatto-desc{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-style:italic;color:#d0c8b4!important;line-height:1.78;}
+
+/* ═══ ALERT ═══ */
+.alert{display:flex;align-items:flex-start;gap:.6rem;background:rgba(201,168,76,.07)!important;border:1px solid rgba(201,168,76,.22);border-left:2px solid var(--gold);border-radius:0 3px 3px 0;padding:.65rem .8rem;margin-top:.85rem;font-size:.63rem;color:var(--gold-bright)!important;line-height:1.58;}
+.alert-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.34rem;}
+.alert.rosso{border-color:rgba(192,57,43,.32)!important;border-left-color:var(--ember)!important;background:rgba(192,57,43,.08)!important;color:#f0b0a0!important;}
+.alert-dot.r{background:var(--ember);}
+
+/* ═══ RUNNER ═══ */
+.runner{background:rgba(139,58,30,.1)!important;border:1px solid rgba(139,58,30,.32);border-left:2px solid #d4956a;border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-top:1rem;}
+.runner-l{font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:#d4956a!important;margin-bottom:.28rem;display:block;}
+.runner-t{font-size:.67rem;color:#d8d0bc!important;line-height:1.64;font-weight:500;}
+
+/* ═══ SEPARATORE SEZIONE ═══ */
+.sez-sep{background:var(--bg-deep)!important;padding:1rem 1.3rem;display:flex;align-items:center;gap:.9rem;}
+.sez-sep-lbl{font-size:.52rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)!important;}
+.sez-sep-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,76,.3),transparent);}
+
+/* ═══ PRODOTTI ═══ */
+.prod-card{
+  border-bottom:1px solid rgba(201,168,76,.12);
+  padding:1.7rem 1.3rem;
+  background:linear-gradient(180deg,var(--panel) 0%, var(--bg) 100%)!important;
+}
+.prod-card:first-child{border-top:1px solid rgba(201,168,76,.12);}
+.prod-nome{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--gold-bright)!important;margin-bottom:.2rem;}
+.prod-sub{font-size:.48rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:1rem;display:block;}
+.prod-lbl{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dim)!important;margin-bottom:.3rem;display:block;margin-top:.9rem;}
+.prod-text{font-family:'Cormorant Garamond',serif;font-size:.99rem;font-style:italic;color:#c0b8a8!important;line-height:1.75;}
+
+/* ═══ OVERLAY ═══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(4,3,2,.94);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:500;overflow-y:auto;padding:2rem 1rem 3rem;-webkit-overflow-scrolling:touch;}
+.overlay.open{display:block;}
+.ov-card{background:var(--panel-2)!important;border:1px solid rgba(201,168,76,.32);border-radius:5px;padding:1.6rem 1.25rem;max-width:480px;margin:0 auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.overlay.open .ov-card{animation:ovIn .38s cubic-bezier(.16,1,.3,1);}
+@keyframes ovIn{from{opacity:0;transform:translateY(14px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.ov-close{position:absolute;top:.85rem;right:.95rem;font-size:1.3rem;color:var(--gold-dim)!important;background:none;border:none;cursor:pointer;padding:.2rem .4rem;line-height:1;transition:color .2s;}
+.ov-close:active{color:var(--gold)!important;}
+
+/* ═══ FIRMA ═══ */
+.firma-block{background:var(--bg-deep)!important;border-top:1px solid var(--hair);padding:2.4rem 1.5rem 3.8rem;text-align:center;position:relative;}
+.firma-inner{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;}
+.firma-lbl{font-size:.44rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-dim);font-family:'Montserrat',sans-serif;}
+.firma-nome{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-style:italic;font-weight:300;color:var(--cream);}
+.firma-ruolo{font-size:.44rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-family:'Montserrat',sans-serif;}
+.firma-line{width:36px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent);margin:.6rem 0;}
+.firma-tag{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:#4a3a2a;font-family:'Montserrat',sans-serif;}
+
+/* ═══ SCROLL REVEAL ═══ */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <svg class="cover-wave" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 Q80,0 160,30 Q240,60 320,30 Q400,0 480,30 L480,60 L0,60 Z" fill="#0b0908"/>
+    <path d="M0,44 Q100,18 200,44 Q300,70 400,44 Q450,30 480,40 L480,60 L0,60 Z" fill="#0b0908" opacity=".5"/>
+  </svg>
+  <div class="ci">
+    <span class="c-eye">Blanco Beach Club · Messina · Fine Settembre 2026</span>
+    <span class="c-pretitle">un progetto del</span>
+    <span class="c-logo">Villaggio Orso</span>
+    <span class="c-sub">Street Food Messinese d'Autore</span>
+    <span class="c-claim">Pizza in teglia, fritti, pane cunzato e tonde.<br>Il territorio messinese in forma di strada.</span>
+    <span class="c-div"></span>
+    <div class="c-badge">
+      <span class="c-badge-l">Gruppo Orso Messina</span>
+      <span class="c-badge-v">L'Orso · Blanco · Duomo · Calapso</span>
+    </div>
+    <span class="c-info">Scheda Interna · Uso Staff · Bozza Operativa</span>
+    <div class="c-firma">
+      <span class="c-fl">Ideato da</span>
+      <span class="c-fn">Matteo La Spada</span>
+      <span class="c-fl" style="margin-top:.2rem">Executive Pizza Chef · Gruppo Orso Messina</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="ntab active" onclick="S('teglie',this)">Teglie</button>
+  <button class="ntab" onclick="S('fritti',this)">Fritti</button>
+  <button class="ntab" onclick="S('pane',this)">Pane & Tonde</button>
+  <button class="ntab" onclick="S('dolce',this)">Dolce</button>
+  <button class="ntab" onclick="S('prodotti',this)">Ingredienti</button>
+</div>
+
+
+<!-- ═══════════════════════
+     TEGLIE
+═══════════════════════ -->
+<div class="sez active" id="sez-teglie">
+  <div class="sez-head">
+    <span class="sez-eye">Sezione 1 · Pizza in Teglia</span>
+    <div class="sez-ttl">La <em>Teglia</em></div>
+  </div>
+  <div class="sez-intro">Impasto ad alta idratazione con Maiorca siciliana, Biga 24h e lievito madre vivo. Servita calda, tagliata a quadrotti. Zero grassi nell'impasto — la croccantezza viene dalla cottura, non dall'olio.</div>
+
+  <div class="lista">
+
+    <!-- T1 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T1</span>
+        <span class="piatto-nome">Focaccia Messinese Contemporanea</span>
+        <span class="piatto-badge pb-territorio">Territorio</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('pomodoro-tuma')">Pomodoro ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('tuma')">Tuma ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('indivia')">Indivia riccia scottata ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('alici')">Acciuga del Mediterraneo ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('limone-interdonato')">Scorza di Limone Interdonato ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">La quintessenza di Messina in un rettangolo di teglia. La tuma si scioglie sul pomodoro in forno mentre l'indivia scottata porta un'amarezza che pulisce il palato. L'acciuga arriva in uscita — intera, visibile, protagonista — con la scorza di Limone Interdonato che apre ogni morso con una nota agrumata inaspettata e necessaria. Non è una focaccia messinese classica: è una dichiarazione di territorio.</div>
+      <div class="alert"><div class="alert-dot"></div>Acciuga e limone sempre in uscita — il cliente li vede aggiungersi. Spiegare il Limone Interdonato: presidio Slow Food della Sicilia nord-orientale, zona di Nizza di Sicilia. All. 4 (pesce — acciuga).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Teglia messinese. Pomodoro + tuma + indivia in forno. Acciuga + scorza Limone Interdonato in uscita. La più identitaria della carta.</div></div>
+    </div>
+
+    <!-- T2 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T2</span>
+        <span class="piatto-nome">Nebrodi Puri</span>
+        <span class="piatto-badge pb-territorio">Territorio</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Base bianca · filo di provola dolce</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('suino-nero')">Prosciutto crudo di Suino Nero dei Nebrodi · affettato fresco ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">La semplicità portata all'essenziale — una base bianca con un filo di provola dolce che fonde in cottura, poi il prosciutto crudo di Suino Nero dei Nebrodi affettato fresco in uscita. La qualità del maiale iberico siciliano parla da sola: grasso infiltrato, profumo di castagne e ghiande, dolcezza e persistenza fuori dal comune. Non serve altro.</div>
+      <div class="alert"><div class="alert-dot"></div>Il prosciutto di Suino Nero è affettato fresco — non pre-affettato. Spiegarlo al cliente: è la differenza che si sente. Prodotto raro e locale — vale il racconto.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Base bianca + provola dolce in forno. Prosciutto Suino Nero dei Nebrodi affettato fresco in uscita. Essenziale. Il prosciutto è il piatto.</div></div>
+    </div>
+
+    <!-- T3 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T3</span>
+        <span class="piatto-nome">La Rossa del Territorio</span>
+        <span class="piatto-badge pb-territorio">Territorio</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('pomodoro-tardivo')">Pomodoro tardivo siciliano ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('provola-affumicata')">Provola dei Nebrodi affumicata ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Basilico fresco</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">Il pomodoro tardivo siciliano — raccolto a fine stagione quando la concentrazione zuccherina è al massimo — incontra la provola affumicata dei Nebrodi che si scioglie lentamente in cottura avvolgendo tutto con la sua nota fumé. Basilico fresco e olio Terraliva in uscita completano un quadro rosso, intenso, profumato. La teglia che sa di Sicilia senza dichiararlo.</div>
+      <div class="alert"><div class="alert-dot"></div>Basilico e olio sempre in uscita — mai in forno. Il pomodoro tardivo è stagionale: verificare la disponibilità a fine settembre.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pomodoro tardivo + provola affumicata Nebrodi in forno. Basilico + olio Terraliva in uscita. La rossa del territorio — intensa, fumé, stagionale.</div></div>
+    </div>
+
+    <!-- T4 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T4</span>
+        <span class="piatto-nome">L'Orto & Il Maiorchino</span>
+        <span class="piatto-badge pb-firma">Firma</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Fiori di zucca</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Provola dolce</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('maiorchino')">Scaglie di Maiorchino di Novara di Sicilia ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('miele-ape-nera')">Gocce di Miele di Ape Nera Sicula ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">I fiori di zucca e la provola dolce costruiscono in forno una base morbida e floreale. Le scaglie di Maiorchino — il pecorino Presidio Slow Food di Novara di Sicilia, prodotto sui Peloritani, quasi introvabile — arrivano in uscita con le gocce di Miele di Ape Nera Sicula: il sapore del bosco siciliano contro il salato del formaggio stagionato. La teglia più elegante del menu.</div>
+      <div class="alert rosso"><div class="alert-dot r"></div>⚠ Fiori di zucca stagionali — verificare disponibilità a fine settembre. Il Maiorchino è un Presidio Slow Food rarissimo: raccontarlo sempre. Miele di Ape Nera: presidio anch'esso. All. 7 (latte).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Fiori di zucca + provola in forno. Maiorchino in scaglie + Miele Ape Nera in uscita. Due Presidi Slow Food nello stesso piatto. La più elegante — da raccontare.</div></div>
+    </div>
+
+    <!-- LA BIANCA NUDA -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">★</span>
+        <span class="piatto-nome">La Bianca Nuda</span>
+        <span class="piatto-badge pb-stampa">Solo Stampa</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Sale marino integrale</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">Solo olio e sale su una teglia appena uscita dal forno. Non è una pizza senza condimento — è una dichiarazione: questo è l'impasto. Niente che lo copra, niente che lo distraggga. Solo Biga, lievito madre, Maiorca siciliana, acqua e sale. Riservata alla stampa per mostrare il livello tecnico dell'impasto prima di qualsiasi condimento.</div>
+      <div class="alert"><div class="alert-dot"></div>Solo per stampa e selezionati — non in carta pubblica. È il modo più onesto per far capire la qualità dell'impasto.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Solo olio EVO Terraliva + sale marino. Mostra l'impasto nudo. Solo stampa — non in carta pubblica.</div></div>
+    </div>
+
+  </div>
+</div><!-- /teglie -->
+
+
+<!-- ═══════════════════════
+     FRITTI
+═══════════════════════ -->
+<div class="sez" id="sez-fritti">
+  <div class="sez-head">
+    <span class="sez-eye">Sezione 2 · I Fritti</span>
+    <div class="sez-ttl">I <em>Fritti</em></div>
+  </div>
+  <div class="sez-intro">Pasta fritta dell'Orso — lo stesso impasto della pizza, steso e fritto in olio profondo. Ripiena e chiusa per la F1, aperta e guarnita a caldo per la F2. Crosta dorata che scrocchia, interno morbido e caldo.</div>
+
+  <div class="lista">
+
+    <!-- F1 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">F1</span>
+        <span class="piatto-nome">Pizza Fritta alla Messinese</span>
+        <span class="piatto-badge pb-territorio">Ripiena · Chiusa</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('ricotta-pecora')">Ricotta di pecora ben scolata ↗</span><span class="badge b-imp">ripieno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('salame-santangelo')">Salame Sant'Angelo IGP a dadini ↗</span><span class="badge b-imp">ripieno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Fiordilatte</span><span class="badge b-imp">ripieno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pepe nero macinato fresco</span><span class="badge b-imp">ripieno</span></div>
+      </div>
+      <div class="piatto-desc">La pasta fritta dell'Orso viene chiusa su se stessa intorno al ripieno e sigillata a mano prima di entrare nell'olio. La ricotta di pecora deve essere ben scolata — l'umidità in eccesso rovina il fritto. Il Salame Sant'Angelo IGP a dadini porta la sapidità speziata dei Nebrodi, il fiordilatte la cremosità, il pepe nero macinato fresco la nota pungente che chiude ogni morso. Servita calda, subito.</div>
+      <div class="alert"><div class="alert-dot"></div>La ricotta va ben scolata il giorno prima — fondamentale per evitare che rilasci acqua in frittura. Salame Sant'Angelo IGP: raccontarlo — è il salume identitario di Messina. Servire sempre caldissima. All. 7 (latte).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pizza fritta chiusa. Ripieno: ricotta di pecora + Salame Sant'Angelo IGP + fiordilatte + pepe. Ricotta ben scolata — fondamentale. Servire subito caldissima.</div></div>
+    </div>
+
+    <!-- F2 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">F2</span>
+        <span class="piatto-nome">Sfoglia al Lardo di Suino Nero</span>
+        <span class="piatto-badge pb-territorio">Aperta · A caldo</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pasta fritta dell'Orso · aperta</span><span class="badge b-imp">base fritta</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('lardo-suino-nero')">Lardo di Suino Nero dei Nebrodi ↗</span><span class="badge b-out">a caldo in uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pepe nero pestato al momento</span><span class="badge b-out">a caldo in uscita</span></div>
+      </div>
+      <div class="piatto-desc">La pasta fritta dell'Orso aperta — non chiusa su un ripieno ma stesa piatta nell'olio fino a gonfiare e dorare — viene tolta dall'olio ancora bollente e immediatamente coperta con fette di lardo di Suino Nero dei Nebrodi. Il calore della pasta scioglie il lardo in pochi secondi trasformandolo in un velo lucido e profumato che penetra nella crosta croccante. Il pepe nero pestato al momento chiude con intensità. Da mangiare in piedi, subito, senza attendere.</div>
+      <div class="alert"><div class="alert-dot"></div>Il lardo va adagiato sulla pasta ancora nell'olio — il calore deve scioglierlo parzialmente. Servire entro 60 secondi dalla frittura. Il Suino Nero dei Nebrodi è raro — spiegarlo sempre.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pasta fritta aperta. Lardo Suino Nero dei Nebrodi + pepe nero a caldo in uscita. Il lardo si scioglie sul calore. Servire entro 60 secondi. Da mangiare subito.</div></div>
+    </div>
+
+  </div>
+</div><!-- /fritti -->
+
+
+<!-- ═══════════════════════
+     PANE & TONDE
+═══════════════════════ -->
+<div class="sez" id="sez-pane">
+  <div class="sez-head">
+    <span class="sez-eye">Sezione 3 · Pane Condito & Pizza Tonda</span>
+    <div class="sez-ttl">Pane & <em>Tonde</em></div>
+  </div>
+  <div class="sez-intro">Il pane cunzato è la tradizione siciliana più antica — il pane del contadino condito con quello che c'era. Le tonde sono pizza napoletana contemporanea con identità messinese.</div>
+
+  <div class="lista">
+
+    <!-- P1 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">P1</span>
+        <span class="piatto-nome">Pane Cunzato alla Disgraziata</span>
+        <span class="piatto-badge pb-firma">Il "Fratellino"</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('pane-eoliano')">Pane eoliano a crosta spessa ↗</span><span class="badge b-imp">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Pomodoro</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n">Aglio</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n">Origano selvatico</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('alici')">Acciughe del Mediterraneo ↗</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('capperi-salina')">Capperi di Salina ↗</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('mollica-atturrata')">Mollica atturrata croccante ↗</span><span class="badge b-out">condimento</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva a crudo ↗</span><span class="badge b-out">condimento</span></div>
+      </div>
+      <div class="piatto-desc">Il "Fratellino" della Disgraziata — stessi ingredienti, formato diverso. Il pane eoliano a crosta spessa regge il condimento senza inzupparsi: pomodoro, aglio, origano selvatico, acciughe, capperi di Salina e la mollica atturrata croccante — il tocco siciliano che pochissimi usano ancora, pane raffermo tostato con olio e aglio che aggiunge texture e profumo di panificio. L'olio Terraliva chiude a crudo. Street food nella sua forma più onesta.</div>
+      <div class="alert"><div class="alert-dot"></div>La mollica atturrata va fatta fresca ogni giorno — perde la croccantezza rapidamente. Capperi di Salina: Presidio Slow Food — raccontarlo. All. 4 (pesce — acciughe), 1 (glutine — pane e mollica).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pane eoliano + pomodoro + aglio + origano + acciughe + capperi Salina + mollica atturrata + olio Terraliva. Il fratellino della Disgraziata. Mollica fresca ogni giorno.</div></div>
+    </div>
+
+    <!-- TONDA 1 -->
+    <div class="sez-sep">
+      <span class="sez-sep-lbl">Pizza Tonda</span>
+      <div class="sez-sep-line"></div>
+    </div>
+
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T·01</span>
+        <span class="piatto-nome">La Messinese di Carattere</span>
+        <span class="piatto-badge pb-firma">ex Disgraziata · Tonda</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Pomodoro pelato schiacciato a mano</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Aglio</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Origano selvatico</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('alici')">Acciughe del Mediterraneo ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('capperi-salina')">Capperi di Salina ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('mollica-atturrata')">Mollica atturrata croccante ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('terraliva')">Olio EVO Terraliva ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">La Disgraziata reinterpretata in versione tonda e marinara — senza formaggio, nel rispetto dell'anima più antica della pizza messinese. Pomodoro, aglio e origano entrano in forno costruendo una base rossa intensa. Acciughe, capperi di Salina, mollica atturrata e olio Terraliva arrivano tutti in uscita. La mollica croccante è la firma che distingue questa pizza da qualsiasi altra marinara — sapore di Messina che si sente.</div>
+      <div class="alert"><div class="alert-dot"></div>Nessun formaggio — marinara pura. Le acciughe e la mollica sono in uscita e si vedono. Capperi di Salina: Presidio Slow Food. All. 4 (pesce — acciughe), 1 (glutine — mollica).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Tonda senza formaggio. Pomodoro + aglio + origano in forno. Acciughe + capperi Salina + mollica atturrata + olio in uscita. La marinara messinese di carattere.</div></div>
+    </div>
+
+    <!-- TONDA 2 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">T·02</span>
+        <span class="piatto-nome">Nebrodi e Maiorchino</span>
+        <span class="piatto-badge pb-firma">Firma</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Fiordilatte</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('provola-nebrodi')">Provola dei Nebrodi ↗</span><span class="badge b-in">forno</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('suino-nero')">Prosciutto crudo di Suino Nero dei Nebrodi ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('maiorchino')">Scaglie di Maiorchino di Novara di Sicilia ↗</span><span class="badge b-out">uscita</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('miele-ape-nera')">Gocce di Miele di Ape Nera Sicula ↗</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">Il cornicione napoletano contemporaneo dell'Orso porta sul disco il doppio formaggio dei Nebrodi — fiordilatte e provola affumicata che fondono insieme in cottura. In uscita arriva il prosciutto crudo di Suino Nero affettato fresco, le scaglie di Maiorchino Presidio Slow Food e le gocce di Miele di Ape Nera Sicula. Due Presidi Slow Food su una pizza tonda — il territorio messinese nella sua versione più lussuosa.</div>
+      <div class="alert"><div class="alert-dot"></div>Tre elementi nobili in uscita: prosciutto Suino Nero + Maiorchino + Miele Ape Nera. Due Presidi Slow Food — raccontarli entrambi. La pizza più alta del menu. All. 7 (latte).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Fiordilatte + provola Nebrodi in forno. Suino Nero + Maiorchino + Miele Ape Nera in uscita. Due Presidi Slow Food. La più alta del menu — raccontarla.</div></div>
+    </div>
+
+  </div>
+</div><!-- /pane -->
+
+
+<!-- ═══════════════════════
+     DOLCE
+═══════════════════════ -->
+<div class="sez" id="sez-dolce">
+  <div class="sez-head">
+    <span class="sez-eye">Sezione 4 · Il Dolce</span>
+    <div class="sez-ttl">La <em>Chiusura</em></div>
+  </div>
+  <div class="sez-intro">Due dolci, due icone siciliane. Il cannolo e la granita al caffè con panna — non si discutono, non si reinventano, non si sostituiscono. Si fanno bene o non si fanno. Il sigillo del territorio su un menu già fortemente identitario.</div>
+
+  <div class="lista">
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">D1</span>
+        <span class="piatto-nome">Cannolo Siciliano</span>
+        <span class="piatto-badge pb-territorio">Territorio · Chiusura</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Cialda di cannolo fritta · croccante</span><span class="badge b-imp">base</span></div>
+        <div class="ingr-row"><span class="ingr-n prep" onclick="openPrep('ricotta-cannolo')">Ricotta di pecora setacciata e zuccherata ↗</span><span class="badge b-imp">ripieno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Gocce di cioccolato fondente</span><span class="badge b-imp">ripieno</span></div>
+        <div class="ingr-row"><span class="ingr-n">Scorza di arancia candita</span><span class="badge b-out">finitura</span></div>
+        <div class="ingr-row"><span class="ingr-n">Zucchero a velo</span><span class="badge b-out">finitura</span></div>
+      </div>
+      <div class="piatto-desc">La regola aurea del cannolo siciliano: la cialda si farcisce al momento — mai prima. Una cialda bagnata è un cannolo fallito. La ricotta di pecora viene setacciata due volte per ottenere una consistenza liscia e cremosa, poi zuccherata al punto giusto — il ripieno non deve essere dolcissimo, deve essere bilanciato. Le gocce di cioccolato fondente danno amaro, la scorza d'arancia agrume. Il sigillo finale di un menu costruito sul territorio messinese.</div>
+      <div class="alert"><div class="alert-dot"></div><strong>Regola assoluta:</strong> farcire la cialda solo al momento dell'ordine — mai prima. La cialda si inumidisce in 10 minuti e il cannolo perde tutta la sua ragione d'essere. All. 7 (latte — ricotta), 1 (glutine — cialda).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Cannolo siciliano. Farcire SOLO al momento — mai prima. Ricotta di pecora setacciata due volte. Cialda croccante o il cannolo non esiste.</div></div>
+    </div>
+    <!-- D2 -->
+    <div class="piatto">
+      <div class="piatto-head">
+        <span class="piatto-cod">D2</span>
+        <span class="piatto-nome">Granita al Caffè con Panna</span>
+        <span class="piatto-badge pb-territorio">Territorio · Sicilia</span>
+      </div>
+      <div class="ingr-list">
+        <div class="ingr-row"><span class="ingr-n">Caffè espresso forte · raffreddato</span><span class="badge b-imp">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Zucchero</span><span class="badge b-imp">base</span></div>
+        <div class="ingr-row"><span class="ingr-n">Panna fresca montata al momento</span><span class="badge b-out">uscita</span></div>
+      </div>
+      <div class="piatto-desc">La granita al caffè con panna è il rito mattutino siciliano per eccellenza — qui proposta come chiusura di un percorso gastronomico. Il caffè espresso forte viene zuccherato, raffreddato e poi lavorato in granita: cristalli fini, consistenza sabbiosa, freddo intenso. La panna fresca montata al momento — non da spray, non pre-montata — viene adagiata sopra senza mescolare: i due strati restano distinti, il freddo della granita e la morbidezza cremosa della panna si incontrano solo nel cucchiaio. Dopo i salumi, i fritti e i formaggi del Villaggio, questo è il reset del palato che chiude tutto.</div>
+      <div class="alert"><div class="alert-dot"></div>La panna va montata fresca al momento — mai pre-montata. La granita deve avere i cristalli fini: se è troppo ghiacciata si è dimenticata di grattarla durante il congelamento. Servire subito. All. 7 (latte — panna).</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Granita al caffè + panna fresca montata al momento. Panna sempre fresca — mai spray. Cristalli fini. Servire subito. Chiude il percorso e resetta il palato.</div></div>
+    </div>
+
+  </div>
+</div><!-- /dolce -->
+
+
+<!-- ═══════════════════════
+     INGREDIENTI CHIAVE
+═══════════════════════ -->
+<div class="sez" id="sez-prodotti">
+  <div class="sez-head">
+    <span class="sez-eye">Materie prime · Territorio · Presidi</span>
+    <div class="sez-ttl">Gli <em>Ingredienti</em></div>
+  </div>
+  <div class="lista">
+
+    <div class="prod-card" id="prod-suino-nero">
+      <div class="prod-nome">Suino Nero dei Nebrodi</div>
+      <span class="prod-sub">Razza autoctona · Monti Nebrodi · Messina</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il Suino Nero dei Nebrodi è una razza suina autoctona siciliana, allevata allo stato semibrado sui Monti Nebrodi tra querce, faggi e castagneti. Si nutre di ghiande, castagne, radici e tuberi selvatici — la dieta che costruisce il grasso infiltrato e il profumo caratteristico della carne. Quasi scomparso negli anni '80 con l'arrivo dei suini industriali, è stato recuperato grazie a piccoli allevatori nebrodensi. Il prosciutto crudo ha una stagionatura lenta — il grasso infiltrato si scioglie al calore liberando profumi di bosco e castagne.</div>
+      <span class="prod-lbl">Come lo usiamo</span>
+      <div class="prod-text">Affettato fresco al momento — non pre-affettato. In uscita sempre, mai in cottura. Il calore della teglia o della tonda lo scalda leggermente esaltando il profumo senza cuocerlo.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Suino Nero dei Nebrodi — razza autoctona quasi scomparsa, allevata allo stato semibrado. Ghiande e castagne. Affettato fresco al momento. Non in cottura.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-maiorchino">
+      <div class="prod-nome">Maiorchino</div>
+      <span class="prod-sub">Novara di Sicilia (ME) · Peloritani · Presidio Slow Food</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il Maiorchino è un pecorino stagionato prodotto esclusivamente a Novara di Sicilia — un borgo medievale dei Peloritani messinesi, a 40km da Messina. Latte intero di pecora e capra dei pascoli peloritani, stagionato minimo 6 mesi in cantine di pietra. Presidio Slow Food — pochissimi produttori rimasti, produzione annuale limitatissima. Sentori di latte caldo, pascolo montano, note piccanti che crescono con la stagionatura. In scaglie è il modo migliore per apprezzarne la cristallinità e la complessità.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pecorino Presidio Slow Food di Novara di Sicilia — a 40km da noi. Rarissimo, produzione limitata. Latte di pecora e capra dei Peloritani. In scaglie in uscita. Mai in cottura.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-miele-ape-nera">
+      <div class="prod-nome">Miele di Ape Nera Sicula</div>
+      <span class="prod-sub">Apis mellifera sicula · Presidio Slow Food · Sicilia</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">L'Ape Nera Sicula — Apis mellifera sicula — è una sottospecie endemica della Sicilia, adattata al clima mediterraneo caldo e secco. Quasi scomparsa a causa dell'ibridazione con razze europee commerciali, è oggi recuperata da apicoltori che mantengono alveari puri in zone isolate dell'isola. Il miele che produce ha un profilo aromatico diverso da tutti gli altri mieli siciliani: sapore intenso, quasi resinoso, con note di macchia mediterranea — rosmarino, timo, cisto — e un retrogusto leggermente amaro che bilancia perfettamente il salato dei formaggi.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Miele di Ape Nera Sicula — sottospecie endemica di Sicilia, quasi estinta. Presidio Slow Food. Sapore resinoso, macchia mediterranea, retrogusto amaro. Bilancia il salato del Maiorchino.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-limone-interdonato">
+      <div class="prod-nome">Limone Interdonato</div>
+      <span class="prod-sub">Nizza di Sicilia (ME) · Valle del Nisi · Presidio Slow Food</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il Limone Interdonato è una varietà ibrida tra limone e cedro, coltivata esclusivamente nella Valle del Nisi nel comune di Nizza di Sicilia — a pochi chilometri da Messina. Prende il nome dal colonnello Giovanni Interdonato che per primo ne avviò la coltivazione nell'Ottocento. Forma allungata, buccia sottilissima e profumatissima, polpa quasi priva di semi con un'acidità delicata e un profumo floreale intensissimo diverso da qualsiasi altro limone. La scorza è la parte più preziosa — vale tre volte quella di un limone normale in termini di profumo.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Limone Presidio Slow Food di Nizza di Sicilia — a pochi km da noi. Ibrido limone-cedro, buccia sottilissima. Profumo floreale unico. Solo la scorza — è la parte più preziosa.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-mollica-atturrata">
+      <div class="prod-nome">Mollica Atturrata</div>
+      <span class="prod-sub">Preparazione della casa · Pane raffermo tostato · Tradizione siciliana</span>
+      <span class="prod-lbl">Come si fa</span>
+      <div class="prod-text">La mollica atturrata — "tostata" in siciliano — è pane raffermo sbriciolato e tostato in padella con olio EVO e aglio fino a diventare dorata e croccante. È la "pangrattato ricca" della cucina siciliana — usata nei condimenti, sulla pasta, sul pane cunzato. Porta texture sabbiosa, profumo di pane tostato e olio, un sapore che ricorda il panificio siciliano di una volta. Deve essere preparata fresca ogni giorno — perde la croccantezza rapidamente.</div>
+      <span class="prod-lbl">Cosa dire al cliente</span>
+      <div class="prod-text">"La mollica atturrata è una preparazione siciliana antica — pane tostato con olio e aglio, croccante. È il tocco che distingue questa pizza da qualsiasi altra marinara."</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pane raffermo tostato con olio EVO e aglio. Preparata fresca ogni giorno. Porta croccantezza e profumo di panificio. Il tocco identitario siciliano. All. 1 (glutine).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-salame-santangelo">
+      <div class="prod-nome">Salame Sant'Angelo IGP</div>
+      <span class="prod-sub">Sant'Angelo di Brolo (ME) · Nebrodi · IGP</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il Salame di Sant'Angelo è uno dei salumi più pregiati di Sicilia — prodotto nel comune di Sant'Angelo di Brolo sui Nebrodi, insaccato nel budello naturale torto a mano, carne di maiale locale a macinatura grossa, stagionatura lenta in cantina. L'IGP garantisce origine e tecnica produttiva. Sapore intenso e speziato con dolcezza di fondo dalla stagionatura. È il salume identitario del territorio messinese — nessun altro lo rappresenta meglio.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Salame IGP di Sant'Angelo di Brolo, Nebrodi. Il salume più messinese che esiste. Intenso, speziato. A dadini nella pizza fritta chiusa.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-lardo-suino-nero">
+      <div class="prod-nome">Lardo di Suino Nero dei Nebrodi</div>
+      <span class="prod-sub">Razza autoctona · Monti Nebrodi · Messina</span>
+      <span class="prod-lbl">Cos'è</span>
+      <div class="prod-text">Il lardo del Suino Nero dei Nebrodi è il grasso dorsale del maiale nebroide — stagionato in sale aromatico per settimane, morbido a temperatura ambiente, con profumo di castagne, fieno e spezie selvatiche. A differenza del lardo industriale, non ha mai una nota rancida — il grasso di un maiale nutrito a ghiande e castagne ha una composizione di acidi grassi simile all'olio d'oliva. Adagiato sulla pasta fritta bollente si scioglie in pochi secondi trasformandosi in un velo lucido e profumato.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Lardo di Suino Nero dei Nebrodi — maiale autoctono nutrito a ghiande. Si scioglie sul calore della pasta fritta. Profumo di castagne e spezie selvatiche. Mai in cottura.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-capperi-salina">
+      <div class="prod-nome">Capperi di Salina IGP</div>
+      <span class="prod-sub">Isola di Salina · Isole Eolie · Presidio Slow Food · a 50km da Messina</span>
+      <div class="prod-text">I più pregiati del Mediterraneo — raccolti a mano ogni 10 giorni da maggio ad agosto, curati sotto sale marino per settimane. Presidio Slow Food. Sapore iodico, marino, intenso. Li usiamo sia nella Messinese di Carattere che nel Pane Cunzato — entrano sempre in uscita.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Capperi di Salina IGP — Presidio Slow Food, a 50km da noi. I migliori d'Italia. Sempre in uscita.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-tuma">
+      <div class="prod-nome">Tuma</div>
+      <span class="prod-sub">Primo sale siciliano · Formaggio freschissimo · Tradizione</span>
+      <div class="prod-text">La tuma è il primo sale siciliano — il formaggio di pecora o vacca nelle primissime fasi di caseificazione, prima ancora della salatura. Sapore delicato e lattico, pasta morbida e umida. In cottura si ammorbidisce ulteriormente senza fondere completamente. È il formaggio identitario della focaccia messinese classica — senza tuma non è messinese.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Primo sale siciliano — freschissimo, sapore lattico delicato. Il formaggio della focaccia messinese. Si ammorbidisce in cottura. All. 7 (latte).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-indivia">
+      <div class="prod-nome">Indivia Riccia Scottata</div>
+      <span class="prod-sub">Preparazione della casa · Shock termico · Colore verde preservato</span>
+      <div class="prod-text">L'indivia riccia viene sbollentata per pochissimi secondi in acqua bollente salata, poi tuffata immediatamente in acqua e ghiaccio — lo shock termico blocca la cottura e preserva il colore verde brillante fissando la clorofilla. Risultato: indivia morbida ma non molle, verde vivace, con l'amaro attenuato ma presente. Entra in cottura sulla teglia senza perdere struttura.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Indivia sbollentata e shock in ghiaccio — fissa il verde e ammorbidisce l'amaro. Entra in cottura. Verde brillante, struttura integra.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-ricotta-pecora">
+      <div class="prod-nome">Ricotta di Pecora — ben scolata</div>
+      <span class="prod-sub">Preparazione fondamentale · Scolatura il giorno prima</span>
+      <div class="prod-text">La ricotta di pecora per la pizza fritta deve essere messa a scolare in un colino fine il giorno prima — l'umidità in eccesso, rilasciata durante la frittura, produce vapore che bagna la pasta dall'interno rendendola gommosa invece che croccante. Una ricotta non scolata è il motivo più comune di una pizza fritta mal riuscita. Scolata correttamente, la ricotta di pecora ha una consistenza densa e cremosa che regge la frittura senza cedere.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Ricotta di pecora scolata il giorno prima — fondamentale. L'umidità rovina la frittura. Scolata bene = pizza fritta croccante. All. 7 (latte).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-ricotta-cannolo">
+      <div class="prod-nome">Ricotta di Pecora per il Cannolo</div>
+      <span class="prod-sub">Setacciata due volte · Zuccherata al punto giusto</span>
+      <div class="prod-text">Per il cannolo la ricotta di pecora fresca viene setacciata due volte con un setaccio a maglia fine — il risultato è una crema liscia come velluto, senza grumi. Solo dopo la setacciatura si aggiunge lo zucchero a velo — poco, molto meno di quanto si pensi. Il ripieno del cannolo non deve essere dolcissimo: deve essere equilibrato, lattico, con la dolcezza che emerge gradualmente. La cialda farcita al momento — mai prima — è la regola assoluta.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Ricotta di pecora setacciata 2 volte — liscia come velluto. Zucchero poco. Farcire SOLO al momento. La cialda umida = cannolo fallito. All. 7 (latte).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-pane-eoliano">
+      <div class="prod-nome">Pane Eoliano</div>
+      <span class="prod-sub">Tradizione eoliana · Crosta spessa · Struttura robusta</span>
+      <div class="prod-text">Il pane eoliano è il pane tradizionale delle Isole Eolie — crosta spessa e croccante, mollica compatta e densa, forma a cupoletta. La crosta spessa è essenziale per il pane cunzato: regge il condimento umido (pomodoro, olio) senza inzupparsi e inumidirsi — il pane rimane croccante anche dopo il condimento per diversi minuti. Un pane a crosta sottile si bagna subito e diventa molle — il contrario di quello che serve.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pane eoliano — crosta spessa che regge il condimento umido. Non si inzuppa come un pane normale. La crosta è la ragione per cui si usa questo pane. All. 1 (glutine).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-provola-nebrodi">
+      <div class="prod-nome">Provola dei Nebrodi</div>
+      <span class="prod-sub">Pasta filata artigianale · Monti Nebrodi · Messina</span>
+      <div class="prod-text">Formaggio a pasta filata prodotto artigianalmente sui Monti Nebrodi con latte di vacca al pascolo. Fonde lentamente in cottura — in modo diverso dal fiordilatte industriale: più filante, con una nota sapida che rimane. Il territorio messinese in forma di formaggio. Nella versione affumicata porta anche la nota fumé caratteristica dei formaggi montani siciliani.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Provola artigianale dei Nebrodi — vacche al pascolo. Fonde lentamente, più sapida del fiordilatte. All. 7 (latte).</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-pomodoro-tardivo">
+      <div class="prod-nome">Pomodoro Tardivo Siciliano</div>
+      <span class="prod-sub">Raccolta fine stagione · Concentrazione zuccherina massima</span>
+      <div class="prod-text">Il pomodoro tardivo viene raccolto alla fine della stagione estiva — settembre-ottobre — quando la pianta ha esaurito la sua spinta vegetativa e i frutti rimasti concentrano tutti gli zuccheri residui. Più denso, più dolce, con un'acidità bilanciata e un sapore di "fine estate" profondo e persistente. È il pomodoro del condimento — non della salsa industriale. Verificare disponibilità a fine settembre con i produttori locali.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Pomodoro di fine stagione — concentrazione zuccherina massima. Più dolce, più intenso. Stagionale: verificare disponibilità a fine settembre.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-alici">
+      <div class="prod-nome">Acciughe del Mediterraneo</div>
+      <span class="prod-sub">Pesce azzurro · In uscita · All. 4 pesce</span>
+      <div class="prod-text">Filetti di acciuga del Mediterraneo selezionati — sapore marino, iodico, sapido. Arrivano sempre in uscita — mai in cottura dove perderebbero la loro integrità. La presenza delle acciughe rende questa non una semplice pizza con il pesce, ma un piatto con una nota marina che penetra in tutto il morso. Avvisare sempre per allergie al pesce.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Acciughe del Mediterraneo. Sempre in uscita — mai in cottura. Sapore marino intenso. ⚠ All. 4 (pesce) — avvisare sempre.</div></div>
+    </div>
+
+    <div class="prod-card" id="prod-terraliva">
+      <div class="prod-nome">Olio EVO Terraliva — Tonda Iblea</div>
+      <span class="prod-sub">Terraliva · Buccheri (SR) · Monti Iblei · 700m · Biologico</span>
+      <div class="prod-text">Famiglia Cavarra, Buccheri, altopiano ibleo a 700 metri. 1700 ulivi centenari di Tonda Iblea su terreno vulcanico. Raccolta verde, estrazione a freddo, filtrazione immediata. Profumo di pomodoro fresco, mandorla verde e carciofo. Amaro e piccante equilibrati. Sempre in uscita — mai in cottura. È l'olio che firma ogni piatto.</div>
+      <div class="runner"><span class="runner-l">⚡ Runner</span><div class="runner-t">Olio biologico Monti Iblei. Profumo di pomodoro e mandorla. Solo in uscita — mai in cottura. Firma ogni piatto.</div></div>
+    </div>
+
+  </div>
+</div><!-- /prodotti -->
+
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeOv(event)">
+  <div class="ov-card" id="ov-card">
+    <button class="ov-close" onclick="document.getElementById('overlay').classList.remove('open')">✕</button>
+    <div id="ov-body"></div>
+  </div>
+</div>
+
+
+<!-- FIRMA -->
+<div class="firma-block">
+  <div class="firma-inner">
+    <span class="firma-lbl">Un progetto del</span>
+    <span class="firma-nome">Gruppo Orso Messina</span>
+    <div class="firma-line"></div>
+    <span class="firma-lbl">Ideato da</span>
+    <span class="firma-nome">Matteo La Spada</span>
+    <span class="firma-ruolo">Executive Pizza Chef · Gruppo Orso Messina</span>
+    <div class="firma-line"></div>
+    <span class="firma-tag">#SEGUILORSO · blancopizzalab.it</span>
+  </div>
+</div>
+
+<script>
+function S(id,btn){
+  document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sez-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const prepMap={
+  'pomodoro-tuma':'prod-tuma',
+  'tuma':'prod-tuma',
+  'indivia':'prod-indivia',
+  'alici':'prod-alici',
+  'limone-interdonato':'prod-limone-interdonato',
+  'suino-nero':'prod-suino-nero',
+  'provola-affumicata':'prod-provola-nebrodi',
+  'provola-nebrodi':'prod-provola-nebrodi',
+  'terraliva':'prod-terraliva',
+  'maiorchino':'prod-maiorchino',
+  'miele-ape-nera':'prod-miele-ape-nera',
+  'ricotta-pecora':'prod-ricotta-pecora',
+  'ricotta-cannolo':'prod-ricotta-cannolo',
+  'salame-santangelo':'prod-salame-santangelo',
+  'lardo-suino-nero':'prod-lardo-suino-nero',
+  'pane-eoliano':'prod-pane-eoliano',
+  'capperi-salina':'prod-capperi-salina',
+  'mollica-atturrata':'prod-mollica-atturrata',
+  'pomodoro-tardivo':'prod-pomodoro-tardivo',
+};
+
+function openPrep(key){
+  var id=prepMap[key];
+  if(!id)return;
+  var src=document.getElementById(id);
+  if(!src)return;
+  document.getElementById('ov-body').innerHTML=src.innerHTML;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeOv(e){
+  if(e.target===document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('open');
+}
+
+// ═══ SCROLL REVEAL — card e prodotti si rivelano dolcemente ═══
+var rvIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); rvIO.unobserve(e.target); }
+  });
+}, {threshold:.12});
+
+function attivaReveal(container){
+  container.querySelectorAll('.piatto, .prod-card').forEach(function(el){
+    if(!el.classList.contains('rv')){ el.classList.add('rv'); rvIO.observe(el); }
+  });
+}
+document.querySelectorAll('.sez').forEach(function(s){ attivaReveal(s); });
+</script>
+</body>
+</html>
