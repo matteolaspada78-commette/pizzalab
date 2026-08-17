@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Poolish Calculator · MLS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07120D; --surface:#0B1A12; --card:#0F2318;
+  --border:#1C3828; --border2:rgba(28,56,40,0.5);
+  --gold:#C8973A; --gold2:#EEC84A; --gold3:#F7DFA0;
+  --cream:#F5EFE3; --cream2:#D8CEBC; --dim:#6A7060; --dim2:#3A4238;
+  --ok:#5DBFA0; --warn:#E8B84A; --bad:#D45050;
+  --blue:#8BB4E0; --blue-d:rgba(26,58,107,0.3);
+  --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif; --serif:'Playfair Display',Georgia,serif;
+  --safe-top:env(safe-area-inset-top,20px);
+  --safe-bot:env(safe-area-inset-bottom,20px);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{
+  background:var(--bg);color:var(--cream);
+  font-family:var(--sans);min-height:100vh;
+  max-width:480px;margin:0 auto;
+  padding-bottom:calc(var(--safe-bot)+40px);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── HERO ── */
+.hero{
+  padding:calc(var(--safe-top)+16px) 20px 24px;
+  background:linear-gradient(170deg,#0D1F10 0%,#07120D 100%);
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),transparent);
+}
+.hero-inner{display:flex;align-items:center;gap:16px}
+.logo{
+  width:56px;height:56px;border-radius:13px;flex-shrink:0;
+  background:linear-gradient(135deg,#1B4D2A,#0D2A14);
+  border:1.5px solid rgba(200,151,58,0.55);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+.logo-txt{font-family:var(--serif);font-size:17px;font-weight:900;color:var(--gold2);letter-spacing:2px}
+.hero-copy{}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.hero-title{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--cream);letter-spacing:-0.5px;line-height:1.05}
+.hero-title em{color:var(--gold2);font-style:italic}
+.hero-firma{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:4px}
+
+/* ── SEZIONI ── */
+.sez{margin:10px 14px 0;border-radius:var(--r);overflow:hidden}
+.sez-hdr{
+  padding:10px 14px 8px;
+  font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+.sez-hdr-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sez-body{padding:0 14px 14px}
+
+.sez--gold{background:rgba(200,151,58,0.07);border:1px solid rgba(200,151,58,0.25)}
+.sez--gold .sez-hdr{color:var(--gold)}
+.sez--gold .sez-hdr-dot{background:var(--gold)}
+
+.sez--blue{background:var(--blue-d);border:1px solid rgba(139,180,224,0.25)}
+.sez--blue .sez-hdr{color:var(--blue)}
+.sez--blue .sez-hdr-dot{background:var(--blue)}
+
+.sez--green{background:rgba(45,90,61,0.12);border:1px solid rgba(93,191,160,0.25)}
+.sez--green .sez-hdr{color:var(--ok)}
+.sez--green .sez-hdr-dot{background:var(--ok)}
+
+/* ── INPUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inp-grp{display:flex;flex-direction:column;gap:5px}
+.inp-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px}
+.inp-row{display:flex;align-items:center;gap:6px}
+.inp{
+  flex:1;background:rgba(0,0,0,0.45);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;color:var(--cream);
+  font-size:24px;font-weight:700;font-family:var(--mono);
+  -webkit-appearance:none;width:100%;transition:border-color .15s;
+}
+.inp:focus{outline:none;border-color:rgba(200,151,58,0.5)}
+.inp-unit{font-size:12px;color:var(--dim);min-width:24px;font-family:var(--mono)}
+.inp-display{
+  flex:1;background:rgba(0,0,0,0.2);border:1px solid var(--border2);
+  border-radius:10px;padding:10px 12px;
+  font-size:24px;font-weight:700;font-family:var(--mono);color:var(--gold2);
+}
+
+/* ── PILL BUTTONS ── */
+.pills{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.pills5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.pill{
+  padding:9px 4px;border-radius:9px;
+  font-family:var(--mono);font-size:11px;font-weight:500;text-align:center;
+  cursor:pointer;border:1px solid var(--border);background:rgba(0,0,0,0.3);
+  color:var(--dim);transition:all .15s;line-height:1.3;
+}
+.pill:active{opacity:0.7}
+.pill.on-blue{background:rgba(26,58,107,0.4);border-color:rgba(139,180,224,0.6);color:var(--blue)}
+.pill.on-gold{background:rgba(200,151,58,0.2);border-color:rgba(200,151,58,0.6);color:var(--gold2)}
+
+/* ── OUTPUT ── */
+.out-wrap{margin:14px 14px 0;display:none}
+
+/* Numero LdB grande */
+.ldb-card{
+  border-radius:var(--r);padding:20px 16px;text-align:center;
+  margin-bottom:10px;position:relative;overflow:hidden;
+  transition:background .4s,border-color .4s;
+}
+.ldb-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px}
+.ldb-num{font-family:var(--mono);font-size:80px;font-weight:500;line-height:1;letter-spacing:-3px;transition:color .4s}
+.ldb-pct{font-family:var(--mono);font-size:13px;margin-top:6px;opacity:0.7}
+
+/* Grid dati */
+.data-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.data-cell{background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 6px;text-align:center}
+.data-lbl{font-size:8px;color:var(--dim);margin-bottom:3px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase}
+.data-val{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+.data-sub{font-size:9px;color:var(--dim);margin-top:2px}
+
+/* Barra attività */
+.act-wrap{margin-bottom:10px}
+.act-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.bar-track{background:rgba(0,0,0,0.4);border-radius:4px;height:8px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:4px;transition:width .5s,background .4s}
+.bar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;color:var(--dim2);margin-top:3px}
+
+/* Scheda scientifica */
+.sci-card{
+  background:rgba(0,0,0,0.2);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;margin-bottom:10px;
+}
+.sci-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.sci-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border2)}
+.sci-row:last-child{border-bottom:none}
+.sci-key{font-size:11px;color:var(--cream2)}
+.sci-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cream)}
+
+/* Picco */
+.picco-card{
+  background:rgba(45,90,61,0.1);border:1px solid rgba(93,191,160,0.25);
+  border-radius:var(--r);padding:14px;
+}
+.picco-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ok);margin-bottom:10px}
+.picco-row{font-size:12px;color:var(--cream2);line-height:2;display:flex;align-items:flex-start;gap:8px}
+.picco-row span{flex-shrink:0}
+
+/* Fonti */
+.fonti{margin:10px 14px 0;background:rgba(0,0,0,0.15);border:1px solid var(--border2);border-radius:var(--r);padding:12px 14px}
+.fonti-lbl{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-bottom:6px}
+.fonti-txt{font-family:var(--mono);font-size:9px;color:var(--dim);line-height:1.9}
+
+/* Footer */
+.footer{text-align:center;padding:32px 20px 8px;font-family:var(--mono);font-size:8px;color:var(--dim2);letter-spacing:2px;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="logo"><span class="logo-txt">MLS</span></div>
+    <div class="hero-copy">
+      <div class="eyebrow">Sistema Scientifico · Messina</div>
+      <div class="hero-title">Poolish <em>Calculator</em></div>
+      <div class="hero-firma">Matteo La Spada · Pizzaiolo Scientifico</div>
+    </div>
+  </div>
+</div>
+
+<!-- FARINA -->
+<div class="sez sez--gold">
+  <div class="sez-hdr"><span class="sez-hdr-dot"></span>Farina Poolish</div>
+  <div class="sez-body">
+    <div class="g2">
+      <div class="inp-grp">
+        <div class="inp-lbl">Kg farina</div>
+        <div class="inp-row">
+          <input class="inp" id="kgFar" type="number" inputmode="decimal" value="1" min="0.1" max="50" step="0.1" oninput="calc()" style="color:var(--gold2)">
+          <span class="inp-unit">kg</span>
+        </div>
+      </div>
+      <div class="inp-grp">
+        <div class="inp-lbl">Acqua 1:1</div>
+        <div class="inp-row">
+          <div class="inp-display" id="showAcqua">1000g</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORE -->
+<div class="sez sez--blue">
+  <div class="sez-hdr"><span class="sez-hdr-dot"></span>Ore di fermentazione</div>
+  <div class="sez-body">
+    <div class="inp-grp">
+      <div class="inp-lbl">Ore</div>
+      <div class="inp-row">
+        <input class="inp" id="ore" type="number" inputmode="decimal" value="17" min="1" max="72" step="0.5" oninput="syncOre();calc()">
+        <span class="inp-unit">h</span>
+      </div>
+    </div>
+    <div class="inp-lbl" style="margin-top:12px;margin-bottom:0">Tocca per selezionare</div>
+    <div class="pills" id="oreGrid">
+      <button class="pill" data-h="2"  onclick="setOre(2)">2h</button>
+      <button class="pill" data-h="4"  onclick="setOre(4)">4h</button>
+      <button class="pill" data-h="6"  onclick="setOre(6)">6h</button>
+      <button class="pill" data-h="8"  onclick="setOre(8)">8h</button>
+      <button class="pill" data-h="10" onclick="setOre(10)">10h</button>
+      <button class="pill" data-h="12" onclick="setOre(12)">12h</button>
+      <button class="pill" data-h="16" onclick="setOre(16)">16h</button>
+      <button class="pill" data-h="17" onclick="setOre(17)">17h</button>
+      <button class="pill" data-h="20" onclick="setOre(20)">20h</button>
+      <button class="pill" data-h="24" onclick="setOre(24)">24h</button>
+      <button class="pill" data-h="36" onclick="setOre(36)">36h</button>
+      <button class="pill" data-h="48" onclick="setOre(48)">48h</button>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPERATURA -->
+<div class="sez sez--green">
+  <div class="sez-hdr"><span class="sez-hdr-dot"></span>Temperatura</div>
+  <div class="sez-body">
+    <div class="inp-grp">
+      <div class="inp-lbl">°C</div>
+      <div class="inp-row">
+        <input class="inp" id="temp" type="number" inputmode="decimal" value="4" min="0" max="30" step="1" oninput="syncTemp();calc()">
+        <span class="inp-unit">°C</span>
+      </div>
+    </div>
+    <div class="inp-lbl" style="margin-top:12px;margin-bottom:0">Preset rapidi</div>
+    <div class="pills5" id="tGrid">
+      <button class="pill" data-t="4"  onclick="setTemp(4)">4°C<br><span style="font-size:8px">cella</span></button>
+      <button class="pill" data-t="18" onclick="setTemp(18)">18°C<br><span style="font-size:8px">cantina</span></button>
+      <button class="pill" data-t="20" onclick="setTemp(20)">20°C<br><span style="font-size:8px">ottimale</span></button>
+      <button class="pill on-gold" data-t="24" onclick="setTemp(24)">24°C<br><span style="font-size:8px">lab MLS</span></button>
+      <button class="pill" data-t="25" onclick="setTemp(25)">25°C<br><span style="font-size:8px">lab MLS</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- OUTPUT -->
+<div class="out-wrap" id="outWrap">
+
+  <!-- NUMERO LdB -->
+  <div class="ldb-card" id="ldbCard">
+    <div class="ldb-eyebrow">🦠 Lievito di Birra · Dose Scientifica</div>
+    <div class="ldb-num" id="ldbNum">—</div>
+    <div class="ldb-pct" id="ldbPct"></div>
+  </div>
+
+  <!-- GRIGLIA DATI -->
+  <div class="data-grid" id="dataGrid"></div>
+
+  <!-- BARRA ATTIVITÀ -->
+  <div class="act-wrap">
+    <div class="act-lbl">Velocità fermentazione</div>
+    <div class="bar-track"><div class="bar-fill" id="barFill" style="width:50%"></div></div>
+    <div class="bar-labels"><span>Lenta ❄️</span><span>✅ Ottimale</span><span>Rapida 🔥</span></div>
+  </div>
+
+  <!-- SCHEDA SCIENTIFICA -->
+  <div class="sci-card">
+    <div class="sci-lbl">📐 Parametri scientifici</div>
+    <div id="sciRows"></div>
+  </div>
+
+  <!-- PICCO -->
+  <div class="picco-card">
+    <div class="picco-lbl">👁️ Come riconosci il picco</div>
+    <div class="picco-row"><span>✅</span><span>Superficie <strong>convessa</strong> — bollicine fitte e piccole</span></div>
+    <div class="picco-row"><span>✅</span><span>Volume aumentato <strong>80-100%</strong> rispetto all'inizio</span></div>
+    <div class="picco-row"><span>✅</span><span>Odore <strong>lattico</strong> — yogurt, leggermente acidulo, non pungente</span></div>
+    <div class="picco-row"><span>⚠️</span><span>Centro che cede — stai andando oltre, impasta subito</span></div>
+    <div class="picco-row"><span>❌</span><span>Bolle grandi, superficie piatta — già oltre il picco</span></div>
+  </div>
+
+</div>
+
+<!-- FONTI -->
+<div class="fonti">
+  <div class="fonti-lbl">Fonti scientifiche</div>
+  <div class="fonti-txt">
+    Bisson L.F. (1999) — Stuck and Sluggish Fermentations · Q10=2.2<br>
+    Hamad A.M. & Fields M.L. (1979) — μ₂₂=0.049 h⁻¹<br>
+    Calvel R. · Suas M. (2009) — Advanced Bread and Pastry p.42<br>
+    Cauvain S. (2015) — Technology of Breadmaking
+  </div>
+</div>
+
+<div class="footer">Matteo La Spada · Gruppo Orso · Messina · Sistema Scientifico MLS</div>
+
+<div style="margin:0 14px 20px;display:none" id="btnWAWrap">
+  <button onclick="condividiWA()" style="width:100%;padding:16px;border-radius:14px;background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.35);color:#25D166;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    Invia ricetta poolish su WhatsApp
+  </button>
+</div>
+
+<script>
+var Q10=2.2, mu22=0.049;
+
+function getK(T){
+  if(T<=4)  return 35;
+  if(T<=10) return 55;
+  if(T<=15) return 80;
+  if(T<=18) return 105;
+  if(T<=20) return 130;
+  if(T<=22) return 150;
+  if(T<=24) return 165;
+  return 175;
+}
+
+function R(n,d){ return Math.round(n*Math.pow(10,d||0))/Math.pow(10,d||0); }
+
+function calc(){
+  var kgF = parseFloat(document.getElementById('kgFar').value)||1;
+  var h   = parseFloat(document.getElementById('ore').value)||17;
+  var T   = parseFloat(document.getElementById('temp').value)||4;
+  var farG= Math.round(kgF*1000);
+
+  document.getElementById('showAcqua').textContent = farG+'g';
+
+  var muT    = mu22*Math.pow(Q10,(T-22)/10);
+  var k      = getK(T);
+  var ldbPct = Math.log(2)/(k*muT*h)*100;
+  var ldbG   = R(Math.max(0.1, Math.min(farG*0.02, kgF*ldbPct/100*1000)),1);
+  var ldbPctEff = R(ldbG/farG*100,3);
+
+  // Velocità relativa 0-100
+  var vel = Math.min(95, Math.max(5, 100-(h*Math.max(1,(22-T))*1.2)));
+
+  // Colore dinamico: blu=lento · verde=ottimale · arancio=rapido
+  var col, bgCol, borderCol;
+  if(vel < 30){
+    col='#8BB4E0'; bgCol='rgba(26,58,107,0.25)'; borderCol='rgba(139,180,224,0.4)';
+  } else if(vel < 65){
+    col='#A5D6A7'; bgCol='rgba(45,90,61,0.2)'; borderCol='rgba(93,191,160,0.4)';
+  } else {
+    col='#F0CC5A'; bgCol='rgba(200,151,58,0.15)'; borderCol='rgba(200,151,58,0.4)';
+  }
+
+  // Render
+  document.getElementById('outWrap').style.display='block';
+  document.getElementById('btnWAWrap').style.display='block';
+
+  var card = document.getElementById('ldbCard');
+  card.style.background = bgCol;
+  card.style.border = '2px solid '+borderCol;
+
+  document.getElementById('ldbNum').style.color = col;
+  document.getElementById('ldbNum').textContent = ldbG+'g';
+  document.getElementById('ldbPct').textContent = ldbPctEff+'% · su '+farG+'g farina + '+farG+'g acqua';
+  document.getElementById('ldbPct').style.color = col;
+
+  // Griglia
+  var slow = T<22 ? '×'+R(mu22/muT,1)+' più lento' : 'velocità standard';
+  document.getElementById('dataGrid').innerHTML =
+    cell('Farina',farG+'g','0102HP',col)+
+    cell('Acqua',farG+'g','1:1',col)+
+    cell('LdB',ldbG+'g',ldbPctEff+'%',col);
+
+  // Barra
+  var barCol = vel<30?'linear-gradient(90deg,#1A3A6B,#8BB4E0)':vel<65?'linear-gradient(90deg,#1B4D2A,#5DBFA0)':'linear-gradient(90deg,#6B4A00,#F0CC5A)';
+  document.getElementById('barFill').style.width=vel+'%';
+  document.getElementById('barFill').style.background=barCol;
+
+  // Scheda scientifica
+  var eta  = R(1/(k*muT),2);
+  var tPicco = R(Math.log(2)/muT,1);
+  document.getElementById('sciRows').innerHTML =
+    sciRow('μ('+T+'°C)',R(muT*10000)/10000+' h⁻¹')+
+    sciRow('Velocità vs 22°C',T<22?'×'+R(muT/mu22,3)+' ('+slow+')':'1.0× (standard)')+
+    sciRow('η calibrazione','k='+k)+
+    sciRow('LdB % calcolato',ldbPctEff+'%')+
+    sciRow('LdB grammi',ldbG+'g su '+farG+'g farina')+
+    sciRow('T fermentazione',T+'°C · '+h+'h');
+}
+
+function cell(lbl,val,sub,col){
+  return '<div class="data-cell">'
+    +'<div class="data-lbl">'+lbl+'</div>'
+    +'<div class="data-val" style="color:'+col+'">'+val+'</div>'
+    +(sub?'<div class="data-sub">'+sub+'</div>':'')
+    +'</div>';
+}
+
+function sciRow(k,v){
+  return '<div class="sci-row"><div class="sci-key">'+k+'</div><div class="sci-val">'+v+'</div></div>';
+}
+
+function setOre(h){
+  document.getElementById('ore').value=h;
+  document.querySelectorAll('#oreGrid .pill').forEach(function(b){
+    b.classList.toggle('on-blue', parseFloat(b.getAttribute('data-h'))===h);
+  });
+  calc();
+}
+function setTemp(t){
+  document.getElementById('temp').value=t;
+  document.querySelectorAll('#tGrid .pill').forEach(function(b){
+    b.classList.toggle('on-gold', parseFloat(b.getAttribute('data-t'))===t);
+  });
+  calc();
+}
+function syncOre(){
+  var h=parseFloat(document.getElementById('ore').value)||0;
+  document.querySelectorAll('#oreGrid .pill').forEach(function(b){
+    b.classList.toggle('on-blue', parseFloat(b.getAttribute('data-h'))===h);
+  });
+}
+function syncTemp(){
+  var t=parseFloat(document.getElementById('temp').value)||0;
+  document.querySelectorAll('#tGrid .pill').forEach(function(b){
+    b.classList.toggle('on-gold', parseFloat(b.getAttribute('data-t'))===t);
+  });
+}
+
+function condividiWA(){
+  var kgF = parseFloat(document.getElementById('kgFar').value)||1;
+  var h   = parseFloat(document.getElementById('ore').value)||17;
+  var T   = parseFloat(document.getElementById('temp').value)||4;
+  var farG= Math.round(kgF*1000);
+  var muT = mu22*Math.pow(Q10,(T-22)/10);
+  var k   = getK(T);
+  var ldbPct = Math.log(2)/(k*muT*h)*100;
+  var ldbG = R(Math.max(0.1, Math.min(farG*0.02, kgF*ldbPct/100*1000)),1);
+  var ldbPctEff = R(ldbG/farG*100,3);
+
+  var oggi = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+  var txt = '🍕 *Poolish MLS · Matteo La Spada*\n';
+  txt += '📅 '+oggi+'\n\n';
+  txt += '🧱 *POOLISH*\n';
+  txt += '  Farina 0102HP: *'+farG+'g*\n';
+  txt += '  Acqua 1:1: *'+farG+'g*\n';
+  txt += '  LdB fresco: *'+ldbG+'g* ('+ldbPctEff+'%)\n\n';
+  txt += '⏱️ *FERMENTAZIONE*\n';
+  txt += '  Temperatura: *'+T+'°C*\n';
+  txt += '  Ore: *'+h+'h*\n\n';
+  txt += '👁️ *PICCO PRONTO QUANDO:*\n';
+  txt += '  ✅ Superficie convessa\n';
+  txt += '  ✅ Volume +80-100%\n';
+  txt += '  ✅ Odore lattico\n\n';
+  txt += '_Sistema Scientifico MLS · Gruppo Orso · Messina_';
+
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+window.addEventListener('load',function(){ setTemp(24); setOre(17); calc(); });
+</script>
+</body>
+</html>
