@@ -2246,6 +2246,16 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-btn" onclick="openPage('paneorsopool')">
+      <div class="menu-icon" style="background:rgba(26,58,107,0.4)">🌊</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#8BB4E0">Pane dell'Orso · Poolish</div>
+        <div class="menu-sub">Poolish 40% 0102HP · 17h a 20°C · IDR 74% · senza licoli</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(139,180,224,0.15);border-color:rgba(139,180,224,0.4);color:#8BB4E0">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">⚡ Impasto Diretto</div>
     <div class="menu-btn" onclick="openPage('diretto02')">
       <div class="menu-icon" style="background:rgba(136,14,79,0.3)">🔬</div>
@@ -4467,6 +4477,37 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
   </div>
 </div>
 
+<!-- PANE DELL'ORSO · POOLISH -->
+<div id="pagePaneOrsoPool" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🌊</div>
+    <div class="page-hero-title">Pane dell'Orso · Poolish</div>
+    <div class="page-hero-sub">Poolish 40% 0102HP · 17h a 20°C · IDR 74% · Senza licoli</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina totale</label>
+            <div class="inp-row"><input class="inp-field" id="popKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcPaneOrsoPool()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">% Poolish</label>
+            <div class="inp-row"><input class="inp-field" id="popPct" type="number" value="20" min="10" max="60" step="5" oninput="calcPaneOrsoPool()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="popIDR" type="number" value="74" min="68" max="80" step="0.5" oninput="calcPaneOrsoPool()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="popSale" type="number" value="2.5" min="1.5" max="3" step="0.1" oninput="calcPaneOrsoPool()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">T poolish °C</label>
+            <div class="inp-row"><input class="inp-field" id="popTemp" type="number" value="20" min="15" max="28" step="1" oninput="calcPaneOrsoPool()"><span class="inp-unit">°C</span></div></div>
+          <div class="inp-group"><label class="inp-label">Ore poolish</label>
+            <div class="inp-row"><input class="inp-field" id="popOre" type="number" value="17" min="8" max="24" step="0.5" oninput="calcPaneOrsoPool()"><span class="inp-unit">h</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="popOut"></div>
+  </div>
+</div>
+
 <!-- NAPOLETANA PRONTA FORNO -->
 <div id="pageNapoFrigo" class="scroll" style="display:none">
   <div class="page-hero">
@@ -6399,7 +6440,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -10708,6 +10749,112 @@ function setGestioneDM(tipo){
   calcDirettaMls();
 }
 
+function calcPaneOrsoPool(){
+  var kgF  = parseFloat((document.getElementById('popKgF')||{value:10}).value)||10;
+  var pPct = parseFloat((document.getElementById('popPct')||{value:20}).value)||20;
+  var idr  = parseFloat((document.getElementById('popIDR')||{value:74}).value)||74;
+  var salP = parseFloat((document.getElementById('popSale')||{value:2.5}).value)||2.5;
+  var T    = parseFloat((document.getElementById('popTemp')||{value:20}).value)||20;
+  var h    = parseFloat((document.getElementById('popOre')||{value:17}).value)||17;
+  var out  = document.getElementById('popOut');
+  if(!out) return;
+
+  function r5(n){return Math.round(n/5)*5;}
+  function R1(n){return Math.round(n*10)/10;}
+
+  // Poolish
+  var kgPool  = kgF * pPct/100;
+  var kgRinf  = kgF - kgPool;
+  var farPool = Math.round(kgPool*1000);
+  var acqPool = farPool; // 1:1
+
+  // LdB poolish — calibrato MLS k=172.8
+  var mu22=0.049; var Q10=2.2; var k=172.8;
+  var muT = mu22*Math.pow(Q10,(T-22)/10);
+  var ldbPct = Math.log(2)/(muT*k*h);
+  var ldbG = R1(Math.max(0.1, Math.min(farPool*0.02, kgPool*ldbPct*1000)));
+
+  // Blend rinfresco
+  var r3HP   = Math.round(kgRinf*0.45*1000);
+  var r0103  = Math.round(kgRinf*0.45*1000);
+  var r3220  = Math.round(kgRinf*0.05*1000);
+  var r3400  = Math.round(kgRinf*0.05*1000);
+
+  // Acqua
+  var acqTot  = r5(kgF*idr/100*1000);
+  var acqRinf = acqTot - acqPool;
+  var acqAuto = r5(acqRinf*0.65);
+  var acqBass = acqRinf - acqAuto;
+  var saleG   = r5(kgF*salP/100*1000);
+  var pesoImp = kgF*1000 + acqTot + saleG;
+  var p800    = Math.floor(pesoImp/800);
+  var p1000   = Math.floor(pesoImp/1000);
+
+  // T acqua poolish
+  var Tacq = Math.round((20*2-(T-1))*10)/10;
+  var tc   = Tacq<=12?'#BBDEFB':Tacq<=16?'#A5D6A7':Tacq<=20?'#F0CC5A':'#FFCDD2';
+
+  out.innerHTML =
+    // HEADER
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-family:DM Mono,monospace">Peso impasto</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#F0CC5A">'+(pesoImp/1000).toFixed(2)+'kg</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-family:DM Mono,monospace">Pagnotte 800g</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#A5D6A7">'+p800+'</div></div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:8px;color:var(--dim);margin-bottom:2px;font-family:DM Mono,monospace">Pagnotte 1kg</div><div style="font-family:DM Mono,monospace;font-size:18px;font-weight:700;color:#A5D6A7">'+p1000+'</div></div>'
+    +'</div>'
+
+    // POOLISH
+    +'<div class="res-section"><div class="res-label">🌊 Poolish '+pPct+'% · 0102HP W320 · '+h+'h a '+T+'°C</div>'
+    +row('Farina 0102HP',farPool+'g','poolish 1:1')
+    +row('Acqua 1:1',acqPool+'g','T acqua '+Tacq+'°C → poolish parte a 20°C','')
+    +row('LdB fresco',ldbG+'g',R1(ldbG/farPool*100)+'% · calibrato MLS k=172.8',true)
+    +'</div>'
+
+    // RINFRESCO
+    +'<div class="res-section"><div class="res-label">🐻 Rinfresco '+Math.round(100-pPct)+'% · Blend originale Orso</div>'
+    +row('Petra 3HP W300 (45%)',r3HP+'g','')
+    +row('Petra 0103HP W330 (45%)',r0103+'g','')
+    +row('Petra 3220 Buon Semi (5%)',r3220+'g','')
+    +row('Petra 3400 Ottimais (5%)',r3400+'g','')
+    +'</div>'
+
+    // ACQUA
+    +'<div class="res-section"><div class="res-label">💧 Acqua · IDR '+idr+'%</div>'
+    +row('Acqua totale',acqTot+'g','IDR '+idr+'%')
+    +row('Già nel poolish',acqPool+'g','non aggiungere')
+    +row('Autolisi 65%',acqAuto+'g','con blend rinfresco · 45min')
+    +row('Bassinage S&F',acqBass+'g','a filo durante pieghe',true)
+    +row('Sale '+salP+'%',saleG+'g','nell\'ultima acqua')
+    +'</div>'
+
+    // T ACQUA
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🌡️ T acqua poolish</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:48px;font-weight:500;color:'+tc+'">'+Tacq+'°C</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:1.7">T lab '+T+'°C → T farina '+(T-1)+'°C<br>Formula: 20×2 − '+(T-1)+' = '+Tacq+'°C<br><span style="color:var(--dim)">Poolish parte a 20°C ✅</span></div>'
+    +'</div></div>'
+
+    // PROCESSO
+    +'<div class="res-section"><div class="res-label">⏰ Processo · 3 giorni</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:2.3">'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace">G1 · 18:00</span> Poolish: '+farPool+'g + '+acqPool+'g acqua '+Tacq+'°C + '+ldbG+'g LdB<br>'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace">G1→G2</span> '+h+'h a '+T+'°C → picco al mattino<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 09:00</span> Autolisi: blend rinfresco + '+acqAuto+'g acqua · 45min<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 09:45</span> + poolish al picco · incorpora delicatamente<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 10:00</span> + sale + bassinage '+acqBass+'g a filo<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 10:30</span> DDT <strong style="color:#F0E6D0">25°C</strong> · puntata 5h · 3 pieghe S&F ogni ora<br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 15:30</span> Forma → cella 4°C overnight<br>'
+    +'<span style="color:#FFCDD2;font-family:DM Mono,monospace">G3 · 07:00</span> Forno David · 35min · vapore · T cuore 96-98°C'
+    +'</div></div>'
+
+    +'<div style="background:rgba(200,151,58,0.06);border:1px solid rgba(200,151,58,0.2);border-radius:10px;padding:12px;font-size:10px;color:var(--dim);line-height:1.9">'
+    +'<strong style="color:var(--gold2);display:block;margin-bottom:4px">⚠️ Differenza vs versione Licoli</strong>'
+    +'Sapore più neutro · meno acidità · crosta meno spessa<br>'
+    +'Conservabilità: 2 giorni (vs 4 del licoli)<br>'
+    +'Per avvicinarti al licoli: aggiungi <strong style="color:var(--cream)">1% aceto di mele</strong> nell\'impasto'
+    +'</div>';
+}
+
 function calcDirettaMls(){
   var kgF  = parseFloat((document.getElementById('dmKgF')||{value:10}).value)||10;
   var idr  = parseFloat((document.getElementById('dmIDR')||{value:68}).value)||68;
@@ -12488,6 +12635,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcPaneOrsoPool();}catch(e){}
   try{calcDirettaMls();}catch(e){}
   try{calcRomanaTonda();}catch(e){}
   try{calcScrocch();}catch(e){}
