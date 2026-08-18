@@ -245,11 +245,11 @@ body{
     </div>
     <div class="inp-lbl" style="margin-top:12px;margin-bottom:0">Preset rapidi</div>
     <div class="pills5" id="tGrid">
-      <button class="pill" data-t="4"  onclick="setTemp(4)">4°C<br><span style="font-size:8px">cella</span></button>
-      <button class="pill" data-t="18" onclick="setTemp(18)">18°C<br><span style="font-size:8px">cantina</span></button>
-      <button class="pill" data-t="20" onclick="setTemp(20)">20°C<br><span style="font-size:8px">ottimale</span></button>
-      <button class="pill on-gold" data-t="24" onclick="setTemp(24)">24°C<br><span style="font-size:8px">lab MLS</span></button>
-      <button class="pill" data-t="25" onclick="setTemp(25)">25°C<br><span style="font-size:8px">lab MLS</span></button>
+      <button class="pill" data-t="20" onclick="setTemp(20)">20°C<br><span style="font-size:8px">fresco</span></button>
+      <button class="pill" data-t="24" onclick="setTemp(24)">24°C<br><span style="font-size:8px">lab</span></button>
+      <button class="pill" data-t="25" onclick="setTemp(25)">25°C<br><span style="font-size:8px">lab</span></button>
+      <button class="pill on-gold" data-t="28" onclick="setTemp(28)">28°C<br><span style="font-size:8px">lab MLS</span></button>
+      <button class="pill" data-t="30" onclick="setTemp(30)">30°C<br><span style="font-size:8px">estate</span></button>
     </div>
   </div>
 </div>
@@ -299,7 +299,9 @@ body{
     Bisson L.F. (1999) — Stuck and Sluggish Fermentations · Q10=2.2<br>
     Hamad A.M. & Fields M.L. (1979) — μ₂₂=0.049 h⁻¹<br>
     Calvel R. · Suas M. (2009) — Advanced Bread and Pastry p.42<br>
-    Cauvain S. (2015) — Technology of Breadmaking
+    Cauvain S. (2015) — Technology of Breadmaking<br>
+    <strong style="color:var(--gold)">k=172.8 calibrato su dato reale MLS</strong><br>
+    <span style="color:var(--dim2)">3g/kg · 0102HP W320 · 28°C · 17h → picco ✅ · Messina 2026</span>
   </div>
 </div>
 
@@ -314,17 +316,11 @@ body{
 
 <script>
 var Q10=2.2, mu22=0.049;
+// k=172.8 calibrato su dato reale MLS:
+// 3g LdB su 1kg 0102HP W320 · 28°C · 17h → picco ✅
+var K_0102HP = 172.8;
 
-function getK(T){
-  if(T<=4)  return 35;
-  if(T<=10) return 55;
-  if(T<=15) return 80;
-  if(T<=18) return 105;
-  if(T<=20) return 130;
-  if(T<=22) return 150;
-  if(T<=24) return 165;
-  return 175;
-}
+function getK(T){ return K_0102HP; }
 
 function R(n,d){ return Math.round(n*Math.pow(10,d||0))/Math.pow(10,d||0); }
 
@@ -461,7 +457,7 @@ function condividiWA(){
   window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 
-window.addEventListener('load',function(){ setTemp(24); setOre(17); calc(); });
+window.addEventListener('load',function(){ setTemp(28); setOre(17); calc(); });
 </script>
 </body>
 </html>
