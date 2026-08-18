@@ -234,13 +234,22 @@ body{
 
 <!-- TEMPERATURA -->
 <div class="sez sez--green">
-  <div class="sez-hdr"><span class="sez-hdr-dot"></span>Temperatura</div>
+  <div class="sez-hdr"><span class="sez-hdr-dot"></span>Temperatura laboratorio</div>
   <div class="sez-body">
-    <div class="inp-grp">
-      <div class="inp-lbl">°C</div>
-      <div class="inp-row">
-        <input class="inp" id="temp" type="number" inputmode="decimal" value="4" min="0" max="30" step="1" oninput="syncTemp();calc()">
-        <span class="inp-unit">°C</span>
+    <div class="g2">
+      <div class="inp-grp">
+        <div class="inp-lbl">T laboratorio °C</div>
+        <div class="inp-row">
+          <input class="inp" id="temp" type="number" inputmode="decimal" value="28" min="10" max="40" step="1" oninput="syncTemp();calc()">
+          <span class="inp-unit">°C</span>
+        </div>
+      </div>
+      <div class="inp-grp">
+        <div class="inp-lbl">T acqua da usare</div>
+        <div class="inp-row">
+          <div class="inp-display" id="showTacqua" style="color:#8BB4E0">13°C</div>
+          <span class="inp-unit">°C</span>
+        </div>
       </div>
     </div>
     <div class="inp-lbl" style="margin-top:12px;margin-bottom:0">Preset rapidi</div>
@@ -254,6 +263,28 @@ body{
   </div>
 </div>
 
+
+<!-- T ACQUA -->
+<div class="sez sez--blue" style="margin-top:10px">
+  <div class="sez-hdr"><span class="sez-hdr-dot"></span>🌡️ T acqua da usare</div>
+  <div class="sez-body">
+    <div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:14px;margin-bottom:10px">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Calcolo automatico · target poolish 20°C</div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div id="tAcquaNum" style="font-family:var(--mono);font-size:56px;font-weight:500;line-height:1;color:#8BB4E0">—</div>
+        <div>
+          <div id="tAcquaMsg" style="font-size:13px;font-weight:700;color:#8BB4E0"></div>
+          <div id="tAcquaFormula" style="font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:4px;line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--cream2);line-height:1.8">
+      Con acqua fredda il poolish parte a <strong style="color:#8BB4E0">20°C</strong> — anche se il lab è a 28°C.<br>
+      Risultato: aromi migliori · più margine prima del picco · più costante.
+    </div>
+  </div>
+</div>
+
 <!-- OUTPUT -->
 <div class="out-wrap" id="outWrap">
 
@@ -263,6 +294,9 @@ body{
     <div class="ldb-num" id="ldbNum">—</div>
     <div class="ldb-pct" id="ldbPct"></div>
   </div>
+
+  <!-- T ACQUA -->
+  <div id="tacquaBox" style="border-radius:var(--r);padding:16px;margin-bottom:10px"></div>
 
   <!-- GRIGLIA DATI -->
   <div class="data-grid" id="dataGrid"></div>
@@ -332,14 +366,25 @@ function calc(){
 
   document.getElementById('showAcqua').textContent = farG+'g';
 
+  // T acqua — formula poolish: T_acqua = T_target*2 - T_farina
+  // T_farina ≈ T_lab - 1°C · Target poolish partenza: 20°C
+  var T_far   = T - 1;
+  var T_acqua = Math.round((20*2 - T_far)*10)/10;
+  var ta_col  = T_acqua<=8?'#BBDEFB':T_acqua<=14?'#A5D6A7':T_acqua<=18?'#F0CC5A':'#FFCDD2';
+  var ta_msg  = T_acqua<=6?'🧊 Ghiacciata':T_acqua<=12?'❄️ Molto fredda':T_acqua<=18?'✅ Fredda':T_acqua<=22?'✅ Ok':'⚠️ Tiepida';
+  var showTA = document.getElementById('showTacqua');
+  if(showTA){ showTA.textContent=T_acqua+'°C'; showTA.style.color=ta_col; }
+
   var muT    = mu22*Math.pow(Q10,(T-22)/10);
   var k      = getK(T);
   var ldbPct = Math.log(2)/(k*muT*h)*100;
   var ldbG   = R(Math.max(0.1, Math.min(farG*0.02, kgF*ldbPct/100*1000)),1);
   var ldbPctEff = R(ldbG/farG*100,3);
 
-  // Velocità relativa 0-100
-  var vel = Math.min(95, Math.max(5, 100-(h*Math.max(1,(22-T))*1.2)));
+  // Velocità relativa — funzione di μ(T) e ore
+  // Più alta T e meno ore = più rapida = barra verso destra
+  var mu20 = mu22*Math.pow(Q10,(20-22)/10);
+  var vel  = Math.min(92, Math.max(8, (muT/mu20)*(17/h)*50));
 
   // Colore dinamico: blu=lento · verde=ottimale · arancio=rapido
   var col, bgCol, borderCol;
@@ -363,6 +408,23 @@ function calc(){
   document.getElementById('ldbNum').textContent = ldbG+'g';
   document.getElementById('ldbPct').textContent = ldbPctEff+'% · su '+farG+'g farina + '+farG+'g acqua';
   document.getElementById('ldbPct').style.color = col;
+
+  // Box T acqua
+  var taBox = document.getElementById('tacquaBox');
+  if(taBox){
+    taBox.style.background = 'rgba(26,58,107,0.2)';
+    taBox.style.border = '1.5px solid rgba(139,180,224,0.35)';
+    taBox.innerHTML =
+      '<div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:10px">🌡️ T acqua da usare · Target poolish 20°C</div>'
+      +'<div style="display:flex;align-items:center;gap:16px">'
+      +'<div style="font-family:var(--mono);font-size:64px;font-weight:500;line-height:1;color:'+ta_col+'">'+T_acqua+'°</div>'
+      +'<div><div style="font-size:14px;font-weight:700;color:'+ta_col+'">'+ta_msg+'</div>'
+      +'<div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:6px;line-height:1.7">'
+      +'T lab '+T+'°C → T farina ~'+T_far+'°C<br>'
+      +'Formula: 20×2 − '+T_far+' = '+T_acqua+'°C<br>'
+      +'<span style="color:var(--cream2)">Mescola acqua frigo + T ambiente</span>'
+      +'</div></div></div>';
+  }
 
   // Griglia
   var slow = T<22 ? '×'+R(mu22/muT,1)+' più lento' : 'velocità standard';
@@ -439,19 +501,25 @@ function condividiWA(){
   var ldbPctEff = R(ldbG/farG*100,3);
 
   var oggi = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+  var T_far_wa = T - 1;
+  var T_acqua_wa = Math.round((20*2 - T_far_wa)*10)/10;
   var txt = '🍕 *Poolish MLS · Matteo La Spada*\n';
   txt += '📅 '+oggi+'\n\n';
   txt += '🧱 *POOLISH*\n';
   txt += '  Farina 0102HP: *'+farG+'g*\n';
   txt += '  Acqua 1:1: *'+farG+'g*\n';
   txt += '  LdB fresco: *'+ldbG+'g* ('+ldbPctEff+'%)\n\n';
+  txt += '🌡️ *T ACQUA DA USARE*\n';
+  txt += '  T laboratorio: *'+T+'°C*\n';
+  txt += '  Acqua: *'+T_acqua_wa+'°C* ← usa questa\n\n';
   txt += '⏱️ *FERMENTAZIONE*\n';
-  txt += '  Temperatura: *'+T+'°C*\n';
-  txt += '  Ore: *'+h+'h*\n\n';
+  txt += '  T laboratorio: *'+T+'°C*\n';
+  txt += '  Ore al picco: *'+h+'h*\n\n';
   txt += '👁️ *PICCO PRONTO QUANDO:*\n';
   txt += '  ✅ Superficie convessa\n';
   txt += '  ✅ Volume +80-100%\n';
   txt += '  ✅ Odore lattico\n\n';
+  txt += '_k=172.8 calibrato MLS · 3g/kg · 28°C · 17h ✅_\n';
   txt += '_Sistema Scientifico MLS · Gruppo Orso · Messina_';
 
   window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
