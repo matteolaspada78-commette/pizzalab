@@ -342,9 +342,13 @@ body{
 <div class="footer">Matteo La Spada · Gruppo Orso · Messina · Sistema Scientifico MLS</div>
 
 <div style="margin:0 14px 20px;display:none" id="btnWAWrap">
-  <button onclick="condividiWA()" style="width:100%;padding:16px;border-radius:14px;background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.35);color:#25D166;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
+  <button onclick="condividiWA()" style="width:100%;padding:16px;border-radius:14px;background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.35);color:#25D166;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
     Invia ricetta poolish su WhatsApp
+  </button>
+  <button onclick="scaricaScheda()" style="width:100%;padding:16px;border-radius:14px;background:rgba(200,151,58,0.1);border:1.5px solid rgba(200,151,58,0.35);color:#EEC84A;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><polyline points="9 15 12 18 15 15"/></svg>
+    Scarica scheda PDF · condividi su WhatsApp
   </button>
 </div>
 
@@ -487,6 +491,84 @@ function syncTemp(){
   document.querySelectorAll('#tGrid .pill').forEach(function(b){
     b.classList.toggle('on-gold', parseFloat(b.getAttribute('data-t'))===t);
   });
+}
+
+function scaricaScheda(){
+  var kgF = parseFloat(document.getElementById('kgFar').value)||1;
+  var h   = parseFloat(document.getElementById('ore').value)||17;
+  var T   = parseFloat(document.getElementById('temp').value)||28;
+  var farG= Math.round(kgF*1000);
+  var muT = mu22*Math.pow(Q10,(T-22)/10);
+  var ldbPct = Math.log(2)/(k*muT*h)*100*0.85;
+  var ldbG = R(Math.max(0.1,Math.min(farG*0.02,kgF*ldbPct/100*1000)),1);
+  var ldbPctEff = R(ldbG/farG*100,3);
+  var Tlab = parseFloat(document.getElementById('tLab')||{value:T}).value||T;
+  var Tfar = parseFloat(document.getElementById('tFar')||{value:T-1}).value||(T-1);
+  var Tacq = R(20*2-Tfar,1);
+  var oggi = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  var html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">'
+    +'<style>'
+    +'*{box-sizing:border-box;margin:0;padding:0}'
+    +'body{font-family:-apple-system,sans-serif;background:#07120D;color:#F5EFE3;padding:24px;max-width:480px;margin:0 auto}'
+    +'h1{font-size:28px;font-weight:900;color:#EEC84A;margin-bottom:4px}'
+    +'h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#6A7060;margin-bottom:24px}'
+    +'.card{background:#0F2318;border:1px solid #1C3828;border-radius:14px;padding:16px;margin-bottom:12px}'
+    +'.card-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8973A;margin-bottom:12px;font-family:monospace}'
+    +'.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(28,56,40,0.5)}'
+    +'.row:last-child{border-bottom:none}'
+    +'.key{font-size:12px;color:#D8CEBC}'
+    +'.val{font-family:monospace;font-size:13px;font-weight:700;color:#F5EFE3}'
+    +'.val-gold{color:#EEC84A}.val-blue{color:#8BB4E0}.val-green{color:#5DBFA0}'
+    +'.big{font-size:52px;font-weight:900;font-family:monospace;color:#EEC84A;text-align:center;padding:16px 0}'
+    +'.firma{text-align:center;font-size:9px;color:#3A4238;letter-spacing:2px;text-transform:uppercase;margin-top:24px}'
+    +'@media print{body{background:#fff;color:#111}.card{background:#f5f5f5;border:1px solid #ddd}'
+    +'.val,.val-gold,.val-blue,.val-green{color:#111!important}h1{color:#333}h2,card-title{color:#666}}'
+    +'</style></head><body>'
+    +'<h1>Poolish MLS</h1>'
+    +'<h2>'+oggi+'</h2>'
+
+    +'<div class="card">'
+    +'<div class="card-title">🦠 Lievito di Birra · Dose Scientifica</div>'
+    +'<div class="big">'+ldbG+'g</div>'
+    +'<div class="row"><span class="key">Percentuale</span><span class="val val-gold">'+ldbPctEff+'%</span></div>'
+    +'<div class="row"><span class="key">Margine sicurezza</span><span class="val">−15% T notturna</span></div>'
+    +'</div>'
+
+    +'<div class="card">'
+    +'<div class="card-title">🧱 Poolish 0102HP W320</div>'
+    +'<div class="row"><span class="key">Farina 0102HP</span><span class="val val-gold">'+farG+'g</span></div>'
+    +'<div class="row"><span class="key">Acqua 1:1</span><span class="val val-blue">'+farG+'g</span></div>'
+    +'<div class="row"><span class="key">LdB fresco</span><span class="val val-gold">'+ldbG+'g</span></div>'
+    +'</div>'
+
+    +'<div class="card">'
+    +'<div class="card-title">🌡️ Temperatura</div>'
+    +'<div class="row"><span class="key">T laboratorio</span><span class="val">'+T+'°C</span></div>'
+    +'<div class="row"><span class="key">T acqua da usare</span><span class="val val-blue">'+Tacq+'°C</span></div>'
+    +'<div class="row"><span class="key">Fermentazione</span><span class="val">'+h+'h a '+T+'°C</span></div>'
+    +'</div>'
+
+    +'<div class="card">'
+    +'<div class="card-title">👁️ Picco pronto quando</div>'
+    +'<div class="row"><span class="key">Superficie</span><span class="val val-green">Convessa · bollicine fitte</span></div>'
+    +'<div class="row"><span class="key">Volume</span><span class="val val-green">+80-100%</span></div>'
+    +'<div class="row"><span class="key">Odore</span><span class="val val-green">Lattico · yogurt</span></div>'
+    +'</div>'
+
+    +'<div class="firma">Matteo La Spada · Gruppo Orso · Messina · Sistema Scientifico MLS<br>'
+    +'k=172.8 calibrato su dato reale · Q10=2.2 · μ₂₂=0.049</div>'
+    +'</body></html>';
+
+  var blob = new Blob([html],{type:'text/html'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'poolish-mls-'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 function condividiWA(){
