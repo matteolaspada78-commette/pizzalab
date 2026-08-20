@@ -377,7 +377,7 @@ function calc(){
 
   var muT    = mu22*Math.pow(Q10,(T-22)/10);
   var k      = getK(T);
-  var ldbPct = Math.log(2)/(k*muT*h)*100;
+  var ldbPct = Math.log(2)/(k*muT*h)*100 * 0.85;  // -15% margine sicurezza T notturna
   var ldbG   = R(Math.max(0.1, Math.min(farG*0.02, kgF*ldbPct/100*1000)),1);
   var ldbPctEff = R(ldbG/farG*100,3);
 
@@ -445,7 +445,7 @@ function calc(){
     sciRow('μ('+T+'°C)',R(muT*10000)/10000+' h⁻¹')+
     sciRow('Velocità vs 22°C',T<22?'×'+R(muT/mu22,3)+' ('+slow+')':'1.0× (standard)')+
     sciRow('η calibrazione','k='+k)+
-    sciRow('LdB % calcolato',ldbPctEff+'%')+
+    sciRow('LdB % calcolato',ldbPctEff+'% (−15% margine T notturna)')+
     sciRow('LdB grammi',ldbG+'g su '+farG+'g farina')+
     sciRow('T fermentazione',T+'°C · '+h+'h');
 }
@@ -496,7 +496,7 @@ function condividiWA(){
   var farG= Math.round(kgF*1000);
   var muT = mu22*Math.pow(Q10,(T-22)/10);
   var k   = getK(T);
-  var ldbPct = Math.log(2)/(k*muT*h)*100;
+  var ldbPct = Math.log(2)/(k*muT*h)*100 * 0.85;  // -15% margine sicurezza
   var ldbG = R(Math.max(0.1, Math.min(farG*0.02, kgF*ldbPct/100*1000)),1);
   var ldbPctEff = R(ldbG/farG*100,3);
 
