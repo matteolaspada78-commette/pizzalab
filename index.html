@@ -2285,6 +2285,133 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-badge">salvato</div>
       <div class="menu-arrow">›</div>
     </div>
+
+    <div class="menu-section-label">💰 Food Cost</div>
+    <div class="menu-btn" onclick="openPage('prezzi')">
+      <div class="menu-icon" style="background:rgba(200,151,58,0.25)">💰</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#EEC84A">Listino Prezzi Farine</div>
+        <div class="menu-sub">Aggiorna i prezzi · tutte le card calcolano il food cost automaticamente</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTINO PREZZI FARINE -->
+<div id="pagePrezzi" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">💰</div>
+    <div class="page-hero-title">Listino Prezzi</div>
+    <div class="page-hero-sub">D'Ago · Giugno 2027 · Aggiorna quando cambiano</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+
+    <div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.3);border-radius:12px;padding:12px;font-size:10px;color:var(--cream2);line-height:1.8">
+      Modifica i prezzi qui sotto — tutte le card del Pizza Lab calcolano il food cost per pallina automaticamente con questi valori.
+    </div>
+
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">🌾</span><div><div class="card-hdr-title">Farine Petra · €/sacco</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:flex;flex-direction:column;gap:10px" id="prezziInputs">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+          <div class="inp-group"><label class="inp-label">LdB fresco €/kg</label>
+            <div class="inp-row"><input class="inp-field" id="prLdb" type="number" value="5.00" step="0.10" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale €/kg</label>
+            <div class="inp-row"><input class="inp-field" id="prSale" type="number" value="0.50" step="0.05" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+          <div class="inp-group"><label class="inp-label">Olio EVO €/lt</label>
+            <div class="inp-row"><input class="inp-field" id="prOlio" type="number" value="10.00" step="0.50" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="resetPrezzi()" style="width:100%;padding:14px;border-radius:12px;background:rgba(212,80,80,0.1);border:1.5px solid rgba(212,80,80,0.3);color:#FFCDD2;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer">
+      ↺ Ripristina prezzi D'Ago Giugno 2027
+    </button>
+
+    <div id="prSavedMsg" style="display:none;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:var(--ok);padding:8px;letter-spacing:2px">✅ SALVATO</div>
+
+    <!-- CALCOLATORE FOOD COST CUSTOM -->
+    <div style="background:rgba(200,151,58,0.06);border:1.5px solid rgba(200,151,58,0.3);border-radius:14px;padding:14px;margin-top:4px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">💰 Calcola Food Cost · Ricetta Personalizzata</div>
+
+      <!-- Farine -->
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px">
+
+        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px">
+          <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Farina 1</div>
+          <select class="inp-field" id="fcT1" onchange="calcFC()" style="font-size:14px;width:100%;margin-bottom:8px">
+            <option value="0102hp">Petraviva 0102HP</option>
+            <option value="5063" selected>Petra 5063 Special</option>
+            <option value="5078">Petra 5078</option>
+            <option value="5046">Petra 5046 Allegra</option>
+            <option value="5037">Petra 5037 Unica</option>
+            <option value="3220">Petra 3220 BonSemi</option>
+            <option value="3400">Petra 3400 Ottimais</option>
+            <option value="3hp">Petra 3 HP</option>
+            <option value="0103hp">Petraviva 0103HP</option>
+          </select>
+          <div class="inp-group"><label class="inp-label">Kg farina 1</label>
+            <div class="inp-row"><input class="inp-field" id="fcK1" type="number" inputmode="decimal" value="8" min="0" max="100" step="0.5" oninput="calcFC()" style="font-size:24px;color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px">
+          <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Farina 2 · opzionale</div>
+          <select class="inp-field" id="fcT2" onchange="calcFC()" style="font-size:14px;width:100%;margin-bottom:8px">
+            <option value="">— nessuna —</option>
+            <option value="0102hp" selected>Petraviva 0102HP</option>
+            <option value="5063">Petra 5063 Special</option>
+            <option value="5078">Petra 5078</option>
+            <option value="5046">Petra 5046 Allegra</option>
+            <option value="5037">Petra 5037 Unica</option>
+            <option value="3220">Petra 3220 BonSemi</option>
+            <option value="3400">Petra 3400 Ottimais</option>
+            <option value="3hp">Petra 3 HP</option>
+            <option value="0103hp">Petraviva 0103HP</option>
+          </select>
+          <div class="inp-group"><label class="inp-label">Kg farina 2</label>
+            <div class="inp-row"><input class="inp-field" id="fcK2" type="number" inputmode="decimal" value="2" min="0" max="100" step="0.5" oninput="calcFC()" style="font-size:24px"><span class="inp-unit">kg</span></div></div>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px">
+          <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Farina 3 · opzionale</div>
+          <select class="inp-field" id="fcT3" onchange="calcFC()" style="font-size:14px;width:100%;margin-bottom:8px">
+            <option value="" selected>— nessuna —</option>
+            <option value="0102hp">Petraviva 0102HP</option>
+            <option value="5063">Petra 5063 Special</option>
+            <option value="5078">Petra 5078</option>
+            <option value="5046">Petra 5046 Allegra</option>
+            <option value="5037">Petra 5037 Unica</option>
+            <option value="3220">Petra 3220 BonSemi</option>
+            <option value="3400">Petra 3400 Ottimais</option>
+            <option value="3hp">Petra 3 HP</option>
+            <option value="0103hp">Petraviva 0103HP</option>
+          </select>
+          <div class="inp-group"><label class="inp-label">Kg farina 3</label>
+            <div class="inp-row"><input class="inp-field" id="fcK3" type="number" inputmode="decimal" value="0" min="0" max="100" step="0.5" oninput="calcFC()" style="font-size:24px"><span class="inp-unit">kg</span></div></div>
+        </div>
+
+      </div>
+
+      <!-- Acqua, Sale, LdB, Olio -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="inp-group"><label class="inp-label">IDR %</label>
+          <div class="inp-row"><input class="inp-field" id="fcIDR" type="number" value="68" min="50" max="85" step="0.5" oninput="calcFC()"><span class="inp-unit">%</span></div></div>
+        <div class="inp-group"><label class="inp-label">Sale %</label>
+          <div class="inp-row"><input class="inp-field" id="fcSale" type="number" value="2.8" min="0" max="5" step="0.1" oninput="calcFC()"><span class="inp-unit">%</span></div></div>
+        <div class="inp-group"><label class="inp-label">LdB %</label>
+          <div class="inp-row"><input class="inp-field" id="fcLdb" type="number" value="0.25" min="0" max="3" step="0.05" oninput="calcFC()"><span class="inp-unit">%</span></div></div>
+        <div class="inp-group"><label class="inp-label">Olio EVO %</label>
+          <div class="inp-row"><input class="inp-field" id="fcOlio" type="number" value="0" min="0" max="10" step="0.5" oninput="calcFC()"><span class="inp-unit">%</span></div></div>
+        <div class="inp-group"><label class="inp-label">Grammatura g</label>
+          <div class="inp-row"><input class="inp-field" id="fcGr" type="number" value="260" min="100" max="1000" step="10" oninput="calcFC()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div id="fcOut"></div>
+    </div>
   </div>
 </div>
 
@@ -4396,6 +4523,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
     </div>
     <div id="snlOut"></div>
+    <a id="waLink_pageSupremaNolic" href="#" target="_blank" rel="noopener" class="btn-share" onclick="return buildWaLink(this,'pageSupremaNolic','Napoletana Suprema Senza Licoli')" style="text-decoration:none;display:block;text-align:center;margin:0 0 8px"><span class="btn-share-icon">📲</span> Invia su WhatsApp</a>
   </div>
 </div>
 
@@ -6395,6 +6523,162 @@ Se biga pronta alle 14:00 → impasta subito + 10g LdB extra</div>
   </div>
 </div>
 <script>
+// FOOD COST - Listino D'Ago Giugno 2027 · modificabile dall'utente
+var FC_DEFAULT = {
+  '0102hp': {nome:'Petraviva 0102HP W320', sacco:25.23, kg:12.5},
+  '5063':   {nome:'Petra 5063 Special',    sacco:20.98, kg:12.5},
+  '5078':   {nome:'Petra 5078',            sacco:27.88, kg:12.5},
+  '5046':   {nome:'Petra 5046 Allegra',    sacco:20.98, kg:12.5},
+  '5037':   {nome:'Petra 5037 Unica',      sacco:21.94, kg:12.5},
+  '3220':   {nome:'Petra 3220 BonSemi',    sacco:56.90, kg:10  },
+  '3400':   {nome:'Petra 3400 Ottimais',   sacco:68.83, kg:10  },
+  '3hp':    {nome:'Petra 3 HP',            sacco:29.69, kg:12.5},
+  '0103hp': {nome:'Petraviva 0103HP',      sacco:44.93, kg:10  },
+};
+var FC_ALT = {ldb:5.00, sale:0.50, olio:10.00};
+
+function loadFC(){
+  try{
+    var s=localStorage.getItem('fc_prezzi');
+    if(s){
+      var p=JSON.parse(s);
+      if(p.alt) Object.assign(FC_ALT, p.alt);
+      if(p.far) Object.keys(p.far).forEach(function(k){ if(FC_DEFAULT[k]) FC_DEFAULT[k].sacco=p.far[k]; });
+    }
+  }catch(e){}
+}
+
+function salvaP(){
+  var far={};
+  Object.keys(FC_DEFAULT).forEach(function(k){
+    var el=document.getElementById('pr_'+k);
+    if(el) far[k]=parseFloat(el.value)||FC_DEFAULT[k].sacco;
+    if(FC_DEFAULT[k] && far[k]) FC_DEFAULT[k].sacco=far[k];
+  });
+  FC_ALT.ldb  = parseFloat((document.getElementById('prLdb')||{value:5}).value)||5;
+  FC_ALT.sale = parseFloat((document.getElementById('prSale')||{value:0.5}).value)||0.5;
+  FC_ALT.olio = parseFloat((document.getElementById('prOlio')||{value:10}).value)||10;
+  try{ localStorage.setItem('fc_prezzi', JSON.stringify({far:far, alt:FC_ALT})); }catch(e){}
+  var msg=document.getElementById('prSavedMsg');
+  if(msg){ msg.style.display='block'; setTimeout(function(){ msg.style.display='none'; }, 1500); }
+}
+
+function resetPrezzi(){
+  try{ localStorage.removeItem('fc_prezzi'); }catch(e){}
+  FC_DEFAULT['0102hp'].sacco=25.23; FC_DEFAULT['5063'].sacco=20.98;
+  FC_DEFAULT['5078'].sacco=27.88;   FC_DEFAULT['5046'].sacco=20.98;
+  FC_DEFAULT['5037'].sacco=21.94;   FC_DEFAULT['3220'].sacco=56.90;
+  FC_DEFAULT['3400'].sacco=68.83;   FC_DEFAULT['3hp'].sacco=29.69;
+  FC_DEFAULT['0103hp'].sacco=44.93;
+  FC_ALT={ldb:5.00, sale:0.50, olio:10.00};
+  initPrezziPage();
+}
+
+function fcG(tipo){ var d=FC_DEFAULT[tipo]; return d ? d.sacco/(d.kg*1000) : 0; }
+
+function fcBox(tot, label){
+  if(!tot||tot<=0) return '';
+  label = label||'Food cost / pallina';
+  var col = tot<0.10?'#A5D6A7':tot<0.20?'#F0CC5A':tot<0.35?'#FFE082':'#FFCDD2';
+  return '<div style="background:rgba(0,0,0,0.25);border:1.5px solid '+col+'40;border-radius:10px;padding:10px;margin-top:8px;display:flex;align-items:center;justify-content:space-between">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">💰 '+label+'</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:'+col+'">€'+tot.toFixed(3)+'</div>'
+    +'</div>';
+}
+
+function calcFC(){
+  updateFCAlias();
+  var g = function(id){ return parseFloat((document.getElementById(id)||{value:0}).value)||0; };
+  var s = function(id){ return (document.getElementById(id)||{value:''}).value||''; };
+
+  var kgF = (g('fcK1')||0) + (g('fcK2')||0) + (g('fcK3')||0);
+  if(kgF<=0){ var o=document.getElementById('fcOut'); if(o) o.innerHTML=''; return; }
+
+  var idr  = g('fcIDR')||68;
+  var salP = g('fcSale')||2.8;
+  var ldbP = g('fcLdb')||0.25;
+  var olP  = g('fcOlio')||0;
+  var gr   = g('fcGr')||260;
+
+  // Costi farine
+  var cf1 = g('fcK1') * 1000 * fcG(s('fcT1'));
+  var cf2 = s('fcT2') ? g('fcK2') * 1000 * fcG(s('fcT2')) : 0;
+  var cf3 = s('fcT3') ? g('fcK3') * 1000 * fcG(s('fcT3')) : 0;
+  var cFar = cf1 + cf2 + cf3;
+
+  // Costi ingredienti
+  var saleG = kgF * 1000 * salP/100;
+  var ldbG  = kgF * 1000 * ldbP/100;
+  var olioG = kgF * 1000 * olP/100;
+  var cSale = saleG * FC.sale;
+  var cLdb  = ldbG  * FC.ldb;
+  var cOlio = olioG * FC.olio;
+
+  var cTot = cFar + cSale + cLdb + cOlio;
+
+  // Palline
+  var acqG  = Math.round(kgF*idr/100*1000);
+  var pesoImp = kgF*1000 + acqG + saleG + olioG;
+  var nPan  = Math.floor(pesoImp/gr);
+  var cPan  = nPan>0 ? cTot/nPan : 0;
+
+  var col = cPan<0.10?'#A5D6A7':cPan<0.20?'#F0CC5A':cPan<0.35?'#FFE082':'#FFCDD2';
+
+  var out = document.getElementById('fcOut');
+  if(!out) return;
+
+  out.innerHTML =
+    // Numero grande
+    '<div style="background:rgba(0,0,0,0.3);border:2px solid '+col+'50;border-radius:14px;padding:16px;text-align:center;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:'+col+'80;margin-bottom:6px">💰 Food cost per pallina da '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:64px;font-weight:500;color:'+col+';line-height:1;letter-spacing:-2px">€'+cPan.toFixed(3)+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">'+nPan+' palline · peso totale '+(pesoImp/1000).toFixed(2)+'kg · costo totale €'+cTot.toFixed(2)+'</div>'
+    +'</div>'
+    // Dettaglio
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;font-family:DM Mono,monospace;font-size:10px;line-height:2.2;color:var(--cream2)">'
+    +(s('fcT1')?('<span style="color:var(--dim)">Farina 1 ('+g('fcK1')+'kg '+s('fcT1')+')</span> €'+cf1.toFixed(3)+'<br>'):'')
+    +(s('fcT2')&&g('fcK2')>0?('<span style="color:var(--dim)">Farina 2 ('+g('fcK2')+'kg '+s('fcT2')+')</span> €'+cf2.toFixed(3)+'<br>'):'')
+    +(s('fcT3')&&g('fcK3')>0?('<span style="color:var(--dim)">Farina 3 ('+g('fcK3')+'kg '+s('fcT3')+')</span> €'+cf3.toFixed(3)+'<br>'):'')
+    +'<span style="color:var(--dim)">Sale ('+saleG.toFixed(0)+'g)</span> €'+cSale.toFixed(3)+'<br>'
+    +'<span style="color:var(--dim)">LdB ('+ldbG.toFixed(1)+'g)</span> €'+cLdb.toFixed(3)+'<br>'
+    +(olP>0?('<span style="color:var(--dim)">Olio EVO ('+olioG.toFixed(0)+'g)</span> €'+cOlio.toFixed(3)+'<br>'):'')
+    +'<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px;color:var(--gold2)">Totale impasto €'+cTot.toFixed(2)+' · '+nPan+' palline · <strong>€'+cPan.toFixed(3)+'/pallina</strong></div>'
+    +'</div>';
+}
+
+function initPrezziPage(){
+  var el=document.getElementById('prezziInputs');
+  if(!el) return;
+  var h='';
+  Object.keys(FC_DEFAULT).forEach(function(k){
+    var d=FC_DEFAULT[k];
+    h+='<div style="display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">'
+      +'<div><div style="font-family:DM Mono,monospace;font-size:10px;color:var(--cream2)">'+d.nome+'</div>'
+      +'<div style="font-size:9px;color:var(--dim)">sacco '+d.kg+'kg</div></div>'
+      +'<div class="inp-row"><input class="inp-field" id="pr_'+k+'" type="number" value="'+d.sacco.toFixed(2)+'" step="0.10" min="0" oninput="salvaP()" style="font-size:18px;color:var(--gold2);text-align:right"><span class="inp-unit">€</span></div>'
+      +'</div>';
+  });
+  el.innerHTML=h;
+  var ldb=document.getElementById('prLdb');
+  var sale=document.getElementById('prSale');
+  var olio=document.getElementById('prOlio');
+  if(ldb) ldb.value=FC_ALT.ldb.toFixed(2);
+  if(sale) sale.value=FC_ALT.sale.toFixed(2);
+  if(olio) olio.value=FC_ALT.olio.toFixed(2);
+}
+
+// Alias FC.far per compatibilità con le card esistenti
+var FC = { far:{}, ldb:0, sale:0, olio:0 };
+function updateFCAlias(){
+  Object.keys(FC_DEFAULT).forEach(function(k){ FC.far[k]=fcG(k); });
+  FC.ldb  = FC_ALT.ldb/1000;
+  FC.sale = FC_ALT.sale/1000;
+  FC.olio = FC_ALT.olio/920;
+}
+
+loadFC(); updateFCAlias();
+
+
 function showSplash(){document.getElementById("splash").style.display="flex";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="none";document.getElementById("wrapPiano").style.display="none";}
 function showCalc(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="block";document.getElementById("wrapManuale").style.display="none";document.getElementById("wrapPiano").style.display="none";goHome();}
 function showPiano(){document.getElementById("splash").style.display="none";document.getElementById("wrapCalc").style.display="none";document.getElementById("wrapManuale").style.display="none";document.getElementById("wrapPiano").style.display="block";}
@@ -6440,7 +6724,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',prezzi:'pagePrezzi',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -6490,8 +6774,10 @@ function openPage(key){
     document.getElementById('hdrSub').textContent=titles[key][1];
   }
   currentPage=key;
+  updateFCAlias();
   calcAll();
   window.scrollTo(0,0);
+  if(key==='prezzi'){ initPrezziPage(); calcFC(); }
   // Mostra memoria rinfresco se siamo su licoli
   if(key==='licoli'){ renderUltimoRinfresco(); renderEsmachPrograms(); }
 }
@@ -7849,6 +8135,19 @@ function calcSuprema(){
       ['③ Sale — a tua discrezione',sale+'g']
     ])}
     ${row('Panetti da '+gr+'g',pan+' panetti','',true)}
+    ${(function(){
+      var fc_b = kgBiga*1000*FC.far['0102hp'];
+      var fc_r = (kg5063*FC.far['5063'])+(kg5078*FC.far['5078'])+(kg0102r*FC.far['0102hp']);
+      var fc_s = sale*FC.sale;
+      var fc_l = licG>0?licG*0:0;
+      var fc_tot = fc_b+fc_r+fc_s+fc_l;
+      var fc_pan = pan>0?fc_tot/pan:0;
+      var col = fc_pan<0.15?'#A5D6A7':fc_pan<0.25?'#F0CC5A':fc_pan<0.35?'#FFE082':'#FFCDD2';
+      return '<div style="background:rgba(0,0,0,0.25);border:1.5px solid '+col+'40;border-radius:10px;padding:10px;margin-top:8px;display:flex;align-items:center;justify-content:space-between">'
+        +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">💰 Food cost / panetto · farina+sale</div>'
+        +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:'+col+'">€'+fc_pan.toFixed(3)+'</div>'
+        +'</div>';
+    })()}
     ${tl([
       [H(ob)+' G1','🧱 BIGA → cella 4°C',R(kgBiga*1000,0)+'g 0102HP + '+acqBiga+'g acqua'],
       [H(or_)+' G2','🌾 AUTOLISI 20min',R(kgRinf*1000,0)+'g farine + '+fase1+'g acqua'],
@@ -10888,6 +11187,14 @@ function calcDirettaMls(){
   var pesoImp= kgF*1000 + acqTot + saleG;
   var nPan   = Math.floor(pesoImp/gr);
 
+  // FOOD COST Diretta MLS
+  var fc_dm_63   = kg63 * FC.far['5063'];
+  var fc_dm_02   = kg02 * FC.far['0102hp'];
+  var fc_dm_sale = saleG * FC.sale;
+  var fc_dm_ldb  = ldbG  * FC.ldb;
+  var fc_dm_tot  = fc_dm_63 + fc_dm_02 + fc_dm_sale + fc_dm_ldb;
+  var fc_dm_pan  = nPan>0 ? fc_dm_tot/nPan : 0;
+
   // T acqua DDT 23°C K=9°C
   var Tacq = Math.round((23*3 - 18 - tAmb - 9)*10)/10;
   var tc   = Tacq<=4?'#BBDEFB':Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
@@ -10906,8 +11213,9 @@ function calcDirettaMls(){
     '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,160,160,0.6);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#F0A0A0;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
     +'</div>'
+    +fcBox(fc_dm_pan,'Food cost / pallina · farina+LdB+sale')
 
     // BLEND
     +'<div class="res-section"><div class="res-label">🌾 Blend W'+W_blend+' · IDR max '+idr_max+'%</div>'
@@ -10978,6 +11286,14 @@ function calcRomanaTonda(){
   var pesoImp= farG + acqG + saleG + olioG;
   var nPan   = Math.floor(pesoImp/gr);
 
+  // FOOD COST Romana Tonda
+  var fc_rt_far  = farG * FC.far['5046'];
+  var fc_rt_sale = saleG * FC.sale;
+  var fc_rt_ldb  = ldbG  * FC.ldb;
+  var fc_rt_olio = olioG * FC.olio;
+  var fc_rt_tot  = fc_rt_far + fc_rt_sale + fc_rt_ldb + fc_rt_olio;
+  var fc_rt_pan  = nPan>0 ? fc_rt_tot/nPan : 0;
+
   // T acqua DDT 22°C · 3 variabili (Suas 2009) · K=7°C planetaria
   var Tacq = Math.round((22*3 - 18 - tAmb - 7)*10)/10;
   var tc   = Tacq<=4?'#BBDEFB':Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
@@ -10987,8 +11303,9 @@ function calcRomanaTonda(){
     '<div style="background:linear-gradient(135deg,rgba(93,191,160,0.12),rgba(45,90,61,0.06));border:2px solid rgba(93,191,160,0.4);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(93,191,160,0.7);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#A5D6A7;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
     +'</div>'
+    +fcBox(fc_rt_pan,'Food cost / pallina · farina+LdB+sale+olio')
 
     +'<div class="res-section"><div class="res-label">🌾 Impasto diretto · 5046 W200</div>'
     +row('Petra 5046 W200',farG+'g','100% — alta estensibilità per 1.5mm')
@@ -11047,12 +11364,21 @@ function calcSnl(){
   var Tacq   = Math.round((23.5*3 - 18 - 22 - 9)*10)/10;
   var tc     = Tacq<=18?'#A5D6A7':Tacq<=24?'#F0CC5A':'#FFCDD2';
 
+  // FOOD COST
+  var fc_snl_biga = kgB*1000 * FC.far['0102hp'];
+  var fc_snl_rinf = kgRinf*1000 * FC.far['5063'];
+  var fc_snl_sale = saleG * FC.sale;
+  var fc_snl_ldb  = ldbBiga * FC.ldb;
+  var fc_snl_tot  = fc_snl_biga + fc_snl_rinf + fc_snl_sale + fc_snl_ldb;
+  var fc_snl_pan  = nPan>0 ? fc_snl_tot/nPan : 0;
+
   out.innerHTML =
     '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,160,160,0.6);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#F0A0A0;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">piacca '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+(kgTot).toFixed(2)+'kg</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+(kgTot).toFixed(2)+'kg</div>'
     +'</div>'
+    +fcBox(fc_snl_pan,'💰 Food cost / pallina · farina+LdB+sale')
     +'<div class="res-section"><div class="res-label">🧱 Biga '+bigP+'% · 0102HP W320</div>'
     +row('Petra 0102HP W320',Math.round(kgB*1000)+'g','biga '+bigP+'%')
     +row('Acqua biga IDR 47%',acqBiga+'g','fredda 4°C · mai 45%')
