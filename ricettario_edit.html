@@ -191,7 +191,16 @@ header{
 }
 .toast.show{opacity:1}
 
-/* ── PRINT CARD (per screenshot WA) ── */
+/* ── FOOD COST ── */
+.food-cost-bar{
+  background:linear-gradient(135deg,rgba(45,106,79,0.08),rgba(45,106,79,0.04));
+  border:1.5px solid rgba(45,106,79,0.25);
+  border-radius:12px;padding:10px 14px;margin:0 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.food-cost-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-family:'DM Mono',monospace;font-weight:600}
+.food-cost-value{font-size:16px;font-weight:700;color:#2D6A4F;font-family:'DM Mono',monospace}
+.food-cost-detail{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-align:right}
 .print-card-wa{
   position:fixed;left:-9999px;top:0;width:420px;
   background:#FFFDF8;color:#1E1208;
@@ -695,6 +704,30 @@ var BASE_RECIPES = [
     ],
     istruzioni:'DOSI BASE: per 1 kg di melanzane. Premi x10 nell\'app per la produzione lab.\nAlternativa capperi: sostituibili con 10g di Colatura di Alici per umami più intenso.\n\n1. IMPOSTAZIONE RATIONAL — Aria Calda Secca\nModalità: Aria Calda (Statico/Secco) — 240°C.\nUmidità: 0% — Valvola di scarico completamente aperta per eliminare tutta l\'umidità.\nTeglie forate Rational.\n\n2. COTTURA E CONCENTRAZIONE\nForare profondamente le melanzane intere con un coltellino. Disporle sulle teglie forate e infornare a 240°C per 35-45 minuti. Devono uscire completamente sgonfie, flaccide, con la buccia bruciata e accartocciata.\nTagliare a metà a caldo e lasciar scolare 10 minuti in colapasta forato — perdono l\'acqua amara rimanente e concentrano il sapore. Estrarre la polpa con un cucchiaio.\n\n3. CUTTER / MIXER\nInserire nel cutter: polpa di melanzana tiepida, pomodori secchi, capperi dissalati (o colatura), aglio, miele, aceto e sale. Frullare alla massima velocità fino a pasta liscia e omogenea.\n\n4. EMULSIONE E CHIUSURA\nCon il cutter in azione, versare l\'olio EVO a filo per far montare e lucidare la crema. Solo negli ultimi 5 secondi aggiungere il basilico fresco e dare pochi impulsi a scatti — evita di scaldarlo e farlo annerire.'
   },
+  { id:148, emoji:'🍄', title:'Cardoncelli Sottovuoto (Combi + CBT)', tag:'Funghi & Sottovuoto',
+    foodCost:{ costoKgMateriaPrima:12.83, resa:0.77, costoCondimento:0.60 },
+    ingredienti:[
+      {nome:'Funghi Cardoncelli surgelati',qty:1000,unit:'g'},
+      {nome:'Olio EVO Messinese Don Pietro',qty:40,unit:'g'},
+      {nome:'Aglio Rosso di Nubia (schiacciato in camicia)',qty:1,unit:'spicchio'},
+      {nome:'Timo fresco',qty:4,unit:'rametti'},
+      {nome:'Sale fino',qty:8,unit:'g'},
+      {nome:'Pepe nero',qty:0,unit:'q.b.'}
+    ],
+    istruzioni:'FASE 1 — SGELAMENTO E ASCIUGATURA IN COMBI\nDisporre i cardoncelli ancora surgelati su teglie GN forate in un solo strato. Forno Combi: 90°C Convezione (secco). Valvola/Clima aperta al 100% — evacuazione umidità. Ventola: Alta. Tempo: 20-25 minuti. Risultato: fungo scongelato e asciutto in superficie, con i succhi colati nella vaschetta sotto.\n\nFASE 2 — ABBATTIMENTO INTERMEDIO (obbligatorio HACCP)\nTrasferire subito le teglie in abbattitore fino a +3°C al cuore. Vietato mettere i funghi caldi o tiepidi nei sacchetti sottovuoto — creerebbero condensa e rovinerebbero la conservazione.\n\nFASE 3 — CONDIMENTO E SOTTOVUOTO\nCondire i funghi freddi con gli ingredienti della ricetta. Confezionare in sacchetti termoresistenti da cottura al 99% di vuoto.\n\nFASE 4 — COTTURA E PASTORIZZAZIONE SOUS-VIDE\nForno Combi: 85°C — 100% Vapore per 20 minuti.\n\nFASE 5 — ABBATTIMENTO FINALE E STOCCAGGIO\nAbbattere subito i sacchetti a +3°C al cuore. Conservare in cella frigo a +2°C/+4°C. Shelf-life: 10-14 giorni (sacchetto sigillato).\n\nUSO IN LINEA SERVIZIO\nAprire il sacchetto durante la mise en place, scolare leggermente dall\'olio e disporre i cardoncelli sulla pizza insieme ai latticini durante la cottura.'
+  },
+  { id:147, emoji:'🥖', title:'Grissini allo Strutto (Petra 5)', tag:'Impasti & Base',
+    ingredienti:[
+      {nome:'Petra 5 Quaglia',qty:800,unit:'g'},
+      {nome:'Semola rimacinata',qty:200,unit:'g'},
+      {nome:'Acqua fredda di frigo',qty:500,unit:'g'},
+      {nome:'Strutto artigianale puro',qty:140,unit:'g'},
+      {nome:'Lievito di birra fresco',qty:12,unit:'g'},
+      {nome:'Estratto di malto',qty:15,unit:'g'},
+      {nome:'Sale fino',qty:22,unit:'g'}
+    ],
+    istruzioni:'IDRATAZIONE: 50% — Temperatura impasto: fredda. Base 1 kg farina.\n\n1. IMPASTO (max 8-10 minuti totali)\nMettere in impastatrice Petra 5, semola, malto, lievito sbriciolato e l\'80% dell\'acqua (400g). Girare in 1ª velocità per 3-4 minuti. Aggiungere il sale e l\'acqua restante (100g) a filo. Inserire lo strutto morbido a tocchetti in 2-3 volte fino ad assorbimento.\nATTENZIONE: Non incordare troppo — la massa deve rimanere estensibile e non elastica.\n\n2. FORMELLA E RIPOSO (45-60 minuti)\nTrasferire l\'impasto sul banco con abbondante semola. Stendere a mano un rettangolo spesso 1,5 cm. Spennellare un velo d\'olio in superficie, coprire con pellicola e far riposare a temperatura ambiente per 45-60 minuti.\n\n3. TAGLIO, STIRO E 2ª LIEVITAZIONE\nRicavare strisce verticali da 1-1,5 cm con il tarocco dritto. Stirare delicatamente a mano verso l\'esterno e adagiare su teglie microforate. Far riposare in teglia 20-30 minuti prima di infornare.\n\nFASE 1 — COTTURA: 190°C per 12-14 minuti. Valvola chiusa i primi 5 minuti, poi aperta al 100% fino a doratura omogenea.\n\nFASE 2 — ASCIUGATURA AL CUORE (fondamentale per il crunch): Abbassare subito a 130°C con valvola aperta al 100% per altri 10-12 minuti. Elimina l\'umidità residua e garantisce il crunch per 3 giorni.\n\nCONSERVAZIONE: Far raffreddare completamente su griglie per 2 ore. Stoccare in contenitori ermetici o sacchetti barriera sigillati.'
+  },
   { id:146, emoji:'🍖', title:'Ragù di Salsiccia (Rational)', tag:'Carni',
     ingredienti:[
       {nome:'Pasta di salsiccia',qty:1000,unit:'g'},
@@ -793,6 +826,12 @@ BASE_RECIPES.forEach(function(r){
 // Fix forzato: se la ricetta 144 ha ancora 10000g nel localStorage, la resetta al valore corretto
 if(editedRecipes[144] && editedRecipes[144].ingredienti && editedRecipes[144].ingredienti[0] && editedRecipes[144].ingredienti[0].qty === 10000){
   editedRecipes[144] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===144;})));
+  saveToStorage();
+}
+// Fix forzato: aggiunge foodCost alla ricetta 148 se manca (localStorage vecchio)
+if(editedRecipes[148] && !editedRecipes[148].foodCost){
+  var base148 = BASE_RECIPES.find(function(r){return r.id===148;});
+  if(base148) editedRecipes[148].foodCost = base148.foodCost;
   saveToStorage();
 }
 // Assicura le custom in editedRecipes
@@ -1045,6 +1084,36 @@ function resetRecipe(id){
   if(wasOpen){ var c=document.getElementById('rc_'+id); if(c) c.classList.add('open'); }
 }
 
+// ── FOOD COST ──
+function renderFoodCost(base, mult){
+  var fc = base.foodCost;
+  var kg = (base.ingredienti[0].qty * mult) / 1000;
+  var costoMP = (fc.costoKgMateriaPrima * kg).toFixed(2);
+  var costoFinito = ((fc.costoKgMateriaPrima / fc.resa) * kg).toFixed(2);
+  var costoTot = ((fc.costoKgMateriaPrima / fc.resa + fc.costoCondimento) * kg).toFixed(2);
+  var kgFinito = (kg * fc.resa).toFixed(2);
+  return '<div class="food-cost-bar" id="fc_'+base.id+'">' +
+    '<div>' +
+      '<div class="food-cost-label">💶 Food Cost</div>' +
+      '<div class="food-cost-value">€ '+costoTot+'</div>' +
+    '</div>' +
+    '<div class="food-cost-detail">' +
+      'MP: €'+costoMP+' ('+kg.toFixed(2)+'kg crudi)<br>' +
+      'Resa '+Math.round(base.foodCost.resa*100)+'%: '+kgFinito+'kg finiti<br>' +
+      'Costo finito: €'+costoFinito+' + cond. €'+(fc.costoCondimento*kg).toFixed(2) +
+    '</div>' +
+  '</div>';
+}
+
+function updateFoodCost(id){
+  var base = getAllRecipes().find(function(r){return r.id==id;});
+  if(!base || !base.foodCost) return;
+  var el = document.getElementById('fc_'+id);
+  if(!el) return;
+  var mult = multipliers[id] || 1;
+  el.outerHTML = renderFoodCost(base, mult);
+}
+
 // ── MOLTIPLICATORE ──
 function changeMult(id, delta){
   var m = (multipliers[id]||1) + delta;
@@ -1053,6 +1122,7 @@ function changeMult(id, delta){
   saveToStorage();
   document.getElementById('mv_'+id).textContent = '×' + m;
   renderIngTable(id);
+  updateFoodCost(id);
 }
 
 // ── SCREENSHOT WHATSAPP ──
@@ -1225,6 +1295,8 @@ function renderList(){
         '<span class="recipe-arrow">▼</span>' +
       '</div>' +
       '<div class="recipe-body">' +
+        // Food Cost (se presente sulla ricetta base)
+        (base.foodCost ? renderFoodCost(base, mult) : '') +
         // Moltiplicatore
         '<div class="mult-bar">' +
           '<span class="mult-label">Moltiplica dosi</span>' +
