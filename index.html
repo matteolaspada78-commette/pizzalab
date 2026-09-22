@@ -2116,6 +2116,16 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-btn" onclick="openPage('scrocchcuppone')">
+      <div class="menu-icon" style="background:rgba(200,100,20,0.3)">🔥</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#FFB74D">Scrocchiarella · Cuppone MLS</div>
+        <div class="menu-sub">5046 · IDR 57% · Cuppone 200°C · Raffreddamento griglia</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(200,100,20,0.15);color:#FFB74D;border-color:rgba(200,100,20,0.4)">nuovo</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-section-label">🍕 Tonda Romana</div>
     <div class="menu-btn" onclick="openPage('tondabiga50')">
       <div class="menu-icon" style="background:rgba(139,32,32,0.35)">🍕</div>
@@ -2412,6 +2422,80 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <!-- OUTPUT -->
       <div id="fcOut"></div>
     </div>
+  </div>
+</div>
+
+<!-- SCROCCHIARELLA CUPPONE MLS -->
+<div id="pageScrocchCuppone" class="scroll" style="display:none">
+  <div class="page-hero">
+    <div class="page-hero-icon">🔥</div>
+    <div class="page-hero-title">Scrocchiarella · Cuppone MLS</div>
+    <div class="page-hero-sub">5046 Allegra · IDR 57% · Cuppone 200°C · Friabilità assoluta</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+    <!-- PARAMETRI -->
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri impasto</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina</label>
+            <div class="inp-row"><input class="inp-field" id="scKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="scIDR" type="number" value="57" min="50" max="65" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="scSale" type="number" value="2.7" min="1.5" max="3.5" step="0.1" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Olio EVO %</label>
+            <div class="inp-row"><input class="inp-field" id="scOlio" type="number" value="2" min="0" max="5" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">LdB %</label>
+            <div class="inp-row"><input class="inp-field" id="scLdb" type="number" value="0.1" min="0.05" max="1" step="0.05" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Grammatura g</label>
+            <div class="inp-row"><input class="inp-field" id="scGr" type="number" value="200" min="100" max="350" step="10" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="scOut"></div>
+
+    <!-- PROTOCOLLO FISSO -->
+    <div style="background:rgba(200,100,20,0.08);border:1.5px solid rgba(200,100,20,0.3);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFB74D;margin-bottom:12px">📋 Protocollo Cuppone MLS</div>
+
+      <div style="font-size:11px;color:var(--cream2);line-height:2.4">
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">ESMACH</span> 07:30 impasto · fine 08:00 · riposo 30min<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">PALLINE</span> 08:30 staglio · cella 4°C<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">STESURA</span> 12:00 · cuppone <strong style="color:#FF8A65">200°C sopra · 185°C sotto</strong><br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ CRITICO</span> Bucherella <strong>subito</strong> dopo cuppone — ogni 2cm<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDD.</span> <strong style="color:#FF8A65">Griglia singola</strong> · mai sovrapporre calde · 8-10min<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">SIGILLO</span> Solo quando fredde al tatto · sacchetti ermetici<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">SHELF LIFE</span> Frigo 4°C · fino a 6 giorni<br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">RIGENERA</span> <strong style="color:#8BB4E0">280°C · 2 minuti</strong> · condisci dopo rigenerazione
+      </div>
+    </div>
+
+    <!-- CARRELLO RAFFREDDAMENTO -->
+    <div style="background:rgba(26,58,107,0.15);border:1px solid rgba(139,180,224,0.25);border-radius:12px;padding:12px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🛒 Soluzione raffreddamento rapido</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2">
+        <strong style="color:var(--cream)">Carrello a griglia verticale</strong> — 20 ripiani a rete ogni 8-10cm<br>
+        → 20 pizze in 40×60cm di spazio<br>
+        → calore sale verticalmente · ogni pizza raffredda in aria libera<br>
+        → tieni il ritmo della macchina senza fermarti<br>
+        <span style="color:var(--dim)">Costo ~€80-120 · qualsiasi fornitore horeca</span>
+      </div>
+    </div>
+
+    <!-- CAUSE DIFETTI -->
+    <div style="background:rgba(212,80,80,0.08);border:1px solid rgba(212,80,80,0.25);border-radius:12px;padding:12px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFCDD2;margin-bottom:10px">⚠️ Difetti e cause</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2.2">
+        <strong style="color:#FFCDD2">Sfogliatura</strong> → T cuppone troppo bassa · sovrapposizione da calde<br>
+        <strong style="color:#FFCDD2">Gonfiore al centro in rigenera</strong> → mancano i fori · vapore intrappolato<br>
+        <strong style="color:#FFCDD2">Bordo morbido</strong> → T cuppone bassa · grammatura alta per il diametro<br>
+        <strong style="color:#FFCDD2">Non croccante dopo 2 giorni</strong> → sigillata ancora tiepida · umidità residua
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -6586,6 +6670,63 @@ function fcBox(tot, label){
     +'</div>';
 }
 
+function calcScrocchCuppone(){
+  var kgF  = parseFloat((document.getElementById('scKgF')||{value:10}).value)||10;
+  var idr  = parseFloat((document.getElementById('scIDR')||{value:57}).value)||57;
+  var salP = parseFloat((document.getElementById('scSale')||{value:2.7}).value)||2.7;
+  var olP  = parseFloat((document.getElementById('scOlio')||{value:2}).value)||2;
+  var ldbP = parseFloat((document.getElementById('scLdb')||{value:0.1}).value)||0.1;
+  var gr   = parseFloat((document.getElementById('scGr')||{value:200}).value)||200;
+  var out  = document.getElementById('scOut');
+  if(!out) return;
+
+  function r5(n){return Math.round(n/5)*5;}
+
+  var acqG  = r5(kgF*idr/100*1000);
+  var saleG = r5(kgF*salP/100*1000);
+  var olioG = r5(kgF*olP/100*1000);
+  var ldbG  = Math.round(kgF*ldbP/100*1000*10)/10;
+  var pesoImp = kgF*1000 + acqG + saleG + olioG;
+  var nPan  = Math.floor(pesoImp/gr);
+
+  // T acqua DDT 22°C · K=9°C
+  var Tacq = Math.round((22*3 - 18 - 22 - 9)*10)/10;
+  var tc   = Tacq<=18?'#A5D6A7':'#F0CC5A';
+
+  // Food cost
+  updateFCAlias();
+  var fc_far  = kgF*1000 * fcG('5046');
+  var fc_sale = saleG * FC.sale;
+  var fc_ldb  = ldbG  * FC.ldb;
+  var fc_olio = olioG * FC.olio;
+  var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio;
+  var fc_pan  = nPan>0 ? fc_tot/nPan : 0;
+
+  out.innerHTML =
+    // PALLINE
+    '<div style="background:linear-gradient(135deg,rgba(200,100,20,0.15),rgba(150,60,0,0.08));border:2px solid rgba(255,183,77,0.4);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,183,77,0.6);margin-bottom:6px">🥐 Scrocchiarelle da '+gr+'g</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#FFB74D;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +'</div>'
+    +fcBox(fc_pan,'Food cost / scrocchiarella · farina+LdB+sale+olio')
+
+    // RICETTA
+    +'<div class="res-section"><div class="res-label">🌾 Impasto · Petra 5046 Allegra W200</div>'
+    +row('Petra 5046 W200',Math.round(kgF*1000)+'g','100% · alta estensibilità')
+    +row('Acqua IDR '+idr+'%',acqG+'g','fredda · base asciutta')
+    +row('Sale '+salP+'%',saleG+'g','')
+    +row('Olio EVO '+olP+'%',olioG+'g','shelf life · non toglierlo')
+    +row('LdB '+ldbP+'%',ldbG+'g','fresco · Lesaffre',true)
+    +'</div>'
+
+    // T ACQUA
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🌡️ T acqua · DDT 22°C · K=9°C</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:48px;font-weight:500;color:'+tc+'">'+Tacq+'°C</div>'
+    +'</div>';
+}
+
 function calcFC(){
   updateFCAlias();
   var g = function(id){ return parseFloat((document.getElementById(id)||{value:0}).value)||0; };
@@ -6724,7 +6865,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',prezzi:'pagePrezzi',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',prezzi:'pagePrezzi',scrocchcuppone:'pageScrocchCuppone',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -12961,6 +13102,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcScrocchCuppone();}catch(e){}
   try{calcPaneOrsoPool();}catch(e){}
   try{calcDirettaMls();}catch(e){}
   try{calcRomanaTonda();}catch(e){}
