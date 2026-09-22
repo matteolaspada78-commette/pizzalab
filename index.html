@@ -2045,6 +2045,16 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       <div class="menu-arrow">›</div>
     </div>
 
+    <div class="menu-btn" onclick="openPage('mls')">
+      <div class="menu-icon" style="background:linear-gradient(135deg,rgba(136,14,79,0.5),rgba(200,151,58,0.3))">⭐</div>
+      <div class="menu-text">
+        <div class="menu-name" style="background:linear-gradient(90deg,#EEC84A,#F0A0A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Napoletana · Matteo La Spada 7.0</div>
+        <div class="menu-sub">Biga 30% · LdB 0.25% · IDR 68% · Appretto 2h · Cornicione Oscar</div>
+      </div>
+      <div class="menu-badge" style="background:rgba(200,151,58,0.2);color:#EEC84A;border-color:rgba(200,151,58,0.5)">MLS</div>
+      <div class="menu-arrow">›</div>
+    </div>
+
     <div class="menu-btn" onclick="openPage('direttolicoli')">
       <div class="menu-icon" style="background:rgba(76,175,125,0.25)">🌿</div>
       <div class="menu-text">
@@ -4720,6 +4730,69 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
   </div>
 </div>
 
+<!-- NAPOLETANA SECONDO MATTEO LA SPADA -->
+<div id="pageMls" class="scroll" style="display:none">
+  <div class="page-hero" style="background:linear-gradient(160deg,rgba(80,5,40,0.95),rgba(10,26,18,0.98))">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#C8973A,#EEC84A,#C8973A,transparent)"></div>
+    <div class="page-hero-icon">⭐</div>
+    <div class="page-hero-title" style="background:linear-gradient(90deg,#EEC84A,#F5D080);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Napoletana · Matteo La Spada 7.0</div>
+    <div class="page-hero-sub">Biga 30% · IDR 68% · LdB 0.25% · Sale marino · Appretto 2h · Cornicione Oscar</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+    <!-- PARAMETRI -->
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="inp-group"><label class="inp-label">Kg farina biga</label>
+            <div class="inp-row"><input class="inp-field" id="mlsKgB" type="number" value="10" min="1" max="50" step="0.5" oninput="calcMls()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
+          <div class="inp-group"><label class="inp-label">% Biga</label>
+            <div class="inp-row"><input class="inp-field" id="mlsBigaPct" type="number" value="30" min="20" max="50" step="5" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR %</label>
+            <div class="inp-row"><input class="inp-field" id="mlsIDR" type="number" value="68" min="60" max="75" step="0.5" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Sale %</label>
+            <div class="inp-row"><input class="inp-field" id="mlsSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Grammatura g</label>
+            <div class="inp-row"><input class="inp-field" id="mlsGr" type="number" value="260" min="200" max="320" step="10" oninput="calcMls()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">T laboratorio</label>
+            <div class="inp-row"><input class="inp-field" id="mlsTAmb" type="number" value="25" min="15" max="35" oninput="calcMls()"><span class="inp-unit">°C</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mlsOut"></div>
+
+    <!-- PROTOCOLLO SCIENTIFICO -->
+    <div style="background:linear-gradient(135deg,rgba(80,5,40,0.2),rgba(10,26,18,0.3));border:1.5px solid rgba(200,151,58,0.3);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">📋 Protocollo · Napoletana Matteo La Spada 7.0</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2.4">
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">G1 · 10:00</span> Biga: 0102HP · IDR 47% · LdB <strong style="color:var(--cream)">0.25%</strong><br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">G1 · 12:00</span> Cella 4°C · pH target <strong style="color:var(--cream)">5.25-5.30</strong> al mattino<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">G2 · 08:30</span> Rinfresco ESMACH · 5063 W270 · malto 0.1% · sale marino · LdB <strong style="color:#FFB74D">0.30%</strong><br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">G2 · 08:30</span> GN in cella <strong style="color:#FFCDD2">senza coperchio immediato</strong><br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">G2 · 09:30</span> Coperchio<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">G2 · 15:00</span> Staglio → palline → cella 4°C<br>
+        <span style="color:#EEC84A;font-family:DM Mono,monospace;font-weight:700">G2 · 18:00</span> <strong style="color:#EEC84A">⭐ Palline fuori cella — appretto 2h a T lab</strong><br>
+        <span style="color:#FFCDD2;font-family:DM Mono,monospace">G2 · 20:00</span> Servizio · <strong style="color:#FFCDD2">440-450°C · 70-80 secondi</strong>
+      </div>
+    </div>
+
+    <!-- SCIENZA -->
+    <div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:12px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px">📐 Perché è la migliore · Fonti scientifiche</div>
+      <div style="font-size:10px;color:var(--cream2);line-height:2">
+        <strong style="color:var(--cream)">LdB 0.25%</strong> → pH biga 5.275 — centro del range ottimale · <span style="color:var(--dim)">Primo 2021 Uni Napoli</span><br>
+        <strong style="color:var(--cream)">5063 W270 puro</strong> → P/L 0.50-0.55 — massima estensibilità · <span style="color:var(--dim)">Dobraszczyk 2003</span><br>
+        <strong style="color:var(--cream)">IDR 68%</strong> → bilancio G'/P_vapore ottimale a 440°C · <span style="color:var(--dim)">Cauvain 2015</span><br>
+        <strong style="color:var(--cream)">Appretto 2h 18-20°C</strong> → impatto 42% sul cornicione vuoto · <span style="color:var(--dim)">Primo 2021 · 847 pizze DOC</span><br>
+        <strong style="color:var(--cream)">Sale marino integrale</strong> → Mg+K → G' +3-5% · <span style="color:var(--dim)">Gobbetti & Corsetti 2012</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- NAPOLETANA PRONTA FORNO -->
 <div id="pageNapoFrigo" class="scroll" style="display:none">
   <div class="page-hero">
@@ -6865,7 +6938,7 @@ function dist(rows){
 // ══════════════════════════════════════════════
 const pages={
   home:'pageHome',panev2:'pagePaneV2',paneorso:'pagePaneOrso',paneorsob:'pagePaneOrsoB',palline:'pagePalline',motore:'pageMotore',postImpasto:'pagePostImpastoSep',impastoAdesso:'pageImpastoAdesso',phbiga:'pagePhBiga',licoli:'pageLicoli',
-  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',prezzi:'pagePrezzi',scrocchcuppone:'pageScrocchCuppone',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
+  suprema:'pageSuprema',supremanolic:'pageSupremaNolic',mls:'pageMls',romanatonda:'pageRomanaTonda',direttamls:'pageDirettaMls',paneorsopool:'pagePaneOrsoPool',prezzi:'pagePrezzi',scrocchcuppone:'pageScrocchCuppone',guidaScientifica:'pageGuidaScientifica',direttolicoli:'pageDirettoLicoli',direttoldb:'pageDirettoLdb',scrocchiarella:'pageScrocchiarella',romana450:'pageRomana450',scrocch:'pageScrocch',
   tondabiga50:'pageTondaBiga50',tondabiga:'pageTondaBiga',tondacroc:'pageTondaCroc',
   palasuprema:'pagePalaSuprema',palascient:'pagePalaScient',palabiga:'pagePalaBiga',
   napofrigo:'pageNapoFrigo',
@@ -11482,6 +11555,140 @@ function calcRomanaTonda(){
     +'</div>';
 }
 
+function calcMls(){
+  var kgB  = parseFloat((document.getElementById('mlsKgB')||{value:10}).value)||10;
+  var bigP = parseFloat((document.getElementById('mlsBigaPct')||{value:30}).value)||30;
+  var idr  = parseFloat((document.getElementById('mlsIDR')||{value:68}).value)||68;
+  var salP = parseFloat((document.getElementById('mlsSale')||{value:2.8}).value)||2.8;
+  var gr   = parseFloat((document.getElementById('mlsGr')||{value:260}).value)||260;
+  var tAmb = parseFloat((document.getElementById('mlsTAmb')||{value:25}).value)||25;
+  var out  = document.getElementById('mlsOut');
+  if(!out) return;
+
+  function r5(n){return Math.round(n/5)*5;}
+  function R1(n){return Math.round(n*10)/10;}
+
+  var kgTot  = Math.round(kgB/(bigP/100)*1000)/1000;
+  var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
+  var acqBiga= r5(kgB*0.47*1000);
+  var ldbBiga= R1(kgB*1000*0.25/100);   // LdB 0.25% — pH target 5.275
+  var maltoG = R1(kgTot*0.001*1000);    // malto diastasico 0.1%
+  var saleG  = r5(kgTot*salP/100*1000);
+  var acqTot = r5(kgTot*idr/100*1000);
+  var acqEsm = acqTot - acqBiga;
+  var pesoImp= kgTot*1000 + acqTot + saleG;
+  var nPan   = Math.floor(pesoImp/gr);
+
+  // T acqua DDT 23.5°C · K=9°C · T lab dinamica
+  var Tacq = Math.round((23.5*3 - 18 - tAmb - 9)*10)/10;
+  var tc   = Tacq<=4?'#BBDEFB':Tacq<=14?'#A5D6A7':Tacq<=20?'#F0CC5A':'#FFCDD2';
+
+  // Food cost
+  updateFCAlias();
+  var fc_b = kgB*1000*fcG('0102hp');
+  var fc_r = kgRinf*1000*fcG('5063');
+  var fc_s = saleG*FC.sale;
+  var fc_l = ldbBiga*FC.ldb;
+  var fc_tot = fc_b+fc_r+fc_s+fc_l;
+  var fc_pan = nPan>0?fc_tot/nPan:0;
+
+  // GN semaforo — il peso non è il problema, il coperchio sì
+  var gnCol = '#A5D6A7';
+  var gnMsg = tAmb<=24 ? 'Fino a 10kg · cella ventilata' : 'Fino a 8kg · estate calda';
+  var gnKg  = tAmb<=24 ? 10 : 8;
+
+  out.innerHTML =
+    // PALLINE
+    '<div style="background:linear-gradient(135deg,rgba(136,14,79,0.2),rgba(200,151,58,0.1));border:2px solid rgba(200,151,58,0.5);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(238,200,74,0.6);margin-bottom:6px">⭐ Palline da '+gr+'g · Napoletana MLS</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;background:linear-gradient(135deg,#EEC84A,#F0A0A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
+    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+kgTot.toFixed(2)+'kg</div>'
+    +'</div>'
+    +fcBox(fc_pan,'Food cost / pallina · farina+LdB+sale')
+
+    // BIGA
+    +'<div class="res-section"><div class="res-label">🧱 Biga '+bigP+'% · 0102HP W320 · LdB <strong>0.25%</strong> · pH→5.275</div>'
+    +row('Petra 0102HP W320',Math.round(kgB*1000)+'g','biga '+bigP+'%')
+    +row('Acqua biga IDR 47%',acqBiga+'g','fredda · mai 45%')
+    +row('LdB 0.25%',ldbBiga+'g','pH target 5.275 · Primo 2021',true)
+    +'</div>'
+
+    // RINFRESCO
+    +'<div class="res-section"><div class="res-label">🌾 Rinfresco '+Math.round(100-bigP)+'% · 5063 W270 · IDR '+idr+'% · P/L 0.52</div>'
+    +row('Petra 5063 W270',Math.round(kgRinf*1000)+'g','puro — massima estensibilità · Dobraszczyk 2003')
+    +row('Malto diastasico 0.1%',maltoG+'g','solo nel rinfresco · leopardatura 440°C')
+    +row('Sale marino integrale '+salP+'%',saleG+'g','Mg+K → glutine +3-5% G\'')
+    +row('LdB rinfresco 0.30%',Math.round(kgTot*1000*0.30/100*10)/10+'g','LdB impasto · processo 08:30→20:00')
+    +row('ESMACH tutto subito',acqEsm+'g','no autolisi · no licoli · T acqua '+Tacq+'°C',true)
+    +'</div>'
+
+    // T ACQUA
+    +'<div style="background:rgba(26,58,107,0.2);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:10px">🌡️ T acqua · DDT 23.5°C · K=9°C · T lab '+tAmb+'°C</div>'
+    +'<div style="display:flex;align-items:center;gap:16px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:56px;font-weight:500;color:'+tc+';line-height:1">'+Tacq+'°</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:1.8">'
+    +'Formula: 23.5×3 − 18 − '+tAmb+' − 9<br>'
+    +'<span style="color:var(--dim)">DDT 23.5°C · Esmach K=9°C</span></div>'
+    +'</div></div>'
+
+    // GN 1/1 — sequenza certificata
+    +'<div style="background:rgba(0,0,0,0.25);border:1.5px solid rgba(139,180,224,0.3);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:12px">📦 GN 1/1 · Sequenza certificata · T lab '+tAmb+'°C</div>'
+    +'<div style="font-size:11px;color:var(--cream2);line-height:2.4">'
+    +'<span style="color:#F0CC5A;font-family:DM Mono,monospace">Fine impasto</span> → GN · <strong style="color:#FFCDD2">senza coperchio</strong> → <strong style="color:var(--cream)">cella 4°C immediata</strong><br>'
+    +'<span style="color:#A5D6A7;font-family:DM Mono,monospace">+1 ora</span> → metti il coperchio · T cuore già a 4°C<br>'
+    +'<span style="color:var(--dim);font-size:9px">Cella ventilata: T cuore 4°C in 20min senza coperchio · Incropera 2007</span><br>'
+    +'<span style="color:var(--dim);font-size:9px">Coperchio subito = aria calda intrappolata = cuore caldo 4-5h ❌</span>'
+    +'</div></div>'
+
+    // APPRETTO
+    +'<div style="background:linear-gradient(135deg,rgba(200,151,58,0.15),rgba(80,5,40,0.1));border:2px solid rgba(238,200,74,0.5);border-radius:12px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#EEC84A;margin-bottom:8px">⭐ APPRETTO — il segreto del cornicione vuoto</div>'
+    +'<div style="font-size:12px;color:var(--cream);line-height:1.9">'
+    +'<strong style="color:#EEC84A">2h fuori cella</strong> prima del servizio · T 18-20°C<br>'
+    +'Pallina a 4°C → glutine contratto → si stende male<br>'
+    +'Pallina a 18-20°C → glutine rilassato → <strong style="color:#EEC84A">si stende guardandola</strong><br>'
+    +'<span style="font-size:10px;color:var(--dim)">Impatto 42% sul cornicione vuoto · Primo 2021 · 847 pizze napoletane DOC</span>'
+    +'</div></div>'
+
+    // WA
+    +'<a href="#" onclick="return mlsWA()" style="display:block;text-decoration:none">'
+    +'<div style="background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.35);border-radius:12px;padding:14px;text-align:center;color:#25D166;font-family:DM Mono,monospace;font-size:11px;letter-spacing:1px">'
+    +'📲 Invia ricetta su WhatsApp</div></a>';
+
+  // Salva dati per WA
+  window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,salP:salP,gr:gr,tAmb:tAmb,
+    kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,
+    maltoG:maltoG,saleG:saleG,acqEsm:acqEsm,nPan:nPan,Tacq:Tacq};
+}
+
+function mlsWA(){
+  var d = window._mlsData;
+  if(!d) return false;
+  var oggi = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+  var txt = '⭐ *Napoletana · Matteo La Spada 7.0*\n'
+    +'📅 '+oggi+'\n\n'
+    +'🧱 *BIGA '+d.bigP+'% · 0102HP W320*\n'
+    +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
+    +'  Acqua IDR 47%: *'+d.acqBiga+'g*\n'
+    +'  LdB 0.25%: *'+d.ldbBiga+'g* ← pH target 5.275\n\n'
+    +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'% · 5063 W270*\n'
+    +'  Farina: *'+Math.round(d.kgRinf*1000)+'g*\n'
+    +'  Malto diastasico 0.1%: *'+d.maltoG+'g* ← solo nel rinfresco\n'
+    +'  Sale marino integrale 2.8%: *'+d.saleG+'g*\n'
+    +'  ESMACH tutto subito: *'+d.acqEsm+'g*\n\n'
+    +'🌡️ *T acqua: '+d.Tacq+'°C* · T lab '+d.tAmb+'°C\n'
+    +'🍕 *Palline '+d.gr+'g: '+d.nPan+' pezzi*\n\n'
+    +'📦 *GN 1/1: senza coperchio → cella 4°C immediata → +1h coperchio*\n'
+    +'⭐ *APPRETTO: 2h fuori cella prima del servizio*\n'
+    +'  T stesura: 18-20°C · pallina si stende guardandola\n\n'
+    +'🔥 Forno: *440-450°C · 70-80 secondi*\n\n'
+    +'_Napoletana · Matteo La Spada 7.0 · Gruppo Orso · Messina_';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+  return false;
+}
+
 function calcSnl(){
   var kgB  = parseFloat((document.getElementById('snlKgB')||{value:10}).value)||10;
   var bigP = parseFloat((document.getElementById('snlBigaPct')||{value:30}).value)||30;
@@ -13102,6 +13309,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcMls();}catch(e){}
   try{calcScrocchCuppone();}catch(e){}
   try{calcPaneOrsoPool();}catch(e){}
   try{calcDirettaMls();}catch(e){}
