@@ -201,6 +201,27 @@ header{
 .food-cost-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-family:'DM Mono',monospace;font-weight:600}
 .food-cost-value{font-size:16px;font-weight:700;color:#2D6A4F;font-family:'DM Mono',monospace}
 .food-cost-detail{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-align:right}
+
+/* ── CALCOLATORE PORZIONE ── */
+.porzione-bar{
+  background:rgba(139,74,28,0.04);
+  border:1.5px solid rgba(139,74,28,0.15);
+  border-radius:12px;padding:12px 14px;margin:0 16px 12px;
+}
+.porzione-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-family:'DM Mono',monospace;font-weight:600;margin-bottom:10px}
+.porzione-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.porzione-input{
+  width:80px;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:9px 12px;font-size:15px;font-weight:700;
+  font-family:'DM Mono',monospace;color:var(--accent);text-align:center;outline:none;
+}
+.porzione-input:focus{border-color:var(--accent2)}
+.porzione-unit{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.porzione-result{
+  margin-left:auto;font-size:18px;font-weight:700;
+  color:#2D6A4F;font-family:'DM Mono',monospace;
+}
+.porzione-result-sub{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-align:right;margin-top:4px}
 .print-card-wa{
   position:fixed;left:-9999px;top:0;width:420px;
   background:#FFFDF8;color:#1E1208;
@@ -705,7 +726,7 @@ var BASE_RECIPES = [
     istruzioni:'DOSI BASE: per 1 kg di melanzane. Premi x10 nell\'app per la produzione lab.\nAlternativa capperi: sostituibili con 10g di Colatura di Alici per umami più intenso.\n\n1. IMPOSTAZIONE RATIONAL — Aria Calda Secca\nModalità: Aria Calda (Statico/Secco) — 240°C.\nUmidità: 0% — Valvola di scarico completamente aperta per eliminare tutta l\'umidità.\nTeglie forate Rational.\n\n2. COTTURA E CONCENTRAZIONE\nForare profondamente le melanzane intere con un coltellino. Disporle sulle teglie forate e infornare a 240°C per 35-45 minuti. Devono uscire completamente sgonfie, flaccide, con la buccia bruciata e accartocciata.\nTagliare a metà a caldo e lasciar scolare 10 minuti in colapasta forato — perdono l\'acqua amara rimanente e concentrano il sapore. Estrarre la polpa con un cucchiaio.\n\n3. CUTTER / MIXER\nInserire nel cutter: polpa di melanzana tiepida, pomodori secchi, capperi dissalati (o colatura), aglio, miele, aceto e sale. Frullare alla massima velocità fino a pasta liscia e omogenea.\n\n4. EMULSIONE E CHIUSURA\nCon il cutter in azione, versare l\'olio EVO a filo per far montare e lucidare la crema. Solo negli ultimi 5 secondi aggiungere il basilico fresco e dare pochi impulsi a scatti — evita di scaldarlo e farlo annerire.'
   },
   { id:148, emoji:'🍄', title:'Cardoncelli Sottovuoto (Combi + CBT)', tag:'Funghi & Sottovuoto',
-    foodCost:{ costoKgMateriaPrima:12.83, resa:0.77, costoCondimento:0.60 },
+    foodCost:{ costoKgMateriaPrima:12.83, resa:0.77, costoCondimento:0.60, porzioneDefault:80 },
     ingredienti:[
       {nome:'Funghi Cardoncelli surgelati',qty:1000,unit:'g'},
       {nome:'Olio EVO Messinese Don Pietro',qty:40,unit:'g'},
@@ -715,6 +736,56 @@ var BASE_RECIPES = [
       {nome:'Pepe nero',qty:0,unit:'q.b.'}
     ],
     istruzioni:'FASE 1 — SGELAMENTO E ASCIUGATURA IN COMBI\nDisporre i cardoncelli ancora surgelati su teglie GN forate in un solo strato. Forno Combi: 90°C Convezione (secco). Valvola/Clima aperta al 100% — evacuazione umidità. Ventola: Alta. Tempo: 20-25 minuti. Risultato: fungo scongelato e asciutto in superficie, con i succhi colati nella vaschetta sotto.\n\nFASE 2 — ABBATTIMENTO INTERMEDIO (obbligatorio HACCP)\nTrasferire subito le teglie in abbattitore fino a +3°C al cuore. Vietato mettere i funghi caldi o tiepidi nei sacchetti sottovuoto — creerebbero condensa e rovinerebbero la conservazione.\n\nFASE 3 — CONDIMENTO E SOTTOVUOTO\nCondire i funghi freddi con gli ingredienti della ricetta. Confezionare in sacchetti termoresistenti da cottura al 99% di vuoto.\n\nFASE 4 — COTTURA E PASTORIZZAZIONE SOUS-VIDE\nForno Combi: 85°C — 100% Vapore per 20 minuti.\n\nFASE 5 — ABBATTIMENTO FINALE E STOCCAGGIO\nAbbattere subito i sacchetti a +3°C al cuore. Conservare in cella frigo a +2°C/+4°C. Shelf-life: 10-14 giorni (sacchetto sigillato).\n\nUSO IN LINEA SERVIZIO\nAprire il sacchetto durante la mise en place, scolare leggermente dall\'olio e disporre i cardoncelli sulla pizza insieme ai latticini durante la cottura.'
+  },
+  { id:153, emoji:'🍅', title:'Pelato Supremo Gran Gusto (Latta 2,5 kg)', tag:'Salse Pomodoro',
+    ingredienti:[
+      {nome:'Pelato Supremo Gran Gusto (latta intera)',qty:2500,unit:'g'},
+      {nome:'Sale fino',qty:20,unit:'g'},
+      {nome:'Zucchero',qty:7.5,unit:'g'}
+    ],
+    istruzioni:'CALO PESO REALE: 2.500g → 2.196g dopo concentrazione al Rational (calo ~304g, ~12%). Resa effettiva per latta: 2.196g di pomodoro concentrato.\nPROCEDIMENTO PER 1 LATTA INTERA DA 2,5 kg — Zero sprechi.\n\nFASE 1 — PREPARAZIONE E CONDIMENTO\n1. Aprire la latta e versare tutto il contenuto (pelati + succo) in teglia GN 1/1 altezza 65mm.\n2. Schiacciare i pelati A MANO lasciandoli in pezzi rustici e grossolani — NO minipimer, NO passaverdure.\n3. Aggiungere sale e zucchero. Mescolare delicatamente a mano e stendere in modo omogeneo su tutta la teglia.\n\nFASE 2 — CONCENTRAZIONE TERMICA AL RATIONAL\n1. Preriscaldare il Rational.\n2. Modalità Combinato — 145°C — Umidità 60% — Tempo 20-25 minuti.\nControllare a 20 minuti: il pomodoro deve risultare ben legato, denso e rosso vivo.\n3. Sfornare e passare IMMEDIATAMENTE in abbattitore a +3°C al cuore.\n\nFASE 3 — IMBUSTAMENTO E PASTORIZZAZIONE\n1. Quando il pomodoro è completamente freddo (+3°C), imbustare in sacchetti da cottura (1 kg o 2 kg per busta).\n2. Sigillare al 99% di vuoto.\n3. Disporre le buste piatte sulle griglie del Rational.\n4. Modalità Vapore 100% — 85°C — 25 minuti.\n5. Passare SUBITO in abbattitore a +3°C.\n6. Stoccare in cella frigo a +2°C/+4°C.'
+  },
+  { id:154, emoji:'🌭', title:'Pasta di Salsiccia Tiburzi al Finocchio (CBT)', tag:'Carni',
+    foodCost:{ costoKgMateriaPrima:7.21, resa:0.85, costoCondimento:0.10, porzioneDefault:80 },
+    ingredienti:[
+      {nome:'Pasta di salsiccia Tiburzi',qty:1000,unit:'g'},
+      {nome:'Semi di finocchio (metà pestati al mortaio)',qty:4,unit:'g'}
+    ],
+    istruzioni:'NOTA: Non aggiungere sale, olio o formaggio — la carne è già salata e speziata al punto giusto.\n\nFASE 1 — CONDIMENTO E AMALGAMA\n1. Versare la pasta di salsiccia in una boule pulita.\n2. Aggiungere i semi di finocchio (pestare leggermente metà dei semi al mortaio prima di aggiungerli).\n3. Impastare e sgranare a mano per 1 minuto per distribuire omogeneamente il finocchietto.\n\nFASE 2 — IMBUSTAMENTO E SOTTOVUOTO\n1. Trasferire la carne condita nelle buste da cottura.\n2. Stendere la salsiccia in modo piatto all\'interno del sacchetto — spessore uniforme 2-3 cm.\n3. Sigillare al 99% di vuoto.\n\nFASE 3 — COTTURA DOLCE AL RATIONAL\n1. Preriscaldare il Rational in modalità Vapore.\n2. Disporre le buste piatte sulle griglie.\n3. Modalità Vapore 100% — 72°C — 45 minuti.\n\nFASE 4 — ABBATTIMENTO E STOCCAGGIO\nAppena sfornate, passare IMMEDIATAMENTE le buste in abbattitore fino a +3°C al cuore. Riporre in cella frigo a +2°C/+4°C.'
+  },
+  { id:155, emoji:'🍄', title:'Cardoncelli per Linea Pizza (Rational)', tag:'Funghi & Sottovuoto',
+    foodCost:{ costoKgMateriaPrima:12.83, resa:0.50, costoCondimento:0.60, porzioneDefault:80 },
+    ingredienti:[
+      {nome:'Funghi Cardoncelli surgelati',qty:1000,unit:'g'},
+      {nome:'Olio EVO',qty:30,unit:'g'},
+      {nome:'Sale fino',qty:8,unit:'g'},
+      {nome:'Aglio in camicia (schiacciato)',qty:1,unit:'spicchio'},
+      {nome:'Timo fresco',qty:3,unit:'rametti'}
+    ],
+    istruzioni:'CALO PESO REALE: 1kg surgelato → 500g dopo precottura Rational (calo 50%). Resa effettiva: 500g di fungo pulito e asciutto per kg acquistato.\n\nFASE 1 — PRECOTTURA DA CONGELATO (Disidratazione)\n1. Preriscaldare il Rational: Calore Secco a 230°C.\n2. Setup forno: inserire una teglia GN piena nell\'ultimo scalino in basso — raccoglierà l\'acqua di scongelamento.\n3. Stendere i funghi congelati sulle griglie a rete in strato unico — completamente al naturale, SENZA olio e SENZA sale.\n4. Modalità Aria Calda (Calore Secco) — 210°C — Umidità 0% (valvola vapore completamente aperta) — Tempo 10-12 minuti.\n5. Sfornare e passare subito le griglie in abbattitore fino a +3°C al cuore.\n\nFASE 2 — CONDIRE E IMBUSTARE (su 1kg funghi freddi = partendo da 2kg surgelati)\n1. Inserire nei sacchetti: funghi precotti e freddi, olio EVO, sale, aglio in camicia schiacciato e timo.\n2. Massaggiare leggermente la busta dall\'esterno per distribuire l\'olio.\n3. Sigillare al 99% di vuoto.\n\nFASE 3 — PASTORIZZAZIONE E STOCCAGGIO\n1. Disporre le buste sulle griglie del Rational.\n2. Modalità Vapore 100% — 85°C — 25 minuti.\n3. Appena finito il ciclo, passare IMMEDIATAMENTE in abbattitore fino a +3°C.\n4. Stoccare in cella frigo a +2°C/+4°C.'
+  },
+  { id:152, emoji:'🐻', title:'Salsa Orso', tag:'Creme & Salse',
+    ingredienti:[
+      {nome:'Ketchup Heinz',qty:250,unit:'g'},
+      {nome:'Zucchero di canna grezzo',qty:100,unit:'g'},
+      {nome:'Miele millefiori',qty:100,unit:'g'},
+      {nome:'Aceto di mele',qty:50,unit:'g'},
+      {nome:'Succo di limone',qty:50,unit:'g'},
+      {nome:'Worcestershire sauce',qty:50,unit:'g'}
+    ],
+    istruzioni:'1. In un tegame versare il ketchup, il succo di limone, l\'aceto, la Worcestershire sauce e lo zucchero. Emulsionare bene.\n2. Mettere in cottura a fuoco moderato e lasciare sobbollire per 15 minuti.\n3. Aggiungere il miele e lasciare sobbollire a fuoco moderato per altri 10 minuti. La salsa inizierà ad addensarsi e diventare più viscosa.\n4. Togliere dal fuoco e lasciare raffreddare bene prima di utilizzare.'
+  },
+  { id:151, emoji:'🥖', title:'Grissini Bonsemì 24h Frigo', tag:'Impasti & Base',
+    ingredienti:[
+      {nome:'Petra 3 HP',qty:820,unit:'g'},
+      {nome:'Farina Bonsemì',qty:180,unit:'g'},
+      {nome:'Acqua',qty:520,unit:'g'},
+      {nome:'Olio EVO Don Pietro',qty:180,unit:'g'},
+      {nome:'Lievito di birra fresco',qty:1.5,unit:'g'},
+      {nome:'Sale fino',qty:22,unit:'g'},
+      {nome:'Miele o Malto',qty:10,unit:'g'}
+    ],
+    istruzioni:'IDRATAZIONE: 52% — Base 1kg farina. Usa il moltiplicatore x3 per la produzione lab. Fermentazione 24h in frigo. Target temperatura massa: 20-22°C.\nPeso target bastoncino crudo: 23g. Lunghezza: 40cm x 1cm diametro. Shelf-life: 30-45 giorni.\n\nOGGI h 14:00 — IMPASTO\n1. Montare Petra 3 HP + Bonsemì in impastatrice.\n2. Aggiungere acqua gradualmente.\n3. Impastare 5-6 minuti (prima veloce, poi lento).\n4. Aggiungere lievito sciolto in poca acqua. Mescolare 2 minuti.\n5. Aggiungere sale + miele/malto. Finale 2 minuti fino a coesione totale.\n6. Misurare subito la temperatura della massa con termometro — TARGET: 20-22°C.\n\nh 14:30 — MASSA IN FRIGO\nTrasferire in vasca grande, coprire con telo bagnato. Frigo +4°C per 24 ore esatte. Niente puntata intermedia, niente teglie.\n\nDOMANI h 09:00 — ESTRAZIONE\nTogliere dal frigo. Rilasso sul banco 20-30 minuti (il glutine si rilassa).\n\nh 09:30 — FORMATURA\nStendere la massa su banco. Tagliare in bastoncini, stirare a mano: 40cm lunghezza x 1cm diametro. Pesare uno di verifica — TARGET 23g crudo. Disporre su carta forno con spaziatura 2-3cm.\n\nh 10:30 — COTTURA RATIONAL (Aria Calda Secca)\n\nFASE 1 — SVILUPPO E DORATURA\nTemperatura: 190°C — Umidità: 0% — Ventola: velocità 3 — Tempo: 12-14 minuti.\nObiettivo: doratura nocciola uniforme.\n\nFASE 2 — ASCIUGATURA FINALE\nTemperatura: 130°C — Umidità: 0% — Ventola: velocità 2 — Tempo: 6-8 minuti.\nNon aprire lo sportello. Obiettivo: eliminare umidità interna residua.\n\nPOST-COTTURA\nRaffreddare a temperatura ambiente 30-40 minuti. Pesare un bastoncino cotto per calcolare la resa. Confezionare in sacchetti PPL sigillati — conservabilità 30-45 giorni.'
   },
   { id:150, emoji:'🫕', title:'Bruciatura e Manutenzione Teglie in Ferro Blu', tag:'Tecniche',
     ingredienti:[
@@ -1109,17 +1180,47 @@ function renderFoodCost(base, mult){
   var costoFinito = ((fc.costoKgMateriaPrima / fc.resa) * kg).toFixed(2);
   var costoTot = ((fc.costoKgMateriaPrima / fc.resa + fc.costoCondimento) * kg).toFixed(2);
   var kgFinito = (kg * fc.resa).toFixed(2);
+  var costoAlGrammo = (fc.costoKgMateriaPrima / fc.resa + fc.costoCondimento) / 1000;
+
+  var porzioneHTML = '';
+  if(fc.porzioneDefault){
+    var pid = 'pz_'+base.id;
+    var defCosto = (costoAlGrammo * fc.porzioneDefault).toFixed(3);
+    porzioneHTML =
+      '<div class="porzione-bar" id="'+pid+'">' +
+        '<div class="porzione-title">🍕 Costo Porzione</div>' +
+        '<div class="porzione-row">' +
+          '<input class="porzione-input" type="number" min="1" value="'+fc.porzioneDefault+'" ' +
+            'oninput="calcPorzione(\''+base.id+'\',this.value,'+costoAlGrammo.toFixed(6)+')" id="pi_'+base.id+'">' +
+          '<span class="porzione-unit">g</span>' +
+          '<div style="margin-left:auto">' +
+            '<div class="porzione-result" id="pr_'+base.id+'">€ '+defCosto+'</div>' +
+            '<div class="porzione-result-sub" id="prs_'+base.id+'">per '+fc.porzioneDefault+'g su pizza</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
   return '<div class="food-cost-bar" id="fc_'+base.id+'">' +
     '<div>' +
-      '<div class="food-cost-label">💶 Food Cost</div>' +
+      '<div class="food-cost-label">💶 Food Cost Totale</div>' +
       '<div class="food-cost-value">€ '+costoTot+'</div>' +
     '</div>' +
     '<div class="food-cost-detail">' +
       'MP: €'+costoMP+' ('+kg.toFixed(2)+'kg crudi)<br>' +
-      'Resa '+Math.round(base.foodCost.resa*100)+'%: '+kgFinito+'kg finiti<br>' +
+      'Resa '+Math.round(fc.resa*100)+'%: '+kgFinito+'kg finiti<br>' +
       'Costo finito: €'+costoFinito+' + cond. €'+(fc.costoCondimento*kg).toFixed(2) +
     '</div>' +
-  '</div>';
+  '</div>' + porzioneHTML;
+}
+
+function calcPorzione(id, grammi, costoAlGrammo){
+  grammi = parseFloat(grammi) || 0;
+  var costo = (costoAlGrammo * grammi).toFixed(3);
+  var el = document.getElementById('pr_'+id);
+  var els = document.getElementById('prs_'+id);
+  if(el) el.textContent = '€ ' + costo;
+  if(els) els.textContent = 'per ' + grammi + 'g su pizza';
 }
 
 function updateFoodCost(id){
@@ -1128,7 +1229,12 @@ function updateFoodCost(id){
   var el = document.getElementById('fc_'+id);
   if(!el) return;
   var mult = multipliers[id] || 1;
-  el.outerHTML = renderFoodCost(base, mult);
+  // Sostituisce food cost + porzione bar
+  var pz = document.getElementById('pz_'+id);
+  var newHTML = renderFoodCost(base, mult);
+  var tmp = document.createElement('div');
+  tmp.innerHTML = newHTML;
+  el.outerHTML = tmp.innerHTML;
 }
 
 // ── MOLTIPLICATORE ──
