@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>L'Orso — Brigata 2026/27</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+/* ─── TOKEN SYSTEM ─────────────────────────────────────── */
+:root {
+  --ink:       #111010;
+  --ink-2:     #3a3836;
+  --ink-3:     #7a7470;
+  --rule:      #d8d4ce;
+  --page:      #fdfcfa;
+  --page-alt:  #f5f2ed;
+  --red:       #c0321e;
+  --red-bg:    #fdf1ef;
+  --red-border:#e8b4ac;
+  --green:     #1a5c2a;
+  --green-bg:  #eff7f1;
+  --green-border:#8ec89a;
+  --amber:     #8a5a00;
+  --amber-bg:  #fdf6e8;
+}
+
+/* ─── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 11px; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #ede9e3;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+@page { margin: 0; size: A4; }
+@media print {
+  .bar { display: none !important; }
+  body { background: white; padding-top: 0; font-size: 10px; }
+  .sheet { box-shadow: none; margin: 0; border-radius: 0; page-break-after: always; min-height: 297mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ─── TOOLBAR ────────────────────────────────────────────── */
+.bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--ink); color: white;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 44px;
+  font-size: 11px; font-weight: 500; letter-spacing: .01em;
+}
+.bar-btns { display: flex; gap: 8px; }
+.bar button {
+  border: 1px solid rgba(255,255,255,.25); border-radius: 4px;
+  background: transparent; color: white;
+  padding: 5px 14px; font-size: 10.5px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; letter-spacing: .02em;
+  transition: background .15s;
+}
+.bar button:hover { background: rgba(255,255,255,.1); }
+.bar button.primary { background: var(--red); border-color: var(--red); }
+.bar button.primary:hover { background: #a82918; }
+body { padding-top: 44px; }
+
+/* ─── SHEET (simulates A4) ───────────────────────────────── */
+.sheet {
+  background: var(--page);
+  width: 210mm; margin: 20px auto;
+  box-shadow: 0 4px 32px rgba(0,0,0,.18), 0 1px 4px rgba(0,0,0,.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* ─── COVER ──────────────────────────────────────────────── */
+.cover {
+  background: var(--ink);
+  padding: 52px 48px 44px;
+  min-height: 297mm;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.cover-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 72px;
+}
+.cover-address {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: rgba(255,255,255,.35);
+  line-height: 1.8; letter-spacing: .04em;
+}
+.cover-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: rgba(255,255,255,.35);
+  letter-spacing: .04em; text-align: right;
+}
+.cover-main { flex: 1; }
+.cover-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: rgba(192,50,30,.8);
+  letter-spacing: .08em; margin-bottom: 16px;
+}
+.cover-h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px; color: white; line-height: .95;
+  letter-spacing: -.02em; margin-bottom: 4px;
+  font-weight: 400;
+}
+.cover-h1-sub {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px; color: rgba(255,255,255,.18);
+  line-height: .95; letter-spacing: -.02em;
+  font-weight: 400; margin-bottom: 40px;
+}
+.cover-rule { width: 32px; height: 2px; background: var(--red); margin-bottom: 28px; }
+.cover-doc-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: white; font-weight: 400;
+  font-style: italic; margin-bottom: 8px;
+}
+.cover-doc-sub {
+  font-size: 11px; color: rgba(255,255,255,.4);
+  font-weight: 300; margin-bottom: 64px;
+}
+.cover-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 28px; margin-bottom: auto;
+}
+.cover-stat { padding-right: 24px; }
+.cover-stat-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 44px; color: var(--red); line-height: 1;
+  font-weight: 400; margin-bottom: 4px;
+}
+.cover-stat-l { font-size: 10px; color: rgba(255,255,255,.35); font-weight: 300; }
+.cover-foot {
+  margin-top: 52px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; color: rgba(255,255,255,.2);
+  letter-spacing: .04em;
+}
+
+/* ─── INNER PAGES ────────────────────────────────────────── */
+.inner { padding: 36px 44px 32px; }
+.page-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 24px;
+}
+.page-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--ink-3); letter-spacing: .04em;
+}
+.page-h {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px; font-weight: 400; color: var(--ink); line-height: 1;
+}
+.page-h em { color: var(--red); font-style: italic; }
+.page-intro {
+  font-size: 10px; color: var(--ink-3); font-weight: 300;
+  margin-bottom: 20px; max-width: 480px; line-height: 1.6;
+}
+
+/* ─── CONTEGGIO ──────────────────────────────────────────── */
+.fam { margin-bottom: 20px; }
+.fam-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.fam-icon { font-size: 13px; }
+.fam-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; font-weight: 500; color: var(--ink-2);
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.fam-count {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; color: var(--ink-3);
+}
+.ingr-table { width: 100%; border-collapse: collapse; }
+.ingr-table tr { border-bottom: 1px solid var(--rule); }
+.ingr-table tr:last-child { border-bottom: none; }
+.ingr-table td { padding: 5px 0; vertical-align: top; }
+.td-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; color: var(--red);
+  width: 28px; text-align: right; padding-right: 10px;
+  white-space: nowrap;
+}
+.td-name { font-size: 10.5px; color: var(--ink); font-weight: 400; }
+.td-name small { display: block; font-size: 9px; color: var(--ink-3); font-weight: 300; margin-top: 1px; }
+.td-piz {
+  font-size: 9px; color: var(--ink-3); text-align: right;
+  padding-left: 8px; max-width: 130px; line-height: 1.4;
+}
+tr.featured .td-name { font-weight: 500; color: var(--ink); }
+tr.featured .td-num { font-size: 13px; }
+
+/* 2-col grid for conteggio */
+.ingr-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.ingr-2col .fam { break-inside: avoid; }
+
+/* ─── PREPARAZIONI ───────────────────────────────────────── */
+.legend-bar {
+  display: flex; gap: 20px; align-items: center;
+  padding: 8px 12px; background: var(--page-alt);
+  border-radius: 4px; margin-bottom: 20px;
+}
+.leg { display: flex; align-items: center; gap: 6px; font-size: 9px; color: var(--ink-2); }
+.leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.prep-cat { margin-bottom: 18px; }
+.prep-cat-head {
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--ink); padding-bottom: 6px; margin-bottom: 8px;
+}
+.prep-cat-icon { font-size: 14px; }
+.prep-cat-name {
+  font-size: 11px; font-weight: 600; color: var(--ink);
+  flex: 1;
+}
+.prep-cat-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; color: var(--ink-3);
+}
+.prep-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.prep-row {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 7px 10px; border-radius: 4px;
+  background: var(--page-alt); border-left: 2px solid transparent;
+}
+.prep-row.cucina { border-color: var(--red); }
+.prep-row.forno  { border-color: #c47010; }
+.prep-row.freddo { border-color: #2060a0; }
+.prep-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; font-weight: 500; flex-shrink: 0;
+  margin-top: 2px; letter-spacing: .02em;
+}
+.prep-type.cucina { color: var(--red); }
+.prep-type.forno  { color: #c47010; }
+.prep-type.freddo { color: #2060a0; }
+.prep-content {}
+.prep-name { font-size: 10px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+.prep-hint { font-size: 8.5px; color: var(--ink-3); font-weight: 300; margin-top: 2px; line-height: 1.4; }
+.prep-slot {
+  margin-top: 5px; padding: 3px 7px;
+  border: 1px dashed var(--rule); border-radius: 3px;
+  font-size: 8px; color: var(--ink-3); font-style: italic;
+}
+
+/* ─── DENTRO/FUORI ───────────────────────────────────────── */
+.df-legend {
+  display: flex; gap: 12px; margin-bottom: 16px;
+}
+.df-leg {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 4px; font-size: 10px; font-weight: 500;
+}
+.df-leg.r { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.df-leg.g { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.df-leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+.sezione-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; color: var(--ink-3);
+  letter-spacing: .06em; text-transform: uppercase;
+  margin: 14px 0 8px; padding-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pcard {
+  margin-bottom: 8px; border-radius: 4px; overflow: hidden;
+  border: 1px solid var(--rule);
+  page-break-inside: avoid; break-inside: avoid;
+}
+.pcard-head {
+  background: var(--page-alt);
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px; border-bottom: 1px solid var(--rule);
+}
+.pcard-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; color: var(--ink-3);
+  width: 20px; flex-shrink: 0; text-align: right;
+}
+.pcard-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 12.5px; font-weight: 400; color: var(--ink); flex: 1;
+  font-style: italic;
+}
+.pcard-price {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--ink-3);
+}
+.pcard-sezione {
+  font-size: 8px; color: var(--ink-3);
+  font-weight: 300;
+}
+.pcard-chips {
+  padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 4px;
+  background: white;
+}
+.chip {
+  font-size: 9.5px; font-weight: 500; padding: 3px 9px;
+  border-radius: 2px; white-space: nowrap; line-height: 1.3;
+}
+.chip.r {
+  background: var(--red-bg); color: var(--red);
+  border: 1px solid var(--red-border);
+}
+.chip.g {
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid var(--green-border);
+}
+
+/* ─── PAGE FOOTER ────────────────────────────────────────── */
+.pfooter {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 44px 12px;
+  border-top: 1px solid var(--rule);
+  background: var(--page);
+}
+.pfooter-l { font-size: 8.5px; color: var(--ink-3); font-weight: 300; }
+.pfooter-r { font-family: 'DM Mono', monospace; font-size: 8px; color: var(--ink-3); }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span>L'Orso — Scheda Operativa Brigata 2026/27</span>
+  <div class="bar-btns">
+    <button onclick="window.print()" class="primary">Stampa / Salva PDF</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════ -->
+<div class="sheet">
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-address">L'Orso<br>Via Calapso · Messina<br>Est. 2013</div>
+    <div class="cover-year">Carta Stagionale<br>2026 / 27</div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-label">USO INTERNO — RISERVATO ALLA BRIGATA</div>
+    <div class="cover-h1">L'ORSO</div>
+    <div class="cover-h1-sub">VIA CALAPSO</div>
+    <div class="cover-rule"></div>
+    <div class="cover-doc-title">Scheda Operativa Brigata</div>
+    <div class="cover-doc-sub">Conteggio ingredienti · Preparazioni · Dentro e fuori forno</div>
+
+    <div class="cover-stats">
+      <div class="cover-stat">
+        <div class="cover-stat-n">18</div>
+        <div class="cover-stat-l">Pizze in carta</div>
+      </div>
+      <div class="cover-stat">
+        <div class="cover-stat-n">37</div>
+        <div class="cover-stat-l">Preparazioni</div>
+      </div>
+      <div class="cover-stat">
+        <div class="cover-stat-n">4</div>
+        <div class="cover-stat-l">Sezioni del menu</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-foot">A cura di Matteo La Spada &nbsp;·&nbsp; Gruppo Orso Messina</div>
+</div>
+<div class="pfooter">
+  <span class="pfooter-l">L'Orso · Via Calapso · Messina</span>
+  <span class="pfooter-r">01 / 04</span>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAG 2 — CONTEGGIO INGREDIENTI
+═══════════════════════════════════════════ -->
+<div class="sheet">
+<div class="inner">
+  <div class="page-header">
+    <div class="page-h">Conteggio <em>ingredienti</em></div>
+    <div class="page-num">Sezione I</div>
+  </div>
+  <p class="page-intro">Il numero a sinistra indica in quante pizze compare ogni ingrediente. Serve a pianificare la mise en place e stimare le quantità per il servizio.</p>
+
+  <div class="ingr-2col">
+
+    <!-- BASE POMODORO -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🍅</span>
+        <span class="fam-name">Base pomodoro</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">8</td><td class="td-name">Spaccatella di Pelato Supremo<small>scassato a mano e raddensato</small></td><td class="td-piz">Margherita · Marinara · Evergreen · Eolie · Norma · Burrata · Adduma · Feluca</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Datterini rossi semi-secchi</td><td class="td-piz">Marinara dei Peloritani · Sinfonia di Norma</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Ombra di passata Pomodoro Siccagno</td><td class="td-piz">O Sole Mio</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Crema di Datterino Giallo arrostito</td><td class="td-piz">Fuoco di Vulcanello</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Datterino rosso e giallo semi-secco</td><td class="td-piz">O Sole Mio</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Chips di pomodoro disidratato</td><td class="td-piz">La Burrata</td></tr>
+      </table>
+    </div>
+
+    <!-- FUNGHI -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🍄</span>
+        <span class="fam-name">Funghi</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">5</td><td class="td-name">Funghi Cardoncelli trifolati al timo</td><td class="td-piz">Evergreen · Bosco · Incanto · Colapesce · Tronchetto</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Funghi Cardoncelli tagliati spessi<small>crudi — cuociono in forno</small></td><td class="td-piz">Fuoco di Vulcanello</td></tr>
+      </table>
+    </div>
+
+    <!-- LATTICINI -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🧀</span>
+        <span class="fam-name">Latticini</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">7</td><td class="td-name">Fior di latte vaccino</td><td class="td-piz">Margherita · Evergreen · Stretto · Bosco · Feluca · Norma · Tronchetto</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Provola di Cesarò</td><td class="td-piz">Bosco dei Nebrodi · Memoria Contadina</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Provola affumicata</td><td class="td-piz">Alpina Sicula · Colapesce (a legna d'agrumi)</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Mozzarella di Bufala DOP</td><td class="td-piz">O Sole Mio (fuori forno)</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Mozzarella di Bufala DOP disidratata</td><td class="td-piz">Adduma u Cufularu</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Tuma fresca messinese</td><td class="td-piz">Anima Messinese</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Provola affumicata di Napoli</td><td class="td-piz">Incanto di Zucca</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Ricotta infornata messinese</td><td class="td-piz">Sinfonia di Norma</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Stracciatella di Burrata<small>lavorata all'olio di basilico</small></td><td class="td-piz">La Burrata</td></tr>
+      </table>
+    </div>
+
+    <!-- FORMAGGI STAGIONATI -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🫕</span>
+        <span class="fam-name">Formaggi stagionati &amp; fondute</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">2</td><td class="td-name">Fonduta Caciocavallo Ragusano DOP</td><td class="td-piz">Stretto · Il Tronchetto dell'Orso</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Velo crema di Ragusano DOP</td><td class="td-piz">Anima Messinese · Colapesce</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Ragusano DOP al microplane</td><td class="td-piz">La Margherita · Il Tronchetto dell'Orso</td></tr>
+      </table>
+    </div>
+
+    <!-- SALUMI & PROTEINE -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🥩</span>
+        <span class="fam-name">Salumi &amp; proteine</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">2</td><td class="td-name">Prosciutto San Daniele DOP 24 mesi</td><td class="td-piz">La Burrata · Colapesce</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Prosciutto Cotto Branchi</td><td class="td-piz">Evergreen</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Mortadella Artigianale</td><td class="td-piz">Stretto (adagiata a caldo)</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Guanciale Suino Nero dei Nebrodi</td><td class="td-piz">Bosco dei Nebrodi</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Salsiccia fresca Suino Nero<small>sgranata a punta di coltello</small></td><td class="td-piz">Colapesce</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Lardo artigianale Suino Nero</td><td class="td-piz">Memoria Contadina</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Salame piccante</td><td class="td-piz">Adduma u Cufularu</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Meraner Würstel Pfitscher</td><td class="td-piz">L'Alpina Sicula</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Filetti di tonno rosso</td><td class="td-piz">Uno Sguardo alle Eolie</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Rose di Pesce Spada affumicato ⚠️</td><td class="td-piz">Un Giorno sulla Feluca</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Filetti di alici del Mediterraneo</td><td class="td-piz">Anima Messinese</td></tr>
+      </table>
+    </div>
+
+    <!-- VERDURE -->
+    <div class="fam">
+      <div class="fam-head">
+        <span class="fam-icon">🌿</span>
+        <span class="fam-name">Verdure &amp; ortaggi trattati</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">2</td><td class="td-name">Carciofi arrostiti alla brace</td><td class="td-piz">Evergreen · Fuoco di Vulcanello</td></tr>
+        <tr class="featured"><td class="td-num">2</td><td class="td-name">Cipolla Rossa Tropea agrodolce CBT</td><td class="td-piz">Uno Sguardo alle Eolie · Fuoco di Vulcanello</td></tr>
+        <tr class="featured"><td class="td-num">2</td><td class="td-name">Capperi di Salina dissalati</td><td class="td-piz">Uno Sguardo alle Eolie · Un Giorno sulla Feluca</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Scarola riccia ripassata</td><td class="td-piz">Anima Messinese</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Cicoria selvatica ripassata</td><td class="td-piz">Memoria Contadina</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Datterini rossi confit all'aceto lampone</td><td class="td-piz">La Burrata</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Olive nere infornate siciliane</td><td class="td-piz">Evergreen</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Cipolla croccante disidratata</td><td class="td-piz">L'Alpina Sicula</td></tr>
+        <tr><td class="td-num">1</td><td class="td-name">Cubetti melanzane perline fritte</td><td class="td-piz">Sinfonia di Norma</td></tr>
+      </table>
+    </div>
+
+    <!-- FINITURE -->
+    <div class="fam" style="grid-column:1/-1">
+      <div class="fam-head">
+        <span class="fam-icon">✦</span>
+        <span class="fam-name">Finiture — ingredienti ricorrenti</span>
+      </div>
+      <table class="ingr-table">
+        <tr class="featured"><td class="td-num">7</td><td class="td-name">Olio EVO Messinese "Don Pietro"</td><td class="td-piz">Margherita · Marinara · O Sole Mio · Incanto di Zucca · Memoria · Alpina · Tronchetto</td></tr>
+        <tr class="featured"><td class="td-num">4</td><td class="td-name">Basilico fresco</td><td class="td-piz">Margherita · O Sole Mio · Evergreen · Sinfonia di Norma</td></tr>
+        <tr><td class="td-num">3</td><td class="td-name">Pepe nero di Sarawak</td><td class="td-piz">Anima Messinese · Stretto · Bosco dei Nebrodi</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Olio al limone d'Interdonato IGP</td><td class="td-piz">Stretto · Uno Sguardo alle Eolie</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Crema di patate cotte sotto cenere</td><td class="td-piz">Memoria Contadina · L'Alpina Sicula</td></tr>
+        <tr><td class="td-num">2</td><td class="td-name">Muddica atturrata</td><td class="td-piz">Marinara dei Peloritani · Un Giorno sulla Feluca (versioni diverse)</td></tr>
+      </table>
+    </div>
+
+  </div><!-- /ingr-2col -->
+</div>
+<div class="pfooter">
+  <span class="pfooter-l">L'Orso · Via Calapso · Messina · Carta Stagionale 2026/27</span>
+  <span class="pfooter-r">02 / 04</span>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAG 3 — PREPARAZIONI
+═══════════════════════════════════════════ -->
+<div class="sheet">
+<div class="inner">
+  <div class="page-header">
+    <div class="page-h">Preparazioni <em>da fare</em></div>
+    <div class="page-num">Sezione II</div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>Cottura in cucina</div>
+    <div class="leg"><div class="leg-dot" style="background:#c47010"></div>Cottura in forno</div>
+    <div class="leg"><div class="leg-dot" style="background:#2060a0"></div>A freddo / fuori forno</div>
+    <div style="flex:1"></div>
+    <div style="font-size:8.5px;color:var(--ink-3);font-style:italic">Le ricette dettagliate verranno aggiunte dalla brigata</div>
+  </div>
+
+  <!-- BASE POMODORO -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🍅</span>
+      <span class="prep-cat-name">Basi pomodoro</span>
+      <span class="prep-cat-badge">2 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Spaccatella di Pelato Supremo scassato a mano e raddensato</div>
+          <div class="prep-hint">8 pizze · Raddensata in casseruola, max 85°C — consistenza densa</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Ombra di passata di Pomodoro Siccagno biologico</div>
+          <div class="prep-hint">1 pizza (O Sole Mio) · Velo leggero, quasi trasparente</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREME & FONDUTE -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🥣</span>
+      <span class="prep-cat-name">Creme, vellutate &amp; fondute</span>
+      <span class="prep-cat-badge">10 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Crema d'aglio nero fermentato con prezzemolo</div>
+          <div class="prep-hint">1 pizza (Marinara) · Biberon, fuori forno</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Fonduta soffice di Caciocavallo Ragusano DOP</div>
+          <div class="prep-hint">2 pizze (Stretto · Tronchetto) · Bagnomaria, tenere calda</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Crema di zucca arrostita</div>
+          <div class="prep-hint">1 pizza (Incanto di Zucca) · 200°C fino a caramellizzazione</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Crema di patate cotte sotto cenere</div>
+          <div class="prep-hint">2 pizze (Memoria · Alpina) · 180°C / 3-4h</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Crema di Datterino Giallo arrostito</div>
+          <div class="prep-hint">1 pizza (Fuoco di Vulcanello) · Forno 180°C, setacciata</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Crema d'Aglio Rosso di Nubia</div>
+          <div class="prep-hint">1 pizza (Fuoco di Vulcanello) · Confit 90°C / 45 min, biberon</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Emulsione soffice di ricotta fresca</div>
+          <div class="prep-hint">1 pizza (Sinfonia di Norma) · A freddo, quenelle fuori forno</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Emulsione soffice di limone e arancia</div>
+          <div class="prep-hint">1 pizza (Un Giorno sulla Feluca) · Fuori forno a crudo</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Stracciatella di Burrata all'olio di basilico</div>
+          <div class="prep-hint">1 pizza (La Burrata) · Lavorata a spatola, fuori forno</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Velo di crema di Ragusano DOP</div>
+          <div class="prep-hint">2 pizze (Anima Messinese · Colapesce) · Au bain-marie a servizio</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDURE -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🌿</span>
+      <span class="prep-cat-name">Verdure &amp; ortaggi trattati</span>
+      <span class="prep-cat-badge">9 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CBT</div>
+        <div class="prep-content">
+          <div class="prep-name">Cipolla Rossa di Tropea in agrodolce CBT</div>
+          <div class="prep-hint">2 pizze · 85°C / 45 min, raffreddamento rapido</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Scarola riccia ripassata in padella</div>
+          <div class="prep-hint">1 pizza (Anima Messinese) · Sbollentata, strizzata, ripassata</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Cicoria selvatica ripassata in padella</div>
+          <div class="prep-hint">1 pizza (Memoria Contadina) · Amara — non addolcire</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">BRACE</div>
+        <div class="prep-content">
+          <div class="prep-name">Carciofi arrostiti alla brace</div>
+          <div class="prep-hint">2 pizze · Brace viva — non sostituire col forno ventilato</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Datterini rossi confit all'aceto di lampone</div>
+          <div class="prep-hint">1 pizza (La Burrata) · Marinati, poi 90°C / 90-120 min</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Datterini rossi semi-secchi</div>
+          <div class="prep-hint">2 pizze · 80°C / 4-6h — morbidi, non croccanti. Scorta settimanale</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Olive nere infornate siciliane</div>
+          <div class="prep-hint">1 pizza (Evergreen) · 200°C / 8-10 min — non disidratare</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Cipolla croccante disidratata</div>
+          <div class="prep-hint">1 pizza (Alpina Sicula) · 70°C / 3-4h, colore miele chiaro</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Chips di pomodoro disidratato</div>
+          <div class="prep-hint">1 pizza (La Burrata) · 65°C / 6-8h, fragilissime</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUNGHI -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🍄</span>
+      <span class="prep-cat-name">Funghi</span>
+      <span class="prep-cat-badge">2 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Funghi Cardoncelli trifolati al timo</div>
+          <div class="prep-hint">5 pizze · Padella rovente, no acqua — asciutti e dorati. Max 24h</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">CRUDI</div>
+        <div class="prep-content">
+          <div class="prep-name">Funghi Cardoncelli tagliati spessi — versione Vulcanello</div>
+          <div class="prep-hint">1 pizza · 1cm spessore, marinati, messi crudi sulla pizza</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALUMI -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🥩</span>
+      <span class="prep-cat-name">Salumi &amp; proteine trattate</span>
+      <span class="prep-cat-badge">3 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Guanciale di Suino Nero dei Nebrodi croccante</div>
+          <div class="prep-hint">1 pizza (Bosco dei Nebrodi) · Rosolato, sgrassato su carta</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">CRUDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Salsiccia fresca sgranata a punta di coltello</div>
+          <div class="prep-hint">1 pizza (Colapesce) · Non tritata — pezzi irregolari, cruda sulla pizza</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Rose di Pesce Spada Siciliano Affumicato ⚠️</div>
+          <div class="prep-hint">1 pizza (Un Giorno sulla Feluca) · Tracciabilità obbligatoria</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANURE & POLVERI -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🍞</span>
+      <span class="prep-cat-name">Panure &amp; polveri</span>
+      <span class="prep-cat-badge">7 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Muddica atturrata — versione Marinara (con alloro)</div>
+          <div class="prep-hint">1 pizza · Disposta fuori forno a spolverata</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Muddica con pinoli e Ragusano DOP — versione Feluca</div>
+          <div class="prep-hint">1 pizza · Cosparsa prima di infornare</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Muddica con Mandorle di Avola e cappero — versione Vulcanello</div>
+          <div class="prep-hint">1 pizza · Cruda prima di infornare — crea crosta aromatica</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row forno">
+        <div class="prep-type forno">FORNO</div>
+        <div class="prep-content">
+          <div class="prep-name">Polvere di cappero di Salina essiccato</div>
+          <div class="prep-hint">1 pizza (O Sole Mio) · 60°C / 3-4h, macinata fine</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Polvere di rosmarino tostato</div>
+          <div class="prep-hint">1 pizza (Incanto di Zucca) · 30 sec tostatura — brucia facilmente</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">MOMENTO</div>
+        <div class="prep-content">
+          <div class="prep-name">Polvere di caffè tostato</div>
+          <div class="prep-hint">1 pizza (Memoria Contadina) · Macinato al momento del servizio</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">MICROPLANE</div>
+        <div class="prep-content">
+          <div class="prep-name">Ragusano DOP grattugiato al microplane</div>
+          <div class="prep-hint">2 pizze · Direttamente sulla pizza prima o dopo cottura</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIELE & CONDIMENTI -->
+  <div class="prep-cat">
+    <div class="prep-cat-head">
+      <span class="prep-cat-icon">🍯</span>
+      <span class="prep-cat-name">Miele, dolci &amp; condimenti</span>
+      <span class="prep-cat-badge">4 prep.</span>
+    </div>
+    <div class="prep-rows">
+      <div class="prep-row cucina">
+        <div class="prep-type cucina">CUCINA</div>
+        <div class="prep-content">
+          <div class="prep-name">Miele di castagno piccante infuso al peperoncino</div>
+          <div class="prep-hint">1 pizza (Adduma u Cufularu) · 50°C / 30 min, filtrato, biberon</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Gocce di confettura di fichi neri siciliani</div>
+          <div class="prep-hint">1 pizza (Memoria Contadina) · A gocce sul lardo, biberon</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">FREDDO</div>
+        <div class="prep-content">
+          <div class="prep-name">Fili di senape delicata al miele di Zagara</div>
+          <div class="prep-hint">1 pizza (Alpina Sicula) · Biberon — fili sottili sul würstel</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+      <div class="prep-row freddo">
+        <div class="prep-type freddo">INFUSIONE</div>
+        <div class="prep-content">
+          <div class="prep-name">Olio al limone d'Interdonato IGP</div>
+          <div class="prep-hint">2 pizze (Stretto · Eolie) · 48h in frigo, biberon, max 10 giorni</div>
+          <div class="prep-slot">Ricetta: _______________________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="pfooter">
+  <span class="pfooter-l">L'Orso · Via Calapso · Messina · Carta Stagionale 2026/27</span>
+  <span class="pfooter-r">03 / 04</span>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAG 4 — DENTRO / FUORI FORNO
+═══════════════════════════════════════════ -->
+<div class="sheet">
+<div class="inner">
+  <div class="page-header">
+    <div class="page-h">Dentro &amp; fuori <em>forno</em></div>
+    <div class="page-num">Sezione III</div>
+  </div>
+
+  <div class="df-legend">
+    <div class="df-leg r">
+      <div class="df-leg-sq" style="background:var(--red)"></div>
+      Rosso — entra in forno
+    </div>
+    <div class="df-leg g">
+      <div class="df-leg-sq" style="background:var(--green)"></div>
+      Verde — fuori forno / a crudo
+    </div>
+  </div>
+
+  <div class="sezione-label">I — Le Radici Siciliane</div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">01</div><div class="pcard-name">La Margherita</div><div class="pcard-price">€ 9</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Ragusano DOP al microplane</span>
+      <span class="chip g">Basilico fresco</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">02</div><div class="pcard-name">Marinara dei Peloritani</div><div class="pcard-price">€ 8</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Datterini rossi semi-secchi</span>
+      <span class="chip r">Origano selvatico dei Peloritani</span>
+      <span class="chip g">Crema d'aglio nero fermentato</span>
+      <span class="chip g">Muddica atturrata</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">03</div><div class="pcard-name">O Sole Mio</div><div class="pcard-price">€ 13</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Ombra di passata Pomodoro Siccagno</span>
+      <span class="chip r">Datterino rosso e giallo semi-secco</span>
+      <span class="chip g">Mozzarella di Bufala Campana DOP</span>
+      <span class="chip g">Basilico fresco</span>
+      <span class="chip g">Polvere di cappero di Salina</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">04</div><div class="pcard-name">Evergreen</div><div class="pcard-price">€ 16</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Funghi Cardoncelli trifolati al timo</span>
+      <span class="chip r">Carciofi arrostiti alla brace</span>
+      <span class="chip r">Olive nere infornate siciliane</span>
+      <span class="chip g">Prosciutto Cotto Branchi a fette aeree</span>
+      <span class="chip g">Basilico fresco</span>
+    </div>
+  </div>
+
+  <div class="sezione-label">II — Le Identità dello Stretto e dei Nebrodi</div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">05</div><div class="pcard-name">Anima Messinese</div><div class="pcard-price">€ 12,50</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Tuma fresca messinese</span>
+      <span class="chip r">Scarola riccia ripassata in padella</span>
+      <span class="chip r">Datterini rossi confit</span>
+      <span class="chip r">Filetti di alici del Mediterraneo</span>
+      <span class="chip g">Pepe nero di Sarawak</span>
+      <span class="chip g">Velo di crema di Ragusano DOP</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">06</div><div class="pcard-name">Stretto</div><div class="pcard-price">€ 16</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip g">Mortadella Artigianale adagiata a caldo</span>
+      <span class="chip g">Fonduta di Caciocavallo Ragusano DOP</span>
+      <span class="chip g">Granella di pistacchio tostato</span>
+      <span class="chip g">Olio al limone d'Interdonato IGP</span>
+      <span class="chip g">Pepe nero di Sarawak</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">07</div><div class="pcard-name">Uno Sguardo alle Eolie</div><div class="pcard-price">€ 18</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Cipolla Rossa di Tropea in agrodolce CBT</span>
+      <span class="chip r">Capperi di Salina dissalati</span>
+      <span class="chip g">Filetti di tonno rosso</span>
+      <span class="chip g">Olio al limone d'Interdonato IGP</span>
+      <span class="chip g">Sponzali freschi</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">08</div><div class="pcard-name">Bosco dei Nebrodi ★</div><div class="pcard-price">da € 19</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Provola di Cesarò</span>
+      <span class="chip r">Funghi Cardoncelli trifolati al timo</span>
+      <span class="chip r">Guanciale Suino Nero croccante</span>
+      <span class="chip g">Nocciole tostate</span>
+      <span class="chip g">Pepe nero di Sarawak</span>
+      <span class="chip g">Elisir al Tartufo / Scaglie Tartufo dei Nebrodi</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">09</div><div class="pcard-name">Un Giorno sulla Feluca ★</div><div class="pcard-price">€ 25</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Capperi di Salina</span>
+      <span class="chip g">Rose di Pesce Spada Affumicato</span>
+      <span class="chip g">Emulsione soffice di limone e arancia</span>
+      <span class="chip g">Muddica atturrata con pinoli e Ragusano DOP</span>
+      <span class="chip g">Finocchietto Selvatico</span>
+    </div>
+  </div>
+
+  <div class="sezione-label">III — Evoluzioni Vegetali</div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">10</div><div class="pcard-name">Sinfonia di Norma</div><div class="pcard-price">€ 12,50</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Cubetti di melanzane perline fritte</span>
+      <span class="chip r">Datterini rossi semi-secchi</span>
+      <span class="chip g">Emulsione soffice di ricotta fresca</span>
+      <span class="chip g">Ricotta infornata messinese</span>
+      <span class="chip g">Basilico fresco</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">11</div><div class="pcard-name">Incanto di Zucca</div><div class="pcard-price">€ 14,50</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Crema di zucca arrostita</span>
+      <span class="chip r">Provola affumicata di Napoli</span>
+      <span class="chip r">Funghi Cardoncelli trifolati al timo</span>
+      <span class="chip g">Granella di nocciola tostata</span>
+      <span class="chip g">Polvere di rosmarino tostato</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">12</div><div class="pcard-name">Memoria Contadina ★</div><div class="pcard-price">€ 13,50</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Crema di patate cotte sotto cenere</span>
+      <span class="chip r">Provola di Cesarò</span>
+      <span class="chip r">Cicoria selvatica ripassata in padella</span>
+      <span class="chip g">Lardo artigianale Suino Nero adagiato a caldo</span>
+      <span class="chip g">Gocce di confettura di fichi</span>
+      <span class="chip g">Polvere di caffè tostato</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">13</div><div class="pcard-name">Fuoco di Vulcanello <span style="font-size:9px;color:var(--green);font-family:'DM Mono',monospace">VEGANA</span></div><div class="pcard-price">€ 13</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Crema di Datterino Giallo arrostito</span>
+      <span class="chip r">Funghi Cardoncelli tagliati spessi (crudi)</span>
+      <span class="chip r">Carciofi arrostiti alla brace</span>
+      <span class="chip r">Cipolla Rossa di Tropea in agrodolce CBT</span>
+      <span class="chip r">Olive Taggiasche</span>
+      <span class="chip r">Muddica con Mandorle di Avola e cappero</span>
+      <span class="chip g">Crema d'Aglio Rosso di Nubia</span>
+      <span class="chip g">Olio EVO a crudo</span>
+    </div>
+  </div>
+
+  <div class="sezione-label">IV — Le Strutture Intense</div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">14</div><div class="pcard-name">La Burrata ★</div><div class="pcard-price">€ 16</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip g">Stracciatella di Burrata all'olio di basilico</span>
+      <span class="chip g">Datterini rossi confit all'aceto di lampone</span>
+      <span class="chip g">San Daniele DOP 24 mesi a fette aeree</span>
+      <span class="chip g">Chips di pomodoro disidratato</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">15</div><div class="pcard-name">Adduma u Cufularu</div><div class="pcard-price">€ 14</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Spaccatella di Pelato Supremo</span>
+      <span class="chip r">Mozzarella di Bufala Campana DOP disidratata</span>
+      <span class="chip r">Salame piccante</span>
+      <span class="chip r">Rondelle di peperoncino fresco rosso</span>
+      <span class="chip g">Miele di castagno piccante al peperoncino</span>
+      <span class="chip g">Polvere di peperoncino vulcanico</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">16</div><div class="pcard-name">L'Alpina Sicula</div><div class="pcard-price">€ 15</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Crema di patate cotte sotto cenere</span>
+      <span class="chip r">Provola affumicata</span>
+      <span class="chip r">Meraner Würstel Pfitscher a rondelle</span>
+      <span class="chip g">Fili di senape al miele di Zagara</span>
+      <span class="chip g">Cipolla croccante disidratata</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">17</div><div class="pcard-name">Colapesce ★</div><div class="pcard-price">€ 16</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Provola affumicata a legna d'agrumi</span>
+      <span class="chip r">Funghi Cardoncelli trifolati al timo</span>
+      <span class="chip r">Salsiccia fresca sgranata a punta di coltello</span>
+      <span class="chip r">Velo di crema di Ragusano DOP</span>
+      <span class="chip g">Prosciutto Crudo San Daniele DOP 24 mesi</span>
+      <span class="chip g">Pepe nero macinato al momento</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-head"><div class="pcard-num">18</div><div class="pcard-name">Il Tronchetto dell'Orso ★</div><div class="pcard-price">€ 16,50</div></div>
+    <div class="pcard-chips">
+      <span class="chip r">Fior di latte vaccino</span>
+      <span class="chip r">Funghi Cardoncelli trifolati</span>
+      <span class="chip r">Fonduta di Caciocavallo Ragusano DOP</span>
+      <span class="chip r">Pepe nero</span>
+      <span class="chip g">Prosciutto Crudo San Daniele DOP a fette aeree</span>
+      <span class="chip g">Germogli di rucola selvatica</span>
+      <span class="chip g">Grattugiata al microplane di Ragusano DOP</span>
+      <span class="chip g">Olio EVO Don Pietro</span>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;padding:9px 12px;background:var(--page-alt);border-radius:4px;font-size:9px;color:var(--ink-3);line-height:1.6">
+    <strong style="color:var(--ink-2)">★ Firma / Limitata</strong> — disponibilità giornaliera dipende dal mercato, dalla stagione e dal bosco &nbsp;·&nbsp;
+    <strong style="color:var(--green)">VEGANA</strong> — Fuoco di Vulcanello: zero ingredienti di origine animale &nbsp;·&nbsp;
+    <strong style="color:var(--ink-2)">⚠️ Tracciabilità</strong> — Pesce Spada: documentare fornitore, data e provenienza per ogni lotto &nbsp;·&nbsp;
+    Tutti gli impasti contengono glutine (allergene 1)
+  </div>
+
+</div>
+<div class="pfooter">
+  <span class="pfooter-l">L'Orso · Via Calapso · Messina · Carta Stagionale 2026/27</span>
+  <span class="pfooter-r">04 / 04</span>
+</div>
+</div>
+
+</body>
+</html>
