@@ -230,10 +230,8 @@ header{
 
 /* ── STAMPA PDF ── */
 @media print{
-  body > *:not(#pdf-overlay){ display:none !important; }
-  #pdf-overlay{ position:static !important; overflow:visible !important; background:#fff !important; }
-  .no-print{ display:none !important; }
-  #pdf-content{ max-width:100% !important; }
+  body > *{ display:none !important; }
+  #pdf-iframe{ display:block !important; }
 }
 
 /* ── FAB NUOVA RICETTA ── */
@@ -1369,16 +1367,10 @@ function downloadImage(canvas, title){
 }
 
 // ── PDF RICETTA (no popup - overlay) ──
-function doPDF(id){
-  var r = getRecipe(id);
-  var mult = multipliers[id] || 1;
-
+function buildPDFHTML(r, mult){
   var ingRows = r.ingredienti.map(function(ing){
     var q = ing.unit==='q.b.' ? 'q.b.' : fmtQty(ing.qty, mult) + ' ' + ing.unit;
-    return '<tr>' +
-      '<td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#2A1A0A;font-size:13px">'+escH(ing.nome)+'</td>' +
-      '<td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#8B4A1C;font-weight:700;font-family:monospace;font-size:13px;text-align:right;white-space:nowrap">'+q+'</td>' +
-    '</tr>';
+    return '<tr><td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#2A1A0A;font-size:13px">'+escH(ing.nome)+'</td><td style="padding:8px 10px;border-bottom:1px solid #E8DDD0;color:#8B4A1C;font-weight:700;font-family:monospace;font-size:13px;text-align:right;white-space:nowrap">'+q+'</td></tr>';
   }).join('');
 
   var istrHTML = '';
@@ -1386,7 +1378,7 @@ function doPDF(id){
     s = s.trim(); if(!s) return;
     var m = s.match(/^(\d+)\.\s*(.*)/);
     if(m) istrHTML += '<div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#C4782A;font-weight:700;min-width:22px;font-size:13px">'+m[1]+'.</span><span style="font-size:13px;line-height:1.7">'+m[2]+'</span></div>';
-    else if(s.match(/^(FASE|CCP|NOTA|RESA|CONSERV|SHELF|RIGENERA|ETICHETTA|STOCCAGGIO)/i))
+    else if(s.match(/^(FASE|CCP|NOTA|RESA|CONSERV|SHELF|RIGENERA|ETICHETTA|STOCCAGGIO|BRODO|SERVIZIO|ATTENZIONE)/i))
       istrHTML += '<div style="font-size:11px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.2px;margin:14px 0 6px;font-weight:700">'+s+'</div>';
     else istrHTML += '<p style="font-size:13px;line-height:1.7;margin-bottom:8px;color:#2A1A0A">'+s+'</p>';
   });
@@ -1395,41 +1387,76 @@ function doPDF(id){
     ? '<div style="background:#FEF3E2;border:1.5px solid #C4782A;border-radius:8px;padding:7px 14px;margin-bottom:18px;font-size:12px;color:#8B4A1C;font-family:monospace">x'+mult+' — Dosi moltiplicate per '+mult+'</div>'
     : '';
 
-  // Rimuovi eventuale overlay precedente
+  return '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escH(r.title)+'</title><style>'+
+    '*{box-sizing:border-box;margin:0;padding:0}'+
+    'body{font-family:Georgia,serif;background:#fff;color:#1E1208}'+
+    '@page{size:A4;margin:15mm}'+
+    '.header{background:#8B4A1C;padding:24px 28px;display:flex;align-items:center;gap:16px}'+
+    '.emoji{font-size:44px;line-height:1}'+
+    '.htitle{font-size:22px;font-style:italic;color:#FFF8F0;font-weight:700;margin-bottom:4px}'+
+    '.hsub{font-size:10px;color:rgba(255,248,240,0.65);letter-spacing:1.5px;text-transform:uppercase}'+
+    '.body{padding:20px 28px}'+
+    'table{width:100%;border-collapse:collapse;margin-bottom:20px}'+
+    '.footer{border-top:1px solid #E8DDD0;padding:12px 28px;text-align:center;font-size:11px;color:#7A6A58;letter-spacing:1px}'+
+    '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'+
+    '</style></head><body>'+
+    '<div class="header">'+
+      '<div class="emoji">'+r.emoji+'</div>'+
+      '<div><div class="htitle">'+escH(r.title)+'</div>'+
+      '<div class="hsub">Matteo La Spada &middot; L\'Orso Messina &middot; '+escH(r.tag)+'</div></div>'+
+    '</div>'+
+    '<div class="body">'+
+      multBadge+
+      '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:10px">Ingredienti</div>'+
+      '<table>'+ingRows+'</table>'+
+      '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:12px">Istruzioni</div>'+
+      '<div>'+istrHTML+'</div>'+
+    '</div>'+
+    '<div class="footer">&#128059; L\'Orso Messina &mdash; Ricettario Interno &mdash; &copy; Matteo La Spada</div>'+
+    '</body></html>';
+}
+
+function doPDF(id){
+  var r = getRecipe(id);
+  var mult = multipliers[id] || 1;
+  var html = buildPDFHTML(r, mult);
+
+  // Rimuovi overlay/iframe precedenti
   var old = document.getElementById('pdf-overlay');
   if(old) document.body.removeChild(old);
+  var oldF = document.getElementById('pdf-iframe');
+  if(oldF) document.body.removeChild(oldF);
 
+  // Overlay anteprima
   var overlay = document.createElement('div');
   overlay.id = 'pdf-overlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:#fff;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch;';
+  overlay.style.cssText = 'position:fixed;inset:0;background:#fff;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;';
 
   overlay.innerHTML =
-    // Barra chiudi/stampa
-    '<div style="position:sticky;top:0;background:#8B4A1C;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:10" class="no-print">' +
-      '<button onclick="closePDFOverlay()" style="background:rgba(255,255,255,0.2);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-size:14px;font-family:Georgia,serif;cursor:pointer">✕ Chiudi</button>' +
-      '<button onclick="window.print()" style="background:#fff;border:none;border-radius:10px;padding:8px 18px;color:#8B4A1C;font-size:14px;font-weight:700;font-family:Georgia,serif;cursor:pointer">🖨 Stampa / PDF</button>' +
-    '</div>' +
-    // Contenuto ricetta
-    '<div id="pdf-content" style="max-width:700px;margin:0 auto;padding:0 0 40px">' +
-      '<div style="background:#8B4A1C;padding:28px 32px;display:flex;align-items:center;gap:18px">' +
-        '<div style="font-size:48px;line-height:1">'+r.emoji+'</div>' +
-        '<div>' +
-          '<div style="font-size:24px;font-style:italic;color:#FFF8F0;font-weight:700;font-family:Georgia,serif">'+escH(r.title)+'</div>' +
-          '<div style="font-size:10px;color:rgba(255,248,240,0.65);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px">Matteo La Spada &middot; L\'Orso Messina &middot; '+escH(r.tag)+'</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="padding:24px 32px">' +
-        multBadge +
-        '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:10px">Ingredienti</div>' +
-        '<table style="width:100%;border-collapse:collapse;margin-bottom:24px">'+ingRows+'</table>' +
-        '<div style="font-size:10px;color:#7A6A58;text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-weight:700;margin-bottom:12px">Istruzioni</div>' +
-        '<div>'+istrHTML+'</div>' +
-      '</div>' +
-      '<div style="border-top:1px solid #E8DDD0;padding:14px 32px;text-align:center;font-size:11px;color:#7A6A58;letter-spacing:1px">&#128059; L\'Orso Messina &mdash; Ricettario Interno &mdash; &copy; Matteo La Spada</div>' +
-    '</div>';
+    '<div style="position:sticky;top:0;background:#8B4A1C;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:10;flex-shrink:0">'+
+      '<button onclick="closePDFOverlay()" style="background:rgba(255,255,255,0.2);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-size:14px;font-family:Georgia,serif;cursor:pointer">✕ Chiudi</button>'+
+      '<button onclick="printPDF()" style="background:#fff;border:none;border-radius:10px;padding:8px 18px;color:#8B4A1C;font-size:14px;font-weight:700;font-family:Georgia,serif;cursor:pointer">🖨 Stampa / PDF</button>'+
+    '</div>'+
+    '<iframe id="pdf-iframe" style="flex:1;width:100%;border:none;min-height:calc(100vh - 60px)"></iframe>';
 
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
+
+  // Scrivi HTML nell'iframe
+  setTimeout(function(){
+    var iframe = document.getElementById('pdf-iframe');
+    if(!iframe) return;
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(html);
+    iframe.contentDocument.close();
+  }, 50);
+}
+
+function printPDF(){
+  var iframe = document.getElementById('pdf-iframe');
+  if(!iframe) return;
+  iframe.contentWindow.focus();
+  iframe.contentWindow.print();
 }
 
 function closePDFOverlay(){
