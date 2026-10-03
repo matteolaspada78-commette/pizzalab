@@ -1063,6 +1063,15 @@ if(editedRecipes[148] && !editedRecipes[148].foodCost){
   if(base148) editedRecipes[148].foodCost = base148.foodCost;
   saveToStorage();
 }
+// Fix forzato: aggiunge tutte le ricette nuove mancanti nel localStorage
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169].forEach(function(rid){
+  var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
+  if(baseR && !editedRecipes[rid]){
+    editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
+    multipliers[rid] = 1;
+    saveToStorage();
+  }
+});
 // Assicura le custom in editedRecipes
 customRecipes.forEach(function(r){
   if(!editedRecipes[r.id]) editedRecipes[r.id] = JSON.parse(JSON.stringify(r));
