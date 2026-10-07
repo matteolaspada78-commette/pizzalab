@@ -735,18 +735,18 @@ var BASE_RECIPES = [
     ],
     istruzioni:'FASE 1 — SGELAMENTO E ASCIUGATURA IN COMBI\nDisporre i cardoncelli ancora surgelati su teglie GN forate in un solo strato. Forno Combi: 90°C Convezione (secco). Valvola/Clima aperta al 100% — evacuazione umidità. Ventola: Alta. Tempo: 20-25 minuti. Risultato: fungo scongelato e asciutto in superficie, con i succhi colati nella vaschetta sotto.\n\nFASE 2 — ABBATTIMENTO INTERMEDIO (obbligatorio HACCP)\nTrasferire subito le teglie in abbattitore fino a +3°C al cuore. Vietato mettere i funghi caldi o tiepidi nei sacchetti sottovuoto — creerebbero condensa e rovinerebbero la conservazione.\n\nFASE 3 — CONDIMENTO E SOTTOVUOTO\nCondire i funghi freddi con gli ingredienti della ricetta. Confezionare in sacchetti termoresistenti da cottura al 99% di vuoto.\n\nFASE 4 — COTTURA E PASTORIZZAZIONE SOUS-VIDE\nForno Combi: 85°C — 100% Vapore per 20 minuti.\n\nFASE 5 — ABBATTIMENTO FINALE E STOCCAGGIO\nAbbattere subito i sacchetti a +3°C al cuore. Conservare in cella frigo a +2°C/+4°C. Shelf-life: 10-14 giorni (sacchetto sigillato).\n\nUSO IN LINEA SERVIZIO\nAprire il sacchetto durante la mise en place, scolare leggermente dall\'olio e disporre i cardoncelli sulla pizza insieme ai latticini durante la cottura.'
   },
-  { id:170, emoji:'🍞', title:'Mollica Atturrata 2.0 (Fotonica)', tag:'Altro',
+  { id:170, emoji:'🍞', title:'Mollica Atturrata 2.0 (Capperi Freschi)', tag:'Altro',
     ingredienti:[
       {nome:'Pane Casereccio di Grani Antichi (o 50% Pan Bauletto)',qty:1000,unit:'g'},
       {nome:'Olio EVO Don Pietro',qty:130,unit:'g'},
       {nome:'Filetti di Alici sott\'olio',qty:50,unit:'g'},
-      {nome:'Polvere di Cappero di Salina',qty:10,unit:'g'},
+      {nome:'Capperi di Salina dissalati, asciugati e tritati finissimi',qty:20,unit:'g'},
       {nome:'Scorza di Limone Interdonato IGP grattugiata fine',qty:2,unit:'limoni'},
       {nome:'Aglio in polvere o Olio all\'Aglio Rosso di Nubia',qty:3,unit:'g'},
       {nome:'Ragusano DOP stagionato grattugiato fine',qty:35,unit:'g'},
       {nome:'Sale fino',qty:2,unit:'g'}
     ],
-    istruzioni:'VERSIONE POTENZIATA della Mollica base — cappero, limone Interdonato e Ragusano per spinta di sapore, croccantezza e profumo.\nSottovuoto max 30-40% per non compattare le briciole.\n\n1. TRITATURA AL CUTTER (ad impulsi): Spezzettare il pane e tritare al cutter solo a PULSE per ottenere briciole irregolari da 2-4 mm — NON polvere.\n\n2. EMULSIONE AROMATICA: In un pentolino scaldare leggermente l\'olio EVO con le alici, l\'aglio, la polvere di cappero e la scorza di limone finché le alici non si sciolgono. Versare l\'olio aromatizzato a filo sulle briciole nel cutter dando 2 colpi rapidi di PULSE per distribuirlo senza impastare.\n\n3. TOSTATURA AL RATIONAL: Stendere su teglie GN 1/1 forate con carta forno in strato sottile massimo 1,5 cm.\nRational: Aria Calda (Secco) — 145°C — Umidità 0% (valvola aperta 100%) — Ventola velocità 3 — Tempo: 8-10 MINUTI.\nA metà cottura (4-5 min) rimescolare con una marisa e spolverare il Ragusano DOP grattugiato.\n\n4. ABBATTIMENTO E CONSERVAZIONE: Sfornare dorata e profumatissima — NON marrone scuro. Passare immediatamente in abbattitore a +3°C. Confezionare in sacchetti sottovuoto con saldatura semplice o vuoto leggerissimo 30-40%.'
+    istruzioni:'VERSIONE POTENZIATA con capperi freschi dissalati — tostati nel Rational insieme al pane diventano croccanti e profumatissimi.\nSottovuoto max 30-40% per non compattare le briciole.\n\n1. TRITATURA PANE E CAPPERI: Dissalare i capperi, asciugarli benissimo e tritarli finissimi a coltello o nel cutter. Spezzettare il pane e tritare al cutter solo a PULSE per ottenere briciole irregolari da 2-4 mm — NON polvere.\n\n2. EMULSIONE AROMATICA: In un pentolino scaldare leggermente l\'olio EVO con le alici, l\'aglio, i capperi tritati e la scorza di limone finché le alici non si sciolgono. Versare l\'olio aromatizzato a filo sulle briciole nel cutter dando 2 colpi rapidi di PULSE per distribuirlo senza impastare.\n\n3. TOSTATURA AL RATIONAL: Stendere su teglie GN 1/1 forate con carta forno in strato sottile massimo 1,5 cm.\nRational: Aria Calda (Secco) — 145°C — Umidità 0% (valvola aperta 100%) — Ventola velocità 3 — Tempo: 8-10 MINUTI.\nA metà cottura (4-5 min) rimescolare con una marisa e spolverare il Ragusano DOP grattugiato.\n\n4. ABBATTIMENTO E CONSERVAZIONE: Sfornare dorata e profumatissima — NON marrone scuro. Passare immediatamente in abbattitore a +3°C. Confezionare in sacchetti sottovuoto con saldatura semplice o vuoto leggerissimo 30-40%.'
   },
   { id:169, emoji:'🥓', title:'Guanciale Croccante da Linea (Rational)', tag:'Carni',
     ingredienti:[
@@ -1077,6 +1077,11 @@ if(editedRecipes[148] && !editedRecipes[148].foodCost){
   saveToStorage();
 }
 // Fix forzato: aggiunge tutte le ricette nuove mancanti nel localStorage
+// Fix forzato: aggiorna la ricetta 170 se ha ancora la polvere di cappero
+if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].ingredienti[3] && editedRecipes[170].ingredienti[3].qty === 10){
+  editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
+  saveToStorage();
+}
 [155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
