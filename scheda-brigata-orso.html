@@ -181,6 +181,33 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 .prep-passi li{font-size:.78rem;line-height:1.65;color:var(--cream-dim)!important;margin-bottom:.7rem;}
 .prep-passi li::marker{color:var(--gold);font-weight:700;}
 .dato-tecnico{display:inline-block;background:rgba(201,168,76,.14);color:var(--gold-bright)!important;font-weight:700;padding:.05em .4em;border-radius:3px;font-size:.95em;}
+/* IMPASTI */
+.imp-strip{margin:0 1.2rem .9rem;padding:.65rem .9rem;border:1px dashed rgba(201,168,76,.4);border-radius:3px;font-size:.62rem;color:var(--cream-dim)!important;display:flex;justify-content:space-between;align-items:center;gap:.6rem;cursor:pointer;background:rgba(201,168,76,.04);}
+.imp-strip b{color:var(--gold-bright);font-weight:600;}
+.imp-strip-go{color:var(--gold)!important;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;}
+.imp-regola{margin:1rem 1.2rem 1.2rem;padding:1.1rem 1.2rem;border:1px solid rgba(201,168,76,.38);background:linear-gradient(160deg,rgba(201,168,76,.1),transparent);border-radius:3px;}
+.imp-regola-lbl{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)!important;display:block;margin-bottom:.4rem;}
+.imp-regola p{font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.5;color:var(--cream)!important;}
+.imp-regola b{color:var(--gold-bright);}
+.imp-switch{display:flex;margin:0 1.2rem 1.3rem;border:1px solid var(--hair);border-radius:3px;overflow:hidden;}
+.imp-switch button{flex:1;padding:.8rem;background:transparent;border:none;color:var(--gold-dim)!important;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}
+.imp-switch button.on{background:rgba(201,168,76,.15);color:var(--gold-bright)!important;}
+#sez-impasti[data-vista="sala"] .vista-pizzaiolo{display:none;}
+#sez-impasti[data-vista="pizzaiolo"] .vista-sala{display:none;}
+.imp-card{margin-bottom:1.4rem;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);background:linear-gradient(180deg,var(--panel),var(--bg));padding:1.5rem 1.3rem;}
+.imp-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.1rem;}
+.imp-cod{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--gold)!important;width:2.3rem;height:2.3rem;border:1px solid rgba(201,168,76,.4);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);flex-shrink:0;}
+.imp-nome{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--gold-bright)!important;line-height:1.1;}
+.imp-alias{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim)!important;margin-top:.2rem;}
+.imp-vista-lbl{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)!important;display:block;margin-bottom:.4rem;}
+.imp-spec{display:flex;gap:.9rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.imp-spec:last-child{border-bottom:none;}
+.imp-k{width:6.6rem;flex-shrink:0;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim)!important;padding-top:.15rem;}
+.imp-k em{display:inline-block;margin-left:.3rem;padding:0 .35em;border:1px solid rgba(212,149,106,.5);border-radius:2px;color:#d4956a;font-style:normal;font-size:.9em;}
+.imp-v{flex:1;font-size:.76rem;line-height:1.55;color:var(--cream)!important;}
+.imp-v b{color:var(--gold-bright);font-weight:700;margin-right:.3rem;}
+.imp-v small{display:block;font-size:.66rem;color:var(--cream-dim);margin-bottom:.4rem;}
+.imp-v.tbd{color:var(--gold-dim)!important;font-style:italic;}
 </style>
 </head>
 <body>
@@ -199,7 +226,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="c-stats">
       <div class="c-stat"><span class="c-stat-n">19</span><span class="c-stat-l">Pizze</span></div>
       <div class="c-stat"><span class="c-stat-n">5</span><span class="c-stat-l">Sezioni</span></div>
-      <div class="c-stat"><span class="c-stat-n">76</span><span class="c-stat-l">Ingredienti</span></div>
+      <div class="c-stat"><span class="c-stat-n">74</span><span class="c-stat-l">Ingredienti</span></div>
     </div>
     <span class="c-info">Carta Stagionale 2026/27 · Rev. Brigata</span>
     <div class="c-firma">
@@ -211,7 +238,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 
 <!-- NAV -->
 <div class="nav-wrap">
-<div class="nav"><button class="ntab active" onclick="S('firma',this)">Firma</button><button class="ntab" onclick="S('radici',this)">Radici Sicil.</button><button class="ntab" onclick="S('identita',this)">Identità</button><button class="ntab" onclick="S('vegetali',this)">Vegetali</button><button class="ntab" onclick="S('strutture',this)">Strutture</button><button class="ntab" onclick="S('fritti',this)">Fritti</button><button class="ntab" onclick="S('preparazioni',this)">Prep.</button><button class="ntab" onclick="S('indice',this)">Indice</button></div>
+<div class="nav"><button class="ntab active" onclick="S('firma',this)">Firma</button><button class="ntab" onclick="S('radici',this)">Radici Sicil.</button><button class="ntab" onclick="S('identita',this)">Identità</button><button class="ntab" onclick="S('vegetali',this)">Vegetali</button><button class="ntab" onclick="S('strutture',this)">Strutture</button><button class="ntab" onclick="S('fritti',this)">Fritti</button><button class="ntab" onclick="S('impasti',this)">Impasti</button><button class="ntab" onclick="S('preparazioni',this)">Prep.</button><button class="ntab" onclick="S('indice',this)">Indice</button></div>
 <div class="search-bar">
   <svg class="search-ico" viewBox="0 0 24 24" width="15" height="15"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <input type="text" id="search-input" placeholder="Cerca un ingrediente — es. burrata, ragusano…" oninput="filtraRicerca(this.value)" onfocus="filtraRicerca(this.value)">
@@ -229,6 +256,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="sez-ttl">Firma Premiata</div>
     <div class="sez-sub">La creazione premiata della casa</div>
   </div>
+  
   <div class="lista">
     <div class="piatto" data-nome="Disgraziata">
       <div class="p-head">
@@ -244,7 +272,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
-      <ul class="ingr-ul"><li>Olio EVO</li><li>Gocce di habanero mix concentrato</li><li>Lacrima di peperoncino in agrodolce</li></ul>
+      <ul class="ingr-ul"><li>Lacrima di peperoncino in agrodolce</li><li>Terra di olive nere</li></ul>
     </div>
       </div>
       <div class="p-note">Padellino · tre cotture, due strati</div>
@@ -256,6 +284,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="sez-ttl">Le Radici Siciliane</div>
     <div class="sez-sub">Quattro pizze · dove tutto comincia</div>
   </div>
+  <div class="imp-strip" onclick="vaiImpasti()"><span>Ogni pizza: impasto <b>Scrocchiarella</b> o <b>Duomo</b></span><span class="imp-strip-go">Scheda impasti ›</span></div>
   <div class="lista">
     <div class="piatto" data-nome="La Margherita">
       <div class="p-head">
@@ -305,7 +334,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="ingr-grid">
         <div class="ingr-col ingr-forno">
       <span class="ingr-lbl">Forno</span>
-      <ul class="ingr-ul"><li>Passata di Pomodoro Siccagno</li><li>Datterino rosso e giallo semi-secco</li><li>Mozzarella di Bufala Campana DOP</li></ul>
+      <ul class="ingr-ul"><li>Datterino rosso e giallo semi-secco</li><li>Mozzarella di Bufala Campana DOP</li></ul>
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
@@ -340,6 +369,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="sez-ttl">Le Identità dello Stretto e dei Nebrodi</div>
     <div class="sez-sub">Cinque pizze · il mare da un lato, la montagna dall&#x27;altro</div>
   </div>
+  <div class="imp-strip" onclick="vaiImpasti()"><span>Ogni pizza: impasto <b>Scrocchiarella</b> o <b>Duomo</b></span><span class="imp-strip-go">Scheda impasti ›</span></div>
   <div class="lista">
     <div class="piatto" data-nome="Anima Messinese">
       <div class="p-head">
@@ -443,6 +473,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="sez-ttl">Evoluzioni Vegetali</div>
     <div class="sez-sub">Quattro pizze · l&#x27;orto passa dal forno</div>
   </div>
+  <div class="imp-strip" onclick="vaiImpasti()"><span>Ogni pizza: impasto <b>Scrocchiarella</b> o <b>Duomo</b></span><span class="imp-strip-go">Scheda impasti ›</span></div>
   <div class="lista">
     <div class="piatto" data-nome="Sinfonia di Norma">
       <div class="p-head">
@@ -511,7 +542,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="ingr-grid">
         <div class="ingr-col ingr-forno">
       <span class="ingr-lbl">Forno</span>
-      <ul class="ingr-ul"><li>Crema di Datterino Giallo arrostito</li><li>Funghi Cardoncelli tagliati spessi</li><li>Carciofi arrostiti alla brace</li><li class="ha-prep" onclick="openPrep('cipolla-caramellata')">Cipolla Rossa di Tropea in agrodolce <span class="prep-ico">↗</span></li><li>Olive Taggiasche</li><li>Muddica atturrata con Mandorle di Avola, cappero di Salina e origano selvatico</li></ul>
+      <ul class="ingr-ul"><li>Crema di Datterino Giallo arrostito</li><li>Funghi Cardoncelli tagliati spessi</li><li>Carciofi arrostiti alla brace</li><li class="ha-prep" onclick="openPrep('cipolla-caramellata')">Cipolla Rossa di Tropea in agrodolce <span class="prep-ico">↗</span></li><li>Olive Taggiasche</li><li>Muddica atturrata con Mandorle di Avola</li><li>Capperi di Salina</li><li>Origano selvatico dei Peloritani</li></ul>
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
@@ -527,6 +558,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="sez-ttl">Le Strutture Intense</div>
     <div class="sez-sub">Cinque pizze · dove il gusto alza la voce</div>
   </div>
+  <div class="imp-strip" onclick="vaiImpasti()"><span>Ogni pizza: impasto <b>Scrocchiarella</b> o <b>Duomo</b></span><span class="imp-strip-go">Scheda impasti ›</span></div>
   <div class="lista">
     <div class="piatto" data-nome="La Burrata">
       <div class="p-head">
@@ -595,11 +627,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="ingr-grid">
         <div class="ingr-col ingr-forno">
       <span class="ingr-lbl">Forno</span>
-      <ul class="ingr-ul"><li>Provola affumicata a legna d&#x27;agrumi</li><li>Funghi Cardoncelli trifolati al timo</li><li class="ha-prep" onclick="openPrep('salsiccia-tiburzi-cbt')">Salsiccia fresca sgranata a punta di coltello <span class="prep-ico">↗</span></li><li>Velo di crema di Ragusano DOP</li></ul>
+      <ul class="ingr-ul"><li>Provola affumicata a legna d&#x27;agrumi</li><li>Funghi Cardoncelli trifolati al timo</li><li class="ha-prep" onclick="openPrep('salsiccia-tiburzi-cbt')">Salsiccia fresca sgranata a punta di coltello <span class="prep-ico">↗</span></li></ul>
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
-      <ul class="ingr-ul"><li>Prosciutto Crudo San Daniele DOP 24 mesi (fette aeree)</li><li>Pepe nero macinato al momento</li></ul>
+      <ul class="ingr-ul"><li>Velo di crema di Ragusano DOP</li><li>Prosciutto Crudo San Daniele DOP 24 mesi (fette aeree)</li><li>Pepe nero macinato al momento</li></ul>
     </div>
       </div>
       
@@ -614,11 +646,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="ingr-grid">
         <div class="ingr-col ingr-forno">
       <span class="ingr-lbl">Forno</span>
-      <ul class="ingr-ul"><li>Fior di latte vaccino</li><li>Funghi Cardoncelli trifolati</li><li>Fonduta di Caciocavallo Ragusano DOP</li><li>Pepe nero</li></ul>
+      <ul class="ingr-ul"><li>Fior di latte vaccino</li><li>Fonduta di Caciocavallo Ragusano DOP</li><li>Pepe nero</li></ul>
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
-      <ul class="ingr-ul"><li>Prosciutto Crudo San Daniele DOP (fette aeree)</li><li>Germogli di rucola selvatica</li><li>Ragusano DOP (grattugiata microplane)</li><li>Olio EVO Don Pietro</li></ul>
+      <ul class="ingr-ul"><li>Prosciutto Crudo San Daniele DOP (fette aeree)</li><li>Rucola</li><li>Ragusano DOP (grattugiata microplane)</li><li>Olio EVO Don Pietro</li></ul>
     </div>
       </div>
       <div class="p-note">Ripieno chiuso — farcia dentro il disco, non sopra</div>
@@ -686,9 +718,33 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       
     </div></div>
 </div>
+<div class="sez" id="sez-impasti" data-vista="pizzaiolo">
+  <div class="sez-head">
+    <span class="sez-eye">2 impasti</span>
+    <div class="sez-ttl">Gli Impasti</div>
+    <div class="sez-sub">Due basi per ogni pizza: il cliente sceglie</div>
+  </div>
+  <div class="imp-regola">
+    <span class="imp-regola-lbl">La regola</span>
+    <p>Ogni pizza della carta si può fare con <b>Scrocchiarella</b> o con <b>Duomo</b>. La farcitura non cambia: cambia la base.</p>
+  </div>
+  <div class="imp-switch"><button class="on" onclick="vistaImp('pizzaiolo',this)">Pizzaiolo</button><button onclick="vistaImp('sala',this)">Sala</button></div>
+  
+  <div class="imp-card">
+    <div class="imp-head"><span class="imp-cod">A</span><div><div class="imp-nome">Scrocchiarella</div><div class="imp-alias">Scheda tecnica in arrivo</div></div></div>
+    <div class="vista-pizzaiolo"><span class="imp-vista-lbl">Per il pizzaiolo</span><div class="imp-spec"><span class="imp-k">Farine</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Prefermento / lievito</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Idratazione</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Riposo e maturazione</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Pallina</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Cottura</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Stesura e servizio</span><span class="imp-v tbd">da inserire</span></div></div>
+    <div class="vista-sala"><span class="imp-vista-lbl">Per la sala</span><div class="imp-spec"><span class="imp-k">Come si racconta</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Cosa c'è dentro</span><span class="imp-v tbd">da inserire</span></div><div class="imp-spec"><span class="imp-k">Allergeni</span><span class="imp-v">Contiene cereali con glutine, come tutti i nostri impasti. Altri allergeni: da inserire</span></div></div>
+  </div>
+  
+  <div class="imp-card">
+    <div class="imp-head"><span class="imp-cod">B</span><div><div class="imp-nome">Duomo</div><div class="imp-alias">Detta anche Base Duomo · l'impasto della pala</div></div></div>
+    <div class="vista-pizzaiolo"><span class="imp-vista-lbl">Per il pizzaiolo</span><div class="imp-spec"><span class="imp-k">Farine</span><span class="imp-v"><b>50%</b> Petra 0102 HP <small>Tipo 1 germogliato · leggerezza, digeribilità</small><br><b>50%</b> Petra 5078 <small>Farro + soia + crusca tostata · struttura e nota tostata</small></span></div><div class="imp-spec"><span class="imp-k">Prefermento</span><span class="imp-v">Solo biga 24h</span></div><div class="imp-spec"><span class="imp-k">Grassi</span><span class="imp-v">Zero</span></div><div class="imp-spec"><span class="imp-k">Cottura</span><span class="imp-v">Forno statico 260° · 5 minuti</span></div><div class="imp-spec"><span class="imp-k">Formato</span><span class="imp-v">Pala, alta idratazione, tagliata a quadrotti su asse di legno</span></div><div class="imp-spec"><span class="imp-k">Risultato</span><span class="imp-v">Croccante fuori, morbida e alveolata dentro</span></div><div class="imp-spec"><span class="imp-k">Idratazione</span><span class="imp-v tbd">da confermare</span></div><div class="imp-spec"><span class="imp-k">Pezzatura</span><span class="imp-v tbd">da confermare</span></div><div class="imp-spec"><span class="imp-k">Riposo e maturazione</span><span class="imp-v tbd">da confermare</span></div></div>
+    <div class="vista-sala"><span class="imp-vista-lbl">Per la sala</span><div class="imp-spec"><span class="imp-k">Come si racconta <em>bozza</em></span><span class="imp-v">Base alta e morbida, alveolata dentro e croccante fuori. Si serve tagliata a quadrotti, da condividere al tavolo.</span></div><div class="imp-spec"><span class="imp-k">Cosa c'è dentro</span><span class="imp-v">Farine Petra: Tipo 1 germogliato, farro, soia e crusca tostata. Biga di 24 ore. Nessun grasso nell'impasto.</span></div><div class="imp-spec"><span class="imp-k">Allergeni</span><span class="imp-v">Contiene <b>glutine</b>, come tutti i nostri impasti, e <b>soia</b> (Petra 5078).</span></div></div>
+  </div>
+</div>
 <div class="sez" id="sez-indice">
   <div class="sez-head">
-    <span class="sez-eye">76 ingredienti unici</span>
+    <span class="sez-eye">74 ingredienti unici</span>
     <div class="sez-ttl">Indice Ingredienti</div>
     <div class="sez-sub">Quante pizze usano ogni ingrediente — ordinato dal più usato. Utile per ordini e scorte.</div>
   </div>
@@ -729,14 +785,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="idx-bar-track"><div class="idx-bar" style="width:88%"></div></div>
       <div class="idx-piatti">Adduma u Cufularu, Evergreen, La Burrata, La Margherita, Marinara dei Peloritani, Sinfonia di Norma, Uno Sguardo alle Eolie</div>
     </div>
-    <div class="idx-row" data-piatti="Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Il Tronchetto dell&#x27;Orso, Incanto di Zucca">
+    <div class="idx-row" data-piatti="Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Incanto di Zucca">
       <div class="idx-top">
         <span class="idx-nome">Funghi Cardoncelli</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
-        <span class="idx-n">6</span>
+        <span class="idx-n">5</span>
       </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:75%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Il Tronchetto dell&#x27;Orso, Incanto di Zucca</div>
+      <div class="idx-bar-track"><div class="idx-bar" style="width:62%"></div></div>
+      <div class="idx-piatti">Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Incanto di Zucca</div>
     </div>
     <div class="idx-row" data-piatti="Evergreen, La Margherita, O Sole Mio, Sinfonia di Norma">
       <div class="idx-top">
@@ -746,6 +802,15 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:50%"></div></div>
       <div class="idx-piatti">Evergreen, La Margherita, O Sole Mio, Sinfonia di Norma</div>
+    </div>
+    <div class="idx-row" data-piatti="Fuoco di Vulcanello, Un Giorno sulla Feluca, Uno Sguardo alle Eolie">
+      <div class="idx-top">
+        <span class="idx-nome">Capperi di Salina</span>
+        <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
+        <span class="idx-n">3</span>
+      </div>
+      <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
+      <div class="idx-piatti">Fuoco di Vulcanello, Un Giorno sulla Feluca, Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata, Marinara dei Peloritani, Sinfonia di Norma">
       <div class="idx-top">
@@ -792,15 +857,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
       <div class="idx-piatti">Colapesce, Incanto di Zucca, L&#x27;Alpina Sicula</div>
     </div>
-    <div class="idx-row" data-piatti="Un Giorno sulla Feluca, Uno Sguardo alle Eolie">
-      <div class="idx-top">
-        <span class="idx-nome">Capperi di Salina</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
-        <span class="idx-n">2</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca, Uno Sguardo alle Eolie</div>
-    </div>
     <div class="idx-row" data-piatti="Evergreen, Fuoco di Vulcanello">
       <div class="idx-top">
         <span class="idx-nome">Carciofi arrostiti alla brace</span>
@@ -845,6 +901,15 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
       <div class="idx-piatti">Adduma u Cufularu, O Sole Mio</div>
+    </div>
+    <div class="idx-row" data-piatti="Fuoco di Vulcanello, Marinara dei Peloritani">
+      <div class="idx-top">
+        <span class="idx-nome">Origano selvatico dei Peloritani</span>
+        <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
+        <span class="idx-n">2</span>
+      </div>
+      <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
+      <div class="idx-piatti">Fuoco di Vulcanello, Marinara dei Peloritani</div>
     </div>
     <div class="idx-row" data-piatti="Marinara dei Peloritani, O Sole Mio">
       <div class="idx-top">
@@ -1026,15 +1091,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">Disgraziata</div>
     </div>
-    <div class="idx-row" data-piatti="Il Tronchetto dell&#x27;Orso">
-      <div class="idx-top">
-        <span class="idx-nome">Germogli di rucola selvatica</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
-        <span class="idx-n">1</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
-    </div>
     <div class="idx-row" data-piatti="Memoria Contadina">
       <div class="idx-top">
         <span class="idx-nome">Gocce di confettura di fichi</span>
@@ -1043,15 +1099,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">Memoria Contadina</div>
-    </div>
-    <div class="idx-row" data-piatti="Disgraziata">
-      <div class="idx-top">
-        <span class="idx-nome">Gocce di habanero mix concentrato</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
-        <span class="idx-n">1</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Incanto di Zucca">
       <div class="idx-top">
@@ -1136,7 +1183,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello">
       <div class="idx-top">
-        <span class="idx-nome">Muddica atturrata con Mandorle di Avola, cappero di Salina e origano selvatico</span>
+        <span class="idx-nome">Muddica atturrata con Mandorle di Avola</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
         <span class="idx-n">1</span>
       </div>
@@ -1160,15 +1207,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">Bosco dei Nebrodi</div>
-    </div>
-    <div class="idx-row" data-piatti="Disgraziata">
-      <div class="idx-top">
-        <span class="idx-nome">Olio EVO</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
-        <span class="idx-n">1</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Memoria Contadina">
       <div class="idx-top">
@@ -1196,24 +1234,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">Evergreen</div>
-    </div>
-    <div class="idx-row" data-piatti="Marinara dei Peloritani">
-      <div class="idx-top">
-        <span class="idx-nome">Origano selvatico dei Peloritani</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
-        <span class="idx-n">1</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Marinara dei Peloritani</div>
-    </div>
-    <div class="idx-row" data-piatti="O Sole Mio">
-      <div class="idx-top">
-        <span class="idx-nome">Passata di Pomodoro Siccagno</span>
-        <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
-        <span class="idx-n">1</span>
-      </div>
-      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">O Sole Mio</div>
     </div>
     <div class="idx-row" data-piatti="Il Tronchetto dell&#x27;Orso">
       <div class="idx-top">
@@ -1305,6 +1325,15 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
+    <div class="idx-row" data-piatti="Il Tronchetto dell&#x27;Orso">
+      <div class="idx-top">
+        <span class="idx-nome">Rucola</span>
+        <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
+        <span class="idx-n">1</span>
+      </div>
+      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
+      <div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
+    </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
         <span class="idx-nome">Salame</span>
@@ -1367,6 +1396,15 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
       <div class="idx-piatti">La Burrata</div>
+    </div>
+    <div class="idx-row" data-piatti="Disgraziata">
+      <div class="idx-top">
+        <span class="idx-nome">Terra di olive nere</span>
+        <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
+        <span class="idx-n">1</span>
+      </div>
+      <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
+      <div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese">
       <div class="idx-top">
@@ -1496,7 +1534,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 </div>
 
 <script>
-const INDICE_INGREDIENTI = [{"n":"Olio EVO Don Pietro","c":8,"p":["Fuoco di Vulcanello","Il Tronchetto dell'Orso","Incanto di Zucca","L'Alpina Sicula","La Margherita","Marinara dei Peloritani","Memoria Contadina","O Sole Mio"],"x":["uscita"]},{"n":"Fior di latte vaccino","c":7,"p":["Bosco dei Nebrodi","Evergreen","Il Tronchetto dell'Orso","La Margherita","Sinfonia di Norma","Stretto","Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Ragusano DOP","c":7,"p":["Anima Messinese","Colapesce","Evergreen","Il Tronchetto dell'Orso","La Margherita","Stretto","Un Giorno sulla Feluca"],"x":["forno","uscita"]},{"n":"Spaccatella di Pelato Supremo","c":7,"p":["Adduma u Cufularu","Evergreen","La Burrata","La Margherita","Marinara dei Peloritani","Sinfonia di Norma","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Funghi Cardoncelli","c":6,"p":["Bosco dei Nebrodi","Colapesce","Evergreen","Fuoco di Vulcanello","Il Tronchetto dell'Orso","Incanto di Zucca"],"x":["forno"]},{"n":"Basilico fresco","c":4,"p":["Evergreen","La Margherita","O Sole Mio","Sinfonia di Norma"],"x":["uscita"]},{"n":"Datterini rossi semi-secchi","c":3,"p":["Disgraziata","Marinara dei Peloritani","Sinfonia di Norma"],"x":["forno"]},{"n":"Olio al limone d'Interdonato","c":3,"p":["Anima Messinese","Stretto","Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Pepe nero di Sarawak","c":3,"p":["Anima Messinese","Bosco dei Nebrodi","Stretto"],"x":["uscita"]},{"n":"Prosciutto Crudo San Daniele DOP","c":3,"p":["Colapesce","Il Tronchetto dell'Orso","La Burrata"],"x":["uscita"]},{"n":"Provola affumicata","c":3,"p":["Colapesce","Incanto di Zucca","L'Alpina Sicula"],"x":["forno"]},{"n":"Capperi di Salina","c":2,"p":["Un Giorno sulla Feluca","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Carciofi arrostiti alla brace","c":2,"p":["Evergreen","Fuoco di Vulcanello"],"x":["forno"]},{"n":"Cipolla Rossa di Tropea in agrodolce","c":2,"p":["Fuoco di Vulcanello","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Crema di patate cotte sotto cenere","c":2,"p":["L'Alpina Sicula","Memoria Contadina"],"x":["forno"]},{"n":"Lardo artigianale di Suino Nero","c":2,"p":["Memoria Contadina","Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Mozzarella di Bufala Campana DOP","c":2,"p":["Adduma u Cufularu","O Sole Mio"],"x":["forno"]},{"n":"Polvere di cappero di Salina","c":2,"p":["Marinara dei Peloritani","O Sole Mio"],"x":["uscita"]},{"n":"Provola di Cesarò","c":2,"p":["Bosco dei Nebrodi","Memoria Contadina"],"x":["forno"]},{"n":"Chips di melanzane fritte croccanti","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Cicoria selvatica ripassata in padella","c":1,"p":["Memoria Contadina"],"x":["forno"]},{"n":"Cipolla croccante disidratata","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Crema d'Aglio Rosso di Nubia","c":1,"p":["Fuoco di Vulcanello"],"x":["uscita"]},{"n":"Crema d'aglio nero fermentato","c":1,"p":["Marinara dei Peloritani"],"x":["uscita"]},{"n":"Crema di Datterino Giallo arrostito","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Crema di zucca arrostita","c":1,"p":["Incanto di Zucca"],"x":["forno"]},{"n":"Cubetti di melanzane perline fritte","c":1,"p":["Sinfonia di Norma"],"x":["forno"]},{"n":"Datterini rossi confit","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Datterini rossi confit all'aceto di lampone","c":1,"p":["La Burrata"],"x":["forno"]},{"n":"Datterino rosso e giallo semi-secco","c":1,"p":["O Sole Mio"],"x":["forno"]},{"n":"Disco croccante","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Emulsione soffice di limone e arancia","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Emulsione soffice di ricotta fresca","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Filetti di alici del Mediterraneo","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Filetti di tonno rosso","c":1,"p":["Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Finocchietto Selvatico","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Funghi champignon","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Germogli di rucola selvatica","c":1,"p":["Il Tronchetto dell'Orso"],"x":["uscita"]},{"n":"Gocce di confettura di fichi","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Gocce di habanero mix concentrato","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Granella di nocciola tostata","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Guanciale di Suino Nero dei Nebrodi croccante","c":1,"p":["Bosco dei Nebrodi"],"x":["forno"]},{"n":"Lacrima di peperoncino in agrodolce","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Melanzane sott'olio","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Meraner Würstel artigianale Pfitscher","c":1,"p":["L'Alpina Sicula"],"x":["forno"]},{"n":"Miele di castagno piccante infuso al peperoncino","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Mortadella","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Mortadella Artigianale","c":1,"p":["Stretto"],"x":["uscita"]},{"n":"Muddica atturrata","c":1,"p":["Marinara dei Peloritani"],"x":["forno"]},{"n":"Muddica atturrata con Mandorle di Avola, cappero di Salina e origano selvatico","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Muddica atturrata con pinoli tostati","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Nocciole tostate","c":1,"p":["Bosco dei Nebrodi"],"x":["uscita"]},{"n":"Olio EVO","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Olio al caffè","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Olive Taggiasche","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Olive nere infornate siciliane","c":1,"p":["Evergreen"],"x":["forno"]},{"n":"Origano selvatico dei Peloritani","c":1,"p":["Marinara dei Peloritani"],"x":["forno"]},{"n":"Passata di Pomodoro Siccagno","c":1,"p":["O Sole Mio"],"x":["forno"]},{"n":"Pepe nero","c":1,"p":["Il Tronchetto dell'Orso"],"x":["forno"]},{"n":"Pepe nero macinato al momento","c":1,"p":["Colapesce"],"x":["uscita"]},{"n":"Pistacchio tostato","c":1,"p":["Stretto"],"x":["forno"]},{"n":"Polvere di peperoncino vulcanico","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Polvere di pomodoro","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Polvere di rosmarino tostato","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Primo sale","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Prosciutto Cotto Branchi","c":1,"p":["Evergreen"],"x":["uscita"]},{"n":"Rondelle di peperoncino fresco rosso","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Rose di Pesce Spada Siciliano Affumicato","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Salame","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Salame piccante","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Salsiccia fresca sgranata a punta di coltello","c":1,"p":["Colapesce"],"x":["forno"]},{"n":"Scarola riccia ripassata in padella","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Senape delicata al miele di Zagara","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Sponzali freschi","c":1,"p":["Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Stracciatella di Burrata montata all'olio di basilico","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Tuma fresca messinese","c":1,"p":["Anima Messinese"],"x":["forno"]}];
+const INDICE_INGREDIENTI = [{"n":"Olio EVO Don Pietro","c":8,"p":["Fuoco di Vulcanello","Il Tronchetto dell'Orso","Incanto di Zucca","L'Alpina Sicula","La Margherita","Marinara dei Peloritani","Memoria Contadina","O Sole Mio"],"x":["uscita"]},{"n":"Fior di latte vaccino","c":7,"p":["Bosco dei Nebrodi","Evergreen","Il Tronchetto dell'Orso","La Margherita","Sinfonia di Norma","Stretto","Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Ragusano DOP","c":7,"p":["Anima Messinese","Colapesce","Evergreen","Il Tronchetto dell'Orso","La Margherita","Stretto","Un Giorno sulla Feluca"],"x":["forno","uscita"]},{"n":"Spaccatella di Pelato Supremo","c":7,"p":["Adduma u Cufularu","Evergreen","La Burrata","La Margherita","Marinara dei Peloritani","Sinfonia di Norma","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Funghi Cardoncelli","c":5,"p":["Bosco dei Nebrodi","Colapesce","Evergreen","Fuoco di Vulcanello","Incanto di Zucca"],"x":["forno"]},{"n":"Basilico fresco","c":4,"p":["Evergreen","La Margherita","O Sole Mio","Sinfonia di Norma"],"x":["uscita"]},{"n":"Capperi di Salina","c":3,"p":["Fuoco di Vulcanello","Un Giorno sulla Feluca","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Datterini rossi semi-secchi","c":3,"p":["Disgraziata","Marinara dei Peloritani","Sinfonia di Norma"],"x":["forno"]},{"n":"Olio al limone d'Interdonato","c":3,"p":["Anima Messinese","Stretto","Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Pepe nero di Sarawak","c":3,"p":["Anima Messinese","Bosco dei Nebrodi","Stretto"],"x":["uscita"]},{"n":"Prosciutto Crudo San Daniele DOP","c":3,"p":["Colapesce","Il Tronchetto dell'Orso","La Burrata"],"x":["uscita"]},{"n":"Provola affumicata","c":3,"p":["Colapesce","Incanto di Zucca","L'Alpina Sicula"],"x":["forno"]},{"n":"Carciofi arrostiti alla brace","c":2,"p":["Evergreen","Fuoco di Vulcanello"],"x":["forno"]},{"n":"Cipolla Rossa di Tropea in agrodolce","c":2,"p":["Fuoco di Vulcanello","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Crema di patate cotte sotto cenere","c":2,"p":["L'Alpina Sicula","Memoria Contadina"],"x":["forno"]},{"n":"Lardo artigianale di Suino Nero","c":2,"p":["Memoria Contadina","Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Mozzarella di Bufala Campana DOP","c":2,"p":["Adduma u Cufularu","O Sole Mio"],"x":["forno"]},{"n":"Origano selvatico dei Peloritani","c":2,"p":["Fuoco di Vulcanello","Marinara dei Peloritani"],"x":["forno"]},{"n":"Polvere di cappero di Salina","c":2,"p":["Marinara dei Peloritani","O Sole Mio"],"x":["uscita"]},{"n":"Provola di Cesarò","c":2,"p":["Bosco dei Nebrodi","Memoria Contadina"],"x":["forno"]},{"n":"Chips di melanzane fritte croccanti","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Cicoria selvatica ripassata in padella","c":1,"p":["Memoria Contadina"],"x":["forno"]},{"n":"Cipolla croccante disidratata","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Crema d'Aglio Rosso di Nubia","c":1,"p":["Fuoco di Vulcanello"],"x":["uscita"]},{"n":"Crema d'aglio nero fermentato","c":1,"p":["Marinara dei Peloritani"],"x":["uscita"]},{"n":"Crema di Datterino Giallo arrostito","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Crema di zucca arrostita","c":1,"p":["Incanto di Zucca"],"x":["forno"]},{"n":"Cubetti di melanzane perline fritte","c":1,"p":["Sinfonia di Norma"],"x":["forno"]},{"n":"Datterini rossi confit","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Datterini rossi confit all'aceto di lampone","c":1,"p":["La Burrata"],"x":["forno"]},{"n":"Datterino rosso e giallo semi-secco","c":1,"p":["O Sole Mio"],"x":["forno"]},{"n":"Disco croccante","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Emulsione soffice di limone e arancia","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Emulsione soffice di ricotta fresca","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Filetti di alici del Mediterraneo","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Filetti di tonno rosso","c":1,"p":["Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Finocchietto Selvatico","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Funghi champignon","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Gocce di confettura di fichi","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Granella di nocciola tostata","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Guanciale di Suino Nero dei Nebrodi croccante","c":1,"p":["Bosco dei Nebrodi"],"x":["forno"]},{"n":"Lacrima di peperoncino in agrodolce","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Melanzane sott'olio","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Meraner Würstel artigianale Pfitscher","c":1,"p":["L'Alpina Sicula"],"x":["forno"]},{"n":"Miele di castagno piccante infuso al peperoncino","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Mortadella","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Mortadella Artigianale","c":1,"p":["Stretto"],"x":["uscita"]},{"n":"Muddica atturrata","c":1,"p":["Marinara dei Peloritani"],"x":["forno"]},{"n":"Muddica atturrata con Mandorle di Avola","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Muddica atturrata con pinoli tostati","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Nocciole tostate","c":1,"p":["Bosco dei Nebrodi"],"x":["uscita"]},{"n":"Olio al caffè","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Olive Taggiasche","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Olive nere infornate siciliane","c":1,"p":["Evergreen"],"x":["forno"]},{"n":"Pepe nero","c":1,"p":["Il Tronchetto dell'Orso"],"x":["forno"]},{"n":"Pepe nero macinato al momento","c":1,"p":["Colapesce"],"x":["uscita"]},{"n":"Pistacchio tostato","c":1,"p":["Stretto"],"x":["forno"]},{"n":"Polvere di peperoncino vulcanico","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Polvere di pomodoro","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Polvere di rosmarino tostato","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Primo sale","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Prosciutto Cotto Branchi","c":1,"p":["Evergreen"],"x":["uscita"]},{"n":"Rondelle di peperoncino fresco rosso","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Rose di Pesce Spada Siciliano Affumicato","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Rucola","c":1,"p":["Il Tronchetto dell'Orso"],"x":["uscita"]},{"n":"Salame","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Salame piccante","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Salsiccia fresca sgranata a punta di coltello","c":1,"p":["Colapesce"],"x":["forno"]},{"n":"Scarola riccia ripassata in padella","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Senape delicata al miele di Zagara","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Sponzali freschi","c":1,"p":["Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Stracciatella di Burrata montata all'olio di basilico","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Terra di olive nere","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Tuma fresca messinese","c":1,"p":["Anima Messinese"],"x":["forno"]}];
 
 function escHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1518,6 +1556,15 @@ function filtraRicerca(q){
     }).join('');
   }
   box.classList.add('open');
+}
+
+function vistaImp(v,btn){
+  document.getElementById('sez-impasti').dataset.vista = v;
+  document.querySelectorAll('.imp-switch button').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+}
+function vaiImpasti(){
+  S('impasti', document.querySelector(".ntab[onclick*=\"'impasti'\"]"));
 }
 
 function S(id,btn){
