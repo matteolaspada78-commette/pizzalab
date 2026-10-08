@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark only">
+<title>Food Cost — L'Orso (consultazione)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark only;
+  --bg:#0b0908; --bg-deep:#070504; --panel:#130f0b; --panel-2:#1a140f;
+  --gold:#c9a84c; --gold-bright:#e8d08a; --gold-dim:#6a5545;
+  --cream:#f0ebe0; --cream-dim:#a09080;
+  --ok:#8ec97a; --warn:#d4956a; --bad:#c0392b;
+  --hair:rgba(201,168,76,.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg)!important;}
+body{background:var(--bg)!important;color:var(--cream)!important;font-family:'Montserrat',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;}
+
+.cover{background:var(--bg-deep)!important;padding:3rem 1.5rem 2.2rem;text-align:center;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% 110%,rgba(201,168,76,.15) 0%,transparent 68%);pointer-events:none;}
+.cover::after{content:'';position:absolute;top:1.5rem;left:1.5rem;width:28px;height:28px;border-top:1px solid rgba(201,168,76,.35);border-left:1px solid rgba(201,168,76,.35);}
+.ci{position:relative;z-index:2;}
+.c-eye{font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:.9rem;display:block;}
+.c-logo{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--cream)!important;line-height:1;display:block;}
+.c-sub{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--gold)!important;margin-top:.4rem;display:block;}
+.c-status{margin-top:1.1rem;font-size:.58rem;letter-spacing:.1em;color:var(--gold-dim)!important;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.c-status-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);}
+.c-status-dot.off{background:var(--bad);}
+
+.nav-wrap{position:sticky;top:0;z-index:300;background:rgba(10,7,5,.94)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.nav{display:flex;border-bottom:1px solid var(--hair);overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.95rem 1.1rem;border:none;background:transparent!important;color:var(--gold-dim)!important;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.ntab.active{color:var(--gold)!important;border-bottom-color:var(--gold);}
+
+.sez{display:none;padding-bottom:4rem;}
+.sez.active{display:block;}
+
+.sez-head{text-align:center;padding:1.8rem 1.4rem 1rem;}
+.sez-eye{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)!important;margin-bottom:.5rem;display:block;}
+.sez-ttl{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--cream)!important;}
+.sez-sub{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-style:italic;color:var(--cream-dim)!important;margin-top:.4rem;padding:0 1rem;}
+
+/* INGREDIENTI */
+.ingr-row{display:flex;align-items:center;gap:.8rem;padding:.9rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.ingr-nome{flex:1;min-width:0;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--cream)!important;}
+.ingr-unita{font-size:.58rem;color:var(--gold-dim)!important;width:2.2rem;text-align:center;}
+.ingr-input-wrap{display:flex;align-items:center;gap:.3rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:.35rem .6rem;}
+.ingr-input-wrap input{width:4.2rem;background:transparent;border:none;outline:none;color:var(--gold-bright)!important;font-family:'Montserrat',sans-serif;font-size:.8rem;font-weight:600;text-align:right;}
+.ingr-input-wrap span{font-size:.65rem;color:var(--gold-dim)!important;}
+.ingr-perg{font-size:.6rem;color:var(--cream-dim)!important;width:4.5rem;text-align:right;}
+
+/* GRAMMATURE */
+.pizza-group{border-bottom:1px solid var(--hair);}
+.pizza-group-head{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--panel);cursor:pointer;}
+.pizza-group-nome{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold-bright)!important;flex:1;}
+.pizza-group-fc{font-size:.68rem;color:var(--cream-dim)!important;}
+.pizza-group-fc b{color:var(--gold-bright);}
+.pizza-group-arrow{color:var(--gold-dim);transition:transform .25s;}
+.pizza-group.open .pizza-group-arrow{transform:rotate(90deg);}
+.pizza-group-body{display:none;padding:.3rem 1.2rem .8rem;}
+.pizza-group.open .pizza-group-body{display:block;}
+.gram-row{display:flex;align-items:center;gap:.7rem;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.gram-row:last-child{border-bottom:none;}
+.gram-ctx-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.gram-ctx-dot.forno{background:var(--gold);}
+.gram-ctx-dot.uscita{background:var(--ok);}
+.gram-nome{flex:1;font-size:.72rem;color:var(--cream)!important;line-height:1.4;}
+.gram-input-wrap{display:flex;align-items:center;gap:.3rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:.3rem .5rem;flex-shrink:0;}
+.gram-input-wrap input{width:3.4rem;background:transparent;border:none;outline:none;color:var(--gold-bright)!important;font-family:'Montserrat',sans-serif;font-size:.76rem;font-weight:600;text-align:right;}
+.gram-input-wrap span{font-size:.58rem;color:var(--gold-dim)!important;}
+.gram-costo{font-size:.62rem;color:var(--cream-dim)!important;width:3.2rem;text-align:right;flex-shrink:0;}
+
+/* RIEPILOGO */
+.riep-row{padding:.9rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.riep-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem;}
+.riep-nome{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--cream)!important;flex:1;}
+.riep-pct{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;font-weight:600;}
+.riep-pct.ok{color:var(--ok)!important;}
+.riep-pct.warn{color:var(--warn)!important;}
+.riep-pct.bad{color:var(--bad)!important;}
+.riep-bar-track{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-bottom:.4rem;}
+.riep-bar{height:100%;border-radius:3px;}
+.riep-detail{font-size:.62rem;color:var(--cream-dim)!important;display:flex;gap:1.2rem;}
+.riep-summary{display:flex;justify-content:center;gap:0;border:1px solid rgba(201,168,76,.25);border-radius:3px;margin:1rem 1.2rem;overflow:hidden;}
+.riep-summary div{flex:1;padding:.9rem;text-align:center;border-right:1px solid rgba(201,168,76,.25);}
+.riep-summary div:last-child{border-right:none;}
+.riep-summary .rs-n{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:var(--gold-bright);display:block;}
+.riep-summary .rs-l{font-size:.44rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-dim);display:block;margin-top:.2rem;}
+
+.sync-badge{position:fixed;bottom:1.2rem;right:1.2rem;background:var(--panel-2);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:.5rem 1rem;font-size:.6rem;color:var(--gold-dim)!important;z-index:400;display:none;align-items:center;gap:.4rem;}
+.sync-badge.show{display:flex;}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.ingr-unita-sel{background:transparent;border:1px solid rgba(201,168,76,.25);border-radius:4px;color:var(--gold-dim);font-size:.6rem;padding:.25rem .2rem;font-family:'Montserrat',sans-serif;}
+.ingr-unita-sel option{background:#1a140f;color:#f0ebe0;}
+.pal-row,.sec-row{display:flex;align-items:center;gap:.7rem;padding:.6rem 0;border-bottom:1px dashed rgba(201,168,76,.3);}
+.imp-row{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.imp-lbl{flex:1;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--cream)!important;}
+.imp-lbl small{display:block;font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:400;color:var(--cream-dim);margin-top:.25rem;line-height:1.5;}
+.riep-detail b{color:var(--gold-bright);}
+.riep-summary{flex-wrap:wrap;}
+.riep-summary div{min-width:45%;}
+.ingr-nome-wrap{flex:1;min-width:0}
+.ingr-nota{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:400;color:var(--cream-dim);margin-top:.2rem;line-height:1.45}
+.ingr-calc{font-size:.8rem;color:var(--gold-bright);text-align:right;max-width:9.5rem;line-height:1.35}
+.ingr-calc small{display:block;font-size:.55rem;color:var(--cream-dim);font-weight:400}
+.ingr-der{background:rgba(201,168,76,.05)}
+.tag-base,.tag-stima{display:inline-block;margin-left:.45rem;padding:0 .4em;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;vertical-align:.1em}
+.tag-base{color:var(--gold-dim);border:1px solid rgba(201,168,76,.35)}
+.tag-stima{color:#d4956a;border:1px solid rgba(212,149,106,.55)}
+.riep-avviso{margin:0 1.2rem 1rem;font-size:.62rem;line-height:1.5;color:#d4956a}
+.riep-avviso:empty{display:none}
+.crudo-chk{display:flex;align-items:center;gap:.35rem;cursor:pointer}
+.crudo-chk input{accent-color:#c9a84c}
+/* ANALISI */
+.an-kpi{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;padding:0 1.2rem}
+.an-kpi-in{padding:0;margin:.9rem 0 .4rem}
+.an-k{border:1px solid var(--hair);background:linear-gradient(160deg,rgba(201,168,76,.1),transparent);border-radius:3px;padding:.85rem .8rem}
+.an-k b{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-style:italic;font-weight:600;color:var(--gold-bright);display:block;line-height:1.05}
+.an-k span{font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-top:.3rem;line-height:1.35}
+.an-k small{font-size:.58rem;color:var(--cream-dim);display:block;margin-top:.25rem;line-height:1.35}
+.an-block{padding:1.8rem 1.2rem 0}
+.an-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--cream);display:block;margin-bottom:.7rem}
+.an-title-row{display:flex;justify-content:space-between;align-items:flex-end;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem}
+.an-title-row .an-title{margin:0}
+.an-nota{font-size:.64rem;line-height:1.55;color:var(--cream-dim);margin:.2rem 0 .8rem}
+.an-vuoto{grid-column:1/-1;font-size:.72rem;color:var(--cream-dim);line-height:1.6;padding:1rem;border:1px dashed var(--hair);border-radius:3px}
+.an-podio{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:.5rem;align-items:end}
+.pod{border:1px solid var(--hair);border-radius:3px;padding:.8rem .5rem;text-align:center;background:linear-gradient(180deg,rgba(201,168,76,.08),transparent)}
+.pod1{border-color:rgba(232,208,138,.7);background:linear-gradient(180deg,rgba(232,208,138,.22),rgba(201,168,76,.04));padding:1.2rem .5rem 1rem}
+.pod-n{width:1.9rem;height:1.9rem;margin:0 auto .45rem;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold-bright)}
+.pod1 .pod-n{background:var(--gold);color:#1b1410}
+.pod-nome{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:600;color:var(--cream);line-height:1.1;min-height:2.1em;display:flex;align-items:center;justify-content:center}
+.pod-v{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:var(--gold-bright);margin-top:.3rem}
+.pod-s{font-size:.52rem;color:var(--cream-dim);margin-top:.25rem;line-height:1.4}
+.an-sort{display:flex;border:1px solid var(--hair);border-radius:3px;overflow:hidden}
+.an-sort button{background:transparent;border:none;color:var(--gold-dim);font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.5rem .6rem;cursor:pointer}
+.an-sort button.on{background:rgba(201,168,76,.18);color:var(--gold-bright)}
+.an-row,.me-row{display:flex;gap:.7rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.an-rk{flex-shrink:0;width:1.5rem;height:1.5rem;border:1px solid rgba(201,168,76,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.8rem;font-weight:600;color:var(--gold);margin-top:.1rem}
+.an-main{flex:1;min-width:0}
+.an-top{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem}
+.an-nome{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--cream)}
+.an-val{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;font-weight:600;color:var(--gold-bright);white-space:nowrap}
+.an-bar-t{height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin:.35rem 0 .3rem}
+.an-bar{height:100%;border-radius:3px}
+.an-bar.gold{background:linear-gradient(90deg,var(--gold-dim),var(--gold-bright))}
+.an-bar.ok{background:var(--ok)}.an-bar.warn{background:var(--warn)}.an-bar.bad{background:var(--bad)}
+.an-det{font-size:.58rem;line-height:1.55;color:var(--cream-dim)}
+.an-svg{width:100%;height:auto;display:block;background:rgba(255,255,255,.015);border:1px solid var(--hair);border-radius:3px}
+.an-svg .g{stroke:rgba(255,255,255,.07);stroke-width:1}
+.an-svg .t{fill:var(--cream-dim);font-size:8.5px;font-family:'Montserrat',sans-serif}
+.an-svg .ax{fill:var(--gold-dim);font-size:8px;letter-spacing:.14em;font-family:'Montserrat',sans-serif;font-weight:600}
+.an-svg .tg{stroke:var(--gold);stroke-width:1;stroke-dasharray:4 3}
+.an-svg .tgl{fill:var(--gold);font-size:8px;font-family:'Montserrat',sans-serif;font-weight:600}
+.an-svg .pt{stroke:#0b0908;stroke-width:1.5;cursor:pointer;opacity:.92}
+.an-svg .pt.ok{fill:var(--ok)}.an-svg .pt.warn{fill:var(--warn)}.an-svg .pt.bad{fill:var(--bad)}
+.an-svg .pt.sel{stroke:#fff;stroke-width:2.5;opacity:1}
+.an-punto{min-height:3.2rem;margin-top:.7rem;font-size:.7rem;line-height:1.6;color:var(--cream)}
+.an-hint{color:var(--gold-dim);font-style:italic}
+.an-punto b{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold-bright)}
+.vend-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--cream)}
+.chip{display:inline-block;margin-left:.4rem;padding:0 .5em;border-radius:2px;font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.chip.star{color:#1b1410;background:var(--gold-bright);border-color:var(--gold-bright)}
+.chip.horse{color:var(--warn);border-color:var(--warn)}.chip.puzzle{color:var(--ok);border-color:var(--ok)}.chip.dog{color:var(--bad);border-color:var(--bad)}
+.imp-due{display:flex;gap:.5rem;flex-shrink:0}
+.pizza-group-fc small{font-size:.58rem;color:var(--cream-dim);font-weight:400}
+.lav-lbl{display:flex;align-items:center;gap:.4rem;margin-top:.35rem}
+.lav-lbl input{width:3.4rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:3px;color:var(--gold-bright);font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:600;text-align:right;padding:.2rem .35rem;outline:none}
+.pr-row{display:flex;align-items:center;gap:.7rem;padding:.6rem 0;border-bottom:1px dashed rgba(201,168,76,.3);}
+.sede{display:inline-block;margin-left:.5rem;padding:0 .45em;border:1px solid rgba(201,168,76,.4);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);vertical-align:.15em}
+.sede-sw{display:flex;border-bottom:1px solid var(--hair)}
+.sede-sw button{flex:1;padding:.7rem;background:transparent;border:none;color:var(--gold-dim);font-family:'Montserrat',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
+.sede-sw button.on{color:var(--gold-bright);background:rgba(201,168,76,.12);border-bottom-color:var(--gold)}
+
+/* ═══ LEGGIBILITÀ: testi più grandi, colori più contrastati, numeri netti ═══ */
+:root{--cream-dim:#d6cab6;--gold-dim:#b59d6b;--gold:#dbb95f;--hair:rgba(201,168,76,.3)}
+html{font-size:17px}
+.riep-pct,.riep-summary .rs-n,.an-k b,.an-val,.pod-v,.pizza-group-fc b,.ingr-calc b,.rs-n{font-family:'Montserrat',sans-serif;font-style:normal;font-weight:700;font-variant-numeric:lining-nums tabular-nums;letter-spacing:0}
+.c-status{font-size:.8rem}
+.ntab{font-size:.78rem;padding:1rem 1.1rem}
+.sede-sw button{font-size:.8rem;padding:.85rem}
+.sez-eye{font-size:.72rem}.sez-ttl{font-size:2.1rem}.sez-sub{font-size:1.12rem}
+.ingr-row{flex-wrap:wrap;gap:.6rem .8rem;padding:1.05rem 1.2rem}
+.ingr-nome-wrap{flex:1 1 12rem}.ingr-nome{font-size:1.2rem;color:var(--cream)!important}
+.ingr-nota{font-size:.78rem;color:var(--cream-dim)!important}
+.ingr-unita-sel{font-size:.88rem;padding:.5rem .4rem;color:var(--gold-bright)}
+.ingr-input-wrap{padding:.5rem .8rem}
+.ingr-input-wrap input{font-size:1.2rem;width:5rem}
+.ingr-input-wrap span{font-size:.9rem;color:var(--gold)!important}
+.ingr-perg{font-size:.84rem;color:var(--cream)!important;width:auto;min-width:5.5rem;font-weight:600}
+.ingr-calc{font-size:1.15rem}.ingr-calc small{font-size:.74rem}
+.tag-base,.tag-stima{font-size:.62rem}
+.lav-lbl input{font-size:.95rem;width:3.8rem}
+.pizza-group-nome{font-size:1.45rem}
+.pizza-group-fc{font-size:1rem}.pizza-group-fc b{font-size:1.2rem}.pizza-group-fc small{font-size:.8rem;color:var(--cream-dim)!important}
+.gram-row,.pal-row,.sec-row,.pr-row{flex-wrap:wrap;gap:.5rem .7rem}
+.gram-nome{font-size:.98rem;line-height:1.4;color:var(--cream)!important;flex:1 1 9rem}
+.gram-input-wrap{padding:.45rem .65rem}.gram-input-wrap input{font-size:1.2rem;width:4.4rem}.gram-input-wrap span{font-size:.88rem}
+.gram-costo{font-size:.98rem;color:var(--cream)!important;width:4.4rem;font-weight:600}
+.gram-ctx-dot{width:9px;height:9px}
+.riep-nome{font-size:1.35rem}.riep-pct{font-size:1.55rem}
+.riep-detail{font-size:.9rem;color:var(--cream)!important;gap:.35rem 1.1rem;flex-wrap:wrap;font-weight:500}
+.riep-detail b{font-size:1rem}
+.riep-summary .rs-n{font-size:1.8rem}.riep-summary .rs-l{font-size:.68rem;color:var(--gold)!important}
+.riep-avviso{font-size:.82rem}
+.imp-lbl{font-size:1.3rem}.imp-lbl small{font-size:.82rem;color:var(--cream-dim)!important}
+.an-k b{font-size:1.9rem}.an-k span{font-size:.68rem}.an-k small{font-size:.8rem;color:var(--cream)!important}
+.an-title{font-size:1.5rem}.an-nota{font-size:.86rem;color:var(--cream-dim)!important}
+.an-nome{font-size:1.25rem}.an-val{font-size:1.3rem}.an-det{font-size:.82rem;color:var(--cream-dim)!important}
+.an-rk{width:1.8rem;height:1.8rem;font-size:.9rem}
+.pod-nome{font-size:1.1rem}.pod-v{font-size:1.45rem}.pod-s{font-size:.72rem;color:var(--cream)!important}
+.an-sort button{font-size:.66rem;padding:.6rem .7rem}
+.vend-row{font-size:1.2rem}.chip{font-size:.64rem}.an-punto{font-size:.92rem}
+.an-svg .t{font-size:10px}.an-svg .ax,.an-svg .tgl{font-size:9.5px}
+.sync-badge{font-size:.82rem}
+.sede{font-size:.62rem}
+
+input::placeholder{color:rgba(214,202,182,.6);opacity:1}
+.an-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}
+.an-k{min-width:0}.an-k b{font-size:1.55rem;overflow-wrap:anywhere;line-height:1.15}
+.an-k span,.an-k small{overflow-wrap:anywhere}
+.ingr-perg{overflow-wrap:anywhere}
+
+.an-podio{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1fr);gap:.4rem}
+.pod{min-width:0;padding:.7rem .35rem}.pod1{padding:1.1rem .35rem .9rem}
+.pod-nome{font-size:1rem;overflow-wrap:anywhere}.pod-v{font-size:1.2rem;overflow-wrap:anywhere}.pod-s{font-size:.7rem;overflow-wrap:anywhere}
+.an-title-row{display:block}.an-title-row .an-title{margin-bottom:.6rem}
+.an-sort{display:flex;flex-wrap:wrap;width:100%}
+.an-sort button{flex:1 1 auto;padding:.65rem .5rem;font-size:.64rem;white-space:nowrap}
+.an-k b{font-size:1.4rem;white-space:nowrap}.an-k b i.u{font-size:.62em;font-style:normal;font-weight:600;margin-left:.1em}
+.no-db{display:none;background:#7a1f16;color:#fff;font-size:.9rem;font-weight:600;line-height:1.5;padding:.9rem 1.2rem;text-align:center;position:sticky;top:0;z-index:50}
+.btn-ric{flex-shrink:0;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:3px;color:var(--gold-bright);font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding:.7rem 1rem;cursor:pointer}
+#gram-count{color:var(--gold-bright);font-family:'Montserrat',sans-serif;font-style:normal;font-size:.82rem;letter-spacing:.04em}
+.diag{font-size:.78rem;line-height:1.55;color:var(--cream-dim);padding:.8rem 0 0;overflow-wrap:anywhere}
+.diag-top{font-size:.7rem;line-height:1.5;color:var(--cream-dim);text-align:center;padding:.45rem 1rem;background:rgba(201,168,76,.07);border-bottom:1px solid var(--hair);overflow-wrap:anywhere}
+.sola{background:linear-gradient(90deg,#3a2e12,#4a3a16);color:var(--gold-bright);font-size:.82rem;font-weight:600;line-height:1.5;padding:.7rem 1.2rem;text-align:center;border-bottom:1px solid var(--gold);position:sticky;top:0;z-index:60}
+.sola-lettura input,.sola-lettura select{pointer-events:none}
+.sola-lettura .btn-ric,.sola-lettura #diag,.sola-lettura .diag-top,.sola-lettura #btn-ric{display:none}
+.sola-lettura .imp-row:has(#btn-ric){display:none}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="ci">
+    <span class="c-eye">Food Cost · Uso Interno</span>
+    <span class="c-logo">L'Orso · Via Calapso e Duomo</span>
+    <span class="c-sub">Grammature e Costi per Pizza</span>
+    <div class="c-status"><span class="c-status-dot" id="status-dot"></span><span id="status-text">Connessione al salvataggio…</span></div>
+  </div>
+</div>
+
+<div class="sola" id="sola"></div>
+<div class="no-db" id="no-db"></div>
+<div class="diag-top" id="diag-top"></div>
+<div class="nav-wrap">
+  <div class="sede-sw" id="sede-sw"><button data-sede="calapso">Via Calapso</button><button data-sede="duomo">Duomo</button></div>
+  <div class="nav">
+    <button class="ntab active" onclick="S('ingredienti',this)">Costi Ingredienti</button>
+    <button class="ntab" onclick="S('grammature',this)">Grammature</button>
+    <button class="ntab" onclick="S('riepilogo',this)">Riepilogo</button>
+    <button class="ntab" onclick="S('analisi',this)">Analisi</button>
+    <button class="ntab" onclick="S('impostazioni',this)">Impostazioni</button>
+  </div>
+</div>
+
+<div class="sez active" id="sez-ingredienti">
+  <div class="sez-head">
+    <span class="sez-eye" id="count-ingredienti"></span>
+    <div class="sez-ttl">Costo Ingredienti</div>
+    <div class="sez-sub">Inserisci il costo di acquisto, sempre IVA esclusa — si salva da solo</div>
+  </div>
+  <div id="lista-ingredienti"></div>
+</div>
+
+<div class="sez" id="sez-grammature">
+  <div class="sez-head">
+    <span class="sez-eye" id="count-grammature"></span>
+    <div class="sez-ttl">Grammature per Pizza</div>
+    <div class="sez-sub">Tocca una pizza per aprirla e inserire i grammi<br><b id="gram-count"></b></div>
+  </div>
+  <div id="lista-grammature"></div>
+</div>
+
+<div class="sez" id="sez-riepilogo">
+  <div class="sez-head">
+    <span class="sez-eye">Food Cost per piatto</span>
+    <div class="sez-ttl">Riepilogo</div>
+    <div class="sez-sub">Ordinato dal food cost % più alto</div>
+  </div>
+  <div class="riep-summary" id="riep-summary"></div>
+  <div class="riep-avviso" id="riep-avviso"></div>
+  <div id="lista-riepilogo"></div>
+</div>
+
+<div class="sez" id="sez-analisi">
+  <div class="sez-head">
+    <span class="sez-eye">Dove guadagni davvero</span>
+    <div class="sez-ttl">Analisi</div>
+    <div class="sez-sub">Quale pizza rende di più, e quante volte il prezzo copre il costo</div>
+  </div>
+  <div class="riep-avviso" id="an-avviso"></div>
+  <div class="an-kpi" id="an-kpi"></div>
+  <div class="an-block"><div class="an-title">Il podio</div><div class="an-podio" id="an-podio"></div></div>
+  <div class="an-block">
+    <div class="an-title-row"><span class="an-title">Classifica</span>
+      <div class="an-sort" id="an-sort"><button data-s="margine" class="on">Guadagno €</button><button data-s="mult">Moltiplicatore</button><button data-s="pct">Food cost %</button><button data-s="eurmin">€ al minuto</button></div></div>
+    <div id="an-lista"></div>
+  </div>
+  <div class="an-block"><div class="an-title">Chi ti fa perdere tempo</div><div id="an-tempo"></div></div>
+  <div class="an-block"><div class="an-title">Il prezzo giusto</div><div id="an-prezzo"></div></div>
+  <div class="an-block"><div class="an-title">Mappa guadagno e food cost</div>
+    <p class="an-nota">Più un punto è in alto e a sinistra, meglio è: guadagni tanto con poco costo.</p>
+    <div id="an-mappa"></div><div class="an-punto" id="an-punto"></div></div>
+  <div class="an-block"><div class="an-title">Quante ne vendi al mese</div>
+    <p class="an-nota">Facoltativo: serve a capire chi ti fa guadagnare di più nel totale, non solo per pizza.</p>
+    <div class="an-vend" id="an-vendite"></div><div id="an-me"></div></div>
+</div>
+
+<div class="sez" id="sez-impostazioni">
+  <div class="sez-head">
+    <span class="sez-eye">Parametri generali</span>
+    <div class="sez-ttl">Impostazioni</div>
+    <div class="sez-sub">Pallina, IVA e obiettivo: cambiano il calcolo di tutta la carta</div>
+  </div>
+  <div class="imp-row"><div class="imp-lbl">Costo pallina standard<small>Impasto per una pizza (farine, lievito, sale, acqua). Per una pizza diversa usa il campo Pallina dentro la sua scheda in Grammature. I fritti non hanno pallina.</small></div>
+    <div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="0.01" min="0" id="imp-pallina" data-kind="imp" data-campo="pallina" placeholder="0.00"><span>€</span></div></div>
+  <div class="imp-row"><div class="imp-lbl">IVA sulla vendita<small>I prezzi in carta sono IVA inclusa: il guadagno vero si calcola sul netto. Preimpostata al 10%, correggila se il tuo caso è diverso. Con 0 il calcolo usa il prezzo di carta.</small></div>
+    <div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" id="imp-iva" data-kind="imp" data-campo="iva"><span>%</span></div></div>
+  <div class="imp-row"><div class="imp-lbl">Obiettivo food cost<small>Verde sotto l'obiettivo, arancio fino a 5 punti sopra, rosso oltre.</small></div>
+    <div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="1" min="1" id="imp-target" data-kind="imp" data-campo="target"><span>%</span></div></div>
+  <div class="imp-row"><div class="imp-lbl">Scarto di pulizia sul crudo<small>Per gli ingredienti con la spunta "crudo": il costo si calcola sul peso acquistato, quindi il prezzo al kg sale (con 20%, il prezzo diventa prezzo ÷ 0,80). Inserisci le grammature a peso pulito, quello che va sulla pizza.</small></div>
+    <div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="1" min="0" max="90" id="imp-scarto" data-kind="imp" data-campo="scarto"><span>%</span></div></div>
+  <div class="imp-row"><div class="imp-lbl">Secondi per ogni elemento fuori forno<small>Tempo per mettere un elemento sulla pizza all'uscita (olio, salsa, taglio, impiattamento). Scrivi il minimo e il massimo: l'Analisi usa la media e mostra l'intervallo. Per una pizza particolare scrivi i secondi veri dentro la sua scheda, in Grammature.</small></div>
+    <div class="imp-due"><div class="ingr-input-wrap"><span>da</span><input type="number" inputmode="decimal" step="0.5" min="0" id="imp-secMin" data-kind="imp" data-campo="secMin"></div><div class="ingr-input-wrap"><span>a</span><input type="number" inputmode="decimal" step="0.5" min="0" id="imp-secMax" data-kind="imp" data-campo="secMax"><span>s</span></div></div></div>
+  <div class="imp-row"><div class="imp-lbl">Costo orario del personale<small>Facoltativo. Se lo inserisci, l'Analisi mostra anche il guadagno dopo il lavoro in uscita. Lascia vuoto per non includerlo.</small></div>
+    <div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" id="imp-costoOrario" data-kind="imp" data-campo="costoOrario"><span>€/h</span></div></div>
+  <div class="imp-row"><div class="imp-lbl">Dati non aggiornati?<small>Se su un dispositivo non vedi quello che hai inserito su un altro, premi Ricarica: rilegge i dati dal salvataggio comune.</small></div>
+    <button class="btn-ric" id="btn-ric">↻ Ricarica</button></div>
+  <div class="diag" id="diag"></div>
+</div>
+
+<div class="sync-badge" id="sync-badge"><span class="sync-dot"></span><span id="sync-text">Salvataggio…</span></div>
+
+<script>
+const DATI = {"righe":[["Disgraziata","Firma Premiata","Primo sale (lavorato e grattugiato a microplane)","Primo sale","Forno"],["Disgraziata","Firma Premiata","Mortadella","Mortadella","Forno"],["Disgraziata","Firma Premiata","Salame","Salame","Forno"],["Disgraziata","Firma Premiata","Melanzane sott'olio","Melanzane sott'olio","Forno"],["Disgraziata","Firma Premiata","Funghi champignon","Funghi champignon","Forno"],["Disgraziata","Firma Premiata","Datterini rossi semi-secchi","Datterini rossi semi-secchi","Forno"],["Disgraziata","Firma Premiata","Lacrima di peperoncino in agrodolce","Lacrima di peperoncino in agrodolce","Uscita"],["Disgraziata","Firma Premiata","Terra di olive nere","Terra di olive nere","Uscita"],["La Margherita","Le Radici Siciliane","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["La Margherita","Le Radici Siciliane","Fior di latte vaccino","Fior di latte vaccino","Forno"],["La Margherita","Le Radici Siciliane","Ragusano DOP stagionato (microplane)","Ragusano DOP","Uscita"],["La Margherita","Le Radici Siciliane","Basilico fresco","Basilico fresco","Uscita"],["La Margherita","Le Radici Siciliane","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Marinara dei Peloritani","Le Radici Siciliane","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Marinara dei Peloritani","Le Radici Siciliane","Datterini rossi semi-secchi","Datterini rossi semi-secchi","Forno"],["Marinara dei Peloritani","Le Radici Siciliane","Origano selvatico dei Peloritani","Origano selvatico dei Peloritani","Forno"],["Marinara dei Peloritani","Le Radici Siciliane","Muddica atturrata","Muddica atturrata","Forno"],["Marinara dei Peloritani","Le Radici Siciliane","Crema d'aglio nero fermentato","Crema d'aglio nero fermentato","Uscita"],["Marinara dei Peloritani","Le Radici Siciliane","Polvere di cappero di Salina","Polvere di cappero di Salina","Uscita"],["Marinara dei Peloritani","Le Radici Siciliane","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["O Sole Mio","Le Radici Siciliane","Datterino rosso e giallo semi-secco","Datterino rosso e giallo semi-secco","Forno"],["O Sole Mio","Le Radici Siciliane","Mozzarella di Bufala Campana DOP","Mozzarella di Bufala Campana DOP","Forno"],["O Sole Mio","Le Radici Siciliane","Basilico fresco","Basilico fresco","Uscita"],["O Sole Mio","Le Radici Siciliane","Polvere di cappero di Salina","Polvere di cappero di Salina","Uscita"],["O Sole Mio","Le Radici Siciliane","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Evergreen","Le Radici Siciliane","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Evergreen","Le Radici Siciliane","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Evergreen","Le Radici Siciliane","Funghi Cardoncelli trifolati al timo","Funghi Cardoncelli","Forno"],["Evergreen","Le Radici Siciliane","Carciofi arrostiti alla brace","Carciofi arrostiti alla brace","Forno"],["Evergreen","Le Radici Siciliane","Olive nere infornate siciliane","Olive nere infornate siciliane","Forno"],["Evergreen","Le Radici Siciliane","Velo di fonduta di Ragusano DOP","Ragusano DOP","Uscita"],["Evergreen","Le Radici Siciliane","Prosciutto Cotto Branchi (fette aeree)","Prosciutto Cotto Branchi","Uscita"],["Evergreen","Le Radici Siciliane","Basilico fresco","Basilico fresco","Uscita"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Tuma fresca messinese","Tuma fresca messinese","Forno"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Scarola riccia ripassata in padella","Scarola riccia ripassata in padella","Forno"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Datterini rossi confit","Datterini rossi confit","Forno"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Filetti di alici del Mediterraneo","Filetti di alici del Mediterraneo","Forno"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Olio al limone d'Interdonato","Olio al limone d'Interdonato","Uscita"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Pepe nero di Sarawak","Pepe nero di Sarawak","Uscita"],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi","Velo di crema di Ragusano DOP","Ragusano DOP","Uscita"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Pistacchio tostato","Pistacchio tostato","Forno"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Mortadella Artigianale (adagiata a caldo)","Mortadella Artigianale","Uscita"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Fonduta di Caciocavallo Ragusano DOP","Ragusano DOP","Uscita"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Olio al limone d'Interdonato","Olio al limone d'Interdonato","Uscita"],["Stretto","Le Identità dello Stretto e dei Nebrodi","Pepe nero di Sarawak","Pepe nero di Sarawak","Uscita"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Cipolla Rossa di Tropea in agrodolce","Cipolla Rossa di Tropea in agrodolce","Forno"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Capperi di Salina dissalati","Capperi di Salina","Forno"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Sponzali freschi","Sponzali freschi","Forno"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Filetti di tonno rosso","Filetti di tonno rosso","Uscita"],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi","Olio al limone d'Interdonato","Olio al limone d'Interdonato","Uscita"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Provola di Cesarò","Provola di Cesarò","Forno"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Funghi Cardoncelli trifolati al timo","Funghi Cardoncelli","Forno"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Guanciale di Suino Nero dei Nebrodi croccante","Guanciale di Suino Nero dei Nebrodi croccante","Forno"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Nocciole tostate","Nocciole tostate","Uscita"],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi","Pepe nero di Sarawak","Pepe nero di Sarawak","Uscita"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Disco croccante","Disco croccante","Forno"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Capperi di Salina","Capperi di Salina","Forno"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Muddica atturrata con pinoli tostati","Muddica atturrata con pinoli tostati","Forno"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Rose di Pesce Spada Siciliano Affumicato","Rose di Pesce Spada Siciliano Affumicato","Uscita"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Lardo artigianale di Suino Nero","Lardo artigianale di Suino Nero","Uscita"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Emulsione soffice di limone e arancia","Emulsione soffice di limone e arancia","Uscita"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Ragusano DOP","Ragusano DOP","Uscita"],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi","Finocchietto Selvatico","Finocchietto Selvatico","Uscita"],["Sinfonia di Norma","Evoluzioni Vegetali","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Sinfonia di Norma","Evoluzioni Vegetali","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Sinfonia di Norma","Evoluzioni Vegetali","Cubetti di melanzane perline fritte","Cubetti di melanzane perline fritte","Forno"],["Sinfonia di Norma","Evoluzioni Vegetali","Datterini rossi semi-secchi","Datterini rossi semi-secchi","Forno"],["Sinfonia di Norma","Evoluzioni Vegetali","Emulsione soffice di ricotta fresca","Emulsione soffice di ricotta fresca","Uscita"],["Sinfonia di Norma","Evoluzioni Vegetali","Chips di melanzane fritte croccanti","Chips di melanzane fritte croccanti","Uscita"],["Sinfonia di Norma","Evoluzioni Vegetali","Basilico fresco","Basilico fresco","Uscita"],["Incanto di Zucca","Evoluzioni Vegetali","Crema di zucca arrostita","Crema di zucca arrostita","Forno"],["Incanto di Zucca","Evoluzioni Vegetali","Provola affumicata di Napoli","Provola affumicata","Forno"],["Incanto di Zucca","Evoluzioni Vegetali","Funghi Cardoncelli trifolati al timo","Funghi Cardoncelli","Forno"],["Incanto di Zucca","Evoluzioni Vegetali","Granella di nocciola tostata","Granella di nocciola tostata","Uscita"],["Incanto di Zucca","Evoluzioni Vegetali","Polvere di rosmarino tostato","Polvere di rosmarino tostato","Uscita"],["Incanto di Zucca","Evoluzioni Vegetali","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Memoria Contadina","Evoluzioni Vegetali","Crema di patate cotte sotto cenere","Crema di patate cotte sotto cenere","Forno"],["Memoria Contadina","Evoluzioni Vegetali","Provola di Cesarò","Provola di Cesarò","Forno"],["Memoria Contadina","Evoluzioni Vegetali","Cicoria selvatica ripassata in padella","Cicoria selvatica ripassata in padella","Forno"],["Memoria Contadina","Evoluzioni Vegetali","Lardo artigianale di Suino Nero","Lardo artigianale di Suino Nero","Uscita"],["Memoria Contadina","Evoluzioni Vegetali","Gocce di confettura di fichi","Gocce di confettura di fichi","Uscita"],["Memoria Contadina","Evoluzioni Vegetali","Olio al caffè","Olio al caffè","Uscita"],["Memoria Contadina","Evoluzioni Vegetali","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Crema di Datterino Giallo arrostito","Crema di Datterino Giallo arrostito","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Funghi Cardoncelli tagliati spessi","Funghi Cardoncelli","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Carciofi arrostiti alla brace","Carciofi arrostiti alla brace","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Cipolla Rossa di Tropea in agrodolce","Cipolla Rossa di Tropea in agrodolce","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Olive Taggiasche","Olive Taggiasche","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Muddica atturrata con Mandorle di Avola","Muddica atturrata con Mandorle di Avola","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Capperi di Salina","Capperi di Salina","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Origano selvatico dei Peloritani","Origano selvatico dei Peloritani","Forno"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Crema d'Aglio Rosso di Nubia","Crema d'Aglio Rosso di Nubia","Uscita"],["Fuoco di Vulcanello","Evoluzioni Vegetali","Olio EVO a crudo","Olio EVO Don Pietro","Uscita"],["La Burrata","Le Strutture Intense","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["La Burrata","Le Strutture Intense","Datterini rossi confit all'aceto di lampone","Datterini rossi confit all'aceto di lampone","Forno"],["La Burrata","Le Strutture Intense","Stracciatella di Burrata montata all'olio di basilico","Stracciatella di Burrata montata all'olio di basilico","Uscita"],["La Burrata","Le Strutture Intense","San Daniele DOP 24 mesi (fette aeree)","Prosciutto Crudo San Daniele DOP","Uscita"],["La Burrata","Le Strutture Intense","Polvere di pomodoro (tecnica buccia)","Polvere di pomodoro","Uscita"],["Adduma u Cufularu","Le Strutture Intense","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Adduma u Cufularu","Le Strutture Intense","Mozzarella di Bufala Campana DOP disidratata","Mozzarella di Bufala Campana DOP","Forno"],["Adduma u Cufularu","Le Strutture Intense","Salame piccante","Salame piccante","Forno"],["Adduma u Cufularu","Le Strutture Intense","Rondelle di peperoncino fresco rosso","Rondelle di peperoncino fresco rosso","Forno"],["Adduma u Cufularu","Le Strutture Intense","Miele di castagno piccante infuso al peperoncino","Miele di castagno piccante infuso al peperoncino","Uscita"],["Adduma u Cufularu","Le Strutture Intense","Polvere di peperoncino vulcanico","Polvere di peperoncino vulcanico","Uscita"],["L'Alpina Sicula","Le Strutture Intense","Crema di patate cotte sotto cenere","Crema di patate cotte sotto cenere","Forno"],["L'Alpina Sicula","Le Strutture Intense","Provola affumicata","Provola affumicata","Forno"],["L'Alpina Sicula","Le Strutture Intense","Meraner Würstel artigianale Pfitscher (rondelle)","Meraner Würstel artigianale Pfitscher","Forno"],["L'Alpina Sicula","Le Strutture Intense","Senape delicata al miele di Zagara (fili)","Senape delicata al miele di Zagara","Uscita"],["L'Alpina Sicula","Le Strutture Intense","Cipolla croccante disidratata","Cipolla croccante disidratata","Uscita"],["L'Alpina Sicula","Le Strutture Intense","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Colapesce","Le Strutture Intense","Provola affumicata a legna d'agrumi","Provola affumicata","Forno"],["Colapesce","Le Strutture Intense","Funghi Cardoncelli trifolati al timo","Funghi Cardoncelli","Forno"],["Colapesce","Le Strutture Intense","Salsiccia fresca sgranata a punta di coltello","Salsiccia fresca sgranata a punta di coltello","Forno"],["Colapesce","Le Strutture Intense","Velo di crema di Ragusano DOP","Ragusano DOP","Uscita"],["Colapesce","Le Strutture Intense","Prosciutto Crudo San Daniele DOP 24 mesi (fette aeree)","Prosciutto Crudo San Daniele DOP","Uscita"],["Colapesce","Le Strutture Intense","Pepe nero macinato al momento","Pepe nero macinato al momento","Uscita"],["Il Tronchetto dell'Orso","Le Strutture Intense","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Il Tronchetto dell'Orso","Le Strutture Intense","Fonduta di Caciocavallo Ragusano DOP","Ragusano DOP","Forno"],["Il Tronchetto dell'Orso","Le Strutture Intense","Pepe nero","Pepe nero","Forno"],["Il Tronchetto dell'Orso","Le Strutture Intense","Prosciutto Crudo San Daniele DOP (fette aeree)","Prosciutto Crudo San Daniele DOP","Uscita"],["Il Tronchetto dell'Orso","Le Strutture Intense","Rucola","Rucola","Uscita"],["Il Tronchetto dell'Orso","Le Strutture Intense","Ragusano DOP (grattugiata microplane)","Ragusano DOP","Uscita"],["Il Tronchetto dell'Orso","Le Strutture Intense","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi","Spaccatella di Pelato Supremo","Spaccatella di Pelato Supremo","Forno"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi","Salame tagliato a julienne","Salame tagliato a julienne","Forno"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi","Ragusano DOP","Ragusano DOP","Forno"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi","Pepe nero di Sarawak","Pepe nero di Sarawak","Uscita"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi","Olio EVO Don Pietro","Olio EVO Don Pietro","Uscita"],["Emma","Le Strutture Intense","Fior di latte vaccino","Fior di latte vaccino","Forno"],["Emma","Le Strutture Intense","Capperi","Capperi","Forno"],["Emma","Le Strutture Intense","Olive Taggiasche","Olive Taggiasche","Forno"],["Emma","Le Strutture Intense","Rucola aromatizzata all'aceto di lampone","Rucola aromatizzata all'aceto di lampone","Uscita"],["Emma","Le Strutture Intense","Pomodori secchi","Pomodori secchi","Uscita"],["Emma","Le Strutture Intense","Prosciutto crudo","Prosciutto crudo","Uscita"],["Emma","Le Strutture Intense","Fonduta di crema di Ragusano DOP","Ragusano DOP","Uscita"],["Emma","Le Strutture Intense","Miele di cardo","Miele di cardo","Uscita"],["Crocchè","I Fritti","Patate schiacciate a mano, fritte al momento","Patate schiacciate a mano, fritte al momento","Forno"],["La Nuvola dell'Orso","I Fritti","Sfoglia lievitata fritta e ripassata ad alta temperatura","Sfoglia lievitata fritta e ripassata ad alta temperatura","Forno"],["La Nuvola dell'Orso","I Fritti","Salame Sant'Angelo di Brolo IGP","Salame Sant'Angelo di Brolo IGP","Uscita"],["La Nuvola dell'Orso","I Fritti","Primo Sale dei Nebrodi","Primo Sale dei Nebrodi","Uscita"],["Tuma Fritta in Pasta Fillo","I Fritti","Tuma di Cesarò avvolta in pasta fillo croccante","Tuma di Cesarò avvolta in pasta fillo croccante","Forno"],["Tuma Fritta in Pasta Fillo","I Fritti","Miele a filo","Miele a filo","Uscita"]],"ingredienti":[["Basilico fresco","kg"],["Capperi","kg"],["Capperi di Salina","kg"],["Carciofi arrostiti alla brace","kg"],["Chips di melanzane fritte croccanti","kg"],["Cicoria selvatica ripassata in padella","kg"],["Cipolla Rossa di Tropea in agrodolce","kg"],["Cipolla croccante disidratata","kg"],["Crema d'Aglio Rosso di Nubia","kg"],["Crema d'aglio nero fermentato","kg"],["Crema di Datterino Giallo arrostito","kg"],["Crema di patate cotte sotto cenere","kg"],["Crema di zucca arrostita","kg"],["Cubetti di melanzane perline fritte","kg"],["Datterini rossi confit","kg"],["Datterini rossi confit all'aceto di lampone","kg"],["Datterini rossi semi-secchi","kg"],["Datterino rosso e giallo semi-secco","kg"],["Disco croccante","kg"],["Emulsione soffice di limone e arancia","kg"],["Emulsione soffice di ricotta fresca","kg"],["Filetti di alici del Mediterraneo","kg"],["Filetti di tonno rosso","kg"],["Finocchietto Selvatico","kg"],["Fior di latte vaccino","kg"],["Funghi Cardoncelli","kg"],["Funghi champignon","kg"],["Gocce di confettura di fichi","kg"],["Granella di nocciola tostata","kg"],["Guanciale di Suino Nero dei Nebrodi croccante","kg"],["Lacrima di peperoncino in agrodolce","kg"],["Lardo artigianale di Suino Nero","kg"],["Melanzane sott'olio","kg"],["Meraner Würstel artigianale Pfitscher","kg"],["Miele a filo","kg"],["Miele di cardo","kg"],["Miele di castagno piccante infuso al peperoncino","kg"],["Mortadella","kg"],["Mortadella Artigianale","kg"],["Mozzarella di Bufala Campana DOP","kg"],["Muddica atturrata","kg"],["Muddica atturrata con Mandorle di Avola","kg"],["Muddica atturrata con pinoli tostati","kg"],["Nocciole tostate","kg"],["Olio EVO Don Pietro","L"],["Olio al caffè","L"],["Olio al limone d'Interdonato","L"],["Olive Taggiasche","kg"],["Olive nere infornate siciliane","kg"],["Origano selvatico dei Peloritani","kg"],["Patate schiacciate a mano, fritte al momento","kg"],["Pepe nero","kg"],["Pepe nero di Sarawak","kg"],["Pepe nero macinato al momento","kg"],["Pistacchio tostato","kg"],["Polvere di cappero di Salina","kg"],["Polvere di peperoncino vulcanico","kg"],["Polvere di pomodoro","kg"],["Polvere di rosmarino tostato","kg"],["Pomodori secchi","kg"],["Primo Sale dei Nebrodi","kg"],["Primo sale","kg"],["Prosciutto Cotto Branchi","kg"],["Prosciutto Crudo San Daniele DOP","kg"],["Prosciutto crudo","kg"],["Provola affumicata","kg"],["Provola di Cesarò","kg"],["Ragusano DOP","kg"],["Rondelle di peperoncino fresco rosso","kg"],["Rose di Pesce Spada Siciliano Affumicato","kg"],["Rucola","kg"],["Rucola aromatizzata all'aceto di lampone","kg"],["Salame","kg"],["Salame Sant'Angelo di Brolo IGP","kg"],["Salame piccante","kg"],["Salame tagliato a julienne","kg"],["Salsiccia fresca sgranata a punta di coltello","kg"],["Scarola riccia ripassata in padella","kg"],["Senape delicata al miele di Zagara","kg"],["Sfoglia lievitata fritta e ripassata ad alta temperatura","kg"],["Spaccatella di Pelato Supremo","kg"],["Sponzali freschi","kg"],["Stracciatella di Burrata montata all'olio di basilico","kg"],["Terra di olive nere","kg"],["Tuma di Cesarò avvolta in pasta fillo croccante","kg"],["Tuma fresca messinese","kg"]],"prezzi":[["Disgraziata","Firma Premiata",16.0,""],["La Margherita","Le Radici Siciliane",9.0,""],["Marinara dei Peloritani","Le Radici Siciliane",8.0,""],["O Sole Mio","Le Radici Siciliane",13.0,""],["Evergreen","Le Radici Siciliane",16.0,""],["Anima Messinese","Le Identità dello Stretto e dei Nebrodi",12.5,""],["Stretto","Le Identità dello Stretto e dei Nebrodi",16.0,""],["Uno Sguardo alle Eolie","Le Identità dello Stretto e dei Nebrodi",18.0,""],["Bosco dei Nebrodi","Le Identità dello Stretto e dei Nebrodi",19.0,""],["Un Giorno sulla Feluca","Le Identità dello Stretto e dei Nebrodi",25.0,""],["Sinfonia di Norma","Evoluzioni Vegetali",13.5,""],["Incanto di Zucca","Evoluzioni Vegetali",14.0,""],["Memoria Contadina","Evoluzioni Vegetali",15.0,""],["Fuoco di Vulcanello","Evoluzioni Vegetali",13.0,""],["La Burrata","Le Strutture Intense",16.0,""],["Adduma u Cufularu","Le Strutture Intense",14.0,""],["L'Alpina Sicula","Le Strutture Intense",15.0,""],["Colapesce","Le Strutture Intense",16.0,""],["Il Tronchetto dell'Orso","Le Strutture Intense",16.5,"Solo Via Calapso"],["Voleva essere una marinara","Le Identità dello Stretto e dei Nebrodi",0.0,"Solo Duomo"],["Emma","Le Strutture Intense",0.0,"Solo Duomo"],["Crocchè","I Fritti",3.0,""],["La Nuvola dell'Orso","I Fritti",3.0,""],["Tuma Fritta in Pasta Fillo","I Fritti",3.5,""]]};
+const DEF_IMP = {pallina:0, iva:10, target:30, scarto:20, secMin:7, secMax:10, costoOrario:0, over:{}, overSec:{}};
+let COSTI = {}, GRAMMI = {}, VENDITE = {}, PREZZI = {}, IMP = JSON.parse(JSON.stringify(DEF_IMP));
+let SEDE = 'calapso';
+try{ if(localStorage.getItem('orsoSede') === 'duomo') SEDE = 'duomo'; }catch(e){}
+// I costi degli ingredienti sono comuni; grammature, prezzi di carta, pallina, impostazioni e vendite sono separati per locale
+const docName = base => (base === 'costi' || SEDE === 'calapso') ? base : base + '_duomo';
+const piattiSede = () => DATI.prezzi.filter(p => !p[3] || (SEDE === 'duomo' ? p[3] === 'Solo Duomo' : p[3] === 'Solo Via Calapso'));
+const SEDI = {calapso: "L'Orso Via Calapso", duomo: "L'Orso in Duomo"};
+function aggiornaSedeUI(){
+  document.querySelectorAll('#sede-sw button').forEach(b => b.classList.toggle('on', b.dataset.sede === SEDE));
+  const l = document.querySelector('.c-logo'); if(l) l.textContent = SEDI[SEDE];
+  document.title = 'Food Cost — ' + SEDI[SEDE];
+}
+function cambiaSede(s){
+  if(s === SEDE) return;
+  SEDE = s; try{ localStorage.setItem('orsoSede', s); }catch(e){}
+  GRAMMI = {}; VENDITE = {}; PREZZI = {}; IMP = JSON.parse(JSON.stringify(DEF_IMP));
+  aggiornaSedeUI(); renderTutto(); window.scrollTo({top: 0});
+  if(db) sottoscrivi();
+}
+let db = null;
+const DEF_UNITA = {}; DATI.ingredienti.forEach(i => DEF_UNITA[i[0]] = i[1]);
+// Materie prime che servono a calcolare il costo delle preparazioni
+const BASE = [["Cipolla rossa","kg"],["Aceto bianco","L"],["Zucchero","kg"],["Pelato Supremo Gran Gusto","kg"],["Patate","kg"],
+  ["Aglio Rosso di Nubia","kg"],["Gomma xantana","kg"],["Aceto di lamponi","L"],["Limoni Interdonato","kg"],["Arance","kg"],
+  ["Ricotta fresca","kg"],["Ricotta infornata messinese","kg"],["Burrata o stracciatella","kg"],["Panna fresca 35%","kg"],
+  ["Senape delicata","kg"],["Miele di Zagara","kg"],["Pasta di salsiccia Tiburzi","kg"],["Semi di finocchio","kg"],["Latte intero fresco","L"],["Melanzane perline","kg"],["Cicoriella selvatica (gelo)","kg"],["Olio all'aglio (Terraliva Fusion)","L"],["Olio al peperoncino (Terraliva Fusion)","L"],["Scarola","kg"],["Pinoli","kg"],["Uva passa","kg"]];
+BASE.forEach(b => DEF_UNITA[b[0]] = b[1]);
+// Ingredienti il cui costo si calcola dalla ricetta: costo = somma(grammi x prezzo) / resa in grammi.
+// Esclusi dal calcolo sale, pepe, erbe e brodo (costo trascurabile).
+// Succhi: il costo si calcola dal prezzo del frutto e dalla resa in succo
+const EXTRA = ["Succo di limone Interdonato","Succo d'arancia"];
+const AGLIO_COMP = [["Aglio Rosso di Nubia",150],["Olio EVO Don Pietro",60],["Gomma xantana",0.5],["Latte intero fresco",800]];
+const AGLIO_NOTA = "150 g aglio + 60 g olio + 0,5 g xantana + circa 800 ml di latte per le 3 sbianchiture (quantità stimata) = circa 300 g di crema (brodo escluso)";
+const DERIVATI = {
+  "Scarola riccia ripassata in padella": {resa:550, comp:[["Scarola",1000],["Olio EVO Don Pietro",40],["Filetti di alici del Mediterraneo",25],["Capperi di Salina",20],["Pinoli",20],["Uva passa",20]],
+    nota:"1 kg scarola + 40 g olio + 5 filetti di alici (circa 25 g) + 20 g capperi + 20 g pinoli + 20 g uva passa. Resa stimata 550 g dopo vapore, strizzatura e saltata (aglio, bicarbonato, sale e peperoncino esclusi)"},
+  "Cicoria selvatica ripassata in padella": {resa:450, comp:[["Cicoriella selvatica (gelo)",500],["Olio EVO Don Pietro",35],["Olio all'aglio (Terraliva Fusion)",8],["Olio al peperoncino (Terraliva Fusion)",5],["Filetti di alici del Mediterraneo",15]],
+    nota:"500 g cicoriella surgelata + 35 g olio EVO + 8 g olio all'aglio + 5 g olio al peperoncino + 15 g alici. Resa stimata 450 g dopo vapore, strizzatura e rostitura (aceto, scorza, sale e pepe esclusi)"},
+  "Datterini rossi confit": {resa:1000, comp:[["Datterini rossi semi-secchi",1000]], nota:"Sono i datterini rossi semi-secchi Gran Gusto: il prezzo segue quello dei semi-secchi"},
+  "Cubetti di melanzane perline fritte": {resa:750, comp:[["Melanzane perline",1000]],
+    nota:"Melanzane salate e sgocciolate, nella crema di riso, fritte a 180 °C. Resa stimata 75% (panatura e olio di frittura esclusi)"},
+  "Succo di limone Interdonato": {resa:350, comp:[["Limoni Interdonato",1000]], nota:"Resa in succo stimata: 350 g da 1 kg di limoni"},
+  "Succo d'arancia": {resa:400, comp:[["Arance",1000]], nota:"Resa in succo stimata: 400 g da 1 kg di arance"},
+  "Cipolla Rossa di Tropea in agrodolce": {resa:150, comp:[["Cipolla rossa",100],["Aceto bianco",10],["Zucchero",30]],
+    nota:"Cipolla caramellata: 100 g cipolla + 10 g acqua + 10 g aceto + 30 g zucchero = 150 g di prodotto"},
+  "Spaccatella di Pelato Supremo": {resa:2196, comp:[["Pelato Supremo Gran Gusto",2500],["Zucchero",7.5]],
+    nota:"Latta da 2,5 kg schiacciata e concentrata al Rational: restano 2.196 g di prodotto"},
+  "Crema di patate cotte sotto cenere": {resa:1000, comp:[["Patate",1200],["Olio EVO Don Pietro",80]],
+    nota:"1,2 kg patate + 80 g olio = 1 kg di crema (brodo, aglio ed erbe esclusi)"},
+  "Crema d'Aglio Rosso di Nubia": {resa:300, comp:AGLIO_COMP, nota:AGLIO_NOTA},
+  "Crema d'aglio nero fermentato": {resa:300, comp:AGLIO_COMP, nota:AGLIO_NOTA + ". Stessa ricetta con prezzemolo"},
+  "Datterini rossi confit all'aceto di lampone": {resa:560, comp:[["Datterini rossi semi-secchi",500],["Aceto di lamponi",35],["Olio EVO Don Pietro",20],["Zucchero",5]],
+    nota:"500 g datterini scolati + marinata = 560 g. Il prezzo dei datterini è al lordo dell'olio: sottostima un po'"},
+  "Emulsione soffice di limone e arancia": {resa:285, comp:[["Succo di limone Interdonato",40],["Succo d'arancia",40],["Olio EVO Don Pietro",200],["Gomma xantana",1.2]],
+    nota:"40 g succo limone + 40 g succo arancia + 200 g olio + 1,2 g xantana = circa 285 g (scorze e sale esclusi)"},
+  "Emulsione soffice di ricotta fresca": {resa:1070, comp:[["Ricotta fresca",700],["Ricotta infornata messinese",300],["Olio EVO Don Pietro",70]],
+    nota:"700 g ricotta fresca + 300 g ricotta infornata + 70 g olio = circa 1.070 g"},
+  "Stracciatella di Burrata montata all'olio di basilico": {resa:1409, comp:[["Burrata o stracciatella",1000],["Panna fresca 35%",375],["Olio EVO Don Pietro",30],["Gomma xantana",1.4]],
+    nota:"1 kg burrata + 375 g panna + 30 g olio + 1,4 g xantana = circa 1,4 kg di crema"},
+  "Senape delicata al miele di Zagara": {resa:200, comp:[["Senape delicata",100],["Miele di Zagara",50],["Succo di limone Interdonato",25],["Olio EVO Don Pietro",25]],
+    nota:"100 g senape + 50 g miele + 25 g succo limone + 25 g olio = 200 g di salsa"},
+  "Salsiccia fresca sgranata a punta di coltello": {resa:1004, comp:[["Pasta di salsiccia Tiburzi",1000],["Semi di finocchio",4]],
+    nota:"1 kg pasta di salsiccia + 4 g semi di finocchio, cotta sottovuoto a 72 °C"}
+};
+const FRITTI = new Set(DATI.prezzi.filter(p => p[1] === 'I Fritti').map(p => p[0]));
+const fmtPal = () => (Number(IMP.pallina) || 0).toFixed(2).replace('.', ',');
+const secMed = () => ((Number(IMP.secMin) || 0) + (Number(IMP.secMax) || 0)) / 2;
+const eur = v => (v||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const keyGram = (p,i,c) => p+'|||'+i+'|||'+c;
+
+function S(id,btn){
+  document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sez-'+id).classList.add('active');
+  btn.classList.add('active');
+  try{ btn.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══ CALCOLI ═══
+function unitaDi(n){ return (COSTI[n] && COSTI[n].unita) || DEF_UNITA[n] || 'kg'; }
+function fattore(n){
+  const d = DERIVATI[n];
+  if(d){
+    let tot = 0;
+    for(const c of d.comp){ const f = fattore(c[0]); if(!f) return 0; tot += c[1]*f; }
+    const lav = (COSTI[n] && Number(COSTI[n].lavMin)) || 0;
+    tot += lav/60 * (Number(IMP.costoOrario) || 0);
+    return tot / d.resa;
+  }
+  const c = COSTI[n]; if(!c || !c.costo) return 0;
+  let f = unitaDi(n) === 'pezzo' ? c.costo : c.costo/1000;
+  if(c.crudo){ const s = Number(IMP.scarto) || 0; if(s > 0 && s < 100) f = f / (1 - s/100); }
+  return f;
+}
+function foodCostIngredienti(pizza){
+  let tot = 0;
+  DATI.righe.forEach(r => {
+    if(r[0] !== pizza) return;
+    tot += (GRAMMI[keyGram(pizza,r[2],r[4])] || 0) * fattore(r[3]);
+  });
+  return tot;
+}
+function pallinaDi(pizza){
+  if(FRITTI.has(pizza)) return 0;
+  const o = IMP.over && IMP.over[pizza];
+  if(o !== undefined && o !== '' && o !== null) return Number(o) || 0;
+  return Number(IMP.pallina) || 0;
+}
+function sedeTag(pizza){ return ''; }
+function fcHtml(pizza){
+  const p = DATI.prezzi.find(x => x[0] === pizza) || [pizza, '', 0], c = calcola(p);
+  return '<b>'+eur(c.tot)+'</b><small> · ~'+Math.round(secondiDi(pizza))+' s'+(c.netto > 0 ? '' : ' · prezzo da inserire')+'</small>';
+}
+function prezzoCarta(p){ const o = Number(PREZZI[p[0]]); return o > 0 ? o : p[2]; }
+function calcola(p){
+  const ing = foodCostIngredienti(p[0]), pal = pallinaDi(p[0]), tot = ing + pal, pr = prezzoCarta(p);
+  const netto = pr / (1 + (Number(IMP.iva)||0)/100);
+  return {nome:p[0], prezzo:pr, netto, ing, pal, tot, pct: netto>0 ? tot/netto : 0, margine: netto - tot};
+}
+
+// ═══ RENDER ═══
+function testoDerivato(n){
+  const f = fattore(n);
+  if(f) return '<b>€'+(f*1000).toFixed(2)+'/kg</b><small>calcolato dalla ricetta</small>';
+  const m = DERIVATI[n].comp.filter(c => !fattore(c[0])).map(c => c[0]);
+  return '<small>inserisci il prezzo di: '+m.join(', ')+'</small>';
+}
+function renderIngredienti(){
+  const tutti = DATI.ingredienti.concat(EXTRA.map(n => [n, 'kg'])).concat(BASE.map(b => [b[0], b[1], true]));
+  document.getElementById('count-ingredienti').textContent = DATI.ingredienti.length + ' ingredienti + ' + BASE.length + ' materie prime';
+  document.getElementById('lista-ingredienti').innerHTML = tutti.map(ing => {
+    const n = ing[0], base = ing[2] === true;
+    if(DERIVATI[n]){
+      return '<div class="ingr-row ingr-der" data-ingr="'+esc(n)+'"><div class="ingr-nome-wrap"><span class="ingr-nome">'+esc(n)+'</span><span class="ingr-nota">'+esc(DERIVATI[n].nota)+'</span>'+(EXTRA.indexOf(n) < 0 ? '<label class="ingr-nota lav-lbl">Minuti di lavoro per ricetta <input type="number" inputmode="decimal" step="1" min="0" data-kind="lavmin" value="'+((COSTI[n] && COSTI[n].lavMin) || '')+'" placeholder="0"> min</label>' : '')+'</div><span class="ingr-calc">'+testoDerivato(n)+'</span></div>';
+    }
+    const c = COSTI[n] || {}, u = unitaDi(n);
+    const opt = ['kg','L','pezzo'].map(x => '<option'+(x===u?' selected':'')+'>'+x+'</option>').join('');
+    return '<div class="ingr-row" data-ingr="'+esc(n)+'">'
+      + '<div class="ingr-nome-wrap"><span class="ingr-nome">'+esc(n)+(base?'<span class="tag-base">materia prima</span>':'')+(c.stima?'<span class="tag-stima">stima</span>':'')+'</span>'
+      + '<label class="ingr-nota crudo-chk"><input type="checkbox" data-kind="crudo"'+(c.crudo?' checked':'')+'> crudo: aggiungi lo scarto di pulizia</label></div>'
+      + '<select class="ingr-unita-sel" data-kind="unita">'+opt+'</select>'
+      + '<div class="ingr-input-wrap"><input type="number" inputmode="decimal" step="0.01" min="0" data-kind="costo" value="'+(c.costo||'')+'" placeholder="0.00"><span>€</span></div>'
+      + '<span class="ingr-perg">'+percentoGrammo(n)+'</span></div>';
+  }).join('');
+}
+function percentoGrammo(n){
+  const f = fattore(n); if(!f) return '—';
+  const u = unitaDi(n), c = COSTI[n] || {}, v = (u === 'pezzo' ? f : f*1000).toFixed(2).replace('.', ',');
+  return '€'+v+(u === 'pezzo' ? '/pz' : (u === 'L' ? '/L' : '/kg'))+(c.crudo ? ' con scarto' : '');
+}
+function contaGrammature(){
+  const righe = DATI.righe.filter(r => piattiSede().some(p => p[0] === r[0]));
+  const fatte = righe.filter(r => Number(GRAMMI[keyGram(r[0], r[2], r[4])]) > 0).length;
+  const e = document.getElementById('gram-count'); if(e) e.textContent = 'Grammature inserite: ' + fatte + ' su ' + righe.length + ' · ' + (SEDE === 'duomo' ? 'Duomo' : 'Via Calapso');
+}
+function renderGrammature(){
+  contaGrammature();
+  const pizze = piattiSede().map(p => p[0]).filter(n => DATI.righe.some(r => r[0] === n));
+  document.getElementById('count-grammature').textContent = pizze.length + ' piatti';
+  const aperti = new Set([...document.querySelectorAll('.pizza-group.open')].map(g => g.dataset.pizza));
+  document.getElementById('lista-grammature').innerHTML = pizze.map(pizza => {
+    const righe = DATI.righe.filter(r => r[0] === pizza);
+    const rows = righe.map(r => {
+      const g = GRAMMI[keyGram(pizza,r[2],r[4])] || '';
+      const pz = unitaDi(r[3]) === 'pezzo';
+      return '<div class="gram-row" data-pizza="'+esc(pizza)+'" data-ingr="'+esc(r[2])+'" data-costo-ingr="'+esc(r[3])+'" data-ctx="'+r[4]+'">'
+        + '<span class="gram-ctx-dot '+(r[4]==='Forno'?'forno':'uscita')+'"></span>'
+        + '<span class="gram-nome">'+esc(r[2])+'</span>'
+        + '<div class="gram-input-wrap"><input type="number" inputmode="decimal" step="1" min="0" data-kind="gram" value="'+g+'" placeholder="0"><span>'+(pz?'pz':'g')+'</span></div>'
+        + '<span class="gram-costo">'+eur((g||0)*fattore(r[3]))+'</span></div>';
+    }).join('');
+    const palRow = FRITTI.has(pizza) ? '' :
+      '<div class="pal-row" data-pizza="'+esc(pizza)+'"><span class="gram-nome"><b>Pallina</b> — vuoto = costo standard ('+eur(IMP.pallina)+')</span>'
+      + '<div class="gram-input-wrap"><input type="number" inputmode="decimal" step="0.01" min="0" data-kind="pallina" value="'+((IMP.over && IMP.over[pizza]!==undefined)?IMP.over[pizza]:'')+'" placeholder="'+fmtPal()+'"><span>€</span></div></div>';
+    const pDef = (DATI.prezzi.find(x => x[0] === pizza) || [pizza, '', 0])[2];
+    const prRow = '<div class="pr-row" data-pizza="'+esc(pizza)+'"><span class="gram-nome"><b>Prezzo di carta</b> (IVA inclusa) — '+(pDef > 0 ? 'vuoto = '+eur(pDef) : 'da inserire')+'</span>'
+      + '<div class="gram-input-wrap"><input type="number" inputmode="decimal" step="0.5" min="0" data-kind="prezzo" value="'+((PREZZI[pizza] !== undefined && PREZZI[pizza] !== '') ? PREZZI[pizza] : '')+'" placeholder="'+(pDef > 0 ? pDef.toFixed(2).replace('.', ',') : '—')+'"><span>€</span></div></div>';
+    const nU = USCITE[pizza] || 0;
+    const secRow = '<div class="sec-row" data-pizza="'+esc(pizza)+'" data-nu="'+nU+'"><span class="gram-nome"><b>Secondi fuori forno</b> — vuoto = stima ('+nU+' elementi × secondi per elemento)</span>'
+      + '<div class="gram-input-wrap"><input type="number" inputmode="decimal" step="1" min="0" data-kind="sec" value="'+((IMP.overSec && IMP.overSec[pizza]!==undefined)?IMP.overSec[pizza]:'')+'" placeholder="'+(Math.round(nU*secMed()*10)/10)+'"><span>s</span></div></div>';
+    const c = calcola(DATI.prezzi.find(p => p[0]===pizza) || [pizza,'',0]);
+    return '<div class="pizza-group'+(aperti.has(pizza)?' open':'')+'" data-pizza="'+esc(pizza)+'">'
+      + '<div class="pizza-group-head"><span class="pizza-group-nome">'+esc(pizza)+sedeTag(pizza)+'</span>'
+      + '<span class="pizza-group-fc">'+fcHtml(pizza)+'</span><span class="pizza-group-arrow">›</span></div>'
+      + '<div class="pizza-group-body">'+prRow+palRow+secRow+rows+'</div></div>';
+  }).join('');
+}
+
+function renderRiepilogo(){
+  const rows = piattiSede().map(calcola);
+  const calc = rows.filter(r => r.ing > 0 && r.netto > 0);
+  const media = calc.reduce((s,r)=>s+r.pct,0)/(calc.length||1);
+  const margMedio = calc.reduce((s,r)=>s+r.margine,0)/(calc.length||1);
+  const target = (Number(IMP.target)||30)/100;
+  const sopra = calc.filter(r => r.pct > target).length;
+  document.getElementById('riep-summary').innerHTML =
+    '<div><span class="rs-n">'+(calc.length?(media*100).toFixed(1)+'%':'—')+'</span><span class="rs-l">Food cost medio</span></div>'
+    + '<div><span class="rs-n">'+(calc.length?eur(margMedio):'—')+'</span><span class="rs-l">Margine medio</span></div>'
+    + '<div><span class="rs-n">'+calc.length+'/'+rows.length+'</span><span class="rs-l">Piatti calcolati</span></div>'
+    + '<div><span class="rs-n">'+sopra+'</span><span class="rs-l">Sopra obiettivo '+(target*100).toFixed(0)+'%</span></div>';
+  const nStima = Object.values(COSTI).filter(c => c && c.stima).length;
+  document.getElementById('riep-avviso').textContent = nStima ? 'Attenzione: '+nStima+' prezzi sono ancora stime (etichetta arancione in Costi Ingredienti). Il food cost è indicativo finché non li sostituisci con i prezzi veri.' : '';
+  rows.sort((a,b) => b.pct - a.pct);
+  document.getElementById('lista-riepilogo').innerHTML = rows.map(r => {
+    const cls = r.pct > target+0.05 ? 'bad' : (r.pct > target ? 'warn' : 'ok');
+    return '<div class="riep-row"><div class="riep-top"><span class="riep-nome">'+esc(r.nome)+'</span>'
+      + '<span class="riep-pct '+(r.ing && r.netto?cls:'')+'">'+(r.ing && r.netto?(r.pct*100).toFixed(1)+'%':(r.ing?'prezzo da inserire':'—'))+'</span></div>'
+      + '<div class="riep-bar-track"><div class="riep-bar" style="width:'+Math.min(r.pct*100,100)+'%;background:var(--'+cls+')"></div></div>'
+      + '<div class="riep-detail"><span>Ingredienti '+eur(r.ing)+'</span><span>Pallina '+eur(r.pal)+'</span><span>Costo totale <b>'+eur(r.tot)+'</b></span></div>'
+      + '<div class="riep-detail"><span>Vendita '+eur(r.prezzo)+'</span><span>Netto IVA '+eur(r.netto)+'</span><span>Fuori forno ~'+Math.round(secondiDi(r.nome))+' s</span><span>Guadagno <b>'+eur(r.margine)+'</b>'+(r.ing&&r.netto?' ('+((r.margine/r.netto)*100).toFixed(0)+'%)':'')+'</span></div></div>';
+  }).join('');
+}
+
+function renderImpostazioni(){
+  document.getElementById('imp-pallina').value = IMP.pallina || '';
+  document.getElementById('imp-iva').value = IMP.iva;
+  document.getElementById('imp-target').value = IMP.target;
+  document.getElementById('imp-scarto').value = IMP.scarto;
+  document.getElementById('imp-secMin').value = IMP.secMin;
+  document.getElementById('imp-secMax').value = IMP.secMax;
+  document.getElementById('imp-costoOrario').value = IMP.costoOrario || '';
+}
+function renderTutto(){ renderIngredienti(); renderGrammature(); renderRiepilogo(); renderImpostazioni(); renderAnalisi(false); }
+
+// aggiorna solo i testi calcolati senza ridisegnare gli input (non perde il focus)
+function ricalcolaTesti(){
+  contaGrammature();
+  renderRiepilogo();
+  renderAnalisi(true);
+  document.querySelectorAll('.pal-row input').forEach(i => { i.placeholder = fmtPal(); });
+  document.querySelectorAll('.sec-row').forEach(r => { r.querySelector('input').placeholder = Math.round((Number(r.dataset.nu)||0) * secMed() * 10) / 10; });
+  document.querySelectorAll('.gram-row').forEach(row => {
+    const g = GRAMMI[keyGram(row.dataset.pizza,row.dataset.ingr,row.dataset.ctx)] || 0;
+    row.querySelector('.gram-costo').textContent = eur(g*fattore(row.dataset.costoIngr));
+  });
+  document.querySelectorAll('.pizza-group').forEach(grp => {
+    const p = DATI.prezzi.find(x => x[0]===grp.dataset.pizza);
+    if(p) grp.querySelector('.pizza-group-fc').innerHTML = fcHtml(grp.dataset.pizza);
+  });
+  document.querySelectorAll('.ingr-row').forEach(row => { const pg = row.querySelector('.ingr-perg'); if(pg) pg.textContent = percentoGrammo(row.dataset.ingr); });
+  document.querySelectorAll('.ingr-der').forEach(r => { r.querySelector('.ingr-calc').innerHTML = testoDerivato(r.dataset.ingr); });
+}
+
+// ═══ ANALISI: dove guadagni davvero ═══
+let ORDINE = 'margine';
+let ANALISI_RIGHE = [];
+const fmtX = v => '×' + v.toFixed(1).replace('.', ',');
+const fmtPct = v => (v*100).toFixed(1).replace('.', ',') + '%';
+const kpi = (t, v, s) => '<div class="an-k"><b>'+v+'</b><span>'+t+'</span><small>'+esc(s)+'</small></div>';
+// elementi che vanno fuori forno per ogni piatto (dai dati della scheda brigata)
+const USCITE = {}; DATI.righe.forEach(r => { if(r[4] === 'Uscita') USCITE[r[0]] = (USCITE[r[0]] || 0) + 1; });
+function secRange(nome){
+  const o = IMP.overSec && IMP.overSec[nome];
+  if(o !== undefined && o !== '' && o !== null){ const v = Number(o) || 0; return {med: v, lo: v, hi: v}; }
+  const n = USCITE[nome] || 0, lo = Number(IMP.secMin) || 0, hi = Number(IMP.secMax) || 0;
+  return {med: n*(lo+hi)/2, lo: n*lo, hi: n*hi};
+}
+function secondiDi(nome){ return secRange(nome).med; }
+// secondi di lavoro in laboratorio per le preparazioni usate in una pizza
+function prepSecDi(nome){
+  let tot = 0;
+  DATI.righe.forEach(r => {
+    if(r[0] !== nome) return;
+    const d = DERIVATI[r[3]], c = COSTI[r[3]];
+    if(d && c && c.lavMin > 0) tot += (c.lavMin*60 / d.resa) * (GRAMMI[keyGram(nome, r[2], r[4])] || 0);
+  });
+  return tot;
+}
+function righeAnalisi(){
+  const target = (Number(IMP.target) || 30)/100, iva = Number(IMP.iva) || 0;
+  const rows = piattiSede().map(calcola).filter(r => r.ing > 0 && r.netto > 0).map(r => {
+    const R = secRange(r.nome), nec = r.tot/target*(1 + iva/100);
+    return Object.assign(r, {mult: r.netto / r.tot, vend: Number(VENDITE[r.nome]) || 0, nU: USCITE[r.nome] || 0, sec: R.med, secLo: R.lo, secHi: R.hi,
+      prepSec: prepSecDi(r.nome), eurMin: R.med > 0 ? r.margine / (R.med/60) : 0, lavoro: R.med/3600 * (Number(IMP.costoOrario) || 0),
+      nec: nec, necR: Math.ceil(nec*2)/2});
+  });
+  const s = rows.map(r => r.sec).sort((a,b) => a-b);
+  const thr = s[Math.floor(s.length*0.75)], med = s[Math.floor(s.length*0.5)];
+  rows.forEach(r => { r.lab = s.length >= 4 && r.sec >= thr && r.sec > med; });
+  return rows;
+}
+function statoPct(pct){ const t = (Number(IMP.target)||30)/100; return pct > t+0.05 ? 'bad' : (pct > t ? 'warn' : 'ok'); }
+
+function mappaSvg(rows){
+  const W=340, H=280, L=42, R=12, T=12, B=34;
+  const maxX = Math.max(60, Math.ceil((Math.max(...rows.map(r => r.pct))*100 + 5)/10)*10);
+  const maxY = Math.max(1, Math.max(...rows.map(r => r.margine)) * 1.15);
+  const x = v => L + v/maxX*(W-L-R), y = v => H-B - v/maxY*(H-T-B);
+  let s = '<svg viewBox="0 0 '+W+' '+H+'" class="an-svg">';
+  for(let g=0; g<=maxX; g+=10) s += '<line class="g" x1="'+x(g)+'" y1="'+T+'" x2="'+x(g)+'" y2="'+(H-B)+'"/><text class="t" x="'+x(g)+'" y="'+(H-B+14)+'" text-anchor="middle">'+g+'%</text>';
+  const stepY = Math.max(1, Math.ceil(maxY/4));
+  for(let g=0; g<=maxY; g+=stepY) s += '<line class="g" x1="'+L+'" y1="'+y(g)+'" x2="'+(W-R)+'" y2="'+y(g)+'"/><text class="t" x="'+(L-5)+'" y="'+(y(g)+3)+'" text-anchor="end">'+g+'€</text>';
+  const t = Number(IMP.target) || 30;
+  s += '<line class="tg" x1="'+x(t)+'" y1="'+T+'" x2="'+x(t)+'" y2="'+(H-B)+'"/><text class="tgl" x="'+(x(t)+4)+'" y="'+(T+9)+'">obiettivo '+t+'%</text>';
+  rows.forEach((r, i) => { s += '<circle class="pt '+statoPct(r.pct)+'" data-i="'+i+'" cx="'+x(r.pct*100)+'" cy="'+y(r.margine)+'" r="7"/>'; });
+  s += '<text class="ax" x="'+(L+(W-L-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">FOOD COST % · meno è meglio</text></svg>';
+  return s;
+}
+
+function renderVenditeInput(rows){
+  const box = document.getElementById('an-vendite');
+  box.dataset.n = rows.length;
+  box.innerHTML = rows.length ? rows.map(r => '<div class="vend-row" data-pizza="'+esc(r.nome)+'"><span>'+esc(r.nome)+'</span><div class="ingr-input-wrap"><input type="number" inputmode="numeric" min="0" step="1" data-kind="vend" value="'+(VENDITE[r.nome]||'')+'" placeholder="0"><span>pz</span></div></div>').join('') : '';
+}
+
+function renderAnalisi(ric){
+  const rows = righeAnalisi(); ANALISI_RIGHE = rows;
+  const nStima = Object.values(COSTI).filter(c => c && c.stima).length;
+  document.getElementById('an-avviso').textContent = nStima ? 'Attenzione: '+nStima+' prezzi sono ancora stime (etichetta arancione in Costi Ingredienti). I numeri sono indicativi.' : '';
+  const box = document.getElementById('an-vendite');
+  if(!ric || box.dataset.n != rows.length) renderVenditeInput(rows);
+  if(!rows.length){
+    document.getElementById('an-kpi').innerHTML = '<p class="an-vuoto">Inserisci le grammature di almeno una pizza (scheda Grammature): qui compare la classifica dei guadagni.</p>';
+    ['an-podio','an-lista','an-tempo','an-prezzo','an-mappa','an-punto','an-me'].forEach(id => { document.getElementById(id).innerHTML = ''; });
+    return;
+  }
+  const byM = rows.slice().sort((a,b) => b.margine - a.margine), byX = rows.slice().sort((a,b) => b.mult - a.mult);
+  const byE = rows.slice().sort((a,b) => b.eurMin - a.eurMin), byS = rows.slice().sort((a,b) => b.sec - a.sec);
+  const media = f => rows.reduce((s,r) => s + f(r), 0) / rows.length;
+  document.getElementById('an-kpi').innerHTML =
+      kpi('Guadagno più alto', eur(byM[0].margine), byM[0].nome)
+    + kpi('Moltiplicatore più alto', fmtX(byX[0].mult), byX[0].nome)
+    + (byE[0].eurMin > 0 ? kpi('Miglior guadagno al minuto', eur(byE[0].eurMin)+'<i class="u">/min</i>', byE[0].nome+' · ~'+Math.round(byE[0].sec)+' s fuori forno') : '')
+    + (byS[0].sec > 0 ? kpi('Più laboriosa', '~'+Math.round(byS[0].sec)+' s', byS[0].nome+' · '+byS[0].nU+' elementi fuori forno') : '')
+    + kpi('Moltiplicatore medio', fmtX(media(r => r.mult)), 'prezzo netto ÷ costo totale')
+    + kpi('Guadagno medio', eur(media(r => r.margine)), 'per pizza, netto IVA');
+  document.getElementById('an-podio').innerHTML = [1,0,2].filter(i => byM[i]).map(i => {
+    const r = byM[i];
+    return '<div class="pod pod'+(i+1)+'"><div class="pod-n">'+(i+1)+'</div><div class="pod-nome">'+esc(r.nome)+'</div><div class="pod-v">'+eur(r.margine)+'</div><div class="pod-s">'+fmtX(r.mult)+' · FC '+fmtPct(r.pct)+'</div></div>';
+  }).join('');
+  const chiave = {margine: r => r.margine, mult: r => r.mult, pct: r => r.pct, eurmin: r => r.eurMin};
+  const asc = ORDINE === 'pct', f = chiave[ORDINE];
+  const ord = rows.slice().sort((a,b) => asc ? f(a)-f(b) : f(b)-f(a));
+  const max = Math.max(...ord.map(f));
+  document.getElementById('an-lista').innerHTML = ord.map((r, i) => {
+    const w = max > 0 ? Math.max(4, f(r)/max*100) : 4;
+    const cls = ORDINE === 'pct' ? statoPct(r.pct) : 'gold';
+    const val = ORDINE === 'margine' ? eur(r.margine) : (ORDINE === 'mult' ? fmtX(r.mult) : (ORDINE === 'eurmin' ? eur(r.eurMin)+'/min' : fmtPct(r.pct)));
+    return '<div class="an-row"><span class="an-rk">'+(i+1)+'</span><div class="an-main"><div class="an-top"><span class="an-nome">'+esc(r.nome)+'</span><span class="an-val">'+val+'</span></div>'
+      + '<div class="an-bar-t"><div class="an-bar '+cls+'" style="width:'+w+'%"></div></div>'
+      + '<div class="an-det">Incassi '+eur(r.netto)+' netto · costa '+eur(r.tot)+' · guadagni '+eur(r.margine)+' · '+fmtX(r.mult)+' · FC '+fmtPct(r.pct)+' · ~'+Math.round(r.sec)+' s fuori forno'+(r.lavoro > 0 ? ' · dopo il lavoro '+eur(r.margine - r.lavoro) : '')+'</div></div></div>';
+  }).join('');
+  document.querySelectorAll('#an-sort button').forEach(b => b.classList.toggle('on', b.dataset.s === ORDINE));
+
+  // chi ti fa perdere tempo
+  const maxS = Math.max(1, byS[0].sec), mediaS = media(r => r.sec);
+  const rngTxt = r => (r.secLo !== r.secHi ? ' (da '+Math.round(r.secLo)+' a '+Math.round(r.secHi)+' s)' : '');
+  document.getElementById('an-tempo').innerHTML = '<p class="an-nota">Tempo medio fuori forno: ~'+Math.round(mediaS)+' s per pizza, calcolato da '+(Number(IMP.secMin)||0)+'-'+(Number(IMP.secMax)||0)+' s per elemento (media '+secMed().toFixed(1).replace('.', ',')+' s). Le pizze segnate «Laboriosa» sono il quarto più lento: sono quelle che chiedono una mano in più al banco. Dove hai scritto i secondi veri, vale quel dato.</p>'
+    + byS.map((r, i) => '<div class="an-row"><span class="an-rk">'+(i+1)+'</span><div class="an-main"><div class="an-top"><span class="an-nome">'+esc(r.nome)+(r.lab ? '<span class="chip horse">Laboriosa</span>' : '')+'</span><span class="an-val">~'+Math.round(r.sec)+' s</span></div>'
+      + '<div class="an-bar-t"><div class="an-bar '+(r.lab ? 'warn' : 'gold')+'" style="width:'+Math.max(4, r.sec/maxS*100)+'%"></div></div>'
+      + '<div class="an-det">'+r.nU+' elementi fuori forno'+rngTxt(r)+' · guadagni '+eur(r.margine)+' = '+eur(r.eurMin)+' al minuto'+(r.prepSec > 0 ? ' · preparazioni ~'+Math.round(r.prepSec)+' s' : '')+(r.lavoro > 0 ? ' · lavoro in uscita '+eur(r.lavoro) : '')+'</div></div></div>').join('');
+
+  // il prezzo giusto per restare all'obiettivo
+  const byP = rows.slice().sort((a,b) => (a.prezzo - a.necR) - (b.prezzo - b.necR));
+  document.getElementById('an-prezzo').innerHTML = '<p class="an-nota">Prezzo di carta (IVA inclusa) minimo per restare al tuo obiettivo del '+(Number(IMP.target)||30)+'% di food cost, arrotondato ai 50 centesimi. In cima ci sono le pizze che oggi costano troppo poco.</p>'
+    + byP.map((r, i) => { const diff = r.prezzo - r.necR, sotto = diff < 0;
+      return '<div class="an-row"><span class="an-rk">'+(i+1)+'</span><div class="an-main"><div class="an-top"><span class="an-nome">'+esc(r.nome)+'<span class="chip '+(sotto ? 'dog' : 'puzzle')+'">'+(sotto ? 'Sotto obiettivo' : 'In obiettivo')+'</span></span><span class="an-val">'+eur(r.necR)+'</span></div>'
+        + '<div class="an-det">In carta oggi '+eur(r.prezzo)+' · '+(sotto ? 'mancano '+eur(-diff) : 'margine di '+eur(diff))+' rispetto al prezzo minimo</div></div></div>'; }).join('');
+
+  document.getElementById('an-mappa').innerHTML = mappaSvg(rows);
+  document.getElementById('an-punto').innerHTML = '<span class="an-hint">Tocca un punto per vedere la pizza</span>';
+
+  // vendite → chi ti fa guadagnare di più nel totale (menu engineering)
+  const conV = rows.filter(r => r.vend > 0), totV = conV.reduce((s,r) => s + r.vend, 0);
+  const me = document.getElementById('an-me');
+  if(!totV){ me.innerHTML = '<p class="an-nota">Scrivi quante ne vendi al mese: ti dico quali sono le stelle, quali conviene spingere e quante ore di lavoro in uscita ti costa il menu.</p>'; return; }
+  const guad = conV.reduce((s,r) => s + r.margine*r.vend, 0), ricavi = conV.reduce((s,r) => s + r.netto*r.vend, 0), costi = conV.reduce((s,r) => s + r.tot*r.vend, 0);
+  const ore = conV.reduce((s,r) => s + r.sec*r.vend, 0)/3600, lavMese = conV.reduce((s,r) => s + r.lavoro*r.vend, 0);
+  const orePrep = conV.reduce((s,r) => s + r.prepSec*r.vend, 0)/3600;
+  const mMedio = guad/totV, sogliaPop = 0.7/conV.length;
+  const lista = conV.map(r => {
+    const pop = r.vend/totV, alto = r.margine >= mMedio, pop_ok = pop >= sogliaPop;
+    const cl = pop_ok && alto ? ['Stella','star'] : (pop_ok ? ['Cavallo da battaglia','horse'] : (alto ? ['Da spingere','puzzle'] : ['Da rivedere','dog']));
+    return Object.assign({}, r, {mt: r.margine*r.vend, cl: cl[0], cc: cl[1], pop: pop});
+  }).sort((a,b) => b.mt - a.mt);
+  me.innerHTML = '<div class="an-kpi an-kpi-in">'+kpi('Incassi netti / mese', eur(ricavi), 'IVA esclusa')+kpi('Costo / mese', eur(costi), 'ingredienti + pallina')
+      +kpi('Guadagno / mese', eur(guad), 'food cost reale '+fmtPct(costi/ricavi)+(lavMese > 0 ? ' · dopo il lavoro '+eur(guad - lavMese) : ''))
+      +kpi('Ore fuori forno / mese', ore.toFixed(1).replace('.', ',')+' h', 'stima: '+(Number(IMP.secMin)||0)+'-'+(Number(IMP.secMax)||0)+' s per elemento')+(orePrep > 0 ? kpi('Ore preparazioni / mese', orePrep.toFixed(1).replace('.', ',')+' h', 'lavoro in laboratorio') : '')+'</div>'
+    + lista.map((r, i) => '<div class="me-row"><span class="an-rk">'+(i+1)+'</span><div class="an-main"><div class="an-top"><span class="an-nome">'+esc(r.nome)+'</span><span class="an-val">'+eur(r.mt)+'</span></div>'
+      + '<div class="an-det">'+r.vend+' pz × '+eur(r.margine)+' · '+(r.pop*100).toFixed(0)+'% delle vendite · '+(r.sec*r.vend/3600).toFixed(1).replace('.', ',')+' h di uscita al mese <span class="chip '+r.cc+'">'+r.cl+'</span></div></div></div>').join('')
+    + '<p class="an-nota">Stella: vende tanto e rende. Cavallo da battaglia: vende tanto ma rende meno della media. Da spingere: rende bene ma vende poco. Da rivedere: vende poco e rende poco. Margine medio per pizza: '+eur(mMedio)+'.</p>';
+}
+
+// ═══ EVENTI ═══
+
+document.addEventListener('focusout', () => setTimeout(() => { if(renderPendente && !inEdit()){ renderPendente = false; renderTutto(); } }, 400));
+document.addEventListener('click', e => {
+  if(e.target.closest('#btn-ric')){ if(db){ sottoscrivi(); rileggi(); } else location.reload(); return; }
+  const sw = e.target.closest('#sede-sw button'); if(sw){ cambiaSede(sw.dataset.sede); return; }
+  const h = e.target.closest('.pizza-group-head'); if(h) h.parentElement.classList.toggle('open');
+  const sb = e.target.closest('#an-sort button'); if(sb){ ORDINE = sb.dataset.s; renderAnalisi(true); }
+  const pt = e.target.closest('circle.pt');
+  if(pt){
+    const r = ANALISI_RIGHE[+pt.dataset.i]; if(!r) return;
+    document.querySelectorAll('circle.pt').forEach(c => c.classList.remove('sel')); pt.classList.add('sel');
+    document.getElementById('an-punto').innerHTML = '<b>'+esc(r.nome)+'</b><br>Incassi '+eur(r.netto)+' netto · costa '+eur(r.tot)+' · guadagni <b>'+eur(r.margine)+'</b> · '+fmtX(r.mult)+' · food cost '+fmtPct(r.pct);
+  }
+});
+document.addEventListener('input', e => {
+  const t = e.target, k = t.dataset.kind; if(!k) return;
+  const v = parseFloat(t.value);
+  if(k === 'costo'){
+    const n = t.closest('.ingr-row').dataset.ingr;
+    const c = Object.assign({unita: unitaDi(n)}, COSTI[n], {costo: isNaN(v)?0:v, stima: false});
+    const tg = t.closest('.ingr-row').querySelector('.tag-stima'); if(tg) tg.remove();
+    COSTI[n] = c; salva('costi', {[n]: c});
+  } else if(k === 'gram'){
+    const row = t.closest('.gram-row'), key = keyGram(row.dataset.pizza,row.dataset.ingr,row.dataset.ctx);
+    GRAMMI[key] = isNaN(v)?0:v; salva('grammature', {[key]: GRAMMI[key]});
+  } else if(k === 'pallina'){
+    const p = t.closest('.pal-row').dataset.pizza;
+    IMP.over = IMP.over || {};
+    if(isNaN(v)){ IMP.over[p] = ''; } else { IMP.over[p] = v; }
+    salva('impostazioni', {over: {[p]: IMP.over[p]}});
+  } else if(k === 'vend'){
+    const p = t.closest('.vend-row').dataset.pizza;
+    VENDITE[p] = isNaN(v) ? 0 : v; salva('vendite', {[p]: VENDITE[p]});
+  } else if(k === 'prezzo'){
+    const p = t.closest('.pr-row').dataset.pizza;
+    PREZZI[p] = isNaN(v) ? '' : v; salva('prezzi', {[p]: PREZZI[p]});
+  } else if(k === 'lavmin'){
+    const n = t.closest('.ingr-row').dataset.ingr;
+    const c = Object.assign({}, COSTI[n], {lavMin: isNaN(v) ? 0 : v});
+    COSTI[n] = c; salva('costi', {[n]: c});
+  } else if(k === 'sec'){
+    const p = t.closest('.sec-row').dataset.pizza;
+    IMP.overSec = IMP.overSec || {};
+    IMP.overSec[p] = isNaN(v) ? '' : v; salva('impostazioni', {overSec: {[p]: IMP.overSec[p]}});
+  } else if(k === 'imp'){
+    const campo = t.dataset.campo; IMP[campo] = isNaN(v)?0:v; salva('impostazioni', {[campo]: IMP[campo]});
+  }
+  ricalcolaTesti();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if(t.dataset.kind === 'crudo'){
+    const n = t.closest('.ingr-row').dataset.ingr;
+    const c = Object.assign({unita: unitaDi(n)}, COSTI[n], {crudo: t.checked});
+    COSTI[n] = c; salva('costi', {[n]: c}); ricalcolaTesti();
+    return;
+  }
+  if(t.dataset.kind === 'unita'){
+    const n = t.closest('.ingr-row').dataset.ingr;
+    const c = Object.assign({}, COSTI[n], {unita: t.value});
+    COSTI[n] = c; salva('costi', {[n]: c});
+    renderGrammature(); ricalcolaTesti();
+  }
+});
+
+// ═══ PERSISTENZA (si fonde con le modifiche degli altri dispositivi) ═══
+const pend = {}, timers = {}, busy = {};
+const clone = o => JSON.parse(JSON.stringify(o));
+function merge(t,s){ for(const k in s){ if(s[k] && typeof s[k]==='object' && !Array.isArray(s[k])){ t[k] = t[k]||{}; merge(t[k], s[k]); } else t[k] = s[k]; } return t; }
+function salva(base, patch){ const nome = docName(base); pend[nome] = merge(pend[nome] || {}, patch); clearTimeout(timers[nome]); timers[nome] = setTimeout(() => flush(nome), 500); }
+async function flush(nome){
+  if(!db) return;
+  if(busy[nome]){ timers[nome] = setTimeout(() => flush(nome), 300); return; }
+  const patch = pend[nome] || {}; pend[nome] = {};
+  if(!Object.keys(patch).length) return;
+  busy[nome] = true; mostraSync('Salvataggio…');
+  try{
+    const ref = db.doc('data/'+nome), snap = await ref.get();
+    if(snap.exists) await ref.update({valori: patch}); else await ref.set({valori: patch});
+    mostraSync('Salvato ✓'); avviso('');
+  }catch(err){ console.error(err); stato('Errore di salvataggio', true); avviso('⚠ L\'ultimo salvataggio non è riuscito: i dati appena scritti potrebbero non arrivare sugli altri dispositivi. Riprova tra poco.'); }
+  busy[nome] = false;
+}
+function mostraSync(t){
+  const b = document.getElementById('sync-badge');
+  document.getElementById('sync-text').textContent = t; b.classList.add('show');
+  clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('show'), 1500);
+}
+function stato(t, off){
+  document.getElementById('status-text').textContent = t;
+  document.getElementById('status-dot').classList.toggle('off', !!off);
+}
+function avviso(t){ const e = document.getElementById('no-db'); e.textContent = t || ''; e.style.display = t ? 'block' : 'none'; }
+let renderPendente = false;
+function inEdit(){ const a = document.activeElement; return a && (a.tagName === 'INPUT' || a.tagName === 'SELECT'); }
+
+let unsubs = [];
+const DIAG = {};
+const DOCS = ['costi','grammature','impostazioni','vendite','prezzi'];
+const STATICO = {"costi":{"Aceto bianco":{"costo":1,"stima":true,"unita":"L"},"Aceto di lamponi":{"costo":10,"stima":true,"unita":"L"},"Aglio Rosso di Nubia":{"costo":10,"crudo":true,"stima":true,"unita":"kg"},"Arance":{"costo":1.5,"stima":true,"unita":"kg"},"Basilico fresco":{"costo":15,"crudo":true,"stima":true,"unita":"kg"},"Burrata o stracciatella":{"costo":12.7,"unita":"kg"},"Capperi di Salina":{"costo":18,"crudo":true,"unita":"kg"},"Carciofi arrostiti alla brace":{"costo":7.88,"unita":"kg"},"Cicoriella selvatica (gelo)":{"costo":11.71,"unita":"kg"},"Cipolla croccante disidratata":{"costo":8.6,"unita":"kg"},"Cipolla rossa":{"costo":2.5,"crudo":true,"stima":true,"unita":"kg"},"Crema di Datterino Giallo arrostito":{"costo":6.85,"unita":"kg"},"Crema di zucca arrostita":{"costo":9.57,"unita":"kg"},"Datterini rossi semi-secchi":{"costo":9.98,"unita":"kg"},"Datterino rosso e giallo semi-secco":{"costo":9.98,"unita":"kg"},"Disco croccante":{"costo":0.35,"unita":"pezzo"},"Filetti di alici del Mediterraneo":{"costo":28.39,"unita":"kg"},"Filetti di tonno rosso":{"costo":15,"unita":"kg"},"Finocchietto Selvatico":{"costo":12,"crudo":true,"stima":true,"unita":"kg"},"Fior di latte vaccino":{"costo":7.5,"unita":"kg"},"Funghi Cardoncelli":{"costo":14.3,"crudo":true,"stima":false,"unita":"kg"},"Funghi champignon":{"costo":2.95,"crudo":true,"stima":false,"unita":"kg"},"Germogli di rucola selvatica":{"costo":14,"crudo":true,"stima":true,"unita":"kg"},"Gomma xantana":{"costo":35,"stima":true,"unita":"kg"},"Granella di nocciola tostata":{"costo":27,"unita":"kg"},"Guanciale di Suino Nero dei Nebrodi croccante":{"costo":13.18,"unita":"kg"},"Lacrima di peperoncino in agrodolce":{"costo":33.5,"unita":"kg"},"Lardo artigianale di Suino Nero":{"costo":14.19,"unita":"kg"},"Latte intero fresco":{"costo":1.5,"stima":true,"unita":"L"},"Limoni Interdonato":{"costo":3,"stima":true,"unita":"kg"},"Melanzane perline":{"costo":2.5,"crudo":true,"stima":true,"unita":"kg"},"Meraner Würstel artigianale Pfitscher":{"costo":11.68,"unita":"kg"},"Miele di Zagara":{"costo":33,"unita":"kg"},"Miele di castagno piccante infuso al peperoncino":{"costo":34,"unita":"kg"},"Mortadella":{"costo":9.82,"unita":"kg"},"Mortadella Artigianale":{"costo":9.82,"unita":"kg"},"Mozzarella di Bufala Campana DOP":{"costo":15.38,"unita":"kg"},"Muddica atturrata":{"costo":3,"unita":"kg"},"Muddica atturrata con Mandorle di Avola":{"costo":3,"stima":true,"unita":"kg"},"Muddica atturrata con Mandorle di Avola, cappero di Salina e origano selvatico":{"costo":3,"stima":true,"unita":"kg"},"Muddica atturrata con pinoli tostati":{"costo":3,"stima":true,"unita":"kg"},"Nocciole tostate":{"costo":27,"unita":"kg"},"Olio EVO Don Pietro":{"costo":11,"stima":false,"unita":"L"},"Olio al caffè":{"costo":105,"stima":true,"unita":"L"},"Olio al limone d'Interdonato":{"costo":105,"unita":"L"},"Olio al peperoncino (Terraliva Fusion)":{"costo":105,"unita":"L"},"Olio all'aglio (Terraliva Fusion)":{"costo":105,"unita":"L"},"Olive Taggiasche":{"costo":17.11,"unita":"kg"},"Origano selvatico dei Peloritani":{"costo":18,"stima":true,"unita":"kg"},"Panna fresca 35%":{"costo":5.5,"stima":true,"unita":"kg"},"Passata di Pomodoro Siccagno":{"costo":9.72,"unita":"kg"},"Pasta di salsiccia Tiburzi":{"costo":7.21,"unita":"kg"},"Patate":{"costo":1.2,"stima":true,"unita":"kg"},"Pelato Supremo Gran Gusto":{"costo":1.92,"unita":"kg"},"Pepe nero":{"costo":117,"unita":"kg"},"Pepe nero di Sarawak":{"costo":117,"unita":"kg"},"Pepe nero macinato al momento":{"costo":117,"unita":"kg"},"Pinoli":{"costo":70,"stima":true,"unita":"kg"},"Pistacchio tostato":{"costo":26,"unita":"kg"},"Polvere di cappero di Salina":{"costo":100,"unita":"kg"},"Polvere di pomodoro":{"costo":18,"unita":"kg"},"Polvere di rosmarino tostato":{"costo":288,"unita":"kg"},"Primo Sale dei Nebrodi":{"costo":9,"unita":"kg"},"Primo sale":{"costo":9,"unita":"kg"},"Prosciutto Cotto Branchi":{"costo":13.42,"unita":"kg"},"Prosciutto Crudo San Daniele DOP":{"costo":16.01,"unita":"kg"},"Prosciutto crudo":{"costo":16.01,"unita":"kg"},"Provola affumicata":{"costo":9.45,"unita":"kg"},"Provola di Cesarò":{"costo":14,"unita":"kg"},"Ragusano DOP":{"costo":18,"unita":"kg"},"Ricotta fresca":{"costo":8,"unita":"kg"},"Rondelle di peperoncino fresco rosso":{"costo":10,"crudo":true,"stima":true,"unita":"kg"},"Rucola":{"costo":11.5,"crudo":false,"stima":true,"unita":"kg"},"Salame":{"costo":14.62,"unita":"kg"},"Salame piccante":{"costo":19.94,"unita":"kg"},"Scarola":{"costo":2,"crudo":true,"stima":true,"unita":"kg"},"Semi di finocchio":{"costo":15,"stima":true,"unita":"kg"},"Spaccatella di Pelato Supremo":{"costo":2.19,"unita":"kg"},"Sponzali freschi":{"costo":9.68,"crudo":true,"stima":false,"unita":"kg"},"Tuma di Cesarò avvolta in pasta fillo croccante":{"costo":14,"unita":"kg"},"Uva passa":{"costo":8,"stima":true,"unita":"kg"},"Zucchero":{"costo":1,"stima":true,"unita":"kg"}},"grammature":{"Adduma u Cufularu|||Miele di castagno piccante infuso al peperoncino|||Uscita":3,"Adduma u Cufularu|||Mozzarella di Bufala Campana DOP disidratata|||Forno":100,"Adduma u Cufularu|||Polvere di peperoncino vulcanico|||Uscita":1,"Adduma u Cufularu|||Rondelle di peperoncino fresco rosso|||Forno":2,"Adduma u Cufularu|||Salame piccante|||Forno":80,"Adduma u Cufularu|||Spaccatella di Pelato Supremo|||Forno":80,"Anima Messinese|||Datterini rossi confit|||Forno":40,"Anima Messinese|||Filetti di alici del Mediterraneo|||Forno":20,"Anima Messinese|||Olio al limone d'Interdonato|||Uscita":4,"Anima Messinese|||Pepe nero di Sarawak|||Uscita":1,"Anima Messinese|||Scarola riccia ripassata in padella|||Forno":60,"Anima Messinese|||Tuma fresca messinese|||Forno":50,"Anima Messinese|||Velo di crema di Ragusano DOP|||Uscita":20,"Bosco dei Nebrodi|||Fior di latte vaccino|||Forno":80,"Bosco dei Nebrodi|||Funghi Cardoncelli trifolati al timo|||Forno":100,"Bosco dei Nebrodi|||Guanciale di Suino Nero dei Nebrodi croccante|||Forno":60,"Bosco dei Nebrodi|||Nocciole tostate|||Uscita":10,"Bosco dei Nebrodi|||Pepe nero di Sarawak|||Uscita":1,"Bosco dei Nebrodi|||Provola di Cesarò|||Forno":60,"Colapesce|||Funghi Cardoncelli trifolati al timo|||Forno":100,"Colapesce|||Pepe nero macinato al momento|||Uscita":1,"Colapesce|||Prosciutto Crudo San Daniele DOP 24 mesi (fette aeree)|||Uscita":50,"Colapesce|||Provola affumicata a legna d'agrumi|||Forno":120,"Colapesce|||Salsiccia fresca sgranata a punta di coltello|||Forno":70,"Colapesce|||Velo di crema di Ragusano DOP|||Forno":10,"Colapesce|||Velo di crema di Ragusano DOP|||Uscita":10,"Evergreen|||Basilico fresco|||Uscita":1,"Evergreen|||Carciofi arrostiti alla brace|||Forno":30,"Evergreen|||Fior di latte vaccino|||Forno":89,"Evergreen|||Funghi Cardoncelli trifolati al timo|||Forno":50,"Evergreen|||Olive nere infornate siciliane|||Forno":25,"Evergreen|||Prosciutto Cotto Branchi (fette aeree)|||Uscita":80,"Evergreen|||Spaccatella di Pelato Supremo|||Forno":80,"Evergreen|||Velo di fonduta di Ragusano DOP|||Uscita":40,"Fuoco di Vulcanello|||Capperi di Salina|||Forno":15,"Fuoco di Vulcanello|||Carciofi arrostiti alla brace|||Forno":70,"Fuoco di Vulcanello|||Cipolla Rossa di Tropea in agrodolce|||Forno":40,"Fuoco di Vulcanello|||Crema d'Aglio Rosso di Nubia|||Uscita":25,"Fuoco di Vulcanello|||Crema di Datterino Giallo arrostito|||Forno":50,"Fuoco di Vulcanello|||Funghi Cardoncelli tagliati spessi|||Forno":80,"Fuoco di Vulcanello|||Muddica atturrata con Mandorle di Avola, cappero di Salina e origano selvatico|||Forno":30,"Fuoco di Vulcanello|||Muddica atturrata con Mandorle di Avola|||Forno":30,"Fuoco di Vulcanello|||Olio EVO a crudo|||Uscita":7,"Fuoco di Vulcanello|||Olive Taggiasche|||Forno":20,"Fuoco di Vulcanello|||Origano selvatico dei Peloritani|||Forno":2,"Il Tronchetto dell'Orso|||Fior di latte vaccino|||Forno":120,"Il Tronchetto dell'Orso|||Fonduta di Caciocavallo Ragusano DOP|||Forno":20,"Il Tronchetto dell'Orso|||Funghi Cardoncelli trifolati|||Forno":100,"Il Tronchetto dell'Orso|||Germogli di rucola selvatica|||Uscita":15,"Il Tronchetto dell'Orso|||Olio EVO Don Pietro|||Uscita":7,"Il Tronchetto dell'Orso|||Pepe nero|||Forno":1,"Il Tronchetto dell'Orso|||Prosciutto Crudo San Daniele DOP (fette aeree)|||Uscita":60,"Il Tronchetto dell'Orso|||Ragusano DOP (grattugiata microplane)|||Uscita":4,"Il Tronchetto dell'Orso|||Rucola|||Uscita":15,"Incanto di Zucca|||Crema di zucca arrostita|||Forno":80,"Incanto di Zucca|||Funghi Cardoncelli trifolati al timo|||Forno":80,"Incanto di Zucca|||Granella di nocciola tostata|||Uscita":10,"Incanto di Zucca|||Olio EVO Don Pietro|||Uscita":7,"Incanto di Zucca|||Polvere di rosmarino tostato|||Uscita":2,"Incanto di Zucca|||Provola affumicata di Napoli|||Forno":100,"L'Alpina Sicula|||Cipolla croccante disidratata|||Uscita":15,"L'Alpina Sicula|||Crema di patate cotte sotto cenere|||Forno":50,"L'Alpina Sicula|||Meraner Würstel artigianale Pfitscher (rondelle)|||Forno":70,"L'Alpina Sicula|||Olio EVO Don Pietro|||Uscita":7,"L'Alpina Sicula|||Provola affumicata|||Forno":70,"L'Alpina Sicula|||Senape delicata al miele di Zagara (fili)|||Uscita":20,"La Burrata|||Datterini rossi confit all'aceto di lampone|||Forno":40,"La Burrata|||Polvere di pomodoro (tecnica buccia)|||Uscita":2,"La Burrata|||San Daniele DOP 24 mesi (fette aeree)|||Uscita":60,"La Burrata|||Spaccatella di Pelato Supremo|||Forno":120,"La Burrata|||Stracciatella di Burrata montata all'olio di basilico|||Uscita":40,"La Margherita|||Basilico fresco|||Uscita":1,"La Margherita|||Fior di latte vaccino|||Forno":100,"La Margherita|||Olio EVO Don Pietro|||Uscita":7,"La Margherita|||Ragusano DOP stagionato (microplane)|||Uscita":10,"La Margherita|||Spaccatella di Pelato Supremo|||Forno":80,"Marinara dei Peloritani|||Crema d'aglio nero fermentato|||Uscita":20,"Marinara dei Peloritani|||Datterini rossi semi-secchi|||Forno":40,"Marinara dei Peloritani|||Muddica atturrata|||Forno":40,"Marinara dei Peloritani|||Olio EVO Don Pietro|||Uscita":7,"Marinara dei Peloritani|||Origano selvatico dei Peloritani|||Forno":1,"Marinara dei Peloritani|||Polvere di cappero di Salina|||Uscita":1,"Marinara dei Peloritani|||Spaccatella di Pelato Supremo|||Forno":160,"Memoria Contadina|||Cicoria selvatica ripassata in padella|||Forno":50,"Memoria Contadina|||Crema di patate cotte sotto cenere|||Forno":50,"Memoria Contadina|||Gocce di confettura di fichi|||Uscita":20,"Memoria Contadina|||Lardo artigianale di Suino Nero|||Uscita":40,"Memoria Contadina|||Olio EVO Don Pietro|||Uscita":7,"Memoria Contadina|||Olio al caffè|||Uscita":2,"Memoria Contadina|||Provola di Cesarò|||Forno":60,"O Sole Mio|||Basilico fresco|||Uscita":1,"O Sole Mio|||Datterino rosso e giallo semi-secco|||Forno":120,"O Sole Mio|||Mozzarella di Bufala Campana DOP|||Forno":120,"O Sole Mio|||Olio EVO Don Pietro|||Uscita":10,"O Sole Mio|||Passata di Pomodoro Siccagno|||Forno":30,"O Sole Mio|||Polvere di cappero di Salina|||Uscita":1,"Sinfonia di Norma|||Basilico fresco|||Uscita":1,"Sinfonia di Norma|||Chips di melanzane fritte croccanti|||Uscita":30,"Sinfonia di Norma|||Cubetti di melanzane perline fritte|||Forno":50,"Sinfonia di Norma|||Datterini rossi semi-secchi|||Forno":70,"Sinfonia di Norma|||Emulsione soffice di ricotta fresca|||Uscita":60,"Sinfonia di Norma|||Fior di latte vaccino|||Forno":90,"Sinfonia di Norma|||Spaccatella di Pelato Supremo|||Forno":60,"Stretto|||Fior di latte vaccino|||Forno":140,"Stretto|||Fonduta di Caciocavallo Ragusano DOP|||Uscita":40,"Stretto|||Mortadella Artigianale (adagiata a caldo)|||Uscita":100,"Stretto|||Olio al limone d'Interdonato|||Uscita":4,"Stretto|||Pepe nero di Sarawak|||Uscita":1,"Stretto|||Pistacchio tostato|||Forno":30,"Un Giorno sulla Feluca|||Capperi di Salina|||Forno":20,"Un Giorno sulla Feluca|||Emulsione soffice di limone e arancia|||Uscita":10,"Un Giorno sulla Feluca|||Finocchietto Selvatico|||Uscita":4,"Un Giorno sulla Feluca|||Fior di latte vaccino|||Forno":80,"Un Giorno sulla Feluca|||Lardo artigianale di Suino Nero|||Uscita":50,"Un Giorno sulla Feluca|||Muddica atturrata con pinoli tostati|||Forno":40,"Un Giorno sulla Feluca|||Ragusano DOP|||Uscita":10,"Un Giorno sulla Feluca|||Rose di Pesce Spada Siciliano Affumicato|||Uscita":65,"Uno Sguardo alle Eolie|||Capperi di Salina dissalati|||Forno":20,"Uno Sguardo alle Eolie|||Cipolla Rossa di Tropea in agrodolce|||Forno":40,"Uno Sguardo alle Eolie|||Filetti di tonno rosso|||Uscita":60,"Uno Sguardo alle Eolie|||Olio al limone d'Interdonato|||Uscita":4,"Uno Sguardo alle Eolie|||Spaccatella di Pelato Supremo|||Forno":120,"Uno Sguardo alle Eolie|||Sponzali freschi|||Forno":30},"grammature_duomo":{"Adduma u Cufularu|||Miele di castagno piccante infuso al peperoncino|||Uscita":3,"Adduma u Cufularu|||Mozzarella di Bufala Campana DOP disidratata|||Forno":100,"Adduma u Cufularu|||Polvere di peperoncino vulcanico|||Uscita":1,"Adduma u Cufularu|||Rondelle di peperoncino fresco rosso|||Forno":2,"Adduma u Cufularu|||Salame piccante|||Forno":80,"Adduma u Cufularu|||Spaccatella di Pelato Supremo|||Forno":80,"Anima Messinese|||Datterini rossi confit|||Forno":40,"Anima Messinese|||Filetti di alici del Mediterraneo|||Forno":20,"Anima Messinese|||Olio al limone d'Interdonato|||Uscita":4,"Anima Messinese|||Pepe nero di Sarawak|||Uscita":1,"Anima Messinese|||Scarola riccia ripassata in padella|||Forno":60,"Anima Messinese|||Tuma fresca messinese|||Forno":50,"Anima Messinese|||Velo di crema di Ragusano DOP|||Uscita":20,"Bosco dei Nebrodi|||Fior di latte vaccino|||Forno":80,"Bosco dei Nebrodi|||Funghi Cardoncelli trifolati al timo|||Forno":100,"Bosco dei Nebrodi|||Guanciale di Suino Nero dei Nebrodi croccante|||Forno":60,"Bosco dei Nebrodi|||Nocciole tostate|||Uscita":10,"Bosco dei Nebrodi|||Pepe nero di Sarawak|||Uscita":1,"Bosco dei Nebrodi|||Provola di Cesarò|||Forno":60,"Colapesce|||Funghi Cardoncelli trifolati al timo|||Forno":100,"Colapesce|||Pepe nero macinato al momento|||Uscita":1,"Colapesce|||Prosciutto Crudo San Daniele DOP 24 mesi (fette aeree)|||Uscita":50,"Colapesce|||Provola affumicata a legna d'agrumi|||Forno":120,"Colapesce|||Salsiccia fresca sgranata a punta di coltello|||Forno":70,"Colapesce|||Velo di crema di Ragusano DOP|||Uscita":10,"Evergreen|||Basilico fresco|||Uscita":1,"Evergreen|||Carciofi arrostiti alla brace|||Forno":30,"Evergreen|||Fior di latte vaccino|||Forno":89,"Evergreen|||Funghi Cardoncelli trifolati al timo|||Forno":50,"Evergreen|||Olive nere infornate siciliane|||Forno":25,"Evergreen|||Prosciutto Cotto Branchi (fette aeree)|||Uscita":80,"Evergreen|||Spaccatella di Pelato Supremo|||Forno":80,"Evergreen|||Velo di fonduta di Ragusano DOP|||Uscita":40,"Fuoco di Vulcanello|||Capperi di Salina|||Forno":15,"Fuoco di Vulcanello|||Carciofi arrostiti alla brace|||Forno":70,"Fuoco di Vulcanello|||Cipolla Rossa di Tropea in agrodolce|||Forno":40,"Fuoco di Vulcanello|||Crema d'Aglio Rosso di Nubia|||Uscita":25,"Fuoco di Vulcanello|||Crema di Datterino Giallo arrostito|||Forno":50,"Fuoco di Vulcanello|||Funghi Cardoncelli tagliati spessi|||Forno":80,"Fuoco di Vulcanello|||Muddica atturrata con Mandorle di Avola|||Forno":30,"Fuoco di Vulcanello|||Olio EVO a crudo|||Uscita":7,"Fuoco di Vulcanello|||Olive Taggiasche|||Forno":20,"Fuoco di Vulcanello|||Origano selvatico dei Peloritani|||Forno":2,"Incanto di Zucca|||Crema di zucca arrostita|||Forno":80,"Incanto di Zucca|||Funghi Cardoncelli trifolati al timo|||Forno":80,"Incanto di Zucca|||Granella di nocciola tostata|||Uscita":10,"Incanto di Zucca|||Olio EVO Don Pietro|||Uscita":7,"Incanto di Zucca|||Polvere di rosmarino tostato|||Uscita":2,"Incanto di Zucca|||Provola affumicata di Napoli|||Forno":100,"L'Alpina Sicula|||Cipolla croccante disidratata|||Uscita":15,"L'Alpina Sicula|||Crema di patate cotte sotto cenere|||Forno":50,"L'Alpina Sicula|||Meraner Würstel artigianale Pfitscher (rondelle)|||Forno":70,"L'Alpina Sicula|||Olio EVO Don Pietro|||Uscita":7,"L'Alpina Sicula|||Provola affumicata|||Forno":70,"L'Alpina Sicula|||Senape delicata al miele di Zagara (fili)|||Uscita":20,"La Burrata|||Datterini rossi confit all'aceto di lampone|||Forno":40,"La Burrata|||Polvere di pomodoro (tecnica buccia)|||Uscita":2,"La Burrata|||San Daniele DOP 24 mesi (fette aeree)|||Uscita":60,"La Burrata|||Spaccatella di Pelato Supremo|||Forno":120,"La Burrata|||Stracciatella di Burrata montata all'olio di basilico|||Uscita":40,"La Margherita|||Basilico fresco|||Uscita":1,"La Margherita|||Fior di latte vaccino|||Forno":100,"La Margherita|||Olio EVO Don Pietro|||Uscita":7,"La Margherita|||Ragusano DOP stagionato (microplane)|||Uscita":10,"La Margherita|||Spaccatella di Pelato Supremo|||Forno":80,"Marinara dei Peloritani|||Crema d'aglio nero fermentato|||Uscita":20,"Marinara dei Peloritani|||Datterini rossi semi-secchi|||Forno":40,"Marinara dei Peloritani|||Muddica atturrata|||Forno":40,"Marinara dei Peloritani|||Olio EVO Don Pietro|||Uscita":7,"Marinara dei Peloritani|||Origano selvatico dei Peloritani|||Forno":1,"Marinara dei Peloritani|||Polvere di cappero di Salina|||Uscita":1,"Marinara dei Peloritani|||Spaccatella di Pelato Supremo|||Forno":160,"Memoria Contadina|||Cicoria selvatica ripassata in padella|||Forno":50,"Memoria Contadina|||Crema di patate cotte sotto cenere|||Forno":50,"Memoria Contadina|||Gocce di confettura di fichi|||Uscita":20,"Memoria Contadina|||Lardo artigianale di Suino Nero|||Uscita":40,"Memoria Contadina|||Olio EVO Don Pietro|||Uscita":7,"Memoria Contadina|||Olio al caffè|||Uscita":2,"Memoria Contadina|||Provola di Cesarò|||Forno":60,"O Sole Mio|||Basilico fresco|||Uscita":1,"O Sole Mio|||Datterino rosso e giallo semi-secco|||Forno":120,"O Sole Mio|||Mozzarella di Bufala Campana DOP|||Forno":120,"O Sole Mio|||Olio EVO Don Pietro|||Uscita":10,"O Sole Mio|||Passata di Pomodoro Siccagno|||Forno":30,"O Sole Mio|||Polvere di cappero di Salina|||Uscita":1,"Sinfonia di Norma|||Basilico fresco|||Uscita":1,"Sinfonia di Norma|||Chips di melanzane fritte croccanti|||Uscita":30,"Sinfonia di Norma|||Cubetti di melanzane perline fritte|||Forno":50,"Sinfonia di Norma|||Datterini rossi semi-secchi|||Forno":70,"Sinfonia di Norma|||Emulsione soffice di ricotta fresca|||Uscita":60,"Sinfonia di Norma|||Fior di latte vaccino|||Forno":90,"Sinfonia di Norma|||Spaccatella di Pelato Supremo|||Forno":60,"Stretto|||Fior di latte vaccino|||Forno":140,"Stretto|||Fonduta di Caciocavallo Ragusano DOP|||Uscita":40,"Stretto|||Mortadella Artigianale (adagiata a caldo)|||Uscita":100,"Stretto|||Olio al limone d'Interdonato|||Uscita":4,"Stretto|||Pepe nero di Sarawak|||Uscita":1,"Stretto|||Pistacchio tostato|||Forno":30,"Un Giorno sulla Feluca|||Capperi di Salina|||Forno":20,"Un Giorno sulla Feluca|||Emulsione soffice di limone e arancia|||Uscita":10,"Un Giorno sulla Feluca|||Finocchietto Selvatico|||Uscita":4,"Un Giorno sulla Feluca|||Fior di latte vaccino|||Forno":80,"Un Giorno sulla Feluca|||Lardo artigianale di Suino Nero|||Uscita":50,"Un Giorno sulla Feluca|||Muddica atturrata con pinoli tostati|||Forno":40,"Un Giorno sulla Feluca|||Ragusano DOP|||Uscita":10,"Un Giorno sulla Feluca|||Rose di Pesce Spada Siciliano Affumicato|||Uscita":65,"Uno Sguardo alle Eolie|||Capperi di Salina dissalati|||Forno":20,"Uno Sguardo alle Eolie|||Cipolla Rossa di Tropea in agrodolce|||Forno":40,"Uno Sguardo alle Eolie|||Filetti di tonno rosso|||Uscita":60,"Uno Sguardo alle Eolie|||Olio al limone d'Interdonato|||Uscita":4,"Uno Sguardo alle Eolie|||Spaccatella di Pelato Supremo|||Forno":120,"Uno Sguardo alle Eolie|||Sponzali freschi|||Forno":30},"impostazioni":{"over":{"Anima Messinese":"","Bosco dei Nebrodi":"","Evergreen":"","Marinara dei Peloritani":""},"pallina":0.3,"scarto":20,"secMax":10,"secMin":7},"impostazioni_duomo":{"pallina":0.3,"scarto":20,"secMax":10,"secMin":7}};
+const AGGIORNATO = '08/10/2026 alle 08:38';
+const BUILD = '07/10 19:44';
+function mostraDiag(){
+  const e = document.getElementById('diag'), t = document.getElementById('diag-top');
+  if(t) t.textContent = 'Versione ' + BUILD + ' · ' + (SEDE === 'duomo' ? 'Duomo' : 'Via Calapso') + ' · letti: ' + DOCS.map(b => b.replace('impostazioni', 'impost.') + ' ' + (DIAG[b] || '…')).join(' · ');
+  if(!e) return;
+  e.textContent = 'Dati letti da ' + (SEDE === 'duomo' ? 'Duomo' : 'Via Calapso') + ' — ' + DOCS.map(b => b + ': ' + (DIAG[b] || 'in attesa')).join(' · ') + ' (' + new Date().toLocaleTimeString('it-IT') + ')';
+}
+// applica un documento letto dal salvataggio; ignora le risposte provvisorie e vuote (cache), che non sono ancora i dati veri
+function applica(base, snap){
+  const nome = docName(base), meta = snap.metadata || {};
+  if(!snap.exists && meta.fromCache){ DIAG[base] = 'in attesa'; mostraDiag(); return false; }
+  const v = snap.exists ? (snap.data().valori || {}) : {}, pv = pend[nome] || {};
+  if(base === 'costi') COSTI = merge(clone(v), pv);
+  else if(base === 'grammature') GRAMMI = merge(clone(v), pv);
+  else if(base === 'vendite') VENDITE = merge(clone(v), pv);
+  else if(base === 'prezzi') PREZZI = merge(clone(v), pv);
+  else IMP = merge(Object.assign(clone(DEF_IMP), clone(v)), pv);
+  DIAG[base] = Object.keys(v).length + ' voci' + (meta.fromCache ? ' (cache)' : '');
+  mostraDiag();
+  return true;
+}
+function sottoscrivi(){
+  unsubs.forEach(u => { try{ u(); }catch(e){} }); unsubs = [];
+  DOCS.forEach(base => { delete DIAG[base]; });
+  DOCS.forEach(base => {
+    unsubs.push(db.doc('data/'+docName(base)).onSnapshot(snap => {
+      if(!applica(base, snap)) return;
+      if(inEdit()){ ricalcolaTesti(); renderPendente = true; } else { renderPendente = false; renderTutto(); }
+      stato('Sincronizzato · '+(SEDE === 'duomo' ? 'Duomo' : 'Via Calapso'));
+    }, () => { stato('Errore di connessione al salvataggio', true); avviso('⚠ Connessione ai dati interrotta: quello che vedi potrebbe non essere aggiornato. Premi Ricarica in Impostazioni o riapri la pagina.'); }));
+  });
+}
+// lettura diretta e definitiva dal salvataggio (non dipende dal flusso in tempo reale)
+async function rileggi(){
+  if(!db) return;
+  const prima = JSON.stringify([COSTI, GRAMMI, IMP, VENDITE, PREZZI]);
+  for(const base of DOCS){
+    try{ const snap = await db.doc('data/'+docName(base)).get(); applica(base, snap); }catch(e){ DIAG[base] = 'errore'; mostraDiag(); }
+  }
+  const vuota = !Object.keys(COSTI).length && !Object.keys(GRAMMI).length && DIAG.costi && /^0 voci/.test(DIAG.costi);
+  if(vuota) avviso('⚠ Questa pagina non vede nessun dato salvato (costi, grammature, prezzi): non è la dashboard collegata ai tuoi dati, è una copia vuota. Aprila dal link pubblicato: claude.ai/artifact/EfkQ7ChX6eBgLLqbsB1wzt');
+  else if((document.getElementById('no-db').textContent || '').indexOf('copia vuota') >= 0) avviso('');
+  if(JSON.stringify([COSTI, GRAMMI, IMP, VENDITE, PREZZI]) !== prima){ if(inEdit()){ ricalcolaTesti(); renderPendente = true; } else { renderPendente = false; renderTutto(); } }
+}
+
+
+async function initDb(){
+  // versione di consultazione: i dati sono dentro il file, niente collegamento esterno
+  const snapDoc = nome => ({exists: nome in STATICO, data: () => ({valori: STATICO[nome]}), metadata: {fromCache: false, hasPendingWrites: false}});
+  db = { doc: p => { const nome = p.split('/')[1]; return {
+    get: async () => snapDoc(nome),
+    onSnapshot: cb => { setTimeout(() => cb(snapDoc(nome)), 0); return () => {}; },
+    set: async () => {}, update: async () => {} }; } };
+  renderTutto(); avviso(''); sottoscrivi(); mostraSync('');
+}
+document.body.classList.add('sola-lettura');
+document.getElementById('sola').textContent = 'Versione di consultazione · dati aggiornati al ' + AGGIORNATO + ' · per modificare, chiedi a Claude';
+aggiornaSedeUI();
+renderTutto();
+initDb();
+
+</script>
+</body>
+</html>
