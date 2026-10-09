@@ -96,7 +96,8 @@ header{
   transition:all 0.15s;
 }
 .mult-btn:active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.mult-value{font-size:16px;font-weight:600;color:var(--accent);min-width:36px;text-align:center;font-family:'DM Mono',monospace}
+.mult-value{font-size:16px;font-weight:600;color:var(--accent);width:64px;text-align:center;font-family:'DM Mono',monospace;border:1.5px solid var(--accent);border-radius:9px;padding:4px 6px;background:var(--surface);outline:none;}
+.mult-value:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(200,100,30,0.15)}
 
 /* ── SEZIONE LABEL ── */
 .section-label{
@@ -893,15 +894,13 @@ var BASE_RECIPES = [
   },
   { id:172, emoji:'🧀', title:'Fonduta di Ragusano & Grana DOP (Biberon)', tag:'Salse & Creme',
     ingredienti:[
+      {nome:'Latte intero fresco',qty:1000,unit:'g'},
       {nome:'Panna fresca 35% m.g.',qty:1000,unit:'g'},
-      {nome:'Latte intero',qty:1000,unit:'g'},
-      {nome:'Maizena (amido di mais)',qty:20,unit:'g'},
-      {nome:'Grana Padano DOP (grattugiato fino)',qty:520,unit:'g'},
-      {nome:'Ragusano DOP (grattugiato fino)',qty:280,unit:'g'},
-      {nome:'Pepe bianco macinato',qty:1,unit:'pizzico'},
-      {nome:'Noce moscata',qty:1,unit:'pizzico'}
+      {nome:'Grana Padano DOP (grattugiato fino)',qty:650,unit:'g'},
+      {nome:'Ragusano DOP stagionato (grattugiato fino)',qty:350,unit:'g'},
+      {nome:'Maizena (amido di mais)',qty:20,unit:'g'}
     ],
-    istruzioni:'FONDUTA DI RAGUSANO & GRANA DOP — Temperatura max 80°C per evitare la filatura del Ragusano.\nResa finale: circa 2.600g di fonduta pronta da biberon.\n\n════════════════════════════════\n🤖 PROCEDIMENTO CON BIMBY / THERMOMIX\n════════════════════════════════\n\nFASE 1 — BASE LIQUIDA\n1. Versare nel boccale la panna e il latte.\n2. Aggiungere la maizena. Mescolare con spatola prima di avviare per evitare grumi.\n3. Cuocere: 80°C — Vel. 3 — 8 minuti (senza tappo misurino per far evaporare).\n\nFASE 2 — INCORPORO FORMAGGI\n1. Abbassare la velocità a Vel. 2.\n2. Con il Bimby in funzione a 80°C, aggiungere il Grana Padano DOP a cucchiaiate, aspettando che si sciolga tra un\'aggiunta e l\'altra.\n3. Poi aggiungere il Ragusano DOP allo stesso modo, sempre a cucchiaiate.\n4. Cuocere ancora: 80°C — Vel. 3 — 5 minuti fino a ottenere una crema liscia e vellutata.\n5. Aggiustare di pepe bianco e noce moscata.\n6. Se la fonduta risulta troppo densa aggiungere un goccio di latte caldo e mixare 30 secondi Vel. 3.\n\nFASE 3 — BIBERON E CONSERVAZIONE\n1. Versare la fonduta ancora calda in biberon da cucina da 500g (con imbuto o direttamente dal boccale).\n2. Chiudere e abbattere SUBITO a +3°C in abbattitore.\n3. Stoccare in frigo a +2°C/+4°C. Shelf life: 4 giorni.\n\nRIGENERO: scaldare a bagnomaria o in abbattitore in modalità rigenerazione fino a 65°C al cuore, agitare il biberon, servire.\n\n════════════════════════════════\n🍳 PROCEDIMENTO CON PENTOLA + TERMOMETRO\n(Alternativa senza Bimby)\n════════════════════════════════\n\nFASE 1 — BASE LIQUIDA\n1. In una pentola a fondo spesso (o in acciaio), versare il latte freddo.\n2. Sciogliere la maizena nel latte a freddo mescolando con una frusta fino a completo assorbimento — nessun grumo.\n3. Aggiungere la panna. Portare a fuoco medio mescolando continuamente con frusta.\n4. Raggiungere 75-78°C (monitorare con termometro a sonda). La base si addensa visibilmente.\n\nFASE 2 — INCORPORO FORMAGGI\n1. Abbassare la fiamma al minimo — mantenere la temperatura sotto gli 80°C in tutto questo passaggio.\n2. Aggiungere il Grana Padano DOP in più riprese (3-4 aggiunte), mescolando energicamente con frusta tra ogni aggiunta fino a completo scioglimento.\n3. Poi aggiungere il Ragusano DOP allo stesso modo, sempre in più riprese. ⚠️ Il Ragusano tende a filare sopra gli 80°C — tenere sempre il termometro in mano.\n4. Non smettere mai di mescolare — la crema deve restare in movimento continuo.\n5. Aggiustare di pepe bianco e noce moscata.\n\nFASE 3 — MIXATURA E BIBERON\n1. Passare la fonduta al minipimer a immersione per 30-60 secondi per ottenere una consistenza liscia e senza grumi.\n2. Se troppo densa aggiungere un goccio di latte caldo e mixare ancora.\n3. Versare ancora calda in biberon da cucina da 500g.\n4. Abbattere SUBITO a +3°C in abbattitore.\n5. Stoccare in frigo a +2°C/+4°C. Shelf life: 4 giorni.\n\nRIGENERO: bagnomaria o abbattitore in rigenerazione fino a 65°C al cuore, agitare il biberon, servire.'
+    istruzioni:'CREMA/FONDUTA DI RAGUSANO & GRANA DOP — Rapporto 1:1:1 (Latte : Panna : Formaggi)\nMix formaggi: 65% Grana Padano + 35% Ragusano DOP. Maizena all\'1% sui liquidi — fissa i grassi ed evita lo spurgo dell\'olio. Temperatura di processo: max 80°C.\nResa finale: circa 2.620g di fonduta pronta da biberon.\n\n════════════════════════════════\n🤖 PROCEDIMENTO BIMBY / THERMOMIX\n════════════════════════════════\n\nFASE 1 — DISPERSIONE MAIZENA\n1. Stemperare a freddo la maizena (20g) nei 1000g di latte fresco — mescolare bene con frusta fino a sciogliere ogni grumo.\n\nFASE 2 — RISCALDAMENTO BASE\n1. Versare nel boccale il latte con la maizena già dispersa + la panna fresca.\n2. Impostare 80°C — Velocità 2.\n3. Attendere che il Bimby raggiunga gli 80°C.\n\nFASE 3 — EMULSIONE FORMAGGI\n1. Raggiunti gli 80°C: portare a Velocità 4.\n2. Unire a pioggia il mix di formaggi (Grana + Ragusano) poco alla volta, con il Bimby in moto.\n3. Mantenere 80°C — Velocità 4-5 — per 4-5 minuti fino a fusione completa e attivazione dell\'amido.\n\nFASE 4 — SETOSITÀ FINALE\n1. Portare a Velocità 8-10 per 30 secondi: la crema diventa vellutata e lucida.\n\nFASE 5 — BIBERON E STOCCAGGIO\n1. Filtrare allo chinois fine.\n2. Versare nei biberon da servizio ancora caldo.\n3. Per la linea: tenere a bagnomaria caldo a 55-60°C.\n4. Per conservazione: abbattere a +3°C. Shelf life: 4-5 giorni in cella a +2°C/+4°C.\n\n════════════════════════════════\n🍳 PROCEDIMENTO ALTERNATIVO\n(Pentola + Rational + Frullatore a Immersione)\n════════════════════════════════\n\nFASE 1 — BASE\n1. Sciogliere la maizena nel latte a freddo con frusta, poi unire la panna in pentola.\n2. Portare a 80°C mescolando continuamente con frusta.\n\nFASE 2 — FORMAGGI\n1. Togliere dal fuoco.\n2. Aggiungere il mix di formaggi grattugiati (Grana + Ragusano).\n3. Emulsionare con frullatore a immersione per 2 minuti fino a crema liscia.\n\nFASE 3 — PASTORIZZAZIONE AL RATIONAL\n1. Imbustare in sacchetti da cottura e sigillare al 99% di vuoto.\n2. Rational: Vapore 100% — 80°C — 15-20 minuti.\n\nFASE 4 — BIBERON E STOCCAGGIO\n1. Filtrare allo chinois fine e versare nei biberon.\n2. Per la linea: bagnomaria a 55-60°C.\n3. Per conservazione: abbattere a +3°C. Shelf life: 4-5 giorni in cella a +2°C/+4°C.'
   },
   { id:171, emoji:'🍅', title:'Pelato Supremo 2.0 (Zero Zucchero)', tag:'Salse Pomodoro',
     ingredienti:[
@@ -1428,11 +1427,24 @@ function updateFoodCost(id){
 
 // ── MOLTIPLICATORE ──
 function changeMult(id, delta){
-  var m = (multipliers[id]||1) + delta;
-  if(m < 1) m = 1;
+  var m = Math.round(((multipliers[id]||1) + delta) * 100) / 100;
+  if(m < 0.1) m = 0.1;
   multipliers[id] = m;
   saveToStorage();
-  document.getElementById('mv_'+id).textContent = '×' + m;
+  var inp = document.getElementById('mv_'+id);
+  if(inp) inp.value = m;
+  renderIngTable(id);
+  updateFoodCost(id);
+}
+function setMultFree(id){
+  var inp = document.getElementById('mv_'+id);
+  if(!inp) return;
+  var v = parseFloat(inp.value.replace(',','.'));
+  if(isNaN(v) || v < 0.1) { inp.value = multipliers[id]||1; return; }
+  v = Math.round(v * 100) / 100;
+  multipliers[id] = v;
+  inp.value = v;
+  saveToStorage();
   renderIngTable(id);
   updateFoodCost(id);
 }
@@ -1641,9 +1653,11 @@ function renderList(){
         // Moltiplicatore
         '<div class="mult-bar">' +
           '<span class="mult-label">Moltiplica dosi</span>' +
-          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',-1)">−</button>' +
-          '<span class="mult-value" id="mv_'+base.id+'">×'+mult+'</span>' +
-          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',1)">+</button>' +
+          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',-0.5)">−</button>' +
+          '<input type="number" class="mult-value" id="mv_'+base.id+'" value="'+mult+'" min="0.1" step="0.1" ' +
+            'onchange="setMultFree(\''+base.id+'\')" onblur="setMultFree(\''+base.id+'\')" ' +
+            'onkeydown="if(event.key===\'Enter\'){setMultFree(\''+base.id+'\');this.blur();}" />' +
+          '<button class="mult-btn" onclick="changeMult(\''+base.id+'\',0.5)">+</button>' +
         '</div>' +
         // Ingredienti
         '<div class="section-label">' +
