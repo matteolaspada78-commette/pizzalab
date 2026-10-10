@@ -892,6 +892,14 @@ var BASE_RECIPES = [
     ],
     istruzioni:'BASE: 1 kg di pane. Attrezzatura: Cutter + Teglie GN 1/1 + Rational + Abbattitore + Macchina sottovuoto.\n\nFASE 1 — TRITATURA AL CUTTER (ad impulsi)\n1. Aprire le buste di pane e lasciarle all\'aria sul banco per 10 minuti — fa evaporare l\'umidità di confezionamento.\n2. Spezzettare il pane a mano e inserirlo nel cutter.\n3. Azionare SOLO A IMPULSI (tasto PULSE) per pochissimi secondi, 3-4 volte.\nOBIETTIVO: briciole irregolari da 2-4 mm — NON una polvere sottile.\n\nFASE 2 — CONDIMENTO E AMALGAMA\n1. In un pentolino emulsionare l\'olio EVO con i filetti di acciuga tritati finissimi (o sciolti a bassissimo calore) e l\'aglio.\n2. Versare l\'olio aromatizzato a filo nel cutter sopra le briciole.\n3. Aggiungere il sale.\n4. Dare 2-3 colpi rapidi di PULSE per distribuire l\'olio uniformemente — senza impastare la mollica.\n\nFASE 3 — TOSTATURA AL RATIONAL\n1. Stendere la mollica su teglie GN 1/1 (forate con carta forno o alluminizzate) in strato sottile massimo 1,5-2 cm.\n2. Modalità Aria Calda (Secco) — 130°C — Umidità 0%, valvola sfiato aperta al 100% — Tempo 12-14 minuti.\n3. A metà cottura (6-7 min) rimescolare con una marisa per uniformare la doratura. Deve uscire bionda e dorata — NON marrone scuro.\n\nFASE 4 — ABBATTIMENTO E CONSERVAZIONE\n1. Sfornare e passare IMMEDIATAMENTE in abbattitore a +3°C.\n2. Quando completamente fredda, porzionare in buste sottovuoto (500g o 1kg).\n3. Sigillare con saldatura semplice o vuoto leggerissimo MAX 30-40% — evita di schiacciare le briciole e compattarle.\n4. Conservare in cella frigo a +2°C/+4°C.'
   },
+  { id:173, emoji:'🍆', title:'Melanzane Fritte Orogel Gelo (Rational)', tag:'Verdure & Contorni',
+    ingredienti:[
+      {nome:'Melanzane a cubetti 20×20 (SURGELATE, non scongelare)',qty:1000,unit:'g'},
+      {nome:'Olio EVO Don Pietro (o Olio d\'Arachide)',qty:45,unit:'g'},
+      {nome:'Sale fino',qty:8,unit:'g'}
+    ],
+    istruzioni:'CUBETTI DI MELANZANA "EFFETTO FRITTO" AL RATIONAL — Da surgelate direttamente in forno, zero scongelamento.\nRisultato: cubetto integro, dorato fuori, morbido al centro, non rilascia acqua né unge la pizza.\n\nFASE 1 — CONDIMENTO IN TEGLIA\n1. Prendere teglia GN 1/1 (antiaderente o con carta forno).\n2. Versare i cubetti ANCORA SURGELATI (-18°C) direttamente dal sacco — NON scongelare mai prima.\n3. Aggiungere olio e sale fino.\n4. Massaggiare delicatamente a mano per 20-30 secondi: l\'olio deve velare uniformemente ogni cubetto.\n5. Distribuire in un unico strato omogeneo senza sovrapporli.\n\nFASE 2 — COTTURA AL RATIONAL\nPreriscaldamento: 230°C (Aria Calda — Rossa)\nModalità: Aria Calda (Secco)\nUmidità: 0% (Valvola di sfiato aperta al 100%)\nTemperatura cottura: 210°C\nVentola: Velocità alta\nTempo: 12-14 minuti\n\n⚠️ A circa 7 minuti (metà cottura): aprire rapidamente il forno e scuotere la teglia per muovere i cubetti e farli dorare uniformemente su tutti i lati.\n\nFASE 3 — ABBATTIMENTO E STOCCAGGIO\n1. Sfornare immediatamente a doratura completata.\n2. Passare subito in abbattitore a +3°C direttamente in teglia stesa.\n3. Riporre in contenitore ermetico per la linea di pizzeria.'
+  },
   { id:172, emoji:'🧀', title:'Fonduta di Ragusano & Grana DOP (Biberon)', tag:'Salse & Creme',
     ingredienti:[
       {nome:'Latte intero fresco',qty:1000,unit:'g'},
@@ -1102,7 +1110,7 @@ if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].in
   editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
   saveToStorage();
 }
-[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172].forEach(function(rid){
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
     editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
