@@ -873,6 +873,15 @@ var BASE_RECIPES = [
     ],
     istruzioni:'RESA: 1 biberon da linea (300g). Xantana allo 0,4% — pesare con bilancino di precisione.\nShelf-life: 3-4 giorni in frigo. Tempo di preparazione: 2 minuti.\n\n1. Nel bricco alto del minipimer versare i due succhi filtrati, il sale, le due scorze grattugiate e la gomma di xantana.\n2. Frullare a immersione per 15 secondi per attivare la xantana.\n3. Versare l\'olio EVO Don Pietro a filo continuando a montare a massima velocità finché la salsa non diventa cremosa, lucida e della stessa consistenza di una maionese.\n4. Versare nel biberon con beccuccio medio e conservare in frigo.\n\nSERVIZIO IN PIZZERIA — Pizza "Un Giorno sulla Feluca"\nAll\'uscita dalla pala, dopo aver posizionato le rose di pesce spada affumicato, fare un drop al centro di ogni rosa. Non colate e non abbondate: il contrasto deve essere pulito e profumato.'
   },
+  { id:174, emoji:'🍅', title:'Pelato Supremo con Bicarbonato (Rational)', tag:'Salse Pomodoro',
+    ingredienti:[
+      {nome:'Pelato Gran Gusto Finagricola',qty:2500,unit:'g'},
+      {nome:'Olio EVO Don Pietro',qty:40,unit:'g'},
+      {nome:'Sale fino',qty:18,unit:'g'},
+      {nome:'Bicarbonato di sodio (bilancina di precisione!)',qty:2,unit:'g'}
+    ],
+    istruzioni:'PELATO SUPREMO GRAN GUSTO — Riduzione al Rational: zero acidità, rosso rubino brillante, non bagna l\'impasto.\nBicarbonato al posto dello zucchero: neutralizza chimicamente l\'acido citrico senza aggiungere dolciume. L\'olio EVO protegge la polpa, scioglie il licopene e dona consistenza setosa.\nResa finale: da 2,5 kg → circa 1,8 kg di concentrato denso (calo ~28%).\n\nFASE 1 — PREPARAZIONE IN TEGLIA\n1. Schiacciare i pelati a mano o passarli al passaverdura a fori larghi.\n⚠️ MAI usare il minipimer — ingloba aria e sbianisce il colore.\n2. Aggiungere i 2g di bicarbonato e il sale. Mescolare bene.\n(Noterete una leggerissima schiumetta: è la reazione che neutralizza l\'acido — normale.)\n3. Aggiungere l\'olio EVO, dare una mescolata e versare in teglia GN 1/1.\n4. Stendere in uno strato omogeneo.\n\nFASE 2 — COTTURA AL RATIONAL\nPreriscaldamento: 160°C\nModalità: Aria Calda (Secco — Rossa)\nUmidità: 0% (Valvola di sfiato aperta al 100%)\nTemperatura cottura: 150°C\nVentola: Velocità 3 (Media)\nTempo: 25-30 MINUTI\n\nNota: Il pomodoro NON brucia — l\'acqua che evapora mantiene la massa sotto i 100°C e l\'olio la protegge.\n\nFASE 3 — FINITURA E STOCCAGGIO\n1. Sfornare e dare una frustata energica con la frusta per emulsionare l\'olio e renderlo setoso.\n2. Abbattere subito a +3°C.\n3. Riporre nei contenitori di linea.'
+  },
   { id:173, emoji:'🍆', title:'Melanzane Fritte Orogel Gelo (Rational)', tag:'Verdure & Contorni',
     ingredienti:[
       {nome:'Melanzane a cubetti 20×20 (SURGELATE, non scongelare)',qty:1000,unit:'g'},
@@ -1091,7 +1100,7 @@ if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].in
   editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
   saveToStorage();
 }
-[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173].forEach(function(rid){
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
     editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
