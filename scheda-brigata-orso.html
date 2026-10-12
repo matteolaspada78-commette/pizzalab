@@ -208,6 +208,26 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 .imp-v b{color:var(--gold-bright);font-weight:700;margin-right:.3rem;}
 .imp-v small{display:block;font-size:.66rem;color:var(--cream-dim);margin-bottom:.4rem;}
 .imp-v.tbd{color:var(--gold-dim)!important;font-style:italic;}
+
+.idx-forn{display:inline-block;margin-top:.45rem;font-size:.62rem;letter-spacing:.06em;font-weight:700;padding:.15rem .55rem;border-radius:2px;border:1px solid rgba(201,168,76,.55);color:#e8d08a;background:rgba(201,168,76,.1)}
+.idx-forn.f-int{border-color:rgba(130,170,224,.5);color:#9bbcec;background:rgba(130,170,224,.08)}
+.idx-forn.f-nd{border-style:dashed;border-color:rgba(255,255,255,.25);color:#b9ab94;background:transparent;font-weight:500}
+.idx-forn.f-sug{border-style:dashed}
+.sr-forn{margin-top:.3rem;font-size:.66rem;font-weight:700;color:#e8d08a;letter-spacing:.04em}.sr-forn.sug{font-style:italic}.sr-forn.nd{color:#b9ab94;font-weight:500}
+.ord-list{padding:0 1.2rem 2rem;display:flex;flex-direction:column;gap:.9rem}
+.ord-card{border:1px solid rgba(201,168,76,.4);border-left:4px solid #c9a84c;border-radius:3px;padding:1rem 1.05rem;background:linear-gradient(160deg,rgba(201,168,76,.08),transparent)}
+.ord-card.ord-int{border-color:rgba(130,170,224,.4);border-left-color:#8fb4ea;background:linear-gradient(160deg,rgba(130,170,224,.07),transparent)}
+.ord-card.ord-nd{border-style:dashed;border-left-style:solid;border-left-color:#7a6a52;background:transparent}
+.ord-h{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem}
+.ord-n{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:#f6eddc;line-height:1.15}
+.ord-c{font-size:.7rem;color:#c8bba5;white-space:nowrap}
+.ord-sub{font-size:.78rem;line-height:1.5;color:#c8bba5;margin:.3rem 0 .55rem}
+.ord-card ul{list-style:none;margin:.4rem 0 0;padding:0}
+.ord-card li{display:flex;justify-content:space-between;align-items:baseline;gap:.7rem;padding:.5rem 0;border-top:1px solid rgba(255,255,255,.07);font-size:.9rem;color:#f1e8d8}
+.ord-card li.o-far .o-n{color:#e8d08a;font-weight:600}
+.o-p{font-size:.68rem;color:#b9ab94;white-space:nowrap}
+.o-sug{display:inline-block;margin-left:.45rem;font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#d4956a;border:1px dashed rgba(212,149,106,.6);padding:0 .35rem;border-radius:2px}
+.ord-copia{margin-top:.8rem;width:100%;padding:.7rem;background:rgba(201,168,76,.16);border:1px solid #c9a84c;border-radius:3px;color:#e8d08a;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 </style>
 </head>
 <body>
@@ -238,7 +258,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 
 <!-- NAV -->
 <div class="nav-wrap">
-<div class="nav"><button class="ntab active" onclick="S('firma',this)">Firma</button><button class="ntab" onclick="S('radici',this)">Radici Sicil.</button><button class="ntab" onclick="S('identita',this)">Identità</button><button class="ntab" onclick="S('vegetali',this)">Vegetali</button><button class="ntab" onclick="S('strutture',this)">Strutture</button><button class="ntab" onclick="S('fritti',this)">Fritti</button><button class="ntab" onclick="S('impasti',this)">Impasti</button><button class="ntab" onclick="S('preparazioni',this)">Prep.</button><button class="ntab" onclick="S('indice',this)">Indice</button></div>
+<div class="nav"><button class="ntab active" onclick="S('firma',this)">Firma</button><button class="ntab" onclick="S('radici',this)">Radici Sicil.</button><button class="ntab" onclick="S('identita',this)">Identità</button><button class="ntab" onclick="S('vegetali',this)">Vegetali</button><button class="ntab" onclick="S('strutture',this)">Strutture</button><button class="ntab" onclick="S('fritti',this)">Fritti</button><button class="ntab" onclick="S('impasti',this)">Impasti</button><button class="ntab" onclick="S('preparazioni',this)">Prep.</button><button class="ntab" onclick="S('ordini',this)">Ordini</button><button class="ntab" onclick="S('indice',this)">Indice</button></div>
 <div class="search-bar">
   <svg class="search-ico" viewBox="0 0 24 24" width="15" height="15"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <input type="text" id="search-input" placeholder="Cerca un ingrediente — es. burrata, ragusano…" oninput="filtraRicerca(this.value)" onfocus="filtraRicerca(this.value)">
@@ -328,7 +348,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="p-head">
         <span class="p-cod">R3</span>
         <span class="p-nome">O Sole Mio</span>
-        <span class="p-prezzo">13€</span>
+        <span class="p-prezzo">15€</span>
       </div>
       
       <div class="ingr-grid">
@@ -347,7 +367,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="p-head">
         <span class="p-cod">R4</span>
         <span class="p-nome">Evergreen</span>
-        <span class="p-prezzo">16€</span>
+        <span class="p-prezzo">15€</span>
       </div>
       
       <div class="ingr-grid">
@@ -375,7 +395,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="p-head">
         <span class="p-cod">I1</span>
         <span class="p-nome">Anima Messinese</span>
-        <span class="p-prezzo">12,50€</span>
+        <span class="p-prezzo">13,50€</span>
       </div>
       
       <div class="ingr-grid">
@@ -432,7 +452,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="p-head">
         <span class="p-cod">I4</span>
         <span class="p-nome">Bosco dei Nebrodi</span>
-        <span class="p-prezzo">da 19€</span>
+        <span class="p-prezzo">da 16€</span>
       </div>
       <span class="p-badge bd-limitata">Limitata</span>
       <div class="ingr-grid">
@@ -445,7 +465,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <ul class="ingr-ul"><li>Nocciole tostate</li><li>Pepe nero di Sarawak</li></ul>
     </div>
       </div>
-      <div class="p-note">Supplementi: + Elisir al Tartufo 19€ · + Scaglie di Tartufo dei Nebrodi fresco 26€</div>
+      <div class="p-note">Supplementi: con Elisir al Tartufo 16€ · con Scaglie di Tartufo dei Nebrodi fresco 28€</div>
     </div>
     <div class="piatto" data-nome="Un Giorno sulla Feluca">
       <div class="p-head">
@@ -560,10 +580,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
   </div>
   <div class="imp-strip" onclick="vaiImpasti()"><span>Ogni pizza: impasto <b>Scrocchiarella</b> o <b>Duomo</b></span><span class="imp-strip-go">Scheda impasti ›</span></div>
   <div class="lista">
-    <div class="piatto" data-nome="La Burrata">
+    <div class="piatto" data-nome="La Stracciata">
       <div class="p-head">
         <span class="p-cod">S1</span>
-        <span class="p-nome">La Burrata</span>
+        <span class="p-nome">La Stracciata</span>
         <span class="p-prezzo">16€</span>
       </div>
       
@@ -673,17 +693,17 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="ingr-grid">
         <div class="ingr-col ingr-forno">
       <span class="ingr-lbl">Forno</span>
-      <ul class="ingr-ul"><li>Patate schiacciate a mano, fritte al momento</li></ul>
+      <ul class="ingr-ul"><li>Patate schiacciate a mano con prezzemolo, fritte al momento</li><li>Fior di latte vaccino</li></ul>
     </div>
         
       </div>
       
     </div>
-    <div class="piatto" data-nome="La Nuvola dell&#x27;Orso">
+    <div class="piatto" data-nome="Le Nuvole dell&#x27;Orso">
       <div class="p-head">
         <span class="p-cod">F2</span>
-        <span class="p-nome">La Nuvola dell&#x27;Orso</span>
-        <span class="p-prezzo">3€ al pezzo</span>
+        <span class="p-nome">Le Nuvole dell&#x27;Orso</span>
+        <span class="p-prezzo">9€ al pezzo</span>
       </div>
       
       <div class="ingr-grid">
@@ -693,7 +713,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
         <div class="ingr-col ingr-uscita">
       <span class="ingr-lbl">Uscita</span>
-      <ul class="ingr-ul"><li>Salame Sant&#x27;Angelo di Brolo IGP</li><li>Primo Sale dei Nebrodi</li></ul>
+      <ul class="ingr-ul"><li>Velo di fonduta di Ragusano DOP</li><li>Prosciutto crudo</li></ul>
     </div>
       </div>
       <div class="p-note">Aperta a caldo e farcita</div>
@@ -702,7 +722,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
       <div class="p-head">
         <span class="p-cod">F3</span>
         <span class="p-nome">Tuma Fritta in Pasta Fillo</span>
-        <span class="p-prezzo">3,50€ al pezzo</span>
+        <span class="p-prezzo">3€ al pezzo</span>
       </div>
       
       <div class="ingr-grid">
@@ -741,7 +761,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     <div class="vista-pizzaiolo"><span class="imp-vista-lbl">Per il pizzaiolo</span><div class="imp-spec"><span class="imp-k">Farine</span><span class="imp-v"><b>50%</b> Petra 0102 HP <small>Tipo 1 germogliato · leggerezza, digeribilità</small><br><b>50%</b> Petra 5078 <small>Farro + soia + crusca tostata · struttura e nota tostata</small></span></div><div class="imp-spec"><span class="imp-k">Prefermento</span><span class="imp-v">Solo biga 24h</span></div><div class="imp-spec"><span class="imp-k">Grassi</span><span class="imp-v">Zero</span></div><div class="imp-spec"><span class="imp-k">Cottura</span><span class="imp-v">Forno statico 260° · 5 minuti</span></div><div class="imp-spec"><span class="imp-k">Formato</span><span class="imp-v">Pala, alta idratazione, tagliata a quadrotti su asse di legno</span></div><div class="imp-spec"><span class="imp-k">Risultato</span><span class="imp-v">Croccante fuori, morbida e alveolata dentro</span></div><div class="imp-spec"><span class="imp-k">Idratazione</span><span class="imp-v tbd">da confermare</span></div><div class="imp-spec"><span class="imp-k">Pezzatura</span><span class="imp-v tbd">da confermare</span></div><div class="imp-spec"><span class="imp-k">Riposo e maturazione</span><span class="imp-v tbd">da confermare</span></div></div>
     <div class="vista-sala"><span class="imp-vista-lbl">Per la sala</span><div class="imp-spec"><span class="imp-k">Come si racconta <em>bozza</em></span><span class="imp-v">Base alta e morbida, alveolata dentro e croccante fuori. Si serve tagliata a quadrotti, da condividere al tavolo.</span></div><div class="imp-spec"><span class="imp-k">Cosa c'è dentro</span><span class="imp-v">Farine Petra: Tipo 1 germogliato, farro, soia e crusca tostata. Biga di 24 ore. Nessun grasso nell'impasto.</span></div><div class="imp-spec"><span class="imp-k">Allergeni</span><span class="imp-v">Contiene <b>glutine</b>, come tutti i nostri impasti, e <b>soia</b> (Petra 5078).</span></div></div>
   </div>
-</div>
+</div><div class="sez" id="sez-ordini"><div class="sez-head"><span class="sez-eye">Da chi ordinare</span><div class="sez-ttl">Ordini per fornitore</div><div class="sez-sub">Ogni ingrediente con il suo fornitore. «Copia lista» prepara il messaggio dell'ordine, da incollare dove vuoi.</div></div><div class="ord-list"><div class="ord-card"><div class="ord-h"><span class="ord-n">D&#x27;Agò · Eccelsi Cibi</span><span class="ord-c">17 voci</span></div><div class="ord-sub">Salumi, pomodori in latta, oli Terraliva e tutte le farine (tranne la farina di riso)</div><ul><li><span class="o-n">Spaccatella di Pelato Supremo (il pelato in latta)</span><span class="o-p">7 pizze</span></li><li><span class="o-n">Datterini rossi semi-secchi</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Olio al limone d&#x27;Interdonato</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Prosciutto Crudo San Daniele DOP</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Lardo artigianale di Suino Nero</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Crema di Datterino Giallo arrostito</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Crema di zucca arrostita<span class="o-sug">da confermare</span></span><span class="o-p">1 pizza</span></li><li><span class="o-n">Datterini rossi confit</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Datterino rosso e giallo semi-secco</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Meraner Würstel artigianale Pfitscher<span class="o-sug">da confermare</span></span><span class="o-p">1 pizza</span></li><li><span class="o-n">Mortadella</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Mortadella Artigianale</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Olio al caffè<span class="o-sug">da confermare</span></span><span class="o-p">1 pizza</span></li><li><span class="o-n">Prosciutto Cotto Branchi</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Salame</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Salame piccante</span><span class="o-p">1 pizza</span></li><li class="o-far"><span class="o-n">Tutte le farine (Petra)</span><span class="o-p">farine</span></li></ul><button class="ord-copia" onclick="copiaOrdine(this)" data-testo="Ordine D&#x27;Agò · Eccelsi Cibi:&#10;- Spaccatella di Pelato Supremo (il pelato in latta)&#10;- Datterini rossi semi-secchi&#10;- Olio al limone d&#x27;Interdonato&#10;- Prosciutto Crudo San Daniele DOP&#10;- Lardo artigianale di Suino Nero&#10;- Crema di Datterino Giallo arrostito&#10;- Crema di zucca arrostita&#10;- Datterini rossi confit&#10;- Datterino rosso e giallo semi-secco&#10;- Meraner Würstel artigianale Pfitscher&#10;- Mortadella&#10;- Mortadella Artigianale&#10;- Olio al caffè&#10;- Prosciutto Cotto Branchi&#10;- Salame&#10;- Salame piccante&#10;- Tutte le farine (Petra)">Copia lista</button></div><div class="ord-card"><div class="ord-h"><span class="ord-n">DAC</span><span class="ord-c">8 voci</span></div><div class="ord-sub">Guanciale, marmellate, nocciole, mandorle e farina di riso</div><ul><li><span class="o-n">Filetti di tonno rosso<span class="o-sug">da confermare</span></span><span class="o-p">1 pizza</span></li><li><span class="o-n">Gocce di confettura di fichi</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Granella di nocciola tostata</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Guanciale di Suino Nero dei Nebrodi croccante</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Muddica atturrata con Mandorle di Avola (le mandorle)</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Nocciole tostate</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Salsiccia fresca sgranata a punta di coltello<span class="o-sug">da confermare</span></span><span class="o-p">1 pizza</span></li><li class="o-far"><span class="o-n">Farina di riso</span><span class="o-p">farine</span></li></ul><button class="ord-copia" onclick="copiaOrdine(this)" data-testo="Ordine DAC:&#10;- Filetti di tonno rosso&#10;- Gocce di confettura di fichi&#10;- Granella di nocciola tostata&#10;- Guanciale di Suino Nero dei Nebrodi croccante&#10;- Muddica atturrata con Mandorle di Avola (le mandorle)&#10;- Nocciole tostate&#10;- Salsiccia fresca sgranata a punta di coltello&#10;- Farina di riso">Copia lista</button></div><div class="ord-card"><div class="ord-h"><span class="ord-n">Caseificio Latino · Carlo Savoca (Nebrodi)</span><span class="ord-c">3 voci</span></div><div class="ord-sub">Primo sale e provola, insieme al salame Sant&#x27;Angelo</div><ul><li><span class="o-n">Provola affumicata</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Provola di Cesarò</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Primo sale</span><span class="o-p">1 pizza</span></li></ul><button class="ord-copia" onclick="copiaOrdine(this)" data-testo="Ordine Caseificio Latino · Carlo Savoca (Nebrodi):&#10;- Provola affumicata&#10;- Provola di Cesarò&#10;- Primo sale">Copia lista</button></div><div class="ord-card"><div class="ord-h"><span class="ord-n">Ruggeri Oli</span><span class="ord-c">1 voce</span></div><div class="ord-sub">Olio EVO Don Pietro</div><ul><li><span class="o-n">Olio EVO Don Pietro</span><span class="o-p">8 pizze</span></li></ul><button class="ord-copia" onclick="copiaOrdine(this)" data-testo="Ordine Ruggeri Oli:&#10;- Olio EVO Don Pietro">Copia lista</button></div><div class="ord-card"><div class="ord-h"><span class="ord-n">Masciali Daniele Todaro</span><span class="ord-c">1 voce</span></div><div class="ord-sub">Miele di cardo e pistacchio tostato</div><ul><li><span class="o-n">Pistacchio tostato</span><span class="o-p">1 pizza</span></li></ul><button class="ord-copia" onclick="copiaOrdine(this)" data-testo="Ordine Masciali Daniele Todaro:&#10;- Pistacchio tostato">Copia lista</button></div><div class="ord-card ord-int"><div class="ord-h"><span class="ord-n">Si fanno in cucina</span><span class="ord-c">16 voci</span></div><div class="ord-sub">Preparazioni interne: non si ordinano. Le materie prime stanno nelle ricette (tab Prep.).</div><ul><li><span class="o-n">Cipolla Rossa di Tropea in agrodolce</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Crema di patate cotte sotto cenere</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Cicoria selvatica ripassata in padella</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Crema d&#x27;Aglio Rosso di Nubia</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Crema d&#x27;aglio nero fermentato</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Cubetti di melanzane perline fritte</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Datterini rossi confit all&#x27;aceto di lampone</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Emulsione soffice di limone e arancia</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Emulsione soffice di ricotta fresca</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Muddica atturrata</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Muddica atturrata con pinoli tostati</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Polvere di pomodoro</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Scarola riccia ripassata in padella</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Senape delicata al miele di Zagara</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Stracciatella di Burrata montata all&#x27;olio di basilico</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Terra di olive nere</span><span class="o-p">1 pizza</span></li></ul></div><div class="ord-card ord-nd"><div class="ord-h"><span class="ord-n">Fornitore da definire</span><span class="ord-c">30 voci</span></div><div class="ord-sub">Per questi ingredienti non è ancora stato scritto da chi si ordina.</div><ul><li><span class="o-n">Fior di latte vaccino</span><span class="o-p">7 pizze</span></li><li><span class="o-n">Ragusano DOP</span><span class="o-p">7 pizze</span></li><li><span class="o-n">Funghi Cardoncelli</span><span class="o-p">5 pizze</span></li><li><span class="o-n">Basilico fresco</span><span class="o-p">4 pizze</span></li><li><span class="o-n">Capperi di Salina</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Pepe nero di Sarawak</span><span class="o-p">3 pizze</span></li><li><span class="o-n">Carciofi arrostiti alla brace</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Mozzarella di Bufala Campana DOP</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Origano selvatico dei Peloritani</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Polvere di cappero di Salina</span><span class="o-p">2 pizze</span></li><li><span class="o-n">Chips di melanzane fritte croccanti</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Cipolla croccante disidratata</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Disco croccante</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Filetti di alici del Mediterraneo</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Finocchietto Selvatico</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Funghi champignon</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Lacrima di peperoncino in agrodolce</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Melanzane sott&#x27;olio</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Miele di castagno piccante infuso al peperoncino</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Olive Taggiasche</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Olive nere infornate siciliane</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Pepe nero</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Pepe nero macinato al momento</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Polvere di peperoncino vulcanico</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Polvere di rosmarino tostato</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Rondelle di peperoncino fresco rosso</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Rose di Pesce Spada Siciliano Affumicato</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Rucola</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Sponzali freschi</span><span class="o-p">1 pizza</span></li><li><span class="o-n">Tuma fresca messinese</span><span class="o-p">1 pizza</span></li></ul></div></div></div>
 <div class="sez" id="sez-indice">
   <div class="sez-head">
     <span class="sez-eye">74 ingredienti unici</span>
@@ -756,7 +776,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">8</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:100%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello, Il Tronchetto dell&#x27;Orso, Incanto di Zucca, L&#x27;Alpina Sicula, La Margherita, Marinara dei Peloritani, Memoria Contadina, O Sole Mio</div>
+      <div class="idx-forn f-ok">Ruggeri Oli</div><div class="idx-piatti">Fuoco di Vulcanello, Il Tronchetto dell&#x27;Orso, Incanto di Zucca, L&#x27;Alpina Sicula, La Margherita, Marinara dei Peloritani, Memoria Contadina, O Sole Mio</div>
     </div>
     <div class="idx-row" data-piatti="Bosco dei Nebrodi, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Sinfonia di Norma, Stretto, Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -765,7 +785,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">7</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:88%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Sinfonia di Norma, Stretto, Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Bosco dei Nebrodi, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Sinfonia di Norma, Stretto, Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese, Colapesce, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Stretto, Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -774,16 +794,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">7</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:88%"></div></div>
-      <div class="idx-piatti">Anima Messinese, Colapesce, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Stretto, Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Anima Messinese, Colapesce, Evergreen, Il Tronchetto dell&#x27;Orso, La Margherita, Stretto, Un Giorno sulla Feluca</div>
     </div>
-    <div class="idx-row" data-piatti="Adduma u Cufularu, Evergreen, La Burrata, La Margherita, Marinara dei Peloritani, Sinfonia di Norma, Uno Sguardo alle Eolie">
+    <div class="idx-row" data-piatti="Adduma u Cufularu, Evergreen, La Margherita, La Stracciata, Marinara dei Peloritani, Sinfonia di Norma, Uno Sguardo alle Eolie">
       <div class="idx-top">
         <span class="idx-nome">Spaccatella di Pelato Supremo</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
         <span class="idx-n">7</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:88%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu, Evergreen, La Burrata, La Margherita, Marinara dei Peloritani, Sinfonia di Norma, Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi · il pelato in latta</div><div class="idx-piatti">Adduma u Cufularu, Evergreen, La Margherita, La Stracciata, Marinara dei Peloritani, Sinfonia di Norma, Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Incanto di Zucca">
       <div class="idx-top">
@@ -792,7 +812,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">5</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:62%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Incanto di Zucca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Bosco dei Nebrodi, Colapesce, Evergreen, Fuoco di Vulcanello, Incanto di Zucca</div>
     </div>
     <div class="idx-row" data-piatti="Evergreen, La Margherita, O Sole Mio, Sinfonia di Norma">
       <div class="idx-top">
@@ -801,7 +821,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">4</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:50%"></div></div>
-      <div class="idx-piatti">Evergreen, La Margherita, O Sole Mio, Sinfonia di Norma</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Evergreen, La Margherita, O Sole Mio, Sinfonia di Norma</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello, Un Giorno sulla Feluca, Uno Sguardo alle Eolie">
       <div class="idx-top">
@@ -810,7 +830,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello, Un Giorno sulla Feluca, Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Fuoco di Vulcanello, Un Giorno sulla Feluca, Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata, Marinara dei Peloritani, Sinfonia di Norma">
       <div class="idx-top">
@@ -819,7 +839,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Disgraziata, Marinara dei Peloritani, Sinfonia di Norma</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Disgraziata, Marinara dei Peloritani, Sinfonia di Norma</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese, Stretto, Uno Sguardo alle Eolie">
       <div class="idx-top">
@@ -828,7 +848,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Anima Messinese, Stretto, Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Anima Messinese, Stretto, Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese, Bosco dei Nebrodi, Stretto">
       <div class="idx-top">
@@ -837,16 +857,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Anima Messinese, Bosco dei Nebrodi, Stretto</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Anima Messinese, Bosco dei Nebrodi, Stretto</div>
     </div>
-    <div class="idx-row" data-piatti="Colapesce, Il Tronchetto dell&#x27;Orso, La Burrata">
+    <div class="idx-row" data-piatti="Colapesce, Il Tronchetto dell&#x27;Orso, La Stracciata">
       <div class="idx-top">
         <span class="idx-nome">Prosciutto Crudo San Daniele DOP</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Colapesce, Il Tronchetto dell&#x27;Orso, La Burrata</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Colapesce, Il Tronchetto dell&#x27;Orso, La Stracciata</div>
     </div>
     <div class="idx-row" data-piatti="Colapesce, Incanto di Zucca, L&#x27;Alpina Sicula">
       <div class="idx-top">
@@ -855,7 +875,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">3</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:38%"></div></div>
-      <div class="idx-piatti">Colapesce, Incanto di Zucca, L&#x27;Alpina Sicula</div>
+      <div class="idx-forn f-ok">Caseificio Latino · Carlo Savoca (Nebrodi)</div><div class="idx-piatti">Colapesce, Incanto di Zucca, L&#x27;Alpina Sicula</div>
     </div>
     <div class="idx-row" data-piatti="Evergreen, Fuoco di Vulcanello">
       <div class="idx-top">
@@ -864,7 +884,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Evergreen, Fuoco di Vulcanello</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Evergreen, Fuoco di Vulcanello</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello, Uno Sguardo alle Eolie">
       <div class="idx-top">
@@ -873,7 +893,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello, Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Fuoco di Vulcanello, Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="L&#x27;Alpina Sicula, Memoria Contadina">
       <div class="idx-top">
@@ -882,7 +902,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">L&#x27;Alpina Sicula, Memoria Contadina</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">L&#x27;Alpina Sicula, Memoria Contadina</div>
     </div>
     <div class="idx-row" data-piatti="Memoria Contadina, Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -891,7 +911,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Memoria Contadina, Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Memoria Contadina, Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Adduma u Cufularu, O Sole Mio">
       <div class="idx-top">
@@ -900,7 +920,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu, O Sole Mio</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Adduma u Cufularu, O Sole Mio</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello, Marinara dei Peloritani">
       <div class="idx-top">
@@ -909,7 +929,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello, Marinara dei Peloritani</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Fuoco di Vulcanello, Marinara dei Peloritani</div>
     </div>
     <div class="idx-row" data-piatti="Marinara dei Peloritani, O Sole Mio">
       <div class="idx-top">
@@ -918,7 +938,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Marinara dei Peloritani, O Sole Mio</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Marinara dei Peloritani, O Sole Mio</div>
     </div>
     <div class="idx-row" data-piatti="Bosco dei Nebrodi, Memoria Contadina">
       <div class="idx-top">
@@ -927,7 +947,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">2</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:25%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi, Memoria Contadina</div>
+      <div class="idx-forn f-ok">Caseificio Latino · Carlo Savoca (Nebrodi)</div><div class="idx-piatti">Bosco dei Nebrodi, Memoria Contadina</div>
     </div>
     <div class="idx-row" data-piatti="Sinfonia di Norma">
       <div class="idx-top">
@@ -936,7 +956,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Sinfonia di Norma</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Sinfonia di Norma</div>
     </div>
     <div class="idx-row" data-piatti="Memoria Contadina">
       <div class="idx-top">
@@ -945,7 +965,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Memoria Contadina</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Memoria Contadina</div>
     </div>
     <div class="idx-row" data-piatti="L&#x27;Alpina Sicula">
       <div class="idx-top">
@@ -954,7 +974,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">L&#x27;Alpina Sicula</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">L&#x27;Alpina Sicula</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello">
       <div class="idx-top">
@@ -963,7 +983,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Fuoco di Vulcanello</div>
     </div>
     <div class="idx-row" data-piatti="Marinara dei Peloritani">
       <div class="idx-top">
@@ -972,7 +992,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Marinara dei Peloritani</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Marinara dei Peloritani</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello">
       <div class="idx-top">
@@ -981,7 +1001,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Fuoco di Vulcanello</div>
     </div>
     <div class="idx-row" data-piatti="Incanto di Zucca">
       <div class="idx-top">
@@ -990,7 +1010,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Incanto di Zucca</div>
+      <div class="idx-forn f-ok f-sug">D&#x27;Agò · Eccelsi Cibi · da confermare</div><div class="idx-piatti">Incanto di Zucca</div>
     </div>
     <div class="idx-row" data-piatti="Sinfonia di Norma">
       <div class="idx-top">
@@ -999,7 +1019,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Sinfonia di Norma</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Sinfonia di Norma</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese">
       <div class="idx-top">
@@ -1008,16 +1028,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Anima Messinese</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Anima Messinese</div>
     </div>
-    <div class="idx-row" data-piatti="La Burrata">
+    <div class="idx-row" data-piatti="La Stracciata">
       <div class="idx-top">
         <span class="idx-nome">Datterini rossi confit all&#x27;aceto di lampone</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-forno" title="Forno"></span></span>
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">La Burrata</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">La Stracciata</div>
     </div>
     <div class="idx-row" data-piatti="O Sole Mio">
       <div class="idx-top">
@@ -1026,7 +1046,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">O Sole Mio</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">O Sole Mio</div>
     </div>
     <div class="idx-row" data-piatti="Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -1035,7 +1055,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -1044,7 +1064,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Sinfonia di Norma">
       <div class="idx-top">
@@ -1053,7 +1073,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Sinfonia di Norma</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Sinfonia di Norma</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese">
       <div class="idx-top">
@@ -1062,7 +1082,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Anima Messinese</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Anima Messinese</div>
     </div>
     <div class="idx-row" data-piatti="Uno Sguardo alle Eolie">
       <div class="idx-top">
@@ -1071,7 +1091,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-ok f-sug">DAC · da confermare</div><div class="idx-piatti">Uno Sguardo alle Eolie</div>
     </div>
     <div class="idx-row" data-piatti="Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -1080,7 +1100,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1089,7 +1109,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Memoria Contadina">
       <div class="idx-top">
@@ -1098,7 +1118,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Memoria Contadina</div>
+      <div class="idx-forn f-ok">DAC</div><div class="idx-piatti">Memoria Contadina</div>
     </div>
     <div class="idx-row" data-piatti="Incanto di Zucca">
       <div class="idx-top">
@@ -1107,7 +1127,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Incanto di Zucca</div>
+      <div class="idx-forn f-ok">DAC</div><div class="idx-piatti">Incanto di Zucca</div>
     </div>
     <div class="idx-row" data-piatti="Bosco dei Nebrodi">
       <div class="idx-top">
@@ -1116,7 +1136,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi</div>
+      <div class="idx-forn f-ok">DAC</div><div class="idx-piatti">Bosco dei Nebrodi</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1125,7 +1145,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1134,7 +1154,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="L&#x27;Alpina Sicula">
       <div class="idx-top">
@@ -1143,7 +1163,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">L&#x27;Alpina Sicula</div>
+      <div class="idx-forn f-ok f-sug">D&#x27;Agò · Eccelsi Cibi · da confermare</div><div class="idx-piatti">L&#x27;Alpina Sicula</div>
     </div>
     <div class="idx-row" data-piatti="Adduma u Cufularu">
       <div class="idx-top">
@@ -1152,7 +1172,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Adduma u Cufularu</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1161,7 +1181,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Stretto">
       <div class="idx-top">
@@ -1170,7 +1190,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Stretto</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Stretto</div>
     </div>
     <div class="idx-row" data-piatti="Marinara dei Peloritani">
       <div class="idx-top">
@@ -1179,7 +1199,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Marinara dei Peloritani</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Marinara dei Peloritani</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello">
       <div class="idx-top">
@@ -1188,7 +1208,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello</div>
+      <div class="idx-forn f-ok">DAC · le mandorle</div><div class="idx-piatti">Fuoco di Vulcanello</div>
     </div>
     <div class="idx-row" data-piatti="Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -1197,7 +1217,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Bosco dei Nebrodi">
       <div class="idx-top">
@@ -1206,7 +1226,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Bosco dei Nebrodi</div>
+      <div class="idx-forn f-ok">DAC</div><div class="idx-piatti">Bosco dei Nebrodi</div>
     </div>
     <div class="idx-row" data-piatti="Memoria Contadina">
       <div class="idx-top">
@@ -1215,7 +1235,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Memoria Contadina</div>
+      <div class="idx-forn f-ok f-sug">D&#x27;Agò · Eccelsi Cibi · da confermare</div><div class="idx-piatti">Memoria Contadina</div>
     </div>
     <div class="idx-row" data-piatti="Fuoco di Vulcanello">
       <div class="idx-top">
@@ -1224,7 +1244,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Fuoco di Vulcanello</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Fuoco di Vulcanello</div>
     </div>
     <div class="idx-row" data-piatti="Evergreen">
       <div class="idx-top">
@@ -1233,7 +1253,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Evergreen</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Evergreen</div>
     </div>
     <div class="idx-row" data-piatti="Il Tronchetto dell&#x27;Orso">
       <div class="idx-top">
@@ -1242,7 +1262,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
     </div>
     <div class="idx-row" data-piatti="Colapesce">
       <div class="idx-top">
@@ -1251,7 +1271,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Colapesce</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Colapesce</div>
     </div>
     <div class="idx-row" data-piatti="Stretto">
       <div class="idx-top">
@@ -1260,7 +1280,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Stretto</div>
+      <div class="idx-forn f-ok">Masciali Daniele Todaro</div><div class="idx-piatti">Stretto</div>
     </div>
     <div class="idx-row" data-piatti="Adduma u Cufularu">
       <div class="idx-top">
@@ -1269,16 +1289,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Adduma u Cufularu</div>
     </div>
-    <div class="idx-row" data-piatti="La Burrata">
+    <div class="idx-row" data-piatti="La Stracciata">
       <div class="idx-top">
         <span class="idx-nome">Polvere di pomodoro</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">La Burrata</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">La Stracciata</div>
     </div>
     <div class="idx-row" data-piatti="Incanto di Zucca">
       <div class="idx-top">
@@ -1287,7 +1307,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Incanto di Zucca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Incanto di Zucca</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1296,7 +1316,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-ok">Caseificio Latino · Carlo Savoca (Nebrodi)</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Evergreen">
       <div class="idx-top">
@@ -1305,7 +1325,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Evergreen</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Evergreen</div>
     </div>
     <div class="idx-row" data-piatti="Adduma u Cufularu">
       <div class="idx-top">
@@ -1314,7 +1334,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Adduma u Cufularu</div>
     </div>
     <div class="idx-row" data-piatti="Un Giorno sulla Feluca">
       <div class="idx-top">
@@ -1323,7 +1343,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Un Giorno sulla Feluca</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Un Giorno sulla Feluca</div>
     </div>
     <div class="idx-row" data-piatti="Il Tronchetto dell&#x27;Orso">
       <div class="idx-top">
@@ -1332,7 +1352,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Il Tronchetto dell&#x27;Orso</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1341,7 +1361,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Adduma u Cufularu">
       <div class="idx-top">
@@ -1350,7 +1370,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Adduma u Cufularu</div>
+      <div class="idx-forn f-ok">D&#x27;Agò · Eccelsi Cibi</div><div class="idx-piatti">Adduma u Cufularu</div>
     </div>
     <div class="idx-row" data-piatti="Colapesce">
       <div class="idx-top">
@@ -1359,7 +1379,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Colapesce</div>
+      <div class="idx-forn f-ok f-sug">DAC · da confermare</div><div class="idx-piatti">Colapesce</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese">
       <div class="idx-top">
@@ -1368,7 +1388,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Anima Messinese</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Anima Messinese</div>
     </div>
     <div class="idx-row" data-piatti="L&#x27;Alpina Sicula">
       <div class="idx-top">
@@ -1377,7 +1397,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">L&#x27;Alpina Sicula</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">L&#x27;Alpina Sicula</div>
     </div>
     <div class="idx-row" data-piatti="Uno Sguardo alle Eolie">
       <div class="idx-top">
@@ -1386,16 +1406,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Uno Sguardo alle Eolie</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Uno Sguardo alle Eolie</div>
     </div>
-    <div class="idx-row" data-piatti="La Burrata">
+    <div class="idx-row" data-piatti="La Stracciata">
       <div class="idx-top">
         <span class="idx-nome">Stracciatella di Burrata montata all&#x27;olio di basilico</span>
         <span class="idx-ctx"><span class="ctx-dot ctx-uscita" title="Uscita"></span></span>
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">La Burrata</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">La Stracciata</div>
     </div>
     <div class="idx-row" data-piatti="Disgraziata">
       <div class="idx-top">
@@ -1404,7 +1424,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Disgraziata</div>
+      <div class="idx-forn f-int">Preparazione interna</div><div class="idx-piatti">Disgraziata</div>
     </div>
     <div class="idx-row" data-piatti="Anima Messinese">
       <div class="idx-top">
@@ -1413,7 +1433,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
         <span class="idx-n">1</span>
       </div>
       <div class="idx-bar-track"><div class="idx-bar" style="width:12%"></div></div>
-      <div class="idx-piatti">Anima Messinese</div>
+      <div class="idx-forn f-nd">Fornitore da definire</div><div class="idx-piatti">Anima Messinese</div>
     </div></div>
 </div>
 <div class="sez" id="sez-preparazioni">
@@ -1462,9 +1482,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
     <div class="prep-card" id="prep-datterini-lampone" style="display:none;">
       <div class="prep-head"><span class="prep-cod-big">07</span><div class="prep-nome">Datterini Semi-secchi Aceto di Lampone</div></div>
-      <span class="prep-usato">Usata in: La Burrata</span>
+      <span class="prep-usato">Usata in: La Stracciata</span>
       <div class="prep-ingr-box"><div class="prep-ingr-row"><span>Datterini rossi semi-secchi Gran Gusto (scolati dall&#x27;olio)</span><span class="prep-ingr-q">500 g</span></div><div class="prep-ingr-row"><span>Aceto di Lamponi</span><span class="prep-ingr-q">35 g</span></div><div class="prep-ingr-row"><span>Olio EVO Don Pietro</span><span class="prep-ingr-q">20 g</span></div><div class="prep-ingr-row"><span>Zucchero a velo</span><span class="prep-ingr-q">5 g</span></div><div class="prep-ingr-row"><span>Scorza di Limone Interdonato IGP grattugiata</span><span class="prep-ingr-q">q.b.</span></div><div class="prep-ingr-row"><span>Sale fino</span><span class="prep-ingr-q">1 pizzico</span></div></div>
-      <ol class="prep-passi"><li>UTILIZZO — Pizza La Burrata: disporre sulla burrata fresca.</li><li>Conservazione: <span class="dato-tecnico">7 giorni</span> a +<span class="dato-tecnico">3°C</span>. Estrarre dal frigo <span class="dato-tecnico">20 minuti</span> prima del servizio.</li><li>1. SCOLATURA: scolare i datterini Gran Gusto dall&#x27;olio della confezione e trasferirli in una boule.</li><li>2. EMULSIONE MARINANTE: in una ciotolina a parte sciogliere lo zucchero a velo e il sale nell&#x27;aceto di lampone. Aggiungere l&#x27;olio EVO Don Pietro e mescolare con una frustina fino a emulsione.</li><li>3. MARINATURA E OSMOSI: versare l&#x27;emulsione sui datterini, aggiungere la scorza di limone grattugiata e mescolare delicatamente per non rovinare le polpe. Lasciare riposare a temperatura ambiente <span class="dato-tecnico">30-40 minuti</span>. Metodo rapido: 1 ciclo di sottovuoto leggero in busta per accelerare l&#x27;osmosi.</li><li>4. STOCCAGGIO: trasferire nei contenitori di linea coprendo con il proprio liquido di marinatura.</li></ol>
+      <ol class="prep-passi"><li>UTILIZZO — Pizza La Stracciata: disporre sulla burrata fresca.</li><li>Conservazione: <span class="dato-tecnico">7 giorni</span> a +<span class="dato-tecnico">3°C</span>. Estrarre dal frigo <span class="dato-tecnico">20 minuti</span> prima del servizio.</li><li>1. SCOLATURA: scolare i datterini Gran Gusto dall&#x27;olio della confezione e trasferirli in una boule.</li><li>2. EMULSIONE MARINANTE: in una ciotolina a parte sciogliere lo zucchero a velo e il sale nell&#x27;aceto di lampone. Aggiungere l&#x27;olio EVO Don Pietro e mescolare con una frustina fino a emulsione.</li><li>3. MARINATURA E OSMOSI: versare l&#x27;emulsione sui datterini, aggiungere la scorza di limone grattugiata e mescolare delicatamente per non rovinare le polpe. Lasciare riposare a temperatura ambiente <span class="dato-tecnico">30-40 minuti</span>. Metodo rapido: 1 ciclo di sottovuoto leggero in busta per accelerare l&#x27;osmosi.</li><li>4. STOCCAGGIO: trasferire nei contenitori di linea coprendo con il proprio liquido di marinatura.</li></ol>
     </div>
     <div class="prep-card" id="prep-guanciale-croccante" style="display:none;">
       <div class="prep-head"><span class="prep-cod-big">08</span><div class="prep-nome">Guanciale di Suino Nero Croccante</div></div>
@@ -1474,7 +1494,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
     <div class="prep-card" id="prep-polvere-pomodoro" style="display:none;">
       <div class="prep-head"><span class="prep-cod-big">09</span><div class="prep-nome">Polvere di Pomodoro (tecnica buccia)</div></div>
-      <span class="prep-usato">Usata in: La Burrata</span>
+      <span class="prep-usato">Usata in: La Stracciata</span>
       <div class="prep-ingr-box"><div class="prep-ingr-row"><span>Pomodori datterini o San Marzano</span><span class="prep-ingr-q">q.b.</span></div></div>
       <ol class="prep-passi"><li>NOTA: la buccia disidrata molto più veloce della polpa e dà una polvere più rossa, più concentrata e più profumata. La polpa avanzata va usata per salse o pelato — zero sprechi.</li><li>Conservazione: al riparo da luce e umidità — oltre <span class="dato-tecnico">30 giorni</span>.</li><li>1. Incidere una croce sul fondo di ogni pomodoro.</li><li>2. Tuffare in acqua bollente per <span class="dato-tecnico">20-30 secondi</span>.</li><li>3. Shock termico immediato in acqua e ghiaccio — la buccia viene via da sola.</li><li>4. Pelare e tenere solo le bucce.</li><li>5. Stendere le bucce su carta forno in strato unico ben distanziate.</li><li>6. Microonde 600-650W a intervalli di <span class="dato-tecnico">1 minuto</span>, aprire lo sportello tra un ciclo e l&#x27;altro per far uscire il vapore. Totale <span class="dato-tecnico">2-4 minuti</span> — pronte quando si sbriciolano al tatto.</li><li>7. Lasciar raffreddare <span class="dato-tecnico">1 minuto</span>, poi frullare in grinder o macinacaffè fino a polvere impalpabile.</li><li>8. Setacciare e invasettare subito in contenitore ermetico con bustina anti-umidità.</li></ol>
     </div>
@@ -1492,7 +1512,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
     <div class="prep-card" id="prep-crema-burrata" style="display:none;">
       <div class="prep-head"><span class="prep-cod-big">12</span><div class="prep-nome">Crema di Burrata da Biberon</div></div>
-      <span class="prep-usato">Usata in: La Burrata</span>
+      <span class="prep-usato">Usata in: La Stracciata</span>
       <div class="prep-ingr-box"><div class="prep-ingr-row"><span>Cuore di Burrata o Stracciatella fresca</span><span class="prep-ingr-q">1000 g</span></div><div class="prep-ingr-row"><span>Panna fresca 35% (fredda di frigo)</span><span class="prep-ingr-q">375 g</span></div><div class="prep-ingr-row"><span>Olio EVO Don Pietro</span><span class="prep-ingr-q">30 g</span></div><div class="prep-ingr-row"><span>Fior di sale o sale fino</span><span class="prep-ingr-q">3 g</span></div><div class="prep-ingr-row"><span>Gomma Xantana</span><span class="prep-ingr-q">1,4 g</span></div></div>
       <ol class="prep-passi"><li>RESA: ~<span class="dato-tecnico">1,4 kg</span> di crema (3-4 biberon da linea). Conservazione <span class="dato-tecnico">2-3 giorni</span> a +<span class="dato-tecnico">2°C</span>/+<span class="dato-tecnico">4°C</span>.</li><li>Xantana: lega il siero rilasciato dalla burrata con i grassi della panna — evita la separazione nel biberon.</li><li>1. PREPARAZIONE: sfilacciare i <span class="dato-tecnico">1000g</span> di burrata e metterli in una caraffa alta o nel bicchiere del cutter.</li><li>2. STABILIZZAZIONE: spolverare la xantana e il sale sopra la burrata.</li><li>3. EMULSIONE: versare la panna fresca freddissima e l&#x27;olio EVO Don Pietro.</li><li>4. BAMIX/CUTTER: frullare ad altissima velocità per <span class="dato-tecnico">60-90 secondi</span>. Non scaldare la panna per non farla impazzire.</li><li>5. SETACCIO E BIBERON: passare al chinois a maglia media per eliminare eventuali sfilacci rimasti. Riempire i biberon di linea.</li><li>NOTA: indicata nel menu come &#x27;montata all&#x27;olio di basilico&#x27; — è lo stesso Olio EVO Don Pietro, raccontato così in carta.</li></ol>
     </div>
@@ -1510,7 +1530,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
     </div>
     <div class="prep-card" id="prep-spaccatella-pelato" style="display:none;">
       <div class="prep-head"><span class="prep-cod-big">15</span><div class="prep-nome">Spaccatella di Pelato Supremo (Gran Gusto)</div></div>
-      <span class="prep-usato">Usata in: La Margherita, Marinara dei Peloritani, Evergreen, Uno Sguardo alle Eolie, Sinfonia di Norma, La Burrata, Adduma u Cufularu</span>
+      <span class="prep-usato">Usata in: La Margherita, Marinara dei Peloritani, Evergreen, Uno Sguardo alle Eolie, Sinfonia di Norma, La Stracciata, Adduma u Cufularu</span>
       <div class="prep-ingr-box"><div class="prep-ingr-row"><span>Pelato Supremo Gran Gusto (latta intera 2,5 kg)</span><span class="prep-ingr-q">2500 g</span></div><div class="prep-ingr-row"><span>Sale fino</span><span class="prep-ingr-q">20 g</span></div><div class="prep-ingr-row"><span>Zucchero</span><span class="prep-ingr-q">7,5 g</span></div></div>
       <ol class="prep-passi"><li>CALO PESO REALE: <span class="dato-tecnico">2.500g</span> → <span class="dato-tecnico">2.196g</span> dopo concentrazione al Rational (calo ~<span class="dato-tecnico">304g</span>, ~12 per cento). Resa effettiva per latta: <span class="dato-tecnico">2.196g</span> di pomodoro concentrato. Procedimento per 1 latta intera da <span class="dato-tecnico">2,5 kg</span> — zero sprechi.</li><li>FASE 1 — PREPARAZIONE E CONDIMENTO: aprire la latta e versare tutto il contenuto (pelati + succo) in teglia GN 1/1 altezza 65mm.</li><li>Schiacciare i pelati A MANO lasciandoli in pezzi rustici e grossolani — NO minipimer, NO passaverdure.</li><li>Aggiungere sale e zucchero. Mescolare delicatamente a mano e stendere in modo omogeneo su tutta la teglia.</li><li>FASE 2 — CONCENTRAZIONE TERMICA AL RATIONAL: preriscaldare il Rational. Modalità Combinato — <span class="dato-tecnico">145°C</span> — Umidità <span class="dato-tecnico">60%</span> — Tempo <span class="dato-tecnico">20-25 minuti</span>. Controllare a <span class="dato-tecnico">20 minuti</span>: il pomodoro deve risultare ben legato, denso e rosso vivo.</li><li>Sfornare e passare IMMEDIATAMENTE in abbattitore a +<span class="dato-tecnico">3°C</span> al cuore.</li><li>FASE 3 — IMBUSTAMENTO E PASTORIZZAZIONE: quando il pomodoro è completamente freddo (+<span class="dato-tecnico">3°C</span>), imbustare in sacchetti da cottura (<span class="dato-tecnico">1 kg</span> o <span class="dato-tecnico">2 kg</span> per busta). Sigillare al <span class="dato-tecnico">99%</span> di vuoto.</li><li>Disporre le buste piatte sulle griglie del Rational. Modalità Vapore <span class="dato-tecnico">100%</span> — <span class="dato-tecnico">85°C</span> — <span class="dato-tecnico">25 minuti</span>.</li><li>Passare SUBITO in abbattitore a +<span class="dato-tecnico">3°C</span>. Stoccare in cella frigo a +<span class="dato-tecnico">2°C</span>/+<span class="dato-tecnico">4°C</span>.</li></ol>
     </div>
@@ -1534,7 +1554,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 </div>
 
 <script>
-const INDICE_INGREDIENTI = [{"n":"Olio EVO Don Pietro","c":8,"p":["Fuoco di Vulcanello","Il Tronchetto dell'Orso","Incanto di Zucca","L'Alpina Sicula","La Margherita","Marinara dei Peloritani","Memoria Contadina","O Sole Mio"],"x":["uscita"]},{"n":"Fior di latte vaccino","c":7,"p":["Bosco dei Nebrodi","Evergreen","Il Tronchetto dell'Orso","La Margherita","Sinfonia di Norma","Stretto","Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Ragusano DOP","c":7,"p":["Anima Messinese","Colapesce","Evergreen","Il Tronchetto dell'Orso","La Margherita","Stretto","Un Giorno sulla Feluca"],"x":["forno","uscita"]},{"n":"Spaccatella di Pelato Supremo","c":7,"p":["Adduma u Cufularu","Evergreen","La Burrata","La Margherita","Marinara dei Peloritani","Sinfonia di Norma","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Funghi Cardoncelli","c":5,"p":["Bosco dei Nebrodi","Colapesce","Evergreen","Fuoco di Vulcanello","Incanto di Zucca"],"x":["forno"]},{"n":"Basilico fresco","c":4,"p":["Evergreen","La Margherita","O Sole Mio","Sinfonia di Norma"],"x":["uscita"]},{"n":"Capperi di Salina","c":3,"p":["Fuoco di Vulcanello","Un Giorno sulla Feluca","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Datterini rossi semi-secchi","c":3,"p":["Disgraziata","Marinara dei Peloritani","Sinfonia di Norma"],"x":["forno"]},{"n":"Olio al limone d'Interdonato","c":3,"p":["Anima Messinese","Stretto","Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Pepe nero di Sarawak","c":3,"p":["Anima Messinese","Bosco dei Nebrodi","Stretto"],"x":["uscita"]},{"n":"Prosciutto Crudo San Daniele DOP","c":3,"p":["Colapesce","Il Tronchetto dell'Orso","La Burrata"],"x":["uscita"]},{"n":"Provola affumicata","c":3,"p":["Colapesce","Incanto di Zucca","L'Alpina Sicula"],"x":["forno"]},{"n":"Carciofi arrostiti alla brace","c":2,"p":["Evergreen","Fuoco di Vulcanello"],"x":["forno"]},{"n":"Cipolla Rossa di Tropea in agrodolce","c":2,"p":["Fuoco di Vulcanello","Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Crema di patate cotte sotto cenere","c":2,"p":["L'Alpina Sicula","Memoria Contadina"],"x":["forno"]},{"n":"Lardo artigianale di Suino Nero","c":2,"p":["Memoria Contadina","Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Mozzarella di Bufala Campana DOP","c":2,"p":["Adduma u Cufularu","O Sole Mio"],"x":["forno"]},{"n":"Origano selvatico dei Peloritani","c":2,"p":["Fuoco di Vulcanello","Marinara dei Peloritani"],"x":["forno"]},{"n":"Polvere di cappero di Salina","c":2,"p":["Marinara dei Peloritani","O Sole Mio"],"x":["uscita"]},{"n":"Provola di Cesarò","c":2,"p":["Bosco dei Nebrodi","Memoria Contadina"],"x":["forno"]},{"n":"Chips di melanzane fritte croccanti","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Cicoria selvatica ripassata in padella","c":1,"p":["Memoria Contadina"],"x":["forno"]},{"n":"Cipolla croccante disidratata","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Crema d'Aglio Rosso di Nubia","c":1,"p":["Fuoco di Vulcanello"],"x":["uscita"]},{"n":"Crema d'aglio nero fermentato","c":1,"p":["Marinara dei Peloritani"],"x":["uscita"]},{"n":"Crema di Datterino Giallo arrostito","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Crema di zucca arrostita","c":1,"p":["Incanto di Zucca"],"x":["forno"]},{"n":"Cubetti di melanzane perline fritte","c":1,"p":["Sinfonia di Norma"],"x":["forno"]},{"n":"Datterini rossi confit","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Datterini rossi confit all'aceto di lampone","c":1,"p":["La Burrata"],"x":["forno"]},{"n":"Datterino rosso e giallo semi-secco","c":1,"p":["O Sole Mio"],"x":["forno"]},{"n":"Disco croccante","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Emulsione soffice di limone e arancia","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Emulsione soffice di ricotta fresca","c":1,"p":["Sinfonia di Norma"],"x":["uscita"]},{"n":"Filetti di alici del Mediterraneo","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Filetti di tonno rosso","c":1,"p":["Uno Sguardo alle Eolie"],"x":["uscita"]},{"n":"Finocchietto Selvatico","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Funghi champignon","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Gocce di confettura di fichi","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Granella di nocciola tostata","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Guanciale di Suino Nero dei Nebrodi croccante","c":1,"p":["Bosco dei Nebrodi"],"x":["forno"]},{"n":"Lacrima di peperoncino in agrodolce","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Melanzane sott'olio","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Meraner Würstel artigianale Pfitscher","c":1,"p":["L'Alpina Sicula"],"x":["forno"]},{"n":"Miele di castagno piccante infuso al peperoncino","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Mortadella","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Mortadella Artigianale","c":1,"p":["Stretto"],"x":["uscita"]},{"n":"Muddica atturrata","c":1,"p":["Marinara dei Peloritani"],"x":["forno"]},{"n":"Muddica atturrata con Mandorle di Avola","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Muddica atturrata con pinoli tostati","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"]},{"n":"Nocciole tostate","c":1,"p":["Bosco dei Nebrodi"],"x":["uscita"]},{"n":"Olio al caffè","c":1,"p":["Memoria Contadina"],"x":["uscita"]},{"n":"Olive Taggiasche","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"]},{"n":"Olive nere infornate siciliane","c":1,"p":["Evergreen"],"x":["forno"]},{"n":"Pepe nero","c":1,"p":["Il Tronchetto dell'Orso"],"x":["forno"]},{"n":"Pepe nero macinato al momento","c":1,"p":["Colapesce"],"x":["uscita"]},{"n":"Pistacchio tostato","c":1,"p":["Stretto"],"x":["forno"]},{"n":"Polvere di peperoncino vulcanico","c":1,"p":["Adduma u Cufularu"],"x":["uscita"]},{"n":"Polvere di pomodoro","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Polvere di rosmarino tostato","c":1,"p":["Incanto di Zucca"],"x":["uscita"]},{"n":"Primo sale","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Prosciutto Cotto Branchi","c":1,"p":["Evergreen"],"x":["uscita"]},{"n":"Rondelle di peperoncino fresco rosso","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Rose di Pesce Spada Siciliano Affumicato","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"]},{"n":"Rucola","c":1,"p":["Il Tronchetto dell'Orso"],"x":["uscita"]},{"n":"Salame","c":1,"p":["Disgraziata"],"x":["forno"]},{"n":"Salame piccante","c":1,"p":["Adduma u Cufularu"],"x":["forno"]},{"n":"Salsiccia fresca sgranata a punta di coltello","c":1,"p":["Colapesce"],"x":["forno"]},{"n":"Scarola riccia ripassata in padella","c":1,"p":["Anima Messinese"],"x":["forno"]},{"n":"Senape delicata al miele di Zagara","c":1,"p":["L'Alpina Sicula"],"x":["uscita"]},{"n":"Sponzali freschi","c":1,"p":["Uno Sguardo alle Eolie"],"x":["forno"]},{"n":"Stracciatella di Burrata montata all'olio di basilico","c":1,"p":["La Burrata"],"x":["uscita"]},{"n":"Terra di olive nere","c":1,"p":["Disgraziata"],"x":["uscita"]},{"n":"Tuma fresca messinese","c":1,"p":["Anima Messinese"],"x":["forno"]}];
+const INDICE_INGREDIENTI = [{"n":"Olio EVO Don Pietro","c":8,"p":["Fuoco di Vulcanello","Il Tronchetto dell'Orso","Incanto di Zucca","L'Alpina Sicula","La Margherita","Marinara dei Peloritani","Memoria Contadina","O Sole Mio"],"x":["uscita"],"f":"Ruggeri Oli","s":false},{"n":"Fior di latte vaccino","c":7,"p":["Bosco dei Nebrodi","Evergreen","Il Tronchetto dell'Orso","La Margherita","Sinfonia di Norma","Stretto","Un Giorno sulla Feluca"],"x":["forno"],"f":"","s":false},{"n":"Ragusano DOP","c":7,"p":["Anima Messinese","Colapesce","Evergreen","Il Tronchetto dell'Orso","La Margherita","Stretto","Un Giorno sulla Feluca"],"x":["forno","uscita"],"f":"","s":false},{"n":"Spaccatella di Pelato Supremo","c":7,"p":["Adduma u Cufularu","Evergreen","La Margherita","La Stracciata","Marinara dei Peloritani","Sinfonia di Norma","Uno Sguardo alle Eolie"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Funghi Cardoncelli","c":5,"p":["Bosco dei Nebrodi","Colapesce","Evergreen","Fuoco di Vulcanello","Incanto di Zucca"],"x":["forno"],"f":"","s":false},{"n":"Basilico fresco","c":4,"p":["Evergreen","La Margherita","O Sole Mio","Sinfonia di Norma"],"x":["uscita"],"f":"","s":false},{"n":"Capperi di Salina","c":3,"p":["Fuoco di Vulcanello","Un Giorno sulla Feluca","Uno Sguardo alle Eolie"],"x":["forno"],"f":"","s":false},{"n":"Datterini rossi semi-secchi","c":3,"p":["Disgraziata","Marinara dei Peloritani","Sinfonia di Norma"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Olio al limone d'Interdonato","c":3,"p":["Anima Messinese","Stretto","Uno Sguardo alle Eolie"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Pepe nero di Sarawak","c":3,"p":["Anima Messinese","Bosco dei Nebrodi","Stretto"],"x":["uscita"],"f":"","s":false},{"n":"Prosciutto Crudo San Daniele DOP","c":3,"p":["Colapesce","Il Tronchetto dell'Orso","La Stracciata"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Provola affumicata","c":3,"p":["Colapesce","Incanto di Zucca","L'Alpina Sicula"],"x":["forno"],"f":"Caseificio Latino · Carlo Savoca (Nebrodi)","s":false},{"n":"Carciofi arrostiti alla brace","c":2,"p":["Evergreen","Fuoco di Vulcanello"],"x":["forno"],"f":"","s":false},{"n":"Cipolla Rossa di Tropea in agrodolce","c":2,"p":["Fuoco di Vulcanello","Uno Sguardo alle Eolie"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Crema di patate cotte sotto cenere","c":2,"p":["L'Alpina Sicula","Memoria Contadina"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Lardo artigianale di Suino Nero","c":2,"p":["Memoria Contadina","Un Giorno sulla Feluca"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Mozzarella di Bufala Campana DOP","c":2,"p":["Adduma u Cufularu","O Sole Mio"],"x":["forno"],"f":"","s":false},{"n":"Origano selvatico dei Peloritani","c":2,"p":["Fuoco di Vulcanello","Marinara dei Peloritani"],"x":["forno"],"f":"","s":false},{"n":"Polvere di cappero di Salina","c":2,"p":["Marinara dei Peloritani","O Sole Mio"],"x":["uscita"],"f":"","s":false},{"n":"Provola di Cesarò","c":2,"p":["Bosco dei Nebrodi","Memoria Contadina"],"x":["forno"],"f":"Caseificio Latino · Carlo Savoca (Nebrodi)","s":false},{"n":"Chips di melanzane fritte croccanti","c":1,"p":["Sinfonia di Norma"],"x":["uscita"],"f":"","s":false},{"n":"Cicoria selvatica ripassata in padella","c":1,"p":["Memoria Contadina"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Cipolla croccante disidratata","c":1,"p":["L'Alpina Sicula"],"x":["uscita"],"f":"","s":false},{"n":"Crema d'Aglio Rosso di Nubia","c":1,"p":["Fuoco di Vulcanello"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Crema d'aglio nero fermentato","c":1,"p":["Marinara dei Peloritani"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Crema di Datterino Giallo arrostito","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Crema di zucca arrostita","c":1,"p":["Incanto di Zucca"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":true},{"n":"Cubetti di melanzane perline fritte","c":1,"p":["Sinfonia di Norma"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Datterini rossi confit","c":1,"p":["Anima Messinese"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Datterini rossi confit all'aceto di lampone","c":1,"p":["La Stracciata"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Datterino rosso e giallo semi-secco","c":1,"p":["O Sole Mio"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Disco croccante","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"],"f":"","s":false},{"n":"Emulsione soffice di limone e arancia","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Emulsione soffice di ricotta fresca","c":1,"p":["Sinfonia di Norma"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Filetti di alici del Mediterraneo","c":1,"p":["Anima Messinese"],"x":["forno"],"f":"","s":false},{"n":"Filetti di tonno rosso","c":1,"p":["Uno Sguardo alle Eolie"],"x":["uscita"],"f":"DAC","s":true},{"n":"Finocchietto Selvatico","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"],"f":"","s":false},{"n":"Funghi champignon","c":1,"p":["Disgraziata"],"x":["forno"],"f":"","s":false},{"n":"Gocce di confettura di fichi","c":1,"p":["Memoria Contadina"],"x":["uscita"],"f":"DAC","s":false},{"n":"Granella di nocciola tostata","c":1,"p":["Incanto di Zucca"],"x":["uscita"],"f":"DAC","s":false},{"n":"Guanciale di Suino Nero dei Nebrodi croccante","c":1,"p":["Bosco dei Nebrodi"],"x":["forno"],"f":"DAC","s":false},{"n":"Lacrima di peperoncino in agrodolce","c":1,"p":["Disgraziata"],"x":["uscita"],"f":"","s":false},{"n":"Melanzane sott'olio","c":1,"p":["Disgraziata"],"x":["forno"],"f":"","s":false},{"n":"Meraner Würstel artigianale Pfitscher","c":1,"p":["L'Alpina Sicula"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":true},{"n":"Miele di castagno piccante infuso al peperoncino","c":1,"p":["Adduma u Cufularu"],"x":["uscita"],"f":"","s":false},{"n":"Mortadella","c":1,"p":["Disgraziata"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Mortadella Artigianale","c":1,"p":["Stretto"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Muddica atturrata","c":1,"p":["Marinara dei Peloritani"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Muddica atturrata con Mandorle di Avola","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"],"f":"DAC","s":false},{"n":"Muddica atturrata con pinoli tostati","c":1,"p":["Un Giorno sulla Feluca"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Nocciole tostate","c":1,"p":["Bosco dei Nebrodi"],"x":["uscita"],"f":"DAC","s":false},{"n":"Olio al caffè","c":1,"p":["Memoria Contadina"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":true},{"n":"Olive Taggiasche","c":1,"p":["Fuoco di Vulcanello"],"x":["forno"],"f":"","s":false},{"n":"Olive nere infornate siciliane","c":1,"p":["Evergreen"],"x":["forno"],"f":"","s":false},{"n":"Pepe nero","c":1,"p":["Il Tronchetto dell'Orso"],"x":["forno"],"f":"","s":false},{"n":"Pepe nero macinato al momento","c":1,"p":["Colapesce"],"x":["uscita"],"f":"","s":false},{"n":"Pistacchio tostato","c":1,"p":["Stretto"],"x":["forno"],"f":"Masciali Daniele Todaro","s":false},{"n":"Polvere di peperoncino vulcanico","c":1,"p":["Adduma u Cufularu"],"x":["uscita"],"f":"","s":false},{"n":"Polvere di pomodoro","c":1,"p":["La Stracciata"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Polvere di rosmarino tostato","c":1,"p":["Incanto di Zucca"],"x":["uscita"],"f":"","s":false},{"n":"Primo sale","c":1,"p":["Disgraziata"],"x":["forno"],"f":"Caseificio Latino · Carlo Savoca (Nebrodi)","s":false},{"n":"Prosciutto Cotto Branchi","c":1,"p":["Evergreen"],"x":["uscita"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Rondelle di peperoncino fresco rosso","c":1,"p":["Adduma u Cufularu"],"x":["forno"],"f":"","s":false},{"n":"Rose di Pesce Spada Siciliano Affumicato","c":1,"p":["Un Giorno sulla Feluca"],"x":["uscita"],"f":"","s":false},{"n":"Rucola","c":1,"p":["Il Tronchetto dell'Orso"],"x":["uscita"],"f":"","s":false},{"n":"Salame","c":1,"p":["Disgraziata"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Salame piccante","c":1,"p":["Adduma u Cufularu"],"x":["forno"],"f":"D'Agò · Eccelsi Cibi","s":false},{"n":"Salsiccia fresca sgranata a punta di coltello","c":1,"p":["Colapesce"],"x":["forno"],"f":"DAC","s":true},{"n":"Scarola riccia ripassata in padella","c":1,"p":["Anima Messinese"],"x":["forno"],"f":"Preparazione interna","s":false},{"n":"Senape delicata al miele di Zagara","c":1,"p":["L'Alpina Sicula"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Sponzali freschi","c":1,"p":["Uno Sguardo alle Eolie"],"x":["forno"],"f":"","s":false},{"n":"Stracciatella di Burrata montata all'olio di basilico","c":1,"p":["La Stracciata"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Terra di olive nere","c":1,"p":["Disgraziata"],"x":["uscita"],"f":"Preparazione interna","s":false},{"n":"Tuma fresca messinese","c":1,"p":["Anima Messinese"],"x":["forno"],"f":"","s":false}];
 
 function escHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1552,7 +1572,7 @@ function filtraRicerca(q){
   } else {
     box.innerHTML = match.map(function(i){
       var dots = i.x.map(function(ctx){ return '<span class="sr-dot d-'+ctx+'"></span>'; }).join('');
-      return '<div class="sr-row"><div class="sr-top"><span class="sr-nome">'+escHtml(i.n)+'</span>'+dots+'<span style="color:var(--gold-bright);font-family:Cormorant Garamond,serif;font-style:italic;">'+i.c+'</span></div><div class="sr-piatti">'+escHtml(i.p.join(', '))+'</div></div>';
+      return '<div class="sr-row"><div class="sr-top"><span class="sr-nome">'+escHtml(i.n)+'</span>'+dots+'<span style="color:var(--gold-bright);font-family:Cormorant Garamond,serif;font-style:italic;">'+i.c+'</span></div><div class="sr-piatti">'+escHtml(i.p.join(', '))+'</div>'+(i.f ? '<div class="sr-forn'+(i.s ? ' sug' : '')+'">'+escHtml(i.f)+(i.s ? ' · da confermare' : '')+'</div>' : '<div class="sr-forn nd">Fornitore da definire</div>')+'</div>';
     }).join('');
   }
   box.classList.add('open');
@@ -1567,6 +1587,12 @@ function vaiImpasti(){
   S('impasti', document.querySelector(".ntab[onclick*=\"'impasti'\"]"));
 }
 
+function copiaOrdine(btn){
+  var t = btn.getAttribute('data-testo');
+  var ok = function(){ btn.textContent = 'Copiato ✓'; setTimeout(function(){ btn.textContent = 'Copia lista'; }, 2000); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok, function(){ window.prompt('Copia la lista:', t); }); }
+  else { window.prompt('Copia la lista:', t); }
+}
 function S(id,btn){
   document.querySelectorAll('.sez').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
