@@ -4761,6 +4761,17 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
       </div>
     </div>
 
+    <!-- pH BIGA DECISIONALE -->
+    <div class="card open">
+      <div class="card-hdr"><span class="card-hdr-icon">🧪</span><div><div class="card-hdr-title">pH Biga · Decisore automatico</div></div></div>
+      <div class="card-body" style="display:block">
+        <div class="inp-group"><label class="inp-label">pH biga stamattina</label>
+          <div class="inp-row"><input class="inp-field" id="mlsPH" type="number" value="5.28" min="4.80" max="6.00" step="0.01" oninput="calcMlsPH()" style="color:var(--gold2);font-size:28px"><span class="inp-unit">pH</span></div>
+        </div>
+        <div id="mlsPHOut" style="margin-top:12px"></div>
+      </div>
+    </div>
+
     <div id="mlsOut"></div>
 
     <!-- PROTOCOLLO SCIENTIFICO -->
@@ -11555,6 +11566,62 @@ function calcRomanaTonda(){
     +'</div>';
 }
 
+function calcMlsPH(){
+  var pH = parseFloat((document.getElementById('mlsPH')||{value:5.28}).value)||5.28;
+  var out = document.getElementById('mlsPHOut');
+  if(!out) return;
+
+  var idr, ldb, appretto, note, col, stato;
+
+  if(pH < 5.20){
+    idr='67%'; ldb='0.25%'; appretto='1.5h fuori cella';
+    stato='⚡ Biga molto acida'; col='#FFCDD2';
+    note='Proteolisi intensa · maglia aperta · riduci IDR e appretto';
+  } else if(pH < 5.25){
+    idr='67-68%'; ldb='0.28%'; appretto='2h fuori cella';
+    stato='✅ Biga acida ottimale'; col='#A5D6A7';
+    note='Proteolisi ottimale · maglia ben degradata';
+  } else if(pH <= 5.32){
+    idr='68%'; ldb='0.30%'; appretto='2h fuori cella';
+    stato='✅ Target perfetto'; col='#EEC84A';
+    note='Range ideale 5.25-5.32 · parametri standard MLS 7.0';
+  } else if(pH <= 5.40){
+    idr='69%'; ldb='0.30%'; appretto='2h fuori cella';
+    stato='🟡 Biga poco acida'; col='#FFE082';
+    note='Proteolisi inferiore · maglia più rigida · +1% IDR compensa';
+  } else {
+    idr='69-70%'; ldb='0.35%'; appretto='2.5h fuori cella';
+    stato='⚠️ Biga giovane o fredda'; col='#FFCDD2';
+    note='pH troppo alto · verifica processo biga · staglio più tardi';
+  }
+
+  out.innerHTML =
+    '<div style="background:rgba(0,0,0,0.3);border:2px solid '+col+'50;border-radius:14px;padding:14px;margin-bottom:4px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:11px;font-weight:700;color:'+col+';margin-bottom:12px">'+stato+' · pH '+pH.toFixed(2)+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    // IDR
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">IDR</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:'+col+'">'+idr+'</div>'
+    +'</div>'
+    // LdB
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">LdB rinf.</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:'+col+'">'+ldb+'</div>'
+    +'</div>'
+    // Appretto
+    +'<div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Appretto</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:13px;font-weight:700;color:'+col+';line-height:1.3">'+appretto+'</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:10px;color:var(--dim);font-style:italic">'+note+'</div>'
+    +'</div>';
+
+  // Aggiorna anche i campi principali
+  calcMls();
+}
+
 function calcMls(){
   var kgB  = parseFloat((document.getElementById('mlsKgB')||{value:10}).value)||10;
   var bigP = parseFloat((document.getElementById('mlsBigaPct')||{value:30}).value)||30;
@@ -13309,6 +13376,7 @@ function calcAll(){
   try{calcLicoli();}catch(e){}
   try{calcSuprema();}catch(e){}
   try{calcSnl();}catch(e){}
+  try{calcMlsPH();}catch(e){}
   try{calcMls();}catch(e){}
   try{calcScrocchCuppone();}catch(e){}
   try{calcPaneOrsoPool();}catch(e){}
