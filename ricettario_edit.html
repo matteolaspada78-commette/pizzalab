@@ -873,6 +873,20 @@ var BASE_RECIPES = [
     ],
     istruzioni:'RESA: 1 biberon da linea (300g). Xantana allo 0,4% — pesare con bilancino di precisione.\nShelf-life: 3-4 giorni in frigo. Tempo di preparazione: 2 minuti.\n\n1. Nel bricco alto del minipimer versare i due succhi filtrati, il sale, le due scorze grattugiate e la gomma di xantana.\n2. Frullare a immersione per 15 secondi per attivare la xantana.\n3. Versare l\'olio EVO Don Pietro a filo continuando a montare a massima velocità finché la salsa non diventa cremosa, lucida e della stessa consistenza di una maionese.\n4. Versare nel biberon con beccuccio medio e conservare in frigo.\n\nSERVIZIO IN PIZZERIA — Pizza "Un Giorno sulla Feluca"\nAll\'uscita dalla pala, dopo aver posizionato le rose di pesce spada affumicato, fare un drop al centro di ogni rosa. Non colate e non abbondate: il contrasto deve essere pulito e profumato.'
   },
+  { id:175, emoji:'🥬', title:'Scarola per Pizzeria — Saltata in Padella Sottovuoto', tag:'Verdure & Contorni',
+    ingredienti:[
+      {nome:'Scarola (riccia o liscia) — peso netto pulita',qty:1000,unit:'g'},
+      {nome:'Olio EVO Don Pietro',qty:50,unit:'g'},
+      {nome:'Pinoli sgusciati (preferibilmente tostati)',qty:25,unit:'g'},
+      {nome:'Filetti di alici sott\'olio (sminuzzati finemente)',qty:20,unit:'g'},
+      {nome:'Capperi dissalati',qty:20,unit:'g'},
+      {nome:'Olive nere/taggiasche denocciolate',qty:30,unit:'g'},
+      {nome:'Aglio fresco (schiacciato in camicia)',qty:1,unit:'spicchio'},
+      {nome:'Sale fino (attenzione alla sapidità di alici e capperi!)',qty:3,unit:'g'},
+      {nome:'Peperoncino / Pepe nero',qty:1,unit:'q.b.'}
+    ],
+    istruzioni:'🧪 SOTTOVUOTO — SCAROLA PER PIZZERIA "SALTATA IN PADELLA"\nEffetto saltata in padella con cottura sous-vide al Rational. Verde smeraldo brillante, profumatissima, legata all\'olio. Pronta da rigenerare direttamente sulla pizza.\n\nFASE 1 — MONDARE & ASCIUGATURA (PASSAGGIO CRUCIALE)\n1. Mondare la scarola eliminando il torsolo e le foglie rovinate.\n2. Lavare accuratamente in acqua fredda per eliminare ogni residuo di terra.\n3. ASCIUGATURA PERFETTA in centrifuga per insalata finché le foglie non sono completamente asciutte.\n⚠️ Se resta acqua vegetale, la scarola cuocerà a vapore anziché insaporirsi nell\'olio.\n\nFASE 2 — CONDIMENTO & MASSAGGIO A CRUDO\n1. In una bacinella capiente unire: Olio EVO, alici sminuzzate, capperi, olive, pinoli, aglio schiacciato, sale e peperoncino.\n2. Mescolare con frusta per far sciogliere le alici nell\'olio aromatico.\n3. Versare la scarola asciutta nella bacinella.\n4. MASSAGGIO: con i guanti, massaggiare delicatamente 1 minuto distribuendo l\'olio e i pinoli su tutte le foglie.\n\nFASE 3 — CONFEZIONAMENTO SOTTOVUOTO\n1. Rimuovere lo spicchio d\'aglio se si desidera aroma più delicato.\n2. Inserire la scarola condita in buste sottovuoto adatte alla cottura.\n3. Ripartire in buste da 500g o 1kg max, stendendo bene la massa.\n4. Sigillare al 99% di vuoto.\n\nFASE 4 — COTTURA AL RATIONAL\nModalità: Vapore Caldo (Umidità 100%)\nTemperatura: 85°C\nTempo: 22 MINUTI\nDisporre le buste piatte e stese sulle griglie.\n\nFASE 5 — SHOCK TERMICO & STOCCAGGIO (OBBLIGATORIO)\n1. Sfornare le buste bollenti.\n2. SHOCK TERMICO IMMEDIATO: tuffare in acqua e ghiaccio o abbattitore a +3°C.\n→ Blocca la cottura e fissa la clorofilla: colore verde smeraldo brillante garantito.\n3. Conservare le buste integre in cella a +2°C/+4°C.\n\nGESTIONE IN LINEA\nAl servizio: tagliare l\'angolo della busta, prelevare la quantità necessaria e rigenerare direttamente sulla pizza o sulla teglia. Risultato: scarola profumatissima, croccante e perfettamente legata.'
+  },
   { id:174, emoji:'🍅', title:'Pelato Supremo "Brace & Pastorizzato" (Rational)', tag:'Salse Pomodoro',
     ingredienti:[
       {nome:'Pelato Gran Gusto Finagricola',qty:2500,unit:'g'},
@@ -1101,7 +1115,7 @@ if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].in
   editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
   saveToStorage();
 }
-[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174].forEach(function(rid){
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
     editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
