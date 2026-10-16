@@ -2437,10 +2437,11 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 
 <!-- SCROCCHIARELLA CUPPONE MLS -->
 <div id="pageScrocchCuppone" class="scroll" style="display:none">
-  <div class="page-hero">
+  <div class="page-hero" style="background:linear-gradient(160deg,rgba(120,40,0,0.95),rgba(10,26,18,0.98))">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#FF8A65,#FFB74D,#FF8A65,transparent)"></div>
     <div class="page-hero-icon">🔥</div>
-    <div class="page-hero-title">Scrocchiarella · Cuppone MLS</div>
-    <div class="page-hero-sub">5046 Allegra · IDR 57% · Cuppone 200°C · Friabilità assoluta</div>
+    <div class="page-hero-title" style="background:linear-gradient(90deg,#FFB74D,#FF8A65);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Scrocchiarella MLS</div>
+    <div class="page-hero-sub">5046 W200 · IDR 59% · Cuppone 200°C · Croccante + Scioglievole</div>
   </div>
   <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
 
@@ -2452,7 +2453,7 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
           <div class="inp-group"><label class="inp-label">Kg farina</label>
             <div class="inp-row"><input class="inp-field" id="scKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
           <div class="inp-group"><label class="inp-label">IDR %</label>
-            <div class="inp-row"><input class="inp-field" id="scIDR" type="number" value="57" min="50" max="65" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="scIDR" type="number" value="59" min="50" max="65" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
             <div class="inp-row"><input class="inp-field" id="scSale" type="number" value="2.7" min="1.5" max="3.5" step="0.1" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Olio EVO %</label>
@@ -2467,44 +2468,87 @@ pv_c1calc(); pv_c2calc(); pv_c3calc();
 
     <div id="scOut"></div>
 
-    <!-- PROTOCOLLO FISSO -->
-    <div style="background:rgba(200,100,20,0.08);border:1.5px solid rgba(200,100,20,0.3);border-radius:14px;padding:14px">
-      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFB74D;margin-bottom:12px">📋 Protocollo Cuppone MLS</div>
-
-      <div style="font-size:11px;color:var(--cream2);line-height:2.4">
-        <span style="color:#F0CC5A;font-family:DM Mono,monospace">ESMACH</span> 07:30 impasto · fine 08:00 · riposo 30min<br>
-        <span style="color:#F0CC5A;font-family:DM Mono,monospace">PALLINE</span> 08:30 staglio <strong style="color:#FFB74D">180g</strong> · cella 4°C<br>
-        <span style="color:#F0CC5A;font-family:DM Mono,monospace">STESURA</span> 12:00 · cuppone <strong style="color:#FF8A65">200°C sopra · 185°C sotto</strong><br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ CRITICO</span> Rullo bucasfoglie <strong>immediatamente</strong> appena esce dalla cuppone<br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ CRITICO</span> Ancora calda e morbida — fredda i fori non si aprono bene<br>
-        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDD.</span> <strong style="color:#FF8A65">Griglia singola</strong> · mai sovrapporre · 8-10min<br>
-        <span style="color:#8BB4E0;font-family:DM Mono,monospace">ABBATTITORE</span> <strong style="color:#8BB4E0">Abbattitore — non congelatore diretto</strong><br>
-        <span style="color:#8BB4E0;font-family:DM Mono,monospace">PERCHÉ</span> Cristalli piccoli = struttura intatta = rigenerazione uniforme<br>
-        <span style="color:#A5D6A7;font-family:DM Mono,monospace">SIGILLO</span> Sacchetti ermetici · frigo 4°C fino a 6 giorni<br>
-        <span style="color:#8BB4E0;font-family:DM Mono,monospace">RIGENERA</span> <strong style="color:#8BB4E0">280°C · 2 minuti</strong> · condisci dopo rigenerazione
+    <!-- PARAMETRI CUPPONE -->
+    <div style="background:rgba(120,40,0,0.15);border:2px solid rgba(255,138,101,0.4);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FF8A65;margin-bottom:14px">🔥 Parametri Cuppone · Certificati dalla fisica</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOPRA</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FF8A65">200°C</div>
+          <div style="font-size:9px;color:var(--dim)">Maillard · colore dorato</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOTTO</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FFB74D">185°C</div>
+          <div style="font-size:9px;color:var(--dim)">Base uniforme · no bruciatura</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Tempo contatto</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#A5D6A7">2 sec</div>
+          <div style="font-size:9px;color:var(--dim)">gelatinizzazione completa</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Spessore uscita</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#EEC84A">1.8mm</div>
+          <div style="font-size:9px;color:var(--dim)">180g · Ø30.5cm</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--cream2);line-height:2;border-top:1px solid rgba(255,138,101,0.2);padding-top:10px">
+        <strong style="color:#FF8A65">Regola visiva:</strong> bordi dorati = pronta · centro ancora chiaro = ok<br>
+        <strong style="color:#FFCDD2">Tutto dorato uniforme</strong> = 0.5 secondi troppi = troppo secca<br>
+        <span style="color:var(--dim);font-size:9px">Fourier heat conduction · α=1.22×10⁻⁷m²/s · Incropera 2007</span>
       </div>
     </div>
 
-    <!-- CARRELLO RAFFREDDAMENTO -->
+    <!-- SCIENZA DEL GRADIENTE -->
+    <div style="background:rgba(200,100,20,0.08);border:1.5px solid rgba(255,183,77,0.3);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFB74D;margin-bottom:12px">📐 Scienza del gradiente · Croccante + Scioglievole</div>
+      <div style="font-size:10px;color:var(--cream2);line-height:2">
+        <strong style="color:#FFB74D">IDR 59%</strong> → umidità residua post-cuppone sufficiente per scioglievolezza<br>
+        <strong style="color:#FFB74D">Olio EVO 2%</strong> → impermeabilizza · Maillard uniforme · shelf life +3 giorni<br>
+        <strong style="color:#FFB74D">200°C sopra</strong> → Maillard istantanea · 185°C sotto → base uniforme<br>
+        <strong style="color:#FFB74D">2 secondi</strong> → gelatinizzazione completa · gradiente umidità intatto<br>
+        <strong style="color:#FFB74D">Fori rullo</strong> → vapore esce uniformemente · no sfogliatura · no gonfiore<br>
+        <strong style="color:#FFB74D">300°C · 90sec</strong> → ripristina croccantezza senza asciugare il centro
+      </div>
+    </div>
+
+    <!-- PROTOCOLLO -->
+    <div style="background:rgba(120,40,0,0.12);border:1.5px solid rgba(255,138,101,0.3);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FF8A65;margin-bottom:12px">📋 Protocollo Scrocchiarella MLS</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2.5">
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">IMPASTO</span> 3min 1ª · 5min 2ª · 90sec 2ª con sale · T uscita <strong style="color:var(--cream)">22-24°C</strong><br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">MATURA</span> 30min T lab · poi cella 4°C · <strong style="color:var(--cream)">min 4h</strong> prima della stesura<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">STAGLIO</span> <strong style="color:#FFB74D">180g</strong> · palline · cella 4°C<br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace">CUPPONE</span> <strong style="color:#FF8A65">200°C sopra · 185°C sotto</strong> · 2-3 secondi<br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ SUBITO</span> Rullo bucasfoglie <strong style="color:#FFCDD2">immediatamente</strong> · ancora calda · fredda = fori chiusi<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDDA</span> Griglia singola · <strong style="color:#FFCDD2">mai sovrapporre calde</strong> · 8-10min aria libera<br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">ABBATTITORE</span> Obbligatorio · <strong style="color:#8BB4E0">non congelatore diretto</strong> · cristalli piccoli = struttura intatta<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">SHELF LIFE</span> Frigo 4°C <strong style="color:var(--cream)">6 giorni</strong> · Freezer <strong style="color:var(--cream)">30 giorni</strong> · sacchetti ermetici<br>
+        <span style="color:#FFB74D;font-family:DM Mono,monospace;font-weight:700">RIGENERA</span> <strong style="color:#FFB74D">300°C · 90 secondi</strong> · condimento SEMPRE dopo · mai prima
+      </div>
+    </div>
+
+    <!-- CARRELLO -->
     <div style="background:rgba(26,58,107,0.15);border:1px solid rgba(139,180,224,0.25);border-radius:12px;padding:12px">
-      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🛒 Soluzione raffreddamento rapido</div>
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:8px">🛒 Raffreddamento ad alto volume</div>
       <div style="font-size:11px;color:var(--cream2);line-height:2">
-        <strong style="color:var(--cream)">Carrello a griglia verticale</strong> — 20 ripiani a rete ogni 8-10cm<br>
-        → 20 pizze in 40×60cm di spazio<br>
-        → calore sale verticalmente · ogni pizza raffredda in aria libera<br>
-        → tieni il ritmo della macchina senza fermarti<br>
-        <span style="color:var(--dim)">Costo ~€80-120 · qualsiasi fornitore horeca</span>
+        <strong style="color:var(--cream)">Carrello a griglia verticale</strong> · 20 ripiani a rete ogni 8-10cm<br>
+        20 pizze in 40×60cm · calore sale verticalmente · ognuna in aria libera<br>
+        Tieni il ritmo della cuppone senza mai fermarti<br>
+        <span style="color:var(--dim)">~€80-120 · qualsiasi fornitore horeca</span>
       </div>
     </div>
 
-    <!-- CAUSE DIFETTI -->
+    <!-- DIFETTI -->
     <div style="background:rgba(212,80,80,0.08);border:1px solid rgba(212,80,80,0.25);border-radius:12px;padding:12px">
-      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFCDD2;margin-bottom:10px">⚠️ Difetti e cause</div>
-      <div style="font-size:11px;color:var(--cream2);line-height:2.2">
-        <strong style="color:#FFCDD2">Sfogliatura</strong> → T cuppone troppo bassa · sovrapposizione da calde<br>
-        <strong style="color:#FFCDD2">Gonfiore al centro in rigenera</strong> → mancano i fori · vapore intrappolato<br>
-        <strong style="color:#FFCDD2">Bordo morbido</strong> → T cuppone bassa · grammatura alta per il diametro<br>
-        <strong style="color:#FFCDD2">Non croccante dopo 2 giorni</strong> → sigillata ancora tiepida · umidità residua
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFCDD2;margin-bottom:10px">⚠️ Difetti · Diagnosi rapida</div>
+      <div style="font-size:11px;color:var(--cream2);line-height:2.3">
+        <strong style="color:#FFCDD2">Secca e dura</strong> → IDR troppo bassa · alza a 59-61%<br>
+        <strong style="color:#FFCDD2">Sfogliatura</strong> → T cuppone bassa · sovrapposte ancora calde<br>
+        <strong style="color:#FFCDD2">Gonfiore in rigenera</strong> → fori mancanti · rullo fatto da fredda<br>
+        <strong style="color:#FFCDD2">Bordo morbido</strong> → grammatura alta · abbassa a 170-180g<br>
+        <strong style="color:#FFCDD2">Non croccante dopo 2gg</strong> → sigillata tiepida · umidità residua intrappolata
       </div>
     </div>
 
@@ -6759,7 +6803,7 @@ function fcBox(tot, label){
 
 function calcScrocchCuppone(){
   var kgF  = parseFloat((document.getElementById('scKgF')||{value:10}).value)||10;
-  var idr  = parseFloat((document.getElementById('scIDR')||{value:57}).value)||57;
+  var idr  = parseFloat((document.getElementById('scIDR')||{value:59}).value)||59;
   var salP = parseFloat((document.getElementById('scSale')||{value:2.7}).value)||2.7;
   var olP  = parseFloat((document.getElementById('scOlio')||{value:2}).value)||2;
   var ldbP = parseFloat((document.getElementById('scLdb')||{value:0.1}).value)||0.1;
