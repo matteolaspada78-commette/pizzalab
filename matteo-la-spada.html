@@ -774,9 +774,9 @@ select.inp-field,.inp-field select{font-size:14px}
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Data produzione</label><input class="inp-field" id="dData" type="date" style="font-size:14px"></div>
+      <div class="inp-group"><label class="inp-label">Data produzione</label><input class="inp-field" oninput="diarySaveAuto()" id="dData" type="date" style="font-size:14px"></div>
       <div class="inp-group"><label class="inp-label">Prodotto</label>
-        <select class="inp-field" id="dProd" style="font-size:14px;-webkit-appearance:none">
+        <select class="inp-field" onchange="diarySaveAuto()" id="dProd" style="font-size:14px;-webkit-appearance:none">
           <option>Napoletana Suprema</option><option>Napoletana Consigliata</option>
           <option>Tonda Romana Biga</option><option>Tonda Romana Croccante</option>
           <option>Pala Romana Suprema</option><option>Pala Romana Scientifica</option>
@@ -784,13 +784,13 @@ select.inp-field,.inp-field select{font-size:14px}
           <option>Scrocchiarella Gelo</option><option>Teglia Romana</option><option>Altro</option>
         </select>
       </div>
-      <div class="inp-group"><label class="inp-label">Tipo Biga (farina usata)</label><input class="inp-field" id="dFarinaBiga" type="text" placeholder="es. 0102HP · W320-340" style="font-size:14px"></div>
-      <div class="inp-group"><label class="inp-label">KG Farina biga</label><div class="inp-row"><input class="inp-field" id="dKgBiga" type="number" step="0.5" placeholder="0"><span class="inp-unit">kg</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR biga %</label><div class="inp-row"><input class="inp-field" id="dIdrBiga" type="number" placeholder="45"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">LdB biga %</label><div class="inp-row"><input class="inp-field" id="dLdbBiga" type="number" step="0.05" placeholder="0.3"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora inizio biga</label><div class="inp-row"><input class="inp-field" id="dOraBiga" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
-      <div class="inp-group"><label class="inp-label">T biga al rinfresco °C</label><div class="inp-row"><input class="inp-field" id="dTBiga" type="number" step="0.5" placeholder="4"><span class="inp-unit">°C</span></div></div>
-      <div class="inp-group"><label class="inp-label">pH biga al rinfresco</label><div class="inp-row"><input class="inp-field" id="dPhBiga" type="number" step="0.1" placeholder="4.2"><span class="inp-unit">pH</span></div></div>
+      <div class="inp-group"><label class="inp-label">Tipo Biga (farina usata)</label><input class="inp-field" oninput="diarySaveAuto()" id="dFarinaBiga" type="text" placeholder="es. 0102HP · W320-340" style="font-size:14px"></div>
+      <div class="inp-group"><label class="inp-label">KG Farina biga</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dKgBiga" type="number" step="0.5" placeholder="0"><span class="inp-unit">kg</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR biga %</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dIdrBiga" type="number" placeholder="45"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">LdB biga %</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dLdbBiga" type="number" step="0.05" placeholder="0.3"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora inizio biga</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dOraBiga" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
+      <div class="inp-group"><label class="inp-label">T biga al rinfresco °C</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dTBiga" type="number" step="0.5" placeholder="4"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">pH biga al rinfresco</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dPhBiga" type="number" step="0.1" placeholder="4.2"><span class="inp-unit">pH</span></div></div>
       <div id="dPhSem"></div>
     </div>
   </div>
@@ -803,14 +803,14 @@ select.inp-field,.inp-field select{font-size:14px}
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">Ora rinfresco</label><div class="inp-row"><input class="inp-field" id="dOraRinf" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
-      <div class="inp-group"><label class="inp-label">Farina rinfresco 1</label><input class="inp-field" id="dFar1" type="text" placeholder="es. 5063 Special · W260-280" style="font-size:14px"></div>
-      <div class="inp-group"><label class="inp-label">% Farina 1</label><div class="inp-row"><input class="inp-field" id="dPct1" type="number" placeholder="60"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Farina rinfresco 2</label><input class="inp-field" id="dFar2" type="text" placeholder="es. 0102HP · W320-340" style="font-size:14px"></div>
-      <div class="inp-group"><label class="inp-label">% Farina 2</label><div class="inp-row"><input class="inp-field" id="dPct2" type="number" placeholder="40"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Licoli % (0 se non usato)</label><div class="inp-row"><input class="inp-field" id="dLicP" type="number" placeholder="10"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">IDR impasto finale %</label><div class="inp-row"><input class="inp-field" id="dIdrFin" type="number" placeholder="70"><span class="inp-unit">%</span></div></div>
-      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" id="dSale" type="number" step="0.1" placeholder="2.2"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora rinfresco</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dOraRinf" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
+      <div class="inp-group"><label class="inp-label">Farina rinfresco 1</label><input class="inp-field" oninput="diarySaveAuto()" id="dFar1" type="text" placeholder="es. 5063 Special · W260-280" style="font-size:14px"></div>
+      <div class="inp-group"><label class="inp-label">% Farina 1</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dPct1" type="number" placeholder="60"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Farina rinfresco 2</label><input class="inp-field" oninput="diarySaveAuto()" id="dFar2" type="text" placeholder="es. 0102HP · W320-340" style="font-size:14px"></div>
+      <div class="inp-group"><label class="inp-label">% Farina 2</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dPct2" type="number" placeholder="40"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Licoli % (0 se non usato)</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dLicP" type="number" placeholder="10"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">IDR impasto finale %</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dIdrFin" type="number" placeholder="70"><span class="inp-unit">%</span></div></div>
+      <div class="inp-group"><label class="inp-label">Sale %</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dSale" type="number" step="0.1" placeholder="2.2"><span class="inp-unit">%</span></div></div>
     </div>
   </div>
 
@@ -822,27 +822,27 @@ select.inp-field,.inp-field select{font-size:14px}
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">T acqua autolisi °C</label><div class="inp-row"><input class="inp-field" id="dTAcq" type="number" placeholder="19"><span class="inp-unit">°C</span></div></div>
-      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" id="dTAmb" type="number" placeholder="20"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">T acqua autolisi °C</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dTAcq" type="number" placeholder="19"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">T ambiente °C</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dTAmb" type="number" placeholder="20"><span class="inp-unit">°C</span></div></div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px">
         <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px">⚙️ Macchina — tempi di lavorazione</div>
-        <div class="inp-group"><label class="inp-label">Minuti 1a velocità</label><div class="inp-row"><input class="inp-field" id="dMin1vel" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
-        <div class="inp-group"><label class="inp-label">Minuti 2a velocità</label><div class="inp-row"><input class="inp-field" id="dMin2vel" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
-        <div class="inp-group"><label class="inp-label">Minuti dopo inserimento sale</label><div class="inp-row"><input class="inp-field" id="dMinSale" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
-        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Minuti bassinage / chiusura</label><div class="inp-row"><input class="inp-field" id="dMinBass" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
+        <div class="inp-group"><label class="inp-label">Minuti 1a velocità</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dMin1vel" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
+        <div class="inp-group"><label class="inp-label">Minuti 2a velocità</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dMin2vel" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
+        <div class="inp-group"><label class="inp-label">Minuti dopo inserimento sale</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dMinSale" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
+        <div class="inp-group" style="margin-bottom:0"><label class="inp-label">Minuti bassinage / chiusura</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dMinBass" type="number" step="0.5" placeholder="0"><span class="inp-unit">min</span></div></div>
       </div>
-      <div class="inp-group"><label class="inp-label">T uscita impasto °C</label><div class="inp-row"><input class="inp-field" id="dTOut" type="number" step="0.5" placeholder="22"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">T uscita impasto °C</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dTOut" type="number" step="0.5" placeholder="22"><span class="inp-unit">°C</span></div></div>
       <div id="dTOutSem"></div>
-      <div class="inp-group"><label class="inp-label">Ora fine impasto</label><div class="inp-row"><input class="inp-field" id="dOraImp" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora fine impasto</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dOraImp" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
       <div class="inp-group"><label class="inp-label">Puntata — dove</label>
-        <select class="inp-field" id="dPuntWhere" style="font-size:14px;-webkit-appearance:none">
+        <select class="inp-field" onchange="diarySaveAuto()" id="dPuntWhere" style="font-size:14px;-webkit-appearance:none">
           <option>Cella 4°C</option><option>Frigo 6°C</option><option>T ambiente</option><option>Teglia in frigo</option>
         </select>
       </div>
-      <div class="inp-group"><label class="inp-label">Ore puntata</label><div class="inp-row"><input class="inp-field" id="dOrePunt" type="number" step="0.5" placeholder="8"><span class="inp-unit">h</span></div></div>
-      <div class="inp-group"><label class="inp-label">Ora staglio</label><div class="inp-row"><input class="inp-field" id="dOraStaglio" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
-      <div class="inp-group"><label class="inp-label">Grammatura pezzi (g)</label><div class="inp-row"><input class="inp-field" id="dGram" type="number" placeholder="260"><span class="inp-unit">g</span></div></div>
-      <div class="inp-group"><label class="inp-label">N° pezzi prodotti</label><div class="inp-row"><input class="inp-field" id="dNPezzi" type="number" placeholder="0"><span class="inp-unit">pz</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ore puntata</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dOrePunt" type="number" step="0.5" placeholder="8"><span class="inp-unit">h</span></div></div>
+      <div class="inp-group"><label class="inp-label">Ora staglio</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dOraStaglio" type="time" style="font-size:14px"><span class="inp-unit" style="min-width:0"></span></div></div>
+      <div class="inp-group"><label class="inp-label">Grammatura pezzi (g)</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dGram" type="number" placeholder="260"><span class="inp-unit">g</span></div></div>
+      <div class="inp-group"><label class="inp-label">N° pezzi prodotti</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dNPezzi" type="number" placeholder="0"><span class="inp-unit">pz</span></div></div>
     </div>
   </div>
 
@@ -854,16 +854,16 @@ select.inp-field,.inp-field select{font-size:14px}
       <div class="card-chevron">▾</div>
     </div>
     <div class="card-body">
-      <div class="inp-group"><label class="inp-label">T forno °C</label><div class="inp-row"><input class="inp-field" id="dTForno" type="number" placeholder="450"><span class="inp-unit">°C</span></div></div>
+      <div class="inp-group"><label class="inp-label">T forno °C</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dTForno" type="number" placeholder="450"><span class="inp-unit">°C</span></div></div>
       <div class="inp-group"><label class="inp-label">Tipo forno</label>
-        <select class="inp-field" id="dForno" style="font-size:14px;-webkit-appearance:none">
+        <select class="inp-field" onchange="diarySaveAuto()" id="dForno" style="font-size:14px;-webkit-appearance:none">
           <option>Legna</option><option>Elettrico platea</option><option>Elettrico ventilato</option><option>Gas</option>
         </select>
       </div>
-      <div class="inp-group"><label class="inp-label">Secondi cottura</label><div class="inp-row"><input class="inp-field" id="dSec" type="number" placeholder="90"><span class="inp-unit">s</span></div></div>
-      <div class="inp-group"><label class="inp-label">Valutazione cornicione (1-10)</label><div class="inp-row"><input class="inp-field" id="dValCorn" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
-      <div class="inp-group"><label class="inp-label">Valutazione croccantezza (1-10)</label><div class="inp-row"><input class="inp-field" id="dValCroc" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
-      <div class="inp-group"><label class="inp-label">Valutazione sapore (1-10)</label><div class="inp-row"><input class="inp-field" id="dValSap" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
+      <div class="inp-group"><label class="inp-label">Secondi cottura</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dSec" type="number" placeholder="90"><span class="inp-unit">s</span></div></div>
+      <div class="inp-group"><label class="inp-label">Valutazione cornicione (1-10)</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dValCorn" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
+      <div class="inp-group"><label class="inp-label">Valutazione croccantezza (1-10)</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dValCroc" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
+      <div class="inp-group"><label class="inp-label">Valutazione sapore (1-10)</label><div class="inp-row"><input class="inp-field" oninput="diarySaveAuto()" id="dValSap" type="number" min="1" max="10" placeholder="8"><span class="inp-unit">/10</span></div></div>
       <div class="inp-group"><label class="inp-label">Note e osservazioni</label>
         <textarea id="dNote" placeholder="Es: cornicione esplosivo, biga al picco, ripetere..." 
           style="width:100%;min-height:90px;background:#0D0B09;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--cream);font-family:DM Sans,sans-serif;font-size:13px;outline:none;resize:vertical;line-height:1.5"></textarea>
@@ -893,6 +893,7 @@ select.inp-field,.inp-field select{font-size:14px}
   </div>
   <!-- diaryOut: messaggi azioni diario -->
   <div id="diaryOut" style="padding:0 16px 12px"></div>
+  <div style="padding:0 14px 20px"><button onclick="diaryCopy()" class="btn-share" style="width:100%">📲 Invia su WhatsApp</button></div>
 </div>
 
 <script>
@@ -919,6 +920,7 @@ function openPage(key){
   if(key==='direttomls'){try{calcDirettaMls();}catch(e){}}
   if(key==='licoli'){try{renderUltimoRinfresco();}catch(e){} try{renderEsmachPrograms();}catch(e){}}
   if(key==='paneorso'){try{calcPaneOrso();}catch(e){}}
+  if(key==='diario'){try{diaryLoad();}catch(e){}}
 }
 
 function goHome(){
@@ -2064,6 +2066,127 @@ function calcPalaMls(){
     +'<span style="color:#FFCDD2;font-family:monospace">FORNO</span> 280°C · platea · 12-15 minuti'
     +'</div>';
 }
+
+
+var diaryEntries = [];
+var diaryIdx = 0;
+
+function diaryLoad(){
+  try{
+    var s=localStorage.getItem('mls_diary');
+    if(s) diaryEntries=JSON.parse(s);
+    if(!diaryEntries.length) diaryNew();
+    else diaryRender();
+  }catch(e){ diaryNew(); }
+}
+
+function diarySave(){
+  try{ localStorage.setItem('mls_diary', JSON.stringify(diaryEntries)); }catch(e){}
+}
+
+function diaryFields(){
+  var fields=['dData','dProd','dFarinaBiga','dKgBiga','dIDRBiga','dLdbBiga',
+    'dOraBiga','dOraRinfresco','dFarinaRinfresco','dKgImpasto','dIDRTot',
+    'dLdbRinfresco','dTUscita','dPHBiga','dGramm','dNPalline',
+    'dOraStaglio','dOraAppretto','dNote'];
+  var d={};
+  fields.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) d[id]=el.value;
+  });
+  return d;
+}
+
+function diarySetFields(d){
+  Object.keys(d).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.value=d[id]||'';
+  });
+}
+
+function diaryNew(){
+  // Salva corrente se esiste
+  if(diaryEntries.length && diaryIdx < diaryEntries.length){
+    diaryEntries[diaryIdx] = diaryFields();
+    diarySave();
+  }
+  var today = new Date().toISOString().split('T')[0];
+  var entry = {dData:today, dProd:'Napoletana · Matteo La Spada 7.0'};
+  diaryEntries.unshift(entry);
+  diaryIdx = 0;
+  diarySetFields(entry);
+  diaryNav();
+}
+
+function diaryRender(){
+  if(!diaryEntries.length){ diaryNew(); return; }
+  if(diaryIdx >= diaryEntries.length) diaryIdx = diaryEntries.length-1;
+  diarySetFields(diaryEntries[diaryIdx]);
+  diaryNav();
+}
+
+function diaryNav(){
+  var el=document.getElementById('diaryNav');
+  if(el) el.textContent = (diaryEntries.length-diaryIdx)+' di '+diaryEntries.length;
+}
+
+function diaryNext(){
+  if(diaryEntries.length && diaryIdx < diaryEntries.length){
+    diaryEntries[diaryIdx]=diaryFields(); diarySave();
+  }
+  if(diaryIdx < diaryEntries.length-1){ diaryIdx++; diaryRender(); }
+}
+
+function diaryPrev(){
+  if(diaryEntries.length && diaryIdx < diaryEntries.length){
+    diaryEntries[diaryIdx]=diaryFields(); diarySave();
+  }
+  if(diaryIdx > 0){ diaryIdx--; diaryRender(); }
+}
+
+function diaryCopy(){
+  if(!diaryEntries.length) return;
+  var d = diaryEntries[diaryIdx]||{};
+  var nl="\n";
+  var txt = 'Diario di Produzione - Pizza Lab MLS'+nl
+    +'Data: '+(d.dData||new Date().toLocaleDateString('it-IT'))+nl
+    +'Prodotto: '+(d.dProd||'')+nl+nl
+    +'BIGA'+nl
+    +'  Farina: '+(d.dFarinaBiga||'-')+' - '+(d.dKgBiga||'-')+'kg'+nl
+    +'  IDR: '+(d.dIDRBiga||'-')+'% - LdB: '+(d.dLdbBiga||'-')+'%'+nl
+    +'  Ora biga: '+(d.dOraBiga||'-')+nl+nl
+    +'RINFRESCO'+nl
+    +'  Farina: '+(d.dFarinaRinfresco||'-')+' - '+(d.dKgImpasto||'-')+'kg tot'+nl
+    +'  IDR: '+(d.dIDRTot||'-')+'% - LdB: '+(d.dLdbRinfresco||'-')+'%'+nl
+    +'  Ora rinfresco: '+(d.dOraRinfresco||'-')+nl+nl
+    +'MISURE'+nl
+    +'  T uscita: '+(d.dTUscita||'-')+'°C'+nl
+    +'  pH biga: '+(d.dPHBiga||'-')+nl
+    +'  Grammatura: '+(d.dGramm||'-')+'g - Palline: '+(d.dNPalline||'-')+nl+nl
+    +'ORARI'+nl
+    +'  Staglio: '+(d.dOraStaglio||'-')+nl
+    +'  Appretto fuori cella: '+(d.dOraAppretto||'-')+nl+nl
+    +(d.dNote?('Note: '+d.dNote+nl+nl):'')
+    +'Pizza Lab - Matteo La Spada - Gruppo Orso - Messina';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+function diaryDel(){
+  if(!diaryEntries.length) return;
+  if(!confirm('Eliminare questa produzione?')) return;
+  diaryEntries.splice(diaryIdx,1);
+  diarySave();
+  if(diaryIdx >= diaryEntries.length) diaryIdx = Math.max(0,diaryEntries.length-1);
+  if(diaryEntries.length) diaryRender();
+  else diaryNew();
+}
+
+function diarySaveAuto(){
+  if(diaryEntries.length && diaryIdx < diaryEntries.length){
+    diaryEntries[diaryIdx]=diaryFields(); diarySave();
+  }
+}
+
 </script>
 </body>
 </html>
