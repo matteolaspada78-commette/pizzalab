@@ -315,28 +315,55 @@ select.inp-field,.inp-field select{font-size:14px}
     <button class="back-btn" onclick="goHome()">←</button>
     <div class="page-hero-icon">🏆</div>
     <div class="page-hero-title" style="background:linear-gradient(90deg,#8BB4E0,#EEC84A);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Pala · Matteo La Spada</div>
-    <div class="page-hero-sub">5078 W365 · IDR 77% · Biga 40% · Alveoli da paura</div>
+    <div class="page-hero-sub">5078 W365 puro · IDR 76% · Biga 40% · Alveoli da paura · 150-200 teglie</div>
   </div>
   <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
     <div class="card">
-      <div style="padding:14px">
+      <div class="card-hdr"><span class="card-hdr-icon">⚙️</span><div><div class="card-hdr-title">Parametri</div></div></div>
+      <div class="card-body" style="display:block">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div><label class="lbl">Kg farina biga</label>
             <div class="irow"><input class="inp" id="pmKgB" type="number" value="10" min="1" max="50" step="0.5" oninput="calcPalaMls()" style="color:#EEC84A"><span class="unit">kg</span></div></div>
           <div><label class="lbl">% Biga</label>
             <div class="irow"><input class="inp" id="pmBigaPct" type="number" value="40" min="30" max="60" step="5" oninput="calcPalaMls()"><span class="unit">%</span></div></div>
           <div><label class="lbl">IDR %</label>
-            <div class="irow"><input class="inp" id="pmIDR" type="number" value="77" min="70" max="82" step="0.5" oninput="calcPalaMls()"><span class="unit">%</span></div></div>
+            <div class="irow"><input class="inp" id="pmIDR" type="number" value="76" min="70" max="82" step="0.5" oninput="calcPalaMls()"><span class="unit">%</span></div></div>
           <div><label class="lbl">Sale %</label>
             <div class="irow"><input class="inp" id="pmSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcPalaMls()"><span class="unit">%</span></div></div>
           <div><label class="lbl">T laboratorio</label>
             <div class="irow"><input class="inp" id="pmTAmb" type="number" value="25" min="15" max="35" oninput="calcPalaMls()"><span class="unit">°C</span></div></div>
-          <div><label class="lbl">Grammatura g</label>
-            <div class="irow"><input class="inp" id="pmGr" type="number" value="800" min="400" max="1500" step="50" oninput="calcPalaMls()" style="color:#EEC84A"><span class="unit">g</span></div></div>
+          <div><label class="lbl">Grammatura teglia g</label>
+            <div class="irow"><input class="inp" id="pmGr" type="number" value="950" min="400" max="1500" step="50" oninput="calcPalaMls()" style="color:#EEC84A"><span class="unit">g</span></div></div>
         </div>
       </div>
     </div>
     <div id="pmOut"></div>
+
+    <div style="background:rgba(13,27,75,0.2);border:1.5px solid rgba(91,155,213,0.35);border-radius:14px;padding:14px">
+      <div style="font-family:monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:14px">📋 Protocollo · Pala Matteo La Spada</div>
+      <div style="font-size:11px;color:#D8CEBC;line-height:2.5">
+        <span style="color:#F0CC5A;font-family:monospace">G1 18:00</span> Biga: <strong>5078 W365</strong> · IDR 47% · LdB <strong style="color:#EEC84A">0.60%</strong> · 2h T lab<br>
+        <span style="color:#8BB4E0;font-family:monospace">G1 20:00</span> Cella 4°C · pH target <strong>5.20-5.25</strong><br>
+        <span style="color:#F0CC5A;font-family:monospace">G2 08:30</span> Rinfresco: <strong>5078 W365 puro</strong> · IDR 76% · LdB <strong style="color:#FFB74D">0.50%</strong> · bassinage<br>
+        <span style="color:#A5D6A7;font-family:monospace">G2 09:00</span> In teglia oliata · 30min T lab · cella senza coperchio<br>
+        <span style="color:#A5D6A7;font-family:monospace">G2 10:30</span> Coperchio · cella fino alle 13:00<br>
+        <span style="color:#EEC84A;font-family:monospace;font-weight:700">G2 13:00</span> <strong style="color:#EEC84A">SHOCK TERMICO · teglia da cella → forno 280°C</strong><br>
+        <span style="color:#FFCDD2;font-family:monospace">FORNO</span> <strong style="color:#FFCDD2">280°C platea · 270°C cielo · 12-15 minuti</strong><br>
+        <span style="color:#FFCDD2;font-family:monospace">VAPORE</span> Primi 5min chiuso → poi aperto · base croccante
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px">
+      <div style="font-family:monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6A7060;margin-bottom:10px">📐 Scienza degli alveoli · Certificata</div>
+      <div style="font-size:10px;color:#D8CEBC;line-height:2.2">
+        <strong style="color:#EEC84A">5078 W365 puro</strong> → regge 5-6h · 150-200 teglie · non collassa · Dobraszczyk 2003<br>
+        <strong style="color:#6A7060">Sotto 100 teglie</strong> → 5078 70% + 0102HP 30% · W352 · stesura più facile<br>
+        <strong style="color:#EEC84A">Biga 40%</strong> → pH 5.20-5.25 · proteolisi intensa · maglia che si apre<br>
+        <strong style="color:#EEC84A">IDR 76%</strong> → bilancio G'/vapore ottimale a 280°C · alveoli massimi<br>
+        <strong style="color:#EEC84A">Shock termico</strong> → cella 4°C → 280°C · espansione vapore istantanea<br>
+        <strong style="color:#EEC84A">Vapore chiuso 5min</strong> → alveoli si aprono prima che la base si fissi
+      </div>
+    </div>
   </div>
 </div>
 <div id="pageScrocchCuppone" class="page" style="display:none">
@@ -377,17 +404,17 @@ select.inp-field,.inp-field select{font-size:14px}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOPRA</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FF8A65">200°C</div>
-          <div style="font-size:9px;color:var(--dim)">Maillard · colore dorato</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FF8A65">160°C</div>
+          <div style="font-size:9px;color:var(--dim)">Cottura graduale · no vetroso</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOTTO</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FFB74D">185°C</div>
-          <div style="font-size:9px;color:var(--dim)">Base uniforme · no bruciatura</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FFB74D">160°C</div>
+          <div style="font-size:9px;color:var(--dim)">Uguale sopra · cottura omogenea</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Tempo contatto</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#A5D6A7">2 sec</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#A5D6A7">2-3 sec</div>
           <div style="font-size:9px;color:var(--dim)">gelatinizzazione completa</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
@@ -424,11 +451,11 @@ select.inp-field,.inp-field select{font-size:14px}
         <span style="color:#F0CC5A;font-family:DM Mono,monospace">08:30-09:00</span> 30min T lab · GN senza coperchio<br>
         <span style="color:#8BB4E0;font-family:DM Mono,monospace">09:00</span> Cella 4°C · coperchio dopo 1h<br>
         <span style="color:#A5D6A7;font-family:DM Mono,monospace">15:30</span> Staglio <strong style="color:#FFB74D">180g</strong> · palline → cella 4°C immediata<br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace;font-weight:700">16:00</span> <strong style="color:#FF8A65">Palline FREDDE di cella → cuppone 200°C sopra · 185°C sotto</strong><br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace;font-weight:700">16:00</span> <strong style="color:#FF8A65">Palline FREDDE di cella → cuppone 160°C sopra · 160°C sotto</strong><br>
         <span style="color:#FF8A65;font-family:DM Mono,monospace">⭐ PERCHÉ</span> W180 glutine debole · a T lab si appiattisce · fredda = forma perfetta<br>
         <span style="color:#FF8A65;font-family:DM Mono,monospace">⭐ PERCHÉ</span> Cuppone 200°C scalda in 0.5sec · T pallina non conta niente<br>
         <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ SUBITO</span> Rullo bucasfoglie <strong style="color:#FFCDD2">immediatamente</strong> · ancora calda · fredda = fori chiusi<br>
-        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDDA</span> Griglia singola · <strong style="color:#FFCDD2">mai sovrapporre calde</strong> · 8-10min aria libera<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDDA</span> Griglia singola · <strong style="color:#EEC84A">ventilatore da banco puntato</strong> · 3-4min · poi infilare<br>
         <span style="color:#8BB4E0;font-family:DM Mono,monospace">ABBATTITORE</span> Obbligatorio · <strong style="color:#8BB4E0">non congelatore diretto</strong> · cristalli piccoli = struttura intatta<br>
         <span style="color:#A5D6A7;font-family:DM Mono,monospace">SHELF LIFE</span> Frigo 4°C <strong style="color:var(--cream)">6 giorni</strong> · Freezer <strong style="color:var(--cream)">30 giorni</strong> · sacchetti ermetici<br>
         <span style="color:#FFB74D;font-family:DM Mono,monospace;font-weight:700">RIGENERA</span> <strong style="color:#FFB74D">300°C · 90 secondi</strong> · condimento SEMPRE dopo · mai prima
@@ -2016,6 +2043,8 @@ function dist(rows){
 }
 
 function calcPalaMls(){
+  // Blend: 5078 W365 70% + 0102HP W320 30% nel rinfresco
+  // Biga: 5078 W365 100%
   var kgB=parseFloat((document.getElementById('pmKgB')||{value:10}).value)||10;
   var bigP=parseFloat((document.getElementById('pmBigaPct')||{value:40}).value)||40;
   var idr=parseFloat((document.getElementById('pmIDR')||{value:77}).value)||77;
@@ -2037,7 +2066,13 @@ function calcPalaMls(){
   var Tacq=Math.round((23.5*3-18-tAmb-9)*10)/10;
   var tc=Tacq<=14?'#A5D6A7':Tacq<=20?'#F0CC5A':'#FFCDD2';
   try{updateFCAlias();}catch(e){}
-  var fc_tot=0; try{fc_tot=kgB*1000*fcG('5078')+kgRinf*1000*fcG('5078')+saleG*FC.sale+(ldbBiga+ldbRinf)*FC.ldb;}catch(e){}
+  // Rinfresco: 5078 puro (per 150-200 teglie · W365 regge 5-6h)
+  var fc_tot=0; try{
+    fc_tot = kgB*1000*fcG('5078')
+           + kgRinf*1000*fcG('5078')
+           + saleG*FC.sale
+           + (ldbBiga+ldbRinf)*FC.ldb;
+  }catch(e){}
   var fc_teg=nTeglie>0?fc_tot/nTeglie:0;
   out.innerHTML=
     '<div style="background:rgba(13,27,75,0.3);border:2px solid rgba(91,155,213,0.5);border-radius:14px;padding:18px;text-align:center;margin-bottom:12px">'
@@ -2053,17 +2088,21 @@ function calcPalaMls(){
     +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#ccc;font-size:11px">LdB biga 0.60%</span><span style="font-family:monospace;font-weight:700;color:#EEC84A">'+ldbBiga+'g</span></div>'
     +'</div>'
     +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-bottom:8px">'
-    +'<div style="font-size:9px;color:#8BB4E0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🌾 Rinfresco '+Math.round(100-bigP)+'% · IDR '+idr+'%</div>'
+    +'<div style="font-size:9px;color:#8BB4E0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🌾 Rinfresco '+Math.round(100-bigP)+'% · 5078 W365 PURO · IDR '+idr+'%</div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Petra 5078 W365</span><span style="font-family:monospace;font-weight:700">'+Math.round(kgRinf*1000)+'g</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:9px"><span style="color:#6A7060;font-size:9px">⚠️ Sotto 100 teglie: 5078 70% + 0102HP 30%</span><span style="color:#6A7060;font-size:9px">W352</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Sale '+salP+'%</span><span style="font-family:monospace;font-weight:700">'+saleG+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">LdB rinfresco 0.50%</span><span style="font-family:monospace;font-weight:700">'+ldbRinf+'g</span></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#ccc;font-size:11px">ESMACH T acqua '+Tacq+'°C</span><span style="font-family:monospace;font-weight:700;color:'+tc+'">'+acqEsm+'g</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#ccc;font-size:11px">ESMACH bassinage · T acqua '+Tacq+'°C</span><span style="font-family:monospace;font-weight:700;color:'+tc+'">'+acqEsm+'g</span></div>'
     +'</div>'
-    +'<div style="background:rgba(13,27,75,0.3);border-radius:10px;padding:12px;font-size:11px;color:#ccc;line-height:2.2">'
-    +'<span style="color:#F0CC5A;font-family:monospace">G1 18:00</span> Biga · LdB 0.60% · 2h T lab → cella<br>'
-    +'<span style="color:#A5D6A7;font-family:monospace">G2 08:30</span> Rinfresco · LdB 0.50% · in teglia<br>'
-    +'<span style="color:#EEC84A;font-family:monospace;font-weight:700">G2 13:00</span> Shock termico · forno 280°C dalla cella<br>'
-    +'<span style="color:#FFCDD2;font-family:monospace">FORNO</span> 280°C · platea · 12-15 minuti'
+    +'<div style="background:rgba(13,27,75,0.3);border-radius:10px;padding:12px;font-size:11px;color:#ccc;line-height:2.4">'
+    +'<span style="color:#F0CC5A;font-family:monospace">G1 18:00</span> Biga 5078 · LdB 0.60% · 2h T lab → cella 4°C<br>'
+    +'<span style="color:#F0CC5A;font-family:monospace">G2 08:30</span> Rinfresco ESMACH · 5078 70% + 0102HP 30% · LdB 0.50%<br>'
+    +'<span style="color:#A5D6A7;font-family:monospace">G2 09:00</span> In teglia oliata · 30min T lab → cella senza coperchio<br>'
+    +'<span style="color:#A5D6A7;font-family:monospace">G2 10:30</span> Coperchio · cella fino alle 13:00<br>'
+    +'<span style="color:#EEC84A;font-family:monospace;font-weight:700">G2 13:00</span> SHOCK TERMICO · teglia da cella → forno 280°C<br>'
+    +'<span style="color:#FFCDD2;font-family:monospace">FORNO</span> 280°C platea · 270°C cielo · 12-15 minuti<br>'
+    +'<span style="color:#FFCDD2;font-family:monospace">VAPORE</span> Primi 5min chiuso → poi aperto'
     +'</div>';
 }
 
