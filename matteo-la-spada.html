@@ -3922,8 +3922,12 @@ function ordineWA(){
     var sacchi=Math.ceil(f.tot*(1+d.scorta/100)/f.kg);
     txt+=f.nome+" — "+sacchi+" sacchi ("+f.kg+"kg cad.)"+nl;
   });
-  txt+=nl+"Totale: "+d.totaleSacchi+" sacchi · €"+d.totaleCosto.toFixed(2)+nl
+  txt+=nl+"Totale: "+d.totaleSacchi+" sacchi"+nl
       +"Consegna: "+nl+nl;
+
+  // Note
+  var noteEl=document.getElementById('oNote');
+  if(noteEl&&noteEl.value.trim()) txt+="Note: "+noteEl.value.trim()+nl+nl;
 
   // Omaggi
   if(d.omaggi>0){
@@ -4575,6 +4579,9 @@ function diarySaveAuto(){
 
     <!-- OUTPUT -->
     <div id="ordOut"></div>
+
+    <!-- NOTE -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px"><label class="inp-label">Note ordine</label><textarea id="oNote" rows="2" style="width:100%;background:rgba(0,0,0,0.3);border:1.5px solid var(--border2);border-radius:10px;padding:12px;color:var(--cream);font-family:var(--sans);font-size:14px;resize:none;outline:none;margin-top:8px" placeholder="Es: consegnare martedì mattina..."></textarea></div>
 
     <!-- WA -->
     <button onclick="ordineWA()" class="btn-share" style="font-size:14px;padding:18px">
