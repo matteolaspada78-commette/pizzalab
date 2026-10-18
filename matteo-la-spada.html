@@ -2042,6 +2042,26 @@ function dist(rows){
   </div>`
 }
 
+function shareLicoli(){
+  var g=function(id){var el=document.getElementById(id);return el?el.value||'-':'-';};
+  var oggi=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+  var nl='\n';
+  var txt='Gestione Licoli Madre - Pizza Lab MLS'+nl
+    +'Data: '+oggi+nl+nl
+    +'LICOLI'+nl
+    +'  Licoli madre: '+g('lLic')+'g'+nl
+    +'  Farina rinfresco: '+g('lRF')+'g'+nl
+    +'  Acqua rinfresco: '+g('lRA')+'g'+nl
+    +'  Ora rinfresco: '+g('lOra')+nl+nl
+    +'MISURE'+nl
+    +'  pH: '+g('lPH')+nl
+    +'  T laboratorio: '+g('lLab')+'°C'+nl
+    +'  Ora miscela: '+g('lOraMisc')+nl+nl
+    +'Programma: '+g('lProg')+nl+nl
+    +'Pizza Lab - Matteo La Spada - Gruppo Orso - Messina';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
 function calcPalaMls(){
   // Blend: 5078 W365 70% + 0102HP W320 30% nel rinfresco
   // Biga: 5078 W365 100%
