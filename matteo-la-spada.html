@@ -66,8 +66,10 @@ body{background:var(--bg);color:var(--cream);font-family:var(--sans);
 .card-hdr{display:flex;align-items:center;gap:10px;padding:14px 14px 0}
 .card-hdr-icon{font-size:18px}
 .card-hdr-title{font-size:14px;font-weight:700;color:var(--cream)}
-.card-body{padding:12px 14px 14px}
+.card-body{padding:12px 14px 14px;display:none}
 .card.open .card-body{display:block}
+.card-chevron{transition:transform 0.2s;color:var(--dim)}
+.card.open .card-chevron{transform:rotate(180deg)}
 
 /* INPUTS */
 .inp-group{display:flex;flex-direction:column;gap:5px}
@@ -488,8 +490,8 @@ select.inp-field,.inp-field select{font-size:14px}
   </div>
 </div>
 <div id="pageLicoli" class="page" style="display:none">
-  <div class="page-hero"><button class="back-btn" onclick="goHome()">←</button>
-    <button class="back-btn" onclick="goHome()">←</button><div class="page-hero-icon">🌿</div>
+  <div class="page-hero">
+    <div class="page-hero-icon">🌿</div>
     <div class="page-hero-title">Gestione Licoli Madre</div>
     <div class="page-hero-sub">Macchina Esmach · 6 programmi · Rapporto variabile</div>
   </div>
@@ -924,6 +926,664 @@ select.inp-field,.inp-field select{font-size:14px}
 </div>
 
 <script>
+
+function salvaLabLicoli(){
+  try {
+    var v = (document.getElementById('lLab')||{}).value||'';
+    localStorage.setItem('licoli_lab_v1', v);
+  } catch(e) {}
+}
+
+function syncRapportoAcqua(val){
+  const raEl = document.getElementById('lRA');
+  if(raEl) raEl.value = val;
+}
+
+function toggleP7Fields(val){
+  const el = document.getElementById('p7fields');
+  if(el) el.style.display = parseInt(val)===7 ? 'block' : 'none';
+  // Ricalcola subito
+  if(currentPage==='licoli') calcLicoli();
+}
+
+function calcLicoli(){
+  const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
+  const acqua=R(lic*rA),farina=R(lic*rF),unica=acqua+farina;
+  const tot=lic+acqua+farina,util=R(tot*0.85);
+  // Frigorifero: legge i valori dai campi custom
+  var p7FermH = parseFloat((document.getElementById('p7FermH')||{}).value)||1;
+  var p7FermT = parseFloat((document.getElementById('p7FermT')||{}).value)||23;
+  var p7Fase1H = parseFloat((document.getElementById('p7Fase1H')||{}).value)||1;
+  var p7Fase1T = parseFloat((document.getElementById('p7Fase1T')||{}).value)||18;
+  var p7ConsT = parseFloat((document.getElementById('p7ConsT')||{}).value)||4;
+  var p7DurH = p7FermH + p7Fase1H;
+  var p7Desc = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
+
+  const progDesc={
+    1:{desc:'1h30min 28.5°C → Cons.12°C', durH:1.5},
+    2:{desc:'1h 23°C + 16°C 1h → Cons.12°C', durH:2},
+    3:{desc:'3h 28.5°C + 12°C 12h → Cons.11.5°C', durH:15},
+    4:{desc:'2h30min 26°C → Cons.11.5°C', durH:2.5},
+    5:{desc:'2h 18°C + 16°C 1h → Cons.11.5°C', durH:3},
+    6:{desc:'1h 16°C → Cons.11.5°C', durH:1},
+    7:{desc:p7Desc, durH:p7DurH}
+  };
+  const pd = progDesc[prog] || {desc:'—', durH:2};
+  const oraFine = ((ora + pd.durH) % 24);
+  const H2 = h => { const x=((h%24)+24)%24; return String(Math.floor(x)).padStart(2,'0')+':00'; };
+  const oraPronto = H2(oraFine);
+  const oraLimite = H2(oraFine + 4);
+
+  // pH e ora miscelazione — letti direttamente (no template literal)
+  const elPH = document.getElementById('lPH');
+  const elMisc = document.getElementById('lOraMisc');
+  const ph = elPH ? (parseFloat(elPH.value)||0) : 0;
+  const oraMisc = elMisc ? (elMisc.value||'') : '';
+
+  // Semaforo pH
+  let phRow='', phSemHtml='';
+  if(ph>0){
+    const phNote = ph<3.5?'Troppo acida — over-fermentata, rinfresca subito':
+                   ph<=3.8?'Attiva e acida — ottimale per uso immediato ✅':
+                   ph<=4.2?'Al picco — miscelazione perfetta ✅':
+                   ph<=4.8?'Acerba — aspetta 1-2h prima di miscelarla':
+                   'Inattiva — alza T o cambia rapporto';
+    const phCls = ph>=3.5&&ph<=4.2?'ok':ph<3.5||ph>4.8?'bad':'warn';
+    const phEmj = ph<3.5?'🔴':ph<=4.2?'✅':ph<=4.8?'🟡':'🔴';
+    phRow = row('pH prima del rinfresco',ph+' pH',phNote);
+    phSemHtml = sem(phEmj+' pH '+ph+' — '+phNote, phCls);
+  }
+
+  const miscRow = oraMisc ? row('Ora miscelazione effettiva',oraMisc,'acqua + farina + licoli') : '';
+
+  document.getElementById('licoliOut').innerHTML=
+    '<div style="background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px">'+
+    '<div style="font-size:'+( prog===7?'22':'44')+'px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">'+(prog===7?'Frigo':'P'+prog)+'</div>'+
+    '<div><div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px">Programma Esmach</div>'+
+    '<div style="font-size:12px;color:var(--dim)">'+pd.desc+'</div>'+
+    '<div style="font-size:11px;color:var(--gold);margin-top:4px">Rinfresco '+H2(ora)+' → Picco '+oraPronto+' → Limite '+oraLimite+'</div></div>'+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">Ricetta Rinfresco 1:'+rA+':'+rF+'</div>'+
+    row('Licoli di partenza',lic+'g','')+
+    row('Acqua ('+rA+' parti)',acqua+'g','')+
+    row('Farina ('+rF+' parti)',farina+'g','')+
+    row('UNICA (acqua+farina)',unica+'g','aggiungi tutto insieme',true)+
+    row('Totale impasto',tot+'g','')+
+    row('Utilizzabile (85%)',util+'g','15% resta per prossimo rinfresco',true)+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">Orari — Rinfresco ore '+H2(ora)+'</div>'+
+    row('Inizio rinfresco',H2(ora),'')+
+    miscRow+
+    row('Fine programma / Picco',oraPronto,'licoli al massimo attività',true)+
+    row('Limite utilizzo',oraLimite,'oltre inizia a calare')+
+    row('Finestra ottimale',oraPronto+' → '+oraLimite,'usa in questa finestra',true)+
+    '</div>'+
+    '<div class="res-section">'+
+    '<div class="res-label">Controllo Madre — pH pre-rinfresco</div>'+
+    phRow+
+    '</div>'+
+    phSemHtml+
+    sem('UNICA = acqua + farina pre-miscelate. NON sommare farina + UNICA separatamente.','info');
+
+  const progDescText={1:'1h30min 28.5°C → Cons.12°C',2:'1h 23°C + 16°C 1h → Cons.12°C',
+    3:'3h 28.5°C + 12°C 12h → Cons.11.5°C',4:'2h30min 26°C → Cons.11.5°C',
+    5:'2h 18°C + 16°C 1h → Cons.11.5°C',6:'1h 16°C → Cons.11.5°C'};
+  const p7DescText = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
+  document.getElementById('esmachOut').innerHTML=
+    '<div class="res-section">'+
+    [1,2,3,4,5,6].map(p=>row('P'+p,progDescText[p],p===4?'← consigliato Matteo':'')).join('')+
+    row('Frigorifero',p7DescText,'Programma Frigorifero — parametri liberi')+
+    '</div>';
+
+  // ── MEMORIA ULTIMO RINFRESCO ──
+  try {
+    var labVal = (document.getElementById('lLab')||{}).value || 'L-Orso';
+    const mem = {
+      data: new Date().toLocaleDateString('it-IT'),
+      ora: String(ora).padStart(2,'0')+':00',
+      prog: prog,
+      lic: lic,
+      acqua: acqua,
+      farina: farina,
+      tot: tot,
+      util: util,
+      oraPronto: oraPronto,
+      oraLimite: oraLimite,
+      ph: ph || '—',
+      lab: labVal
+    };
+    localStorage.setItem('licoli_ultimo', JSON.stringify(mem));
+    renderUltimoRinfresco();
+  } catch(e) {}
+}
+
+function renderUltimoRinfresco() {
+  const el = document.getElementById('licoli_memoria');
+  if (!el) return;
+  try {
+    const m = JSON.parse(localStorage.getItem('licoli_ultimo') || 'null');
+    if (!m) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML =
+      '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">💾 Ultimo rinfresco salvato</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Data · Ora</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.data + '</div>' +
+          '<div style="font-size:12px;color:var(--gold)">ore ' + m.ora + '</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Programma</div>' +
+          '<div style="font-size:22px;font-weight:900;color:var(--gold);font-family:DM Mono,monospace">P' + m.prog + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Licoli</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.lic + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Totale</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.tot + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Utilizzabile</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--green)">' + m.util + 'g</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div>' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Finestra ottimale uso</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--gold)">' + m.oraPronto + ' → ' + m.oraLimite + '</div>' +
+        '</div>' +
+        '<div style="text-align:right">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">pH pre-rinfresco</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--cream)">' + m.ph + '</div>' +
+        '</div>' +
+      '</div>';
+  } catch(e) { el.style.display = 'none'; }
+}
+
+function calcDirettoLicoli(){
+  function Hv(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  function r5(n){return Math.round(n/5)*5;}
+
+  var kg    = parseFloat((document.getElementById('dl_kg')||{value:20}).value)||20;
+  var gr    = parseFloat((document.getElementById('dl_gr')||{value:270}).value)||270;
+  var oraI  = parseFloat((document.getElementById('dl_oraI')||{value:9}).value)||9;
+  var oraS  = parseFloat((document.getElementById('dl_oraS')||{value:19}).value)||19;
+  var licP  = parseFloat((document.getElementById('dl_licP')||{value:9}).value)||9;
+  var tAmb  = parseFloat((document.getElementById('dl_tAmb')||{value:22}).value)||22;
+  var out   = document.getElementById('dlOut');
+  if(!out) return;
+
+  // BLEND FARINE — Suas 2009: equilibrio P/L per scioglievolezza massima
+  var kg5063 = r5(kg * 0.60 * 1000);  // 60% · W260-280 · estensibilità + scioglievolezza
+  var kg5078 = r5(kg * 0.40 * 1000);  // 40% · W350-380 · struttura alveolare
+
+  // LICOLI
+  var licG   = r5(kg * licP/100 * 1000);
+  var licFar = Math.round(licG * 0.5);
+  var licAcq = Math.round(licG * 0.5);
+
+  // ACQUA IDR 67%
+  var acqTot  = r5(kg * 0.67 * 1000);
+  var acqNetta= acqTot - licAcq;
+  var acqAut  = r5(acqNetta * 0.75);
+  var acqBass = acqNetta - acqAut;
+
+  // SALE 2.8%
+  var sale = r5(kg * 0.028 * 1000);
+
+  // PIACCA E PALLINE
+  var piacca = kg*1000 + acqTot + sale + (licG||0);  // include licoli
+  var pan    = Math.floor(piacca / gr);
+
+  // T ACQUA AUTOLISI
+  var tAcq  = Math.round((23*3 - 18 - tAmb - 7.8)*10)/10;
+  var tAcqC = tAcq<5?'#FFCDD2':tAcq<10?'#BBDEFB':tAcq<=22?'#A5D6A7':'#F0CC5A';
+
+  // FERMENTAZIONE — μ_eff con boost licoli (Gänzle 2012)
+  var mu22   = 0.049;
+  var Q10    = 2.2;
+  var fLic   = 1.30;  // boost licoli su S.cerevisiae (De Vuyst 2005)
+  var muEff  = mu22 * Math.pow(Q10,(tAmb-22)/10) * fLic;
+  var hTot   = oraS > oraI ? oraS-oraI : (oraS+24)-oraI;
+  var hPunt  = hTot - 3.5;  // 3.5h appretto
+  var volPunt= Math.round((Math.exp(muEff*hPunt)-1)*100);
+
+  // ORARI
+  var oraFine  = oraI + 1.0;
+  var oraSF1   = oraFine + 0.5;
+  var oraSF2   = oraSF1 + 0.33;
+  var oraStag  = oraS - 3.5;
+  var oraAppretto = oraStag;
+  var oraForno = oraS;
+
+  var h = '';
+
+  // BOX PRODUZIONE
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.12);border:2px solid rgba(76,175,125,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🌾 Farina totale</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+kg+'kg</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.12);border:2px solid rgba(212,160,62,0.4);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">🍕 Palline</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:36px;color:#F0CC5A">'+pan+'</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">da '+gr+'g</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">📈 Vol. puntata</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:24px;color:'+(volPunt>=45&&volPunt<=60?'#A5D6A7':volPunt<45?'#F0CC5A':'#FFCDD2')+'">+'+volPunt+'%</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">target 45-60%</div>'
+    +'</div>'
+    +'</div>';
+
+  // BOX BLEND FARINE
+  h += '<div style="background:rgba(76,175,125,0.08);border:2px solid rgba(76,175,125,0.35);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">🌾 Blend farine · '+kg+'kg totale</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5063 Special (60%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg5063+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W260-280 · estensibilità · scioglievolezza</div>'
+    +'</div>'
+    +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Petra 5078 (40%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#D4956A">'+kg5078+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">W350-380 · struttura · alveoli alti</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:10px;color:var(--dim);line-height:1.6">'
+    +'🔬 Blend 60/40: equilibrio P/L ottimale per cornicione pronunciato + scioglievolezza (Suas 2009)<br>'
+    +'🔬 5063 dominante → maglia estensibile → gas si espande facilmente → cornicione vuoto dentro'
+    +'</div>'
+    +'</div>';
+
+  // BOX LICOLI + ACQUA
+  h += '<div style="background:rgba(0,0,0,0.2);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:10px">🌿 Licoli + Sale + Acqua</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(76,175,125,0.1);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Licoli pH 4.0-4.1 ('+licP+'%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#A5D6A7">'+licG+'g</div>'
+    +'<div style="font-size:9px;color:var(--dim);margin-top:2px">→ '+licFar+'g farina + '+licAcq+'g acqua</div>'
+    +'</div>'
+    +'<div style="background:rgba(212,160,62,0.1);border-radius:10px;padding:10px;text-align:center">'
+    +'<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Sale (2.8%)</div>'
+    +'<div style="font-family:DM Mono,monospace;font-weight:900;font-size:28px;color:#F0CC5A">'+sale+'g</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-size:12px;display:flex;flex-direction:column;gap:4px">'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">Acqua totale IDR 67%</span><strong>'+acqTot+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">− Acqua licoli (50%)</span><strong style="color:#FFCDD2">−'+licAcq+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid rgba(76,175,125,0.4);border-bottom:2px solid rgba(76,175,125,0.4);margin:2px 0"><span style="color:#4CAF7D;font-weight:700">= VERSI NELL\'ESMACH</span><strong style="color:#4CAF7D;font-size:15px">'+acqNetta+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:var(--dim)">① Autolisi 75% — <strong style="color:var(--cream)">'+tAcq+'°C</strong></span><strong>'+acqAut+'g</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--dim)">② Bassinage 8°C + '+sale+'g sale</span><strong>'+acqBass+'g</strong></div>'
+    +'</div></div>';
+
+  // TIMELINE
+  h += '<div style="background:rgba(76,175,125,0.06);border:1.5px solid rgba(76,175,125,0.25);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:#4CAF7D;text-transform:uppercase;margin-bottom:10px">⏱️ Timeline · live</div>';
+
+  var nowH = (new Date()).getHours()+(new Date()).getMinutes()/60;
+  [
+    [oraI,       '💧', 'Autolisi 20min',              kg5063+'g 5063 + '+kg5078+'g 5078 · '+acqAut+'g H₂O '+tAcq+'°C · mescola grosso · copri'],
+    [oraI+0.33,  '🌿', 'Inserimento licoli '+licG+'g','pH 4.0-4.1 · incorpora lentamente vel.1'],
+    [oraI+0.58,  '🧂', 'Sale '+sale+'g + bassinage',  acqBass+'g H₂O 8°C · a filo · aspetta incordatura'],
+    [oraFine,    '✅', 'Fine impasto · T 23°C',        'velo trasparente · maglia elastica'],
+    [oraSF1,     '💪', 'S&F × 1',                     'stretch & fold · copri'],
+    [oraSF2,     '💪', 'S&F × 2',                     'stretch & fold · poi lascia in puntata'],
+    [oraStag,    '✂️', 'STAGLIO · '+pan+' palline',   gr+'g cad. · puntata +'+volPunt+'% ✅'],
+    [oraAppretto,'⏳', 'Appretto 3.5h T ambiente',    'copri · non toccare · lascia rilassare'],
+    [oraForno,   '🔥', 'SERVIZIO · forno 450°C+',     '60-90 sec · cornicione che va dentro · scioglievolezza assoluta'],
+  ].forEach(function(s){
+    var min=Math.round((s[0]-nowH)*60);
+    if(min<-720)min+=1440;
+    var dn=min<-5,nx=!dn&&min<=30;
+    h+='<div style="border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid '+(nx?'rgba(76,175,125,0.5)':'rgba(255,255,255,0.06)')+';background:'+(nx?'rgba(76,175,125,0.08)':'rgba(0,0,0,0.08)')+';opacity:'+(dn?'0.4':'1')+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:'+(dn?'#555':nx?'#A5D6A7':'var(--cream)')+'">'+Hv(s[0])+'</div>'
+      +'<div style="font-size:10px;font-weight:600;margin-left:auto;color:'+(dn?'#555':nx?'#A5D6A7':'var(--blue)')+'">'+(dn?'✓':min<=2?'⚡ ADESSO':min<60?'tra '+min+'min':'tra '+Math.floor(min/60)+'h'+(min%60?'+'+min%60+'min':''))+'</div>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:'+(dn?'#555':nx?'var(--cream)':'#A09888')+';margin-bottom:2px">'+s[1]+' '+s[2]+'</div>'
+      +'<div style="font-size:11px;color:'+(dn?'#555':'var(--dim)')+';line-height:1.5">'+s[3]+'</div>'
+      +'</div>';
+  });
+  h += '</div>';
+  out.innerHTML = h;
+}
+
+function loadEsmachPrograms(){
+  try{
+    const s=localStorage.getItem('esmach_programs');
+    return s ? JSON.parse(s) : JSON.parse(JSON.stringify(ESMACH_DEFAULT));
+  }catch(e){ return JSON.parse(JSON.stringify(ESMACH_DEFAULT)); }
+}
+
+function saveEsmachPrograms(progs){
+  localStorage.setItem('esmach_programs', JSON.stringify(progs));
+}
+
+function resetEsmachPrograms(){
+  if(confirm('Ripristinare i valori originali Esmach?')){
+    localStorage.removeItem('esmach_programs');
+    renderEsmachPrograms();
+  }
+}
+
+function renderEsmachPrograms(){
+  var progs = loadEsmachPrograms();
+  var el = document.getElementById('esmach-programs');
+  if(!el) return;
+  var html = '';
+  for(var i=0; i<progs.length; i++){
+    var p = progs[i];
+    var border = p.matteo ? 'rgba(200,151,58,0.4)' : 'var(--border)';
+    var bg = p.matteo ? 'rgba(200,151,58,0.06)' : 'transparent';
+    var matteoTag = p.matteo ? '<span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px">&#9733; MATTEO</span>' : '';
+    html += '<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:'+bg+'">';
+    html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">';
+    html += '<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">'+p.n+'</div>';
+    html += '<div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--cream)">'+p.nome+matteoTag+'</div>';
+    html += '<div style="font-size:11px;color:var(--dim);margin-top:1px">'+p.sub+'</div></div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
+    // Fermentazione
+    html += '<div style="background:var(--bg);border:1px solid '+border+';border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.fH+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="fH"';
+    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--gold)">h</span></div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
+    html += '<input type="number" value="'+p.fT+'" step="0.5" min="15" max="35" data-idx="'+i+'" data-field="fT"';
+    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div></div>';
+    // 1a Fase
+    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1&#170; Fase</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.f1H+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="f1H"';
+    var f1col = p.f1H>0 ? 'var(--gold)' : 'var(--border)';
+    var f1tcol = p.f1H>0 ? 'var(--gold)' : 'var(--dim)';
+    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid '+f1col+';color:'+f1tcol+';font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--dim)">h</span></div>';
+    if(p.f1H > 0){
+      html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
+      html += '<input type="number" value="'+p.f1T+'" step="0.5" min="15" max="30" data-idx="'+i+'" data-field="f1T"';
+      html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
+      html += ' onchange="updateEsmachEl(this)">';
+      html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div>';
+    } else {
+      html += '<div style="font-size:11px;color:var(--dim);margin-top:6px">&#8212;</div>';
+    }
+    html += '</div>';
+    // Conservazione
+    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.cT+'" step="0.5" min="4" max="15" data-idx="'+i+'" data-field="cT"';
+    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--blue)">&#176;C</span></div></div>';
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function updateEsmachEl(input){
+  var idx = parseInt(input.dataset.idx);
+  var field = input.dataset.field;
+  var val = input.value;
+  updateEsmach(idx, field, val);
+}
+
+function updateEsmach(idx, field, val){
+  const progs = loadEsmachPrograms();
+  progs[idx][field] = parseFloat(val)||0;
+  // Se f1H diventa 0, azzera f1T
+  if(field==='f1H' && parseFloat(val)===0) progs[idx].f1T=0;
+  saveEsmachPrograms(progs);
+  renderEsmachPrograms();
+}
+
+function shareLicoli(){
+  try{calcLicoli();}catch(e){}
+  var lines=['🌿 *Pizza Lab — Licoli Madre*',''];
+  var labEl=document.getElementById('lLab');
+  if(labEl&&labEl.value)lines.unshift('📍 *Per: '+labEl.value+'*','');
+  [['lLic','Licoli partenza','g'],['lRF','Rapporto farina','parti'],
+   ['lRA','Rapporto acqua','parti'],['lOra','Ora rinfresco',':00']].forEach(function(c){
+    var el=document.getElementById(c[0]);
+    if(el&&el.value)lines.push('• '+c[1]+': *'+el.value+' '+c[2]+'*');
+  });
+  // Programma: se 7 → mostra "Frigorifero" invece di "7"
+  var progEl=document.getElementById('lProg');
+  if(progEl&&progEl.value){
+    var progVal=parseInt(progEl.value);
+    var progLabel=progVal===7?'❄️ Frigorifero':'P'+progVal+' Esmach';
+    lines.push('• Programma: *'+progLabel+'*');
+  }
+  lines.push('','*Risultati*');
+  var out=document.getElementById('licoliOut');
+  if(out){
+    out.querySelectorAll('.res-row').forEach(function(r){
+      var n=r.querySelector('.res-name'),v=r.querySelector('.res-val');
+      if(n&&v)lines.push('• '+n.textContent.trim()+': *'+v.textContent.trim()+'*');
+    });
+    out.querySelectorAll('.sem').forEach(function(s){lines.push('⚡ '+s.textContent.trim());});
+  }
+  lines.push('','_Matteo La Spada - L Orso Messina_');
+  var txt=lines.join('\n');
+  var url='https://wa.me/?text='+encodeURIComponent(txt);
+  window.open(url,'_blank');
+}
+
+function stampaPDF(pageId,titolo){
+  // 1. Ricalcola tutto — valori JS nel DOM
+  calcAll();
+
+  var pagina=document.getElementById(pageId);
+  if(!pagina)return;
+
+  // 2. Forza apertura card PRIMA di clonare
+  pagina.querySelectorAll('.card').forEach(function(c){c.classList.add('open');});
+  pagina.querySelectorAll('.card-body').forEach(function(cb){
+    cb.style.display='block';
+    cb.style.maxHeight='none';
+    cb.style.overflow='visible';
+  });
+
+  // 3. Clona con tutto il DOM già calcolato e visibile
+  var clone=pagina.cloneNode(true);
+  clone.querySelectorAll(".card-body").forEach(function(cb){cb.setAttribute("style","display:block!important;padding:12px 14px");});
+  clone.querySelectorAll(".btn-share,.btn-pdf,.card-chevron").forEach(function(b){b.remove();});
+
+  // 4. Copia manualmente il contenuto dei div output JS (non clonati correttamente)
+  var outputIds=[
+    'supremaOut','phBigaOut','licoliOut','esmachOut',
+    'scrocchOut','tondaBigaOut','tondaCrocOut','palaSuprOut',
+    'palaScientOut','palaBigaOut','tegliaPFOut','direttoOut','romanaOut'
+  ];
+  outputIds.forEach(function(id){
+    var src=document.getElementById(id);
+    var dst=clone.querySelector('#'+id);
+    if(src && dst) dst.innerHTML=src.innerHTML;
+  });
+
+  // 5. Copia anche div con output generici che potrebbero essersi persi
+  clone.querySelectorAll('[id$="Out"]').forEach(function(dst){
+    var src=document.getElementById(dst.id);
+    if(src && dst && src.innerHTML.trim()) dst.innerHTML=src.innerHTML;
+  });
+
+  var overlay=document.createElement("div");
+  overlay.id="pdf-overlay";
+  overlay.setAttribute("style","position:fixed;inset:0;background:#fff;z-index:99999;overflow-y:auto;-webkit-overflow-scrolling:touch");
+
+  var hdr=document.createElement("div");
+  hdr.setAttribute("style","position:sticky;top:0;background:#fff;border-bottom:2px solid #C8973A;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px");
+  
+  var titSpan=document.createElement("span");
+  titSpan.textContent="Pizza Lab - "+titolo;
+  titSpan.setAttribute("style","font-size:13px;font-weight:700;color:#111;flex:1");
+  
+  var btnS=document.createElement("button");
+  btnS.textContent="Stampa / PDF";
+  btnS.setAttribute("style","background:#C8973A;color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
+  btnS.onclick=function(){window.print();};
+  
+  var btnC=document.createElement("button");
+  btnC.textContent="X Chiudi";
+  btnC.setAttribute("style","background:#eee;color:#333;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit");
+  btnC.onclick=closePdfOverlay;
+
+  hdr.appendChild(titSpan);
+  hdr.appendChild(btnS);
+  hdr.appendChild(btnC);
+
+  var body=document.createElement("div");
+  body.setAttribute("style","padding:16px;max-width:700px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;color:#111");
+  body.innerHTML=clone.innerHTML+"<div style='text-align:center;margin-top:20px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:8px'>Pizza Lab - Matteo La Spada - L Orso Messina</div>";
+
+  var styleEl=document.createElement("style");
+  styleEl.textContent=".card-body{display:block!important;padding:12px 14px}.card-hdr{padding:10px 14px;background:#f5f5f5;display:flex;align-items:center;gap:10px}.card{border:1.5px solid #ddd;border-radius:10px;margin-bottom:12px;overflow:hidden}.page-hero{text-align:center;padding:16px;border-bottom:2px solid #C8973A;margin-bottom:16px}.page-hero-title{font-size:20px;font-weight:800}.page-hero-sub{font-size:11px;color:#666}.inp-group{margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.inp-label{font-size:12px;color:#444;font-weight:600;flex:1}.inp-row{display:flex;align-items:center;gap:4px}.inp-field{border:1px solid #ccc;border-radius:5px;padding:3px 6px;font-size:13px;color:#111;width:65px;text-align:right}.inp-unit{font-size:11px;color:#666}.res-section{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}.res-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#C8973A;font-weight:700;margin-bottom:6px;display:block}.sem{padding:8px 12px;border-radius:7px;font-weight:700;margin-bottom:8px;font-size:13px}.sem.ok{background:#E8F5E9;color:#2E7D32;border-left:4px solid #4CAF50}.sem.warn{background:#FFF8E1;color:#F57F17;border-left:4px solid #FFC107}.sem.bad{background:#FFEBEE;color:#C62828;border-left:4px solid #F44336}.res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px;gap:8px}.res-row-label{color:#444;flex:1}.res-row-val{font-weight:700;color:#111}.res-row-note{font-size:10px;color:#888}.res-row.highlight{background:#FFFDE7;padding:7px;border-radius:5px}.tl-row{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:12px}.tl-time{font-weight:700;color:#C8973A;min-width:55px;font-family:monospace}.tl-label{font-weight:600;color:#111;flex:1}.tl-note{font-size:10px;color:#888}.dist-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #f0f0f0}.sec-div{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8973A;padding:6px 0 3px;font-weight:700}.card-chevron,.btn-share,.btn-pdf{display:none!important}#p7fields{display:none!important}@media print{#pdf-overlay>div:first-child{display:none!important}body>*:not(#pdf-overlay){display:none!important}}";
+
+  overlay.appendChild(styleEl);
+  overlay.appendChild(hdr);
+  overlay.appendChild(body);
+  document.body.appendChild(overlay);
+}
+
+function calcLievitante(hPuntata, T, licP, usaLdb, phBiga, muRef, volTarget, licPH){
+  // licPH = pH del licoli (default 4.0)
+  // Influenza: pH licoli < 3.8 → licoli ipersacro, batteri prevalenti, meno lieviti attivi
+  //            pH licoli 3.8-4.2 → ottimale, equilibrio lieviti/batteri
+  //            pH licoli > 4.3 → licoli giovane, più lieviti ma meno aromi
+  // Fonte: De Vuyst & Neysens 2005, Trends Food Sci Technol
+  if(!licPH) licPH = 4.0;
+  // Fonti: De Vuyst & Neysens 2005 · Gobbetti & Gänzle 2012 · Suas p.42
+  // pH < 5.10 = oltre picco → RIDUCI licoli
+  // pH 5.10-5.45 = ottimale → standard
+  // pH > 5.45 = acerba → aumenta gradualmente
+  var Q10 = 2.2;
+  var muT = muRef * Math.pow(Q10, (T - 22) / 10);
+  var Vtgt = volTarget / 100;
+  var h = Math.max(0.5, hPuntata);
+  var result = { ldbPct:0, ldbG_per_kg:0, bigoliPct:0, bigoliG_per_kg:0, licFin:licP };
+
+  // ── licFin: lookup calibrato ore + pH (Gänzle 2012 + De Vuyst 2005) ──
+  // Principio: puntata lunga = biga recupera da sola = meno licoli
+  //            puntata breve = serve più spinta = più licoli
+  //            biga acerba   = fermentazione lenta = più licoli
+  var hDispLic = hPuntata > 0 ? hPuntata : 4.5;
+
+  // Base in funzione delle ore disponibili
+  var licBase;
+  if(hDispLic >= 5.5)      licBase = licP;       // lunga: nominale
+  else if(hDispLic >= 4.5) licBase = licP + 1;
+  else if(hDispLic >= 3.5) licBase = licP + 2;
+  else if(hDispLic >= 2.5) licBase = licP + 3;
+  else                     licBase = licP + 4;   // urgente
+
+  // Correzione pH biga
+  var corrLicPH = 0;
+  if(phBiga > 0){
+    if(phBiga >= 5.75)      corrLicPH = +3;
+    else if(phBiga >= 5.65) corrLicPH = +2;
+    else if(phBiga >= 5.55) corrLicPH = +1;
+    else if(phBiga >= 5.45) corrLicPH = 0;
+    else if(phBiga < 5.00)  corrLicPH = -2;
+  }
+
+  // Correzione pH licoli (De Vuyst & Neysens 2005)
+  // pH < 3.8 → ipersacro → lieviti inibiti → serve +1-2% per compensare
+  // pH 3.8-4.2 → ottimale → nominale
+  // pH > 4.3 → giovane → lieviti più attivi → -1%
+  var corrLicPHlic = 0;
+  if(licPH < 3.6)       corrLicPHlic = +2;
+  else if(licPH < 3.8)  corrLicPHlic = +1;
+  else if(licPH > 4.4)  corrLicPHlic = -1;
+
+  var licFin = Math.max(licP, Math.min(16, licBase + corrLicPH + corrLicPHlic));
+  result.licFin = licFin;
+
+  if(usaLdb === 0) return result;
+
+  // Con LdB: licoli aumenta meno, LdB compensa
+  var licFin_ldb;
+  if(phBiga < 5.10)       licFin_ldb = Math.max(5, licP - 2);
+  else if(phBiga <= 5.45) licFin_ldb = licP;
+  else if(phBiga <= 5.55) licFin_ldb = Math.min(22, licP + 1);
+  else if(phBiga <= 5.65) licFin_ldb = Math.min(22, licP + 2);
+  else if(phBiga <= 5.75) licFin_ldb = Math.min(22, licP + 3);
+  else                    licFin_ldb = Math.min(22, licP + 4);
+
+  if(usaLdb === 1 || usaLdb === 2){
+    var fPH = phBiga < 5.10 ? 0.3 : phBiga <= 5.45 ? 0.5 : phBiga <= 5.60 ? 0.8 : phBiga <= 5.75 ? 1.0 : 1.2;
+    var k_lic = Math.max(0.2, 1 - licFin_ldb / 25);
+    var ldbRaw = (Math.log(Vtgt + 1) / (muT * h)) * fPH * k_lic;
+    var ldbMin = usaLdb === 2 ? 0.10 : 0.03;
+    var ldbMax = usaLdb === 2 ? 0.80 : 0.25;
+    result.ldbPct = Math.round(Math.min(ldbMax, Math.max(ldbMin, ldbRaw)) * 1000) / 1000;
+    result.licFin = usaLdb === 1 ? Math.round(licFin_ldb) : licP;
+    return result;
+  }
+
+  if(usaLdb === 3 || usaLdb === 4){
+    var fPH_b = phBiga < 5.10 ? 0.3 : phBiga <= 5.45 ? 0.5 : phBiga <= 5.60 ? 0.8 : phBiga <= 5.75 ? 1.0 : 1.2;
+    var k_lic_b = Math.max(0.2, 1 - licFin_ldb / 25);
+    var ldbEquiv = (Math.log(Vtgt + 1) / (muT * h)) * fPH_b * k_lic_b;
+    var bigoliRaw = ldbEquiv * 3;
+    var bigoliMin = usaLdb === 4 ? 0.30 : 0.09;
+    var bigoliMax = usaLdb === 4 ? 2.40 : 0.75;
+    result.bigoliPct = Math.round(Math.min(bigoliMax, Math.max(bigoliMin, bigoliRaw)) * 1000) / 1000;
+    result.licFin = usaLdb === 3 ? Math.round(licFin_ldb) : licP;
+    return result;
+  }
+
+  return result;
+}
+
+function calcAll(){
+  try{calcGN();}catch(e){}
+  try{calcPalline();}catch(e){}
+  try{calcNapoDir();}catch(e){}
+  try{calcDiretto02();}catch(e){}
+  try{calcMotore();}catch(e){}
+  try{calcLicoli();}catch(e){}
+  try{calcSuprema();}catch(e){}
+  try{calcSnl();}catch(e){}
+  try{calcMlsPH();}catch(e){}
+  try{calcMls();}catch(e){}
+  try{calcScrocchCuppone();}catch(e){}
+  try{calcPaneOrsoPool();}catch(e){}
+  try{calcDirettaMls();}catch(e){}
+  try{calcRomanaTonda();}catch(e){}
+  try{calcScrocch();}catch(e){}
+  try{calcTondaBiga50();}catch(e){}
+  try{calcTondaBiga();}catch(e){}
+  try{calcTondaCroc();}catch(e){}
+  try{calcPalaSuprema();}catch(e){}
+  try{calcPalaScient();}catch(e){}
+  try{calcPalaBiga();}catch(e){}
+  try{calcTegliaPF();}catch(e){}
+  try{calcDiretto();}catch(e){}
+  try{calcRomana();}catch(e){}
+  try{calcNapoFrigo();}catch(e){}
+  try{calcPala48h();}catch(e){}
+  try{calcImpastoAdesso();}catch(e){}
+  try{calcPhBiga();}catch(e){}
+  try{calcDDT();}catch(e){}
+}
+
+
 var pageMap={
   mls:'pageMls', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
   scrocchcuppone:'pageScrocchCuppone', licoli:'pageLicoli',
@@ -945,7 +1605,19 @@ function openPage(key){
   if(key==='palamls'){try{calcPalaMls();}catch(e){}}
   if(key==='scrocchcuppone'){try{calcScrocchCuppone();}catch(e){}}
   if(key==='direttomls'){try{calcDirettaMls();}catch(e){}}
-  if(key==='licoli'){try{renderUltimoRinfresco();}catch(e){} try{renderEsmachPrograms();}catch(e){}}
+  if(key==='licoli'){
+    try{renderUltimoRinfresco();}catch(e){}
+    try{renderEsmachPrograms();}catch(e){}
+    try{calcLicoli();}catch(e){}
+    // Assicura che tutte le card siano aperte
+    setTimeout(function(){
+      var cards=['cardLicoliInp','cardLicoliCtrl','cardLicoliOut','cardEsmach'];
+      cards.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el && !el.classList.contains('open')) el.classList.add('open');
+      });
+    },100);
+  }
   if(key==='paneorso'){try{calcPaneOrso();}catch(e){}}
   if(key==='diario'){try{diaryLoad();}catch(e){}}
 }
@@ -1618,227 +2290,11 @@ function calcPaneOrso(){
   out.innerHTML = h;
 }
 
-function calcLicoli(){
-  const lic=G('lLic'),rA=G('lRA'),rF=G('lRF'),prog=G('lProg'),ora=G('lOra');
-  const acqua=R(lic*rA),farina=R(lic*rF),unica=acqua+farina;
-  const tot=lic+acqua+farina,util=R(tot*0.85);
-  // Frigorifero: legge i valori dai campi custom
-  var p7FermH = parseFloat((document.getElementById('p7FermH')||{}).value)||1;
-  var p7FermT = parseFloat((document.getElementById('p7FermT')||{}).value)||23;
-  var p7Fase1H = parseFloat((document.getElementById('p7Fase1H')||{}).value)||1;
-  var p7Fase1T = parseFloat((document.getElementById('p7Fase1T')||{}).value)||18;
-  var p7ConsT = parseFloat((document.getElementById('p7ConsT')||{}).value)||4;
-  var p7DurH = p7FermH + p7Fase1H;
-  var p7Desc = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
 
-  const progDesc={
-    1:{desc:'1h30min 28.5°C → Cons.12°C', durH:1.5},
-    2:{desc:'1h 23°C + 16°C 1h → Cons.12°C', durH:2},
-    3:{desc:'3h 28.5°C + 12°C 12h → Cons.11.5°C', durH:15},
-    4:{desc:'2h30min 26°C → Cons.11.5°C', durH:2.5},
-    5:{desc:'2h 18°C + 16°C 1h → Cons.11.5°C', durH:3},
-    6:{desc:'1h 16°C → Cons.11.5°C', durH:1},
-    7:{desc:p7Desc, durH:p7DurH}
-  };
-  const pd = progDesc[prog] || {desc:'—', durH:2};
-  const oraFine = ((ora + pd.durH) % 24);
-  const H2 = h => { const x=((h%24)+24)%24; return String(Math.floor(x)).padStart(2,'0')+':00'; };
-  const oraPronto = H2(oraFine);
-  const oraLimite = H2(oraFine + 4);
 
-  // pH e ora miscelazione — letti direttamente (no template literal)
-  const elPH = document.getElementById('lPH');
-  const elMisc = document.getElementById('lOraMisc');
-  const ph = elPH ? (parseFloat(elPH.value)||0) : 0;
-  const oraMisc = elMisc ? (elMisc.value||'') : '';
 
-  // Semaforo pH
-  let phRow='', phSemHtml='';
-  if(ph>0){
-    const phNote = ph<3.5?'Troppo acida — over-fermentata, rinfresca subito':
-                   ph<=3.8?'Attiva e acida — ottimale per uso immediato ✅':
-                   ph<=4.2?'Al picco — miscelazione perfetta ✅':
-                   ph<=4.8?'Acerba — aspetta 1-2h prima di miscelarla':
-                   'Inattiva — alza T o cambia rapporto';
-    const phCls = ph>=3.5&&ph<=4.2?'ok':ph<3.5||ph>4.8?'bad':'warn';
-    const phEmj = ph<3.5?'🔴':ph<=4.2?'✅':ph<=4.8?'🟡':'🔴';
-    phRow = row('pH prima del rinfresco',ph+' pH',phNote);
-    phSemHtml = sem(phEmj+' pH '+ph+' — '+phNote, phCls);
-  }
 
-  const miscRow = oraMisc ? row('Ora miscelazione effettiva',oraMisc,'acqua + farina + licoli') : '';
 
-  document.getElementById('licoliOut').innerHTML=
-    '<div style="background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px">'+
-    '<div style="font-size:'+( prog===7?'22':'44')+'px;font-weight:900;font-family:DM Mono,monospace;color:var(--gold);flex-shrink:0">'+(prog===7?'Frigo':'P'+prog)+'</div>'+
-    '<div><div style="font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px">Programma Esmach</div>'+
-    '<div style="font-size:12px;color:var(--dim)">'+pd.desc+'</div>'+
-    '<div style="font-size:11px;color:var(--gold);margin-top:4px">Rinfresco '+H2(ora)+' → Picco '+oraPronto+' → Limite '+oraLimite+'</div></div>'+
-    '</div>'+
-    '<div class="res-section">'+
-    '<div class="res-label">Ricetta Rinfresco 1:'+rA+':'+rF+'</div>'+
-    row('Licoli di partenza',lic+'g','')+
-    row('Acqua ('+rA+' parti)',acqua+'g','')+
-    row('Farina ('+rF+' parti)',farina+'g','')+
-    row('UNICA (acqua+farina)',unica+'g','aggiungi tutto insieme',true)+
-    row('Totale impasto',tot+'g','')+
-    row('Utilizzabile (85%)',util+'g','15% resta per prossimo rinfresco',true)+
-    '</div>'+
-    '<div class="res-section">'+
-    '<div class="res-label">Orari — Rinfresco ore '+H2(ora)+'</div>'+
-    row('Inizio rinfresco',H2(ora),'')+
-    miscRow+
-    row('Fine programma / Picco',oraPronto,'licoli al massimo attività',true)+
-    row('Limite utilizzo',oraLimite,'oltre inizia a calare')+
-    row('Finestra ottimale',oraPronto+' → '+oraLimite,'usa in questa finestra',true)+
-    '</div>'+
-    '<div class="res-section">'+
-    '<div class="res-label">Controllo Madre — pH pre-rinfresco</div>'+
-    phRow+
-    '</div>'+
-    phSemHtml+
-    sem('UNICA = acqua + farina pre-miscelate. NON sommare farina + UNICA separatamente.','info');
-
-  const progDescText={1:'1h30min 28.5°C → Cons.12°C',2:'1h 23°C + 16°C 1h → Cons.12°C',
-    3:'3h 28.5°C + 12°C 12h → Cons.11.5°C',4:'2h30min 26°C → Cons.11.5°C',
-    5:'2h 18°C + 16°C 1h → Cons.11.5°C',6:'1h 16°C → Cons.11.5°C'};
-  const p7DescText = p7FermH+'h '+p7FermT+'°C + '+p7Fase1H+'h '+p7Fase1T+'°C → Frigo '+p7ConsT+'°C';
-  document.getElementById('esmachOut').innerHTML=
-    '<div class="res-section">'+
-    [1,2,3,4,5,6].map(p=>row('P'+p,progDescText[p],p===4?'← consigliato Matteo':'')).join('')+
-    row('Frigorifero',p7DescText,'Programma Frigorifero — parametri liberi')+
-    '</div>';
-
-  // ── MEMORIA ULTIMO RINFRESCO ──
-  try {
-    var labVal = (document.getElementById('lLab')||{}).value || 'L-Orso';
-    const mem = {
-      data: new Date().toLocaleDateString('it-IT'),
-      ora: String(ora).padStart(2,'0')+':00',
-      prog: prog,
-      lic: lic,
-      acqua: acqua,
-      farina: farina,
-      tot: tot,
-      util: util,
-      oraPronto: oraPronto,
-      oraLimite: oraLimite,
-      ph: ph || '—',
-      lab: labVal
-    };
-    localStorage.setItem('licoli_ultimo', JSON.stringify(mem));
-    renderUltimoRinfresco();
-  } catch(e) {}
-}
-
-function renderUltimoRinfresco() {
-  const el = document.getElementById('licoli_memoria');
-  if (!el) return;
-  try {
-    const m = JSON.parse(localStorage.getItem('licoli_ultimo') || 'null');
-    if (!m) { el.style.display = 'none'; return; }
-    el.style.display = 'block';
-    el.innerHTML =
-      '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">💾 Ultimo rinfresco salvato</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
-          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Data · Ora</div>' +
-          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.data + '</div>' +
-          '<div style="font-size:12px;color:var(--gold)">ore ' + m.ora + '</div>' +
-        '</div>' +
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
-          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Programma</div>' +
-          '<div style="font-size:22px;font-weight:900;color:var(--gold);font-family:DM Mono,monospace">P' + m.prog + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">' +
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Licoli</div>' +
-          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.lic + 'g</div>' +
-        '</div>' +
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Totale</div>' +
-          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.tot + 'g</div>' +
-        '</div>' +
-        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
-          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Utilizzabile</div>' +
-          '<div style="font-size:14px;font-weight:600;color:var(--green)">' + m.util + 'g</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center">' +
-        '<div>' +
-          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Finestra ottimale uso</div>' +
-          '<div style="font-size:15px;font-weight:700;color:var(--gold)">' + m.oraPronto + ' → ' + m.oraLimite + '</div>' +
-        '</div>' +
-        '<div style="text-align:right">' +
-          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">pH pre-rinfresco</div>' +
-          '<div style="font-size:15px;font-weight:700;color:var(--cream)">' + m.ph + '</div>' +
-        '</div>' +
-      '</div>';
-  } catch(e) { el.style.display = 'none'; }
-}
-
-function renderEsmachPrograms(){
-  var progs = loadEsmachPrograms();
-  var el = document.getElementById('esmach-programs');
-  if(!el) return;
-  var html = '';
-  for(var i=0; i<progs.length; i++){
-    var p = progs[i];
-    var border = p.matteo ? 'rgba(200,151,58,0.4)' : 'var(--border)';
-    var bg = p.matteo ? 'rgba(200,151,58,0.06)' : 'transparent';
-    var matteoTag = p.matteo ? '<span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px">&#9733; MATTEO</span>' : '';
-    html += '<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:'+bg+'">';
-    html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">';
-    html += '<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">'+p.n+'</div>';
-    html += '<div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--cream)">'+p.nome+matteoTag+'</div>';
-    html += '<div style="font-size:11px;color:var(--dim);margin-top:1px">'+p.sub+'</div></div></div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
-    // Fermentazione
-    html += '<div style="background:var(--bg);border:1px solid '+border+';border-radius:8px;padding:8px;text-align:center">';
-    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>';
-    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
-    html += '<input type="number" value="'+p.fH+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="fH"';
-    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
-    html += ' onchange="updateEsmachEl(this)">';
-    html += '<span style="font-size:11px;color:var(--gold)">h</span></div>';
-    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
-    html += '<input type="number" value="'+p.fT+'" step="0.5" min="15" max="35" data-idx="'+i+'" data-field="fT"';
-    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
-    html += ' onchange="updateEsmachEl(this)">';
-    html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div></div>';
-    // 1a Fase
-    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
-    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1&#170; Fase</div>';
-    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
-    html += '<input type="number" value="'+p.f1H+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="f1H"';
-    var f1col = p.f1H>0 ? 'var(--gold)' : 'var(--border)';
-    var f1tcol = p.f1H>0 ? 'var(--gold)' : 'var(--dim)';
-    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid '+f1col+';color:'+f1tcol+';font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
-    html += ' onchange="updateEsmachEl(this)">';
-    html += '<span style="font-size:11px;color:var(--dim)">h</span></div>';
-    if(p.f1H > 0){
-      html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
-      html += '<input type="number" value="'+p.f1T+'" step="0.5" min="15" max="30" data-idx="'+i+'" data-field="f1T"';
-      html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
-      html += ' onchange="updateEsmachEl(this)">';
-      html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div>';
-    } else {
-      html += '<div style="font-size:11px;color:var(--dim);margin-top:6px">&#8212;</div>';
-    }
-    html += '</div>';
-    // Conservazione
-    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
-    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>';
-    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
-    html += '<input type="number" value="'+p.cT+'" step="0.5" min="4" max="15" data-idx="'+i+'" data-field="cT"';
-    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
-    html += ' onchange="updateEsmachEl(this)">';
-    html += '<span style="font-size:11px;color:var(--blue)">&#176;C</span></div></div>';
-    html += '</div></div>';
-  }
-  el.innerHTML = html;
-}
 
 function buildWaLink(el, pageId, titolo){
   try{calcAll();}catch(e){}
@@ -2042,25 +2498,126 @@ function dist(rows){
   </div>`
 }
 
-function shareLicoli(){
-  var g=function(id){var el=document.getElementById(id);return el?el.value||'-':'-';};
-  var oggi=new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
-  var nl='\n';
-  var txt='Gestione Licoli Madre - Pizza Lab MLS'+nl
-    +'Data: '+oggi+nl+nl
-    +'LICOLI'+nl
-    +'  Licoli madre: '+g('lLic')+'g'+nl
-    +'  Farina rinfresco: '+g('lRF')+'g'+nl
-    +'  Acqua rinfresco: '+g('lRA')+'g'+nl
-    +'  Ora rinfresco: '+g('lOra')+nl+nl
-    +'MISURE'+nl
-    +'  pH: '+g('lPH')+nl
-    +'  T laboratorio: '+g('lLab')+'°C'+nl
-    +'  Ora miscela: '+g('lOraMisc')+nl+nl
-    +'Programma: '+g('lProg')+nl+nl
-    +'Pizza Lab - Matteo La Spada - Gruppo Orso - Messina';
-  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+
+
+
+
+
+
+
+
+
+
+function renderUltimoRinfresco() {
+  const el = document.getElementById('licoli_memoria');
+  if (!el) return;
+  try {
+    const m = JSON.parse(localStorage.getItem('licoli_ultimo') || 'null');
+    if (!m) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML =
+      '<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">💾 Ultimo rinfresco salvato</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Data · Ora</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.data + '</div>' +
+          '<div style="font-size:12px;color:var(--gold)">ore ' + m.ora + '</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:3px">Programma</div>' +
+          '<div style="font-size:22px;font-weight:900;color:var(--gold);font-family:DM Mono,monospace">P' + m.prog + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Licoli</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.lic + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Totale</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--cream)">' + m.tot + 'g</div>' +
+        '</div>' +
+        '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">' +
+          '<div style="font-size:8px;color:var(--dim);margin-bottom:2px">Utilizzabile</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--green)">' + m.util + 'g</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div>' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">Finestra ottimale uso</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--gold)">' + m.oraPronto + ' → ' + m.oraLimite + '</div>' +
+        '</div>' +
+        '<div style="text-align:right">' +
+          '<div style="font-size:9px;color:var(--dim);margin-bottom:2px">pH pre-rinfresco</div>' +
+          '<div style="font-size:15px;font-weight:700;color:var(--cream)">' + m.ph + '</div>' +
+        '</div>' +
+      '</div>';
+  } catch(e) { el.style.display = 'none'; }
 }
+
+function renderEsmachPrograms(){
+  var progs = loadEsmachPrograms();
+  var el = document.getElementById('esmach-programs');
+  if(!el) return;
+  var html = '';
+  for(var i=0; i<progs.length; i++){
+    var p = progs[i];
+    var border = p.matteo ? 'rgba(200,151,58,0.4)' : 'var(--border)';
+    var bg = p.matteo ? 'rgba(200,151,58,0.06)' : 'transparent';
+    var matteoTag = p.matteo ? '<span style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 6px;margin-left:6px">&#9733; MATTEO</span>' : '';
+    html += '<div style="border-bottom:1px solid var(--border);padding:14px 16px;background:'+bg+'">';
+    html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">';
+    html += '<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:14px;font-weight:700;color:#000;flex-shrink:0">'+p.n+'</div>';
+    html += '<div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--cream)">'+p.nome+matteoTag+'</div>';
+    html += '<div style="font-size:11px;color:var(--dim);margin-top:1px">'+p.sub+'</div></div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
+    // Fermentazione
+    html += '<div style="background:var(--bg);border:1px solid '+border+';border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fermentazione</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.fH+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="fH"';
+    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid var(--gold);color:var(--gold);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--gold)">h</span></div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
+    html += '<input type="number" value="'+p.fT+'" step="0.5" min="15" max="35" data-idx="'+i+'" data-field="fT"';
+    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div></div>';
+    // 1a Fase
+    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">1&#170; Fase</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.f1H+'" step="0.5" min="0" max="24" data-idx="'+i+'" data-field="f1H"';
+    var f1col = p.f1H>0 ? 'var(--gold)' : 'var(--border)';
+    var f1tcol = p.f1H>0 ? 'var(--gold)' : 'var(--dim)';
+    html += ' style="width:45px;background:transparent;border:none;border-bottom:1px solid '+f1col+';color:'+f1tcol+';font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--dim)">h</span></div>';
+    if(p.f1H > 0){
+      html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px">';
+      html += '<input type="number" value="'+p.f1T+'" step="0.5" min="15" max="30" data-idx="'+i+'" data-field="f1T"';
+      html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--dim);font-size:11px;text-align:center;font-family:DM Mono,monospace;padding:1px 0"';
+      html += ' onchange="updateEsmachEl(this)">';
+      html += '<span style="font-size:10px;color:var(--dim)">&#176;C</span></div>';
+    } else {
+      html += '<div style="font-size:11px;color:var(--dim);margin-top:6px">&#8212;</div>';
+    }
+    html += '</div>';
+    // Conservazione
+    html += '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center">';
+    html += '<div style="font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Conservazione</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">';
+    html += '<input type="number" value="'+p.cT+'" step="0.5" min="4" max="15" data-idx="'+i+'" data-field="cT"';
+    html += ' style="width:40px;background:transparent;border:none;border-bottom:1px solid var(--blue);color:var(--blue);font-size:13px;font-weight:700;text-align:center;font-family:DM Mono,monospace;padding:2px 0"';
+    html += ' onchange="updateEsmachEl(this)">';
+    html += '<span style="font-size:11px;color:var(--blue)">&#176;C</span></div></div>';
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+
 
 function calcPalaMls(){
   // Blend: 5078 W365 70% + 0102HP W320 30% nel rinfresco
