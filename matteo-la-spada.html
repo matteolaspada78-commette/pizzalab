@@ -3837,6 +3837,8 @@ function calcOrdine(){
   // Napoletana: IDR 68% + sale 2.8% → farina = pesoTot/(1+0.68+0.028)
   var napoFar  = g('oNapoPz') * g('oNapoGr') / (1+0.68+0.028) / 1000;  // kg farina
   var palaFar  = g('oPalaPz') * g('oPalaGr') / (1+0.76+0.028) / 1000;
+  var duomoFar = g('oDuomoPz')* g('oDuomoGr')/ (1+0.76+0.028) / 1000;
+  var teglFar  = g('oTeglPz') * g('oTeglGr') / (1+0.76+0.028) / 1000;
   var scrocFar = g('oScrocPz')* g('oScrocGr')/ (1+0.59+0.027+0.02) / 1000;
   var paneFar  = g('oPanePz') * g('oPaneGr') / (1+0.74+0.025+0.23*0.5) / 1000;
 
@@ -3844,7 +3846,7 @@ function calcOrdine(){
   var farine = {
     '0102hp': {nome:'Petraviva 0102HP W320', kg:12.5, pr:25.23, color:'#EEC84A',  tot: napoFar*0.30},
     '5063':   {nome:'Petra 5063 Special',    kg:12.5, pr:20.98, color:'#A5D6A7',  tot: napoFar*0.70},
-    '5078':   {nome:'Petra 5078 W365',       kg:12.5, pr:27.88, color:'#8BB4E0',  tot: palaFar},
+    '5078':   {nome:'Petra 5078 W365',       kg:12.5, pr:27.88, color:'#8BB4E0',  tot: palaFar+duomoFar+teglFar},
     '5046':   {nome:'Petra 5046 Allegra',    kg:12.5, pr:20.98, color:'#FFB74D',  tot: scrocFar},
     '3hp':    {nome:'Petra 3 HP',            kg:12.5, pr:29.69, color:'#F48FB1',  tot: paneFar*0.40},
     '0103hp': {nome:'Petraviva 0103HP',      kg:10,   pr:44.93, color:'#CE93D8',  tot: paneFar*0.60},
@@ -4495,6 +4497,40 @@ function diarySaveAuto(){
           <div class="irow"><input class="inp" id="oScrocPz" type="number" value="300" min="0" step="10" oninput="calcOrdine()" style="font-size:24px;color:var(--orange2)"><span class="unit">pz</span></div></div>
         <div><label class="inp-label">Grammi / pezzo</label>
           <div class="irow"><input class="inp" id="oScrocGr" type="number" value="220" min="100" max="400" step="10" oninput="calcOrdine()" style="font-size:24px"><span class="unit">g</span></div></div>
+      </div>
+    </div>
+
+    <!-- BASE DUOMO -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:22px">🏛️</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--blue2)">Base Duomo</div>
+          <div style="font-size:10px;color:var(--dim);font-family:var(--mono)">5078 100% · biga 40% · 270g</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="inp-label">Pezzi / sett.</label>
+          <div class="irow"><input class="inp" id="oDuomoPz" type="number" value="0" min="0" step="10" oninput="calcOrdine()" style="font-size:24px;color:var(--blue2)"><span class="unit">pz</span></div></div>
+        <div><label class="inp-label">Grammi / pezzo</label>
+          <div class="irow"><input class="inp" id="oDuomoGr" type="number" value="270" min="100" max="500" step="10" oninput="calcOrdine()" style="font-size:24px"><span class="unit">g</span></div></div>
+      </div>
+    </div>
+
+    <!-- TEGLIA 1100g -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:22px">🫓</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--blue2)">Teglia Grande</div>
+          <div style="font-size:10px;color:var(--dim);font-family:var(--mono)">5078 100% · biga 40% · 1100g</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="inp-label">Teglie / sett.</label>
+          <div class="irow"><input class="inp" id="oTeglPz" type="number" value="0" min="0" step="5" oninput="calcOrdine()" style="font-size:24px;color:var(--blue2)"><span class="unit">pz</span></div></div>
+        <div><label class="inp-label">Grammi / teglia</label>
+          <div class="irow"><input class="inp" id="oTeglGr" type="number" value="1100" min="500" max="2000" step="50" oninput="calcOrdine()" style="font-size:24px"><span class="unit">g</span></div></div>
       </div>
     </div>
 
