@@ -778,8 +778,10 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="mlsKgB" type="number" value="10" min="1" max="50" step="0.5" oninput="calcMls()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
           <div class="inp-group"><label class="inp-label">% Biga</label>
             <div class="inp-row"><input class="inp-field" id="mlsBigaPct" type="number" value="30" min="20" max="50" step="5" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
-          <div class="inp-group"><label class="inp-label">IDR %</label>
+          <div class="inp-group"><label class="inp-label">IDR totale %</label>
             <div class="inp-row"><input class="inp-field" id="mlsIDR" type="number" value="68" min="60" max="75" step="0.5" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">IDR biga %</label>
+            <div class="inp-row"><input class="inp-field" id="mlsIDRBiga" type="number" value="47" min="40" max="52" step="0.5" oninput="calcMls()" style="color:#FFB74D"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
             <div class="inp-row"><input class="inp-field" id="mlsSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
@@ -2230,7 +2232,8 @@ function calcMls(){
 
   var kgTot  = Math.round(kgB/(bigP/100)*1000)/1000;
   var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
-  var acqBiga= r5(kgB*0.47*1000);
+  var idrBiga = parseFloat((document.getElementById('mlsIDRBiga')||{value:47}).value)||47;
+  var acqBiga= r5(kgB*(idrBiga/100)*1000);
   var ldbBiga= R1(kgB*1000*0.25/100);   // LdB 0.25% — pH target 5.275
   var maltoG = R1(kgTot*0.001*1000);    // malto diastasico 0.1%
   var saleG  = r5(kgTot*salP/100*1000);
@@ -2269,7 +2272,7 @@ function calcMls(){
     // BIGA
     +'<div class="res-section"><div class="res-label">🧱 Biga '+bigP+'% · 0102HP W320 · LdB <strong>0.25%</strong> · pH→5.275</div>'
     +row('Petra 0102HP W320',Math.round(kgB*1000)+'g','biga '+bigP+'%')
-    +row('Acqua biga IDR 47%',acqBiga+'g','fredda · mai 45%')
+    +row('Acqua biga IDR '+idrBiga+'%',acqBiga+'g',idrBiga<=45?'⚠️ biga secca · proteolisi lenta':'fredda · mai sotto 44%')
     +row('LdB 0.25%',ldbBiga+'g','pH target 5.275 · Primo 2021',true)
     +'</div>'
 
@@ -2318,7 +2321,7 @@ function calcMls(){
     +'📲 Invia ricetta su WhatsApp</div></a>';
 
   // Salva dati per WA
-  window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,salP:salP,gr:gr,tAmb:tAmb,
+  window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,idrBiga:idrBiga,salP:salP,gr:gr,tAmb:tAmb,
     kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,
     maltoG:maltoG,saleG:saleG,acqEsm:acqEsm,nPan:nPan,Tacq:Tacq};
 }
@@ -2387,7 +2390,7 @@ function mlsWA(){
     +'📅 '+oggi+'\n\n'
     +'🧱 *BIGA '+d.bigP+'% · 0102HP W320*\n'
     +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
-    +'  Acqua IDR 47%: *'+d.acqBiga+'g*\n'
+    +'  Acqua IDR '+d.idrBiga+'%: *'+d.acqBiga+'g*\n'
     +'  LdB 0.25%: *'+d.ldbBiga+'g* ← pH target 5.275\n\n'
     +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'% · 5063 W270*\n'
     +'  Farina: *'+Math.round(d.kgRinf*1000)+'g*\n'
