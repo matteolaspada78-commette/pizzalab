@@ -873,6 +873,16 @@ var BASE_RECIPES = [
     ],
     istruzioni:'RESA: 1 biberon da linea (300g). Xantana allo 0,4% — pesare con bilancino di precisione.\nShelf-life: 3-4 giorni in frigo. Tempo di preparazione: 2 minuti.\n\n1. Nel bricco alto del minipimer versare i due succhi filtrati, il sale, le due scorze grattugiate e la gomma di xantana.\n2. Frullare a immersione per 15 secondi per attivare la xantana.\n3. Versare l\'olio EVO Don Pietro a filo continuando a montare a massima velocità finché la salsa non diventa cremosa, lucida e della stessa consistenza di una maionese.\n4. Versare nel biberon con beccuccio medio e conservare in frigo.\n\nSERVIZIO IN PIZZERIA — Pizza "Un Giorno sulla Feluca"\nAll\'uscita dalla pala, dopo aver posizionato le rose di pesce spada affumicato, fare un drop al centro di ogni rosa. Non colate e non abbondate: il contrasto deve essere pulito e profumato.'
   },
+  { id:177, emoji:'🍅', title:'Salsa Gusta Rosso Finissima — Miele & Bicarbonato (Rational)', tag:'Salse Pomodoro',
+    ingredienti:[
+      {nome:'Salsa Gusta Rosso',qty:1000,unit:'g'},
+      {nome:'Sale fino',qty:6.5,unit:'g'},
+      {nome:'Miele d\'Acacia (bilancina di precisione)',qty:8,unit:'g'},
+      {nome:'Bicarbonato di sodio (bilancina al decimo di grammo!)',qty:1,unit:'g'},
+      {nome:'Basilico fresco',qty:1,unit:'g'}
+    ],
+    istruzioni:'SALSA GUSTA ROSSO FINISSIMA — Versione Miele & Bicarbonato. Cottura lenta al Rational per concentrazione e aromatizzazione senza acidità.\n\nPROCEDIMENTO\n1. Unire tutti gli ingredienti alla salsa Gusta Rosso e mescolare bene.\n2. Versare in teglia GN 1/1 altezza 4 cm.\n3. RATIONAL:\nModalità: Misto (Umidità 60%)\nTemperatura: 145°C\nTempo: 55 MINUTI\n4. Sfornare e raffreddare.\n5. Confezionare in buste sottovuoto e pastorizzare al Rational: Vapore Caldo (Umidità 100%), 85°C, 20 minuti.\n6. Abbattere a +3°C e conservare in cella a +2°C/+4°C.'
+  },
   { id:176, emoji:'🍅', title:'Passata "Effetto Brace" Sottovuoto (Rational)', tag:'Salse Pomodoro',
     ingredienti:[
       {nome:'Passata di pomodoro di qualità',qty:1000,unit:'g'},
@@ -1125,7 +1135,7 @@ if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].in
   editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
   saveToStorage();
 }
-[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176].forEach(function(rid){
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
     editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
