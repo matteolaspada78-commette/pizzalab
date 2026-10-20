@@ -782,6 +782,10 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="mlsIDR" type="number" value="68" min="60" max="75" step="0.5" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">IDR biga %</label>
             <div class="inp-row"><input class="inp-field" id="mlsIDRBiga" type="number" value="47" min="40" max="52" step="0.5" oninput="calcMls()" style="color:#FFB74D"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">LdB biga %</label>
+            <div class="inp-row"><input class="inp-field" id="mlsLdbBiga" type="number" value="0.45" min="0.10" max="1.00" step="0.05" oninput="calcMls()" style="color:#FF8A65"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">LdB rinfresco %</label>
+            <div class="inp-row"><input class="inp-field" id="mlsLdbRinf" type="number" value="0.00" min="0.00" max="0.50" step="0.05" oninput="calcMls()" style="color:#FF8A65"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
             <div class="inp-row"><input class="inp-field" id="mlsSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
@@ -2234,7 +2238,10 @@ function calcMls(){
   var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
   var idrBiga = parseFloat((document.getElementById('mlsIDRBiga')||{value:47}).value)||47;
   var acqBiga= r5(kgB*(idrBiga/100)*1000);
-  var ldbBiga= R1(kgB*1000*0.25/100);   // LdB 0.25% — pH target 5.275
+  var ldbBigaPct = parseFloat((document.getElementById('mlsLdbBiga')||{value:0.45}).value)||0.45;
+  var ldbRinfPct = parseFloat((document.getElementById('mlsLdbRinf')||{value:0}).value)||0;
+  var ldbBiga= R1(kgB*1000*ldbBigaPct/100);
+  var ldbRinfG = R1(kgRinf*1000*ldbRinfPct/100);   // LdB 0.25% — pH target 5.275
   var maltoG = R1(kgTot*0.001*1000);    // malto diastasico 0.1%
   var saleG  = r5(kgTot*salP/100*1000);
   var acqTot = r5(kgTot*idr/100*1000);
@@ -2251,7 +2258,7 @@ function calcMls(){
   var fc_b = kgB*1000*fcG('0102hp');
   var fc_r = kgRinf*1000*fcG('5063');
   var fc_s = saleG*FC.sale;
-  var fc_l = ldbBiga*FC.ldb;
+  var fc_l = (ldbBiga+ldbRinfG)*FC.ldb;
   var fc_tot = fc_b+fc_r+fc_s+fc_l;
   var fc_pan = nPan>0?fc_tot/nPan:0;
 
@@ -2268,12 +2275,19 @@ function calcMls(){
     +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+kgTot.toFixed(2)+'kg</div>'
     +'</div>'
     +fcBox(fc_pan,'Food cost / pallina · farina+LdB+sale')
+    +(function(){
+      var col2 = fc_tot<5?'#A5D6A7':fc_tot<10?'#F0CC5A':'#FFCDD2';
+      return '<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-top:6px;display:flex;align-items:center;justify-content:space-between">'
+        +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">💰 Costo totale produzione · '+nPan+' palline</div>'
+        +'<div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:'+col2+'">€'+fc_tot.toFixed(2)+'</div>'
+        +'</div>';
+    })()
 
     // BIGA
     +'<div class="res-section"><div class="res-label">🧱 Biga '+bigP+'% · 0102HP W320 · LdB <strong>0.25%</strong> · pH→5.275</div>'
     +row('Petra 0102HP W320',Math.round(kgB*1000)+'g','biga '+bigP+'%')
     +row('Acqua biga IDR '+idrBiga+'%',acqBiga+'g',idrBiga<=45?'⚠️ biga secca · proteolisi lenta':'fredda · mai sotto 44%')
-    +row('LdB 0.25%',ldbBiga+'g','pH target 5.275 · Primo 2021',true)
+    +row('LdB biga '+ldbBigaPct+'%',ldbBiga+'g',ldbBigaPct>=0.40?'pH target 5.25-5.30 ✅':'⚠️ potrebbe dare pH alto',true)
     +'</div>'
 
     // RINFRESCO
@@ -2281,7 +2295,7 @@ function calcMls(){
     +row('Petra 5063 W270',Math.round(kgRinf*1000)+'g','puro — massima estensibilità · Dobraszczyk 2003')
     +row('Malto diastasico 0.1%',maltoG+'g','solo nel rinfresco · leopardatura 440°C')
     +row('Sale marino integrale '+salP+'%',saleG+'g','Mg+K → glutine +3-5% G\'')
-    +row('LdB rinfresco 0.30%',Math.round(kgTot*1000*0.30/100*10)/10+'g','LdB impasto · processo 08:30→20:00')
+    +(ldbRinfPct>0?row('LdB rinfresco '+ldbRinfPct+'%',ldbRinfG+'g','Viva Pizza secco × 0.4 = '+(ldbRinfG*0.4).toFixed(1)+'g'):'')
     +row('ESMACH tutto subito',acqEsm+'g','no autolisi · no licoli · T acqua '+Tacq+'°C',true)
     +'</div>'
 
@@ -2323,6 +2337,7 @@ function calcMls(){
   // Salva dati per WA
   window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,idrBiga:idrBiga,salP:salP,gr:gr,tAmb:tAmb,
     kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,
+    ldbBigaPct:ldbBigaPct,ldbRinfPct:ldbRinfPct,ldbRinfG:ldbRinfG,
     maltoG:maltoG,saleG:saleG,acqEsm:acqEsm,nPan:nPan,Tacq:Tacq};
 }
 
@@ -2391,7 +2406,7 @@ function mlsWA(){
     +'🧱 *BIGA '+d.bigP+'% · 0102HP W320*\n'
     +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
     +'  Acqua IDR '+d.idrBiga+'%: *'+d.acqBiga+'g*\n'
-    +'  LdB 0.25%: *'+d.ldbBiga+'g* ← pH target 5.275\n\n'
+    +'  LdB biga '+d.ldbBigaPct+'%: *'+d.ldbBiga+'g*\n\n'
     +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'% · 5063 W270*\n'
     +'  Farina: *'+Math.round(d.kgRinf*1000)+'g*\n'
     +'  Malto diastasico 0.1%: *'+d.maltoG+'g* ← solo nel rinfresco\n'
@@ -2577,6 +2592,7 @@ function calcScrocchCuppone(){
     +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
     +'</div>'
     +fcBox(fc_pan,'Food cost / scrocchiarella · farina+LdB+sale+olio')
+    +(function(){var c=fc_tot<5?'#A5D6A7':fc_tot<15?'#F0CC5A':'#FFCDD2';return '<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-top:6px;display:flex;align-items:center;justify-content:space-between"><div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">💰 Costo totale produzione · '+nPan+' pezzi</div><div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:'+c+'">€'+fc_tot.toFixed(2)+'</div></div>';})()
 
     // RICETTA
     +'<div class="res-section"><div class="res-label">🌾 Impasto · Petra 5046 Allegra W200</div>'
@@ -3981,7 +3997,8 @@ function calcPalaMls(){
     +'<div style="font-family:monospace;font-size:72px;font-weight:500;color:#8BB4E0;line-height:1">'+nTeglie+'</div>'
     +'<div style="font-size:11px;color:#888;margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg</div>'
     +'</div>'
-    +(fc_teg>0?'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;display:flex;justify-content:space-between;margin-bottom:12px"><span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px">💰 Food cost / teglia</span><span style="font-family:monospace;font-size:20px;font-weight:700;color:#F0CC5A">€'+fc_teg.toFixed(3)+'</span></div>':'')
+    +(fc_teg>0?'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px">💰 Food cost / teglia</span><span style="font-family:monospace;font-size:20px;font-weight:700;color:#F0CC5A">€'+fc_teg.toFixed(3)+'</span></div>':''
+    )+(fc_tot>0?'<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;display:flex;justify-content:space-between;margin-bottom:12px"><span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px">💰 Costo totale produzione · '+nTeglie+' teglie</span><span style="font-family:monospace;font-size:20px;font-weight:700;color:#A5D6A7">€'+fc_tot.toFixed(2)+'</span></div>':'')
     +'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:12px;margin-bottom:8px">'
     +'<div style="font-size:9px;color:#8BB4E0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🧱 Biga '+bigP+'% · 5078 W365</div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Petra 5078 W365</span><span style="font-family:monospace;font-weight:700">'+Math.round(kgB*1000)+'g</span></div>'
