@@ -792,6 +792,8 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="mlsGr" type="number" value="260" min="200" max="320" step="10" oninput="calcMls()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
           <div class="inp-group"><label class="inp-label">T laboratorio</label>
             <div class="inp-row"><input class="inp-field" id="mlsTAmb" type="number" value="25" min="15" max="35" oninput="calcMls()"><span class="inp-unit">°C</span></div></div>
+          <div class="inp-group"><label class="inp-label">Acqua inizio % (bassinage)</label>
+            <div class="inp-row"><input class="inp-field" id="mlsBassP" type="number" value="60" min="50" max="100" step="5" oninput="calcMls()" style="color:var(--blue2)"><span class="inp-unit">%</span></div></div>
         </div>
       </div>
     </div>
@@ -908,6 +910,8 @@ select.inp-field{
             <div class="irow"><input class="inp" id="pmTAmb" type="number" value="25" min="15" max="35" oninput="calcPalaMls()"><span class="unit">°C</span></div></div>
           <div><label class="lbl">Grammatura teglia g</label>
             <div class="irow"><input class="inp" id="pmGr" type="number" value="950" min="400" max="1500" step="50" oninput="calcPalaMls()" style="color:#EEC84A"><span class="unit">g</span></div></div>
+          <div><label class="lbl">Acqua inizio % (bassinage)</label>
+            <div class="irow"><input class="inp" id="pmBassP" type="number" value="80" min="50" max="100" step="5" oninput="calcPalaMls()" style="color:var(--blue2)"><span class="unit">%</span></div></div>
         </div>
       </div>
     </div>
@@ -966,6 +970,8 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="scLdb" type="number" value="0.1" min="0.05" max="1" step="0.05" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
             <div class="inp-row"><input class="inp-field" id="scGr" type="number" value="180" min="100" max="350" step="10" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">Acqua inizio % (bassinage)</label>
+            <div class="inp-row"><input class="inp-field" id="scBassP" type="number" value="80" min="50" max="100" step="5" oninput="calcScrocchCuppone()" style="color:var(--blue2)"><span class="inp-unit">%</span></div></div>
         </div>
       </div>
     </div>
@@ -2237,6 +2243,7 @@ function calcMls(){
   var kgTot  = Math.round(kgB/(bigP/100)*1000)/1000;
   var kgRinf = Math.round((kgTot-kgB)*1000)/1000;
   var idrBiga = parseFloat((document.getElementById('mlsIDRBiga')||{value:47}).value)||47;
+  var mlsBassP = parseFloat((document.getElementById('mlsBassP')||{value:60}).value)||60;
   var acqBiga= r5(kgB*(idrBiga/100)*1000);
   var ldbBigaPct = parseFloat((document.getElementById('mlsLdbBiga')||{value:0.45}).value)||0.45;
   var ldbRinfPct = parseFloat((document.getElementById('mlsLdbRinf')||{value:0}).value)||0;
@@ -2245,7 +2252,9 @@ function calcMls(){
   var maltoG = R1(kgTot*0.001*1000);    // malto diastasico 0.1%
   var saleG  = r5(kgTot*salP/100*1000);
   var acqTot = r5(kgTot*idr/100*1000);
-  var acqEsm = acqTot - acqBiga;
+  var acqRinfTotMls = acqTot - acqBiga;
+  var acqInizioMls = Math.round(acqRinfTotMls * mlsBassP/100 / 5)*5;
+  var acqEsm = acqRinfTotMls - acqInizioMls;
   var pesoImp= kgTot*1000 + acqTot + saleG;
   var nPan   = Math.floor(pesoImp/gr);
 
@@ -2296,7 +2305,8 @@ function calcMls(){
     +row('Malto diastasico 0.1%',maltoG+'g','solo nel rinfresco · leopardatura 440°C')
     +row('Sale marino integrale '+salP+'%',saleG+'g','Mg+K → glutine +3-5% G\'')
     +(ldbRinfPct>0?row('LdB rinfresco '+ldbRinfPct+'%',ldbRinfG+'g','Viva Pizza secco × 0.4 = '+(ldbRinfG*0.4).toFixed(1)+'g'):'')
-    +row('ESMACH tutto subito',acqEsm+'g','no autolisi · no licoli · T acqua '+Tacq+'°C',true)
+    +row('Acqua inizio '+mlsBassP+'%',acqInizioMls+'g','T acqua '+Tacq+'°C · con biga+farine')
+    +row('Bassinage a filo '+Math.round(100-mlsBassP)+'%',acqEsm+'g','lentissimo · fine 2ª velocità',true)
     +'</div>'
 
     // T ACQUA
@@ -2554,6 +2564,7 @@ function calcDirettaMls(){
 
 function calcScrocchCuppone(){
   var kgF  = parseFloat((document.getElementById('scKgF')||{value:10}).value)||10;
+  var scBassP = parseFloat((document.getElementById('scBassP')||{value:80}).value)||80;
   var idr  = parseFloat((document.getElementById('scIDR')||{value:59}).value)||59;
   var salP = parseFloat((document.getElementById('scSale')||{value:2.7}).value)||2.7;
   var olP  = parseFloat((document.getElementById('scOlio')||{value:2}).value)||2;
@@ -2565,6 +2576,8 @@ function calcScrocchCuppone(){
   function r5(n){return Math.round(n/5)*5;}
 
   var acqG  = r5(kgF*idr/100*1000);
+  var acqInizioSc = Math.round(acqG * scBassP/100 / 5)*5;
+  var acqBassSc = acqG - acqInizioSc;
   var saleG = r5(kgF*salP/100*1000);
   var olioG = r5(kgF*olP/100*1000);
   var ldbG  = Math.round(kgF*ldbP/100*1000*10)/10;
@@ -2600,6 +2613,8 @@ function calcScrocchCuppone(){
     +row('Acqua IDR '+idr+'%',acqG+'g','fredda · base asciutta')
     +row('Sale '+salP+'%',saleG+'g','')
     +row('Olio EVO '+olP+'%',olioG+'g','shelf life · non toglierlo')
+    +row('Acqua inizio '+scBassP+'%',acqInizioSc+'g','subito con farina+sale+olio')
+    +row('Bassinage a filo '+Math.round(100-scBassP)+'%',acqBassSc+'g','lentissimo · fine impasto')
     +row('LdB '+ldbP+'%',ldbG+'g','Viva Pizza Lesaffre secco · processo breve',true)
     +'</div>'
 
@@ -3977,7 +3992,10 @@ function calcPalaMls(){
   var ldbRinf=Math.round(kgRinf*1000*0.50/100*10)/10;
   var saleG=r5(kgTot*salP/100*1000);
   var acqTot=r5(kgTot*idr/100*1000);
-  var acqEsm=acqTot-acqBiga;
+  var bassP = parseFloat((document.getElementById('pmBassP')||{value:80}).value)||80;
+  var acqRinfTot = acqTot - acqBiga;
+  var acqInizio = Math.round(acqRinfTot * bassP/100 / 5)*5;
+  var acqEsm = acqRinfTot - acqInizio;
   var pesoImp=kgTot*1000+acqTot+saleG;
   var nTeglie=Math.floor(pesoImp/gr);
   var Tacq=Math.round((23.5*3-18-tAmb-9)*10)/10;
@@ -4011,7 +4029,8 @@ function calcPalaMls(){
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:9px"><span style="color:#6A7060;font-size:9px">⚠️ Sotto 100 teglie: 5078 70% + 0102HP 30%</span><span style="color:#6A7060;font-size:9px">W352</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Sale '+salP+'%</span><span style="font-family:monospace;font-weight:700">'+saleG+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">LdB rinfresco 0.50%</span><span style="font-family:monospace;font-weight:700">'+ldbRinf+'g</span></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#ccc;font-size:11px">ESMACH bassinage · T acqua '+Tacq+'°C</span><span style="font-family:monospace;font-weight:700;color:'+tc+'">'+acqEsm+'g</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Acqua inizio ('+bassP+'%) · T acqua '+Tacq+'°C</span><span style="font-family:monospace;font-weight:700;color:'+tc+'">'+acqInizio+'g</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#ccc;font-size:11px">Bassinage a filo ('+Math.round(100-bassP)+'%) · lentissimo</span><span style="font-family:monospace;font-weight:700;color:var(--blue2)">'+acqEsm+'g</span></div>'
     +'</div>'
     +'<div style="background:rgba(13,27,75,0.3);border-radius:10px;padding:12px;font-size:11px;color:#ccc;line-height:2.4">'
     +'<span style="color:#F0CC5A;font-family:monospace">G1 18:00</span> Biga 5078 · LdB 0.60% · 2h T lab → cella 4°C<br>'
