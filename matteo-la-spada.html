@@ -910,6 +910,8 @@ select.inp-field{
             <div class="irow"><input class="inp" id="pmTAmb" type="number" value="25" min="15" max="35" oninput="calcPalaMls()"><span class="unit">°C</span></div></div>
           <div><label class="lbl">Grammatura teglia g</label>
             <div class="irow"><input class="inp" id="pmGr" type="number" value="950" min="400" max="1500" step="50" oninput="calcPalaMls()" style="color:#EEC84A"><span class="unit">g</span></div></div>
+          <div><label class="lbl">Malto diastasico %</label>
+            <div class="irow"><input class="inp" id="pmMalto" type="number" value="0.1" min="0" max="0.5" step="0.05" oninput="calcPalaMls()" style="color:var(--gold2)"><span class="unit">%</span></div></div>
           <div><label class="lbl">Acqua inizio % (bassinage)</label>
             <div class="irow"><input class="inp" id="pmBassP" type="number" value="80" min="50" max="100" step="5" oninput="calcPalaMls()" style="color:var(--blue2)"><span class="unit">%</span></div></div>
         </div>
@@ -3990,6 +3992,8 @@ function calcPalaMls(){
   var acqBiga=r5(kgB*0.47*1000);
   var ldbBiga=Math.round(kgB*1000*0.60/100*10)/10;
   var ldbRinf=Math.round(kgRinf*1000*0.50/100*10)/10;
+  var maltoP=parseFloat((document.getElementById('pmMalto')||{value:0.1}).value)||0.1;
+  var maltoG=Math.round(kgTot*1000*maltoP/100*10)/10;
   var saleG=r5(kgTot*salP/100*1000);
   var acqTot=r5(kgTot*idr/100*1000);
   var bassP = parseFloat((document.getElementById('pmBassP')||{value:80}).value)||80;
@@ -4027,6 +4031,7 @@ function calcPalaMls(){
     +'<div style="font-size:9px;color:#8BB4E0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🌾 Rinfresco '+Math.round(100-bigP)+'% · 5078 W365 PURO · IDR '+idr+'%</div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Petra 5078 W365</span><span style="font-family:monospace;font-weight:700">'+Math.round(kgRinf*1000)+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:9px"><span style="color:#6A7060;font-size:9px">⚠️ Sotto 100 teglie: 5078 70% + 0102HP 30%</span><span style="color:#6A7060;font-size:9px">W352</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Malto diastasico '+maltoP+'%</span><span style="font-family:monospace;font-weight:700;color:var(--gold2)">'+maltoG+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Sale '+salP+'%</span><span style="font-family:monospace;font-weight:700">'+saleG+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">LdB rinfresco 0.50%</span><span style="font-family:monospace;font-weight:700">'+ldbRinf+'g</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="color:#ccc;font-size:11px">Acqua inizio ('+bassP+'%) · T acqua '+Tacq+'°C</span><span style="font-family:monospace;font-weight:700;color:'+tc+'">'+acqInizio+'g</span></div>'
