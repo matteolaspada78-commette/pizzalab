@@ -873,6 +873,28 @@ var BASE_RECIPES = [
     ],
     istruzioni:'RESA: 1 biberon da linea (300g). Xantana allo 0,4% — pesare con bilancino di precisione.\nShelf-life: 3-4 giorni in frigo. Tempo di preparazione: 2 minuti.\n\n1. Nel bricco alto del minipimer versare i due succhi filtrati, il sale, le due scorze grattugiate e la gomma di xantana.\n2. Frullare a immersione per 15 secondi per attivare la xantana.\n3. Versare l\'olio EVO Don Pietro a filo continuando a montare a massima velocità finché la salsa non diventa cremosa, lucida e della stessa consistenza di una maionese.\n4. Versare nel biberon con beccuccio medio e conservare in frigo.\n\nSERVIZIO IN PIZZERIA — Pizza "Un Giorno sulla Feluca"\nAll\'uscita dalla pala, dopo aver posizionato le rose di pesce spada affumicato, fare un drop al centro di ogni rosa. Non colate e non abbondate: il contrasto deve essere pulito e profumato.'
   },
+  { id:180, emoji:'🍅', title:'Datterini Sottovuoto CBT (Rational) — per Pizzeria', tag:'Verdure & Contorni',
+    ingredienti:[
+      {nome:'Datterini freschi interi',qty:1000,unit:'g'},
+      {nome:'Sale fino',qty:8,unit:'g'},
+      {nome:'Olio EVO d\'eccellenza',qty:20,unit:'g'},
+      {nome:'Aglio in camicia',qty:1,unit:'spicchio (opzionale)'},
+      {nome:'Basilico fresco (gambi o foglie intere)',qty:4,unit:'g'}
+    ],
+    istruzioni:'🧪 SOTTOVUOTO — DATTERINI CBT PER PIZZERIA\nCottura a bassa temperatura per mantenere la buccia integra, estrarre i succhi naturali e ottenere un datterino sodo, lucido, concentratissimo.\n\nFASE 1 — PREPARAZIONE\n1. Lavare e asciugare i datterini.\n2. Praticare un piccolo taglio a croce sulla base per evitare che scoppino in cottura, oppure tagliarli a metà per il lungo.\n\nFASE 2 — CONDIMENTO IN BUSTA & SOTTOVUOTO\n1. Inserire i datterini nelle buste da cottura sottovuoto insieme a sale, olio EVO, aglio e basilico.\n2. Sigillare al 99% di vuoto.\n\nFASE 3 — COTTURA CBT AL RATIONAL\nModalità: Vapore (Umidità 100%)\nTemperatura: 68°C\n⚠️ NON salire a 85°C: scioglie la pectina e fa spappolare la buccia.\nTempo: 1 ora e 30 minuti (fino a 2 ore per estrazione massima).\n\nFASE 4 — ABBATTIMENTO & STOCCAGGIO\n1. Sfornare e abbattere immediatamente a +3°C in abbattitore.\n2. Busta sigillata in frigo (+2°C/+4°C): shelf-life 15-20 giorni (etichettare con data produzione).\n3. Busta aperta in linea: 3-4 giorni in bacinella inox coperta.'
+  },
+  { id:179, emoji:'🌿', title:'Salsiccia Tiburzi "Gusto Intenso" — Cottura Matteo La Spada (CBT)', tag:'Carni & Salumi',
+    ingredienti:[
+      {nome:'Salsiccia Tiburzi / macinato base',qty:1000,unit:'g'},
+      {nome:'Lardo stagionato tritato finissimo',qty:100,unit:'g'},
+      {nome:'Vino bianco secco',qty:25,unit:'g'},
+      {nome:'Semi di finocchietto selvatico (leggermente pesti)',qty:5,unit:'g'},
+      {nome:'Pepe nero macinato',qty:2.5,unit:'g'},
+      {nome:'Polvere di porcini essiccati',qty:2,unit:'g'},
+      {nome:'Bicarbonato di sodio (bilancina al decimo di grammo!)',qty:1,unit:'g'}
+    ],
+    istruzioni:'🧪 SOTTOVUOTO — SALSICCIA "GUSTO INTENSO" — COTTURA MATTEO LA SPADA (CBT)\nImpasto arricchito con lardo, finocchietto e porcini. Bicarbonato nel vino per morbidezza e attivazione aromatica. CBT a 72°C per pastorizzazione perfetta e succosità al massimo.\n\nFASE 1 — IMPASTO\n1. In una bacinella unire: salsiccia, lardo tritato finissimo, semi di finocchietto leggermente pesti, pepe nero e polvere di porcini.\n2. Sciogliere il bicarbonato (1 g) nel vino bianco (25 g) e versare nell\'impasto.\n3. Amalgamare bene a mano o in planetaria fino a distribuzione uniforme di grassi e aromi.\n\nFASE 2 — CONFEZIONAMENTO SOTTOVUOTO\n1. Inserire il composto nelle buste da cottura sottovuoto.\n2. Stendere la carne in modo omogeneo, spessore 2-3 cm.\n3. Sigillare al 99% di vuoto.\n\nFASE 3 — COTTURA CBT AL RATIONAL\nModalità: Vapore (Umidità 100%)\nTemperatura: 72°C\nTempo: 45 MINUTI\n\nFASE 4 — ABBATTIMENTO & STOCCAGGIO\n1. Sfornare e abbattere subito a +3°C.\n2. Conservare in cella a +2°C/+4°C.'
+  },
   { id:178, emoji:'🥦', title:'Friarielli Gelo Bonduelle — Rinvenimento & Pastorizzazione Sottovuoto', tag:'Verdure & Contorni',
     ingredienti:[
       {nome:'Friarielli surgelati Bonduelle',qty:1000,unit:'g'},
@@ -1145,7 +1167,7 @@ if(editedRecipes[170] && editedRecipes[170].ingredienti && editedRecipes[170].in
   editedRecipes[170] = JSON.parse(JSON.stringify(BASE_RECIPES.find(function(r){return r.id===170;})));
   saveToStorage();
 }
-[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178].forEach(function(rid){
+[155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180].forEach(function(rid){
   var baseR = BASE_RECIPES.find(function(r){return r.id===rid;});
   if(baseR && !editedRecipes[rid]){
     editedRecipes[rid] = JSON.parse(JSON.stringify(baseR));
