@@ -786,6 +786,10 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="mlsLdbBiga" type="number" value="0.45" min="0.10" max="1.00" step="0.05" oninput="calcMls()" style="color:#FF8A65"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">LdB rinfresco %</label>
             <div class="inp-row"><input class="inp-field" id="mlsLdbRinf" type="number" value="0.00" min="0.00" max="0.50" step="0.05" oninput="calcMls()" style="color:#FF8A65"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">5063 nel rinfresco %</label>
+            <div class="inp-row"><input class="inp-field" id="mls5063P" type="number" value="50" min="0" max="100" step="5" oninput="calcMls()" style="color:#A5D6A7"><span class="unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Petra 3HP nel rinfresco %</label>
+            <div class="inp-row"><input class="inp-field" id="mls3HPP" type="number" value="50" min="0" max="100" step="5" oninput="calcMls()" style="color:#CE93D8"><span class="unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
             <div class="inp-row"><input class="inp-field" id="mlsSale" type="number" value="2.8" min="2" max="3.5" step="0.1" oninput="calcMls()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
@@ -2247,6 +2251,11 @@ function calcMls(){
   var idrBiga = parseFloat((document.getElementById('mlsIDRBiga')||{value:47}).value)||47;
   var mlsBassP = parseFloat((document.getElementById('mlsBassP')||{value:60}).value)||60;
   var acqBiga= r5(kgB*(idrBiga/100)*1000);
+  var p5063 = parseFloat((document.getElementById('mls5063P')||{value:50}).value)||50;
+  var p3HP  = parseFloat((document.getElementById('mls3HPP')||{value:50}).value)||50;
+  var pAlt  = Math.max(0, 100-p5063-p3HP);
+  var W_rinf = Math.round(270*(p5063/100) + 320*(p3HP/100) + 270*(pAlt/100));
+  var PL_rinf = (0.50*(p5063/100) + 0.50*(p3HP/100) + 0.50*(pAlt/100)).toFixed(2);
   var ldbBigaPct = parseFloat((document.getElementById('mlsLdbBiga')||{value:0.45}).value)||0.45;
   var ldbRinfPct = parseFloat((document.getElementById('mlsLdbRinf')||{value:0}).value)||0;
   var ldbBiga= R1(kgB*1000*ldbBigaPct/100);
@@ -2267,7 +2276,9 @@ function calcMls(){
   // Food cost
   updateFCAlias();
   var fc_b = kgB*1000*fcG('0102hp');
-  var fc_r = kgRinf*1000*fcG('5063');
+  var fc_r = kgRinf*1000*(p5063/100)*fcG('5063')
+           + kgRinf*1000*(p3HP/100)*fcG('3hp')
+           + kgRinf*1000*((100-p5063-p3HP)/100)*fcG('5063');
   var fc_s = saleG*FC.sale;
   var fc_l = (ldbBiga+ldbRinfG)*FC.ldb;
   var fc_tot = fc_b+fc_r+fc_s+fc_l;
@@ -2303,7 +2314,9 @@ function calcMls(){
 
     // RINFRESCO
     +'<div class="res-section"><div class="res-label">🌾 Rinfresco '+Math.round(100-bigP)+'% · 5063 W270 · IDR '+idr+'% · P/L 0.52</div>'
-    +row('Petra 5063 W270',Math.round(kgRinf*1000)+'g','puro — massima estensibilità · Dobraszczyk 2003')
+    +(p5063>0?row('5063 W270 ('+p5063+'%)',Math.round(kgRinf*p5063/100*1000)+'g','P/L 0.50 · estensibilità massima'):'')
+    +(p3HP>0?row('Petra 3HP W320 ('+p3HP+'%)',Math.round(kgRinf*p3HP/100*1000)+'g','tipo 1 · aromi · puntinatura intensa'):'')
+    +(p5063+p3HP<100?row('5063 W270 residuo ('+Math.round(100-p5063-p3HP)+'%)',Math.round(kgRinf*(100-p5063-p3HP)/100*1000)+'g',''):'')
     +row('Malto diastasico 0.1%',maltoG+'g','solo nel rinfresco · leopardatura 440°C')
     +row('Sale marino integrale '+salP+'%',saleG+'g','Mg+K → glutine +3-5% G\'')
     +(ldbRinfPct>0?row('LdB rinfresco '+ldbRinfPct+'%',ldbRinfG+'g','Viva Pizza secco × 0.4 = '+(ldbRinfG*0.4).toFixed(1)+'g'):'')
