@@ -955,7 +955,7 @@ select.inp-field{
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#FF8A65,#FFB74D,#FF8A65,transparent)"></div>
     <button class="back-btn" onclick="goHome()">←</button><div class="page-hero-icon">🔥</div>
     <div class="page-hero-title" style="background:linear-gradient(90deg,#FFB74D,#FF8A65);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Scrocchiarella MLS</div>
-    <div class="page-hero-sub">5046 W200 · IDR 59% · Cuppone 200°C · Croccante + Scioglievole</div>
+    <div class="page-hero-sub">5046 W200 · IDR 57% · Cuppone 200°C · Croccante fuori + Morbida dentro</div>
   </div>
   <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
 
@@ -967,15 +967,19 @@ select.inp-field{
           <div class="inp-group"><label class="inp-label">Kg farina</label>
             <div class="inp-row"><input class="inp-field" id="scKgF" type="number" value="10" min="1" max="80" step="0.5" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">kg</span></div></div>
           <div class="inp-group"><label class="inp-label">IDR %</label>
-            <div class="inp-row"><input class="inp-field" id="scIDR" type="number" value="59" min="50" max="65" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="scIDR" type="number" value="57" min="50" max="65" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Sale %</label>
-            <div class="inp-row"><input class="inp-field" id="scSale" type="number" value="2.7" min="1.5" max="3.5" step="0.1" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="scSale" type="number" value="2.5" min="1.5" max="3.5" step="0.1" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">Olio EVO %</label>
             <div class="inp-row"><input class="inp-field" id="scOlio" type="number" value="2" min="0" max="5" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
           <div class="inp-group"><label class="inp-label">LdB %</label>
-            <div class="inp-row"><input class="inp-field" id="scLdb" type="number" value="0.1" min="0.05" max="1" step="0.05" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="scLdb" type="number" value="0.25" min="0.05" max="1" step="0.05" oninput="calcScrocchCuppone()"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Miele % (0 = escluso)</label>
+            <div class="inp-row"><input class="inp-field" id="scMiele" type="number" value="1" min="0" max="2" step="0.25" oninput="calcScrocchCuppone()" style="color:#FFB74D"><span class="inp-unit">%</span></div></div>
+          <div class="inp-group"><label class="inp-label">Prezzo miele €/kg</label>
+            <div class="inp-row"><input class="inp-field" id="scMieleEur" type="number" value="8" min="0" step="0.5" oninput="calcScrocchCuppone()"><span class="inp-unit">€</span></div></div>
           <div class="inp-group"><label class="inp-label">Grammatura g</label>
-            <div class="inp-row"><input class="inp-field" id="scGr" type="number" value="180" min="100" max="350" step="10" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="scGr" type="number" value="200" min="100" max="350" step="10" oninput="calcScrocchCuppone()" style="color:var(--gold2)"><span class="inp-unit">g</span></div></div>
           <div class="inp-group"><label class="inp-label">Acqua inizio % (bassinage)</label>
             <div class="inp-row"><input class="inp-field" id="scBassP" type="number" value="80" min="50" max="100" step="5" oninput="calcScrocchCuppone()" style="color:var(--blue2)"><span class="inp-unit">%</span></div></div>
         </div>
@@ -986,33 +990,33 @@ select.inp-field{
 
     <!-- PARAMETRI CUPPONE -->
     <div style="background:rgba(120,40,0,0.15);border:2px solid rgba(255,138,101,0.4);border-radius:14px;padding:14px">
-      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FF8A65;margin-bottom:14px">🔥 Parametri Cuppone · Certificati dalla fisica</div>
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FF8A65;margin-bottom:14px">🔥 Parametri Cuppone · valori di partenza da verificare sul campo</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOPRA</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FF8A65">160°C</div>
-          <div style="font-size:9px;color:var(--dim)">Cottura graduale · no vetroso</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FF8A65">200°C</div>
+          <div style="font-size:9px;color:var(--dim)">massimo macchina · Maillard</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Piastra SOTTO</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FFB74D">160°C</div>
-          <div style="font-size:9px;color:var(--dim)">Uguale sopra · cottura omogenea</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#FFB74D">195°C</div>
+          <div style="font-size:9px;color:var(--dim)">base uniforme</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Tempo contatto</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#A5D6A7">2-3 sec</div>
-          <div style="font-size:9px;color:var(--dim)">gelatinizzazione completa</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#A5D6A7">3 sec</div>
+          <div style="font-size:9px;color:var(--dim)">1-1.5 sec la lasciava pallida</div>
         </div>
         <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;text-align:center">
           <div style="font-family:DM Mono,monospace;font-size:8px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Spessore uscita</div>
-          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#EEC84A">1.8mm</div>
-          <div style="font-size:9px;color:var(--dim)">180g · Ø30.5cm</div>
+          <div style="font-family:DM Mono,monospace;font-size:28px;font-weight:700;color:#EEC84A">~2.5mm</div>
+          <div style="font-size:9px;color:var(--dim)">200g · Ø30.5cm · stima</div>
         </div>
       </div>
       <div style="font-size:10px;color:var(--cream2);line-height:2;border-top:1px solid rgba(255,138,101,0.2);padding-top:10px">
         <strong style="color:#FF8A65">Regola visiva:</strong> bordi dorati = pronta · centro ancora chiaro = ok<br>
         <strong style="color:#FFCDD2">Tutto dorato uniforme</strong> = 0.5 secondi troppi = troppo secca<br>
-        <span style="color:var(--dim);font-size:9px">Fourier heat conduction · α=1.22×10⁻⁷m²/s · Incropera 2007</span>
+        <span style="color:var(--dim);font-size:9px">Stime da modello semplificato · conferma con la prova: doratura, croccantezza, umidità</span>
       </div>
     </div>
 
@@ -1020,10 +1024,10 @@ select.inp-field{
     <div style="background:rgba(200,100,20,0.08);border:1.5px solid rgba(255,183,77,0.3);border-radius:14px;padding:14px">
       <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFB74D;margin-bottom:12px">📐 Scienza del gradiente · Croccante + Scioglievole</div>
       <div style="font-size:10px;color:var(--cream2);line-height:2">
-        <strong style="color:#FFB74D">IDR 59%</strong> → umidità residua post-cuppone sufficiente per scioglievolezza<br>
+        <strong style="color:#FFB74D">IDR 57%</strong> → meno acqua da far evaporare · interno morbido senza uscire umida<br>
         <strong style="color:#FFB74D">Olio EVO 2%</strong> → impermeabilizza · Maillard uniforme · shelf life +3 giorni<br>
-        <strong style="color:#FFB74D">200°C sopra</strong> → Maillard istantanea · 185°C sotto → base uniforme<br>
-        <strong style="color:#FFB74D">2 secondi</strong> → gelatinizzazione completa · gradiente umidità intatto<br>
+        <strong style="color:#FFB74D">200°C sopra · 195°C sotto</strong> → doratura anche con pallina fredda<br>
+        <strong style="color:#FFB74D">3 secondi</strong> → evapora l'acqua superficiale e poi dora · da affinare ±0.5 sec<br>
         <strong style="color:#FFB74D">Fori rullo</strong> → vapore esce uniformemente · no sfogliatura · no gonfiore<br>
         <strong style="color:#FFB74D">300°C · 90sec</strong> → ripristina croccantezza senza asciugare il centro
       </div>
@@ -1033,15 +1037,15 @@ select.inp-field{
     <div style="background:rgba(120,40,0,0.12);border:1.5px solid rgba(255,138,101,0.3);border-radius:14px;padding:14px">
       <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FF8A65;margin-bottom:12px">📋 Protocollo Scrocchiarella MLS</div>
       <div style="font-size:11px;color:var(--cream2);line-height:2.5">
-        <span style="color:#F0CC5A;font-family:DM Mono,monospace">08:30</span> Fine impasto · 3min 1ª · 5min 2ª · 90sec sale · T uscita <strong style="color:var(--cream)">22-24°C</strong><br>
-        <span style="color:#F0CC5A;font-family:DM Mono,monospace">08:30-09:00</span> 30min T lab · GN senza coperchio<br>
-        <span style="color:#8BB4E0;font-family:DM Mono,monospace">09:00</span> Cella 4°C · coperchio dopo 1h<br>
-        <span style="color:#A5D6A7;font-family:DM Mono,monospace">15:30</span> Staglio <strong style="color:#FFB74D">180g</strong> · palline → cella 4°C immediata<br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace;font-weight:700">16:00</span> <strong style="color:#FF8A65">Palline FREDDE di cella → cuppone 160°C sopra · 160°C sotto</strong><br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace">⭐ PERCHÉ</span> W180 glutine debole · a T lab si appiattisce · fredda = forma perfetta<br>
-        <span style="color:#FF8A65;font-family:DM Mono,monospace">⭐ PERCHÉ</span> Cuppone 200°C scalda in 0.5sec · T pallina non conta niente<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">18:00</span> Impasto (giorno prima) · T uscita <strong style="color:var(--cream)">22-23°C</strong><br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">18:30</span> Staglio <strong style="color:#FFB74D">200g</strong> subito · palline nei cassetti → <strong style="color:#8BB4E0">cella 4°C</strong> (~14h)<br>
+        <span style="color:#F0CC5A;font-family:DM Mono,monospace">LdB</span> <strong style="color:var(--cream)">0.25%</strong> Viva Pizza per il freddo lungo · se resta inerte, alzalo la volta dopo<br>
+        <span style="color:#8BB4E0;font-family:DM Mono,monospace">08:30</span> Fuori dalla cella · <strong style="color:var(--cream)">45-60 min</strong> a T lab<br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace;font-weight:700">09:30</span> <strong style="color:#FF8A65">Cuppone 200°C sopra · 195°C sotto · 3 sec</strong><br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace">🧪 TEST</span> Prima volta a freddo: 2 cassetti · uno fuori 45 min, uno diretto da cella · confronta la doratura<br>
+        <span style="color:#FF8A65;font-family:DM Mono,monospace">⭐ PERCHÉ</span> W180 glutine debole · palline già formate in cella restano compatte<br>
         <span style="color:#FF8A65;font-family:DM Mono,monospace">⚠️ SUBITO</span> Rullo bucasfoglie <strong style="color:#FFCDD2">immediatamente</strong> · ancora calda · fredda = fori chiusi<br>
-        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDDA</span> Griglia singola · <strong style="color:#EEC84A">ventilatore da banco puntato</strong> · 3-4min · poi infilare<br>
+        <span style="color:#A5D6A7;font-family:DM Mono,monospace">RAFFREDDA</span> Griglia singola · abbattitore · <strong style="color:#EEC84A">sigilla solo a pizza fredda al tatto</strong> · sigillata calda = umida<br>
         <span style="color:#8BB4E0;font-family:DM Mono,monospace">ABBATTITORE</span> Obbligatorio · <strong style="color:#8BB4E0">non congelatore diretto</strong> · cristalli piccoli = struttura intatta<br>
         <span style="color:#A5D6A7;font-family:DM Mono,monospace">SHELF LIFE</span> Frigo 4°C <strong style="color:var(--cream)">6 giorni</strong> · Freezer <strong style="color:var(--cream)">30 giorni</strong> · sacchetti ermetici<br>
         <span style="color:#FFB74D;font-family:DM Mono,monospace;font-weight:700">RIGENERA</span> <strong style="color:#FFB74D">300°C · 90 secondi</strong> · condimento SEMPRE dopo · mai prima
@@ -1063,10 +1067,11 @@ select.inp-field{
     <div style="background:rgba(212,80,80,0.08);border:1px solid rgba(212,80,80,0.25);border-radius:12px;padding:12px">
       <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#FFCDD2;margin-bottom:10px">⚠️ Difetti · Diagnosi rapida</div>
       <div style="font-size:11px;color:var(--cream2);line-height:2.3">
-        <strong style="color:#FFCDD2">Secca e dura</strong> → IDR troppo bassa · alza a 59-61%<br>
+        <strong style="color:#FFCDD2">Pallida e umida</strong> → tempo contatto corto o sigillata calda · prova 3.5 sec / raffredda di più<br>
+        <strong style="color:#FFCDD2">Secca e dura</strong> → IDR troppo bassa · prova 58-59%<br>
         <strong style="color:#FFCDD2">Sfogliatura</strong> → T cuppone bassa · sovrapposte ancora calde<br>
         <strong style="color:#FFCDD2">Gonfiore in rigenera</strong> → fori mancanti · rullo fatto da fredda<br>
-        <strong style="color:#FFCDD2">Bordo morbido</strong> → grammatura alta · abbassa a 170-180g<br>
+        <strong style="color:#FFCDD2">Bordo morbido</strong> → grammatura alta · prova 180-190g<br>
         <strong style="color:#FFCDD2">Non croccante dopo 2gg</strong> → sigillata tiepida · umidità residua intrappolata
       </div>
     </div>
@@ -1243,6 +1248,10 @@ select.inp-field{
 
   <!-- OUTPUT -->
   <div id="paneOrsoOut"><div style="color:#7A8A6A;text-align:center;padding:20px;font-size:13px">Imposta numero pezzi → ricetta completa</div></div>
+
+  <div style="padding:0 14px 20px">
+    <button onclick="paneOrsoWA()" class="btn-share" style="width:100%">📲 Invia su WhatsApp</button>
+  </div>
 
   </div>
 </div>
@@ -2584,6 +2593,8 @@ function calcScrocchCuppone(){
   var salP = parseFloat((document.getElementById('scSale')||{value:2.7}).value)||2.7;
   var olP  = parseFloat((document.getElementById('scOlio')||{value:2}).value)||2;
   var ldbP = parseFloat((document.getElementById('scLdb')||{value:0.1}).value)||0.1;
+  var mielP = parseFloat((document.getElementById('scMiele')||{value:0}).value)||0;
+  var mielEur = parseFloat((document.getElementById('scMieleEur')||{value:8}).value)||0;
   var gr   = parseFloat((document.getElementById('scGr')||{value:200}).value)||200;
   var out  = document.getElementById('scOut');
   if(!out) return;
@@ -2596,7 +2607,8 @@ function calcScrocchCuppone(){
   var saleG = r5(kgF*salP/100*1000);
   var olioG = r5(kgF*olP/100*1000);
   var ldbG  = Math.round(kgF*ldbP/100*1000*10)/10;
-  var pesoImp = kgF*1000 + acqG + saleG + olioG;
+  var mielG = Math.round(kgF*1000*mielP/100);
+  var pesoImp = kgF*1000 + acqG + saleG + olioG + mielG;
   var nPan  = Math.floor(pesoImp/gr);
 
   // T acqua DDT 22°C · K=9°C
@@ -2609,7 +2621,8 @@ function calcScrocchCuppone(){
   var fc_sale = saleG * FC.sale;
   var fc_ldb  = ldbG  * FC.ldb;
   var fc_olio = olioG * FC.olio;
-  var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio;
+  var fc_miele = mielG/1000*mielEur;
+  var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio + fc_miele;
   var fc_pan  = nPan>0 ? fc_tot/nPan : 0;
 
   out.innerHTML =
@@ -2630,6 +2643,7 @@ function calcScrocchCuppone(){
     +row('Olio EVO '+olP+'%',olioG+'g','shelf life · non toglierlo')
     +row('Acqua inizio '+scBassP+'%',acqInizioSc+'g','subito con farina+sale+olio')
     +row('Bassinage a filo '+Math.round(100-scBassP)+'%',acqBassSc+'g','lentissimo · fine impasto')
+    +(mielP>0?row('Miele '+mielP+'%',mielG+'g','zuccheri per Maillard · acqua del miele non scalata dall\'IDR'):'')
     +row('LdB '+ldbP+'%',ldbG+'g','Viva Pizza Lesaffre secco · processo breve',true)
     +'</div>'
 
@@ -3987,6 +4001,86 @@ function ordineWA(){
 
   txt+="Pizza Lab · Matteo La Spada · Gruppo Orso · Messina";
   window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
+}
+
+function paneOrsoWA(){
+  var pezzi  = parseFloat((document.getElementById('po_pezzi')||{value:20}).value)||20;
+  var pesoP  = parseFloat((document.getElementById('po_peso')||{value:700}).value)||700;
+  var tAmb   = parseFloat((document.getElementById('po_tAmb')||{value:22}).value)||22;
+  var oraI   = parseFloat((document.getElementById('po_ora')||{value:9}).value)||9;
+  var saleP  = parseFloat((document.getElementById('po_sale')||{value:2.5}).value)||2.5;
+  var idrP   = parseFloat((document.getElementById('po_idr')||{value:74}).value)||74;
+  var autP   = parseFloat((document.getElementById('po_aut')||{value:65}).value)||65;
+  var semiP  = parseFloat((document.getElementById('po_semi')||{value:5}).value)||5;
+  var maisP  = parseFloat((document.getElementById('po_mais')||{value:5}).value)||5;
+
+  var addP   = semiP + maisP;
+  var base0103 = 0.60 * (1 - addP/100);
+  var base3hp  = 0.40 * (1 - addP/100);
+  var FT     = pezzi * pesoP / (1 + idrP/100 + saleP/100 + 0.23*0.5);
+  function R5(n){ return Math.round(n/5)*5; }
+  function R0(n){ return Math.round(n); }
+  var farSemi  = R5(FT * semiP/100);
+  var farMais  = R5(FT * maisP/100);
+  var farBase  = R5(FT) - farSemi - farMais;
+  var far0103  = R5(farBase * 0.60);
+  var far3hp   = farBase - far0103;
+  var farTot   = far0103 + far3hp + farSemi + farMais;
+  var licoli   = R5(farTot * 0.23);
+  var licAcq   = R0(licoli * 0.5);
+  var acqTot   = R5(farTot * idrP/100);
+  var acqEsm   = acqTot - licAcq;
+  var acqAut   = R0(acqEsm * autP/100);
+  var acqBass  = acqEsm - acqAut;
+  var sale     = R5(farTot * saleP/100);
+  var DDT      = 25;
+  var tAcq     = Math.round((DDT*3 - 18 - tAmb - 7.8)*10)/10;
+  function Hh(h){var hh=((Math.floor(h)%24)+24)%24,mm=Math.round((h%1)*60);if(mm>=60){hh=(hh+1)%24;mm=0;}return String(hh).padStart(2,'0')+':'+(mm<10?'0':'')+mm;}
+  var oraFine  = oraI + 1.25;
+  var piega1   = oraFine + 1.0;
+  var piega2   = oraFine + 2.0;
+  var piega3   = oraFine + 3.0;
+  var oraFormA = 14.0;
+
+  var lines = [
+    '🍞 *Pane dell\u2019Orso · Licoli*',
+    '📋 Matteo La Spada — L\u2019Orso Messina',
+    '',
+    '*Forme: ' + pezzi + ' × ' + pesoP + 'g*',
+    '',
+    '🌾 *FARINE*',
+    '• Petraviva 0103HP: *' + far0103 + 'g*',
+    '• Petra 3 HP: *' + far3hp + 'g*',
+    (farSemi>0?'• Semi Bonsemì: *'+farSemi+'g*':''),
+    (farMais>0?'• Ottimais: *'+farMais+'g*':''),
+    '• Farina totale: *' + farTot + 'g*',
+    '',
+    '💧 *ACQUA*',
+    '• Autolisi (' + autP + '%): *' + acqAut + 'g* · T acqua ' + tAcq + '°C',
+    '• Bassinage: *' + acqBass + 'g*',
+    '• Acqua totale: *' + acqTot + 'g* (IDR ' + idrP + '%)',
+    '',
+    '🧫 *LICOLI (23%)*',
+    '• Licoli: *' + licoli + 'g*',
+    '• (Acqua in licoli: ' + licAcq + 'g già inclusa)',
+    '',
+    '🧂 Sale: *' + sale + 'g* (' + saleP + '%)',
+    '',
+    '⏰ *TIMELINE*',
+    Hh(oraI) + ' — Inizio impasto',
+    Hh(oraFine) + ' — Fine impasto · GN a T ambiente',
+    Hh(piega1) + ' — Piega 1',
+    Hh(piega2) + ' — Piega 2',
+    Hh(piega3) + ' — Piega 3',
+    Hh(oraFormA) + ' — Forma · entra in cella 4°C',
+    '07:00 — Forno · diretta dalla cella',
+    '',
+    '_Pizza Lab v2.2 · Sistema Scientifico MLS_'
+  ].filter(function(l){return l!==''||true;});
+
+  var txt = lines.join('\n');
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+  return false;
 }
 
 function calcPalaMls(){
