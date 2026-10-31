@@ -888,6 +888,7 @@ select.inp-field{
       </div>
     </div>
     <div id="dmOut"></div>
+    <div style="margin-top:4px"><button class="btn-share" onclick="dmWA()">📲 Invia ricetta su WhatsApp</button></div>
   </div>
 </div>
 <div id="pagePalaMls" class="page" style="display:none">
@@ -922,6 +923,7 @@ select.inp-field{
       </div>
     </div>
     <div id="pmOut"></div>
+    <div style="margin-top:4px"><button class="btn-share" onclick="palaWA()">📲 Invia ricetta su WhatsApp</button></div>
 
     <div style="background:rgba(13,27,75,0.2);border:1.5px solid rgba(91,155,213,0.35);border-radius:14px;padding:14px">
       <div style="font-family:monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8BB4E0;margin-bottom:14px">📋 Protocollo · Pala Matteo La Spada</div>
@@ -987,6 +989,42 @@ select.inp-field{
     </div>
 
     <div id="scOut"></div>
+    <div style="margin-top:4px"><button class="btn-share" onclick="scWA()">📲 Invia ricetta su WhatsApp</button></div>
+
+    <!-- REGISTRO PROVE CUPPONE -->
+    <div class="card open" id="cardScLog">
+      <div class="card-hdr" onclick="toggleCard('cardScLog')">
+        <span class="card-hdr-icon">⚖️</span>
+        <div class="card-hdr-text"><div class="card-hdr-label">Test sul campo</div><div class="card-hdr-title">Registro prove · peso e perdita</div></div>
+        <span class="card-chevron">▾</span>
+      </div>
+      <div class="card-body" style="padding-top:12px">
+        <div style="font-size:11px;color:var(--dim);margin-bottom:12px;line-height:1.5">Pesa lo stesso pezzo in 4 momenti. La perdita e l'umidità stimata si calcolano da sole. Il numero giusto lo trovi tu, confrontando le prove con l'esito.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="inp-group"><label class="inp-label">Secondi cuppone</label>
+            <div class="inp-row"><input class="inp-field" id="slSec" type="number" value="3" min="0.5" max="10" step="0.5" oninput="scLogCalc()" style="font-size:22px"><span class="inp-unit">s</span></div></div>
+          <div class="inp-group"><label class="inp-label">Passaggi</label>
+            <div class="inp-row"><select class="inp-field" id="slPass" onchange="scLogCalc()" style="font-size:15px"><option value="1 passaggio">1 passaggio</option><option value="2 passaggi">2 passaggi</option></select></div></div>
+          <div class="inp-group"><label class="inp-label">1 · Crudo (g)</label>
+            <div class="inp-row"><input class="inp-field" id="slP0" type="number" step="1" min="0" placeholder="200" oninput="scLogCalc()" style="font-size:22px"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">2 · Dopo cuppone (g)</label>
+            <div class="inp-row"><input class="inp-field" id="slP1" type="number" step="1" min="0" oninput="scLogCalc()" style="font-size:22px"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">3 · Dopo abbattitore (g)</label>
+            <div class="inp-row"><input class="inp-field" id="slP2" type="number" step="1" min="0" oninput="scLogCalc()" style="font-size:22px"><span class="inp-unit">g</span></div></div>
+          <div class="inp-group"><label class="inp-label">4 · Dopo rigenerazione (g)</label>
+            <div class="inp-row"><input class="inp-field" id="slP3" type="number" step="1" min="0" oninput="scLogCalc()" style="font-size:22px"><span class="inp-unit">g</span></div></div>
+        </div>
+        <div id="slCalc" style="margin-top:12px"></div>
+        <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px">
+          <div class="inp-group"><label class="inp-label">Esito</label>
+            <div class="inp-row"><select class="inp-field" id="slEsito" style="font-size:15px"><option>Croccante fuori + morbida dentro</option><option>Cracker (troppo secca)</option><option>Molle / umida</option><option>Pallida</option><option>Bruciata</option></select></div></div>
+          <div class="inp-group"><label class="inp-label">Note (colore, rullo, T pallina...)</label>
+            <div class="inp-row"><input class="inp-field" id="slNote" type="text" style="font-size:14px" placeholder="es. 200g, pallina fuori 45 min"></div></div>
+        </div>
+        <button onclick="scLogSave()" class="btn-share" style="margin-top:12px">💾 Salva prova</button>
+        <div id="slList" style="margin-top:14px"></div>
+      </div>
+    </div>
 
     <!-- PARAMETRI CUPPONE -->
     <div style="background:rgba(120,40,0,0.15);border:2px solid rgba(255,138,101,0.4);border-radius:14px;padding:14px">
@@ -2196,7 +2234,7 @@ function openPage(key){
   if(key==='prezzi'){try{initPrezziPage();}catch(e){} try{calcFC();}catch(e){}}
   if(key==='mls'){try{calcMlsPH();}catch(e){} try{calcMls();}catch(e){}}
   if(key==='palamls'){try{calcPalaMls();}catch(e){}}
-  if(key==='scrocchcuppone'){try{calcScrocchCuppone();}catch(e){}}
+  if(key==='scrocchcuppone'){try{calcScrocchCuppone();}catch(e){} try{scLogCalc();scLogRender();}catch(e){}}
   if(key==='direttomls'){try{calcDirettaMls();}catch(e){}}
   if(key==='licoli'){
     try{renderUltimoRinfresco();}catch(e){}
@@ -2372,6 +2410,7 @@ function calcMls(){
   window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,idrBiga:idrBiga,salP:salP,gr:gr,tAmb:tAmb,
     kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,
     ldbBigaPct:ldbBigaPct,ldbRinfPct:ldbRinfPct,ldbRinfG:ldbRinfG,
+    p5063:p5063,p3HP:p3HP,mlsBassP:mlsBassP,acqInizioMls:acqInizioMls,
     maltoG:maltoG,saleG:saleG,acqEsm:acqEsm,nPan:nPan,Tacq:Tacq};
 }
 
@@ -2431,31 +2470,7 @@ function calcMlsPH(){
   calcMls();
 }
 
-function mlsWA(){
-  var d = window._mlsData;
-  if(!d) return false;
-  var oggi = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
-  var txt = '⭐ *Napoletana · Matteo La Spada 7.0*\n'
-    +'📅 '+oggi+'\n\n'
-    +'🧱 *BIGA '+d.bigP+'% · 0102HP W320*\n'
-    +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
-    +'  Acqua IDR '+d.idrBiga+'%: *'+d.acqBiga+'g*\n'
-    +'  LdB biga '+d.ldbBigaPct+'%: *'+d.ldbBiga+'g*\n\n'
-    +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'% · 5063 W270*\n'
-    +'  Farina: *'+Math.round(d.kgRinf*1000)+'g*\n'
-    +'  Malto diastasico 0.1%: *'+d.maltoG+'g* ← solo nel rinfresco\n'
-    +'  Sale marino integrale 2.8%: *'+d.saleG+'g*\n'
-    +'  ESMACH tutto subito: *'+d.acqEsm+'g*\n\n'
-    +'🌡️ *T acqua: '+d.Tacq+'°C* · T lab '+d.tAmb+'°C\n'
-    +'🍕 *Palline '+d.gr+'g: '+d.nPan+' pezzi*\n\n'
-    +'📦 *GN 1/1: senza coperchio → cella 4°C immediata → +1h coperchio*\n'
-    +'⭐ *APPRETTO: 2h fuori cella prima del servizio*\n'
-    +'  T stesura: 18-20°C · pallina si stende guardandola\n\n'
-    +'🔥 Forno: *440-450°C · 70-80 secondi*\n\n'
-    +'_Napoletana · Matteo La Spada 7.0 · Gruppo Orso · Messina_';
-  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
-  return false;
-}
+
 
 function setGestioneDM(tipo){
   var ldbEl = document.getElementById('dmLdb');
@@ -2527,6 +2542,7 @@ function calcDirettaMls(){
   var ldbSug = tAmb<=20?0.3:tAmb<=23?0.25:tAmb<=26?0.2:0.15;
   var ldbMsg = tAmb<=20?'Inverno · T lab ≤20°C':tAmb<=23?'Primavera · T lab 21-23°C':tAmb<=26?'Estate · T lab 24-26°C':'Estate calda · T lab >26°C';
 
+  window._dmData={kgF:kgF,idr:idr,p63:p63,p02:p02,salP:salP,gr:gr,tAmb:tAmb,ldb:ldb,kg63:kg63,kg02:kg02,acqTot:acqTot,saleG:saleG,ldbG:ldbG,nPan:nPan,Tacq:Tacq,gestione:gestione};
   out.innerHTML =
     // PALLINE
     '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
@@ -2625,6 +2641,7 @@ function calcScrocchCuppone(){
   var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio + fc_miele;
   var fc_pan  = nPan>0 ? fc_tot/nPan : 0;
 
+  window._scData={kgF:kgF,idr:idr,salP:salP,olP:olP,ldbP:ldbP,mielP:mielP,gr:gr,acqG:acqG,scBassP:scBassP,acqInizioSc:acqInizioSc,acqBassSc:acqBassSc,saleG:saleG,olioG:olioG,ldbG:ldbG,mielG:mielG,nPan:nPan,Tacq:Tacq};
   out.innerHTML =
     // PALLINE
     '<div style="background:linear-gradient(135deg,rgba(200,100,20,0.15),rgba(150,60,0,0.08));border:2px solid rgba(255,183,77,0.4);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
@@ -4083,6 +4100,161 @@ function paneOrsoWA(){
   return false;
 }
 
+
+function scLogVals(){
+  var g=function(id){var el=document.getElementById(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?null:v;};
+  return {sec:g('slSec'),pass:(document.getElementById('slPass')||{value:''}).value,
+    p0:g('slP0'),p1:g('slP1'),p2:g('slP2'),p3:g('slP3')};
+}
+function scLogMetrics(v){
+  var out={};
+  var gv=function(id,def){var el=document.getElementById(id);var x=el?parseFloat(el.value):NaN;return isNaN(x)?def:x;};
+  var idr=gv('scIDR',57)/100, sale=gv('scSale',2.5)/100, olio=gv('scOlio',2)/100, miele=gv('scMiele',0)/100;
+  var acquaFarina=0.14; // ipotesi: umidità della farina 14%, da verificare sulla scheda
+  var tot=1+idr+sale+olio+miele;
+  out.umid0=(idr+acquaFarina)/tot; // frazione di acqua nell'impasto crudo
+  if(v.p0&&v.p0>0){
+    var acq0=v.p0*out.umid0;
+    var stage=function(p){return p==null?null:{loss:v.p0-p,pct:(v.p0-p)/v.p0*100,umid:(acq0-(v.p0-p))/p*100};};
+    out.s1=stage(v.p1); out.s2=stage(v.p2); out.s3=stage(v.p3);
+  }
+  return out;
+}
+function scLogCalc(){
+  var el=document.getElementById('slCalc'); if(!el) return;
+  var v=scLogVals();
+  if(!v.p0||v.p0<=0){el.innerHTML='<div style="font-size:11px;color:var(--dim)">Inserisci almeno il peso del pezzo crudo.</div>';return;}
+  var m=scLogMetrics(v);
+  var row=function(lab,s){
+    if(!s) return '';
+    var col=s.loss<0?'#FFCDD2':'var(--cream)';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)">'
+      +'<span style="font-size:12px;color:var(--cream2)">'+lab+'</span>'
+      +'<span style="font-family:DM Mono,monospace;font-size:13px;color:'+col+'">−'+s.loss.toFixed(1)+'g · '+s.pct.toFixed(1)+'% · umid. ~'+s.umid.toFixed(0)+'%</span></div>';
+  };
+  var h='<div style="background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:10px 12px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue2);margin-bottom:6px">Perdita rispetto al crudo ('+v.p0+'g)</div>'
+    +row('Dopo cuppone',m.s1)+row('Dopo abbattitore',m.s2)+row('Dopo rigenerazione',m.s3);
+  if(!m.s1&&!m.s2&&!m.s3) h+='<div style="font-size:11px;color:var(--dim)">Aggiungi gli altri pesi per vedere la perdita.</div>';
+  h+='<div style="font-size:10px;color:var(--dim);margin-top:8px;line-height:1.5">Umidità stimata con farina al 14% di acqua (ipotesi) e IDR della card: è un ordine di grandezza, non una misura.</div></div>';
+  el.innerHTML=h;
+}
+function scLogLoad(){try{return JSON.parse(localStorage.getItem('mls_sc_log')||'[]');}catch(e){return [];}}
+function scLogStore(a){try{localStorage.setItem('mls_sc_log',JSON.stringify(a));}catch(e){}}
+function scLogSave(){
+  var v=scLogVals();
+  if(!v.p0||v.p0<=0){alert('Inserisci almeno il peso del pezzo crudo.');return;}
+  var e={ts:Date.now(),sec:v.sec,pass:v.pass,p0:v.p0,p1:v.p1,p2:v.p2,p3:v.p3,
+    esito:(document.getElementById('slEsito')||{value:''}).value,
+    note:(document.getElementById('slNote')||{value:''}).value};
+  var a=scLogLoad(); a.unshift(e); if(a.length>30) a=a.slice(0,30);
+  scLogStore(a); scLogRender();
+}
+function scLogDel(i){
+  if(!confirm('Eliminare questa prova?')) return;
+  var a=scLogLoad(); a.splice(i,1); scLogStore(a); scLogRender();
+}
+function scLogRender(){
+  var el=document.getElementById('slList'); if(!el) return;
+  var a=scLogLoad();
+  if(!a.length){el.innerHTML='<div style="font-size:11px;color:var(--dim)">Nessuna prova salvata.</div>';return;}
+  var h='<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Prove salvate</div>';
+  a.forEach(function(e,i){
+    var d=new Date(e.ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'})+' '+new Date(e.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+    var pc=function(p){return (p==null||!e.p0)?'—':((e.p0-p)/e.p0*100).toFixed(1)+'%';};
+    h+='<div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:DM Mono,monospace;font-size:10px;color:var(--gold2)">'+d+' · '+(e.sec==null?'?':e.sec)+'s · '+e.pass+'</span>'
+      +'<button onclick="scLogDel('+i+')" style="background:none;border:none;color:var(--dim);font-size:14px;cursor:pointer">🗑</button></div>'
+      +'<div style="font-size:12px;color:var(--cream);margin-top:4px">'+e.esito+'</div>'
+      +'<div style="font-family:DM Mono,monospace;font-size:10px;color:var(--cream2);margin-top:4px">crudo '+e.p0+'g · cuppone −'+pc(e.p1)+' · abbatt. −'+pc(e.p2)+' · rigen. −'+pc(e.p3)+'</div>'
+      +(e.note?'<div style="font-size:11px;color:var(--dim);margin-top:4px">'+e.note.replace(/</g,'&lt;')+'</div>':'')
+      +'</div>';
+  });
+  el.innerHTML=h;
+}
+
+
+function waOpen(txt){ window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank'); }
+function waOggi(){ return new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'}); }
+function mlsWA(){
+  var d = window._mlsData;
+  if(!d) return false;
+  var rinf='';
+  if(d.p5063>0) rinf+='  5063 W270 ('+d.p5063+'%): *'+Math.round(d.kgRinf*d.p5063/100*1000)+'g*\n';
+  if(d.p3HP>0) rinf+='  Petra 3HP W320 ('+d.p3HP+'%): *'+Math.round(d.kgRinf*d.p3HP/100*1000)+'g*\n';
+  var resto=100-d.p5063-d.p3HP;
+  if(resto>0) rinf+='  5063 W270 residuo ('+resto+'%): *'+Math.round(d.kgRinf*resto/100*1000)+'g*\n';
+  var txt='⭐ *Napoletana · Matteo La Spada 7.0*\n'
+    +'📅 '+waOggi()+'\n\n'
+    +'🧱 *BIGA '+d.bigP+'% · 0102HP W320*\n'
+    +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
+    +'  Acqua IDR '+d.idrBiga+'%: *'+d.acqBiga+'g*\n'
+    +'  LdB biga '+d.ldbBigaPct+'%: *'+d.ldbBiga+'g*\n\n'
+    +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'%*\n'
+    +rinf
+    +(d.ldbRinfPct>0?'  LdB rinfresco '+d.ldbRinfPct+'%: *'+d.ldbRinfG+'g*\n':'')
+    +'  Malto diastasico 0.1%: *'+d.maltoG+'g*\n'
+    +'  Sale '+d.salP+'%: *'+d.saleG+'g*\n'
+    +'  Acqua inizio '+d.mlsBassP+'%: *'+d.acqInizioMls+'g*\n'
+    +'  Bassinage a filo '+(100-d.mlsBassP)+'%: *'+d.acqEsm+'g*\n\n'
+    +'🌡️ *T acqua: '+d.Tacq+'°C* · T lab '+d.tAmb+'°C\n'
+    +'🍕 *IDR totale '+d.idr+'% · palline '+d.gr+'g: '+d.nPan+' pezzi*\n\n'
+    +'📦 GN 1/1: senza coperchio → cella 4°C immediata → +1h coperchio\n'
+    +'⭐ Appretto: 2h fuori cella prima del servizio · T stesura 18-20°C\n'
+    +'🔥 Forno: 440-450°C · 70-80 secondi\n\n'
+    +'_Matteo La Spada · Gruppo Orso · Messina_';
+  waOpen(txt);
+  return false;
+}
+function palaWA(){
+  var d=window._pmData; if(!d){try{calcPalaMls();}catch(e){} d=window._pmData;} if(!d) return;
+  var txt='🏆 *Pala · Matteo La Spada*\n📅 '+waOggi()+'\n\n'
+    +'🧱 *BIGA '+d.bigP+'% · 5078 W365*\n'
+    +'  Farina: *'+Math.round(d.kgB*1000)+'g*\n'
+    +'  Acqua IDR 47%: *'+d.acqBiga+'g*\n'
+    +'  LdB biga 0.60%: *'+d.ldbBiga+'g*\n\n'
+    +'🌾 *RINFRESCO '+Math.round(100-d.bigP)+'% · 5078 W365* · IDR totale '+d.idr+'%\n'
+    +'  Farina: *'+Math.round(d.kgRinf*1000)+'g*\n'
+    +'  Malto diastasico '+d.maltoP+'%: *'+d.maltoG+'g*\n'
+    +'  Sale '+d.salP+'%: *'+d.saleG+'g*\n'
+    +'  LdB rinfresco 0.50%: *'+d.ldbRinf+'g*\n'
+    +'  Acqua inizio '+d.bassP+'%: *'+d.acqInizio+'g* · T acqua '+d.Tacq+'°C\n'
+    +'  Bassinage a filo '+Math.round(100-d.bassP)+'%: *'+d.acqEsm+'g*\n\n'
+    +'🍕 *Teglie '+d.gr+'g: '+d.nTeglie+' pezzi*\n\n'
+    +'⏱️ G1 18:00 biga · G2 08:30 rinfresco · teglia 09:00 · cella 4°C · shock termico da cella → forno 280°C platea / 270°C cielo · 12-15 min\n\n'
+    +'_Matteo La Spada · Gruppo Orso · Messina_';
+  waOpen(txt);
+}
+function scWA(){
+  var d=window._scData; if(!d){try{calcScrocchCuppone();}catch(e){} d=window._scData;} if(!d) return;
+  var txt='🔥 *Scrocchiarella MLS · Cuppone*\n📅 '+waOggi()+'\n\n'
+    +'🌾 *5046 Allegra W200* · farina *'+Math.round(d.kgF*1000)+'g*\n'
+    +'  Acqua IDR '+d.idr+'%: *'+d.acqG+'g* (inizio '+d.scBassP+'%: '+d.acqInizioSc+'g · a filo: '+d.acqBassSc+'g)\n'
+    +'  Sale '+d.salP+'%: *'+d.saleG+'g*\n'
+    +'  Olio EVO '+d.olP+'%: *'+d.olioG+'g*\n'
+    +(d.mielP>0?'  Miele '+d.mielP+'%: *'+d.mielG+'g*\n':'')
+    +'  LdB (Viva Pizza secco) '+d.ldbP+'%: *'+d.ldbG+'g*\n\n'
+    +'🍕 *Pezzi '+d.gr+'g: '+d.nPan+'*\n'
+    +'🌡️ T acqua '+d.Tacq+'°C\n\n'
+    +'🔥 Cuppone: 200°C sopra · 195°C sotto · 3 sec · rullo bucasfoglie subito\n'
+    +'❄️ Raffreddamento in abbattitore · sigilla solo a pizza fredda\n\n'
+    +'_Matteo La Spada · Gruppo Orso · Messina_';
+  waOpen(txt);
+}
+function dmWA(){
+  var d=window._dmData; if(!d){try{calcDirettaMls();}catch(e){} d=window._dmData;} if(!d) return;
+  var txt='⚡ *Diretto MLS*\n📅 '+waOggi()+'\n\n'
+    +'🌾 Farina totale *'+Math.round(d.kgF*1000)+'g*\n'
+    +'  5063 W270 ('+d.p63+'%): *'+d.kg63+'g*\n'
+    +'  0102HP W320 ('+d.p02+'%): *'+d.kg02+'g*\n'
+    +'  Acqua IDR '+d.idr+'%: *'+d.acqTot+'g* · T acqua '+d.Tacq+'°C\n'
+    +'  Sale '+d.salP+'%: *'+d.saleG+'g*\n'
+    +'  LdB '+d.ldb+'%: *'+d.ldbG+'g* · gestione '+d.gestione+'\n\n'
+    +'🍕 *Palline '+d.gr+'g: '+d.nPan+' pezzi* · T lab '+d.tAmb+'°C\n\n'
+    +'_Matteo La Spada · Gruppo Orso · Messina_';
+  waOpen(txt);
+}
+
 function calcPalaMls(){
   // Blend: 5078 W365 70% + 0102HP W320 30% nel rinfresco
   // Biga: 5078 W365 100%
@@ -4120,6 +4292,7 @@ function calcPalaMls(){
            + (ldbBiga+ldbRinf)*FC.ldb;
   }catch(e){}
   var fc_teg=nTeglie>0?fc_tot/nTeglie:0;
+  window._pmData={kgB:kgB,bigP:bigP,idr:idr,salP:salP,gr:gr,tAmb:tAmb,kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,ldbRinf:ldbRinf,maltoP:maltoP,maltoG:maltoG,saleG:saleG,bassP:bassP,acqInizio:acqInizio,acqEsm:acqEsm,Tacq:Tacq,nTeglie:nTeglie};
   out.innerHTML=
     '<div style="background:rgba(13,27,75,0.3);border:2px solid rgba(91,155,213,0.5);border-radius:14px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(139,180,224,0.6);margin-bottom:6px">🏆 Teglie da '+gr+'g</div>'
