@@ -16,23 +16,22 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
   position:fixed;inset:0;background:#faf8f3;
   display:flex;flex-direction:column;align-items:center;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px);
+  padding:calc(env(safe-area-inset-top,0px) + 12px) 14px calc(env(safe-area-inset-bottom,0px) + 16px);height:100vh;height:100dvh;inset:auto;top:0;left:0;right:0;bottom:auto;
   z-index:200
 }
 .sp-inner{
   display:flex;flex-direction:column;align-items:center;
   width:100%;max-width:420px;
-  padding:24px 0 16px;
-  min-height:100%;
-  justify-content:center;
+  padding:8px 0 16px;
+  margin:auto 0;
 }
 .sp-logo{font-family:Georgia,serif;font-size:40px;color:#1a1208;line-height:1;margin-bottom:4px;text-align:center}
 .sp-logo em{color:#c8860a;font-style:italic}
-.sp-sub{font-family:monospace;font-size:9px;letter-spacing:3px;color:#8a7a60;text-transform:uppercase;margin-bottom:24px;text-align:center}
+.sp-sub{font-family:monospace;font-size:9px;letter-spacing:3px;color:#8a7a60;text-transform:uppercase;margin-bottom:12px;text-align:center}
 .sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
-.sp-btn{background:#fff;border:2px solid #e8e0d0;border-radius:16px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.sp-btn{background:#fff;border:2px solid #e8e0d0;border-radius:14px;padding:10px 8px;text-align:center;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .sp-btn:active{transform:scale(0.97);background:#fdf8ef}
-.sp-icon{font-size:32px;margin-bottom:6px}
+.sp-icon{font-size:26px;margin-bottom:2px}
 .sp-name{font-weight:700;font-size:13px;color:#1a1208;margin-bottom:2px}
 .sp-desc{font-size:10px;color:#8a7a60;line-height:1.3}
 .sp-badge{font-size:9px;background:#c8860a;color:#fff;border-radius:10px;padding:2px 8px;margin-top:5px;display:inline-block}
@@ -264,7 +263,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
       <div class="hdr-title" style="color:#c8860a">🌾 Farine Petra</div>
     </div>
     <div class="row2">
-      <div class="field"><div class="flabel">Sede</div><input class="finput" id="f-sede" type="text" value="Via Calapso"></div>
+      <div class="field"><div class="flabel">Sede</div><input class="finput" id="f-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div>
       <div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="f-data" type="date"></div>
     </div>
     <div class="consrow"><span class="conslbl" style="color:#c8860a">Consegna:</span><input class="consdate" id="f-cons" type="date" style="color:#c8860a"></div>
@@ -580,7 +579,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 <div class="sez" id="sez-pomodori">
   <div class="hdr">
     <div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#c0392b">🍅 Pomodori</div></div>
-    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="p-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="p-data" type="date" style="color:#c0392b"></div></div>
+    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="p-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="p-data" type="date" style="color:#c0392b"></div></div>
     <div class="consrow"><span class="conslbl" style="color:#c0392b">Consegna:</span><input class="consdate" id="p-cons" type="date" style="color:#c0392b"></div>
   </div>
   <div class="tabs"><button class="tab on" id="pt0" onclick="showPTab(0)" style="color:#c0392b">📦 Ordine</button><button class="tab" id="pt1" onclick="showPTab(1)">🍕 Costo</button><button class="tab" id="pt2" onclick="showPTab(2)">📋 Listino</button><button class="tab" id="pt3" onclick="showPTab(3)">⚙️ Gestione</button></div>
@@ -599,7 +598,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 
 <!-- ══ SEZIONE VERDURE ══ -->
 <div class="sez" id="sez-verdure">
-  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#2e7a4f">🥦 Verdure · Spirito Contadino</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="v-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="v-data" type="date" style="color:#2e7a4f"></div></div><div class="consrow"><span class="conslbl" style="color:#2e7a4f">Consegna:</span><input class="consdate" id="v-cons" type="date" style="color:#2e7a4f"></div></div>
+  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#2e7a4f">🥦 Verdure · Spirito Contadino</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="v-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="v-data" type="date" style="color:#2e7a4f"></div></div><div class="consrow"><span class="conslbl" style="color:#2e7a4f">Consegna:</span><input class="consdate" id="v-cons" type="date" style="color:#2e7a4f"></div></div>
   <div class="tabs"><button class="tab on" id="vt0" onclick="showVTab(0)" style="color:#2e7a4f">📦 Ordine</button><button class="tab" id="vt1" onclick="showVTab(1)">🍕 Costo</button><button class="tab" id="vt2" onclick="showVTab(2)">📋 Listino</button><button class="tab" id="vt3" onclick="showVTab(3)">⚙️ Gestione</button></div>
   <div id="vp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="v-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="v-pr" style="color:#2e7a4f">0</div></div><div class="sumcell"><div class="sumval" id="v-tot" style="font-size:13px;padding-top:4px;color:#2e7a4f">-</div><div class="sumlbl">euro tot</div></div></div><div id="v-listOrd"></div><div class="divid"></div><div class="rbox" id="v-rbox"><div class="rhdr" style="color:#2e7a4f">📋 Riepilogo</div><div id="v-rrows"></div><div class="rfoot"><span>Totale</span><span id="v-rtot" style="color:#2e7a4f">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="v-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
   <div id="vp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Prodotto</div><select class="cpcard" id="vc1" onchange="calcVCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="v-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#2e7a4f">Grammi sulla pizza</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="v-gram" type="number" value="80" min="1" oninput="calcVCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="v-pizze">-</div></div></div></div><div id="v-cpres" style="display:none;background:#eef8f2;border:2px solid #b8dfc9;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="v-cpnum" style="color:#2e7a4f;font-size:38px;font-weight:700;font-family:monospace">-</div><div class="cpsub" id="v-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
@@ -610,7 +609,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 
 <!-- ══ SEZIONE FUNGHI ══ -->
 <div class="sez" id="sez-funghi">
-  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#6d4c41">🍄 Funghi · Scherini</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="g-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="g-data" type="date" style="color:#6d4c41"></div></div><div class="consrow"><span class="conslbl" style="color:#6d4c41">Consegna:</span><input class="consdate" id="g-cons" type="date" style="color:#6d4c41"></div></div>
+  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#6d4c41">🍄 Funghi · Scherini</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="g-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="g-data" type="date" style="color:#6d4c41"></div></div><div class="consrow"><span class="conslbl" style="color:#6d4c41">Consegna:</span><input class="consdate" id="g-cons" type="date" style="color:#6d4c41"></div></div>
   <div class="tabs"><button class="tab on" id="gt0" onclick="showGTab(0)" style="color:#6d4c41">📦 Ordine</button><button class="tab" id="gt1" onclick="showGTab(1)">🍕 Costo</button><button class="tab" id="gt2" onclick="showGTab(2)">📋 Listino</button><button class="tab" id="gt3" onclick="showGTab(3)">⚙️ Gestione</button></div>
   <div id="gp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="g-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="g-pr" style="color:#6d4c41">0</div></div><div class="sumcell"><div class="sumval" id="g-tot" style="font-size:13px;padding-top:4px;color:#6d4c41">-</div><div class="sumlbl">euro tot</div></div></div><div id="g-listOrd"></div><div class="divid"></div><div class="rbox" id="g-rbox"><div class="rhdr" style="color:#6d4c41">📋 Riepilogo</div><div id="g-rrows"></div><div class="rfoot"><span>Totale</span><span id="g-rtot" style="color:#6d4c41">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="g-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
   <div id="gp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Prodotto</div><select class="cpcard" id="gc1" onchange="calcGCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="g-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#6d4c41">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="g-gram" type="number" value="60" min="1" oninput="calcGCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="g-pizze">-</div></div></div></div><div id="g-cpres" style="display:none;background:#efebe9;border:2px solid #bcaaa4;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="g-cpnum" style="color:#6d4c41;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="g-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
@@ -621,7 +620,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 
 <!-- ══ SEZIONE SALUMI ══ -->
 <div class="sez" id="sez-salumi">
-  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#7b1fa2">🥩 Salumi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="s-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="s-data" type="date" style="color:#7b1fa2"></div></div><div class="consrow"><span class="conslbl" style="color:#7b1fa2">Consegna:</span><input class="consdate" id="s-cons" type="date" style="color:#7b1fa2"></div></div>
+  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#7b1fa2">🥩 Salumi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="s-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="s-data" type="date" style="color:#7b1fa2"></div></div><div class="consrow"><span class="conslbl" style="color:#7b1fa2">Consegna:</span><input class="consdate" id="s-cons" type="date" style="color:#7b1fa2"></div></div>
   <div class="tabs"><button class="tab on" id="st0" onclick="showSTab(0)" style="color:#7b1fa2">📦 Ordine</button><button class="tab" id="st1" onclick="showSTab(1)">🍕 Costo</button><button class="tab" id="st2" onclick="showSTab(2)">📋 Listino</button><button class="tab" id="st3" onclick="showSTab(3)">⚙️ Gestione</button></div>
   <div id="sp0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="s-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="s-pr" style="color:#7b1fa2">0</div></div><div class="sumcell"><div class="sumval" id="s-tot" style="font-size:13px;padding-top:4px;color:#7b1fa2">-</div><div class="sumlbl">euro tot</div></div></div><div id="s-listOrd"></div><div class="divid"></div><div class="rbox" id="s-rbox"><div class="rhdr" style="color:#7b1fa2">📋 Riepilogo</div><div id="s-rrows"></div><div class="rfoot"><span>Totale</span><span id="s-rtot" style="color:#7b1fa2">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="s-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
   <div id="sp1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Prodotto</div><select class="cpcard" id="sc1" onchange="calcSCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="s-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#7b1fa2">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="s-gram" type="number" value="50" min="1" oninput="calcSCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="s-pizze">-</div></div></div></div><div id="s-cpres" style="display:none;background:#f3e5f5;border:2px solid #ce93d8;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="s-cpnum" style="color:#7b1fa2;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="s-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
@@ -632,7 +631,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:#faf8f3;color:#1a1
 
 <!-- ══ SEZIONE FORMAGGI ══ -->
 <div class="sez" id="sez-formaggi">
-  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#f57f17">🧀 Formaggi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="fo-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="fo-data" type="date" style="color:#f57f17"></div></div><div class="consrow"><span class="conslbl" style="color:#f57f17">Consegna:</span><input class="consdate" id="fo-cons" type="date" style="color:#f57f17"></div></div>
+  <div class="hdr"><div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#f57f17">🧀 Formaggi · D'Ago</div></div><div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="fo-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="fo-data" type="date" style="color:#f57f17"></div></div><div class="consrow"><span class="conslbl" style="color:#f57f17">Consegna:</span><input class="consdate" id="fo-cons" type="date" style="color:#f57f17"></div></div>
   <div class="tabs"><button class="tab on" id="fot0" onclick="showFoTab(0)" style="color:#f57f17">📦 Ordine</button><button class="tab" id="fot1" onclick="showFoTab(1)">🍕 Costo</button><button class="tab" id="fot2" onclick="showFoTab(2)">📋 Listino</button><button class="tab" id="fot3" onclick="showFoTab(3)">⚙️ Gestione</button></div>
   <div id="fop0"><div class="sumbar"><div class="sumcell"><div class="sumlbl">Pezzi</div><div class="sumval" id="fo-pz">0</div></div><div class="sumcell"><div class="sumlbl">Prodotti</div><div class="sumval" id="fo-pr" style="color:#f57f17">0</div></div><div class="sumcell"><div class="sumval" id="fo-tot" style="font-size:13px;padding-top:4px;color:#f57f17">-</div><div class="sumlbl">euro tot</div></div></div><div id="fo-listOrd"></div><div class="divid"></div><div class="rbox" id="fo-rbox"><div class="rhdr" style="color:#f57f17">📋 Riepilogo</div><div id="fo-rrows"></div><div class="rfoot"><span>Totale</span><span id="fo-rtot" style="color:#f57f17">-</span></div></div><div class="nwrap" style="margin-top:10px"><textarea class="nfield" id="fo-note" placeholder="Note ordine..."></textarea></div><div style="height:10px"></div></div>
   <div id="fop1" style="display:none;padding:12px 16px"><div class="cpcard"><div class="cptitle" style="color:#f57f17">Formaggio</div><select class="cpcard" id="foc1" onchange="calcFoCosto()" style="width:100%;background:#faf8f3;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:13px;color:#1a1208;outline:none;-webkit-appearance:none;font-family:inherit"><option value="-1">-- Seleziona --</option></select><div class="cpval" id="fo-cpInfo">-</div></div><div class="cpcard"><div class="cptitle" style="color:#f57f17">Grammi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Grammi</div><input class="cpval" id="fo-gram" type="number" value="60" min="1" oninput="calcFoCosto()" style="width:100%;border:1.5px solid #e8e0d0;border-radius:8px;padding:10px;font-size:14px;font-family:monospace;outline:none;color:#1a1208;background:#faf8f3"></div><div><div style="font-size:9px;color:#8a7a60;margin-bottom:4px">Pizze/conf.</div><div class="cpval" id="fo-pizze">-</div></div></div></div><div id="fo-cpres" style="display:none;background:#fff8e1;border:2px solid #ffcc02;border-radius:14px;padding:16px;margin-bottom:80px"><div class="cpnum" id="fo-cpnum" style="color:#f57f17;font-size:38px;font-weight:700;font-family:monospace">-</div><div id="fo-cpsub" style="font-size:11px;color:#8a7a60;margin-top:8px;line-height:1.8"></div></div></div>
@@ -705,7 +704,7 @@ var FA=[
 var MALTO_CKG = 88.90 / 12.5; // euro/kg = 7.112 (Giugno 2026, sacco 12.5kg)
 var ENZIMA_CKG = 5.14;         // euro/kg (1kg confezione)
 
-var F_DEF=['hp0102','f5078','f5063','f5046','f5037','petra3hp','hp0103','lievito'];
+var F_DEF=['hp0102','f5078','f5063','f5046','f5037','f6384','petra3hp','hp0103','lievito'];
 var fAtt={},fOrd={};
 
 // ══════════════════════════════════════════════
@@ -723,6 +722,7 @@ function fmtD(v){if(!v)return'-';var p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0
 function fLoad(){
   fAtt=ld('fa_att_v1',{});
   FA.forEach(function(f){if(fAtt[f.id]===undefined)fAtt[f.id]=(F_DEF.indexOf(f.id)>=0);});
+  if(!ld('fa_mig_6384',0)){fAtt['f6384']=true;sv('fa_att_v1',fAtt);sv('fa_mig_6384',1);}
   fOrd=ld('fa_ord_v1',{});
   FA.forEach(function(f){if(fOrd[f.id]===undefined)fOrd[f.id]=0;});
 }
@@ -1284,7 +1284,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hdr-title" style="color:#1a6b9a">🛒 DAC — Dispensa</div>
     </div>
     <div class="row2">
-      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dac-sede" type="text" value="Via Calapso"></div>
+      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dac-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div>
       <div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dac-data" type="date" style="color:#1a6b9a"></div>
     </div>
     <div class="consrow"><span class="conslbl" style="color:#1a6b9a">Consegna:</span><input class="consdate" id="dac-cons" type="date" style="color:#1a6b9a"></div>
@@ -1661,7 +1661,7 @@ function dacWA(){
       <div class="hdr-title" style="color:#8b1a1a">⭐ D'Ago — Eccelsi Cibi</div>
     </div>
     <div class="row2">
-      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-sede" type="text" value="Via Calapso"></div>
+      <div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div>
       <div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-data" type="date" style="color:#8b1a1a"></div>
     </div>
     <div class="consrow"><span class="conslbl" style="color:#8b1a1a">Consegna:</span><input class="consdate" id="dago-cons" type="date" style="color:#8b1a1a"></div>
@@ -2115,7 +2115,7 @@ function dagoWA(){
 <div class="sez" id="sez-dago-salumi">
   <div class="hdr">
     <div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#7b1fa2">🥩 D'Ago Salumi</div></div>
-    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-salumi-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-salumi-data" type="date" style="color:#7b1fa2"></div></div>
+    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-salumi-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-salumi-data" type="date" style="color:#7b1fa2"></div></div>
     <div class="consrow"><span class="conslbl" style="color:#7b1fa2">Consegna:</span><input class="consdate" id="dago-salumi-cons" type="date" style="color:#7b1fa2"></div>
   </div>
   <div class="sumbar">
@@ -2134,7 +2134,7 @@ function dagoWA(){
 <div class="sez" id="sez-dago-olio">
   <div class="hdr">
     <div class="hdr-top"><button class="hdr-back" onclick="goHome()">← Home</button><div class="hdr-title" style="color:#c8860a">🫒 D'Ago Olio & Spezie</div></div>
-    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-olio-sede" type="text" value="Via Calapso"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-olio-data" type="date" style="color:#c8860a"></div></div>
+    <div class="row2"><div class="field"><div class="flabel">Sede</div><input class="finput" id="dago-olio-sede" type="text" value="Lab Scirocco - Via U. Bonino 3"></div><div class="field"><div class="flabel">Data ordine</div><input class="fdate finput" id="dago-olio-data" type="date" style="color:#c8860a"></div></div>
     <div class="consrow"><span class="conslbl" style="color:#c8860a">Consegna:</span><input class="consdate" id="dago-olio-cons" type="date" style="color:#c8860a"></div>
   </div>
   <div class="sumbar">
