@@ -748,8 +748,17 @@ select.inp-field{
       <div class="menu-arrow">›</div>
     </button>
 
+    <button class="menu-btn" onclick="openPage('spedizioni')">
+      <div class="menu-icon" style="background:rgba(77,191,160,0.25)">🚚</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#4DBFA0">Spedizioni Scirocco · Chi riceve cosa</div>
+        <div class="menu-sub">Pezzi per locale e terzi · kg impasto · food cost</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </button>
+
     <div class="sec-label">📔 Diario</div>
-    <button class="menu-btn" onclick="openPage('diario')">">
+    <button class="menu-btn" onclick="openPage('diario')">
       <div class="menu-icon" style="background:rgba(55,71,79,0.4)">📔</div>
       <div class="menu-text">
         <div class="menu-name">Diario di Produzione</div>
@@ -1317,6 +1326,12 @@ select.inp-field{
             <div class="inp-row"><input class="inp-field" id="prSale" type="number" value="0.50" step="0.05" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
           <div class="inp-group"><label class="inp-label">Olio EVO €/lt</label>
             <div class="inp-row"><input class="inp-field" id="prOlio" type="number" value="10.00" step="0.50" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+          <div class="inp-group"><label class="inp-label">Acqua €/m³ (valore provvisorio · metti quello in bolletta)</label>
+            <div class="inp-row"><input class="inp-field" id="prAcqua" type="number" value="2.00" step="0.10" min="0" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+          <div class="inp-group"><label class="inp-label">Malto diastasico €/kg (vuoto = non impostato)</label>
+            <div class="inp-row"><input class="inp-field" id="prMalto" type="number" step="0.10" min="0" placeholder="non impostato" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+          <div class="inp-group"><label class="inp-label">Viva Pizza secco €/kg (vuoto = uso il prezzo del LdB fresco)</label>
+            <div class="inp-row"><input class="inp-field" id="prViva" type="number" step="0.10" min="0" placeholder="non impostato" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
         </div>
       </div>
     </div>
@@ -2216,7 +2231,7 @@ function calcAll(){
 
 
 var pageMap={
-  mls:'pageMls', ordine:'pageOrdine', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
+  mls:'pageMls', ordine:'pageOrdine', spedizioni:'pageSpedizioni', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
   scrocchcuppone:'pageScrocchCuppone', licoli:'pageLicoli',
   paneorso:'pagePaneOrso', prezzi:'pagePrezzi', diario:'pageDiario'
 };
@@ -2252,6 +2267,7 @@ function openPage(key){
   if(key==='paneorso'){try{calcPaneOrso();}catch(e){}}
   if(key==='diario'){try{diaryLoad();}catch(e){}}
   if(key==='ordine'){try{calcOrdine();}catch(e){}}
+  if(key==='spedizioni'){try{calcPaneOrso();}catch(e){} try{spInit();}catch(e){}}
 }
 
 function goHome(){
@@ -2275,8 +2291,8 @@ var FC_DEFAULT = {
   '3hp':    {nome:'Petra 3 HP',            sacco:29.69, kg:12.5},
   '0103hp': {nome:'Petraviva 0103HP',      sacco:44.93, kg:10  },
 };
-var FC_ALT = {ldb:5.00, sale:0.50, olio:10.00};
-var FC={far:{},ldb:0,sale:0,olio:0};
+var FC_ALT = {ldb:5.00, sale:0.50, olio:10.00, acqua:2.00, malto:0, viva:0};
+var FC={far:{},ldb:0,sale:0,olio:0,acqua:0,malto:0,viva:0};
 const R=(n,d=0)=>Math.round(n*10**d)/10**d;
 const H=h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00'};
 const G=(id)=>{const el=document.getElementById(id);return el?parseFloat(el.value)||0:0;};
@@ -2313,7 +2329,7 @@ function calcMls(){
   var acqRinfTotMls = acqTot - acqBiga;
   var acqInizioMls = Math.round(acqRinfTotMls * mlsBassP/100 / 5)*5;
   var acqEsm = acqRinfTotMls - acqInizioMls;
-  var pesoImp= kgTot*1000 + acqTot + saleG;
+  var pesoImp= kgTot*1000 + acqTot + saleG + maltoG + ldbBiga + ldbRinfG;
   var nPan   = Math.floor(pesoImp/gr);
 
   // T acqua DDT 23.5°C · K=9°C · T lab dinamica
@@ -2328,7 +2344,10 @@ function calcMls(){
            + kgRinf*1000*((100-p5063-p3HP)/100)*fcG('5063');
   var fc_s = saleG*FC.sale;
   var fc_l = (ldbBiga+ldbRinfG)*FC.ldb;
-  var fc_tot = fc_b+fc_r+fc_s+fc_l;
+  var fc_a = acqTot*FC.acqua;
+  var fc_m = maltoG*FC.malto;
+  var fc_tot = fc_b+fc_r+fc_s+fc_l+fc_a+fc_m;
+  var fcItems=[{n:'Farine (biga + rinfresco)',c:fc_b+fc_r},{n:'Acqua',c:fc_a},{n:'Sale',c:fc_s},{n:'Lievito di birra',c:fc_l},{n:'Malto diastasico',c:fc_m,miss:maltoG>0&&!(FC.malto>0)}];
   var fc_pan = nPan>0?fc_tot/nPan:0;
 
   // GN semaforo — il peso non è il problema, il coperchio sì
@@ -2341,9 +2360,10 @@ function calcMls(){
     '<div style="background:linear-gradient(135deg,rgba(136,14,79,0.2),rgba(200,151,58,0.1));border:2px solid rgba(200,151,58,0.5);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(238,200,74,0.6);margin-bottom:6px">⭐ Palline da '+gr+'g · Napoletana MLS</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;background:linear-gradient(135deg,#EEC84A,#F0A0A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina tot '+kgTot.toFixed(2)+'kg</div>'
+    +pesoBox(pesoImp,nPan,gr,fc_tot)
+    +fcDetail(fcItems,nPan)
     +'</div>'
-    +fcBox(fc_pan,'Food cost / pallina · farina+LdB+sale')
+    +fcBox(fc_pan,'Food cost / pallina · tutti gli ingredienti')
     +(function(){
       var col2 = fc_tot<5?'#A5D6A7':fc_tot<10?'#F0CC5A':'#FFCDD2';
       return '<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-top:6px;display:flex;align-items:center;justify-content:space-between">'
@@ -2407,7 +2427,7 @@ function calcMls(){
     +'📲 Invia ricetta su WhatsApp</div></a>';
 
   // Salva dati per WA
-  window._mlsData = {kgB:kgB,bigP:bigP,idr:idr,idrBiga:idrBiga,salP:salP,gr:gr,tAmb:tAmb,
+  window._mlsData = {fcPan:fc_pan,pesoImp:pesoImp,kgB:kgB,bigP:bigP,idr:idr,idrBiga:idrBiga,salP:salP,gr:gr,tAmb:tAmb,
     kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,
     ldbBigaPct:ldbBigaPct,ldbRinfPct:ldbRinfPct,ldbRinfG:ldbRinfG,
     p5063:p5063,p3HP:p3HP,mlsBassP:mlsBassP,acqInizioMls:acqInizioMls,
@@ -2518,7 +2538,7 @@ function calcDirettaMls(){
   var acqTot = r5(kgF*idr/100*1000);
   var saleG  = r5(kgF*salP/100*1000);
   var ldbG   = R1(kgF*ldb/100*1000);
-  var pesoImp= kgF*1000 + acqTot + saleG;
+  var pesoImp= kgF*1000 + acqTot + saleG + ldbG;
   var nPan   = Math.floor(pesoImp/gr);
 
   // FOOD COST Diretta MLS
@@ -2526,7 +2546,9 @@ function calcDirettaMls(){
   var fc_dm_02   = kg02 * FC.far['0102hp'];
   var fc_dm_sale = saleG * FC.sale;
   var fc_dm_ldb  = ldbG  * FC.ldb;
-  var fc_dm_tot  = fc_dm_63 + fc_dm_02 + fc_dm_sale + fc_dm_ldb;
+  var fc_dm_acq  = acqTot * FC.acqua;
+  var fc_dm_tot  = fc_dm_63 + fc_dm_02 + fc_dm_sale + fc_dm_ldb + fc_dm_acq;
+  var fcItems=[{n:'Farine',c:fc_dm_63+fc_dm_02},{n:'Acqua',c:fc_dm_acq},{n:'Sale',c:fc_dm_sale},{n:'Lievito di birra',c:fc_dm_ldb}];
   var fc_dm_pan  = nPan>0 ? fc_dm_tot/nPan : 0;
 
   // T acqua DDT 23°C K=9°C
@@ -2542,15 +2564,16 @@ function calcDirettaMls(){
   var ldbSug = tAmb<=20?0.3:tAmb<=23?0.25:tAmb<=26?0.2:0.15;
   var ldbMsg = tAmb<=20?'Inverno · T lab ≤20°C':tAmb<=23?'Primavera · T lab 21-23°C':tAmb<=26?'Estate · T lab 24-26°C':'Estate calda · T lab >26°C';
 
-  window._dmData={kgF:kgF,idr:idr,p63:p63,p02:p02,salP:salP,gr:gr,tAmb:tAmb,ldb:ldb,kg63:kg63,kg02:kg02,acqTot:acqTot,saleG:saleG,ldbG:ldbG,nPan:nPan,Tacq:Tacq,gestione:gestione};
+  window._dmData={fcPan:fc_dm_pan,pesoImp:pesoImp,kgF:kgF,idr:idr,p63:p63,p02:p02,salP:salP,gr:gr,tAmb:tAmb,ldb:ldb,kg63:kg63,kg02:kg02,acqTot:acqTot,saleG:saleG,ldbG:ldbG,nPan:nPan,Tacq:Tacq,gestione:gestione};
   out.innerHTML =
     // PALLINE
     '<div style="background:linear-gradient(135deg,rgba(229,57,53,0.12),rgba(180,20,20,0.06));border:2px solid rgba(240,160,160,0.45);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,160,160,0.6);margin-bottom:6px">🍕 Palline da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#F0A0A0;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +pesoBox(pesoImp,nPan,gr,fc_dm_tot)
+    +fcDetail(fcItems,nPan)
     +'</div>'
-    +fcBox(fc_dm_pan,'Food cost / pallina · farina+LdB+sale')
+    +fcBox(fc_dm_pan,'Food cost / pallina · tutti gli ingredienti')
 
     // BLEND
     +'<div class="res-section"><div class="res-label">🌾 Blend W'+W_blend+' · IDR max '+idr_max+'%</div>'
@@ -2624,7 +2647,7 @@ function calcScrocchCuppone(){
   var olioG = r5(kgF*olP/100*1000);
   var ldbG  = Math.round(kgF*ldbP/100*1000*10)/10;
   var mielG = Math.round(kgF*1000*mielP/100);
-  var pesoImp = kgF*1000 + acqG + saleG + olioG + mielG;
+  var pesoImp = kgF*1000 + acqG + saleG + olioG + mielG + ldbG;
   var nPan  = Math.floor(pesoImp/gr);
 
   // T acqua DDT 22°C · K=9°C
@@ -2635,21 +2658,25 @@ function calcScrocchCuppone(){
   updateFCAlias();
   var fc_far  = kgF*1000 * fcG('5046');
   var fc_sale = saleG * FC.sale;
-  var fc_ldb  = ldbG  * FC.ldb;
+  var vivaOk = FC.viva>0;
+  var fc_ldb  = ldbG  * (vivaOk ? FC.viva : FC.ldb);
   var fc_olio = olioG * FC.olio;
   var fc_miele = mielG/1000*mielEur;
-  var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio + fc_miele;
+  var fc_acq  = acqG * FC.acqua;
+  var fc_tot  = fc_far + fc_sale + fc_ldb + fc_olio + fc_miele + fc_acq;
+  var fcItems=[{n:'Farina 5046',c:fc_far},{n:'Acqua',c:fc_acq},{n:'Sale',c:fc_sale},{n:'Lievito (Viva Pizza secco'+(vivaOk?'':' · uso prezzo LdB fresco')+')',c:fc_ldb},{n:'Olio EVO',c:fc_olio},{n:'Miele',c:fc_miele,miss:mielG>0&&!(mielEur>0)}];
   var fc_pan  = nPan>0 ? fc_tot/nPan : 0;
 
-  window._scData={kgF:kgF,idr:idr,salP:salP,olP:olP,ldbP:ldbP,mielP:mielP,gr:gr,acqG:acqG,scBassP:scBassP,acqInizioSc:acqInizioSc,acqBassSc:acqBassSc,saleG:saleG,olioG:olioG,ldbG:ldbG,mielG:mielG,nPan:nPan,Tacq:Tacq};
+  window._scData={fcPan:fc_pan,pesoImp:pesoImp,kgF:kgF,idr:idr,salP:salP,olP:olP,ldbP:ldbP,mielP:mielP,gr:gr,acqG:acqG,scBassP:scBassP,acqInizioSc:acqInizioSc,acqBassSc:acqBassSc,saleG:saleG,olioG:olioG,ldbG:ldbG,mielG:mielG,nPan:nPan,Tacq:Tacq};
   out.innerHTML =
     // PALLINE
     '<div style="background:linear-gradient(135deg,rgba(200,100,20,0.15),rgba(150,60,0,0.08));border:2px solid rgba(255,183,77,0.4);border-radius:16px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,183,77,0.6);margin-bottom:6px">🥐 Scrocchiarelle da '+gr+'g</div>'
     +'<div style="font-family:DM Mono,monospace;font-size:72px;font-weight:500;color:#FFB74D;line-height:1;letter-spacing:-2px">'+nPan+'</div>'
-    +'<div style="font-size:11px;color:var(--dim);margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg · farina '+kgF+'kg</div>'
+    +pesoBox(pesoImp,nPan,gr,fc_tot)
+    +fcDetail(fcItems,nPan)
     +'</div>'
-    +fcBox(fc_pan,'Food cost / scrocchiarella · farina+LdB+sale+olio')
+    +fcBox(fc_pan,'Food cost / scrocchiarella · tutti gli ingredienti')
     +(function(){var c=fc_tot<5?'#A5D6A7':fc_tot<15?'#F0CC5A':'#FFCDD2';return '<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;margin-top:6px;display:flex;align-items:center;justify-content:space-between"><div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">💰 Costo totale produzione · '+nPan+' pezzi</div><div style="font-family:DM Mono,monospace;font-size:20px;font-weight:700;color:'+c+'">€'+fc_tot.toFixed(2)+'</div></div>';})()
 
     // RICETTA
@@ -2720,14 +2747,16 @@ function calcPaneOrso(){
             + far3hp*fcG('3hp')
             + farSemi*fcG('3220')
             + farMais*fcG('3400')
-            + (farTot*saleP/100)*FC.sale;
+            + (farTot*saleP/100)*FC.sale
+            + licAcq*fcG('5037')
+            + acqTot*FC.acqua;
   }catch(e){}
   var fc_pagnotta = pezzi>0 ? fc_pane/pezzi : 0;
   var acqEsmach = acqTot - licAcq;
   var acqAut  = R0(acqEsmach * autP/100);
   var acqBass = acqEsmach - acqAut;
   var sale    = R5(farTot * saleP/100);
-  var pesoImp = farTot + acqTot + sale;
+  var pesoImp = farTot + licoli + (acqTot - licAcq) + sale;   // tutto ciò che entra in impastatrice
 
   // T acqua DDT 25°C · formula 3 variabili · K=7.8
   var DDT  = 25;
@@ -2760,6 +2789,15 @@ function calcPaneOrso(){
        + '<div style="font-family:DM Mono,monospace;font-size:22px;font-weight:700;color:'+fcCol+'">€'+fc_pagnotta.toFixed(3)+'</div>'
        + '</div>';
   }
+
+  h += pesoBox(pesoImp, pezzi, pesoP, fc_pane);
+  try{ h += fcDetail([
+    {n:'Farine (0103HP + 3HP)',c:far0103*fcG('0103hp')+far3hp*fcG('3hp')},
+    {n:'Semi e mais',c:farSemi*fcG('3220')+farMais*fcG('3400')},
+    {n:'Farina del licoli (5037)',c:licAcq*fcG('5037')},
+    {n:'Acqua',c:acqTot*FC.acqua},
+    {n:'Sale',c:(farTot*saleP/100)*FC.sale}
+  ], pezzi); }catch(e){}
 
   // HEADER
   h += '<div style="background:linear-gradient(135deg,rgba(139,99,64,0.2),rgba(100,60,20,0.1));border:2px solid rgba(212,149,106,0.4);border-radius:14px;padding:14px;margin-bottom:10px">'
@@ -2955,6 +2993,7 @@ function calcPaneOrso(){
 
     +'</div>';
 
+  window._poData={fcPan:fc_pagnotta,gr:pesoP};
   out.innerHTML = h;
 }
 
@@ -3018,6 +3057,9 @@ function updateFCAlias(){
   FC.ldb  = FC_ALT.ldb/1000;
   FC.sale = FC_ALT.sale/1000;
   FC.olio = FC_ALT.olio/920;
+  FC.acqua = (FC_ALT.acqua||0)/1e6;   // €/m³ → €/g
+  FC.malto = (FC_ALT.malto||0)/1000;  // €/kg → €/g
+  FC.viva  = (FC_ALT.viva||0)/1000;
 }
 
 function loadFC(){
@@ -3041,6 +3083,10 @@ function salvaP(){
   FC_ALT.ldb  = parseFloat((document.getElementById('prLdb')||{value:5}).value)||5;
   FC_ALT.sale = parseFloat((document.getElementById('prSale')||{value:0.5}).value)||0.5;
   FC_ALT.olio = parseFloat((document.getElementById('prOlio')||{value:10}).value)||10;
+  var _n=function(id,def){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?def:v;};
+  FC_ALT.acqua = _n('prAcqua',FC_ALT.acqua);
+  FC_ALT.malto = _n('prMalto',0);
+  FC_ALT.viva  = _n('prViva',0);
   try{ localStorage.setItem('fc_prezzi', JSON.stringify({far:far, alt:FC_ALT})); }catch(e){}
   var msg=document.getElementById('prSavedMsg');
   if(msg){ msg.style.display='block'; setTimeout(function(){ msg.style.display='none'; }, 1500); }
@@ -3053,7 +3099,7 @@ function resetPrezzi(){
   FC_DEFAULT['5037'].sacco=21.94;   FC_DEFAULT['3220'].sacco=56.90;
   FC_DEFAULT['3400'].sacco=68.83;   FC_DEFAULT['3hp'].sacco=29.69;
   FC_DEFAULT['0103hp'].sacco=44.93;
-  FC_ALT={ldb:5.00, sale:0.50, olio:10.00};
+  FC_ALT={ldb:5.00, sale:0.50, olio:10.00, acqua:2.00, malto:0, viva:0};
   initPrezziPage();
 }
 
@@ -3076,6 +3122,10 @@ function initPrezziPage(){
   if(ldb) ldb.value=FC_ALT.ldb.toFixed(2);
   if(sale) sale.value=FC_ALT.sale.toFixed(2);
   if(olio) olio.value=FC_ALT.olio.toFixed(2);
+  var ac=document.getElementById('prAcqua'), ma=document.getElementById('prMalto'), vi=document.getElementById('prViva');
+  if(ac) ac.value=FC_ALT.acqua.toFixed(2);
+  if(ma) ma.value=FC_ALT.malto>0?FC_ALT.malto.toFixed(2):'';
+  if(vi) vi.value=FC_ALT.viva>0?FC_ALT.viva.toFixed(2):'';
 }
 
 function calcFC(){
@@ -4064,6 +4114,7 @@ function paneOrsoWA(){
     '📋 Matteo La Spada — L\u2019Orso Messina',
     '',
     '*Forme: ' + pezzi + ' × ' + pesoP + 'g*',
+    '⚖️ *Peso totale impasto: ' + ((farTot + licoli + (acqTot - licAcq) + sale)/1000).toFixed(2) + ' kg*',
     '',
     '🌾 *FARINE*',
     '• Petraviva 0103HP: *' + far0103 + 'g*',
@@ -4198,6 +4249,7 @@ function mlsWA(){
     +'  Acqua inizio '+d.mlsBassP+'%: *'+d.acqInizioMls+'g*\n'
     +'  Bassinage a filo '+(100-d.mlsBassP)+'%: *'+d.acqEsm+'g*\n\n'
     +'🌡️ *T acqua: '+d.Tacq+'°C* · T lab '+d.tAmb+'°C\n'
+    +'⚖️ *Peso totale impasto: '+(d.pesoImp/1000).toFixed(2)+' kg*\n'
     +'🍕 *IDR totale '+d.idr+'% · palline '+d.gr+'g: '+d.nPan+' pezzi*\n\n'
     +'📦 GN 1/1: senza coperchio → cella 4°C immediata → +1h coperchio\n'
     +'⭐ Appretto: 2h fuori cella prima del servizio · T stesura 18-20°C\n'
@@ -4220,6 +4272,7 @@ function palaWA(){
     +'  LdB rinfresco 0.50%: *'+d.ldbRinf+'g*\n'
     +'  Acqua inizio '+d.bassP+'%: *'+d.acqInizio+'g* · T acqua '+d.Tacq+'°C\n'
     +'  Bassinage a filo '+Math.round(100-d.bassP)+'%: *'+d.acqEsm+'g*\n\n'
+    +'⚖️ *Peso totale impasto: '+(d.pesoImp/1000).toFixed(2)+' kg*\n'
     +'🍕 *Teglie '+d.gr+'g: '+d.nTeglie+' pezzi*\n\n'
     +'⏱️ G1 18:00 biga · G2 08:30 rinfresco · teglia 09:00 · cella 4°C · shock termico da cella → forno 280°C platea / 270°C cielo · 12-15 min\n\n'
     +'_Matteo La Spada · Gruppo Orso · Messina_';
@@ -4234,6 +4287,7 @@ function scWA(){
     +'  Olio EVO '+d.olP+'%: *'+d.olioG+'g*\n'
     +(d.mielP>0?'  Miele '+d.mielP+'%: *'+d.mielG+'g*\n':'')
     +'  LdB (Viva Pizza secco) '+d.ldbP+'%: *'+d.ldbG+'g*\n\n'
+    +'⚖️ *Peso totale impasto: '+(d.pesoImp/1000).toFixed(2)+' kg*\n'
     +'🍕 *Pezzi '+d.gr+'g: '+d.nPan+'*\n'
     +'🌡️ T acqua '+d.Tacq+'°C\n\n'
     +'🔥 Cuppone: 200°C sopra · 195°C sotto · 3 sec · rullo bucasfoglie subito\n'
@@ -4250,9 +4304,179 @@ function dmWA(){
     +'  Acqua IDR '+d.idr+'%: *'+d.acqTot+'g* · T acqua '+d.Tacq+'°C\n'
     +'  Sale '+d.salP+'%: *'+d.saleG+'g*\n'
     +'  LdB '+d.ldb+'%: *'+d.ldbG+'g* · gestione '+d.gestione+'\n\n'
+    +'⚖️ *Peso totale impasto: '+(d.pesoImp/1000).toFixed(2)+' kg*\n'
     +'🍕 *Palline '+d.gr+'g: '+d.nPan+' pezzi* · T lab '+d.tAmb+'°C\n\n'
     +'_Matteo La Spada · Gruppo Orso · Messina_';
   waOpen(txt);
+}
+
+
+function pesoBox(pesoG, n, gr, fcTot){
+  var kg = pesoG/1000;
+  var usati = n*gr;
+  var resto = Math.round(pesoG - usati);
+  var html = '<div style="background:rgba(0,0,0,0.3);border:1.5px solid var(--gold);border-radius:12px;padding:12px;margin-top:10px;text-align:left">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)">⚖️ Peso totale uscita impastatrice</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:34px;font-weight:700;color:var(--gold2);line-height:1.1">'+kg.toFixed(2)+' kg</div>'
+    +'<div style="font-size:11px;color:var(--cream2);margin-top:4px">'+n+' pezzi × '+gr+'g = '+(usati/1000).toFixed(2)+' kg · resto '+resto+'g</div>';
+  if(fcTot>0 && kg>0){
+    html += '<div style="font-size:11px;color:var(--cream2);margin-top:4px">ingredienti €'+fcTot.toFixed(2)+' · <strong style="color:var(--gold2)">€'+(fcTot/kg).toFixed(2)+'/kg impasto</strong></div>';
+  }
+  return html+'</div>';
+}
+
+
+var SP_DEST=[{id:'cal',n:'Via Calapso'},{id:'teg',n:"L'Orso in teglia"},{id:'bla',n:'Blanco'},{id:'duo',n:'Duomo'},{id:'ter',n:'Terzi'}];
+var SP_PROD=[
+  {id:'napo',n:'Napoletana MLS',gr:260,src:'_mlsData',col:'#EEC84A'},
+  {id:'dir',n:'Diretto MLS',gr:260,src:'_dmData',col:'#EEC84A'},
+  {id:'pala',n:'Pala / Teglia',gr:950,src:'_pmData',col:'#8BB4E0'},
+  {id:'scr',n:'Scrocchiarella',gr:200,src:'_scData',col:'#FFB74D'},
+  {id:'pane',n:"Pane dell'Orso",gr:700,src:'_poData',col:'#F0E8D8'}
+];
+function spNum(id){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?0:v;}
+function spRunCalcs(){
+  ['calcMls','calcDirettaMls','calcPalaMls','calcScrocchCuppone','calcPaneOrso'].forEach(function(f){try{window[f]();}catch(e){}});
+}
+function spFromCard(pid,force){
+  spRunCalcs();
+  var P=SP_PROD.filter(function(x){return x.id===pid})[0]; var d=window[P.src];
+  if(!d) return false;
+  var fcEl=document.getElementById('sp_'+pid+'_fc'), grEl=document.getElementById('sp_'+pid+'_gr');
+  if(d.fcPan>0 && (force||!fcEl.value)) fcEl.value=d.fcPan.toFixed(3);
+  if(d.gr>0 && (force||!grEl.dataset.touched)) grEl.value=d.gr;
+  return true;
+}
+function spBuild(){
+  var box=document.getElementById('spBody'); if(!box||box.dataset.built) return;
+  var h='';
+  SP_PROD.forEach(function(P){
+    h+='<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+      +'<div style="font-size:15px;font-weight:700;color:'+P.col+'">'+P.n+'</div>'
+      +'<button onclick="spFromCard(\''+P.id+'\',true);spCalc()" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:5px 9px;cursor:pointer">↻ da card</button></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+      +'<div><label class="inp-label">Grammi / pezzo</label><input class="inp-field" id="sp_'+P.id+'_gr" type="number" value="'+P.gr+'" oninput="this.dataset.touched=1;spCalc()" style="font-size:18px"></div>'
+      +'<div><label class="inp-label">Costo / pezzo (€)</label><input class="inp-field" id="sp_'+P.id+'_fc" type="number" step="0.001" placeholder="vuoto = n.d." oninput="spCalc()" style="font-size:18px"></div></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    SP_DEST.forEach(function(D){
+      h+='<div><label class="inp-label">'+D.n+'</label><input class="inp-field" id="sp_'+P.id+'_'+D.id+'" type="number" min="0" step="1" placeholder="0" oninput="spCalc()" style="font-size:18px"></div>';
+    });
+    h+='</div></div>';
+  });
+  box.innerHTML=h; box.dataset.built='1';
+}
+function spSave(){
+  var o={data:(document.getElementById('spData')||{}).value||'',v:{}};
+  SP_PROD.forEach(function(P){
+    o.v[P.id]={gr:(document.getElementById('sp_'+P.id+'_gr')||{}).value,fc:(document.getElementById('sp_'+P.id+'_fc')||{}).value,q:{}};
+    SP_DEST.forEach(function(D){o.v[P.id].q[D.id]=(document.getElementById('sp_'+P.id+'_'+D.id)||{}).value||'';});
+  });
+  try{localStorage.setItem('mls_sped',JSON.stringify(o));}catch(e){}
+}
+function spLoad(){
+  var o=null; try{o=JSON.parse(localStorage.getItem('mls_sped')||'null');}catch(e){}
+  var dEl=document.getElementById('spData');
+  if(o){
+    dEl.value=o.data||'';
+    SP_PROD.forEach(function(P){var s=o.v&&o.v[P.id]; if(!s) return;
+      if(s.gr){document.getElementById('sp_'+P.id+'_gr').value=s.gr;document.getElementById('sp_'+P.id+'_gr').dataset.touched=1;}
+      document.getElementById('sp_'+P.id+'_fc').value=s.fc||'';
+      SP_DEST.forEach(function(D){document.getElementById('sp_'+P.id+'_'+D.id).value=(s.q&&s.q[D.id])||'';});
+    });
+  }
+  if(!dEl.value){var t=new Date();dEl.value=t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);}
+}
+function spInit(){
+  spBuild();
+  spRunCalcs();
+  var box=document.getElementById('spBody');
+  if(!box.dataset.loaded){spLoad();box.dataset.loaded='1';}
+  SP_PROD.forEach(function(P){spFromCard(P.id,false);});
+  spCalc();
+}
+function spCalc(){
+  var out=document.getElementById('spOut'); if(!out) return;
+  var perDest={},perProd=[],totKg=0,totPz=0,totCost=0,mancaCosto=[];
+  SP_DEST.forEach(function(D){perDest[D.id]={pz:0,kg:0,cost:0,partial:false};});
+  SP_PROD.forEach(function(P){
+    var gr=spNum('sp_'+P.id+'_gr'), fcRaw=(document.getElementById('sp_'+P.id+'_fc')||{}).value, fc=parseFloat(fcRaw);
+    var hasFc=!isNaN(fc)&&fc>0, pz=0;
+    SP_DEST.forEach(function(D){
+      var q=spNum('sp_'+P.id+'_'+D.id); pz+=q;
+      perDest[D.id].pz+=q; perDest[D.id].kg+=q*gr/1000;
+      if(q>0){ if(hasFc) perDest[D.id].cost+=q*fc; else perDest[D.id].partial=true; }
+    });
+    var kg=pz*gr/1000; totKg+=kg; totPz+=pz;
+    if(pz>0){ if(hasFc) totCost+=pz*fc; else mancaCosto.push(P.n); }
+    perProd.push({P:P,pz:pz,kg:kg,cost:hasFc?pz*fc:null});
+  });
+  var h='<div style="background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:14px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)">Totale spedizione</div>'
+    +'<div style="font-family:DM Mono,monospace;font-size:34px;font-weight:700;color:var(--gold2);line-height:1.1">'+totKg.toFixed(2)+' kg</div>'
+    +'<div style="font-size:12px;color:var(--cream2)">'+totPz+' pezzi'+(totPz>0&&totCost>0?' · ingredienti €'+totCost.toFixed(2)+(mancaCosto.length?' (parziale)':''):'')+'</div>'
+    +(mancaCosto.length?'<div style="font-size:11px;color:#FFB74D;margin-top:4px">Costo mancante per: '+mancaCosto.join(', ')+'</div>':'')
+    +'</div>';
+  h+='<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Per destinazione</div>';
+  SP_DEST.forEach(function(D){
+    var x=perDest[D.id];
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">'
+      +'<span style="font-size:13px;color:var(--cream)">'+D.n+'</span>'
+      +'<span style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream2);text-align:right">'+x.pz+' pz · '+x.kg.toFixed(2)+' kg'+(x.cost>0?' · €'+x.cost.toFixed(2)+(x.partial?'*':''):'')+'</span></div>';
+  });
+  if(mancaCosto.length) h+='<div style="font-size:10px;color:var(--dim);margin-top:6px">* costo parziale: manca il costo di almeno un prodotto</div>';
+  h+='</div>';
+  h+='<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Per prodotto (da produrre)</div>';
+  perProd.forEach(function(r){
+    if(r.pz<=0) return;
+    h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span style="font-size:13px;color:'+r.P.col+'">'+r.P.n+'</span>'
+      +'<span style="font-family:DM Mono,monospace;font-size:12px;color:var(--cream2)">'+r.pz+' pz · '+r.kg.toFixed(2)+' kg'+(r.cost!=null?' · €'+r.cost.toFixed(2):'')+'</span></div>';
+  });
+  if(totPz===0) h+='<div style="font-size:12px;color:var(--dim)">Inserisci le quantità per vedere il riepilogo.</div>';
+  h+='</div>';
+  out.innerHTML=h;
+  window._spData={perDest:perDest,perProd:perProd,totKg:totKg,totPz:totPz};
+  spSave();
+}
+function spReset(){
+  if(!confirm('Azzerare tutte le quantità?')) return;
+  SP_PROD.forEach(function(P){SP_DEST.forEach(function(D){var e=document.getElementById('sp_'+P.id+'_'+D.id);if(e)e.value='';});});
+  spCalc();
+}
+function spWA(){
+  spCalc(); var d=window._spData; if(!d||d.totPz===0){alert('Inserisci almeno una quantità.');return;}
+  var dt=(document.getElementById('spData')||{}).value||'';
+  var dd=dt?dt.split('-').reverse().join('/'):waOggi();
+  var t='🚚 *Spedizione Scirocco*\n📅 '+dd+'\n\n';
+  SP_DEST.forEach(function(D){
+    var righe='';
+    SP_PROD.forEach(function(P){
+      var q=spNum('sp_'+P.id+'_'+D.id); if(q>0) righe+='  '+P.n+' ('+spNum('sp_'+P.id+'_gr')+'g): *'+q+' pz*\n';
+    });
+    if(righe) t+='*'+D.n+'*\n'+righe+'\n';
+  });
+  t+='⚖️ *Totale: '+d.totPz+' pezzi · '+d.totKg.toFixed(2)+' kg impasto*\n\n_Scirocco · Gruppo Orso · Messina_';
+  waOpen(t);
+}
+
+
+function fcDetail(items, nPz, titolo){
+  var tot=0, miss=[];
+  items.forEach(function(x){ tot+=x.c||0; if(x.miss) miss.push(x.n); });
+  if(!(tot>0)) return '';
+  var h='<div style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px">'
+    +'<div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px">'+(titolo||'Dettaglio costo ingredienti')+'</div>';
+  items.forEach(function(x){
+    if(!(x.c>0) && !x.miss) return;
+    var pz = nPz>0 ? (x.c/nPz) : 0;
+    h+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px">'
+      +'<span style="color:'+(x.miss?'#FFB74D':'var(--cream2)')+'">'+x.n+(x.miss?' · prezzo mancante':'')+'</span>'
+      +'<span style="font-family:DM Mono,monospace;color:var(--cream)">'+(x.miss?'—':'€'+pz.toFixed(4)+' · '+(x.c/tot*100).toFixed(0)+'%')+'</span></div>';
+  });
+  h+='<div style="font-size:10px;color:var(--dim);margin-top:6px">€ per pezzo e quota sul costo totale'+(miss.length?' · manca il prezzo di: '+miss.join(', ')+' (Listino Prezzi)':'')+'</div></div>';
+  return h;
 }
 
 function calcPalaMls(){
@@ -4279,7 +4503,7 @@ function calcPalaMls(){
   var acqRinfTot = acqTot - acqBiga;
   var acqInizio = Math.round(acqRinfTot * bassP/100 / 5)*5;
   var acqEsm = acqRinfTot - acqInizio;
-  var pesoImp=kgTot*1000+acqTot+saleG;
+  var pesoImp=kgTot*1000+acqTot+saleG+maltoG+ldbBiga+ldbRinf;
   var nTeglie=Math.floor(pesoImp/gr);
   var Tacq=Math.round((23.5*3-18-tAmb-9)*10)/10;
   var tc=Tacq<=14?'#A5D6A7':Tacq<=20?'#F0CC5A':'#FFCDD2';
@@ -4291,13 +4515,19 @@ function calcPalaMls(){
            + saleG*FC.sale
            + (ldbBiga+ldbRinf)*FC.ldb;
   }catch(e){}
+  var fcP_far=0,fcP_sale=0,fcP_ldb=0;
+  try{ fcP_far=(kgB*1000+kgRinf*1000)*fcG('5078'); fcP_sale=saleG*FC.sale; fcP_ldb=(ldbBiga+ldbRinf)*FC.ldb; }catch(e){}
+  var fcP_acq=acqTot*FC.acqua, fcP_malto=maltoG*FC.malto;
+  fc_tot += fcP_acq + fcP_malto;
+  var fcItems=[{n:'Farina 5078',c:fcP_far},{n:'Acqua',c:fcP_acq},{n:'Sale',c:fcP_sale},{n:'Lievito di birra',c:fcP_ldb},{n:'Malto diastasico',c:fcP_malto,miss:maltoG>0&&!(FC.malto>0)}];
   var fc_teg=nTeglie>0?fc_tot/nTeglie:0;
-  window._pmData={kgB:kgB,bigP:bigP,idr:idr,salP:salP,gr:gr,tAmb:tAmb,kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,ldbRinf:ldbRinf,maltoP:maltoP,maltoG:maltoG,saleG:saleG,bassP:bassP,acqInizio:acqInizio,acqEsm:acqEsm,Tacq:Tacq,nTeglie:nTeglie};
+  window._pmData={fcPan:fc_teg,pesoImp:pesoImp,nPz:nTeglie,kgB:kgB,bigP:bigP,idr:idr,salP:salP,gr:gr,tAmb:tAmb,kgTot:kgTot,kgRinf:kgRinf,acqBiga:acqBiga,ldbBiga:ldbBiga,ldbRinf:ldbRinf,maltoP:maltoP,maltoG:maltoG,saleG:saleG,bassP:bassP,acqInizio:acqInizio,acqEsm:acqEsm,Tacq:Tacq,nTeglie:nTeglie};
   out.innerHTML=
     '<div style="background:rgba(13,27,75,0.3);border:2px solid rgba(91,155,213,0.5);border-radius:14px;padding:18px;text-align:center;margin-bottom:12px">'
     +'<div style="font-family:monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(139,180,224,0.6);margin-bottom:6px">🏆 Teglie da '+gr+'g</div>'
     +'<div style="font-family:monospace;font-size:72px;font-weight:500;color:#8BB4E0;line-height:1">'+nTeglie+'</div>'
-    +'<div style="font-size:11px;color:#888;margin-top:6px">peso totale '+(pesoImp/1000).toFixed(2)+'kg</div>'
+    +pesoBox(pesoImp,nTeglie,gr,fc_tot)
+    +fcDetail(fcItems,nTeglie)
     +'</div>'
     +(fc_teg>0?'<div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px">💰 Food cost / teglia</span><span style="font-family:monospace;font-size:20px;font-weight:700;color:#F0CC5A">€'+fc_teg.toFixed(3)+'</span></div>':''
     )+(fc_tot>0?'<div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;display:flex;justify-content:space-between;margin-bottom:12px"><span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px">💰 Costo totale produzione · '+nTeglie+' teglie</span><span style="font-family:monospace;font-size:20px;font-weight:700;color:#A5D6A7">€'+fc_tot.toFixed(2)+'</span></div>':'')
@@ -4914,5 +5144,24 @@ function diarySaveAuto(){
 
   </div>
 </div>
+<div id="pageSpedizioni" class="page" style="display:none">
+  <div class="page-hero">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="page-hero-icon">🚚</div>
+    <div class="page-hero-title">Spedizioni Scirocco</div>
+    <div class="page-hero-sub">Quanti pezzi a ogni locale · kg impasto · food cost</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <label class="inp-label">Data spedizione</label>
+      <input class="inp-field" id="spData" type="date" oninput="spCalc()" style="font-size:18px;margin-top:6px">
+    </div>
+    <div id="spBody" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div id="spOut"></div>
+    <button onclick="spWA()" class="btn-share">📲 Invia riepilogo su WhatsApp</button>
+    <button onclick="spReset()" class="breset">Azzera quantità</button>
+  </div>
+</div>
+
 </body>
 </html>
