@@ -757,6 +757,16 @@ select.inp-field{
       <div class="menu-arrow">›</div>
     </button>
 
+    <div class="sec-label">📖 Ricettario</div>
+    <button class="menu-btn" onclick="openPage('ricette')">
+      <div class="menu-icon" style="background:rgba(200,151,58,0.25)">📖</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#EEC84A">Ricettario L'Orso · Matteo e Gianluca</div>
+        <div class="menu-sub">Teglia · focaccia · pane · panettone · brioche · grissini</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </button>
+
     <div class="sec-label">📔 Diario</div>
     <button class="menu-btn" onclick="openPage('diario')">
       <div class="menu-icon" style="background:rgba(55,71,79,0.4)">📔</div>
@@ -2231,7 +2241,7 @@ function calcAll(){
 
 
 var pageMap={
-  mls:'pageMls', ordine:'pageOrdine', spedizioni:'pageSpedizioni', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
+  mls:'pageMls', ordine:'pageOrdine', spedizioni:'pageSpedizioni', ricette:'pageRicette', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
   scrocchcuppone:'pageScrocchCuppone', licoli:'pageLicoli',
   paneorso:'pagePaneOrso', prezzi:'pagePrezzi', diario:'pageDiario'
 };
@@ -2267,6 +2277,7 @@ function openPage(key){
   if(key==='paneorso'){try{calcPaneOrso();}catch(e){}}
   if(key==='diario'){try{diaryLoad();}catch(e){}}
   if(key==='ordine'){try{calcOrdine();}catch(e){}}
+  if(key==='ricette'){try{rcInit();}catch(e){}}
   if(key==='spedizioni'){try{calcPaneOrso();}catch(e){} try{spInit();}catch(e){}}
 }
 
@@ -4479,6 +4490,146 @@ function fcDetail(items, nPz, titolo){
   return h;
 }
 
+
+var RC_ING={
+  f6384:{n:"Farina Petra 6384",fa:"f6384"}, hp0102:{n:"Farina Petra 0102",fa:"hp0102"},
+  petra3:{n:"Farina Petra 3",fa:"petra3"}, hp0104:{n:"Farina Petra 0104",fa:"hp0104"},
+  f8610:{n:"Semola 8610",fa:"f8610"}, acqua:{n:"Acqua"}, ldb:{n:"Lievito di birra"}, sale:{n:"Sale"},
+  olio:{n:"Olio di oliva"}, malto:{n:"Malto in polvere"}, maltoD:{n:"Malto disattivato"},
+  licoli:{n:"Licoli (stimato: metà farina 5037)"}, tuorli:{n:"Tuorli"}, uova:{n:"Uova"}, latte:{n:"Latte intero"},
+  zucchero:{n:"Zucchero"}, burro:{n:"Burro"}, miele:{n:"Miele"}, vaniglia:{n:"Vaniglia (bacche)",u:"bacche"},
+  pastaArancia:{n:"Pasta d'arancia"}, aranciaCandita:{n:"Arancia candita"}, uvetta:{n:"Uvetta"},
+  gocce:{n:"Gocce di cioccolato"}, enzimi:{n:"Enzimi Panet Plus"}
+};
+var RC_PRIMO=[{i:"f6384",g:800},{i:"licoli",g:250},{i:"acqua",g:350},{i:"tuorli",g:250},{i:"zucchero",g:250},{i:"burro",g:350}];
+var RC=[
+ {id:"pizzafoc",n:"Pizza e focaccia in teglia · poolish",icon:"🫓",gr:700,fmt:[["Focaccia 20x60 · 700g",700],["Pizza 20x60 · 500g",500]],
+  fasi:[
+   {n:"Poolish",rows:[{i:"f6384",g:1000},{i:"acqua",g:1000},{i:"ldb",g:5}]},
+   {n:"Impasto",rows:[{ref:0,t:"Tutto il poolish"},{i:"hp0102",g:425},{i:"malto",g:15},{i:"ldb",g:5},{i:"sale",g:30},{i:"olio",g:50}]}],
+  proc:["Poolish: mescolare acqua e lievito, unire la farina, impasto senza grumi. Contenitore coperto, fermentare a 16°C per 16/24 ore.",
+   "Impasto: in macchina tutto il poolish, la farina e il malto. Iniziare, poi aumentare la velocità per incordare bene. Unire sale e olio poco per volta.",
+   "A impasto finito: sul tavolo, una piega, in un recipiente a lievitare a 28/30°C fino a due volte e mezzo il volume iniziale.",
+   "Fare i panetti, coprire e lievitare fino al triplo a 28/30°C.","Forno a 260°C, 30-30 (come scritto nel PDF)."],
+  note:["Poolish con metodo diretto: lievito 10g invece di 5g.","Nel PDF la farina è \"Petra 0102 (petra3)\": ho usato Petra 0102 HP. Se è un'altra farina, cambia il prezzo nei prezzi ingredienti.","Il tempo di cottura nel PDF è \"30-30\": controlla il valore giusto."]},
+ {id:"focmassa",n:"Focaccia metodo in massa · poolish",icon:"🍞",gr:700,fmt:[["Focaccia 700g",700]],
+  fasi:[
+   {n:"Poolish",rows:[{i:"f6384",g:1000},{i:"acqua",g:1000},{i:"ldb",g:10}]},
+   {n:"Impasto",rows:[{ref:0,t:"Tutto il poolish"},{i:"hp0102",g:2000},{i:"sale",g:75},{i:"olio",g:125},{i:"acqua",g:1100}]}],
+  proc:["Poolish: in un recipiente mescolare acqua e lievito, unire la farina, impasto senza grumi. Coprire e fermentare a temperatura ambiente 22/24°C fino al triplo.",
+   "Autolisi: acqua a temperatura ambiente e farina, attendere 40/50 minuti.","Unire il poolish e impastare fino a formare la maglia. Aggiungere il sale e infine l'olio in due-tre volte, aspettando che venga assorbito.",
+   "Togliere dalla macchina, sul piano una piega, in un contenitore passato con olio. Attendere 20 minuti, un'altra piega.","Richiudere con il coperchio e in frigo fino al mattino. Poi fare le pezzature.",
+   "Panetti sul telo con farina per scaricare umidità. Lievitare a 28°C fino al triplo."],
+  note:["Pezzatura non indicata nella ricetta: ho messo 700g come per la focaccia in teglia del primo impasto."]},
+ {id:"pane",n:"Pane · impasto unico metodo poolish",icon:"🥖",gr:1300,fmt:[["Pane (2 pezzi dal lotto)",1300]],
+  fasi:[
+   {n:"Poolish",rows:[{i:"petra3",g:500},{i:"hp0104",g:500},{i:"acqua",g:1000},{i:"ldb",g:2},{i:"licoli",g:200}]},
+   {n:"Impasto",rows:[{ref:0,t:"Tutto il poolish"},{i:"petra3",g:175},{i:"hp0104",g:175},{i:"malto",g:10},{i:"sale",g:25},{i:"olio",g:20}]}],
+  proc:["Poolish: mescolare acqua e lieviti, unire la farina, impasto senza grumi. Contenitore coperto, a riposo fino al mattino (nel PDF: \"temperatura ambiente di 10°C\").",
+   "Impasto: in macchina tutto il poolish, la farina e il malto. Iniziare, poi aumentare la velocità per incordare. Sale e olio poco per volta.",
+   "Togliere, sul tavolo una piega, in un recipiente a 28°C fino a due volte e mezzo il volume.",
+   "Spolverare il tavolo con farina, capovolgere l'impasto, spolverare anche sopra. Con le mani abbassare leggermente e livellare, dividere in due e formare il pane.",
+   "Telo infarinato, lievitare a 28°C per 40 minuti.","Capovolgere con la parte di sotto in alto così il pane si apre da solo senza taglio.",
+   "Infornare a 250°C con vapore iniziale. Dopo 10 minuti abbassare a 200°C. Negli ultimi 10 minuti aprire la valvola fino a fine cottura."],
+  note:["La farina dell'impasto è 350g al 50% Petra 3 e 50% Petra 0104 (175g + 175g).","\"10°C\" non è temperatura ambiente: controlla il valore.","Il peso di 1300g a pezzo è il lotto diviso in due, non è scritto nel PDF."]},
+ {id:"primopan",n:"Panettone · primo impasto",icon:"🎄",gr:2250,fmt:[["Primo impasto intero",2250]],
+  fasi:[{n:"Primo impasto",rows:RC_PRIMO}],
+  proc:["Mettere tutto tranne burro e zucchero e iniziare a impastare.","Appena l'impasto inizia a incordare unire burro e zucchero in due-tre volte.","Quando è perfettamente incordato, in un contenitore fino al quadruplo, a 24/26°C.",
+   "Il tempo non ha importanza: più lievita lentamente a temperatura naturale, più il prodotto è buono. Circa 12/14 ore."],note:[]},
+ {id:"panclass",n:"Panettone classico",icon:"🎂",gr:4165,fmt:[["Lotto intero",4165]],
+  fasi:[
+   {n:"Primo impasto (pre-impasto)",rows:RC_PRIMO},
+   {n:"Impasto finale",rows:[{i:"f6384",g:200},{i:"malto",g:10},{i:"enzimi",g:20},{i:"acqua",g:130},{i:"sale",g:20},{i:"miele",g:60},{i:"tuorli",g:150},{i:"zucchero",g:150},{i:"burro",g:300},{i:"vaniglia",g:2,u:"bacche"},{i:"pastaArancia",g:75},{i:"aranciaCandita",g:400},{i:"uvetta",g:400}]}],
+  proc:["In macchina farina, malto, enzimi e 150g di acqua, mescolare. Unire il primo impasto e impastare fino a ben incordato.","Inserire tuorli e zucchero, poi il miele con gli aromi, poi il burro a temperatura ambiente e il sale a velocità media.",
+   "Appena pronto inserire le sospensioni e attendere che sia tutto incordato.","Sul piano di lavoro una-due pieghe di forza, in un contenitore. Puntare 90 minuti a 28/30°C.",
+   "Fare le pezzature, mezza pirlatura, lasciare 40 minuti sul piano per fare la pelle e rilassarsi.","Formare, negli stampi, lievitare a 28/30°C fino a 2 cm dal bordo.","Cottura: forno a 165°C fino a 95/96°C al cuore."],
+  note:["Acqua: la lista dice 130g, il procedimento dice 150g. Ho usato 130g.","Enzimi: nel PDF c'è scritto \"Panet Plus 1 2%\", ho messo 20g.","Il primo impasto della lista è l'intero lotto di 2250g, e il secondo impasto usa solo 200g di farina: controlla se i rapporti sono voluti.","Le 2 bacche di vaniglia non contano nel peso."]},
+ {id:"brioche",n:"Brioche e pan gocciole",icon:"🥐",gr:80,fmt:[["Pezzo da 80g",80]],
+  fasi:[{n:"Impasto",rows:[{i:"hp0102",g:1000},{i:"malto",g:10},{i:"uova",g:160},{i:"latte",g:480},{i:"ldb",g:40},{i:"zucchero",g:100},{i:"burro",g:150},{i:"sale",g:20},{i:"vaniglia",g:1,u:"bacche"},{i:"gocce",g:250}]}],
+  proc:["In macchina farina, uova, lievito, malto e latte. Impastare fino a ben incordato. Poi il burro, infine sale e gocce di cioccolato.","Togliere, sul piano una piega di rinforzo, in un contenitore con un filo d'olio. Lievitare a 28°C fino al raddoppio.",
+   "Pezzature da 80g, lievitare con umidità fino al triplo (devono essere quasi alla fine).","Forno a 180°C con umidità nei primi minuti e valvola chiusa. Cottura Bongard 14/15 minuti."],
+  note:["Uova: 160g sono 3 uova medie.","La bacca di vaniglia non conta nel peso."]},
+ {id:"grissini",n:"Grissini di semola e grano tenero",icon:"🥨",gr:600,fmt:[["Rotolo da 600g",600]],
+  fasi:[{n:"Impasto",rows:[{i:"f8610",g:500},{i:"hp0102",g:500},{i:"acqua",g:500},{i:"olio",g:100},{i:"sale",g:25},{i:"maltoD",g:10},{i:"ldb",g:40}]}],
+  proc:["Tutti gli ingredienti in macchina tranne il sale, che si aggiunge a metà impasto.","Appena pronto sul piano e lasciare 15 minuti coperto.","Pezzature da 600g, fare un rotolo, attendere 10 minuti, schiacciare con il mattarello.",
+   "Mettere dentro la cassetta con griz di mais, un filo d'olio sopra, griz sopra, e mettere a lievitare.","Appena pronto tagliare strisce e passarle nel griz, stendere con le mani, in teglia.","Cottura a 180°C, poi 160°C fino a fine cottura."],
+  note:["Olio: 100g (il grasso totale può arrivare a 200g).","Il griz di mais non è nelle quantità."]}
+];
+function rcMap(){var m={};RC.forEach(function(r){m[r.id]=r;});return m;}
+function rcBook(){try{return JSON.parse(localStorage.getItem("mls_rp")||"{}");}catch(e){return {};}}
+function rcPrice(id){
+  var o=rcBook(); if(o[id]!==undefined&&o[id]!==""&&!isNaN(parseFloat(o[id]))) return parseFloat(o[id]);
+  var I=RC_ING[id]||{};
+  if(I.fa&&typeof FA!=="undefined"){var f=FA.filter(function(x){return x.id===I.fa;})[0]; if(f&&f.kg>0&&f.pr>0) return f.pr/f.kg;}
+  if(id==="ldb") return FC_ALT.ldb; if(id==="sale") return FC_ALT.sale; if(id==="olio") return FC_ALT.olio/0.92;
+  if(id==="malto") return FC_ALT.malto>0?FC_ALT.malto:null; if(id==="acqua") return (FC_ALT.acqua||0)/1000;
+  if(id==="licoli") return 0.5*fcG("5037")*1000;
+  return null;
+}
+function rcBase(R){var t=0;R.fasi.forEach(function(f){f.rows.forEach(function(r){if(!r.ref&&r.i&&!r.u) t+=r.g;});});return t;}
+function rcFaseG(f){var t=0;f.rows.forEach(function(r){if(!r.ref&&r.i&&!r.u) t+=r.g;});return t;}
+function rcFmtG(g,u){if(u) return (Math.round(g*10)/10)+" "+u; return (g>=10?Math.round(g):Math.round(g*10)/10)+" g";}
+function rcCur(){var R=rcMap()[(document.getElementById("rcSel")||{}).value]||RC[0];return R;}
+function rcNum(id,def){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?def:v;}
+function rcInit(){
+  var s=document.getElementById("rcSel"); if(!s) return;
+  if(!s.dataset.built){var h="";RC.forEach(function(r){h+="<option value=\""+r.id+"\">"+r.icon+" "+r.n+"</option>";});s.innerHTML=h;s.dataset.built="1";rcSelect();}
+  else rcCalc();
+}
+function rcSelect(){
+  var R=rcCur();
+  document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcGr").value=R.gr;
+  var f="";R.fmt.forEach(function(x){f+="<button onclick=\"document.getElementById('rcGr').value="+x[1]+";rcCalc()\" style=\"background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:6px 10px;cursor:pointer\">"+x[0]+"</button> ";});
+  document.getElementById("rcFmt").innerHTML=f;
+  var ids={};R.fasi.forEach(function(fs){fs.rows.forEach(function(r){if(r.i) ids[r.i]=1;});});
+  var p="";Object.keys(ids).forEach(function(i){var I=RC_ING[i],pr=rcPrice(i);
+    p+="<div style=\"display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)\"><span style=\"font-size:12px;color:var(--cream2)\">"+I.n+"</span>"
+     +"<input class=\"inp-field\" id=\"rcP_"+i+"\" type=\"number\" step=\"0.01\" min=\"0\" placeholder=\"manca\" value=\""+(pr!=null?pr.toFixed(3):"")+"\" oninput=\"rcSetPrice('"+i+"',this.value)\" style=\"font-size:15px;text-align:right\"></div>";});
+  document.getElementById("rcPrezzi").innerHTML=p;
+  var pr="";R.proc.forEach(function(t,k){pr+="<div style=\"display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)\"><span style=\"font-family:DM Mono,monospace;color:var(--gold2);font-size:12px\">"+(k+1)+"</span><span style=\"font-size:13px;color:var(--cream2);line-height:1.5\">"+t+"</span></div>";});
+  document.getElementById("rcProc").innerHTML=pr;
+  var n="";R.note.forEach(function(t){n+="<div style=\"font-size:12px;color:#FFB74D;line-height:1.5;padding:3px 0\">• "+t+"</div>";});
+  document.getElementById("rcNote").innerHTML=n?("<div style=\"font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px\">Da controllare nel PDF</div>"+n):"";
+  document.getElementById("rcNote").style.display=n?"block":"none";
+  rcCalc();
+}
+function rcSetPrice(id,v){var o=rcBook();if(v===""||isNaN(parseFloat(v))) delete o[id]; else o[id]=parseFloat(v);try{localStorage.setItem("mls_rp",JSON.stringify(o));}catch(e){} rcCalc();}
+function rcData(){
+  var R=rcCur(), T0=rcBase(R), gr=rcNum("rcGr",R.gr), pz=rcNum("rcPz",0);
+  var mult=pz>0?(pz*gr/T0):rcNum("rcMult",1); if(!(mult>0)) mult=1;
+  var tot=T0*mult, pieces=pz>0?pz:Math.floor(tot/gr);
+  var cost={}, miss=[], fcTot=0;
+  R.fasi.forEach(function(f){f.rows.forEach(function(r){ if(r.ref||!r.i) return;
+    var q=r.g*mult, price=rcPrice(r.i), c=0, mi=false;
+    if(price==null) mi=true; else c=(r.u?q:q/1000)*price;
+    var k=r.i; if(!cost[k]) cost[k]={n:RC_ING[k].n,c:0,miss:false}; cost[k].c+=c; if(mi) cost[k].miss=true; fcTot+=c;});});
+  var items=Object.keys(cost).map(function(k){return cost[k];}); items.forEach(function(x){if(x.miss) miss.push(x.n);});
+  return {R:R,T0:T0,gr:gr,mult:mult,tot:tot,pieces:pieces,items:items,miss:miss,fcTot:fcTot};
+}
+function rcCalc(){
+  var out=document.getElementById("rcOut"); if(!out) return;
+  var d=rcData(), R=d.R, h="";
+  h+="<div style=\"font-family:DM Mono,monospace;font-size:10px;color:var(--dim);margin-bottom:8px\">Moltiplicatore ×"+(Math.round(d.mult*1000)/1000)+(rcNum("rcPz",0)>0?" (calcolato dai pezzi)":"")+"</div>";
+  R.fasi.forEach(function(f){
+    h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px\"><div style=\"font-family:DM Mono,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:6px\">"+f.n+" · "+rcFmtG(rcFaseG(f)*d.mult)+(f.rows.some(function(r){return r.ref!==undefined;})?" + poolish":"")+"</div>";
+    f.rows.forEach(function(r){
+      if(r.ref!==undefined){h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--dim)\">"+r.t+"</span><span style=\"font-family:DM Mono,monospace;color:var(--dim)\">"+rcFmtG(rcFaseG(R.fasi[r.ref])*d.mult)+"</span></div>";return;}
+      h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--cream)\">"+RC_ING[r.i].n+"</span><span style=\"font-family:DM Mono,monospace;font-weight:700;color:var(--gold2)\">"+rcFmtG(r.g*d.mult,r.u)+"</span></div>";});
+    h+="</div>";});
+  h+=pesoBox(d.tot,d.pieces,d.gr,d.miss.length?0:d.fcTot);
+  if(d.miss.length&&d.fcTot>0) h+="<div style=\"font-size:11px;color:#FFB74D;margin-top:6px\">Costo parziale €"+d.fcTot.toFixed(2)+": mancano i prezzi di "+d.miss.join(", ")+".</div>";
+  h+=fcDetail(d.items,d.pieces);
+  out.innerHTML=h; window._rcData=d;
+}
+function rcWA(){
+  rcCalc(); var d=window._rcData; if(!d) return; var R=d.R;
+  var t=R.icon+" *"+R.n+"*\n📅 "+waOggi()+"\n⚙️ ×"+(Math.round(d.mult*1000)/1000)+"\n\n";
+  R.fasi.forEach(function(f){t+="*"+f.n+"*\n";f.rows.forEach(function(r){
+    if(r.ref!==undefined){t+="  "+r.t+"\n";return;} t+="  "+RC_ING[r.i].n+": *"+rcFmtG(r.g*d.mult,r.u)+"*\n";});t+="\n";});
+  t+="⚖️ *Peso totale impasto: "+(d.tot/1000).toFixed(2)+" kg*\n🍕 "+d.pieces+" pezzi da "+d.gr+"g\n\n_L'Orso Messina · Matteo La Spada e Gianluca_";
+  waOpen(t);
+}
+
 function calcPalaMls(){
   // Blend: 5078 W365 70% + 0102HP W320 30% nel rinfresco
   // Biga: 5078 W365 100%
@@ -5160,6 +5311,39 @@ function diarySaveAuto(){
     <div id="spOut"></div>
     <button onclick="spWA()" class="btn-share">📲 Invia riepilogo su WhatsApp</button>
     <button onclick="spReset()" class="breset">Azzera quantità</button>
+  </div>
+</div>
+
+<div id="pageRicette" class="page" style="display:none">
+  <div class="page-hero">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="page-hero-icon">📖</div>
+    <div class="page-hero-title">Ricettario L'Orso</div>
+    <div class="page-hero-sub">Matteo e Gianluca · 2026 · scala le quantità · food cost</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <label class="inp-label">Ricetta</label>
+      <select class="inp-field" id="rcSel" onchange="rcSelect()" style="font-size:15px;margin:6px 0 12px"></select>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div><label class="inp-label">Moltiplicatore</label><input class="inp-field" id="rcMult" type="number" value="1" min="0.1" step="0.1" oninput="document.getElementById('rcPz').value='';rcCalc()" style="font-size:18px"></div>
+        <div><label class="inp-label">Peso pezzo g</label><input class="inp-field" id="rcGr" type="number" value="700" min="1" step="10" oninput="rcCalc()" style="font-size:18px"></div>
+        <div><label class="inp-label">Pezzi voluti</label><input class="inp-field" id="rcPz" type="number" min="0" step="1" placeholder="auto" oninput="rcCalc()" style="font-size:18px"></div>
+      </div>
+      <div id="rcFmt" style="margin-top:10px"></div>
+      <div style="font-size:11px;color:var(--dim);margin-top:8px">Se scrivi i pezzi voluti, il moltiplicatore si calcola da solo.</div>
+    </div>
+    <div id="rcOut"></div>
+    <div class="card open" id="cardRcProc">
+      <div class="card-hdr" onclick="toggleCard('cardRcProc')"><span class="card-hdr-icon">📋</span><div class="card-hdr-text"><div class="card-hdr-label">Dal PDF</div><div class="card-hdr-title">Procedimento</div></div><span class="card-chevron">▾</span></div>
+      <div class="card-body"><div id="rcProc"></div></div>
+    </div>
+    <div id="rcNote" style="display:none;background:rgba(255,183,77,0.06);border:1px solid rgba(255,183,77,0.25);border-radius:14px;padding:12px"></div>
+    <div class="card" id="cardRcPrezzi">
+      <div class="card-hdr" onclick="toggleCard('cardRcPrezzi')"><span class="card-hdr-icon">💶</span><div class="card-hdr-text"><div class="card-hdr-label">€ al kg (€ a pezzo per la vaniglia)</div><div class="card-hdr-title">Prezzi ingredienti</div></div><span class="card-chevron">▾</span></div>
+      <div class="card-body"><div style="font-size:11px;color:var(--dim);margin-bottom:8px">Quelli già noti vengono dai listini. Dove è vuoto, il prezzo manca e il costo resta parziale.</div><div id="rcPrezzi"></div></div>
+    </div>
+    <button onclick="rcWA()" class="btn-share">📲 Invia ricetta su WhatsApp</button>
   </div>
 </div>
 
