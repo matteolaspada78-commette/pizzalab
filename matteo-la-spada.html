@@ -1335,7 +1335,7 @@ select.inp-field{
           <div class="inp-group"><label class="inp-label">Sale €/kg</label>
             <div class="inp-row"><input class="inp-field" id="prSale" type="number" value="0.50" step="0.05" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
           <div class="inp-group"><label class="inp-label">Olio EVO €/lt</label>
-            <div class="inp-row"><input class="inp-field" id="prOlio" type="number" value="10.00" step="0.50" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
+            <div class="inp-row"><input class="inp-field" id="prOlio" type="number" value="11.00" step="0.50" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
           <div class="inp-group"><label class="inp-label">Acqua €/m³ (valore provvisorio · metti quello in bolletta)</label>
             <div class="inp-row"><input class="inp-field" id="prAcqua" type="number" value="2.00" step="0.10" min="0" oninput="salvaP()"><span class="inp-unit">€</span></div></div>
           <div class="inp-group"><label class="inp-label">Malto diastasico €/kg (vuoto = non impostato)</label>
@@ -2302,7 +2302,7 @@ var FC_DEFAULT = {
   '3hp':    {nome:'Petra 3 HP',            sacco:29.69, kg:12.5},
   '0103hp': {nome:'Petraviva 0103HP',      sacco:44.93, kg:10  },
 };
-var FC_ALT = {ldb:5.00, sale:0.50, olio:10.00, acqua:2.00, malto:0, viva:0};
+var FC_ALT = {ldb:5.00, sale:0.50, olio:11.00, acqua:2.00, malto:0, viva:0};
 var FC={far:{},ldb:0,sale:0,olio:0,acqua:0,malto:0,viva:0};
 const R=(n,d=0)=>Math.round(n*10**d)/10**d;
 const H=h=>{const x=((h%24)+24)%24;return String(Math.floor(x)).padStart(2,'0')+':00'};
@@ -3081,6 +3081,11 @@ function loadFC(){
       if(p.alt) Object.assign(FC_ALT, p.alt);
       if(p.far) Object.keys(p.far).forEach(function(k){ if(FC_DEFAULT[k]) FC_DEFAULT[k].sacco=p.far[k]; });
     }
+    if(!localStorage.getItem('mls_olio11')){   // una tantum: olio EVO a 11 €/lt
+      FC_ALT.olio=11;
+      var q=s?JSON.parse(s):{}; q.alt=q.alt||{}; q.alt.olio=11;
+      localStorage.setItem('fc_prezzi',JSON.stringify(q)); localStorage.setItem('mls_olio11','1');
+    }
   }catch(e){}
 }
 
@@ -3093,7 +3098,7 @@ function salvaP(){
   });
   FC_ALT.ldb  = parseFloat((document.getElementById('prLdb')||{value:5}).value)||5;
   FC_ALT.sale = parseFloat((document.getElementById('prSale')||{value:0.5}).value)||0.5;
-  FC_ALT.olio = parseFloat((document.getElementById('prOlio')||{value:10}).value)||10;
+  FC_ALT.olio = parseFloat((document.getElementById('prOlio')||{value:11}).value)||11;
   var _n=function(id,def){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?def:v;};
   FC_ALT.acqua = _n('prAcqua',FC_ALT.acqua);
   FC_ALT.malto = _n('prMalto',0);
@@ -3110,7 +3115,7 @@ function resetPrezzi(){
   FC_DEFAULT['5037'].sacco=21.94;   FC_DEFAULT['3220'].sacco=56.90;
   FC_DEFAULT['3400'].sacco=68.83;   FC_DEFAULT['3hp'].sacco=29.69;
   FC_DEFAULT['0103hp'].sacco=44.93;
-  FC_ALT={ldb:5.00, sale:0.50, olio:10.00, acqua:2.00, malto:0, viva:0};
+  FC_ALT={ldb:5.00, sale:0.50, olio:11.00, acqua:2.00, malto:0, viva:0};
   initPrezziPage();
 }
 
@@ -4559,7 +4564,7 @@ var RC_PESI={pizzafoc:[300,400,500,600,700,800],focmassa:[300,400,500,600,700,80
 function rcSetGr(g){document.getElementById("rcGr").value=g;document.getElementById("rcPz").value="";rcCalc();}
 function rcRese(d){
   var l=(RC_PESI[d.R.id]||[]).slice(); var a=rcNum("rcAltro",0);
-  if(l.length||a>0){ if(a>0&&l.indexOf(a)<0) l.push(a); if(d.gr>0&&d.gr!==d.R.gr&&l.indexOf(d.gr)<0) l.push(d.gr); }
+  if(l.length||a>0){ if(a>0&&l.indexOf(a)<0) l.push(a); if(d.gr>0&&d.gr!==d.R.gr&&l.indexOf(d.gr)<0) l.push(d.gr); if(l.indexOf(250)<0) l.push(250); }
   l.sort(function(x,y){return x-y;});
   return l.map(function(g){return {g:g,n:Math.floor(d.tot/g),resto:Math.round(d.tot-Math.floor(d.tot/g)*g)};});
 }
@@ -4626,13 +4631,13 @@ function rcCalc(){
     h+="</div>";});
   h+=pesoBox(d.tot,d.pieces,d.gr,d.miss.length?0:d.fcTot);
   if(d.miss.length&&d.fcTot>0) h+="<div style=\"font-size:11px;color:#FFB74D;margin-top:6px\">Costo parziale €"+d.fcTot.toFixed(2)+": mancano i prezzi di "+d.miss.join(", ")+".</div>";
-  var rese=rcRese(d);
+  var rese=rcRese(d), cpg=(d.fcTot>0&&d.tot>0)?d.fcTot/d.tot:0;
   if(rese.length){
     h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px\"><div style=\"font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px\">Quanti pezzi escono ("+(d.tot/1000).toFixed(2)+" kg di impasto)</div>";
     rese.forEach(function(x){
       var sel=(x.g===d.gr);
-      h+="<div onclick=\"rcSetGr("+x.g+")\" style=\"display:flex;justify-content:space-between;align-items:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;border-radius:8px;"+(sel?"background:rgba(200,151,58,0.12);":"")+"\"><span style=\"font-family:DM Mono,monospace;font-size:14px;color:"+(sel?"var(--gold2)":"var(--cream)")+"\">"+x.g+" g</span><span style=\"font-family:DM Mono,monospace;font-size:13px;color:var(--cream2)\"><strong style=\"color:var(--gold2)\">"+x.n+" pezzi</strong> · resto "+x.resto+" g</span></div>";});
-    h+="<div style=\"font-size:10px;color:var(--dim);margin-top:6px\">Calcolati sul peso dell'impasto crudo (senza calo di cottura). Tocca una riga per usarla.</div></div>";
+      h+="<div onclick=\"rcSetGr("+x.g+")\" style=\"display:flex;justify-content:space-between;align-items:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;border-radius:8px;"+(sel?"background:rgba(200,151,58,0.12);":"")+"\"><span style=\"font-family:DM Mono,monospace;font-size:14px;color:"+(sel?"var(--gold2)":"var(--cream)")+"\">"+x.g+" g</span><span style=\"font-family:DM Mono,monospace;font-size:13px;color:var(--cream2)\"><strong style=\"color:var(--gold2)\">"+x.n+" pezzi</strong> · resto "+x.resto+" g"+(cpg>0?" · €"+(cpg*x.g).toFixed(2)+(d.miss.length?"*":"")+"/pz":"")+"</span></div>";});
+    h+="<div style=\"font-size:10px;color:var(--dim);margin-top:6px\">Calcolati sul peso dell'impasto crudo (senza calo di cottura). Tocca una riga per usarla."+(cpg>0&&d.miss.length?" * costo parziale: mancano dei prezzi.":"")+"</div></div>";
   }
   h+=fcDetail(d.items,d.pieces);
   out.innerHTML=h; window._rcData=d;
@@ -5364,5 +5369,9 @@ function diarySaveAuto(){
   </div>
 </div>
 
+<script>
+/* ricarica i prezzi salvati (Listino Prezzi) all'apertura */
+try{loadFC();updateFCAlias();}catch(e){}
+</script>
 </body>
 </html>
