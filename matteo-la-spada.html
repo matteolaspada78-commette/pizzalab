@@ -4568,11 +4568,39 @@ function rcRese(d){
   l.sort(function(x,y){return x-y;});
   return l.map(function(g){return {g:g,n:Math.floor(d.tot/g),resto:Math.round(d.tot-Math.floor(d.tot/g)*g)};});
 }
+
+var RC_FLOURS=["f6384","hp0102","petra3","hp0104","f8610"];
+function rcIng(id){
+  if(RC_ING[id]) return RC_ING[id];
+  var f=(typeof FA!=="undefined")?FA.filter(function(x){return x.id===id;})[0]:null;
+  return f?{n:f.nome,fa:f.id}:{n:id};
+}
+function rcFlourMap(){try{return JSON.parse(localStorage.getItem("mls_rf")||"{}");}catch(e){return {};}}
+function rcRowId(R,fi,ri){var r=R.fasi[fi].rows[ri]; var m=rcFlourMap()[R.id]; return (m&&m[fi+"_"+ri])||r.i;}
+function rcNameCell(R,fi,ri,r){
+  if(RC_FLOURS.indexOf(r.i)<0) return rcIng(r.i).n;
+  var cur=rcRowId(R,fi,ri);
+  var s="<select onchange=\"rcSetFlour("+fi+","+ri+",this.value)\" style=\"max-width:210px;background:rgba(0,0,0,0.3);border:1px solid var(--border2);border-radius:8px;color:var(--cream);font-size:13px;padding:6px 8px\">";
+  FA.filter(function(x){return x.tipo==="farina";}).forEach(function(x){
+    s+="<option value=\""+x.id+"\""+(x.id===cur?" selected":"")+">"+x.nome+((x.w&&x.w!=="-")?" · W"+x.w:"")+"</option>";});
+  return s+"</select>";
+}
+function rcSetFlour(fi,ri,val){
+  var R=rcCur(), m=rcFlourMap(); m[R.id]=m[R.id]||{}; m[R.id][fi+"_"+ri]=val;
+  try{localStorage.setItem("mls_rf",JSON.stringify(m));}catch(e){}
+  rcSelect(true);
+}
+function rcResetFlour(){
+  var R=rcCur(), m=rcFlourMap(); delete m[R.id];
+  try{localStorage.setItem("mls_rf",JSON.stringify(m));}catch(e){}
+  rcSelect(true);
+}
+
 function rcMap(){var m={};RC.forEach(function(r){m[r.id]=r;});return m;}
 function rcBook(){try{return JSON.parse(localStorage.getItem("mls_rp")||"{}");}catch(e){return {};}}
 function rcPrice(id){
   var o=rcBook(); if(o[id]!==undefined&&o[id]!==""&&!isNaN(parseFloat(o[id]))) return parseFloat(o[id]);
-  var I=RC_ING[id]||{};
+  var I=rcIng(id);
   if(I.fa&&typeof FA!=="undefined"){var f=FA.filter(function(x){return x.id===I.fa;})[0]; if(f&&f.kg>0&&f.pr>0) return f.pr/f.kg;}
   if(id==="ldb") return FC_ALT.ldb; if(id==="sale") return FC_ALT.sale; if(id==="olio") return FC_ALT.olio/0.92;
   if(id==="malto") return FC_ALT.malto>0?FC_ALT.malto:null; if(id==="acqua") return (FC_ALT.acqua||0)/1000;
@@ -4589,13 +4617,13 @@ function rcInit(){
   if(!s.dataset.built){var h="";RC.forEach(function(r){h+="<option value=\""+r.id+"\">"+r.icon+" "+r.n+"</option>";});s.innerHTML=h;s.dataset.built="1";rcSelect();}
   else rcCalc();
 }
-function rcSelect(){
+function rcSelect(keep){
   var R=rcCur();
-  document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcAltro").value=""; document.getElementById("rcGr").value=R.gr;
+  if(keep!==true){ document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcAltro").value=""; document.getElementById("rcGr").value=R.gr; }
   var f="";R.fmt.forEach(function(x){f+="<button onclick=\"document.getElementById('rcGr').value="+x[1]+";rcCalc()\" style=\"background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:6px 10px;cursor:pointer\">"+x[0]+"</button> ";});
   document.getElementById("rcFmt").innerHTML=f;
-  var ids={};R.fasi.forEach(function(fs){fs.rows.forEach(function(r){if(r.i) ids[r.i]=1;});});
-  var p="";Object.keys(ids).forEach(function(i){var I=RC_ING[i],pr=rcPrice(i);
+  var ids={};R.fasi.forEach(function(fs,fi){fs.rows.forEach(function(r,ri){if(r.i) ids[rcRowId(R,fi,ri)]=1;});});
+  var p="";Object.keys(ids).forEach(function(i){var I=rcIng(i),pr=rcPrice(i);
     p+="<div style=\"display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)\"><span style=\"font-size:12px;color:var(--cream2)\">"+I.n+"</span>"
      +"<input class=\"inp-field\" id=\"rcP_"+i+"\" type=\"number\" step=\"0.01\" min=\"0\" placeholder=\"manca\" value=\""+(pr!=null?pr.toFixed(3):"")+"\" oninput=\"rcSetPrice('"+i+"',this.value)\" style=\"font-size:15px;text-align:right\"></div>";});
   document.getElementById("rcPrezzi").innerHTML=p;
@@ -4612,10 +4640,10 @@ function rcData(){
   var mult=pz>0?(pz*gr/T0):rcNum("rcMult",1); if(!(mult>0)) mult=1;
   var tot=T0*mult, pieces=pz>0?pz:Math.floor(tot/gr);
   var cost={}, miss=[], fcTot=0;
-  R.fasi.forEach(function(f){f.rows.forEach(function(r){ if(r.ref||!r.i) return;
-    var q=r.g*mult, price=rcPrice(r.i), c=0, mi=false;
+  R.fasi.forEach(function(f,fi){f.rows.forEach(function(r,ri){ if(r.ref||!r.i) return; var rid=rcRowId(R,fi,ri);
+    var q=r.g*mult, price=rcPrice(rid), c=0, mi=false;
     if(price==null) mi=true; else c=(r.u?q:q/1000)*price;
-    var k=r.i; if(!cost[k]) cost[k]={n:RC_ING[k].n,c:0,miss:false}; cost[k].c+=c; if(mi) cost[k].miss=true; fcTot+=c;});});
+    var k=rid; if(!cost[k]) cost[k]={n:rcIng(k).n,c:0,miss:false}; cost[k].c+=c; if(mi) cost[k].miss=true; fcTot+=c;});});
   var items=Object.keys(cost).map(function(k){return cost[k];}); items.forEach(function(x){if(x.miss) miss.push(x.n);});
   return {R:R,T0:T0,gr:gr,mult:mult,tot:tot,pieces:pieces,items:items,miss:miss,fcTot:fcTot};
 }
@@ -4623,11 +4651,11 @@ function rcCalc(){
   var out=document.getElementById("rcOut"); if(!out) return;
   var d=rcData(), R=d.R, h="";
   h+="<div style=\"font-family:DM Mono,monospace;font-size:10px;color:var(--dim);margin-bottom:8px\">Moltiplicatore ×"+(Math.round(d.mult*1000)/1000)+(rcNum("rcPz",0)>0?" (calcolato dai pezzi)":"")+"</div>";
-  R.fasi.forEach(function(f){
+  R.fasi.forEach(function(f,fi){
     h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px\"><div style=\"font-family:DM Mono,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:6px\">"+f.n+" · "+rcFmtG(rcFaseG(f)*d.mult)+(f.rows.some(function(r){return r.ref!==undefined;})?" + poolish":"")+"</div>";
-    f.rows.forEach(function(r){
+    f.rows.forEach(function(r,ri){
       if(r.ref!==undefined){h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--dim)\">"+r.t+"</span><span style=\"font-family:DM Mono,monospace;color:var(--dim)\">"+rcFmtG(rcFaseG(R.fasi[r.ref])*d.mult)+"</span></div>";return;}
-      h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--cream)\">"+RC_ING[r.i].n+(r.h?"<br><span style=\"font-size:10px;color:var(--dim)\">"+r.h+"</span>":"")+"</span><span style=\"font-family:DM Mono,monospace;font-weight:700;color:var(--gold2)\">"+rcFmtG(r.g*d.mult,r.u)+"</span></div>";});
+      h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--cream)\">"+rcNameCell(R,fi,ri,r)+(r.h?"<br><span style=\"font-size:10px;color:var(--dim)\">"+r.h+"</span>":"")+"</span><span style=\"font-family:DM Mono,monospace;font-weight:700;color:var(--gold2)\">"+rcFmtG(r.g*d.mult,r.u)+"</span></div>";});
     h+="</div>";});
   h+=pesoBox(d.tot,d.pieces,d.gr,d.miss.length?0:d.fcTot);
   if(d.miss.length&&d.fcTot>0) h+="<div style=\"font-size:11px;color:#FFB74D;margin-top:6px\">Costo parziale €"+d.fcTot.toFixed(2)+": mancano i prezzi di "+d.miss.join(", ")+".</div>";
@@ -4645,8 +4673,8 @@ function rcCalc(){
 function rcWA(){
   rcCalc(); var d=window._rcData; if(!d) return; var R=d.R;
   var t=R.icon+" *"+R.n+"*\n📅 "+waOggi()+"\n⚙️ ×"+(Math.round(d.mult*1000)/1000)+"\n\n";
-  R.fasi.forEach(function(f){t+="*"+f.n+"*\n";f.rows.forEach(function(r){
-    if(r.ref!==undefined){t+="  "+r.t+"\n";return;} t+="  "+RC_ING[r.i].n+": *"+rcFmtG(r.g*d.mult,r.u)+"*\n";});t+="\n";});
+  R.fasi.forEach(function(f,fi){t+="*"+f.n+"*\n";f.rows.forEach(function(r,ri){
+    if(r.ref!==undefined){t+="  "+r.t+"\n";return;} t+="  "+rcIng(rcRowId(R,fi,ri)).n+": *"+rcFmtG(r.g*d.mult,r.u)+"*\n";});t+="\n";});
   var rs=rcRese(d); t+="⚖️ *Peso totale impasto: "+(d.tot/1000).toFixed(2)+" kg*\n🍕 "+d.pieces+" pezzi da "+d.gr+"g\n"+(rs.length?"📊 Rese: "+rs.map(function(x){return x.g+"g → "+x.n+" pz";}).join(" · ")+"\n":"")+"\n_L'Orso Messina · Matteo La Spada e Gianluca_";
   waOpen(t);
 }
@@ -5353,6 +5381,7 @@ function diarySaveAuto(){
       </div>
       <div id="rcFmt" style="margin-top:10px"></div>
       <div style="margin-top:10px"><label class="inp-label">Altro peso per la tabella (g)</label><input class="inp-field" id="rcAltro" type="number" min="1" step="10" placeholder="es. 350" oninput="rcCalc()" style="font-size:18px"></div>
+      <button onclick="rcResetFlour()" style="margin-top:10px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:7px 11px;cursor:pointer">↺ Farine originali del PDF</button>
       <div style="font-size:11px;color:var(--dim);margin-top:8px">Se scrivi i pezzi voluti, il moltiplicatore si calcola da solo.</div>
     </div>
     <div id="rcOut"></div>
