@@ -4515,9 +4515,9 @@ var RC=[
  {id:"focmassa",n:"Focaccia metodo in massa · poolish",icon:"🍞",gr:700,fmt:[["Focaccia 700g",700]],
   fasi:[
    {n:"Poolish",rows:[{i:"f6384",g:1000},{i:"acqua",g:1000},{i:"ldb",g:10}]},
-   {n:"Impasto",rows:[{ref:0,t:"Tutto il poolish"},{i:"hp0102",g:2000},{i:"sale",g:75},{i:"olio",g:125},{i:"acqua",g:1100}]}],
+   {n:"Impasto",rows:[{ref:0,t:"Tutto il poolish"},{i:"hp0102",g:2000},{i:"malto",g:10,h:"10 g per kg di farina del poolish (1000 g)"},{i:"sale",g:75},{i:"olio",g:125},{i:"acqua",g:1100}]}],
   proc:["Poolish: in un recipiente mescolare acqua e lievito, unire la farina, impasto senza grumi. Coprire e fermentare a temperatura ambiente 22/24°C fino al triplo.",
-   "Autolisi: acqua a temperatura ambiente e farina, attendere 40/50 minuti.","Unire il poolish e impastare fino a formare la maglia. Aggiungere il sale e infine l'olio in due-tre volte, aspettando che venga assorbito.",
+   "Autolisi: acqua a temperatura ambiente e farina, attendere 40/50 minuti.","Unire il poolish e il malto (10 g per kg di farina del poolish) e impastare fino a formare la maglia. Aggiungere il sale e infine l'olio in due-tre volte, aspettando che venga assorbito.",
    "Togliere dalla macchina, sul piano una piega, in un contenitore passato con olio. Attendere 20 minuti, un'altra piega.","Richiudere con il coperchio e in frigo fino al mattino. Poi fare le pezzature.",
    "Panetti sul telo con farina per scaricare umidità. Lievitare a 28°C fino al triplo."],
   note:["Pezzatura non indicata nella ricetta: ho messo 700g come per la focaccia in teglia del primo impasto."]},
@@ -4614,7 +4614,7 @@ function rcCalc(){
     h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px\"><div style=\"font-family:DM Mono,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:6px\">"+f.n+" · "+rcFmtG(rcFaseG(f)*d.mult)+(f.rows.some(function(r){return r.ref!==undefined;})?" + poolish":"")+"</div>";
     f.rows.forEach(function(r){
       if(r.ref!==undefined){h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--dim)\">"+r.t+"</span><span style=\"font-family:DM Mono,monospace;color:var(--dim)\">"+rcFmtG(rcFaseG(R.fasi[r.ref])*d.mult)+"</span></div>";return;}
-      h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--cream)\">"+RC_ING[r.i].n+"</span><span style=\"font-family:DM Mono,monospace;font-weight:700;color:var(--gold2)\">"+rcFmtG(r.g*d.mult,r.u)+"</span></div>";});
+      h+="<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px\"><span style=\"color:var(--cream)\">"+RC_ING[r.i].n+(r.h?"<br><span style=\"font-size:10px;color:var(--dim)\">"+r.h+"</span>":"")+"</span><span style=\"font-family:DM Mono,monospace;font-weight:700;color:var(--gold2)\">"+rcFmtG(r.g*d.mult,r.u)+"</span></div>";});
     h+="</div>";});
   h+=pesoBox(d.tot,d.pieces,d.gr,d.miss.length?0:d.fcTot);
   if(d.miss.length&&d.fcTot>0) h+="<div style=\"font-size:11px;color:#FFB74D;margin-top:6px\">Costo parziale €"+d.fcTot.toFixed(2)+": mancano i prezzi di "+d.miss.join(", ")+".</div>";
