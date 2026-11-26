@@ -4555,6 +4555,14 @@ var RC=[
    "Mettere dentro la cassetta con griz di mais, un filo d'olio sopra, griz sopra, e mettere a lievitare.","Appena pronto tagliare strisce e passarle nel griz, stendere con le mani, in teglia.","Cottura a 180°C, poi 160°C fino a fine cottura."],
   note:["Olio: 100g (il grasso totale può arrivare a 200g).","Il griz di mais non è nelle quantità."]}
 ];
+var RC_PESI={pizzafoc:[300,400,500,600,700,800],focmassa:[300,400,500,600,700,800],pane:[500,700,900,1000,1300],panclass:[250,500,750,1000],brioche:[60,80,100,120],grissini:[200,400,600]};
+function rcSetGr(g){document.getElementById("rcGr").value=g;document.getElementById("rcPz").value="";rcCalc();}
+function rcRese(d){
+  var l=(RC_PESI[d.R.id]||[]).slice(); var a=rcNum("rcAltro",0);
+  if(l.length||a>0){ if(a>0&&l.indexOf(a)<0) l.push(a); if(d.gr>0&&d.gr!==d.R.gr&&l.indexOf(d.gr)<0) l.push(d.gr); }
+  l.sort(function(x,y){return x-y;});
+  return l.map(function(g){return {g:g,n:Math.floor(d.tot/g),resto:Math.round(d.tot-Math.floor(d.tot/g)*g)};});
+}
 function rcMap(){var m={};RC.forEach(function(r){m[r.id]=r;});return m;}
 function rcBook(){try{return JSON.parse(localStorage.getItem("mls_rp")||"{}");}catch(e){return {};}}
 function rcPrice(id){
@@ -4578,7 +4586,7 @@ function rcInit(){
 }
 function rcSelect(){
   var R=rcCur();
-  document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcGr").value=R.gr;
+  document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcAltro").value=""; document.getElementById("rcGr").value=R.gr;
   var f="";R.fmt.forEach(function(x){f+="<button onclick=\"document.getElementById('rcGr').value="+x[1]+";rcCalc()\" style=\"background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:6px 10px;cursor:pointer\">"+x[0]+"</button> ";});
   document.getElementById("rcFmt").innerHTML=f;
   var ids={};R.fasi.forEach(function(fs){fs.rows.forEach(function(r){if(r.i) ids[r.i]=1;});});
@@ -4618,6 +4626,14 @@ function rcCalc(){
     h+="</div>";});
   h+=pesoBox(d.tot,d.pieces,d.gr,d.miss.length?0:d.fcTot);
   if(d.miss.length&&d.fcTot>0) h+="<div style=\"font-size:11px;color:#FFB74D;margin-top:6px\">Costo parziale €"+d.fcTot.toFixed(2)+": mancano i prezzi di "+d.miss.join(", ")+".</div>";
+  var rese=rcRese(d);
+  if(rese.length){
+    h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px\"><div style=\"font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px\">Quanti pezzi escono ("+(d.tot/1000).toFixed(2)+" kg di impasto)</div>";
+    rese.forEach(function(x){
+      var sel=(x.g===d.gr);
+      h+="<div onclick=\"rcSetGr("+x.g+")\" style=\"display:flex;justify-content:space-between;align-items:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;border-radius:8px;"+(sel?"background:rgba(200,151,58,0.12);":"")+"\"><span style=\"font-family:DM Mono,monospace;font-size:14px;color:"+(sel?"var(--gold2)":"var(--cream)")+"\">"+x.g+" g</span><span style=\"font-family:DM Mono,monospace;font-size:13px;color:var(--cream2)\"><strong style=\"color:var(--gold2)\">"+x.n+" pezzi</strong> · resto "+x.resto+" g</span></div>";});
+    h+="<div style=\"font-size:10px;color:var(--dim);margin-top:6px\">Calcolati sul peso dell'impasto crudo (senza calo di cottura). Tocca una riga per usarla.</div></div>";
+  }
   h+=fcDetail(d.items,d.pieces);
   out.innerHTML=h; window._rcData=d;
 }
@@ -4626,7 +4642,7 @@ function rcWA(){
   var t=R.icon+" *"+R.n+"*\n📅 "+waOggi()+"\n⚙️ ×"+(Math.round(d.mult*1000)/1000)+"\n\n";
   R.fasi.forEach(function(f){t+="*"+f.n+"*\n";f.rows.forEach(function(r){
     if(r.ref!==undefined){t+="  "+r.t+"\n";return;} t+="  "+RC_ING[r.i].n+": *"+rcFmtG(r.g*d.mult,r.u)+"*\n";});t+="\n";});
-  t+="⚖️ *Peso totale impasto: "+(d.tot/1000).toFixed(2)+" kg*\n🍕 "+d.pieces+" pezzi da "+d.gr+"g\n\n_L'Orso Messina · Matteo La Spada e Gianluca_";
+  var rs=rcRese(d); t+="⚖️ *Peso totale impasto: "+(d.tot/1000).toFixed(2)+" kg*\n🍕 "+d.pieces+" pezzi da "+d.gr+"g\n"+(rs.length?"📊 Rese: "+rs.map(function(x){return x.g+"g → "+x.n+" pz";}).join(" · ")+"\n":"")+"\n_L'Orso Messina · Matteo La Spada e Gianluca_";
   waOpen(t);
 }
 
@@ -5331,6 +5347,7 @@ function diarySaveAuto(){
         <div><label class="inp-label">Pezzi voluti</label><input class="inp-field" id="rcPz" type="number" min="0" step="1" placeholder="auto" oninput="rcCalc()" style="font-size:18px"></div>
       </div>
       <div id="rcFmt" style="margin-top:10px"></div>
+      <div style="margin-top:10px"><label class="inp-label">Altro peso per la tabella (g)</label><input class="inp-field" id="rcAltro" type="number" min="1" step="10" placeholder="es. 350" oninput="rcCalc()" style="font-size:18px"></div>
       <div style="font-size:11px;color:var(--dim);margin-top:8px">Se scrivi i pezzi voluti, il moltiplicatore si calcola da solo.</div>
     </div>
     <div id="rcOut"></div>
