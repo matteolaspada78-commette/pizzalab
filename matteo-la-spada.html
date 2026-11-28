@@ -767,6 +767,16 @@ select.inp-field{
       <div class="menu-arrow">›</div>
     </button>
 
+    <div class="sec-label">🧪 Laboratorio</div>
+    <button class="menu-btn" onclick="openPage('biga')">
+      <div class="menu-icon" style="background:rgba(139,180,224,0.25)">🧪</div>
+      <div class="menu-text">
+        <div class="menu-name" style="color:#8BB4E0">Laboratorio Biga · Prove e classifica</div>
+        <div class="menu-sub">Temperatura e farina · Napoletana e Pala · una variabile alla volta</div>
+      </div>
+      <div class="menu-arrow">›</div>
+    </button>
+
     <div class="sec-label">📔 Diario</div>
     <button class="menu-btn" onclick="openPage('diario')">
       <div class="menu-icon" style="background:rgba(55,71,79,0.4)">📔</div>
@@ -2241,7 +2251,7 @@ function calcAll(){
 
 
 var pageMap={
-  mls:'pageMls', ordine:'pageOrdine', spedizioni:'pageSpedizioni', ricette:'pageRicette', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
+  mls:'pageMls', ordine:'pageOrdine', spedizioni:'pageSpedizioni', ricette:'pageRicette', biga:'pageBiga', direttomls:'pageDirettaMls', palamls:'pagePalaMls',
   scrocchcuppone:'pageScrocchCuppone', licoli:'pageLicoli',
   paneorso:'pagePaneOrso', prezzi:'pagePrezzi', diario:'pageDiario'
 };
@@ -2278,6 +2288,7 @@ function openPage(key){
   if(key==='diario'){try{diaryLoad();}catch(e){}}
   if(key==='ordine'){try{calcOrdine();}catch(e){}}
   if(key==='ricette'){try{rcInit();}catch(e){}}
+  if(key==='biga'){try{bgInit();}catch(e){}}
   if(key==='spedizioni'){try{calcPaneOrso();}catch(e){} try{spInit();}catch(e){}}
 }
 
@@ -4596,6 +4607,41 @@ function rcResetFlour(){
   rcSelect(true);
 }
 
+
+var RC_IDR={pizzafoc:1,focmassa:1,pane:1,grissini:1};
+function rcIdrCalc(R){
+  var fl=0,wf=0,wa=0,last=R.fasi.length-1;
+  R.fasi.forEach(function(f,fi){f.rows.forEach(function(r){
+    if(r.ref||!r.i||r.u) return;
+    if(RC_FLOURS.indexOf(r.i)>=0) fl+=r.g;
+    else if(r.i==="licoli"){fl+=r.g/2;wf+=r.g/2;}
+    else if(r.i==="acqua"){ if(fi===last) wa+=r.g; else wf+=r.g; }
+  });});
+  return {fl:fl,wFixed:wf,wAdj:wa};
+}
+function rcEff(R){
+  var t=RC_IDR[R.id]?rcNum("rcIdrT",0):0;
+  var sv=document.getElementById("rcSale"), ov=document.getElementById("rcOlio");
+  var s=(sv&&sv.value!=="")?parseFloat(sv.value):NaN, o=(ov&&ov.value!=="")?parseFloat(ov.value):NaN;
+  var useI=t>0, useS=!isNaN(s)&&s>=0, useO=!isNaN(o)&&o>=0;
+  if(!useI&&!useS&&!useO) return R;
+  var c=rcIdrCalc(R); if(!(c.fl>0)) return R;
+  var need=0, clamp=false;
+  if(useI){need=t/100*c.fl-c.wFixed; if(need<0){need=0;clamp=true;} need=Math.round(need);}
+  var last=R.fasi.length-1, E={id:R.id,n:R.n,icon:R.icon,gr:R.gr,fmt:R.fmt,proc:R.proc,note:R.note,_adj:useI,_clamp:clamp,_adjSO:(useS||useO),fasi:[]};
+  R.fasi.forEach(function(f,fi){
+    var rows=f.rows.map(function(r){var q={};for(var k in r) q[k]=r[k];return q;});
+    if(useI&&fi===last){var done=false; rows.forEach(function(r){if(r.i==="acqua"&&!done){r.g=need;done=true;}}); if(!done) rows.push({i:"acqua",g:need});}
+    rows.forEach(function(r){
+      if(useS&&r.i==="sale") r.g=Math.round(s/100*c.fl);
+      if(useO&&r.i==="olio") r.g=Math.round(o/100*c.fl);
+    });
+    E.fasi.push({n:f.n,rows:rows});
+  });
+  return E;
+}
+function rcCur(){return rcEff(rcCurBase());}
+
 function rcMap(){var m={};RC.forEach(function(r){m[r.id]=r;});return m;}
 function rcBook(){try{return JSON.parse(localStorage.getItem("mls_rp")||"{}");}catch(e){return {};}}
 function rcPrice(id){
@@ -4610,7 +4656,7 @@ function rcPrice(id){
 function rcBase(R){var t=0;R.fasi.forEach(function(f){f.rows.forEach(function(r){if(!r.ref&&r.i&&!r.u) t+=r.g;});});return t;}
 function rcFaseG(f){var t=0;f.rows.forEach(function(r){if(!r.ref&&r.i&&!r.u) t+=r.g;});return t;}
 function rcFmtG(g,u){if(u) return (Math.round(g*10)/10)+" "+u; return (g>=10?Math.round(g):Math.round(g*10)/10)+" g";}
-function rcCur(){var R=rcMap()[(document.getElementById("rcSel")||{}).value]||RC[0];return R;}
+function rcCurBase(){var R=rcMap()[(document.getElementById("rcSel")||{}).value]||RC[0];return R;}
 function rcNum(id,def){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?def:v;}
 function rcInit(){
   var s=document.getElementById("rcSel"); if(!s) return;
@@ -4618,7 +4664,14 @@ function rcInit(){
   else rcCalc();
 }
 function rcSelect(keep){
+  if(keep!==true){["rcIdrT","rcSale","rcOlio"].forEach(function(x){var _i=document.getElementById(x); if(_i) _i.value="";});}
   var R=rcCur();
+  var _ib=document.getElementById("rcIdrBox"); if(_ib) _ib.style.display=RC_IDR[R.id]?"block":"none";
+  var _has=function(id){var g=false;R.fasi.forEach(function(f){f.rows.forEach(function(r){if(r.i===id) g=true;});});return g;};
+  var _hs=_has("sale"), _ho=_has("olio");
+  var _a=document.getElementById("rcSaleW"); if(_a) _a.style.display=_hs?"block":"none";
+  var _b=document.getElementById("rcOlioW"); if(_b) _b.style.display=_ho?"block":"none";
+  var _c=document.getElementById("rcSOBox"); if(_c) _c.style.display=(_hs||_ho)?"block":"none";
   if(keep!==true){ document.getElementById("rcMult").value=1; document.getElementById("rcPz").value=""; document.getElementById("rcAltro").value=""; document.getElementById("rcGr").value=R.gr; }
   var f="";R.fmt.forEach(function(x){f+="<button onclick=\"document.getElementById('rcGr').value="+x[1]+";rcCalc()\" style=\"background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:6px 10px;cursor:pointer\">"+x[0]+"</button> ";});
   document.getElementById("rcFmt").innerHTML=f;
@@ -4637,6 +4690,11 @@ function rcSelect(keep){
 function rcSetPrice(id,v){var o=rcBook();if(v===""||isNaN(parseFloat(v))) delete o[id]; else o[id]=parseFloat(v);try{localStorage.setItem("mls_rp",JSON.stringify(o));}catch(e){} rcCalc();}
 function rcData(){
   var R=rcCur(), T0=rcBase(R), gr=rcNum("rcGr",R.gr), pz=rcNum("rcPz",0);
+  var cb=rcIdrCalc(rcCurBase()), ce=rcIdrCalc(R), idr=null;
+  var Rb2=rcCurBase(), so=null;
+  var pc=function(RR,id){var g=0;RR.fasi.forEach(function(f){f.rows.forEach(function(r){if(!r.ref&&r.i===id) g+=r.g;});});return g;};
+  if(cb.fl>0) so={sale:{has:pc(Rb2,"sale")>0,base:pc(Rb2,"sale")/cb.fl*100,eff:pc(R,"sale")/cb.fl*100},olio:{has:pc(Rb2,"olio")>0,base:pc(Rb2,"olio")/cb.fl*100,eff:pc(R,"olio")/cb.fl*100}};
+  if(RC_IDR[R.id]&&cb.fl>0&&ce.fl>0) idr={base:(cb.wFixed+cb.wAdj)/cb.fl*100,min:cb.wFixed/cb.fl*100,eff:(ce.wFixed+ce.wAdj)/ce.fl*100};
   var mult=pz>0?(pz*gr/T0):rcNum("rcMult",1); if(!(mult>0)) mult=1;
   var tot=T0*mult, pieces=pz>0?pz:Math.floor(tot/gr);
   var cost={}, miss=[], fcTot=0;
@@ -4645,12 +4703,25 @@ function rcData(){
     if(price==null) mi=true; else c=(r.u?q:q/1000)*price;
     var k=rid; if(!cost[k]) cost[k]={n:rcIng(k).n,c:0,miss:false}; cost[k].c+=c; if(mi) cost[k].miss=true; fcTot+=c;});});
   var items=Object.keys(cost).map(function(k){return cost[k];}); items.forEach(function(x){if(x.miss) miss.push(x.n);});
-  return {R:R,T0:T0,gr:gr,mult:mult,tot:tot,pieces:pieces,items:items,miss:miss,fcTot:fcTot};
+  return {R:R,T0:T0,gr:gr,mult:mult,tot:tot,pieces:pieces,items:items,miss:miss,fcTot:fcTot,idr:idr,so:so};
 }
 function rcCalc(){
   var out=document.getElementById("rcOut"); if(!out) return;
   var d=rcData(), R=d.R, h="";
   h+="<div style=\"font-family:DM Mono,monospace;font-size:10px;color:var(--dim);margin-bottom:8px\">Moltiplicatore ×"+(Math.round(d.mult*1000)/1000)+(rcNum("rcPz",0)>0?" (calcolato dai pezzi)":"")+"</div>";
+  if(d.idr){
+    h+="<div style='font-family:DM Mono,monospace;font-size:12px;color:var(--blue2);margin-bottom:8px'>💧 IDR totale "+d.idr.eff.toFixed(1)+"%"+(R._adj?" (ricetta "+d.idr.base.toFixed(1)+"%)":"")+(R.fasi[0].n==="Poolish"?" · il poolish resta fisso":"")+"</div>";
+    var _n=document.getElementById("rcIdrNote");
+    if(_n) _n.textContent="Ricetta: "+d.idr.base.toFixed(1)+"%"+(R.fasi[0].n==="Poolish"?" · minimo senza toccare il poolish: "+d.idr.min.toFixed(1)+"%":"")+(R._clamp?" · il valore scelto è sotto il minimo, uso il minimo":"");
+  }
+  if(d.so&&(d.so.sale.has||d.so.olio.has)){
+    var _p=[], _q=[];
+    [["sale","🧂 Sale"],["olio","🫒 Olio"]].forEach(function(x){var v=d.so[x[0]]; if(!v.has) return;
+      _p.push(x[1]+" "+v.eff.toFixed(2)+"%"+((R._adjSO&&Math.abs(v.eff-v.base)>0.005)?" (ricetta "+v.base.toFixed(2)+"%)":""));
+      _q.push(x[0]+" "+v.base.toFixed(2)+"%");});
+    h+="<div style='font-family:DM Mono,monospace;font-size:12px;color:var(--cream2);margin-bottom:8px'>"+_p.join(" · ")+" sulla farina totale</div>";
+    var _sn=document.getElementById("rcSONote"); if(_sn) _sn.textContent="Ricetta: "+_q.join(" · ")+" (sulla farina totale, licoli per metà)";
+  }
   R.fasi.forEach(function(f,fi){
     h+="<div style=\"background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px\"><div style=\"font-family:DM Mono,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:6px\">"+f.n+" · "+rcFmtG(rcFaseG(f)*d.mult)+(f.rows.some(function(r){return r.ref!==undefined;})?" + poolish":"")+"</div>";
     f.rows.forEach(function(r,ri){
@@ -4675,8 +4746,86 @@ function rcWA(){
   var t=R.icon+" *"+R.n+"*\n📅 "+waOggi()+"\n⚙️ ×"+(Math.round(d.mult*1000)/1000)+"\n\n";
   R.fasi.forEach(function(f,fi){t+="*"+f.n+"*\n";f.rows.forEach(function(r,ri){
     if(r.ref!==undefined){t+="  "+r.t+"\n";return;} t+="  "+rcIng(rcRowId(R,fi,ri)).n+": *"+rcFmtG(r.g*d.mult,r.u)+"*\n";});t+="\n";});
+  if(d.idr) t+="💧 IDR totale "+d.idr.eff.toFixed(1)+"%"+(R._adj?" (ricetta "+d.idr.base.toFixed(1)+"%)":"")+(R.fasi[0].n==="Poolish"?" · poolish fisso":"")+"\n";
+  if(d.so&&(d.so.sale.has||d.so.olio.has)){var _w=[]; if(d.so.sale.has) _w.push("🧂 Sale "+d.so.sale.eff.toFixed(2)+"%"); if(d.so.olio.has) _w.push("🫒 Olio "+d.so.olio.eff.toFixed(2)+"%"); t+=_w.join(" · ")+" sulla farina\n";}
   var rs=rcRese(d); t+="⚖️ *Peso totale impasto: "+(d.tot/1000).toFixed(2)+" kg*\n🍕 "+d.pieces+" pezzi da "+d.gr+"g\n"+(rs.length?"📊 Rese: "+rs.map(function(x){return x.g+"g → "+x.n+" pz";}).join(" · ")+"\n":"")+"\n_L'Orso Messina · Matteo La Spada e Gianluca_";
   waOpen(t);
+}
+
+
+var BG_CRIT={
+  napo:[{k:"corn",n:"Cornicione alto e vuoto",w:30},{k:"sci",n:"Si scioglie in bocca",w:25},{k:"ten",n:"Tenuta pallina e stesura",w:20},{k:"pun",n:"Puntinatura",w:15},{k:"gus",n:"Gusto e aroma",w:10}],
+  pala:[{k:"alv",n:"Alveolatura",w:35},{k:"sci",n:"Leggerezza, si scioglie",w:25},{k:"cro",n:"Base croccante",w:15},{k:"ten",n:"Tenuta e stesura",w:15},{k:"gus",n:"Gusto e aroma",w:10}]
+};
+var BG_DEF={napo:{f:"hp0102",ldb:0.45},pala:{f:"f5078",ldb:0.6}};
+function bgLoad(){try{return JSON.parse(localStorage.getItem("mls_biga")||"[]");}catch(e){return [];}}
+function bgStore(a){try{localStorage.setItem("mls_biga",JSON.stringify(a));}catch(e){}}
+function bgInit(){
+  var f=document.getElementById("bgFarina"); if(!f) return;
+  if(!f.dataset.built){
+    var o="";FA.filter(function(x){return x.tipo==="farina";}).forEach(function(x){o+="<option value=\""+x.id+"\">"+x.nome+((x.w&&x.w!=="-")?" · W"+x.w:"")+"</option>";});
+    f.innerHTML=o; f.dataset.built="1"; bgSetProd();
+  } else bgRender();
+}
+function bgSetProd(){
+  var p=document.getElementById("bgProd").value;
+  document.getElementById("bgFarina").value=BG_DEF[p].f;
+  document.getElementById("bgLdb").value=BG_DEF[p].ldb;
+  var h="";BG_CRIT[p].forEach(function(c){
+    h+="<div style=\"display:grid;grid-template-columns:1fr 70px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)\"><span style=\"font-size:13px;color:var(--cream)\">"+c.n+" <span style=\"color:var(--dim);font-size:10px\">"+c.w+"%</span></span>"
+     +"<input class=\"inp-field\" id=\"bgR_"+c.k+"\" type=\"number\" min=\"1\" max=\"5\" step=\"1\" placeholder=\"–\" style=\"font-size:18px;text-align:center\"></div>";});
+  document.getElementById("bgCrit").innerHTML=h;
+  bgRender();
+}
+function bgScore(prod,r){
+  var s=0,w=0,n=0;
+  BG_CRIT[prod].forEach(function(c){var v=r[c.k]; if(v>=1&&v<=5){s+=v*c.w;w+=c.w;n++;}});
+  return w>0?{score:s/w,n:n}:null;
+}
+function bgFarinaNome(id){var x=FA.filter(function(y){return y.id===id;})[0];return x?x.nome:id;}
+function bgNum(id){var e=document.getElementById(id);var v=e?parseFloat(e.value):NaN;return isNaN(v)?null:v;}
+function bgSave(){
+  var p=document.getElementById("bgProd").value, r={};
+  BG_CRIT[p].forEach(function(c){var v=bgNum("bgR_"+c.k); if(v!==null) r[c.k]=Math.max(1,Math.min(5,Math.round(v)));});
+  if(!bgScore(p,r)){alert("Dai almeno un voto da 1 a 5.");return;}
+  var e={ts:Date.now(),prod:p,f:document.getElementById("bgFarina").value,idr:bgNum("bgIdr"),ldb:bgNum("bgLdb"),t:bgNum("bgT"),fuori:bgNum("bgFuori"),ore:bgNum("bgOre"),
+    ph:bgNum("bgPH"),cresc:document.getElementById("bgCresc").value,r:r,note:document.getElementById("bgNote").value};
+  var a=bgLoad(); a.push(e); if(a.length>80) a=a.slice(a.length-80); bgStore(a);
+  BG_CRIT[p].forEach(function(c){document.getElementById("bgR_"+c.k).value="";}); document.getElementById("bgNote").value=""; document.getElementById("bgPH").value=""; document.getElementById("bgCresc").value="";
+  bgRender();
+}
+function bgDel(ts){ if(!confirm("Eliminare questa prova?")) return; bgStore(bgLoad().filter(function(x){return x.ts!==ts;})); bgRender(); }
+function bgDiff(e,prev){
+  if(!prev) return "prova di partenza";
+  var d=[];
+  if(e.f!==prev.f) d.push("farina "+bgFarinaNome(prev.f)+" → "+bgFarinaNome(e.f));
+  if(e.idr!==prev.idr) d.push("IDR "+prev.idr+" → "+e.idr+"%");
+  if(e.ldb!==prev.ldb) d.push("lievito "+prev.ldb+" → "+e.ldb+"%");
+  if(e.t!==prev.t) d.push("T "+prev.t+" → "+e.t+"°C");
+  if(e.fuori!==prev.fuori) d.push("ore fuori "+prev.fuori+" → "+e.fuori);
+  if(e.ore!==prev.ore) d.push("ore "+prev.ore+" → "+e.ore);
+  if(!d.length) return "identica alla prova precedente (ripetizione)";
+  return "cambiato: "+d.join(" · ")+(d.length>1?" — più variabili insieme: il confronto non è pulito":"");
+}
+function bgRender(){
+  var el=document.getElementById("bgList"); if(!el) return;
+  var p=document.getElementById("bgProd").value;
+  var all=bgLoad().filter(function(x){return x.prod===p;}).sort(function(a,b){return a.ts-b.ts;});
+  if(!all.length){el.innerHTML="<div style=\"font-size:12px;color:var(--dim);text-align:center;padding:10px\">Nessuna prova salvata per questo prodotto.</div>";return;}
+  var rows=all.map(function(e,i){var s=bgScore(p,e.r);return {e:e,s:s,diff:bgDiff(e,all[i-1])};});
+  rows.sort(function(a,b){return b.s.score-a.s.score;});
+  var h="<div style=\"font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px\">Classifica · "+(p==="napo"?"Napoletana":"Pala")+" · "+rows.length+" prove</div>";
+  rows.forEach(function(x,i){
+    var e=x.e, d=new Date(e.ts).toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit"});
+    h+="<div style=\"background:var(--card);border:1px solid "+(i===0?"var(--gold)":"var(--border)")+";border-radius:12px;padding:10px 12px;margin-bottom:8px\">"
+     +"<div style=\"display:flex;justify-content:space-between;align-items:center\"><span style=\"font-family:DM Mono,monospace;font-size:13px;color:"+(i===0?"var(--gold2)":"var(--cream)")+"\">#"+(i+1)+" · "+x.s.score.toFixed(2)+" / 5"+(x.s.n<BG_CRIT[p].length?" ("+x.s.n+"/"+BG_CRIT[p].length+" voci)":"")+"</span>"
+     +"<span><span style=\"font-size:10px;color:var(--dim)\">"+d+"</span> <button onclick=\"bgDel("+e.ts+")\" style=\"background:none;border:none;color:var(--dim);cursor:pointer\">🗑</button></span></div>"
+     +"<div style=\"font-size:12px;color:var(--cream2);margin-top:4px\">"+bgFarinaNome(e.f)+" · IDR "+e.idr+"% · lievito "+e.ldb+"% · "+e.t+"°C · "+e.fuori+" h fuori + "+e.ore+" h</div>"
+     +"<div style=\"font-size:11px;color:var(--dim);margin-top:2px\">"+(e.ph!==null?"pH "+e.ph+" · ":"")+(e.cresc?e.cresc:"")+"</div>"
+     +"<div style=\"font-size:11px;color:#FFB74D;margin-top:2px\">"+x.diff+"</div>"
+     +(e.note?"<div style=\"font-size:11px;color:var(--cream2);margin-top:2px\">"+String(e.note).replace(/</g,"&lt;")+"</div>":"")+"</div>";});
+  h+="<div style=\"font-size:10px;color:var(--dim)\">"+(rows.length<3?"Poche prove: la classifica indica solo una direzione. ":"")+"Il punteggio è la tua valutazione, ripeti la prova migliore prima di fissarla.</div>";
+  el.innerHTML=h;
 }
 
 function calcPalaMls(){
@@ -5382,6 +5531,14 @@ function diarySaveAuto(){
       <div id="rcFmt" style="margin-top:10px"></div>
       <div style="margin-top:10px"><label class="inp-label">Altro peso per la tabella (g)</label><input class="inp-field" id="rcAltro" type="number" min="1" step="10" placeholder="es. 350" oninput="rcCalc()" style="font-size:18px"></div>
       <button onclick="rcResetFlour()" style="margin-top:10px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--cream2);font-size:11px;padding:7px 11px;cursor:pointer">↺ Farine originali del PDF</button>
+      <div id="rcIdrBox" style="margin-top:12px;display:none"><label class="inp-label">IDR totale % (acqua / farina)</label><input class="inp-field" id="rcIdrT" type="number" min="30" max="120" step="0.5" placeholder="come la ricetta" oninput="rcCalc()" style="font-size:18px"><div id="rcIdrNote" style="font-size:11px;color:var(--dim);margin-top:6px"></div></div>
+      <div id="rcSOBox" style="margin-top:12px;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div id="rcSaleW"><label class="inp-label">Sale % sulla farina</label><input class="inp-field" id="rcSale" type="number" min="0" max="10" step="0.1" placeholder="come la ricetta" oninput="rcCalc()" style="font-size:18px"></div>
+          <div id="rcOlioW"><label class="inp-label">Olio % sulla farina</label><input class="inp-field" id="rcOlio" type="number" min="0" max="30" step="0.1" placeholder="come la ricetta" oninput="rcCalc()" style="font-size:18px"></div>
+        </div>
+        <div id="rcSONote" style="font-size:11px;color:var(--dim);margin-top:6px"></div>
+      </div>
       <div style="font-size:11px;color:var(--dim);margin-top:8px">Se scrivi i pezzi voluti, il moltiplicatore si calcola da solo.</div>
     </div>
     <div id="rcOut"></div>
@@ -5402,5 +5559,60 @@ function diarySaveAuto(){
 /* ricarica i prezzi salvati (Listino Prezzi) all'apertura */
 try{loadFC();updateFCAlias();}catch(e){}
 </script>
+<div id="pageBiga" class="page" style="display:none">
+  <div class="page-hero">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="page-hero-icon">🧪</div>
+    <div class="page-hero-title">Laboratorio Biga</div>
+    <div class="page-hero-sub">Prove · temperatura e farina · classifica per Napoletana e Pala</div>
+  </div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+
+    <div class="card" id="cardBgPiano">
+      <div class="card-hdr" onclick="toggleCard('cardBgPiano')"><span class="card-hdr-icon">🗺️</span><div class="card-hdr-text"><div class="card-hdr-label">Una variabile alla volta</div><div class="card-hdr-title">Piano di prova suggerito</div></div><span class="card-chevron">▾</span></div>
+      <div class="card-body" style="font-size:12px;color:var(--cream2);line-height:1.6">
+        <div style="color:var(--gold2);font-weight:700;margin-bottom:4px">Napoletana</div>
+        1. <b>Partenza</b>: 0102HP, IDR 47%, lievito 0.45%, 4°C, 1,5 h fuori + 22 h (come oggi).<br>
+        2. <b>Solo la temperatura</b>: 12°C, tutto il resto uguale.<br>
+        3. <b>Solo la temperatura</b>: 16-17°C, tutto il resto uguale (attenzione alla maglia).<br>
+        4. Con la temperatura migliore, <b>cambia solo la farina</b> della biga: 5078, poi 5037.<br>
+        <div style="color:var(--blue2);font-weight:700;margin:10px 0 4px">Pala</div>
+        1. <b>Partenza</b>: 5078, IDR 47%, lievito 0.60%, 4°C (come oggi).<br>
+        2. <b>Solo la temperatura</b>: 12°C.<br>
+        3. Con la temperatura migliore, <b>cambia solo la farina</b>: 5020, poi 0102HP.<br>
+        <div style="margin-top:10px;color:var(--dim)">Ripeti due volte la combinazione che vince prima di bloccarla: una sola giornata può essere fortuna. Stesso assaggiatore, voti dati subito, possibilmente senza sapere quale biga è. Le farine e le temperature qui sono ipotesi da provare, non risultati.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <label class="inp-label">Prodotto</label>
+      <select class="inp-field" id="bgProd" onchange="bgSetProd()" style="font-size:15px;margin:6px 0 12px"><option value="napo">⭐ Napoletana MLS</option><option value="pala">🏆 Pala MLS</option></select>
+      <label class="inp-label">Farina della biga</label>
+      <select class="inp-field" id="bgFarina" style="font-size:14px;margin:6px 0 12px"></select>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="inp-label">IDR biga %</label><input class="inp-field" id="bgIdr" type="number" value="47" step="0.5" style="font-size:18px"></div>
+        <div><label class="inp-label">Lievito fresco %</label><input class="inp-field" id="bgLdb" type="number" value="0.45" step="0.05" style="font-size:18px"></div>
+        <div><label class="inp-label">Temperatura °C</label><input class="inp-field" id="bgT" type="number" value="4" step="1" style="font-size:18px"></div>
+        <div><label class="inp-label">Ore fuori (T lab)</label><input class="inp-field" id="bgFuori" type="number" value="1.5" step="0.5" style="font-size:18px"></div>
+        <div><label class="inp-label">Ore a temperatura</label><input class="inp-field" id="bgOre" type="number" value="22" step="0.5" style="font-size:18px"></div>
+        <div><label class="inp-label">pH al rinfresco</label><input class="inp-field" id="bgPH" type="number" step="0.01" placeholder="es. 5.77" style="font-size:18px"></div>
+      </div>
+      <label class="inp-label" style="margin-top:12px;display:block">Com'è la biga la mattina</label>
+      <select class="inp-field" id="bgCresc" style="font-size:14px;margin:6px 0 0"><option value="">non segnato</option><option>ferma</option><option>poco cresciuta</option><option>cresciuta con bolle</option><option>a cupola</option><option>troppo matura / collassata</option></select>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px">
+      <div style="font-family:DM Mono,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:4px">Voti da 1 a 5 (dopo la cottura)</div>
+      <div style="font-size:10px;color:var(--dim);margin-bottom:8px">I pesi (%) vengono dai tuoi obiettivi: il punteggio finale è una media pesata.</div>
+      <div id="bgCrit"></div>
+      <label class="inp-label" style="margin-top:10px;display:block">Note</label>
+      <input class="inp-field" id="bgNote" type="text" style="font-size:14px;margin-top:6px" placeholder="es. pallina cedeva, cornicione pieno...">
+      <button onclick="bgSave()" class="btn-share" style="margin-top:12px">💾 Salva prova</button>
+    </div>
+
+    <div id="bgList"></div>
+  </div>
+</div>
+
 </body>
 </html>
